@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (C) 2013 Akretion (http://www.akretion.com/)
+   @author: Alexis de Lattre <alexis.delattre@akretion.com>
+   The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+
+<record id="view_picking_form" model="ir.ui.view">
+    <field name="name">stock_invoice_try_again.view_picking_form</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">
+        <field name="invoice_state" position="attributes">
+            <attribute name="attrs"></attribute>
+        </field>
+        <button string="Create Invoice/Refund" position="after">
+            <button name="revert_to_tobeinvoiced"
+                string="Revert to To be Invoiced"
+                type="object"
+                confirm="Are you sure you want to revert the 'Invoice Control' to 'To be Invoiced' ?"
+                attrs="{'invisible': [('invoice_state', '!=', 'invoiced')]}"
+                groups="account.group_account_invoice" />
+        </button>
+    </field>
+</record>
+
+<record id="view_picking_out_form" model="ir.ui.view">
+    <field name="name">stock_invoice_try_again.view_picking_out_form</field>
+    <field name="model">stock.picking.out</field>
+    <field name="inherit_id" ref="stock.view_picking_out_form"/>
+    <field name="arch" type="xml">
+        <field name="invoice_state" position="attributes">
+            <attribute name="attrs"></attribute>
+        </field>
+        <button string="Create Invoice/Refund" position="after">
+            <button name="revert_to_tobeinvoiced"
+                string="Revert to To be Invoiced"
+                type="object"
+                confirm="Are you sure you want to revert the 'Invoice Control' to 'To be Invoiced' ?"
+                attrs="{'invisible': [('invoice_state', '!=', 'invoiced')]}"
+                groups="account.group_account_invoice" />
+        </button>
+    </field>
+</record>
+
+<record id="view_picking_in_form" model="ir.ui.view">
+    <field name="name">stock_invoice_try_again.view_picking_in_form</field>
+    <field name="model">stock.picking.in</field>
+    <field name="inherit_id" ref="stock.view_picking_in_form"/>
+    <field name="arch" type="xml">
+        <field name="invoice_state" position="attributes">
+            <attribute name="attrs"></attribute>
+        </field>
+        <button string="Create Invoice/Refund" position="after">
+            <button name="revert_to_tobeinvoiced"
+                string="Revert to To be Invoiced"
+                type="object"
+                confirm="Are you sure you want to revert the 'Invoice Control' to 'To be Invoiced' ?"
+                attrs="{'invisible': [('invoice_state', '!=', 'invoiced')]}"
+                groups="account.group_account_invoice" />
+        </button>
+    </field>
+</record>
+
+
+</data>
+</openerp>
