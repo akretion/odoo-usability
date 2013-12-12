@@ -31,7 +31,7 @@
 Account Invoice Partner Bank Usability
 ======================================
 
-If the company has a single bank account, we get set this bank account by default on the customer invoice.
+If the company has a single bank account, we set this single bank account by default on the customer invoice.
 
 Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
     """,
