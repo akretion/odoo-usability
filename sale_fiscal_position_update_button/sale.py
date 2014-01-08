@@ -55,4 +55,4 @@ class sale_order(orm.Model):
                         _("Cannot update the fiscal position because "
                             "the line '%s' doesn't have a product.")
                         % line.name)
-        return {}
+        return True
