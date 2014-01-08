@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<record id="view_order_form" model="ir.ui.view">
+    <field name="name">fiscal.position.update.button.order.form</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+        <field name="state" position="before">
+            <button name="update_fiscal_position" type="object"
+                    states="draft,sent" string="Update Taxes"
+                    help="Update taxes on all sale order lines which have a product" />
+        </field>
+    </field>
+</record>
+
+</data>
+</openerp>
