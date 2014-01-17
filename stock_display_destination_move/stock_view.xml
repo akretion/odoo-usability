@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2014 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+
+<record id="view_move_form" model="ir.ui.view">
+    <field name="name">display.move_dest_id.in.stock.move.form</field>
+    <field name="model">stock.move</field>
+    <field name="inherit_id" ref="stock.view_move_form" />
+    <field name="arch" type="xml">
+        <field name="company_id" position="after">
+            <field name="move_dest_id" groups="stock.group_stock_manager" readonly="True"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_move_picking_form" model="ir.ui.view">
+    <field name="name">display.move_dest_id.in.stock.move.picking.form</field>
+    <field name="model">stock.move</field>
+    <field name="inherit_id" ref="stock.view_move_picking_form" />
+    <field name="arch" type="xml">
+        <field name="partner_id" position="after">
+            <field name="move_dest_id" groups="stock.group_stock_manager" readonly="True"/>
+        </field>
+    </field>
+</record>
+
+
+</data>
+</openerp>
