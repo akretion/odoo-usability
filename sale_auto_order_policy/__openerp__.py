@@ -26,12 +26,12 @@
     'version': '0.1',
     'category': 'Sales Management',
     'license': 'AGPL-3',
-    'summary': "Order Policy = 'On Delivery Order' by default, switches to 'On Demand' when service-only",
+    'summary': "Order Policy = 'On Delivery Order' by default",
     'description': """
 Sale Auto Order Policy
 ======================
 
-With this module, the Order Policy on Quotations is set to 'On Delivery Order' by default. If the Quotation only contains service lines, the Order Policy is switched to 'On Demand' when the Quotation is confirmed.
+With this module, the Order Policy on Quotations is set to 'On Delivery Order' by default. If the Quotation only contains service lines, the Order Policy is switched to 'On Demand' when the Quotation is confirmed (native feature).
 
 Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
     """,

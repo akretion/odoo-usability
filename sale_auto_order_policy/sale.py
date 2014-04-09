@@ -30,14 +30,6 @@ class sale_order(orm.Model):
         'order_policy': 'picking',
     }
 
-    def action_button_confirm(self, cr, uid, ids, context=None):
-        assert len(ids) == 1, 'Only one ID'
-        so = self.browse(cr, uid, ids[0], context=context)
-        service_only = True
-        for line in so.order_line:
-            if line.product_id and line.product_id.type != 'service':
-                service_only = False
-        if service_only:
-            so.write({'order_policy': 'manual'})
-        return super(sale_order, self).action_button_confirm(
-            cr, uid, ids, context=context)
+    # The function action_wait in sale_stock/sale_stock.py line 224
+    # ensures that the order_policy switches to 'manual' when
+    # we only have services in the order
