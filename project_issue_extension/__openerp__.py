@@ -47,6 +47,7 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'data': [
         'project_view.xml',
         'project_data.xml',
+        'partner_view.xml',
         ],
     'active': False,
 }
