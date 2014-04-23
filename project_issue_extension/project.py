@@ -37,7 +37,8 @@ class project_issue(orm.Model):
     _columns = {
         'number': fields.char('Number', size=32),
         'create_date': fields.datetime('Creation Date', readonly=True),
-        'target_date': fields.datetime('Target Resolution Date'),
+        'target_date': fields.datetime('Target Resolution Date',
+            track_visibility='onchange'),
         'product_ids': fields.many2many(
             'product.product', string="Related Products"),
     }
