@@ -15,12 +15,12 @@
     <field name="arch" type="xml">
         <xpath expr="//field[@name='company_registry']/../.." position="after">
             <group name="infogreffe" string="Infogreffe" attrs="{'invisible': [('is_company', '=', False)]}">
-                <button colspan="2" string="Update from Infogreffe"
-                    name="button_get_from_infogreffe" type="object"/>
                 <field name="infogreffe_date"/>
                 <field name="infogreffe_turnover"/>
                 <field name="infogreffe_profit"/>
                 <field name="infogreffe_headcount"/>
+                <button colspan="2" string="Update from Infogreffe"
+                    name="button_get_from_infogreffe" type="object"/>
             </group>
         </xpath>
     </field>
