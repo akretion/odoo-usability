@@ -39,8 +39,8 @@ class res_partner(orm.Model):
 
     _columns = {
         'infogreffe_date': fields.date('Date', readonly=True),
-        'infogreffe_turnover': fields.integer('Turnover', readonly=True),
-        'infogreffe_profit': fields.integer('Profit', readonly=True),
+        'infogreffe_turnover': fields.integer(u'Turnover (€)', readonly=True),
+        'infogreffe_profit': fields.integer(u'Profit (€)', readonly=True),
         'infogreffe_headcount': fields.integer('Headcount', readonly=True),
     }
 
