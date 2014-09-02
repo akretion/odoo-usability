@@ -28,9 +28,9 @@ class res_partner(orm.Model):
 
     def _display_address(
             self, cr, uid, address, without_company=False, context=None):
-        '''Remove empty street2 line'''
+        '''Remove empty lines'''
         res = super(res_partner, self)._display_address(
             cr, uid, address, without_company=without_company, context=context)
-        if res and "\n\n" in res:
+        while "\n\n" in res:
             res = res.replace('\n\n', '\n')
         return res
