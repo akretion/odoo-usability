@@ -10,13 +10,13 @@
 <data>
 
 
-<record id="view_picking_out_form" model="ir.ui.view">
-    <field name="name">display.sale_id.in.picking.out.form</field>
-    <field name="model">stock.picking.out</field>
-    <field name="inherit_id" ref="stock.view_picking_out_form" />
+<record id="view_picking_form" model="ir.ui.view">
+    <field name="name">display.sale_id.in.outgoing.picking.form</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form" />
     <field name="arch" type="xml">
-        <field name="origin" position="after">
-            <field name="sale_id" readonly="1"/>
+        <field name="group_id" position="before">
+            <field name="sale_id" readonly="1" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
         </field>
     </field>
 </record>
