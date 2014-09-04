@@ -16,6 +16,9 @@
         <page string="Contacts" position="attributes">
             <attribute name="attrs">{'invisible': [('parent_id', '!=', False)]}</attribute>
         </page>
+        <field name="parent_id" position="attributes">
+            <attribute name="domain"></attribute>
+        </field>
     </field>
 </record>
 
