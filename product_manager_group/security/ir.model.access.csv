@@ -5,3 +5,5 @@ access_product_manager_warehouse_orderpoint,Full access on orderpoints for Produ
 access_product_manager_product_category,Full access on product.category for Product Manager,product.model_product_category,group_product_manager,1,1,1,1
 access_product_manager_product_supplierinfo,Full access on product.supplierinfo for Product Manager,product.model_product_supplierinfo,group_product_manager,1,1,1,1
 access_product_manager_pricelist_partnerinfo,Full access on pricelist.partnerinfo for Product Manager,product.model_pricelist_partnerinfo,group_product_manager,1,1,1,1
+access_product_manager_product_attribute,Full access on product.attribute for Product Manager,product.model_product_attribute,group_product_manager,1,1,1,1
+access_product_manager_product_attribute_value,Full access on product.attribute.value for Product Manager,product.model_product_attribute_value,group_product_manager,1,1,1,1
