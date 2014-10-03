@@ -1,7 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_product_manager_product_product,Full access on product.product for Product Manager,product.model_product_product,group_product_manager,1,1,1,1
 access_product_manager_product_template,Full access on product.template for Product Manager,product.model_product_template,group_product_manager,1,1,1,1
-access_product_manager_warehouse_orderpoint,Full access on orderpoints for Product Manager,stock.model_stock_warehouse_orderpoint,group_product_manager,1,1,1,1
 access_product_manager_product_category,Full access on product.category for Product Manager,product.model_product_category,group_product_manager,1,1,1,1
 access_product_manager_product_supplierinfo,Full access on product.supplierinfo for Product Manager,product.model_product_supplierinfo,group_product_manager,1,1,1,1
 access_product_manager_pricelist_partnerinfo,Full access on pricelist.partnerinfo for Product Manager,product.model_pricelist_partnerinfo,group_product_manager,1,1,1,1
