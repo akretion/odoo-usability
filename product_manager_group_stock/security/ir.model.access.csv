@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_manager_warehouse_orderpoint,Full access on orderpoints for Product Manager,stock.model_stock_warehouse_orderpoint,group_product_manager,1,1,1,1
