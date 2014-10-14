@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (C) 2014 Akretion (http://www.akretion.com/)
+   @author: Alexis de Lattre <alexis.delattre@akretion.com>
+   The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+<record id="view_inventory_tree" model="ir.ui.view">
+    <field name="name">stock_inventory_tree_usability</field>
+    <field name="model">stock.inventory</field>
+    <field name="inherit_id" ref="stock.view_inventory_tree"/>
+    <field name="arch" type="xml">
+        <xpath expr="/tree" position="attributes">
+            <attribute name="colors">grey:state == 'cancel';blue:state == 'draft';red:state == 'confirm'</attribute>
+        </xpath>
+        <field name="date" position="after">
+            <field name="date_done"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_inventory_form" model="ir.ui.view">
+    <field name="name">stock_inventory_form_usability</field>
+    <field name="model">stock.inventory</field>
+    <field name="inherit_id" ref="stock.view_inventory_form"/>
+    <field name="arch" type="xml">
+        <field name="date" position="after">
+            <field name="date_done"/>
+        </field>
+    </field>
+</record>
+
+<!-- Inherit "Inventory Moves" on Product form view, in "More" -->
+<record id="stock.act_product_stock_move_open" model="ir.actions.act_window">
+    <field name="view_id" ref="stock.view_move_tree"/>
+    <!-- display date in stock move tree view -->
+</record>
+
+</data>
+</openerp>
