@@ -20,4 +20,9 @@
 #
 ##############################################################################
 
-from . import stock
+from openerp.osv import orm
+
+
+class stock_inventory(orm.Model):
+    _inherit = 'stock.inventory'
+    _order = 'date desc'
