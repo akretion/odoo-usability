@@ -30,5 +30,17 @@
     </field>
 </record>
 
+<record id="purchase_order_tree" model="ir.ui.view">
+    <field name="name">usability.purchase.order.tree</field>
+    <field name="model">purchase.order</field>
+    <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+    <field name="priority">100</field>  <!-- to be after addition of payment_method -->
+    <field name="arch" type="xml">
+        <field name="amount_total" position="after">
+            <field name="currency_id" groups="base.group_multi_currency"/>
+        </field>
+    </field>
+</record>
+
 </data>
 </openerp>
