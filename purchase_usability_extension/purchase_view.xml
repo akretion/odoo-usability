@@ -17,14 +17,14 @@
     <field name="inherit_id" ref="purchase.purchase_order_form"/>
     <field name="arch" type="xml">
         <notebook position="inside">
-            <page string="Incoming Shipments" states="approved,except_picking,except_invoice,done">
+            <page string="Deliveries" states="approved,except_picking,except_invoice,done">
                 <field name="picking_ids" nolabel="1"/>
             </page>
             <page string="Invoices" states="approved,except_picking,except_invoice,done">
                 <field name="invoice_ids" nolabel="1" context="{'form_view_ref': 'account.invoice_supplier_form'}"/>
             </page>
         </notebook>
-        <page string="Incoming Shipments &amp; Invoices" position="attributes">
+        <page string="Deliveries &amp; Invoices" position="attributes">
             <attribute name="string">Other Information</attribute>
         </page>
     </field>
