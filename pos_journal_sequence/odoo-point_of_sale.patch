@@ -1,0 +1,15 @@
+diff --git a/addons/point_of_sale/static/src/js/widgets.js b/addons/point_of_sale/static/src/js/widgets.js
+index 8e02ddd..b95c113 100644
+--- a/addons/point_of_sale/static/src/js/widgets.js
++++ b/addons/point_of_sale/static/src/js/widgets.js
+@@ -90,6 +90,10 @@ function openerp_pos_widgets(instance, module){ //module is instance.point_of_sa
+         renderElement: function() {
+             var self = this;
+             this._super();
++            // sort cashregisters by pos_sequence
++            this.pos.cashregisters.sort(function(obj1, obj2) {
++                return obj1.journal.pos_sequence - obj2.journal.pos_sequence;
++            });
+ 
+             _.each(this.pos.cashregisters,function(cashregister) {
+                 var button = new module.PaypadButtonWidget(self,{
