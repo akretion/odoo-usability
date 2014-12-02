@@ -6,9 +6,9 @@ index 8e02ddd..b95c113 100644
          renderElement: function() {
              var self = this;
              this._super();
-+            // sort cashregisters by pos_sequence
++            // sort cashregisters by sequence
 +            this.pos.cashregisters.sort(function(obj1, obj2) {
-+                return obj1.journal.pos_sequence - obj2.journal.pos_sequence;
++                return obj1.journal.sequence - obj2.journal.sequence;
 +            });
  
              _.each(this.pos.cashregisters,function(cashregister) {

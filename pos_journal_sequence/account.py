@@ -25,7 +25,8 @@ from openerp import models, fields
 
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
+    _order = 'sequence,code'
 
-    pos_sequence = fields.Integer(
-        string='POS Sequence',
+    sequence = fields.Integer(
+        string='Sequence',
         help='Sequence used to order Payment buttons in the Point of Sale')

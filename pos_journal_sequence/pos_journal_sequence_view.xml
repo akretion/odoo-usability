@@ -15,7 +15,7 @@
     <field name="inherit_id" ref="point_of_sale.view_account_journal_pos_user_form"/>
     <field name="arch" type="xml">
         <field name="amount_authorized_diff" position="after">
-            <field name="pos_sequence"/>
+            <field name="sequence"/>
         </field>
     </field>
 </record>
@@ -26,7 +26,7 @@
     <field name="inherit_id" ref="point_of_sale.view_pos_config_form"/>
     <field name="arch" type="xml">
         <xpath expr="//field[@name='journal_ids']/tree/field[@name='cash_control']" position="after">
-            <field name="pos_sequence"/>
+            <field name="sequence"/>
         </xpath>
     </field>
 </record>

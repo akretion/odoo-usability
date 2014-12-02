@@ -27,10 +27,13 @@
     'license': 'AGPL-3',
     'summary': 'Order payment buttons in Point of Sale',
     'description': """
-This module adds a field *POS Sequence* on account journals that will
+This module adds a field *Sequence* field on account journals that will
 allow you to control the order of the payment buttons in the interface
 of the point of sale. It requires a patch on the Javascript code of the
-point of sale (cf file odoo-point_of_sale.patch).
+point of sale (cf file odoo-point_of_sale.patch) for v8.
+
+In Odoo v9, this feature will be native, cf
+https://github.com/odoo/odoo/pull/3705
 
 This module has been written by  Alexis de Lattre
 <alexis.delattre@akretion.com>.
