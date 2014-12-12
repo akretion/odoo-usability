@@ -58,7 +58,7 @@ class stock_picking(orm.Model):
             for sale_line in picking.sale_id.order_line:
                 sale_line_invoiced = order_line_obj.read(cr, uid, sale_line.id, ['invoiced'], context=context)['invoiced']
                 # If I use a browse to get the 'invoiced' field of the sale order
-                # line, then, if I het the following bug :
+                # line, then, if I get the following bug :
                 # If I select 2 pickings linked to the same sale order,
                 # and I create an invoice with "group by partner = True",
                 # then the service line will be generated twice, because

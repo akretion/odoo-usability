@@ -33,7 +33,7 @@ Stock Invoice Service from Delivery
 
 In OpenERP 6.1, when invoicing from the delivery order, OpenERP would get the service lines of the sale order and add them on the invoice. This feature has been dropped in OpenERP 7.0 and some users are missing this issue, which lead to the following bug : https://bugs.launchpad.net/openobject-addons/+bug/1167330
 
-This module restores this feature.
+This module restores this feature. At the end of December 2013, this bug was fixed by OpenERP SA in the 7.0 branch. But, after this fix, a bug remained: https://github.com/odoo/odoo/issues/4201 I solved the remaining bug here: https://github.com/odoo/odoo/pull/4204 So you should just get this patch with up-to-date stable 7.0 branch and not use this module.
 
 Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
     """,
