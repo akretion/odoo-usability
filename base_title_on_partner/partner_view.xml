@@ -14,7 +14,7 @@
     <field name="inherit_id" ref="base.view_partner_form"/>
     <field name="arch" type="xml">
         <xpath expr="//field[@name='child_ids']/form//field[@name='function']" position="before">
-            <field name="title"/>
+            <field name="title" domain="[('domain', '=', 'contact')]" options="{'no_open': True}"/>
         </xpath>
     </field>
 </record>
@@ -25,7 +25,7 @@
     <field name="inherit_id" ref="base.view_partner_simple_form"/>
     <field name="arch" type="xml">
         <field name="function" position="before">
-            <field name="title"/>
+            <field name="title" options="{'no_open': True}"/>
         </field>
     </field>
 </record>
