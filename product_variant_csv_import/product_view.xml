@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2014 Akretion
+  The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+
+<record id="product_template_special_context_action" model="ir.actions.act_window">
+    <field name="name">Product Template CSV Import</field>
+    <field name="res_model">product.template</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{"create_product_variant": True}</field>
+</record>
+
+
+<menuitem id="product_template_special_context_menu"
+action="product_template_special_context_action" parent="product.prod_config_main"
+groups="base.group_no_one" sequence="100"/>
+
+</data>
+</openerp>
