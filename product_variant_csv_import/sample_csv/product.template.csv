@@ -1,13 +1,17 @@
-id,name,type,weight,weight_net,product_variant_ids/default_code,product_variant_ids/ean13,product_variant_ids/attribute_value_ids/id
-test.sandale1,Sandale 1,product,0.723,0.723,SANDAL-1-N-33,3518378100019,"test.pointure_33,test.cuir_noir"
-,,,,,SANDAL-1-M-33,3518378100033,"test.pointure_33,test.cuir_marron"
-,,,,,SANDAL-1-N-34,3518378100057,"test.pointure_34,test.cuir_noir"
-,,,,,SANDAL-1-M-34,3518378100071,"test.pointure_34,test.cuir_marron"
-,,,,,SANDAL-1-N-35,3518378100095,"test.pointure_35,test.cuir_noir"
-,,,,,SANDAL-1-M-35,3518378100118,"test.pointure_35,test.cuir_marron"
-test.sandale2,Sandale 2,product,0.760,0.760,SANDAL-2-N-33,3518378100132,"test.pointure_33,test.cuir_noir"
-,,,,,SANDAL-2-M-33,3518378100156,"test.pointure_33,test.cuir_marron"
-,,,,,SANDAL-2-N-34,3518378100699,"test.pointure_34,test.cuir_noir"
-,,,,,SANDAL-2-M-34,3518378100705,"test.pointure_34,test.cuir_marron"
-,,,,,SANDAL-2-N-35,3518378100712,"test.pointure_35,test.cuir_noir"
-,,,,,SANDAL-2-M-35,3518378100767,"test.pointure_35,test.cuir_marron"
+id,name,type,weight,weight_net,product_variant_ids/default_code,product_variant_ids/ean13,product_variant_ids/attribute_value_ids/id,attribute_line_ids/attribute_id/id,attribute_line_ids/value_ids/id
+test.sandale1,Sandale 1,product,0.723,0.723,SANDAL-1-N-33,3518378100019,"test.pointure_33,test.cuir_noir",,
+,,,,,SANDAL-1-M-33,3518378100033,"test.pointure_33,test.cuir_marron",,
+,,,,,SANDAL-1-N-34,3518378100057,"test.pointure_34,test.cuir_noir",,
+,,,,,SANDAL-1-M-34,3518378100071,"test.pointure_34,test.cuir_marron",,
+,,,,,SANDAL-1-N-35,3518378100095,"test.pointure_35,test.cuir_noir",,
+,,,,,SANDAL-1-M-35,3518378100118,"test.pointure_35,test.cuir_marron",,
+,,,,,,,,test.attribute_pointure,"test.pointure_33,test.pointure_34,test.pointure_35"
+,,,,,,,,test.attribute_cuir,"test.cuir_marron,test.cuir_noir"
+test.sandale2,Sandale 2,product,0.760,0.760,SANDAL-2-N-33,3518378100132,"test.pointure_33,test.cuir_noir",,
+,,,,,SANDAL-2-M-33,3518378100156,"test.pointure_33,test.cuir_marron",,
+,,,,,SANDAL-2-N-34,3518378100699,"test.pointure_34,test.cuir_noir",,
+,,,,,SANDAL-2-M-34,3518378100705,"test.pointure_34,test.cuir_marron",,
+,,,,,SANDAL-2-N-35,3518378100712,"test.pointure_35,test.cuir_noir",,
+,,,,,SANDAL-2-M-35,3518378100767,"test.pointure_35,test.cuir_marron",,
+,,,,,,,,test.attribute_pointure,"test.pointure_33,test.pointure_34,test.pointure_35"
+,,,,,,,,test.attribute_cuir,"test.cuir_marron,test.cuir_noir"
