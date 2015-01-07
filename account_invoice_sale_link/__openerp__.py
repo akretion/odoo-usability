@@ -33,12 +33,14 @@ Account Invoice Sale Link
 
 On the customer invoice report, you usually need to display the customer order number. For that, you need to have the link from invoices to sale orders, and this link is not available in the official addons.
 
+This module adds a field *sale_ids* on the object account.invoice, which is the reverse many2many field of the field *invoice_ids* of the object sale.order. It is displayed in a dedicated tab on the invoice form view.
+
 Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['sale'],
-    'data': [],
+    'data': ['account_invoice_view.xml'],
     'installable': True,
     'active': False,
 }
