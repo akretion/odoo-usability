@@ -30,3 +30,39 @@ class ProductTemplate(models.Model):
     description_purchase = fields.Text(translate=False)
     description = fields.Text(translate=False)
     name = fields.Char(translate=False)
+
+
+class ProductCategory(models.Model):
+    _inherit = "product.category"
+
+    name = fields.Char(translate=False)
+
+
+class ProductAttribute(models.Model):
+    _inherit = "product.attribute"
+
+    name = fields.Char(translate=False)
+
+
+class ProductAttributeValue(models.Model):
+    _inherit = "product.attribute.value"
+
+    name = fields.Char(translate=False)
+
+
+class ProductUomCateg(models.Model):
+    _inherit = 'product.uom.categ'
+
+    name = fields.Char(translate=False)
+
+
+class ProductUom(models.Model):
+    _inherit = 'product.uom'
+
+    name = fields.Char(translate=False)
+
+
+class ProductUl(models.Model):
+    _inherit = 'product.ul'
+
+    name = fields.Char(translate=False)
