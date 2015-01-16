@@ -16,6 +16,7 @@
         search="[('model','=','res.partner'), ('name','=','supplier_invoice_method')]"/>
     <field name="type">selection</field>
     <field name="value" eval="'picking'"/>
+    <field name="company_id" ref="base.main_company"/>
 </record>
 
 </data>
