@@ -20,12 +20,27 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api, _
+from openerp.exceptions import ValidationError
 
 
 class AccountStatementOperationTemplate(models.Model):
     _inherit = 'account.statement.operation.template'
 
     company_id = fields.Many2one(
-        'res.company', string='Company', related='account_id.company_id',
-        store=True)
+        'res.company', string='Company',
+        default=lambda self: self.env['res.company']._company_default_get(
+            'account.statement.operation.template'))
+
+    @api.one
+    @api.constrains('account_id', 'company_id')
+    def _check_company(self):
+        if (
+                self.account_id
+                and self.company_id
+                and self.account_id.company_id != self.company_id):
+            raise ValidationError(
+                _("The button %s is attached to the company %s but has an "
+                    "account in the company %s")
+                % (self.name, self.company_id.name,
+                    self.account_id.company_id.name))
