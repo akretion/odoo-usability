@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (C) 2015 Akretion (http://www.akretion.com/)
+   @author: Alexis de Lattre <alexis.delattre@akretion.com>
+   The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+<!-- model account.move.line / Journal Items -->
+<record id="account.action_account_moves_all_a" model="ir.actions.act_window">
+    <field name="limit">500</field>
+</record>
+
+<!-- model account.move / Journal Entries -->
+<record id="account.action_move_journal_line" model="ir.actions.act_window">
+    <field name="limit">500</field>
+</record>
+
+</data>
+</openerp>
