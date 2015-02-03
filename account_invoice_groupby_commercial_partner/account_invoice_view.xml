@@ -19,5 +19,17 @@
     </field>
 </record>
 
+<record id="view_account_invoice_report_search" model="ir.ui.view">
+    <field name="name">account.invoice.groupby.commercial.partner.invoice.report</field>
+    <field name="model">account.invoice.report</field>
+    <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
+    <field name="arch" type="xml">
+        <filter name="partner_id" position="attributes">
+            <attribute name="context">{'group_by':'commercial_partner_id','residual_visible':True}</attribute>
+        </filter>
+    </field>
+</record>
+
+
 </data>
 </openerp>
