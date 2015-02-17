@@ -20,4 +20,23 @@
 #
 ##############################################################################
 
-from . import procurement
+from openerp import models
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+class ProcurementOrder(models.Model):
+    _inherit = 'procurement.order'
+
+    def run_scheduler(
+            self, cr, uid, use_new_cursor=False, company_id=False,
+            context=None):
+        '''Inherit to add info logs'''
+        logger.info(
+            'START procurement scheduler (company ID=%d)' % company_id)
+        res = super(ProcurementOrder, self).run_scheduler(
+            cr, uid, use_new_cursor=use_new_cursor, company_id=company_id,
+            context=context)
+        logger.info('END procurement scheduler (company ID=%d)' % company_id)
+        return res
