@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Stock Display Source Location module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Stock Usability module for Odoo
+#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,23 +22,24 @@
 
 
 {
-    'name': 'Stock Display Source Location',
+    'name': 'Stock Usability',
     'version': '0.1',
     'category': 'Inventory, Logistic, Storage',
     'license': 'AGPL-3',
-    'summary': 'Display the source location on pickings',
+    'summary': 'Several usability enhancements in Warehouse management',
     'description': """
-Stock Display Source Location on Pickings
-=========================================
+Stock Usability
+===============
 
-Display the source location on the tree view of the move lines of the pickings (by default, only the destination location is displayed).
+The usability enhancements inclure:
+* display the source location on the tree view of the move lines of the pickings (by default, only the destination location is displayed).
+* always display the field *Backorder* on the form view of picking (by default, this field is only displayed when it has a value, so the user doesn't know when the field has no value because he doesn't see the field !)
 
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
+This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['stock'],
     'data': ['stock_view.xml'],
     'installable': True,
-    'active': False,
 }
