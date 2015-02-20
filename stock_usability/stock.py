@@ -20,4 +20,14 @@
 #
 ##############################################################################
 
-from . import stock
+from openerp import models
+
+
+class StockInventory(models.Model):
+    _inherit = 'stock.inventory'
+    _order = 'id desc'
+
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+    _order = 'id desc'
