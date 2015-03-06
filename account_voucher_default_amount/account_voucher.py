@@ -38,5 +38,8 @@ class AccountVoucher(models.Model):
             total_open_bal = 0.0
             for line in res['value']['line_cr_ids']:
                 total_open_bal += line['amount_unreconciled']
+            if res['value'].get('line_dr_ids'):
+                for line in res['value']['line_dr_ids']:
+                    total_open_bal -= line['amount_unreconciled']
             res['value']['amount'] = total_open_bal
         return res
