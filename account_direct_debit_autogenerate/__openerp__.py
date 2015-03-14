@@ -41,7 +41,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['account_banking_sepa_direct_debit'],
+    'depends': ['account_banking_sepa_direct_debit', 'account_payment_partner'],
     'data': [],
     'installable': True,
 }
