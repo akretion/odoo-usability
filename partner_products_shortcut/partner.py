@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Partner Products Shortcut module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Partner Products Shortcut module for Odoo
+#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,29 +20,23 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
-class res_partner(orm.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    def _product_supplied_count(
-            self, cr, uid, ids, field_name, arg, context=None):
-        res = dict(map(lambda x: (x, 0), ids))
+    @api.one
+    def _product_supplied_count(self):
         try:
-            for partner_id in ids:
-                seller_ids = self.pool['product.supplierinfo'].search(
-                    cr, uid, [('name', '=', partner_id)], context=context)
-                pt_ids = self.pool['product.template'].search(
-                    cr, uid, [('seller_ids', 'in', seller_ids)],
-                    context=context)
-                res[partner_id] = len(pt_ids)
+            sellers = self.env['product.supplierinfo'].search(
+                [('name', '=', self.id)])
+            ptemplates = self.env['product.template'].search(
+                [('seller_ids', 'in', sellers.ids)])
+            self.product_supplied_count = len(ptemplates)
         except:
             pass
-        return res
 
-    _columns = {
-        'product_supplied_count': fields.function(
-            _product_supplied_count, string="# of Products Supplied",
-            type='integer'),
-        }
+    product_supplied_count = fields.Integer(
+        compute='_product_supplied_count', string="# of Products Supplied",
+        readonly=True)
