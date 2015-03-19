@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models
+from openerp import models, fields
 
 
 class StockInventory(models.Model):
@@ -31,3 +31,15 @@ class StockInventory(models.Model):
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
     _order = 'id desc'
+
+
+class StockLocation(models.Model):
+    _inherit = 'stock.location'
+
+    name = fields.Char(translate=False)
+
+
+class StockPickingType(models.Model):
+    _inherit = 'stock.picking.type'
+
+    name = fields.Char(translate=False)
