@@ -29,5 +29,26 @@
     </field>
 </record>
 
+<record id="account_move_reconcile_tree" model="ir.ui.view">
+    <field name="name">usability.account_move_reconcile.tree</field>
+    <field name="model">account.move.reconcile</field>
+    <field name="arch" type="xml">
+        <tree string="Journal Entry Reconcile">
+            <field name="name"/>
+            <field name="create_date"/>
+            <field name="type"/>
+        </tree>
+    </field>
+</record>
+
+<record id="account_move_reconcile_action" model="ir.actions.act_window">
+    <field name="name">Reconcile Tags</field>
+    <field name="res_model">account.move.reconcile</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="account_move_reconcile_menu" action="account_move_reconcile_action"
+    parent="account.menu_finance_entries" sequence="100"/>
+
 </data>
 </openerp>
