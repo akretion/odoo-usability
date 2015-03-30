@@ -40,7 +40,6 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'depends': ['account_payment'],
     'data': [
         'security/ir.model.access.csv',
-        'security/payment_security.xml',
         ],
     'active': False,
 }
