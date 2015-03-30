@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Base Title on Partner module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Base Usability module for Odoo
+#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,21 +22,27 @@
 
 
 {
-    'name': 'Title on Partner',
+    'name': 'Base Usability',
     'version': '0.1',
     'category': 'Partner',
     'license': 'AGPL-3',
-    'summary': 'Display title on all the form views of partners',
+    'summary': 'Better usability in base module',
     'description': """
-Title on Partner
-================
+Base Usability
+==============
 
-THIS MODULE HAS BEEN REPLACED BY THE MODULE base_usability.
+By default, OpenERP doesn't display the title field on all the partner form views. This module fixes it.
 
+By default, users in the Partner Contact group also have create/write access on Countries and States. This module removes that: only the users in the *Administration > Configuration* group have create/write/delete access on those objects.
+
+This module replaces the module base_title_on_partner.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['base'],
-    'data': ['partner_view.xml'],
+    'data': [
+        'partner_view.xml',
+        'security/ir.model.access.csv',
+        ],
     'installable': True,
 }

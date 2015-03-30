@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Base Title on Partner module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Base Usability module for Odoo
+#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,22 +21,3 @@
 ##############################################################################
 
 
-{
-    'name': 'Title on Partner',
-    'version': '0.1',
-    'category': 'Partner',
-    'license': 'AGPL-3',
-    'summary': 'Display title on all the form views of partners',
-    'description': """
-Title on Partner
-================
-
-THIS MODULE HAS BEEN REPLACED BY THE MODULE base_usability.
-
-    """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['base'],
-    'data': ['partner_view.xml'],
-    'installable': True,
-}
