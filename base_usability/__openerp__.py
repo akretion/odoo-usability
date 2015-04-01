@@ -39,7 +39,7 @@ This module replaces the module base_title_on_partner.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['base'],
+    'depends': ['base', 'mail'],
     'data': [
         'partner_view.xml',
         'security/ir.model.access.csv',
