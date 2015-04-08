@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<record id="account_payment.act_done" model="workflow.activity">
+    <field name="action">action_done()</field>
+</record>
+
+</data>
+</openerp>
