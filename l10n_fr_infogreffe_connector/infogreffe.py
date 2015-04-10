@@ -25,9 +25,13 @@
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 import requests
-from bs4 import BeautifulSoup
 from datetime import datetime
 import logging
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    BeautifulSoup = None
+
 
 logger = logging.getLogger(__name__)
 
