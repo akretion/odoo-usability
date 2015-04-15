@@ -94,9 +94,20 @@
                 <field name="resupply_route_ids"/>
             </group>
         </group>
+        <field name="wh_input_stock_loc_id" position="before">
+            <field name="lot_stock_id" readonly="1"/>
+        </field>
     </field>
 </record>
 
+<record id="stock_location_path_action" model="ir.actions.act_window">
+    <field name="name">Push Rules</field>
+    <field name="res_model">stock.location.path</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="stock_location_path_menu" action="stock_location_path_action"
+    sequence="10" parent="stock.menu_stock_configuration"/>
 
 </data>
 </openerp>
