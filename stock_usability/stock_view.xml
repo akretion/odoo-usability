@@ -51,8 +51,13 @@
     <field name="inherit_id" ref="stock.view_move_form" />
     <field name="arch" type="xml">
         <field name="company_id" position="after">
-            <field name="procurement_id"/>
-            <field name="route_ids" widget="many2many_tags" />
+            <field name="procurement_id" groups="stock.group_stock_manager"/>
+            <field name="route_ids" widget="many2many_tags"
+                groups="stock.group_stock_manager"/>
+            <field name="rule_id" readonly="1"
+                groups="stock.group_stock_manager"/>
+            <field name="push_rule_id" readonly="1"
+                groups="stock.group_stock_manager"/>
         </field>
     </field>
 </record>
@@ -63,11 +68,35 @@
     <field name="inherit_id" ref="stock.view_move_picking_form" />
     <field name="arch" type="xml">
         <field name="product_packaging" position="after">
-            <field name="procurement_id"/>
-            <field name="route_ids" widget="many2many_tags"/>
+            <field name="procurement_id" groups="stock.group_stock_manager"/>
+            <field name="group_id"/>
+            <field name="route_ids" widget="many2many_tags"
+                groups="stock.group_stock_manager"/>
+            <field name="rule_id" readonly="1"
+                groups="stock.group_stock_manager"/>
+            <field name="push_rule_id" readonly="1"
+                groups="stock.group_stock_manager"/>
         </field>
     </field>
 </record>
+
+<record id="view_warehouse" model="ir.ui.view">
+    <field name="name">stock.usability.warehouse.form</field>
+    <field name="model">stock.warehouse</field>
+    <field name="inherit_id" ref="stock.view_warehouse" />
+    <field name="arch" type="xml">
+        <group string="Picking Types" position="after">
+            <group name="routes" string="Routes">
+               <field name="route_ids" widget="many2many_tags"/>
+                <field name="crossdock_route_id"/>
+                <field name="reception_route_id"/>
+                <field name="delivery_route_id"/>
+                <field name="resupply_route_ids"/>
+            </group>
+        </group>
+    </field>
+</record>
+
 
 </data>
 </openerp>
