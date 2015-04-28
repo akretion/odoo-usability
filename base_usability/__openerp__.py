@@ -31,11 +31,11 @@
 Base Usability
 ==============
 
-By default, OpenERP doesn't display the title field on all the partner form views. This module fixes it.
+This module adds *track_visibility='onchange'* on all the important fields of the Partner object.
+
+By default, Odoo doesn't display the title field on all the partner form views. This module fixes it (it replaces the module base_title_on_partner).
 
 By default, users in the Partner Contact group also have create/write access on Countries and States. This module removes that: only the users in the *Administration > Configuration* group have create/write/delete access on those objects.
-
-This module replaces the module base_title_on_partner.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
