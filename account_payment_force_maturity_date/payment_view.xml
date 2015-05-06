@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-   Copyright (C) 2014 Akretion (http://www.akretion.com/)
+   Copyright (C) 2015 Akretion (http://www.akretion.com/)
    @author: Alexis de Lattre <alexis.delattre@akretion.com>
    The licence is in the file __openerp__.py
 -->
@@ -13,8 +13,8 @@
     <field name="model">payment.order</field>
     <field name="inherit_id" ref="account_payment.view_payment_order_form"/>
     <field name="arch" type="xml">
-        <xpath expr="//field[@name='line_ids']/form//field[@name='communication2']" position="attributes">
-            <attribute name="invisible">1</attribute>
+        <xpath expr="//field[@name='line_ids']/form//field[@name='ml_inv_ref']" position="after">
+            <field name="force_maturity_date"/>
         </xpath>
     </field>
 </record>
