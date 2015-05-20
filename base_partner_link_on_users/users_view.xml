@@ -14,7 +14,8 @@
     <field name="inherit_id" ref="base.view_users_form"/>
     <field name="arch" type="xml">
         <field name="company_id" position="after">
-            <field name="partner_id"/>
+            <field name="partner_id"
+                context="{'default_customer': False, 'default_supplier': False, 'default_is_company': False}"/>
         </field>
     </field>
 </record>
