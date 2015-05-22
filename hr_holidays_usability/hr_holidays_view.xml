@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2015 Akretion (http://www.akretion.com/)
+    @author: Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+<record id="edit_holiday_new" model="ir.ui.view">
+    <field name="name">hr_holidays_usability.leave_request_form</field>
+    <field name="model">hr.holidays</field>
+    <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
+    <field name="arch" type="xml">
+        <field name="date_from" position="attributes">
+            <attribute name="required">0</attribute>
+        </field>
+        <field name="date_to" position="attributes">
+            <attribute name="required">0</attribute>
+        </field>
+        <xpath expr="//field[@name='date_from']/.." position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <field name="number_of_days_temp" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+        <field name="number_of_days_temp" position="after">
+            <field name="number_of_days_remove" class="oe_inline"/>
+        </field>
+        <field name="holiday_status_id" position="after">
+            <field name="vacation_date_from" on_change="vacation_from(vacation_date_from, vacation_time_from, context)" required="1"/>
+            <field name="vacation_time_from" on_change="vacation_from(vacation_date_from, vacation_time_from, context)" required="1"/>
+            <field name="vacation_date_to" on_change="vacation_to(vacation_date_to, vacation_time_to, context)" required="1"/>
+            <field name="vacation_time_to" on_change="vacation_to(vacation_date_to, vacation_time_to, context)" required="1"/>
+        </field>
+    </field>
+</record>
+
+<record id="edit_holiday_status_form" model="ir.ui.view">
+    <field name="name">hr_holidays_usability.hr.holidays.status.form</field>
+    <field name="model">hr.holidays.status</field>
+    <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+    <field name="arch" type="xml">
+        <field name="name" position="after">
+            <field name="vacation_compute_method"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_holiday_status_normal_tree" model="ir.ui.view">
+    <field name="name">hr_holidays_usability.hr.holidays.status.normal.tree</field>
+    <field name="model">hr.holidays.status</field>
+    <field name="inherit_id" ref="hr_holidays.view_holiday_status_normal_tree"/>
+    <field name="arch" type="xml">
+        <field name="name" position="after">
+            <field name="vacation_compute_method"/>
+        </field>
+    </field>
+</record>
+
+<!-- On the leave requests, put tree view by default instead of calendar -->
+<record id="hr_holidays.action_open_ask_holidays_calendar" model="ir.actions.act_window.view">
+    <field name="sequence" eval="5"/>
+</record>
+
+<record id="resource_calendar_leaves_cal_first_action" model="ir.actions.act_window">
+    <field name="name">Leaves Calendar</field>
+    <field name="res_model">resource.calendar.leaves</field>
+    <field name="view_mode">calendar,tree,form</field>
+</record>
+<!-- Warning: when you have mrp installed, there is an ACL that gives write/create access to MRP Users on resource.calendar.leaves You should inherit this ACL with XMLID mrp.access_resource_calendar_leaves_user to give only read access:
+
+mrp.access_resource_calendar_leaves_user,only read access to manufacuting user,resource.model_resource_calendar_leaves,mrp.group_mrp_user,1,0,0,0
+
+ -->
+
+<menuitem id="resource_calendar_leaves_cal_first_menu"
+    action="resource_calendar_leaves_cal_first_action"
+    parent="hr_holidays.menu_open_ask_holidays" sequence="100"/>
+
+<record id="hr_holidays.menu_open_company_allocation" model="ir.ui.menu">
+    <field name="groups_id" eval="[(4, ref('base.group_hr_user'))]"/>
+</record>
+
+</data>
+</openerp>
