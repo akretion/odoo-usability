@@ -18,35 +18,10 @@
 #
 ##############################################################################
 
-{
-    'name': 'Product Export Field Profile',
-    'version': '1.0',
-    'author': 'Akretion',
-    'summarize': 'Add predefined list for export',
-    'maintainer': 'Akretion',
-    'description': """
-Product Export Field Profile
-============================
+from openerp import models, fields
 
-Add export list (native export screen) to:
 
-* product
-* partner
+class IrExportsLine(models.Model):
+    _inherit = 'ir.exports.line'
 
-Note to mainteners
-------------------
-You can maintain csv data file and convert in xml
-with https://github.com/akretion/csv2xml4odoo
-    """,
-    'category': 'product',
-    'depends': [
-        'product_profile',
-    ],
-    'website': 'http://www.akretion.com/',
-    'data': [
-        'misc_data.xml',
-        'ir_exports_line_data.xml',
-    ],
-    'installable': True,
-    'license': 'AGPL-3',
-}
+    sequence = fields.Integer()

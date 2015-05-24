@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+
+
+<record id="prd_bom1" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_product_bom"/>
+    <field name="sequence" eval="0"/>
+    <field name="name">id</field>
+</record>
+
+<record id="prd_bom2" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_product_bom"/>
+    <field name="sequence" eval="4"/>
+    <field name="name">bom_ids/name</field>
+</record>
+
+<record id="prd_bom3" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_product_bom"/>
+    <field name="sequence" eval="8"/>
+    <field name="name">bom_ids/bom_line_ids/product_id/id</field>
+</record>
+
+<record id="prd_bom4" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_product_bom"/>
+    <field name="sequence" eval="12"/>
+    <field name="name">bom_ids/bom_line_ids/product_qty</field>
+</record>
+
+<record id="bom0" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_bom"/>
+    <field name="sequence" eval="0"/>
+    <field name="name">id</field>
+</record>
+
+<record id="bom1" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_bom"/>
+    <field name="sequence" eval="4"/>
+    <field name="name">name</field>
+</record>
+
+<record id="bom2" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_bom"/>
+    <field name="sequence" eval="8"/>
+    <field name="name">product_tmpl_id/id</field>
+</record>
+
+<record id="bom3" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_bom"/>
+    <field name="sequence" eval="12"/>
+    <field name="name">product_qty</field>
+</record>
+
+<record id="bom4" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_bom"/>
+    <field name="sequence" eval="16"/>
+    <field name="name">bom_line_ids/product_id/id</field>
+</record>
+
+<record id="bom6" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_bom"/>
+    <field name="sequence" eval="24"/>
+    <field name="name">bom_line_ids/product_qty</field>
+</record>
+
+
+    </data>
+</openerp>

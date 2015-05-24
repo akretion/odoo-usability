@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="1">
+
+<record id="ir_exp_product_bom" model="ir.exports">
+    <field name="name">Bill Of Material</field>
+    <field name="resource">product.template</field>
+</record>
+
+<record id="ir_exp_bom" model="ir.exports">
+    <field name="name">Bill Of Material</field>
+    <field name="resource">mrp.bom</field>
+</record>
+
+    </data>
+</openerp>
