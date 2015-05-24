@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+
+
+<record id="partner0" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_partner"/>
+    <field name="sequence" eval="0"/>
+    <field name="name">name</field>
+</record>
+
+<record id="partner1" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_partner"/>
+    <field name="sequence" eval="4"/>
+    <field name="name">parent_id</field>
+</record>
+
+<record id="partner2" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_partner"/>
+    <field name="sequence" eval="8"/>
+    <field name="name">city</field>
+</record>
+
+<record id="partner3" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_partner"/>
+    <field name="sequence" eval="12"/>
+    <field name="name">zip</field>
+</record>
+
+<record id="partner4" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_partner"/>
+    <field name="sequence" eval="16"/>
+    <field name="name">street</field>
+</record>
+
+<record id="partner5" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_partner"/>
+    <field name="sequence" eval="20"/>
+    <field name="name">phone</field>
+</record>
+
+<record id="partner6" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_partner"/>
+    <field name="sequence" eval="24"/>
+    <field name="name">mobile</field>
+</record>
+
+<record id="partner7" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_partner"/>
+    <field name="sequence" eval="28"/>
+    <field name="name">is_company</field>
+</record>
+
+<record id="partner8" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_partner"/>
+    <field name="sequence" eval="32"/>
+    <field name="name">function</field>
+</record>
+
+<record id="product0" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_product"/>
+    <field name="sequence" eval="0"/>
+    <field name="name">profile_id</field>
+</record>
+
+<record id="product1" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_product"/>
+    <field name="sequence" eval="4"/>
+    <field name="name">categ_id</field>
+</record>
+
+<record id="product2" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_product"/>
+    <field name="sequence" eval="8"/>
+    <field name="name">name</field>
+</record>
+
+<record id="product3" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_product"/>
+    <field name="sequence" eval="12"/>
+    <field name="name">attribute_line_ids/attribute_id/id</field>
+</record>
+
+<record id="product4" model="ir.exports.line">
+    <field name="export_id" ref="ir_exp_product"/>
+    <field name="sequence" eval="16"/>
+    <field name="name">attribute_line_ids/value_ids/id</field>
+</record>
+
+
+    </data>
+</openerp>

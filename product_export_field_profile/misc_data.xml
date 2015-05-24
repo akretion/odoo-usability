@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="1">
+
+<record id="ir_exp_partner" model="ir.exports">
+    <field name="name">Partner</field>
+    <field name="resource">res.partner</field>
+</record>
+
+<record id="ir_exp_product" model="ir.exports">
+    <field name="name">Product</field>
+    <field name="resource">product.template</field>
+</record>
+
+    </data>
+</openerp>
