@@ -22,13 +22,7 @@
 
 from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
-
-
-class PurchaseOrderLine(models.Model):
-    _inherit = 'purchase.order.line'
-
-    date_order = fields.Datetime(
-        related='order_id.date_order', string="PO Date", store=True)
+from openerp.exceptions import Warning
 
 
 class ProcurementSuggestionGenerate(models.TransientModel):
@@ -43,6 +37,27 @@ class ProcurementSuggestionGenerate(models.TransientModel):
     location_id = fields.Many2one(
         'stock.location', string='Stock Location', required=True,
         default=lambda self: self.env.ref('stock.stock_location_stock'))
+
+    @api.model
+    def _prepare_suggest_line(self, orderpoint):
+        porderline_id = False
+        if orderpoint.product_id.seller_id:
+            porderlines = self.env['purchase.order.line'].search([
+                ('state', 'not in', ('draft', 'cancel')),
+                ('product_id', '=', orderpoint.product_id.id)],
+                order='id desc', limit=1)
+            # I cannot filter on 'date_order' because it is not a stored field
+            porderline_id = porderlines and porderlines[0].id or False
+        sline = {
+            'product_id': orderpoint.product_id.id,
+            'seller_id': orderpoint.product_id.seller_id.id or False,
+            'qty_available': orderpoint.product_id.qty_available,
+            'incoming_qty': orderpoint.product_id.incoming_qty,
+            'outgoing_qty': orderpoint.product_id.outgoing_qty,
+            'orderpoint_id': orderpoint.id,
+            'last_po_line_id': porderline_id,
+            }
+        return sline
 
     @api.multi
     def run(self):
@@ -64,7 +79,6 @@ class ProcurementSuggestionGenerate(models.TransientModel):
         self = self.with_context(location_id=self.location_id.id)
         ops = self.env['stock.warehouse.orderpoint'].search(op_domain)
         pso = self.env['procurement.suggest']
-        polo = self.env['purchase.order.line']
         p_suggest_lines = []
         lines = {}  # key = product_id ; value = {'min_qty', ...}
         for op in ops:
@@ -77,24 +91,7 @@ class ProcurementSuggestionGenerate(models.TransientModel):
                             lines[op.product_id.id]['orderpoint'].name,
                             op.name,
                             self.location_id.complete_name))
-                porderline_id = False
-                if op.product_id.seller_id:
-                    porderlines = polo.search([
-                        ('state', 'not in', ('draft', 'cancel')),
-                        ('product_id', '=', op.product_id.id)],
-                        order='date_order desc', limit=1)
-                    porderline_id = porderlines and porderlines[0].id or False
-
-                p_suggest_lines.append({
-                    'product_id': op.product_id.id,
-                    'seller_id': op.product_id.seller_id.id or False,
-                    'qty_available': op.product_id.qty_available,
-                    'incoming_qty': op.product_id.incoming_qty,
-                    'outgoing_qty': op.product_id.outgoing_qty,
-                    'orderpoint_id': op.id,
-                    'last_po_line_id': porderline_id,
-                    })
-
+                p_suggest_lines.append(self._prepare_suggest_line(op))
         p_suggest_lines_sorted = sorted(
             p_suggest_lines, key=lambda to_sort: to_sort['seller_id'])
         if p_suggest_lines_sorted:
@@ -108,10 +105,11 @@ class ProcurementSuggestionGenerate(models.TransientModel):
                 'target': 'current',
                 'domain': [('id', 'in', p_suggest_ids)],
             })
-            print "action=", action
             return action
         else:
-            return True
+            raise Warning(_(
+                "The virtual stock for all related products is above the "
+                "minimum stock level."))
 
 
 class ProcurementSuggest(models.TransientModel):
@@ -121,7 +119,8 @@ class ProcurementSuggest(models.TransientModel):
 
     product_id = fields.Many2one(
         'product.product', string='Product', required=True, readonly=True)
-    seller_id = fields.Many2one('res.partner', string='Supplier', readonly=True)
+    seller_id = fields.Many2one(
+        'res.partner', string='Supplier', readonly=True)
     qty_available = fields.Float(
         string='Quantity On Hand', readonly=True,
         digits=dp.get_precision('Product Unit of Measure'))
@@ -150,6 +149,7 @@ class ProcurementSuggest(models.TransientModel):
     qty_to_order = fields.Float(
         string='Quantity to Order',
         digits=dp.get_precision('Product Unit of Measure'))
+
 
 class ProcurementSuggestPoCreate(models.TransientModel):
     _name = 'procurement.suggest.po.create'
@@ -189,7 +189,8 @@ class ProcurementSuggestPoCreate(models.TransientModel):
         self.ensure_one()
         # group by supplier
         po_to_create = {}  # key = seller_id, value = [(product, qty)]
-        for line in self.env['procurement.suggest'].browse(self.env.context.get('active_ids')):
+        psuggest_ids = self.env.context.get('active_ids')
+        for line in self.env['procurement.suggest'].browse(psuggest_ids):
             if not line.qty_to_order:
                 continue
             if line.seller_id in po_to_create:
@@ -214,8 +215,4 @@ class ProcurementSuggestPoCreate(models.TransientModel):
             'target': 'current',
             'domain': [('id', 'in', new_po_ids)],
             })
-        print "action=", action
         return action
-
-
-
