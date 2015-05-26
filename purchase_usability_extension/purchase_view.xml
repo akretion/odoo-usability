@@ -27,6 +27,9 @@
         <page string="Deliveries &amp; Invoices" position="attributes">
             <attribute name="string">Other Information</attribute>
         </page>
+        <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="before">
+            <field name="sequence" invisible="1"/>
+        </xpath>
     </field>
 </record>
 
