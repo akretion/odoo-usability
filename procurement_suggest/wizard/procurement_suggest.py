@@ -23,6 +23,10 @@
 from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
 from openerp.exceptions import Warning
+from openerp.tools import float_compare
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ProcurementSuggestionGenerate(models.TransientModel):
@@ -39,6 +43,23 @@ class ProcurementSuggestionGenerate(models.TransientModel):
         default=lambda self: self.env.ref('stock.stock_location_stock'))
 
     @api.model
+    def _compute_procurement_qty(self, orderpoint):
+        procs = self.env['procurement.order'].search([
+            ('state', 'not in', ('cancel', 'done', 'exception')),
+            ('orderpoint_id', '=', orderpoint.id)])
+        puo = self.env['product.uom']
+        proc_qty = 0
+        for proc in procs:
+            proc_qty += puo._compute_qty_obj(
+                proc.product_uom, proc.product_qty, proc.product_id.uom_id)
+            # Only take into account the qty that is not already
+            # in the incoming qty or qty on hand
+            for move in proc.move_ids:
+                if move.state == 'draft':
+                    proc_qty -= move.product_qty
+        return proc_qty
+
+    @api.model
     def _prepare_suggest_line(self, orderpoint):
         sline = {
             'product_id': orderpoint.product_id.id,
@@ -46,12 +67,16 @@ class ProcurementSuggestionGenerate(models.TransientModel):
             'qty_available': orderpoint.product_id.qty_available,
             'incoming_qty': orderpoint.product_id.incoming_qty,
             'outgoing_qty': orderpoint.product_id.outgoing_qty,
+            'procurement_qty': self._compute_procurement_qty(orderpoint),
             'orderpoint_id': orderpoint.id,
             }
         return sline
 
     @api.multi
     def run(self):
+        pso = self.env['procurement.suggest']
+        poo = self.env['procurement.order']
+        swoo = self.env['stock.warehouse.orderpoint']
         op_domain = [
             ('suggest', '=', True),
             ('company_id', '=', self.env.user.company_id.id),
@@ -67,22 +92,32 @@ class ProcurementSuggestionGenerate(models.TransientModel):
                     ('seller_id', '=', self.seller_id.id))
             products = self.env['product.product'].search(product_domain)
             op_domain.append(('product_id', 'in', products.ids))
-        self = self.with_context(location_id=self.location_id.id)
-        ops = self.env['stock.warehouse.orderpoint'].search(op_domain)
-        pso = self.env['procurement.suggest']
+        ops = swoo.search(op_domain)
         p_suggest_lines = []
         lines = {}  # key = product_id ; value = {'min_qty', ...}
         for op in ops:
-            # TODO : take into account the running procurements ?
-            if op.product_id.virtual_available < op.product_min_qty:
-                if op.product_id.id in lines:
-                    raise Warning(
-                        _("There are 2 orderpoints (%s and %s) for the same "
-                            "product on stock location %s or its "
-                            "children.") % (
-                            lines[op.product_id.id]['orderpoint'].name,
-                            op.name,
-                            self.location_id.complete_name))
+            if op.product_id.id in lines:
+                raise Warning(
+                    _("There are 2 orderpoints (%s and %s) for the same "
+                        "product on stock location %s or its "
+                        "children.") % (
+                        lines[op.product_id.id]['orderpoint'].name,
+                        op.name,
+                        self.location_id.complete_name))
+
+            virtual_qty = poo._product_virtual_get(op)
+            proc_qty = self._compute_procurement_qty(op)
+            product_qty = virtual_qty + proc_qty
+            logger.debug(
+                'Product: %s Virtual qty = %s Cur. proc. qty = %s '
+                'Min. qty = %s',
+                op.product_id.name, virtual_qty, proc_qty, op.product_min_qty)
+            if float_compare(
+                    product_qty, op.product_min_qty,
+                    precision_rounding=op.product_uom.rounding) < 0:
+                logger.debug(
+                    'Create a procurement suggestion for %s',
+                    op.product_id.name)
                 p_suggest_lines.append(self._prepare_suggest_line(op))
         p_suggest_lines_sorted = sorted(
             p_suggest_lines, key=lambda to_sort: to_sort['seller_id'])
@@ -119,6 +154,9 @@ class ProcurementSuggest(models.TransientModel):
     incoming_qty = fields.Float(
         string='Incoming Quantity', readonly=True,
         digits=dp.get_precision('Product Unit of Measure'))
+    procurement_qty = fields.Float(
+        string='Current Procurement Quantity', readonly=True,
+        digits=dp.get_precision('Product Unit of Measure'))
     outgoing_qty = fields.Float(
         string='Outgoing Quantity', readonly=True,
         digits=dp.get_precision('Product Unit of Measure'))
@@ -133,27 +171,14 @@ class ProcurementSuggest(models.TransientModel):
         string="Min Quantity", readonly=True,
         related='orderpoint_id.product_min_qty',
         digits=dp.get_precision('Product Unit of Measure'))
-    procurement_qty = fields.Float(
-        string='Procurement Quantity',
+    new_procurement_qty = fields.Float(
+        string='New Procurement Quantity',
         digits=dp.get_precision('Product Unit of Measure'))
 
 
 class ProcurementCreateFromSuggest(models.TransientModel):
     _name = 'procurement.create.from.suggest'
     _description = 'Create Procurements from Procurement Suggestions'
-
-    @api.model
-    def _prepare_procurement_order(self, proc_suggest):
-        proc_vals = {
-            'name': u'INT: ' + unicode(self.env.user.login),
-            'product_id': proc_suggest.product_id.id,
-            'product_qty': proc_suggest.procurement_qty,
-            'product_uom': proc_suggest.uom_id.id,
-            'location_id': proc_suggest.orderpoint_id.location_id.id,
-            'company_id': proc_suggest.orderpoint_id.company_id.id,
-            'origin': _('Procurement Suggest'),
-            }
-        return proc_vals
 
     @api.multi
     def create_proc(self):
@@ -162,8 +187,11 @@ class ProcurementCreateFromSuggest(models.TransientModel):
         poo = self.env['procurement.order']
         new_procs = poo.browse(False)
         for line in self.env['procurement.suggest'].browse(psuggest_ids):
-            if line.procurement_qty:
-                vals = self._prepare_procurement_order(line)
+            if line.new_procurement_qty:
+                vals = poo._prepare_orderpoint_procurement(
+                    line.orderpoint_id, line.new_procurement_qty)
+                vals['origin'] += _(' Suggest')
+                vals['name'] += _(' Suggest')
                 new_procs += poo.create(vals)
         if new_procs:
             new_procs.signal_workflow('button_confirm')

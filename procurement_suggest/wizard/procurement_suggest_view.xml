@@ -47,11 +47,12 @@
             <field name="seller_id"/>
             <field name="product_id"/>
             <field name="qty_available"/>
+            <field name="procurement_qty"/>
             <field name="incoming_qty"/>
             <field name="outgoing_qty"/>
             <field name="min_qty"/>
             <field name="uom_id"/>
-            <field name="procurement_qty"/>
+            <field name="new_procurement_qty"/>
         </tree>
     </field>
 </record>
