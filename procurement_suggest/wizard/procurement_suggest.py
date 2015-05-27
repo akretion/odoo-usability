@@ -40,14 +40,6 @@ class ProcurementSuggestionGenerate(models.TransientModel):
 
     @api.model
     def _prepare_suggest_line(self, orderpoint):
-        porderline_id = False
-        if orderpoint.product_id.seller_id:
-            porderlines = self.env['purchase.order.line'].search([
-                ('state', 'not in', ('draft', 'cancel')),
-                ('product_id', '=', orderpoint.product_id.id)],
-                order='id desc', limit=1)
-            # I cannot filter on 'date_order' because it is not a stored field
-            porderline_id = porderlines and porderlines[0].id or False
         sline = {
             'product_id': orderpoint.product_id.id,
             'seller_id': orderpoint.product_id.seller_id.id or False,
@@ -55,7 +47,6 @@ class ProcurementSuggestionGenerate(models.TransientModel):
             'incoming_qty': orderpoint.product_id.incoming_qty,
             'outgoing_qty': orderpoint.product_id.outgoing_qty,
             'orderpoint_id': orderpoint.id,
-            'last_po_line_id': porderline_id,
             }
         return sline
 
@@ -82,6 +73,7 @@ class ProcurementSuggestionGenerate(models.TransientModel):
         p_suggest_lines = []
         lines = {}  # key = product_id ; value = {'min_qty', ...}
         for op in ops:
+            # TODO : take into account the running procurements ?
             if op.product_id.virtual_available < op.product_min_qty:
                 if op.product_id.id in lines:
                     raise Warning(
@@ -130,89 +122,55 @@ class ProcurementSuggest(models.TransientModel):
     outgoing_qty = fields.Float(
         string='Outgoing Quantity', readonly=True,
         digits=dp.get_precision('Product Unit of Measure'))
-    last_po_line_id = fields.Many2one(
-        'purchase.order.line', string='Last Purchase Order Line',
-        readonly=True)
-    last_po_date = fields.Datetime(
-        related='last_po_line_id.order_id.date_order',
-        string='Date of the last PO', readonly=True)
-    last_po_qty = fields.Float(
-        related='last_po_line_id.product_qty', readonly=True,
-        string='Quantity of the Last Order')
     orderpoint_id = fields.Many2one(
         'stock.warehouse.orderpoint', string='Re-ordering Rule',
         readonly=True)
+    uom_id = fields.Many2one(
+        'product.uom', related='product_id.uom_id', readonly=True)
+    # on orderpoids, uom_id is a related field of product_id.uom_id
+    # so I do the same here
     min_qty = fields.Float(
         string="Min Quantity", readonly=True,
         related='orderpoint_id.product_min_qty',
         digits=dp.get_precision('Product Unit of Measure'))
-    qty_to_order = fields.Float(
-        string='Quantity to Order',
+    procurement_qty = fields.Float(
+        string='Procurement Quantity',
         digits=dp.get_precision('Product Unit of Measure'))
 
 
-class ProcurementSuggestPoCreate(models.TransientModel):
-    _name = 'procurement.suggest.po.create'
-    _description = 'ProcurementSuggestPoCreate'
+class ProcurementCreateFromSuggest(models.TransientModel):
+    _name = 'procurement.create.from.suggest'
+    _description = 'Create Procurements from Procurement Suggestions'
 
     @api.model
-    def _prepare_purchase_order_vals(self, partner, po_lines):
-        polo = self.pool['purchase.order.line']
-        ponull = self.env['purchase.order'].browse(False)
-        po_vals = {'partner_id': partner.id}
-        partner_change_dict = ponull.onchange_partner_id(partner.id)
-        po_vals.update(partner_change_dict['value'])
-        picking_type_id = self.env['purchase.order']._get_picking_in()
-        picking_type_dict = ponull.onchange_picking_type_id(picking_type_id)
-        po_vals.update(picking_type_dict['value'])
-        order_lines = []
-        for product, qty_to_order in po_lines:
-            product_change_res = polo.onchange_product_id(
-                self._cr, self._uid, [],
-                partner.property_product_pricelist_purchase.id,
-                product.id, qty_to_order, False, partner.id,
-                fiscal_position_id=partner.property_account_position.id,
-                context=self.env.context)
-            product_change_vals = product_change_res['value']
-            taxes_id_vals = []
-            if product_change_vals.get('taxes_id'):
-                for tax_id in product_change_vals['taxes_id']:
-                    taxes_id_vals.append((4, tax_id))
-                product_change_vals['taxes_id'] = taxes_id_vals
-            order_lines.append(
-                [0, 0, dict(product_change_vals, product_id=product.id)])
-        po_vals['order_line'] = order_lines
-        return po_vals
+    def _prepare_procurement_order(self, proc_suggest):
+        proc_vals = {
+            'name': u'INT: ' + unicode(self.env.user.login),
+            'product_id': proc_suggest.product_id.id,
+            'product_qty': proc_suggest.procurement_qty,
+            'product_uom': proc_suggest.uom_id.id,
+            'location_id': proc_suggest.orderpoint_id.location_id.id,
+            'company_id': proc_suggest.orderpoint_id.company_id.id,
+            'origin': _('Procurement Suggest'),
+            }
+        return proc_vals
 
     @api.multi
-    def create_po(self):
+    def create_proc(self):
         self.ensure_one()
-        # group by supplier
-        po_to_create = {}  # key = seller_id, value = [(product, qty)]
         psuggest_ids = self.env.context.get('active_ids')
+        poo = self.env['procurement.order']
+        new_procs = poo.browse(False)
         for line in self.env['procurement.suggest'].browse(psuggest_ids):
-            if not line.qty_to_order:
-                continue
-            if line.seller_id in po_to_create:
-                po_to_create[line.seller_id].append(
-                    (line.product_id, line.qty_to_order))
-            else:
-                po_to_create[line.seller_id] = [
-                    (line.product_id, line.qty_to_order)]
-        new_po_ids = []
-        for seller, po_lines in po_to_create.iteritems():
-            po_vals = self._prepare_purchase_order_vals(
-                seller, po_lines)
-            new_po = self.env['purchase.order'].create(po_vals)
-            new_po_ids.append(new_po.id)
-
-        if not new_po_ids:
-            raise Warning(_('No purchase orders created'))
+            if line.procurement_qty:
+                vals = self._prepare_procurement_order(line)
+                new_procs += poo.create(vals)
+        if new_procs:
+            new_procs.signal_workflow('button_confirm')
+            new_procs.run()
+        else:
+            raise Warning(_('All requested quantities are null.'))
         action = self.env['ir.actions.act_window'].for_xml_id(
-            'purchase', 'purchase_rfq')
-        action.update({
-            'nodestroy': False,
-            'target': 'current',
-            'domain': [('id', 'in', new_po_ids)],
-            })
+            'procurement', 'procurement_action')
+        action['domain'] = [('id', 'in', new_procs.ids)]
         return action

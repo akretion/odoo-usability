@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Procurement Suggest module for Odoo
+#    Procurement Suggest Purchase module for Odoo
 #    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -22,14 +22,14 @@
 
 
 {
-    'name': 'Procurement Suggest',
+    'name': 'Procurement Suggest Purchase',
     'version': '0.1',
     'category': 'Procurements',
     'license': 'AGPL-3',
-    'summary': 'Suggest POs/MOs from special suggest orderpoints',
+    'summary': 'Usability enhancements to procurement suggest for purchase',
     'description': """
-Procurement Suggest
-===================
+Procurement Suggest Purchase
+============================
 
 TODO
 
@@ -37,9 +37,8 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['stock'],
+    'depends': ['purchase', 'procurement_suggest'],
     'data': [
-        'stock_view.xml',
         'wizard/procurement_suggest_view.xml',
         ],
     'installable': True,

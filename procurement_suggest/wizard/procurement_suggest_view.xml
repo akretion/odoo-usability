@@ -50,9 +50,8 @@
             <field name="incoming_qty"/>
             <field name="outgoing_qty"/>
             <field name="min_qty"/>
-            <field name="last_po_date" widget="date"/>
-            <field name="last_po_qty"/>
-            <field name="qty_to_order"/>
+            <field name="uom_id"/>
+            <field name="procurement_qty"/>
         </tree>
     </field>
 </record>
@@ -77,29 +76,30 @@
     <field name="res_model">procurement.suggest</field>
     <field name="view_mode">tree</field>
     <field name="target">new</field>
+    <field name="limit">500</field>
 </record>
 
-<record id="procurement_suggest_po_create_form" model="ir.ui.view">
-    <field name="name">procurement_suggest_po_create.form</field>
-    <field name="model">procurement.suggest.po.create</field>
+<record id="procurement_create_from_suggest_form" model="ir.ui.view">
+    <field name="name">procurement_create_from_suggest.form</field>
+    <field name="model">procurement.create.from.suggest</field>
     <field name="arch"  type="xml">
         <form string="Create Purchase Orders">
             <p class="oe_grey">
-                This wizard will create Purchase Orders.
+                This wizard will create procurements and confirm them, so that it creates purchase orders or manufacturing orders.
             </p>
             <footer>
-                <button type="object" name="create_po" string="Create POs" class="oe_highlight"/>
+                <button type="object" name="create_proc" string="Create Procurements" class="oe_highlight"/>
                 <button special="cancel" string="Cancel" class="oe_link"/>
             </footer>
         </form>
     </field>
 </record>
 
-<act_window id="procurement_suggest_po_create_action"
+<act_window id="procurement_create_from_suggest_action"
             multi="True"
             key2="client_action_multi"
-            name="Create Purchase Orders"
-            res_model="procurement.suggest.po.create"
+            name="Create Procurements"
+            res_model="procurement.create.from.suggest"
             src_model="procurement.suggest"
             view_mode="form"
             target="new" />
