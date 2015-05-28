@@ -43,22 +43,24 @@ class PurchaseSuggestionGenerate(models.TransientModel):
         default=lambda self: self.env.ref('stock.stock_location_stock'))
 
     @api.model
-    def _prepare_suggest_line(self, orderpoint):
+    def _prepare_suggest_line(self, product_id, qty_dict):
         porderline_id = False
-        if orderpoint.product_id.seller_id:
+        if qty_dict['product'].seller_id:
             porderlines = self.env['purchase.order.line'].search([
                 ('state', 'not in', ('draft', 'cancel')),
-                ('product_id', '=', orderpoint.product_id.id)],
+                ('product_id', '=', product_id)],
                 order='id desc', limit=1)
             # I cannot filter on 'date_order' because it is not a stored field
             porderline_id = porderlines and porderlines[0].id or False
         sline = {
-            'product_id': orderpoint.product_id.id,
-            'seller_id': orderpoint.product_id.seller_id.id or False,
-            'qty_available': orderpoint.product_id.qty_available,
-            'incoming_qty': orderpoint.product_id.incoming_qty,
-            'outgoing_qty': orderpoint.product_id.outgoing_qty,
-            'orderpoint_id': orderpoint.id,
+            'product_id': product_id,
+            'seller_id': qty_dict['product'].seller_id.id or False,
+            'qty_available': qty_dict['qty_available'],
+            'incoming_qty': qty_dict['incoming_qty'],
+            'outgoing_qty': qty_dict['outgoing_qty'],
+            'draft_po_qty': qty_dict['draft_po_qty'],
+            'orderpoint_id': qty_dict['orderpoint'].id,
+            'min_qty': qty_dict['min_qty'],
             'last_po_line_id': porderline_id,
             }
         return sline
@@ -69,7 +71,7 @@ class PurchaseSuggestionGenerate(models.TransientModel):
         pso = self.env['purchase.suggest']
         polo = self.env['purchase.order.line']
         swoo = self.env['stock.warehouse.orderpoint']
-        poo = self.env['procurement.order']
+        ppo = self.env['product.product']
         op_domain = [
             ('suggest', '=', True),
             ('company_id', '=', self.env.user.company_id.id),
@@ -83,36 +85,65 @@ class PurchaseSuggestionGenerate(models.TransientModel):
             if self.seller_id:
                 product_domain.append(
                     ('seller_id', '=', self.seller_id.id))
-            products = self.env['product.product'].search(product_domain)
-            op_domain.append(('product_id', 'in', products.ids))
+            products_subset = ppo.search(product_domain)
+            op_domain.append(('product_id', 'in', products_subset.ids))
         ops = swoo.search(op_domain)
         p_suggest_lines = []
-        lines = {}  # key = product_id ; value = {'min_qty', ...}
+        products = {}
+        # key = product_id
+        # value = {'virtual_qty': 1.0, 'draft_po_qty': 4.0, 'min_qty': 6.0}
+        # TODO : handle the uom
+        logger.info('Starting to compute the purchase suggestions')
         for op in ops:
-            # TODO : take into account the draft PO lines
-            virtual_qty = poo._product_virtual_get(op)
-            draft_po_qty = 0
-            cur_qty = virtual_qty + draft_po_qty
+            if op.product_id.id not in products:
+                products[op.product_id.id] = {
+                    'min_qty': op.product_min_qty,
+                    'draft_po_qty': 0.0,
+                    'orderpoint': op,
+                    'product': op.product_id
+                    }
+            else:
+                raise Warning(
+                    _("There are 2 orderpoints (%s and %s) for the same "
+                        "product on stock location %s or its "
+                        "children.") % (
+                        products[op.product_id.id]['orderpoint'].name,
+                        op.name,
+                        self.location_id.complete_name))
+        logger.info('Min qty computed on %d products', len(products))
+        polines = polo.search([
+            ('state', '=', 'draft'), ('product_id', 'in', products.keys())])
+        for line in polines:
+            products[line.product_id.id]['draft_po_qty'] += line.product_qty
+        logger.info('Draft PO qty computed on %d products', len(products))
+        virtual_qties = self.pool['product.product']._product_available(
+            self._cr, self._uid, products.keys(),
+            context={'location': self.location_id.id})
+        logger.info('Stock levels qty computed on %d products', len(products))
+        for product_id, qty_dict in products.iteritems():
+            qty_dict['virtual_available'] =\
+                virtual_qties[product_id]['virtual_available']
+            qty_dict['incoming_qty'] =\
+                virtual_qties[product_id]['incoming_qty']
+            qty_dict['outgoing_qty'] =\
+                virtual_qties[product_id]['outgoing_qty']
+            qty_dict['qty_available'] =\
+                virtual_qties[product_id]['qty_available']
             logger.debug(
-                'Product: %s Virtual qty = %s Draft PO qty = %s '
+                'Product ID: %d Virtual qty = %s Draft PO qty = %s '
                 'Min. qty = %s',
-                op.product_id.name, virtual_qty, draft_po_qty,
-                op.product_min_qty)
+                product_id, qty_dict['virtual_available'],
+                qty_dict['draft_po_qty'], qty_dict['min_qty'])
             if float_compare(
-                    cur_qty, op.product_min_qty,
+                    qty_dict['virtual_available'] + qty_dict['draft_po_qty'],
+                    qty_dict['min_qty'],
                     precision_rounding=op.product_uom.rounding) < 0:
-                if op.product_id.id in lines:
-                    raise Warning(
-                        _("There are 2 orderpoints (%s and %s) for the same "
-                            "product on stock location %s or its "
-                            "children.") % (
-                            lines[op.product_id.id]['orderpoint'].name,
-                            op.name,
-                            self.location_id.complete_name))
-                p_suggest_lines.append(self._prepare_suggest_line(op))
-                logger.debug(
-                    'Create a procurement suggestion for %s',
-                    op.product_id.name)
+                vals = self._prepare_suggest_line(product_id, qty_dict)
+                if vals:
+                    p_suggest_lines.append(vals)
+                    logger.debug(
+                        'Created a procurement suggestion for product ID %d',
+                        product_id)
         p_suggest_lines_sorted = sorted(
             p_suggest_lines, key=lambda to_sort: to_sort['seller_id'])
         if p_suggest_lines_sorted:
@@ -159,16 +190,16 @@ class PurchaseSuggest(models.TransientModel):
         readonly=True)
     last_po_date = fields.Datetime(
         related='last_po_line_id.order_id.date_order',
-        string='Date of the last PO', readonly=True)
+        string='Date of the Last Order', readonly=True)
     last_po_qty = fields.Float(
         related='last_po_line_id.product_qty', readonly=True,
+        digits=dp.get_precision('Product Unit of Measure'),
         string='Quantity of the Last Order')
     orderpoint_id = fields.Many2one(
         'stock.warehouse.orderpoint', string='Re-ordering Rule',
         readonly=True)
     min_qty = fields.Float(
         string="Min Quantity", readonly=True,
-        related='orderpoint_id.product_min_qty',
         digits=dp.get_precision('Product Unit of Measure'))
     qty_to_order = fields.Float(
         string='Quantity to Order',
@@ -217,6 +248,10 @@ class PurchaseSuggestPoCreate(models.TransientModel):
         for line in self.env['purchase.suggest'].browse(psuggest_ids):
             if not line.qty_to_order:
                 continue
+            if not line.product_id.seller_id:
+                raise Warning(_(
+                    "No supplier configured for product '%s'.")
+                    % line.product_id.name)
             if line.seller_id in po_to_create:
                 po_to_create[line.seller_id].append(
                     (line.product_id, line.qty_to_order))
