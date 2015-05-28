@@ -96,6 +96,9 @@
         <form string="Create Purchase Orders">
             <p class="oe_grey">
                 Click on the red button below to create the purchase orders.
+                If a draft purchase order already exists for one of the suppliers
+                for the same stock location, it will be updated with the new
+                products and quantities to order.
             </p>
             <footer>
                 <button type="object" name="create_po"

@@ -53,6 +53,7 @@ class PurchaseSuggestionGenerate(models.TransientModel):
             # I cannot filter on 'date_order' because it is not a stored field
             porderline_id = porderlines and porderlines[0].id or False
         sline = {
+            'company_id': qty_dict['orderpoint'].company_id.id,
             'product_id': product_id,
             'seller_id': qty_dict['product'].seller_id.id or False,
             'qty_available': qty_dict['qty_available'],
@@ -168,6 +169,8 @@ class PurchaseSuggest(models.TransientModel):
     _description = 'Purchase Suggestions'
     _rec_name = 'product_id'
 
+    company_id = fields.Many2one(
+        'res.company', string='Company', required=True)
     product_id = fields.Many2one(
         'product.product', string='Product', required=True, readonly=True)
     seller_id = fields.Many2one(
@@ -210,68 +213,127 @@ class PurchaseSuggestPoCreate(models.TransientModel):
     _name = 'purchase.suggest.po.create'
     _description = 'PurchaseSuggestPoCreate'
 
-    @api.model
-    def _prepare_purchase_order_vals(self, partner, po_lines):
-        polo = self.pool['purchase.order.line']
-        ponull = self.env['purchase.order'].browse(False)
-        po_vals = {'partner_id': partner.id}
+    def _prepare_purchase_order(self, partner, company, location):
+        poo = self.env['purchase.order']
+        spto = self.env['stock.picking.type']
+        po_vals = {'partner_id': partner.id, 'company_id': company.id}
+        ponull = poo.browse(False)
         partner_change_dict = ponull.onchange_partner_id(partner.id)
         po_vals.update(partner_change_dict['value'])
-        picking_type_id = self.env['purchase.order']._get_picking_in()
-        picking_type_dict = ponull.onchange_picking_type_id(picking_type_id)
-        po_vals.update(picking_type_dict['value'])
-        order_lines = []
-        for product, qty_to_order in po_lines:
-            product_change_res = polo.onchange_product_id(
-                self._cr, self._uid, [],
-                partner.property_product_pricelist_purchase.id,
-                product.id, qty_to_order, False, partner.id,
-                fiscal_position_id=partner.property_account_position.id,
-                context=self.env.context)
-            product_change_vals = product_change_res['value']
-            taxes_id_vals = []
-            if product_change_vals.get('taxes_id'):
-                for tax_id in product_change_vals['taxes_id']:
-                    taxes_id_vals.append((4, tax_id))
-                product_change_vals['taxes_id'] = taxes_id_vals
-            order_lines.append(
-                [0, 0, dict(product_change_vals, product_id=product.id)])
-        po_vals['order_line'] = order_lines
+        pick_type_dom = [
+            ('code', '=', 'incoming'),
+            ('warehouse_id.company_id', '=', company.id)]
+
+        pick_types = spto.search(
+            pick_type_dom + [('default_location_dest_id', '=', location.id)])
+        if not pick_types:
+            pick_types = spto.search(pick_type_domain)
+            if not pick_types:
+                raise Warning(_(
+                    "Make sure you have at least an incoming picking "
+                    "type defined"))
+        po_vals['picking_type_id'] = pick_types[0].id
+        pick_type_dict = ponull.onchange_picking_type_id(pick_types.id)
+        po_vals.update(pick_type_dict['value'])
+        # I do that at the very end because onchange_picking_type_id()
+        # returns a default location_id
+        po_vals['location_id'] = location.id
         return po_vals
+
+    def _prepare_purchase_order_line(self, partner, product, qty_to_order):
+        polo = self.env['purchase.order.line']
+        polnull = polo.browse(False)
+        product_change_res = polnull.onchange_product_id(
+            partner.property_product_pricelist_purchase.id,
+            product.id, qty_to_order, False, partner.id,
+            fiscal_position_id=partner.property_account_position.id)
+        product_change_vals = product_change_res['value']
+        taxes_id_vals = []
+        if product_change_vals.get('taxes_id'):
+            for tax_id in product_change_vals['taxes_id']:
+                taxes_id_vals.append((4, tax_id))
+            product_change_vals['taxes_id'] = taxes_id_vals
+        vals = dict(product_change_vals, product_id=product.id)
+        return vals
+
+    def _create_update_purchase_order(
+            self, partner, company, po_lines, location):
+        polo = self.env['purchase.order.line']
+        poo = self.env['purchase.order']
+        existing_pos = poo.search([
+            ('partner_id', '=', partner.id),
+            ('company_id', '=', company.id),
+            ('state', '=', 'draft'),
+            ('location_id', '=', location.id),
+            ])
+        if existing_pos:
+            # update the first existing PO
+            existing_po = existing_pos[0]
+            for product, qty_to_order in po_lines:
+                existing_poline = polo.search([
+                    ('product_id', '=', product.id),
+                    ('order_id', '=', existing_po.id),
+                    ])
+                if existing_poline:
+                    existing_poline[0].product_qty += qty_to_order
+                else:
+                    pol_vals = self._prepare_purchase_order_line(
+                        partner, product, qty_to_order)
+                    pol_vals['order_id'] = existing_po.id
+                    polo.create(pol_vals)
+            existing_po.message_post(
+                _('Purchase order updated from purchase suggestions.'))
+            return existing_po
+        else:
+            # create new PO
+            po_vals = self._prepare_purchase_order(partner, company, location)
+            order_lines = []
+            for product, qty_to_order in po_lines:
+                pol_vals = self._prepare_purchase_order_line(
+                    partner, product, qty_to_order)
+                order_lines.append((0, 0, pol_vals))
+            po_vals['order_line'] = order_lines
+            new_po = poo.create(po_vals)
+            return new_po
 
     @api.multi
     def create_po(self):
         self.ensure_one()
         # group by supplier
-        po_to_create = {}  # key = seller_id, value = [(product, qty)]
+        po_to_create = {}
+        # key = (seller, company)
+        # value = [(product1, qty1), (product2, qty2)]
         psuggest_ids = self.env.context.get('active_ids')
+        location = False
         for line in self.env['purchase.suggest'].browse(psuggest_ids):
+            if not location:
+                location = line.orderpoint_id.location_id
             if not line.qty_to_order:
                 continue
             if not line.product_id.seller_id:
                 raise Warning(_(
                     "No supplier configured for product '%s'.")
                     % line.product_id.name)
-            if line.seller_id in po_to_create:
-                po_to_create[line.seller_id].append(
+            if (line.seller_id, line.company_id) in po_to_create:
+                po_to_create[(line.seller_id, line.company_id)].append(
                     (line.product_id, line.qty_to_order))
             else:
-                po_to_create[line.seller_id] = [
+                po_to_create[(line.seller_id, line.company_id)] = [
                     (line.product_id, line.qty_to_order)]
-        new_po_ids = []
-        for seller, po_lines in po_to_create.iteritems():
-            po_vals = self._prepare_purchase_order_vals(
-                seller, po_lines)
-            new_po = self.env['purchase.order'].create(po_vals)
-            new_po_ids.append(new_po.id)
+        if not po_to_create:
+            raise Warning(_('No purchase orders created or updated'))
+        po_ids = []
+        for (seller, company), po_lines in po_to_create.iteritems():
+            assert location, 'No stock location'
+            po = self._create_update_purchase_order(
+                seller, company, po_lines, location)
+            po_ids.append(po.id)
 
-        if not new_po_ids:
-            raise Warning(_('No purchase orders created'))
         action = self.env['ir.actions.act_window'].for_xml_id(
             'purchase', 'purchase_rfq')
         action.update({
             'nodestroy': False,
             'target': 'current',
-            'domain': [('id', 'in', new_po_ids)],
+            'domain': [('id', 'in', po_ids)],
             })
         return action
