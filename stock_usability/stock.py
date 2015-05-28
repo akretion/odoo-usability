@@ -43,3 +43,14 @@ class StockPickingType(models.Model):
     _inherit = 'stock.picking.type'
 
     name = fields.Char(translate=False)
+
+
+class StockWarehouseOrderpoint(models.Model):
+    _inherit = 'stock.warehouse.orderpoint'
+
+    _sql_constraints = [(
+        'company_wh_location_product_unique',
+        'unique(company_id, warehouse_id, location_id, product_id)',
+        'An orderpoint already exists for the same company, same warehouse, '
+        'same stock location and same product.'
+        )]
