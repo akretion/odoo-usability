@@ -34,9 +34,12 @@ class ProcurementOrder(models.Model):
             context=None):
         '''Inherit to add info logs'''
         logger.info(
-            'START procurement scheduler (company ID=%d)' % company_id)
+            'START procurement scheduler (company ID=%d, uid=%d)',
+            company_id, uid)
         res = super(ProcurementOrder, self).run_scheduler(
             cr, uid, use_new_cursor=use_new_cursor, company_id=company_id,
             context=context)
-        logger.info('END procurement scheduler (company ID=%d)' % company_id)
+        logger.info(
+            'END procurement scheduler (company ID=%d, uid=%d)',
+            company_id, uid)
         return res
