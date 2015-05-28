@@ -33,10 +33,10 @@ class PurchaseSuggestionGenerate(models.TransientModel):
     _name = 'purchase.suggest.generate'
     _description = 'Start to generate the purchase suggestions'
 
-    categ_id = fields.Many2one(
-        'product.category', string='Product Category')
-    seller_id = fields.Many2one(
-        'res.partner', string='Supplier',
+    categ_ids = fields.Many2many(
+        'product.category', string='Product Categories')
+    seller_ids = fields.Many2many(
+        'res.partner', string='Suppliers',
         domain=[('supplier', '=', True), ('is_company', '=', True)])
     location_id = fields.Many2one(
         'stock.location', string='Stock Location', required=True,
@@ -77,14 +77,14 @@ class PurchaseSuggestionGenerate(models.TransientModel):
             ('company_id', '=', self.env.user.company_id.id),
             ('location_id', 'child_of', self.location_id.id),
             ]
-        if self.categ_id or self.seller_id:
+        if self.categ_ids or self.seller_ids:
             product_domain = []
-            if self.categ_id:
+            if self.categ_ids:
                 product_domain.append(
-                    ('categ_id', 'child_of', self.categ_id.id))
-            if self.seller_id:
+                    ('categ_id', 'in', self.categ_ids.ids))
+            if self.seller_ids:
                 product_domain.append(
-                    ('seller_id', '=', self.seller_id.id))
+                    ('seller_id', 'in', self.seller_ids.ids))
             products_subset = ppo.search(product_domain)
             op_domain.append(('product_id', 'in', products_subset.ids))
         ops = swoo.search(op_domain)
@@ -160,8 +160,7 @@ class PurchaseSuggestionGenerate(models.TransientModel):
             return action
         else:
             raise Warning(_(
-                "The virtual stock for all related products is above the "
-                "minimum stock level."))
+                "There are no purchase suggestions to generate."))
 
 
 class PurchaseSuggest(models.TransientModel):
@@ -172,7 +171,8 @@ class PurchaseSuggest(models.TransientModel):
     product_id = fields.Many2one(
         'product.product', string='Product', required=True, readonly=True)
     seller_id = fields.Many2one(
-        'res.partner', string='Supplier', readonly=True)
+        'res.partner', string='Supplier', readonly=True,
+        domain=[('supplier', '=', True)])
     qty_available = fields.Float(
         string='Quantity On Hand', readonly=True,
         digits=dp.get_precision('Product Unit of Measure'))

@@ -14,9 +14,18 @@
     <field name="model">purchase.suggest.generate</field>
     <field name="arch" type="xml">
         <form string="Generate Purchase Suggestions">
+            <p>This wizard will generate purchase suggestions based on the following rules:</p>
+            <ol>
+                <li>it will search all the re-ordering rules linked to the selected stock location, limited to the product categories and the suppliers if some were selected</li>
+                <li>if the quantity on hand + incoming quantity - outgoing quantity + quantity in draft purchase orders is strictly inferior to the minimum stock level, it will create a purchase suggestion line</li>
+            </ol>
+
+            <p>The purchase suggestion lines display as much information as possible to help you take the decision on the quantity that you would like to re-order. When you have decided the quantity you want to re-order, enter that value in the last column.</p>
+
+            <p>Once you have entered a Quantity to Order for all the lines you would like to re-order, select all the lines and click on <i>More</i> > <i>Create Purchase Orders</i>.</p>
             <group name="name">
-                <field name="categ_id"/>
-                <field name="seller_id"/>
+                <field name="categ_ids" widget="many2many_tags"/>
+                <field name="seller_ids" widget="many2many_tags"/>
                 <field name="location_id"/>
             </group>
             <footer>
@@ -86,7 +95,7 @@
     <field name="arch"  type="xml">
         <form string="Create Purchase Orders">
             <p class="oe_grey">
-                This wizard will create Purchase Orders.
+                Click on the red button below to create the purchase orders.
             </p>
             <footer>
                 <button type="object" name="create_po"

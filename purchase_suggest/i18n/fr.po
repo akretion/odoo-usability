@@ -1,0 +1,245 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* purchase_suggest
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-28 16:00+0000\n"
+"PO-Revision-Date: 2015-05-28 16:00+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: purchase_suggest
+#: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
+#: view:purchase.suggest.po.create:purchase_suggest.purchase_suggest_po_create_form
+msgid "Cancel"
+msgstr "Cancel"
+
+#. module: purchase_suggest
+#: view:purchase.suggest.po.create:purchase_suggest.purchase_suggest_po_create_form
+msgid "Click on the red button below to create the Purchase Orders."
+msgstr "Click on the red button below to create the Purchase Orders."
+
+#. module: purchase_suggest
+#: model:ir.actions.act_window,name:purchase_suggest.purchase_suggest_po_create_action
+#: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
+#: view:purchase.suggest.po.create:purchase_suggest.purchase_suggest_po_create_form
+msgid "Create Purchase Orders"
+msgstr "Create Purchase Orders"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,create_uid:0
+#: field:purchase.suggest.generate,create_uid:0
+#: field:purchase.suggest.po.create,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,create_date:0
+#: field:purchase.suggest.generate,create_date:0
+#: field:purchase.suggest.po.create,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,draft_po_qty:0
+msgid "Draft PO Quantity"
+msgstr "Draft PO Quantity"
+
+#. module: purchase_suggest
+#: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
+msgid "Generate"
+msgstr "Generate"
+
+#. module: purchase_suggest
+#: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
+msgid "Generate Purchase Suggestions"
+msgstr "Generate Purchase Suggestions"
+
+#. module: purchase_suggest
+#: view:purchase.suggest:purchase_suggest.purchase_suggest_search
+msgid "Group By"
+msgstr "Group By"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,id:0
+#: field:purchase.suggest.generate,id:0
+#: field:purchase.suggest.po.create,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,incoming_qty:0
+msgid "Incoming Quantity"
+msgstr "Incoming Quantity"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,last_po_line_id:0
+msgid "Last Purchase Order Line"
+msgstr "Last Purchase Order Line"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,write_uid:0
+#: field:purchase.suggest.generate,write_uid:0
+#: field:purchase.suggest.po.create,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,write_date:0
+#: field:purchase.suggest.generate,write_date:0
+#: field:purchase.suggest.po.create,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,min_qty:0
+msgid "Min Quantity"
+msgstr "Min Quantity"
+
+#. module: purchase_suggest
+#: model:ir.model,name:purchase_suggest.model_stock_warehouse_orderpoint
+msgid "Minimum Inventory Rule"
+msgstr "Règle de stock minimum"
+
+#. module: purchase_suggest
+#: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
+msgid "More"
+msgstr "More"
+
+#. module: purchase_suggest
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:269
+#, python-format
+msgid "No purchase orders created"
+msgstr "No purchase orders created"
+
+#. module: purchase_suggest
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:252
+#, python-format
+msgid "No supplier configured for product '%s'."
+msgstr "No supplier configured for product '%s'."
+
+#. module: purchase_suggest
+#: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
+msgid "Once you have entered a Quantity to Order for all the lines you would like to re-order, select all the lines and click on"
+msgstr "Once you have entered a Quantity to Order for all the lines you would like to re-order, select all the lines and click on"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,outgoing_qty:0
+msgid "Outgoing Quantity"
+msgstr "Outgoing Quantity"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,product_id:0
+msgid "Product"
+msgstr "Product"
+
+#. module: purchase_suggest
+#: field:purchase.suggest.generate,categ_ids:0
+msgid "Product Categories"
+msgstr "Product Categories"
+
+#. module: purchase_suggest
+#: model:ir.actions.act_window,name:purchase_suggest.purchase_suggest_action
+#: model:ir.actions.act_window,name:purchase_suggest.purchase_suggest_generate_action
+#: model:ir.model,name:purchase_suggest.model_purchase_suggest
+#: model:ir.ui.menu,name:purchase_suggest.purchase_suggest_generate_menu
+#: view:purchase.suggest:purchase_suggest.purchase_suggest_search
+#: view:purchase.suggest:purchase_suggest.purchase_suggest_tree
+msgid "Purchase Suggestions"
+msgstr "Purchase Suggestions"
+
+#. module: purchase_suggest
+#: model:ir.model,name:purchase_suggest.model_purchase_suggest_po_create
+msgid "PurchaseSuggestPoCreate"
+msgstr "PurchaseSuggestPoCreate"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,qty_available:0
+msgid "Quantity On Hand"
+msgstr "Quantity On Hand"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,qty_to_order:0
+msgid "Quantity to Order"
+msgstr "Quantity to Order"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,orderpoint_id:0
+msgid "Re-ordering Rule"
+msgstr "Re-ordering Rule"
+
+#. module: purchase_suggest
+#: view:stock.warehouse.orderpoint:purchase_suggest.warehouse_orderpoint_search
+msgid "Real"
+msgstr "Real"
+
+#. module: purchase_suggest
+#: view:purchase.suggest:purchase_suggest.purchase_suggest_search
+msgid "Seller"
+msgstr "Seller"
+
+#. module: purchase_suggest
+#: model:ir.model,name:purchase_suggest.model_purchase_suggest_generate
+msgid "Start to generate the purchase suggestions"
+msgstr "Start to generate the purchase suggestions"
+
+#. module: purchase_suggest
+#: field:purchase.suggest.generate,location_id:0
+msgid "Stock Location"
+msgstr "Stock Location"
+
+#. module: purchase_suggest
+#: view:stock.warehouse.orderpoint:purchase_suggest.warehouse_orderpoint_search
+#: field:stock.warehouse.orderpoint,suggest:0
+msgid "Suggest"
+msgstr "Suggest"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,seller_id:0
+msgid "Supplier"
+msgstr "Supplier"
+
+#. module: purchase_suggest
+#: field:purchase.suggest.generate,seller_ids:0
+msgid "Suppliers"
+msgstr "Suppliers"
+
+#. module: purchase_suggest
+#: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
+msgid "The purchase suggestion lines display as much information as possible to help you take the decision on the quantity that you would like to re-order. When you have decided the quantity you want to re-order, enter that value in the last column."
+msgstr "The purchase suggestion lines display as much information as possible to help you take the decision on the quantity that you would like to re-order. When you have decided the quantity you want to re-order, enter that value in the last column."
+
+#. module: purchase_suggest
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:107
+#, python-format
+msgid "There are 2 orderpoints (%s and %s) for the same product on stock location %s or its children."
+msgstr "There are 2 orderpoints (%s and %s) for the same product on stock location %s or its children."
+
+#. module: purchase_suggest
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:162
+#, python-format
+msgid "There are no purchase suggestions to generate."
+msgstr "There are no purchase suggestions to generate."
+
+#. module: purchase_suggest
+#: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
+msgid "This wizard will generate purchase suggestions based on the following rules:"
+msgstr "This wizard will generate purchase suggestions based on the following rules:"
+
+#. module: purchase_suggest
+#: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
+msgid "if the quantity on hand + incoming quantity - outgoing quantity + quantity in draft purchase orders is strictly inferior to the minimum stock level, it will create a purchase suggestion line"
+msgstr "if the quantity on hand + incoming quantity - outgoing quantity + quantity in draft purchase orders is strictly inferior to the minimum stock level, it will create a purchase suggestion line"
+
+#. module: purchase_suggest
+#: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
+msgid "it will search all the re-ordering rules linked to the selected stock location, limited to the product categories and the suppliers if some were selected"
+msgstr "it will search all the re-ordering rules linked to the selected stock location, limited to the product categories and the suppliers if some were selected"
+
