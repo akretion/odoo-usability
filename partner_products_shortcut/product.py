@@ -20,22 +20,28 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp.osv import orm
 
+# KEEP THIS IN OLD API for the moment
+# Otherwise, you will have trouble in the pagination of kanban view and
+# the counter for number of records in list view
+# Bug found at the Barroux Abbey on 29/5/2015
 
-class ProductTemplate(models.Model):
+class ProductTemplate(orm.Model):
     _inherit = 'product.template'
 
-    @api.model
     def search(
-            self, args, offset=0, limit=None, order=None, count=False):
-        seller_id = self.env.context.get('search_default_seller_id')
+            self, cr, uid, args, offset=0, limit=None, order=None,
+            context=None, count=False):
+        seller_id = context.get('search_default_seller_id')
         if seller_id:
-            sellers = self.env['product.supplierinfo'].search(
-                [('name', '=', seller_id)])
+            seller_ids = self.pool['product.supplierinfo'].search(
+                cr, uid, [('name', '=', seller_id)], context=context)
             for argument in args:
                 if isinstance(argument, list) and argument[0] == 'seller_ids':
                     args.remove(argument)
-            args.append((('seller_ids', 'in', sellers.ids)))
-        return super(ProductTemplate, self).search(
-            args, offset=offset, limit=limit, order=order, count=count)
+            args.append((('seller_ids', 'in', seller_ids)))
+        res = super(ProductTemplate, self).search(
+            cr, uid, args, offset=offset, limit=limit, order=order, count=count,
+            context=context)
+        return res
