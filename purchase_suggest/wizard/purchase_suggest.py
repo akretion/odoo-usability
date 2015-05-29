@@ -37,7 +37,7 @@ class PurchaseSuggestionGenerate(models.TransientModel):
         'product.category', string='Product Categories')
     seller_ids = fields.Many2many(
         'res.partner', string='Suppliers',
-        domain=[('supplier', '=', True), ('is_company', '=', True)])
+        domain=[('supplier', '=', True)])
     location_id = fields.Many2one(
         'stock.location', string='Stock Location', required=True,
         default=lambda self: self.env.ref('stock.stock_location_stock'))
@@ -227,7 +227,7 @@ class PurchaseSuggestPoCreate(models.TransientModel):
         pick_types = spto.search(
             pick_type_dom + [('default_location_dest_id', '=', location.id)])
         if not pick_types:
-            pick_types = spto.search(pick_type_domain)
+            pick_types = spto.search(pick_type_dom)
             if not pick_types:
                 raise Warning(_(
                     "Make sure you have at least an incoming picking "
