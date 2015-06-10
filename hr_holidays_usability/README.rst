@@ -9,11 +9,6 @@ This module adds what I consider the minimum usability level for the holiday man
 
  * It sends an email to the manager when the employee submits a holiday requests (with the employee in Cc) and it sends an email to the employee (with the manager in Cc) when the holiday request is validated/refused.
 
-Known issues / Roadmap
-======================
-
- * Port to v8
-
 Credits
 =======
 
