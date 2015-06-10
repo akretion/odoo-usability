@@ -153,25 +153,25 @@ class HrHolidays(orm.Model):
 
     _columns = {
         'vacation_date_from': fields.date(
-            'First Day of Vacation',
+            'First Day of Vacation', track_visibility='onchange',
             help="Enter the first day of vacation. For example, if "
             "you leave one full calendar week, the first day of vacation "
             "is Monday morning (and not Friday of the week before)"),
         'vacation_time_from': fields.selection([
             ('morning', 'Morning'),
             ('noon', 'Noon'),
-            ], "Start of Vacation",
+            ], "Start of Vacation", track_visibility='onchange',
             help="For example, if you leave one full calendar week, "
             "the first day of vacation is Monday Morning"),
         'vacation_date_to': fields.date(
-            'Last Day of Vacation',
+            'Last Day of Vacation', track_visibility='onchange',
             help="Enter the last day of vacation. For example, if you "
             "leave one full calendar week, the last day of vacation is "
             "Friday evening (and not Monday of the week after)"),
         'vacation_time_to': fields.selection([
             ('noon', 'Noon'),
             ('evening', 'Evening'),
-            ], "End of Vacation",
+            ], "End of Vacation", track_visibility='onchange',
             help="For example, if you leave one full calendar week, "
             "the end of vacation is Friday Evening"),
         'number_of_days_remove': fields.function(

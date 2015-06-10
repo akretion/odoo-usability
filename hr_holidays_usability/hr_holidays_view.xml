@@ -37,6 +37,37 @@
     </field>
 </record>
 
+<record id="view_holiday" model="ir.ui.view">
+    <field name="name">hr_holidays_usability.leave_request_tree</field>
+    <field name="model">hr.holidays</field>
+    <field name="inherit_id" ref="hr_holidays.view_holiday"/>
+    <field name="arch" type="xml">
+        <field name="number_of_days" position="attributes">
+             <attribute name="invisible">1</attribute>
+        </field>
+        <field name="number_of_days" position="after">
+             <field name="number_of_days_remove"/>
+        </field>
+        <field name="date_from" position="attributes">
+             <attribute name="invisible">1</attribute>
+        </field>
+        <field name="date_from" position="after">
+             <field name="vacation_date_from"/>
+             <field name="vacation_time_from"/>
+        </field>
+        <field name="date_to" position="attributes">
+             <attribute name="invisible">1</attribute>
+        </field>
+        <field name="date_to" position="after">
+             <field name="vacation_date_to"/>
+             <field name="vacation_time_to"/>
+        </field>
+        <field name="holiday_status_id" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
+    </field>
+</record>
+
 <record id="edit_holiday_status_form" model="ir.ui.view">
     <field name="name">hr_holidays_usability.hr.holidays.status.form</field>
     <field name="model">hr.holidays.status</field>
