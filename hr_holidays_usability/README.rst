@@ -12,7 +12,7 @@ This module adds what I consider the minimum usability level for the holiday man
 Known issues / Roadmap
 ======================
 
- * Port to v8
+ * Beware that this module works for old version of Odoo v7, not with up-to-date versions, because my customer uses an old version. If you use an up-to-date version, you need to adapt the inherit of hr_holidays.edit_holiday_new (required property moved to attrs, and probably other changes)
 
 Credits
 =======
