@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<record id="ir_actions_server_hr_holidays_confirm_mail" model="ir.actions.server">
+    <field name="name">Auto-email confirmed leave</field>
+    <field name="code">context.update({
+    'wkf_tracker': 'submitted',
+    'dbname': cr.dbname,
+})
+template_id=self.pool.get('ir.model.data').get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
+self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, force_send=True, context=context)</field>
+    <field name="state">code</field>
+    <field name="type">ir.actions.server</field>
+    <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+    <field name="condition">True</field>
+</record>
+
+<record id="ir_actions_server_hr_holidays_validate_mail" model="ir.actions.server">
+    <field name="name">Auto-email validated leave</field>
+    <field name="code">context.update({
+    'wkf_tracker': 'validated',
+    'dbname': cr.dbname,
+})
+template_id=self.pool.get('ir.model.data').get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
+self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, force_send=True, context=context)</field>
+    <field name="state">code</field>
+    <field name="type">ir.actions.server</field>
+    <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+    <field name="condition">True</field>
+</record>
+
+<record id="ir_actions_server_hr_holidays_refuse_mail" model="ir.actions.server">
+    <field name="name">Auto-email refused leave</field>
+    <field name="code">context.update({
+    'wkf_tracker': 'refused',
+    'dbname': cr.dbname,
+})
+template_id=self.pool.get('ir.model.data').get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
+self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, force_send=True, context=context)</field>
+    <field name="state">code</field>
+    <field name="type">ir.actions.server</field>
+    <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+    <field name="condition">True</field>
+</record>
+
+<record id="hr_holidays.act_confirm" model="workflow.activity">
+    <field name="action_id" ref="ir_actions_server_hr_holidays_confirm_mail"/>
+</record>
+
+<record id="hr_holidays.act_validate" model="workflow.activity">
+    <field name="action_id" ref="ir_actions_server_hr_holidays_validate_mail"/>
+</record>
+
+<record id="hr_holidays.act_refuse" model="workflow.activity">
+    <field name="action_id" ref="ir_actions_server_hr_holidays_refuse_mail"/>
+</record>
+
+<record id="email_template_hr_holidays" model="email.template">
+    <field name="name">Holidays email template</field>
+    <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+    <field name="email_from">${user.company_id.email}</field>
+    <field name="email_to">${object.employee_id.parent_id.user_id.email or ''}</field>
+    <field name="email_cc">${object.employee_id.user_id.email or ''}</field>
+    <field name="reply_to">${user.email or ''}</field>
+    <field name="subject">${ctx.get('dbname') and 'prod' not in ctx.get('dbname') and '[TEST]' or ''}[${object.type == 'remove' and 'Leave' or 'Allocation'} ${ctx.get('wkf_tracker')}] ${object.name or ''} - ${object.employee_id.name or ''}</field>
+    <field name="auto_delete" eval="False"/>
+    <field name="lang">${user.lang}</field>
+    <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+% if ctx.get('dbname') and 'prod' not in ctx.get('dbname'):
+<p>WARNING : THIS IS A TEST E-MAIL sent from a test OpenERP database (${ctx.get('dbname')}). Do not take into account !</p>
+
+% endif
+<p>The following ${object.type == 'remove' and 'leave request' or 'ALLOCATION request (i.e. credit of days, not debit !)'} has been ${ctx.get('wkf_tracker') or 'ERROR'} today in OpenERP by ${user.name or ''} :</p>
+
+<ul>
+<li>Employee : ${object.employee_id.name or ''}</li>
+% if object.employee_id.parent_id:
+<li>Employee's manager : ${object.employee_id.parent_id.name or ''}</li>
+% endif
+% if object.type == 'remove':
+<li>Start date : ${object.vacation_date_from or ''} ${object.vacation_time_from or ''}</li>
+<li>End date : ${object.vacation_date_to or ''} ${object.vacation_time_to or ''}</li>
+% endif
+<li>Number of days : ${object.number_of_days or '0'}</li>
+<li>Leave type : ${object.holiday_status_id.name or ''}</li>
+<li>Description : ${object.name or ''}</li>
+% if object.notes:
+<li>Notes : ${object.notes or ''}</li>
+% endif
+</ul>
+
+% if ctx.get('wkf_tracker') == 'submitted':
+% if object.type == 'remove':
+<p>To validate or refuse it, go to the menu Human Resources > Leaves > Leave requests to approve.</p>
+% else:
+<p>To validate or refuse it, go to the menu Human Resources > Leaves > Allocation requests.</p>
+% endif
+
+% endif
+<p>
+-- <br/>
+Automatic e-mail sent by OpenERP. Do not reply.<br/>
+Database : ${ctx.get('dbname')}<br/>
+</p>
+</div>
+]]></field>
+</record>
+
+</data>
+</openerp>
