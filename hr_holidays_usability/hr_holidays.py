@@ -71,18 +71,7 @@ class HrHolidays(orm.Model):
 # 1 for 'unpaid leaves' + repos compensateur + congés conventionnels + maladie
 # 1 or 2 for normal holidays
 
-    def _compute_number_of_days(self, cr, uid, ids, name, args, context=None):
-        result = {}
-        for hol in self.browse(cr, uid, ids, context=context):
-            if hol.type == 'remove':
-                # read number_of_days_remove instead of number_of_days_temp
-                result[hol.id] = -hol.number_of_days_remove
-            else:
-                # for allocations, we read the native field number_of_days_temp
-                result[hol.id] = hol.number_of_days_temp
-        return result
-
-    def _compute_number_of_days_remove(
+    def _compute_number_of_days(
             self, cr, uid, ids, name, args, context=None):
         res = {}
         # depend on the holiday_status_id
@@ -148,7 +137,18 @@ class HrHolidays(orm.Model):
                         break
                     date_dt += relativedelta(days=1)
 
-            res[hol.id] = days
+            if hol.type == 'remove':
+                # read number_of_days_remove instead of number_of_days_temp
+                res[hol.id] = {
+                    'number_of_days': days * -1,
+                    'number_of_days_remove': days,
+                    }
+            else:
+                # for allocations, we read the native field number_of_days_temp
+                res[hol.id] = {
+                    'number_of_days': hol.number_of_days_temp,
+                    'number_of_days_remove': 0,
+                    }
         return res
 
     def _compute_current_leaves(self, cr, uid, ids, name, arg, context=None):
@@ -201,12 +201,13 @@ class HrHolidays(orm.Model):
             help="For example, if you leave one full calendar week, "
             "the end of vacation is Friday Evening"),
         'number_of_days_remove': fields.function(
-            _compute_number_of_days_remove,
-            string="Number of Days of Vacation",
+            _compute_number_of_days,
+            string="Number of Days of Vacation", multi='holdays',
             type="float", readonly=True),
         # number_of_days is a native field that I inherit
         'number_of_days': fields.function(
-            _compute_number_of_days, string='Number of Days', store=True),
+            _compute_number_of_days, string='Number of Days',
+            multi='holdays', store=True),
         'current_leaves_taken': fields.function(
             _compute_current_leaves, string='Current Leaves Taken',
             multi='usability', type='float', readonly=True),
@@ -218,7 +219,8 @@ class HrHolidays(orm.Model):
             multi='usability', type='float', readonly=True),
         'limit': fields.related(
             'holiday_status_id', 'limit', type='boolean',
-            string='Allow to Override Limit')
+            string='Allow to Override Limit'),
+        'posted_date': fields.date('Posted Date', track_visibility='onchange'),
         }
 
     _defaults = {
