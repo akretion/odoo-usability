@@ -35,6 +35,7 @@
         'wizard/hr_holidays_mass_allocation_view.xml',
         'hr_holidays_view.xml',
         'hr_holidays_mail.xml',
+        'res_company_view.xml',
         ],
     'installable': True,
 }

@@ -32,6 +32,13 @@ class HrHolidaysMassAllocation(orm.TransientModel):
     def _get_all_employees(self, cr, uid, context=None):
         return self.pool['hr.employee'].search(cr, uid, [], context=context)
 
+    def _get_default_holiday_status(self, cr, uid, context=None):
+        user = self.pool['res.users'].browse(cr, uid, uid, context=context)
+        if user.company_id.mass_allocation_default_holiday_status_id:
+            return user.company_id.mass_allocation_default_holiday_status_id.id
+        else:
+            return False
+
     _columns = {
         'number_of_days': fields.float('Number of Days', required=True),
         'holiday_status_id': fields.many2one(
@@ -47,6 +54,7 @@ class HrHolidaysMassAllocation(orm.TransientModel):
         'number_of_days': 2.08,
         'employee_ids': _get_all_employees,
         'auto_approve': True,
+        'holiday_status_id': _get_default_holiday_status,
     }
 
     _sql_constraints = [(

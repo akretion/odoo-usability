@@ -343,9 +343,19 @@ class HrHolidays(orm.Model):
                         raise orm.except_orm(
                             _('Warning!'),
                             _('There are not enough %s allocated for '
-                                'employee %s (requesting %s but only %s left).')
+                                'employee %s (requesting %s but only %s '
+                                'left).')
                             % (record.holiday_status_id.name,
                                 record.employee_id.name,
                                 record.number_of_days * -1,
                                 leaves_rest))
         return True
+
+
+class ResCompany(orm.Model):
+    _inherit = 'res.company'
+
+    _columns = {
+        'mass_allocation_default_holiday_status_id': fields.many2one(
+            'hr.holidays.status', 'Default Leave Type for Mass Allocation'),
+        }
