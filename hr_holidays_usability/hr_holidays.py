@@ -151,6 +151,32 @@ class HrHolidays(orm.Model):
             res[hol.id] = days
         return res
 
+    def _compute_current_leaves(self, cr, uid, ids, name, arg, context=None):
+        res = {}
+        for hol in self.browse(cr, uid, ids, context=context):
+            if (
+                    hol.holiday_type == 'employee' and
+                    hol.employee_id and
+                    hol.holiday_status_id):
+                days = self.pool['hr.holidays.status'].get_days(
+                    cr, uid, [hol.holiday_status_id.id], hol.employee_id.id,
+                    False, context=context)
+                res[hol.id] = {
+                    'total_allocated_leaves':
+                    days[hol.holiday_status_id.id]['max_leaves'],
+                    'current_leaves_taken':
+                    days[hol.holiday_status_id.id]['leaves_taken'],
+                    'current_remaining_leaves':
+                    days[hol.holiday_status_id.id]['remaining_leaves'],
+                    }
+            else:
+                res[hol.id] = {
+                    'total_allocated_leaves': 0,
+                    'current_leaves_taken': 0,
+                    'current_remaining_leaves': 0,
+                }
+        return res
+
     _columns = {
         'vacation_date_from': fields.date(
             'First Day of Vacation', track_visibility='onchange',
@@ -181,6 +207,18 @@ class HrHolidays(orm.Model):
         # number_of_days is a native field that I inherit
         'number_of_days': fields.function(
             _compute_number_of_days, string='Number of Days', store=True),
+        'current_leaves_taken': fields.function(
+            _compute_current_leaves, string='Current Leaves Taken',
+            multi='usability', type='float', readonly=True),
+        'current_remaining_leaves': fields.function(
+            _compute_current_leaves, string='Current Remaining Leaves',
+            multi='usability', type='float', readonly=True),
+        'total_allocated_leaves': fields.function(
+            _compute_current_leaves, string='Total Allocated Leaves',
+            multi='usability', type='float', readonly=True),
+        'limit': fields.related(
+            'holiday_status_id', 'limit', type='boolean',
+            string='Allow to Override Limit')
         }
 
     _defaults = {
@@ -288,3 +326,26 @@ class HrHolidays(orm.Model):
             datetime_str = datetime_dt.astimezone(pytz.utc).strftime(
                 DEFAULT_SERVER_DATETIME_FORMAT)
         return {'value': {'date_to': datetime_str}}
+
+    # Native method that I inherit
+    def check_holidays(self, cr, uid, ids, context=None):
+        holi_status_obj = self.pool.get('hr.holidays.status')
+        for record in self.browse(cr, uid, ids):
+            if record.holiday_type == 'employee' and record.type == 'remove':
+                if record.employee_id and not record.holiday_status_id.limit:
+                    leaves_rest = holi_status_obj.get_days(
+                        cr, uid, [record.holiday_status_id.id],
+                        record.employee_id.id,
+                        False)[record.holiday_status_id.id]['remaining_leaves']
+                    # here is the code that I modify
+                    #if leaves_rest < record.number_of_days_temp:
+                    if leaves_rest < record.number_of_days * -1:
+                        raise orm.except_orm(
+                            _('Warning!'),
+                            _('There are not enough %s allocated for '
+                                'employee %s (requesting %s but only %s left).')
+                            % (record.holiday_status_id.name,
+                                record.employee_id.name,
+                                record.number_of_days * -1,
+                                leaves_rest))
+        return True

@@ -34,6 +34,26 @@
             <field name="vacation_date_to" on_change="vacation_to(vacation_date_to, vacation_time_to, context)" required="1"/>
             <field name="vacation_time_to" on_change="vacation_to(vacation_date_to, vacation_time_to, context)" required="1"/>
         </field>
+        <xpath expr="//field[@name='department_id']/.." position="after">
+            <group string="Meter for this leave type" name="counters" attrs="{'invisible': [('limit', '=', True)]}">
+                <field name="limit" invisible="1"/>
+                <label for="total_allocated_leaves"/>
+                <div>
+                    <field name="total_allocated_leaves" class="oe_inline"/>
+                    <label string=" days" class="oe_inline"/>
+                </div>
+                <label for="current_leaves_taken"/>
+                <div>
+                    <field name="current_leaves_taken" class="oe_inline"/>
+                    <label string=" days" class="oe_inline"/>
+                </div>
+                <label for="current_remaining_leaves"/>
+                <div>
+                    <field name="current_remaining_leaves" class="oe_inline"/>
+                    <label string=" days" class="oe_inline"/>
+                </div>
+            </group>
+        </xpath>
     </field>
 </record>
 

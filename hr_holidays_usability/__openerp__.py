@@ -32,6 +32,7 @@
     'website': 'http://www.akretion.com',
     'depends': ['hr_holidays', 'hr_public_holidays'],
     'data': [
+        'wizard/hr_holidays_mass_allocation_view.xml',
         'hr_holidays_view.xml',
         'hr_holidays_mail.xml',
         ],
