@@ -244,7 +244,11 @@ class HrHolidays(orm.Model):
             context = {}
         hour = 0  # = morning
         if vacation_time_from and vacation_time_from == 'noon':
-            hour = 12  # noon, LOCAL TIME
+            hour = 13  # noon, LOCAL TIME
+            # Warning : when the vacation STARTs at Noon, it starts at 1 p.m.
+            # to avoid an overlap (which would be blocked by a constraint of
+            # hr_holidays) if a user requests 2 half-days with different
+            # holiday types on the same day
         datetime_str = False
         if vacation_date_from:
             date_dt = datetime.strptime(
@@ -265,7 +269,11 @@ class HrHolidays(orm.Model):
             context=None):
         hour = 23  # = evening
         if vacation_time_to and vacation_time_to == 'noon':
-            hour = 14  # Noon, LOCAL TIME
+            hour = 12  # Noon, LOCAL TIME
+            # Warning : when vacation STOPs at Noon, it stops at 12 a.m.
+            # to avoid an overlap (which would be blocked by a constraint of
+            # hr_holidays) if a user requests 2 half-days with different
+            # holiday types on the same day
         datetime_str = False
         if vacation_date_to:
             date_dt = datetime.strptime(
