@@ -345,8 +345,8 @@ class HrHolidays(orm.Model):
                         raise orm.except_orm(
                             _('Warning!'),
                             _('There are not enough %s allocated for '
-                                'employee %s (requesting %s but only %s '
-                                'left).')
+                                'employee %s (requesting %s days but only %s '
+                                'days left).')
                             % (record.holiday_status_id.name,
                                 record.employee_id.name,
                                 record.number_of_days * -1,

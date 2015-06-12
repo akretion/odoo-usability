@@ -125,7 +125,7 @@ msgstr "\n"
 #. module: hr_holidays_usability
 #: view:hr.holidays:0
 msgid " days"
-msgstr " days"
+msgstr " jours"
 
 #. module: hr_holidays_usability
 #: model:email.template,subject:hr_holidays_usability.email_template_hr_holidays
@@ -155,13 +155,13 @@ msgstr "Auto-email validated leave"
 #. module: hr_holidays_usability
 #: field:hr.holidays.mass.allocation,auto_approve:0
 msgid "Automatic Approval"
-msgstr "Automatic Approval"
+msgstr "Validation automatique"
 
 #. module: hr_holidays_usability
 #: view:hr.holidays.mass.allocation:0
 #: view:hr.holidays.post:0
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Annuler"
 
 #. module: hr_holidays_usability
 #: model:ir.model,name:hr_holidays_usability.model_res_company
@@ -171,35 +171,35 @@ msgstr "Sociétés"
 #. module: hr_holidays_usability
 #: view:hr.holidays:0
 msgid "Counter for this leave type"
-msgstr "Counter for this leave type"
+msgstr "Compteur pour ce type de congé"
 
 #. module: hr_holidays_usability
 #: model:ir.actions.act_window,name:hr_holidays_usability.hr_holidays_employee_counter_action
 #: model:ir.ui.menu,name:hr_holidays_usability.hr_holidays_employee_counter_menu
 msgid "Counters"
-msgstr "Counters"
+msgstr "Compteurs"
 
 #. module: hr_holidays_usability
 #: view:hr.holidays.mass.allocation:0
 msgid "Create Allocations"
-msgstr "Create Allocations"
+msgstr "Créer des attributions"
 
 #. module: hr_holidays_usability
 #: field:hr.holidays,current_leaves_taken:0
 #: field:hr.holidays.employee.counter,current_leaves_taken:0
 msgid "Current Leaves Taken"
-msgstr "Current Leaves Taken"
+msgstr "Congés pris"
 
 #. module: hr_holidays_usability
 #: field:hr.holidays,current_remaining_leaves:0
 #: field:hr.holidays.employee.counter,current_remaining_leaves:0
 msgid "Current Remaining Leaves"
-msgstr "Current Remaining Leaves"
+msgstr "Congés restants"
 
 #. module: hr_holidays_usability
 #: field:res.company,mass_allocation_default_holiday_status_id:0
 msgid "Default Leave Type for Mass Allocation"
-msgstr "Default Leave Type for Mass Allocation"
+msgstr "Type de congé par défaut pour attribution en masse"
 
 #. module: hr_holidays_usability
 #: field:hr.holidays.mass.allocation,name:0
@@ -209,12 +209,12 @@ msgstr "Description"
 #. module: hr_holidays_usability
 #: selection:hr.holidays.post,state:0
 msgid "Done"
-msgstr "Done"
+msgstr ""
 
 #. module: hr_holidays_usability
 #: selection:hr.holidays.post,state:0
 msgid "Draft"
-msgstr "Draft"
+msgstr ""
 
 #. module: hr_holidays_usability
 #: view:hr.holidays.employee.counter:0
@@ -226,12 +226,12 @@ msgstr "Employé"
 #. module: hr_holidays_usability
 #: view:hr.holidays.employee.counter:0
 msgid "Employee Holidays Counters"
-msgstr "Employee Holidays Counters"
+msgstr "Compteurs de congé de l'employé"
 
 #. module: hr_holidays_usability
 #: field:hr.holidays.mass.allocation,employee_ids:0
 msgid "Employees"
-msgstr "Employees"
+msgstr "Employés"
 
 #. module: hr_holidays_usability
 #: field:hr.holidays,vacation_time_to:0
@@ -285,12 +285,12 @@ msgstr "Par exemple, si vous partez en congé pendant une semaine calendaire, le
 #. module: hr_holidays_usability
 #: view:hr.holidays.post:0
 msgid "Get Holiday Requests"
-msgstr "Get Holiday Requests"
+msgstr "Obtenir les congés"
 
 #. module: hr_holidays_usability
 #: view:hr.holidays.employee.counter:0
 msgid "Group By"
-msgstr "Group By"
+msgstr "Grouper par"
 
 #. module: hr_holidays_usability
 #: selection:hr.holidays.status,vacation_compute_method:0
@@ -316,7 +316,7 @@ msgstr "Congé"
 #: view:hr.holidays.post:0
 #: field:hr.holidays.post,holidays_to_post_ids:0
 msgid "Leave Requests to Post"
-msgstr "Leave Requests to Post"
+msgstr "Congés à comptabiliser"
 
 #. module: hr_holidays_usability
 #: view:hr.holidays.employee.counter:0
@@ -342,12 +342,12 @@ msgstr "Calendrier des absences"
 #: model:ir.actions.act_window,name:hr_holidays_usability.hr_holidays_mass_allocation_action
 #: model:ir.ui.menu,name:hr_holidays_usability.hr_holidays_mass_allocation_menu
 msgid "Mass Allocation"
-msgstr "Mass Allocation"
+msgstr "Attribution en masse"
 
 #. module: hr_holidays_usability
 #: view:hr.holidays.mass.allocation:0
 msgid "Mass Allocation of Holidays"
-msgstr "Mass Allocation of Holidays"
+msgstr "Attribution de congés en masse"
 
 #. module: hr_holidays_usability
 #: selection:hr.holidays,vacation_time_from:0
@@ -357,8 +357,8 @@ msgstr "Matin"
 #. module: hr_holidays_usability
 #: code:addons/hr_holidays_usability/wizard/hr_holidays_post.py:85
 #, python-format
-msgid "No  for the number of days."
-msgstr "No  for the number of days."
+msgid "No leave request to post."
+msgstr "Aucun congé à comptabiliser."
 
 #. module: hr_holidays_usability
 #: selection:hr.holidays,vacation_time_from:0
@@ -369,7 +369,7 @@ msgstr "Midi"
 #. module: hr_holidays_usability
 #: field:hr.holidays.mass.allocation,number_of_days:0
 msgid "Number of Days"
-msgstr "Number of Days"
+msgstr "Nombre de jours"
 
 #. module: hr_holidays_usability
 #: field:hr.holidays,number_of_days_remove:0
@@ -379,28 +379,28 @@ msgstr "Nombre de jours de congé"
 #. module: hr_holidays_usability
 #: view:hr.holidays.post:0
 msgid "Post"
-msgstr "Post"
+msgstr "Comptabiliser"
 
 #. module: hr_holidays_usability
 #: model:ir.actions.act_window,name:hr_holidays_usability.hr_holidays_post_action
 #: model:ir.ui.menu,name:hr_holidays_usability.hr_holidays_post_menu
 msgid "Post Leave Requests"
-msgstr "Post Leave Requests"
+msgstr "Comptabiliser les congés"
 
 #. module: hr_holidays_usability
 #: view:hr.holidays.post:0
 msgid "Post Leaves"
-msgstr "Post Leaves"
+msgstr "Comptabiliser les congés"
 
 #. module: hr_holidays_usability
 #: field:hr.holidays,posted_date:0
 msgid "Posted Date"
-msgstr "Posted Date"
+msgstr "Date de comptabilisation"
 
 #. module: hr_holidays_usability
 #: field:hr.holidays.post,before_date:0
-msgid "Select Holidays That Ended Before"
-msgstr "Select Holidays That Ended Before"
+msgid "Select Leave Requests That Ended Before"
+msgstr "Sélectionner les congés pris avant le"
 
 #. module: hr_holidays_usability
 #: field:hr.holidays,vacation_time_from:0
@@ -410,7 +410,7 @@ msgstr "Début du congé"
 #. module: hr_holidays_usability
 #: field:hr.holidays.post,state:0
 msgid "State"
-msgstr "State"
+msgstr ""
 
 #. module: hr_holidays_usability
 #: code:addons/hr_holidays_usability/hr_holidays.py:238
@@ -445,7 +445,7 @@ msgstr "Le dernier jour de congé ne peut pas être un jour férié !"
 #. module: hr_holidays_usability
 #: sql_constraint:hr.holidays.mass.allocation:0
 msgid "The number of days must be positive"
-msgstr "The number of days must be positive"
+msgstr "Le nombre de jours doit être positif"
 
 #. module: hr_holidays_usability
 #: code:addons/hr_holidays_usability/hr_holidays.py:244
@@ -456,29 +456,29 @@ msgstr "Le début du congé est égal à la fin du congé !"
 #. module: hr_holidays_usability
 #: help:hr.holidays.post,before_date:0
 msgid "The wizard will select the validated holidays that ended before that date (including holidays that ended on that date)."
-msgstr "The wizard will select the validated holidays that ended before that date (including holidays that ended on that date)."
+msgstr "L'assistant sélectionnera les congés validés qui se sont terminés avant cette date ou à cette date."
 
 #. module: hr_holidays_usability
 #: code:addons/hr_holidays_usability/hr_holidays.py:347
 #, python-format
-msgid "There are not enough %s allocated for employee %s (requesting %s but only %s left)."
-msgstr "There are not enough %s allocated for employee %s (requesting %s but only %s left)."
+msgid "There are not enough %s allocated for employee %s (requesting %s days but only %s days left)."
+msgstr "Il n'y a pas assez de %s attribués à l'employé %s (demande de %s jours mais il ne reste que %s jours)."
 
 #. module: hr_holidays_usability
 #: field:hr.holidays,total_allocated_leaves:0
 #: field:hr.holidays.employee.counter,total_allocated_leaves:0
 msgid "Total Allocated Leaves"
-msgstr "Total Allocated Leaves"
+msgstr "Total des congés attribués"
 
 #. module: hr_holidays_usability
 #: view:hr.holidays:0
 msgid "Total Days of Vacation"
-msgstr "Total Days of Vacation"
+msgstr "Total des congés pris"
 
 #. module: hr_holidays_usability
 #: view:hr.holidays.employee.counter:0
 msgid "Total Remaining Leaves"
-msgstr "Total Remaining Leaves"
+msgstr "Total des congés restants"
 
 #. module: hr_holidays_usability
 #: field:hr.holidays.status,vacation_compute_method:0
@@ -494,29 +494,29 @@ msgstr "Warning!"
 #. module: hr_holidays_usability
 #: model:ir.model,name:hr_holidays_usability.model_hr_holidays_mass_allocation
 msgid "Wizard for mass allocation of holidays"
-msgstr "Wizard for mass allocation of holidays"
+msgstr "Assistant pour l'attribution de congés en masse"
 
 #. module: hr_holidays_usability
 #: model:ir.model,name:hr_holidays_usability.model_hr_holidays_post
 msgid "Wizard for post holidays"
-msgstr "Wizard for post holidays"
+msgstr "Assistant pour la comptabilisation des congés"
 
 #. module: hr_holidays_usability
 #: code:addons/hr_holidays_usability/wizard/hr_holidays_mass_allocation.py:76
 #, python-format
 msgid "You must select at least one employee."
-msgstr "You must select at least one employee."
+msgstr "Vous devez sélectionner au moins un employé."
 
 #. module: hr_holidays_usability
 #: code:addons/hr_holidays_usability/wizard/hr_holidays_mass_allocation.py:72
 #, python-format
 msgid "You must set a value for the number of days."
-msgstr "You must set a value for the number of days."
+msgstr "Vous devez entrer une valeur pour le nombre de jours."
 
 #. module: hr_holidays_usability
 #: constraint:hr.holidays:0
 msgid "error msg in raise"
-msgstr "error msg in raise"
+msgstr ""
 
 #. module: hr_holidays_usability
 #: model:ir.model,name:hr_holidays_usability.model_hr_holidays_employee_counter

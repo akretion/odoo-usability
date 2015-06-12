@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-11 22:19+0000\n"
-"PO-Revision-Date: 2015-06-11 22:19+0000\n"
+"POT-Creation-Date: 2015-06-12 07:36+0000\n"
+"PO-Revision-Date: 2015-06-12 07:36+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,48 +24,37 @@ msgid "\n"
 "<p>WARNING : THIS IS A TEST E-MAIL sent from a test OpenERP database (${ctx.get('dbname')}). Do not take into account !</p>\n"
 "\n"
 "% endif\n"
-"<p>La ${object.type == 'remove' and 'demande' or \"demande d'ATTRIBUTION\"} de congé a été ${ctx.get('wkf_tracker') or 'ERROR'} aujourd'hui dans OpenERP par ${user.name or ''} :</p>\n"
+"<p>The following ${object.type == 'remove' and 'leave request' or 'ALLOCATION request (i.e. credit of days, not debit !)'} has been ${ctx.get('wkf_tracker') or 'ERROR'} today in OpenERP by ${user.name or ''} :</p>\n"
 "\n"
 "<ul>\n"
-"<li>Employé : ${object.employee_id.name or ''}</li>\n"
+"<li>Employee : ${object.employee_id.name or ''}</li>\n"
 "% if object.employee_id.parent_id:\n"
-"<li>Manager : ${object.employee_id.parent_id.name or ''}</li>\n"
+"<li>Employee's manager : ${object.employee_id.parent_id.name or ''}</li>\n"
 "% endif\n"
 "% if object.type == 'remove':\n"
-"<li>Début : ${object.vacation_date_from or ''}\n"
-"% if object.vacation_time_from == 'morning':\n"
-"au matin\n"
-"% elif object.vacation_time_from == 'noon':\n"
-"midi\n"
+"<li>Start date : ${object.vacation_date_from or ''} ${object.vacation_time_from or ''}</li>\n"
+"<li>End date : ${object.vacation_date_to or ''} ${object.vacation_time_to or ''}</li>\n"
 "% endif\n"
-"</li>\n"
-"<li>Fin : ${object.vacation_date_to or ''}\n"
-"% if object.vacation_time_to == 'noon':\n"
-"midi\n"
-"% elif object.vacation_time_to == 'evening':\n"
-"au soir\n"
-"% endif\n"
-"</li>\n"
-"% endif\n"
-"<li>Nombre de jours : ${object.number_of_days < 0 and object.number_of_days * -1 or object.number_of_days}</li>\n"
-"<li>Type de congé : ${object.holiday_status_id.name or ''}</li>\n"
+"<li>Number of days : ${object.number_of_days < 0 and object.number_of_days * -1 or object.number_of_days}</li>\n"
+"<li>Leave type : ${object.holiday_status_id.name or ''}</li>\n"
 "<li>Description : ${object.name or ''}</li>\n"
 "% if object.notes:\n"
 "<li>Notes : ${object.notes or ''}</li>\n"
 "% endif\n"
 "</ul>\n"
 "\n"
-"% if ctx.get('wkf_tracker') == 'soumise':\n"
+"% if ctx.get('wkf_tracker') == 'submitted':\n"
 "% if object.type == 'remove':\n"
-"<p>Pour la valider ou la refuser, allez dans le menu Ressources humaines > Congés > Demandes de congé à valider.</p>\n"
+"<p>To validate or refuse it, go to the menu Human Resources > Leaves > Leave requests to approve.</p>\n"
 "% else:\n"
-"<p>Pour la valider ou la refuser, allez dans le menu Ressources humaines > Congés > Demandes d'attribution de congés à valider.</p>\n"
+"<p>To validate or refuse it, go to the menu Human Resources > Leaves > Allocation requests.</p>\n"
 "% endif\n"
+"\n"
 "% endif\n"
 "<p>\n"
 "-- <br/>\n"
-"Mail envoyé automatiquement par OpenERP. Ne pas répondre.<br/>\n"
-"Base de donnée : ${ctx.get('dbname')}<br/>\n"
+"Automatic e-mail sent by OpenERP. Do not reply.<br/>\n"
+"Database : ${ctx.get('dbname')}<br/>\n"
 "</p>\n"
 "</div>\n"
 ""
@@ -78,7 +67,7 @@ msgstr ""
 
 #. module: hr_holidays_usability
 #: model:email.template,subject:hr_holidays_usability.email_template_hr_holidays
-msgid "${ctx.get('dbname') and 'prod' not in ctx.get('dbname') and '[TEST]' or ''}[${object.type == 'remove' and 'Demande' or 'Attribution'} de congé ${ctx.get('wkf_tracker')}] ${object.name or ''} - ${object.employee_id.name or ''}"
+msgid "${ctx.get('dbname') and 'prod' not in ctx.get('dbname') and '[TEST]' or ''}[${object.type == 'remove' and 'Leave' or 'Allocation'} ${ctx.get('wkf_tracker')}] ${object.name or ''} - ${object.employee_id.name or ''}"
 msgstr ""
 
 #. module: hr_holidays_usability
@@ -129,6 +118,11 @@ msgid "Counters"
 msgstr ""
 
 #. module: hr_holidays_usability
+#: model:ir.model,name:hr_holidays_usability.model_hr_holidays_employee_counter
+msgid "Counters for holidays of employees"
+msgstr ""
+
+#. module: hr_holidays_usability
 #: view:hr.holidays.mass.allocation:0
 msgid "Create Allocations"
 msgstr ""
@@ -168,7 +162,6 @@ msgstr ""
 #. module: hr_holidays_usability
 #: view:hr.holidays.employee.counter:0
 #: field:hr.holidays.employee.counter,employee_id:0
-#: model:ir.model,name:hr_holidays_usability.model_hr_employee
 msgid "Employee"
 msgstr ""
 
@@ -195,20 +188,6 @@ msgstr ""
 #. module: hr_holidays_usability
 #: help:hr.holidays,vacation_date_to:0
 msgid "Enter the last day of vacation. For example, if you leave one full calendar week, the last day of vacation is Friday evening (and not Monday of the week after)"
-msgstr ""
-
-#. module: hr_holidays_usability
-#: code:addons/hr_holidays_usability/hr_holidays.py:237
-#: code:addons/hr_holidays_usability/hr_holidays.py:243
-#: code:addons/hr_holidays_usability/hr_holidays.py:250
-#: code:addons/hr_holidays_usability/hr_holidays.py:257
-#: code:addons/hr_holidays_usability/hr_holidays.py:263
-#: code:addons/hr_holidays_usability/hr_holidays.py:269
-#: code:addons/hr_holidays_usability/wizard/hr_holidays_mass_allocation.py:71
-#: code:addons/hr_holidays_usability/wizard/hr_holidays_mass_allocation.py:75
-#: code:addons/hr_holidays_usability/wizard/hr_holidays_post.py:84
-#, python-format
-msgid "Error:"
 msgstr ""
 
 #. module: hr_holidays_usability
@@ -304,12 +283,6 @@ msgid "Morning"
 msgstr ""
 
 #. module: hr_holidays_usability
-#: code:addons/hr_holidays_usability/wizard/hr_holidays_post.py:85
-#, python-format
-msgid "No  for the number of days."
-msgstr ""
-
-#. module: hr_holidays_usability
 #: selection:hr.holidays,vacation_time_from:0
 #: selection:hr.holidays,vacation_time_to:0
 msgid "Noon"
@@ -348,7 +321,7 @@ msgstr ""
 
 #. module: hr_holidays_usability
 #: field:hr.holidays.post,before_date:0
-msgid "Select Holidays That Ended Before"
+msgid "Select Leave Requests That Ended Before"
 msgstr ""
 
 #. module: hr_holidays_usability
@@ -362,55 +335,13 @@ msgid "State"
 msgstr ""
 
 #. module: hr_holidays_usability
-#: code:addons/hr_holidays_usability/hr_holidays.py:238
-#, python-format
-msgid "The first day cannot be after the last day !"
-msgstr ""
-
-#. module: hr_holidays_usability
-#: code:addons/hr_holidays_usability/hr_holidays.py:264
-#, python-format
-msgid "The first day of vacation cannot be a bank holiday !"
-msgstr ""
-
-#. module: hr_holidays_usability
-#: code:addons/hr_holidays_usability/hr_holidays.py:251
-#, python-format
-msgid "The first day of vacation cannot be a saturday or sunday !"
-msgstr ""
-
-#. module: hr_holidays_usability
-#: code:addons/hr_holidays_usability/hr_holidays.py:258
-#, python-format
-msgid "The last day of Vacation cannot be a saturday or sunday !"
-msgstr ""
-
-#. module: hr_holidays_usability
-#: code:addons/hr_holidays_usability/hr_holidays.py:270
-#, python-format
-msgid "The last day of vacation cannot be a bank holiday !"
-msgstr ""
-
-#. module: hr_holidays_usability
 #: sql_constraint:hr.holidays.mass.allocation:0
 msgid "The number of days must be positive"
 msgstr ""
 
 #. module: hr_holidays_usability
-#: code:addons/hr_holidays_usability/hr_holidays.py:244
-#, python-format
-msgid "The start of vacation is exactly the same as the end !"
-msgstr ""
-
-#. module: hr_holidays_usability
 #: help:hr.holidays.post,before_date:0
 msgid "The wizard will select the validated holidays that ended before that date (including holidays that ended on that date)."
-msgstr ""
-
-#. module: hr_holidays_usability
-#: code:addons/hr_holidays_usability/hr_holidays.py:347
-#, python-format
-msgid "There are not enough %s allocated for employee %s (requesting %s but only %s left)."
 msgstr ""
 
 #. module: hr_holidays_usability
@@ -435,12 +366,6 @@ msgid "Vacation Compute Method"
 msgstr ""
 
 #. module: hr_holidays_usability
-#: code:addons/hr_holidays_usability/hr_holidays.py:346
-#, python-format
-msgid "Warning!"
-msgstr ""
-
-#. module: hr_holidays_usability
 #: model:ir.model,name:hr_holidays_usability.model_hr_holidays_mass_allocation
 msgid "Wizard for mass allocation of holidays"
 msgstr ""
@@ -451,24 +376,7 @@ msgid "Wizard for post holidays"
 msgstr ""
 
 #. module: hr_holidays_usability
-#: code:addons/hr_holidays_usability/wizard/hr_holidays_mass_allocation.py:76
-#, python-format
-msgid "You must select at least one employee."
-msgstr ""
-
-#. module: hr_holidays_usability
-#: code:addons/hr_holidays_usability/wizard/hr_holidays_mass_allocation.py:72
-#, python-format
-msgid "You must set a value for the number of days."
-msgstr ""
-
-#. module: hr_holidays_usability
 #: constraint:hr.holidays:0
 msgid "error msg in raise"
-msgstr ""
-
-#. module: hr_holidays_usability
-#: model:ir.model,name:hr_holidays_usability.model_hr_holidays_employee_counter
-msgid "hr.holidays.employee.counter"
 msgstr ""
 

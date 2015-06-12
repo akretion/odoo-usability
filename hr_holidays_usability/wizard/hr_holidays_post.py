@@ -30,7 +30,7 @@ class HrHolidaysPost(orm.TransientModel):
 
     _columns = {
         'before_date': fields.date(
-            'Select Holidays That Ended Before', required=True,
+            'Select Leave Requests That Ended Before', required=True,
             help="The wizard will select the validated holidays "
             "that ended before that date (including holidays that "
             "ended on that date)."),
@@ -82,7 +82,7 @@ class HrHolidaysPost(orm.TransientModel):
         if not wiz.holidays_to_post_ids:
             raise orm.except_orm(
                 _('Error:'),
-                _('No  for the number of days.'))
+                _('No leave request to post.'))
         hol_ids = self.read(
             cr, uid, ids[0], context=context)['holidays_to_post_ids']
         self.pool['hr.holidays'].write(
