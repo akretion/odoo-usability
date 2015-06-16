@@ -59,6 +59,11 @@
             <field name="push_rule_id" readonly="1"
                 groups="stock.group_stock_manager"/>
         </field>
+        <group name="quants_grp" position="after">
+            <group name="note" string="Notes" colspan="4">
+                <field name="note" nolabel="1"/>
+            </group>
+        </group>
     </field>
 </record>
 
@@ -77,6 +82,11 @@
             <field name="push_rule_id" readonly="1"
                 groups="stock.group_stock_manager"/>
         </field>
+        <group name="quants_grp" position="after">
+            <group name="note" string="Notes" colspan="4">
+                <field name="note" nolabel="1"/>
+            </group>
+        </group>
     </field>
 </record>
 
@@ -96,6 +106,7 @@
         </group>
         <field name="wh_input_stock_loc_id" position="before">
             <field name="lot_stock_id" readonly="1"/>
+            <field name="view_location_id" groups="base.group_no_one"/>
         </field>
     </field>
 </record>
