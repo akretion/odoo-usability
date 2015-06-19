@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-19 16:24+0000\n"
-"PO-Revision-Date: 2015-06-19 16:24+0000\n"
+"POT-Creation-Date: 2015-06-19 16:47+0000\n"
+"PO-Revision-Date: 2015-06-19 16:47+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -139,25 +139,14 @@ msgid "Create Allocations"
 msgstr ""
 
 #. module: hr_holidays_usability
-#: field:hr.holidays,current_leaves_taken:0
-#: field:hr.holidays.employee.counter,current_leaves_taken:0
-msgid "Current Leaves Taken"
-msgstr ""
-
-#. module: hr_holidays_usability
-#: field:hr.holidays.employee.counter,current_leaves_taken_posted:0
-msgid "Current Leaves Taken Posted"
+#: field:hr.holidays.employee.counter,leaves_validated_current:0
+msgid "Current Leaves Validated"
 msgstr ""
 
 #. module: hr_holidays_usability
 #: field:hr.holidays,current_remaining_leaves:0
-#: field:hr.holidays.employee.counter,current_leaves_remaining:0
+#: field:hr.holidays.employee.counter,leaves_remaining_current:0
 msgid "Current Remaining Leaves"
-msgstr ""
-
-#. module: hr_holidays_usability
-#: field:hr.holidays.employee.counter,current_leaves_remaining_posted:0
-msgid "Current Remaining Leaves Posted"
 msgstr ""
 
 #. module: hr_holidays_usability
@@ -302,6 +291,11 @@ msgid "Leaves Calendar"
 msgstr ""
 
 #. module: hr_holidays_usability
+#: field:hr.holidays.employee.counter,leaves_validated_posted:0
+msgid "Leaves Posted"
+msgstr ""
+
+#. module: hr_holidays_usability
 #: model:ir.actions.act_window,name:hr_holidays_usability.hr_holidays_mass_allocation_action
 #: model:ir.ui.menu,name:hr_holidays_usability.hr_holidays_mass_allocation_menu
 msgid "Mass Allocation"
@@ -358,6 +352,11 @@ msgstr ""
 #. module: hr_holidays_usability
 #: field:hr.holidays,posted_date:0
 msgid "Posted Date"
+msgstr ""
+
+#. module: hr_holidays_usability
+#: field:hr.holidays.employee.counter,leaves_remaining_posted:0
+msgid "Posted Remaining Leaves"
 msgstr ""
 
 #. module: hr_holidays_usability
@@ -440,12 +439,12 @@ msgstr ""
 
 #. module: hr_holidays_usability
 #: view:hr.holidays.employee.counter:0
-msgid "Total Remaining Leaves"
+msgid "Total Posted Remaining Leaves"
 msgstr ""
 
 #. module: hr_holidays_usability
 #: view:hr.holidays.employee.counter:0
-msgid "Total Remaining and Posted Leaves"
+msgid "Total Remaining Leaves"
 msgstr ""
 
 #. module: hr_holidays_usability

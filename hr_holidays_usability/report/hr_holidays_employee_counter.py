@@ -35,11 +35,11 @@ class HrHolidaysEmployeeCounter(orm.Model):
         'employee_id': fields.many2one('hr.employee', "Employee"),
         'holiday_status_id': fields.many2one(
             "hr.holidays.status", "Leave Type"),
-        'current_leaves_taken': fields.float('Current Leaves Taken'),
-        'current_leaves_taken_posted': fields.float('Current Leaves Taken Posted'),
-        'current_leaves_remaining': fields.float('Current Remaining Leaves'),
-        'current_leaves_remaining_posted': fields.float('Current Remaining Leaves Posted'),
-        'total_allocated_leaves': fields.float('Total Allocated Leaves'),
+        'leaves_validated_current': fields.float('Current Leaves Validated'),
+        'leaves_validated_posted': fields.float('Leaves Posted'),
+        'leaves_remaining_current': fields.float('Current Remaining Leaves'),
+        'leaves_remaining_posted': fields.float('Posted Remaining Leaves'),
+        'allocated_leaves': fields.float('Allocated Leaves'),
         }
 
     def init(self, cr):
@@ -54,23 +54,23 @@ class HrHolidaysEmployeeCounter(orm.Model):
                         CASE WHEN hh.type='remove'
                         THEN hh.number_of_days * -1
                         ELSE 0
-                        END) AS current_leaves_taken,
+                        END) AS leaves_validated_current,
                     sum(
                         CASE WHEN hh.type='remove' AND hh.posted_date IS NOT null
                         THEN hh.number_of_days * -1
                         ELSE 0
-                        END) AS current_leaves_taken_posted,
-                    sum(hh.number_of_days) AS current_leaves_remaining,
+                        END) AS leaves_validated_posted,
+                    sum(hh.number_of_days) AS leaves_remaining_current,
                     sum(
                         CASE WHEN (hh.type='remove' AND hh.posted_date IS NOT null) OR hh.type='add'
                         THEN hh.number_of_days
                         ELSE 0
-                        END) as current_leaves_remaining_posted,
+                        END) as leaves_remaining_posted,
                     sum(
                         CASE WHEN hh.type = 'add'
                         THEN hh.number_of_days
                         ELSE 0
-                        END) AS total_allocated_leaves
+                        END) AS allocated_leaves
                 FROM
                     hr_holidays hh
                     JOIN hr_holidays_status hhs
