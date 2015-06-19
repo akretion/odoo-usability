@@ -36,7 +36,9 @@ class HrHolidaysEmployeeCounter(orm.Model):
         'holiday_status_id': fields.many2one(
             "hr.holidays.status", "Leave Type"),
         'current_leaves_taken': fields.float('Current Leaves Taken'),
-        'current_remaining_leaves': fields.float('Current Remaining Leaves'),
+        'current_leaves_taken_posted': fields.float('Current Leaves Taken Posted'),
+        'current_leaves_remaining': fields.float('Current Remaining Leaves'),
+        'current_leaves_remaining_posted': fields.float('Current Remaining Leaves Posted'),
         'total_allocated_leaves': fields.float('Total Allocated Leaves'),
         }
 
@@ -53,7 +55,17 @@ class HrHolidaysEmployeeCounter(orm.Model):
                         THEN hh.number_of_days * -1
                         ELSE 0
                         END) AS current_leaves_taken,
-                    sum(hh.number_of_days) AS current_remaining_leaves,
+                    sum(
+                        CASE WHEN hh.type='remove' AND hh.posted_date IS NOT null
+                        THEN hh.number_of_days * -1
+                        ELSE 0
+                        END) AS current_leaves_taken_posted,
+                    sum(hh.number_of_days) AS current_leaves_remaining,
+                    sum(
+                        CASE WHEN (hh.type='remove' AND hh.posted_date IS NOT null) OR hh.type='add'
+                        THEN hh.number_of_days
+                        ELSE 0
+                        END) as current_leaves_remaining_posted,
                     sum(
                         CASE WHEN hh.type = 'add'
                         THEN hh.number_of_days

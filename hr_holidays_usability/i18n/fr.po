@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-11 22:19+0000\n"
-"PO-Revision-Date: 2015-06-11 22:19+0000\n"
+"POT-Creation-Date: 2015-06-19 16:26+0000\n"
+"PO-Revision-Date: 2015-06-19 16:26+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -180,6 +180,11 @@ msgid "Counters"
 msgstr "Compteurs"
 
 #. module: hr_holidays_usability
+#: model:ir.model,name:hr_holidays_usability.model_hr_holidays_employee_counter
+msgid "Counters for holidays of employees"
+msgstr "Compteurs pour les congés des employés"
+
+#. module: hr_holidays_usability
 #: view:hr.holidays.mass.allocation:0
 msgid "Create Allocations"
 msgstr "Créer des attributions"
@@ -191,10 +196,20 @@ msgid "Current Leaves Taken"
 msgstr "Congés pris"
 
 #. module: hr_holidays_usability
+#: field:hr.holidays.employee.counter,current_leaves_taken_posted:0
+msgid "Current Leaves Taken Posted"
+msgstr "Congés pris comptabilisés"
+
+#. module: hr_holidays_usability
 #: field:hr.holidays,current_remaining_leaves:0
-#: field:hr.holidays.employee.counter,current_remaining_leaves:0
+#: field:hr.holidays.employee.counter,current_leaves_remaining:0
 msgid "Current Remaining Leaves"
 msgstr "Congés restants"
+
+#. module: hr_holidays_usability
+#: field:hr.holidays.employee.counter,current_leaves_remaining_posted:0
+msgid "Current Remaining Leaves Posted"
+msgstr "Congés restants comptabilisés"
 
 #. module: hr_holidays_usability
 #: field:res.company,mass_allocation_default_holiday_status_id:0
@@ -209,17 +224,16 @@ msgstr "Description"
 #. module: hr_holidays_usability
 #: selection:hr.holidays.post,state:0
 msgid "Done"
-msgstr ""
+msgstr "Done"
 
 #. module: hr_holidays_usability
 #: selection:hr.holidays.post,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Draft"
 
 #. module: hr_holidays_usability
 #: view:hr.holidays.employee.counter:0
 #: field:hr.holidays.employee.counter,employee_id:0
-#: model:ir.model,name:hr_holidays_usability.model_hr_employee
 msgid "Employee"
 msgstr "Employé"
 
@@ -410,7 +424,7 @@ msgstr "Début du congé"
 #. module: hr_holidays_usability
 #: field:hr.holidays.post,state:0
 msgid "State"
-msgstr ""
+msgstr "State"
 
 #. module: hr_holidays_usability
 #: code:addons/hr_holidays_usability/hr_holidays.py:238
@@ -481,6 +495,11 @@ msgid "Total Remaining Leaves"
 msgstr "Total des congés restants"
 
 #. module: hr_holidays_usability
+#: view:hr.holidays.employee.counter:0
+msgid "Total Remaining and Posted Leaves"
+msgstr "Total des congés restants comptabilisés"
+
+#. module: hr_holidays_usability
 #: field:hr.holidays.status,vacation_compute_method:0
 msgid "Vacation Compute Method"
 msgstr "Méthode de calcul des jours de congé"
@@ -489,7 +508,7 @@ msgstr "Méthode de calcul des jours de congé"
 #: code:addons/hr_holidays_usability/hr_holidays.py:346
 #, python-format
 msgid "Warning!"
-msgstr "Warning!"
+msgstr "Attention !"
 
 #. module: hr_holidays_usability
 #: model:ir.model,name:hr_holidays_usability.model_hr_holidays_mass_allocation
@@ -516,10 +535,5 @@ msgstr "Vous devez entrer une valeur pour le nombre de jours."
 #. module: hr_holidays_usability
 #: constraint:hr.holidays:0
 msgid "error msg in raise"
-msgstr ""
-
-#. module: hr_holidays_usability
-#: model:ir.model,name:hr_holidays_usability.model_hr_holidays_employee_counter
-msgid "hr.holidays.employee.counter"
-msgstr "hr.holidays.employee.counter"
+msgstr "error msg in raise"
 

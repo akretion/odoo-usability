@@ -10,9 +10,12 @@
             <field name="employee_id"
                 invisible="not context.get('hr_holidays_employee_counter_tree_main_view')"/>
             <field name="holiday_status_id"/>
-            <field name="current_leaves_taken"/>
-            <field name="current_remaining_leaves" sum="Total Remaining Leaves"/>
             <field name="total_allocated_leaves"/>
+            <field name="current_leaves_taken"/>
+            <field name="current_leaves_taken_posted"/>
+            <field name="current_leaves_remaining" sum="Total Remaining Leaves"/>
+            <field name="current_leaves_remaining_posted"
+                sum="Total Remaining and Posted Leaves"/>
         </tree>
     </field>
 </record>
