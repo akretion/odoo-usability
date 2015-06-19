@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-19 16:47+0000\n"
-"PO-Revision-Date: 2015-06-19 16:47+0000\n"
+"POT-Creation-Date: 2015-06-19 16:57+0000\n"
+"PO-Revision-Date: 2015-06-19 16:57+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -82,6 +82,11 @@ msgid "${ctx.get('dbname') and 'prod' not in ctx.get('dbname') and '[TEST]' or '
 msgstr ""
 
 #. module: hr_holidays_usability
+#: field:hr.holidays.employee.counter,allocated_leaves:0
+msgid "Allocated Leaves"
+msgstr ""
+
+#. module: hr_holidays_usability
 #: field:hr.holidays,limit:0
 msgid "Allow to Override Limit"
 msgstr ""
@@ -136,6 +141,11 @@ msgstr ""
 #. module: hr_holidays_usability
 #: view:hr.holidays.mass.allocation:0
 msgid "Create Allocations"
+msgstr ""
+
+#. module: hr_holidays_usability
+#: field:hr.holidays,current_leaves_taken:0
+msgid "Current Leaves Taken"
 msgstr ""
 
 #. module: hr_holidays_usability
@@ -428,7 +438,6 @@ msgstr ""
 
 #. module: hr_holidays_usability
 #: field:hr.holidays,total_allocated_leaves:0
-#: field:hr.holidays.employee.counter,total_allocated_leaves:0
 msgid "Total Allocated Leaves"
 msgstr ""
 
@@ -440,11 +449,6 @@ msgstr ""
 #. module: hr_holidays_usability
 #: view:hr.holidays.employee.counter:0
 msgid "Total Posted Remaining Leaves"
-msgstr ""
-
-#. module: hr_holidays_usability
-#: view:hr.holidays.employee.counter:0
-msgid "Total Remaining Leaves"
 msgstr ""
 
 #. module: hr_holidays_usability

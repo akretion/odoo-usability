@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-19 16:47+0000\n"
-"PO-Revision-Date: 2015-06-19 16:47+0000\n"
+"POT-Creation-Date: 2015-06-19 16:56+0000\n"
+"PO-Revision-Date: 2015-06-19 16:56+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -131,6 +131,11 @@ msgstr " jours"
 #: model:email.template,subject:hr_holidays_usability.email_template_hr_holidays
 msgid "${ctx.get('dbname') and 'prod' not in ctx.get('dbname') and '[TEST]' or ''}[${object.type == 'remove' and 'Demande' or 'Attribution'} de congé ${ctx.get('wkf_tracker')}] ${object.name or ''} - ${object.employee_id.name or ''}"
 msgstr "${ctx.get('dbname') and 'prod' not in ctx.get('dbname') and '[TEST]' or ''}[${object.type == 'remove' and 'Demande' or 'Attribution'} de congé ${ctx.get('wkf_tracker')}] ${object.name or ''} - ${object.employee_id.name or ''}"
+
+#. module: hr_holidays_usability
+#: field:hr.holidays.employee.counter,allocated_leaves:0
+msgid "Allocated Leaves"
+msgstr "Congés attribués"
 
 #. module: hr_holidays_usability
 #: field:hr.holidays,limit:0
@@ -479,7 +484,6 @@ msgstr "Il n'y a pas assez de %s attribués à l'employé %s (demande de %s jour
 
 #. module: hr_holidays_usability
 #: field:hr.holidays,total_allocated_leaves:0
-#: field:hr.holidays.employee.counter,total_allocated_leaves:0
 msgid "Total Allocated Leaves"
 msgstr "Total des congés attribués"
 
@@ -492,11 +496,6 @@ msgstr "Total des congés pris"
 #: view:hr.holidays.employee.counter:0
 msgid "Total Posted Remaining Leaves"
 msgstr "Total du solde de congés comptabilisés"
-
-#. module: hr_holidays_usability
-#: view:hr.holidays.employee.counter:0
-msgid "Total Remaining Leaves"
-msgstr "Total du solde de congés"
 
 #. module: hr_holidays_usability
 #: field:hr.holidays.status,vacation_compute_method:0
