@@ -28,11 +28,13 @@ class HrHolidaysMassAllocation(models.TransientModel):
     _name = 'hr.holidays.mass.allocation'
     _description = 'Wizard for mass allocation of holidays'
 
+    @api.model
     def _get_all_employees(self):
-        return self.pool['hr.employee'].search([])
+        return self.env['hr.employee'].search([])
 
+    @api.model
     def _get_default_holiday_status(self):
-        res = self._user.company_id.\
+        res = self.env.user.company_id.\
             mass_allocation_default_holiday_status_id or False
         return res
 

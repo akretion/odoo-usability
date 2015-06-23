@@ -50,7 +50,7 @@ class HrHolidaysPost(models.TransientModel):
     @api.multi
     def select_date(self):
         self.ensure_one()
-        hols = self.pool['hr.holidays'].search([
+        hols = self.env['hr.holidays'].search([
             ('type', '=', 'remove'),
             ('holiday_type', '=', 'employee'),
             ('state', '=', 'validate'),
@@ -69,18 +69,21 @@ class HrHolidaysPost(models.TransientModel):
     @api.multi
     def run(self):
         self.ensure_one()
+        # I have to make a copy of self.holidays_to_post_ids in a variable
+        # because, after the write, it doesn't have a value any more !!!
+        holidays_to_post = self.holidays_to_post_ids
         today = fields.Date.context_today(self)
         if not self.holidays_to_post_ids:
             raise Warning(
                 _('No leave request to post.'))
         self.holidays_to_post_ids.write({'posted_date': today})
-        # On v8, return a graph view !
-        action = self.env['ir.actions.act_window'].for_xml_id(
-            'hr_holidays', 'open_ask_holidays')
-        action.update({
-            'target': 'current',
-            'domain': [('id', 'in', self.holidays_to_post_ids.ids)],
-            'nodestroy': True,
-            'context': {'group_by': ['employee_id', 'holiday_status_id']},
-            })
+        view_id = self.env.ref('hr_holidays_usability.hr_holiday_graph').id
+        action = {
+            'name': _('Leave Requests'),
+            'res_model': 'hr.holidays',
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', holidays_to_post.ids)],
+            'view_mode': 'graph',
+            'view_id': view_id,
+            }
         return action

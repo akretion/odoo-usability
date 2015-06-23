@@ -50,12 +50,16 @@ class HrHolidays(models.Model):
 # For allocation (type = add), we don't change anything:
 # The user writes in the field number_of_days_temp and
 # number_of_days = number_of_days_temp
-# For leave (type = remove), we don't let users enter the number of days,
-# we compute it for them
+# IN 7.0: For leave (type = remove), we don't let users enter the number
+# of days, we compute it for them
 # -> new computed field "number_of_days_remove' that compute the number
 # of days depending on the computation method defined on 'type'
 # Redefine the field 'number_of_days' to take into accout
 # 'number_of_days_remove' when type == remove (= number_of_days_remove * -1)
+# IN 8.0: for leaves, use the on_change on the dates to set the
+# number_of_days_temp. But we want to have this field readonly, so we also
+# inherit write + create (even in v8, readonly fields are not written in DB)
+
 # change date time fields by date + selection morning/noon
 
 # How do we set the dates :
@@ -74,11 +78,7 @@ class HrHolidays(models.Model):
 # 1 for 'unpaid leaves' + repos compensateur + congés conventionnels + maladie
 # 1 or 2 for normal holidays
 
-    @api.one
-    @api.depends(
-        'vacation_date_from', 'vacation_time_from', 'vacation_date_to',
-        'vacation_time_to', 'number_of_days_temp', 'type', 'holiday_type',
-        'holiday_status_id.vacation_compute_method')
+    @api.model
     def _compute_number_of_days(self):
         # depend on the holiday_status_id
         hhpo = self.env['hr.holidays.public']
@@ -89,7 +89,8 @@ class HrHolidays(models.Model):
                 self.vacation_date_from and
                 self.vacation_time_from and
                 self.vacation_date_to and
-                self.vacation_time_to):
+                self.vacation_time_to and
+                self.vacation_date_from <= self.vacation_date_to):
             if self.holiday_status_id.vacation_compute_method == 'business':
                 business = True
             else:
@@ -145,19 +146,7 @@ class HrHolidays(models.Model):
                             days -= 0.5
                     break
                 date_dt += relativedelta(days=1)
-
-        # PASTE
-        if self.type == 'remove':
-            # read number_of_days_remove instead of number_of_days_temp
-            number_of_days = days * -1
-            number_of_days_remove = days
-        else:
-            # for allocations, we read the native field number_of_days_temp
-            number_of_days = self.number_of_days_temp
-            number_of_days_remove = 0
-
-        self.number_of_days = number_of_days
-        self.number_of_days_remove = number_of_days_remove
+        return days
 
     @api.one
     @api.depends('holiday_type', 'employee_id', 'holiday_status_id')
@@ -169,8 +158,7 @@ class HrHolidays(models.Model):
                 self.holiday_type == 'employee' and
                 self.employee_id and
                 self.holiday_status_id):
-            days = self.holiday_status_id.get_days(
-                self.employee_id.id, False)
+            days = self.holiday_status_id.get_days(self.employee_id.id)
             total_allocated_leaves =\
                 days[self.holiday_status_id.id]['max_leaves']
             current_leaves_taken =\
@@ -205,11 +193,6 @@ class HrHolidays(models.Model):
         default='evening',
         help="For example, if you leave one full calendar week, "
         "the end of vacation is Friday Evening")
-    number_of_days_remove = fields.Float(
-        compute='_compute_number_of_days',
-        string="Number of Days of Vacation", readonly=True)
-    # number_of_days is a native field that I inherit
-    number_of_days = fields.Float(compute='_compute_number_of_days')
     current_leaves_taken = fields.Float(
         compute='_compute_current_leaves', string='Current Leaves Taken',
         readonly=True)
@@ -223,6 +206,7 @@ class HrHolidays(models.Model):
         related='holiday_status_id.limit', string='Allow to Override Limit')
     posted_date = fields.Date(
         string='Posted Date', track_visibility='onchange')
+    number_of_days_temp = fields.Float(string="Number of days")
 
     @api.one
     @api.constrains(
@@ -306,8 +290,45 @@ class HrHolidays(models.Model):
                 datetime_dt.astimezone(pytz.utc))
         self.date_to = datetime_str
 
+    @api.onchange(
+        'vacation_date_from', 'vacation_time_from', 'vacation_date_to',
+        'vacation_time_to', 'number_of_days_temp', 'type', 'holiday_type',
+        'holiday_status_id')
+    def leave_number_of_days_change(self):
+        if self.type == 'remove':
+            days = self._compute_number_of_days()
+            self.number_of_days_temp = days
+
+    # Neutralize the native on_change on dates
+    def onchange_date_from(self, cr, uid, ids, date_to, date_from):
+        return {}
+
+    def onchange_date_to(self, cr, uid, ids, date_to, date_from):
+        return {}
+
     # in v8, no more need to inherit check_holidays() as I did in v8
     # because it doesn't use number_of_days_temp
+
+    # I want to set number_of_days_temp as readonly in the view of leaves
+    # and, even in v8, we can't write on a readonly field
+    # So I inherit write and create
+    @api.model
+    def create(self, vals):
+        obj = super(HrHolidays, self).create(vals)
+        if obj.type == 'remove':
+            days = obj._compute_number_of_days()
+            obj.number_of_days_temp = days
+        return obj
+
+    @api.multi
+    def write(self, vals):
+        res = super(HrHolidays, self).write(vals)
+        for obj in self:
+            if obj.type == 'remove':
+                days = obj._compute_number_of_days()
+                if days != obj.number_of_days_temp:
+                    obj.number_of_days_temp = days
+        return res
 
 
 class ResCompany(models.Model):
