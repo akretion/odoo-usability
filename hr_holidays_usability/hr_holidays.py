@@ -146,16 +146,40 @@ class HrHolidays(models.Model):
                     break
                 date_dt += relativedelta(days=1)
 
-        self.number_of_days_remove = days
-
         # PASTE
         if self.type == 'remove':
             # read number_of_days_remove instead of number_of_days_temp
-            number_of_days = -days
+            number_of_days = days * -1
+            number_of_days_remove = days
         else:
             # for allocations, we read the native field number_of_days_temp
             number_of_days = self.number_of_days_temp
+            number_of_days_remove = 0
+
         self.number_of_days = number_of_days
+        self.number_of_days_remove = number_of_days_remove
+
+    @api.one
+    @api.depends('holiday_type', 'employee_id', 'holiday_status_id')
+    def _compute_current_leaves(self):
+        total_allocated_leaves = 0
+        current_leaves_taken = 0
+        current_remaining_leaves = 0
+        if (
+                self.holiday_type == 'employee' and
+                self.employee_id and
+                self.holiday_status_id):
+            days = self.holiday_status_id.get_days(
+                self.employee_id.id, False)
+            total_allocated_leaves =\
+                days[self.holiday_status_id.id]['max_leaves']
+            current_leaves_taken =\
+                days[self.holiday_status_id.id]['leaves_taken']
+            current_remaining_leaves =\
+                days[self.holiday_status_id.id]['remaining_leaves']
+        self.total_allocated_leaves = total_allocated_leaves
+        self.current_leaves_taken = current_leaves_taken
+        self.current_remaining_leaves = current_remaining_leaves
 
     vacation_date_from = fields.Date(
         string='First Day of Vacation', track_visibility='onchange',
@@ -186,6 +210,19 @@ class HrHolidays(models.Model):
         string="Number of Days of Vacation", readonly=True)
     # number_of_days is a native field that I inherit
     number_of_days = fields.Float(compute='_compute_number_of_days')
+    current_leaves_taken = fields.Float(
+        compute='_compute_current_leaves', string='Current Leaves Taken',
+        readonly=True)
+    current_remaining_leaves = fields.Float(
+        compute='_compute_current_leaves', string='Current Remaining Leaves',
+        readonly=True)
+    total_allocated_leaves = fields.Float(
+        compute='_compute_current_leaves', string='Total Allocated Leaves',
+        readonly=True)
+    limit = fields.Boolean(
+        related='holiday_status_id.limit', string='Allow to Override Limit')
+    posted_date = fields.Date(
+        string='Posted Date', track_visibility='onchange')
 
     @api.one
     @api.constrains(
@@ -268,3 +305,13 @@ class HrHolidays(models.Model):
             datetime_str = fields.Datetime.to_string(
                 datetime_dt.astimezone(pytz.utc))
         self.date_to = datetime_str
+
+    # in v8, no more need to inherit check_holidays() as I did in v8
+    # because it doesn't use number_of_days_temp
+
+
+class ResCompany(models.Model):
+    _inherit = 'res.company'
+
+    mass_allocation_default_holiday_status_id = fields.Many2one(
+        'hr.holidays.status', string='Default Leave Type for Mass Allocation')

@@ -32,8 +32,15 @@
     'website': 'http://www.akretion.com',
     'depends': ['hr_holidays', 'hr_public_holidays'],
     'data': [
+        'wizard/hr_holidays_mass_allocation_view.xml',
+        'wizard/hr_holidays_post_view.xml',
+        'report/hr_holidays_employee_counter_view.xml',
         'hr_holidays_view.xml',
         'hr_holidays_mail.xml',
+        'res_company_view.xml',
+        'hr_employee_view.xml',
+        'security/holiday_security.xml',
+        'security/ir.model.access.csv',
         ],
     'installable': True,
 }
