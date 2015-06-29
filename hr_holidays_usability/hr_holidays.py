@@ -202,8 +202,9 @@ class HrHolidays(models.Model):
     total_allocated_leaves = fields.Float(
         compute='_compute_current_leaves', string='Total Allocated Leaves',
         readonly=True)
-    limit = fields.Boolean(
-        related='holiday_status_id.limit', string='Allow to Override Limit')
+    limit = fields.Boolean(  # pose des pbs de droits
+        related='holiday_status_id.limit', string='Allow to Override Limit',
+        readonly=True)
     posted_date = fields.Date(
         string='Posted Date', track_visibility='onchange')
     number_of_days_temp = fields.Float(string="Number of days")
