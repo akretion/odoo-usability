@@ -219,7 +219,7 @@ class HrHolidays(orm.Model):
             multi='usability', type='float', readonly=True),
         'limit': fields.related(
             'holiday_status_id', 'limit', type='boolean',
-            string='Allow to Override Limit'),
+            string='Allow to Override Limit', readonly=True),
         'posted_date': fields.date('Posted Date', track_visibility='onchange'),
         }
 
