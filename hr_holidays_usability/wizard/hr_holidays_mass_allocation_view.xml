@@ -12,13 +12,13 @@
     <field name="name">hr_holidays_mass_allocation_form</field>
     <field name="model">hr.holidays.mass.allocation</field>
     <field name="arch" type="xml">
-        <form string="Mass Allocation of Holidays" version="7.0">
+        <form string="Mass Allocation of Holidays">
             <group name="main">
                 <field name="name"/>
-                <field name="holiday_status_id"/>
-                <field name="employee_ids" widget="many2many_tags"/>
+                <field name="holiday_status_id" domain="[('limit', '=', False)]"/>
                 <field name="number_of_days"/>
                 <field name="auto_approve"/>
+                <field name="employee_ids" widget="many2many_tags"/>
             </group>
             <footer>
                 <button name="run" type="object" string="Create Allocations"
