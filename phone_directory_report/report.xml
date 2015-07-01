@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (C) 2015 Akretion France (www.akretion.com)
+   The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+
+<record id="phone_directory_report" model="ir.actions.report.xml">
+    <field name="name">Phone Directory</field>
+    <field name="model">res.users</field>
+    <field name="report_name">phone.directory</field>
+    <field name="report_type">aeroo</field>
+    <field name="in_format">oo-odt</field>
+    <field name="report_rml">phone_directory_report/phone_directory.odt</field>
+    <field name="parser_state">default</field>
+    <field name="tml_source">file</field>
+    <field name="multi" eval="0"/>
+    <field name="out_format" ref="report_aeroo.report_mimetypes_odt_odt"/>
+    <field name="fallback_false" eval="0"/>
+    <field name="attachment_use" eval="0"/>
+    <field name="styles_mode">default</field>
+</record>
+
+<record id="button_report_thanks" model="ir.values"> <!-- Add print button -->
+    <field name="key2">client_print_multi</field>
+    <field name="model">res.users</field>
+    <field name="name">Phone Directory</field>
+    <field name="value" eval="'ir.actions.report.xml,%d'%phone_directory_report" />
+</record>
+
+</data>
+</openerp>
