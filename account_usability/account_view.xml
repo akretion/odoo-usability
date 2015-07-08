@@ -8,6 +8,30 @@
 <openerp>
 <data>
 
+<!-- INVOICE -->
+<record id="invoice_supplier_form" model="ir.ui.view">
+    <field name="name">account_usability.supplier.invoice.form</field>
+    <field name="model">account.invoice</field>
+    <field name="inherit_id" ref="account.invoice_supplier_form"/>
+    <field name="arch" type="xml">
+        <field name="fiscal_position" position="attributes">
+            <attribute name="widget">selection</attribute>
+        </field>
+    </field>
+</record>
+
+<record id="invoice_form" model="ir.ui.view">
+    <field name="name">account_usability.invoice.form</field>
+    <field name="model">account.invoice</field>
+    <field name="inherit_id" ref="account.invoice_form"/>
+    <field name="arch" type="xml">
+        <field name="fiscal_position" position="attributes">
+            <attribute name="widget">selection</attribute>
+        </field>
+    </field>
+</record>
+
+
 <!-- model account.move.line / Journal Items -->
 <record id="account.action_account_moves_all_a" model="ir.actions.act_window">
     <field name="limit">500</field>
@@ -19,7 +43,7 @@
 </record>
 
 <record id="view_account_move_line_filter" model="ir.ui.view">
-    <field name="name">account_move_usability.account_move_line_search</field>
+    <field name="name">account_usability.account_move_line_search</field>
     <field name="model">account.move.line</field>
     <field name="inherit_id" ref="account.view_account_move_line_filter"/>
     <field name="arch" type="xml">
@@ -30,7 +54,7 @@
 </record>
 
 <record id="view_move_line_form" model="ir.ui.view">
-    <field name="name">account_move_usability.account_move_line_form</field>
+    <field name="name">account_usability.account_move_line_form</field>
     <field name="model">account.move.line</field>
     <field name="inherit_id" ref="account.view_move_line_form"/>
     <field name="arch" type="xml">

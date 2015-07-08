@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Move Usability module for Odoo
+#    Account Usability module for Odoo
 #    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -20,7 +20,25 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models, fields, api
+
+
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
+
+    origin = fields.Char(track_visibility='onchange')
+    supplier_invoice_number = fields.Char(track_visibility='onchange')
+    internal_number = fields.Char(track_visibility='onchange')
+    reference = fields.Char(track_visibility='onchange')
+    sent = fields.Boolean(track_visibility='onchange')
+    date_invoice = fields.Date(track_visibility='onchange')
+    date_due = fields.Date(track_visibility='onchange')
+    payment_term = fields.Many2one(track_visibility='onchange')
+    period_id = fields.Many2one(track_visibility='onchange')
+    account_id = fields.Many2one(track_visibility='onchange')
+    journal_id = fields.Many2one(track_visibility='onchange')
+    partner_bank_id = fields.Many2one(track_visibility='onchange')
+    fiscal_position = fields.Many2one(track_visibility='onchange')
 
 
 class AccountMoveLine(models.Model):

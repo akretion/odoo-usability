@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Account Move Usability module for Odoo
+#    Account Usability module for Odoo
 #    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -22,14 +22,14 @@
 
 
 {
-    'name': 'Account Move Usability',
+    'name': 'Account Usability',
     'version': '0.1',
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
-    'summary': 'Small usability enhancements in account move and account move lines',
+    'summary': 'Small usability enhancements in account module',
     'description': """
-Account Move Usability
-======================
+Account Usability
+=================
 
 The usability enhancements include:
 * Increase the default limit of 80 lines in account move and account move line view.
