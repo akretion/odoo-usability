@@ -31,6 +31,17 @@
     </field>
 </record>
 
+<record id="invoice_tree" model="ir.ui.view">
+    <field name="name">account_usability.invoice_tree</field>
+    <field name="model">account.invoice</field>
+    <field name="inherit_id" ref="account.invoice_tree"/>
+    <field name="arch" type="xml">
+        <field name="number" position="after">
+            <field name="supplier_invoice_number"
+                invisible="not context.get('type') in ('in_invoice', 'in_refund')"/>
+        </field>
+    </field>
+</record>
 
 <!-- model account.move.line / Journal Items -->
 <record id="account.action_account_moves_all_a" model="ir.actions.act_window">
