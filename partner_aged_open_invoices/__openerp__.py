@@ -33,7 +33,7 @@ Partner Aged Open Invoices
 
 This module adds a button on the partner form view (the icon on the button is a banknote) to easily open the aged open invoices report of this partner.
 
-It requires the updated version of the account_financial_report_webkit module that has the aged open invoice report.
+It requires the updated version of the account_financial_report_webkit module that has the aged open invoice report ; you can find in this pull request https://github.com/OCA/account-financial-reporting/pull/102
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
