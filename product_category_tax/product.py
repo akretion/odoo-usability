@@ -30,8 +30,13 @@ class ProductTemplate(models.Model):
     @api.onchange('categ_id')
     def onchange_categ_id(self):
         if self.categ_id:
-            self.taxes_id = self.categ_id.sale_tax_ids.ids
-            self.supplier_taxes_id = self.categ_id.purchase_tax_ids.ids
+            # I cannot use the commented line below:
+            #self.taxes_id = self.categ_id.sale_tax_ids.ids
+            # because it ADDS the taxes (equivalent of (4, ID)) instead
+            # of replacing the taxes... and I want to REPLACE the taxes
+            # So I have to use the awful syntax (6, 0, [IDs])
+            self.taxes_id = [(6, 0, self.categ_id.sale_tax_ids.ids)]
+            self.supplier_taxes_id = [(6, 0, self.categ_id.purchase_tax_ids.ids)]
 
     @api.one
     @api.constrains('taxes_id', 'supplier_taxes_id')
@@ -59,8 +64,8 @@ class ProductProduct(models.Model):
     @api.onchange('categ_id')
     def onchange_categ_id(self):
         if self.categ_id:
-            self.taxes_id = self.categ_id.sale_tax_ids.ids
-            self.supplier_taxes_id = self.categ_id.purchase_tax_ids.ids
+            self.taxes_id = [(6, 0, self.categ_id.sale_tax_ids.ids)]
+            self.supplier_taxes_id = [(6, 0, self.categ_id.purchase_tax_ids.ids)]
 
 
 class ProductCategory(models.Model):
