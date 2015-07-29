@@ -41,7 +41,9 @@ class ProductTemplate(models.Model):
     @api.one
     @api.constrains('taxes_id', 'supplier_taxes_id')
     def _check_tax_categ(self):
-        if self.categ_id:
+        # self.name != 'Pay Debt' is a stupid hack to avoid blocking the
+        # installation of the module 'pos_debt_notebook'
+        if self.categ_id and self.name != 'Pay Debt':
             if self.categ_id.sale_tax_ids.ids != self.taxes_id.ids:
                 raise ValidationError(
                     _("The sale taxes configured on the product '%s' "
