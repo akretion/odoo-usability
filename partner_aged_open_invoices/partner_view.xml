@@ -13,6 +13,10 @@
     <field name="name">account.balance.button.partner.form</field>
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="base.view_partner_form"/>
+    <!-- Put the button after the "Journal Items" without depending
+    on the view account.partner_view_button_journal_item_count
+    which is linked to the group account.group_account_user -->
+    <field name="priority" eval="22"/>
     <field name="arch" type="xml">
         <xpath expr="//div[@name='buttons']" position="inside">
             <button class="oe_stat_button" type="object"
