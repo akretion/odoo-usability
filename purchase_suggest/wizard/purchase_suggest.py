@@ -53,26 +53,27 @@ class PurchaseSuggestionGenerate(models.TransientModel):
             # I cannot filter on 'date_order' because it is not a stored field
             porderline_id = porderlines and porderlines[0].id or False
         sline = {
-            'company_id': qty_dict['orderpoint'].company_id.id,
+            'company_id':
+            qty_dict['orderpoint'] and qty_dict['orderpoint'].company_id.id,
             'product_id': product_id,
             'seller_id': qty_dict['product'].seller_id.id or False,
             'qty_available': qty_dict['qty_available'],
             'incoming_qty': qty_dict['incoming_qty'],
             'outgoing_qty': qty_dict['outgoing_qty'],
             'draft_po_qty': qty_dict['draft_po_qty'],
-            'orderpoint_id': qty_dict['orderpoint'].id,
+            'orderpoint_id':
+            qty_dict['orderpoint'] and qty_dict['orderpoint'].id,
+            'location_id': self.location_id.id,
             'min_qty': qty_dict['min_qty'],
             'last_po_line_id': porderline_id,
             }
         return sline
 
-    @api.multi
-    def run(self):
-        self.ensure_one()
-        pso = self.env['purchase.suggest']
-        polo = self.env['purchase.order.line']
-        swoo = self.env['stock.warehouse.orderpoint']
+    @api.model
+    def generate_products_dict(self):
         ppo = self.env['product.product']
+        swoo = self.env['stock.warehouse.orderpoint']
+        products = {}
         op_domain = [
             ('suggest', '=', True),
             ('company_id', '=', self.env.user.company_id.id),
@@ -89,12 +90,6 @@ class PurchaseSuggestionGenerate(models.TransientModel):
             products_subset = ppo.search(product_domain)
             op_domain.append(('product_id', 'in', products_subset.ids))
         ops = swoo.search(op_domain)
-        p_suggest_lines = []
-        products = {}
-        # key = product_id
-        # value = {'virtual_qty': 1.0, 'draft_po_qty': 4.0, 'min_qty': 6.0}
-        # TODO : handle the uom
-        logger.info('Starting to compute the purchase suggestions')
         for op in ops:
             if op.product_id.id not in products:
                 products[op.product_id.id] = {
@@ -111,6 +106,19 @@ class PurchaseSuggestionGenerate(models.TransientModel):
                         products[op.product_id.id]['orderpoint'].name,
                         op.name,
                         self.location_id.complete_name))
+        return products
+
+    @api.multi
+    def run(self):
+        self.ensure_one()
+        pso = self.env['purchase.suggest']
+        polo = self.env['purchase.order.line']
+        p_suggest_lines = []
+        products = self.generate_products_dict()
+        # key = product_id
+        # value = {'virtual_qty': 1.0, 'draft_po_qty': 4.0, 'min_qty': 6.0}
+        # TODO : handle the uom
+        logger.info('Starting to compute the purchase suggestions')
         logger.info('Min qty computed on %d products', len(products))
         polines = polo.search([
             ('state', '=', 'draft'), ('product_id', 'in', products.keys())])
@@ -135,10 +143,11 @@ class PurchaseSuggestionGenerate(models.TransientModel):
                 'Min. qty = %s',
                 product_id, qty_dict['virtual_available'],
                 qty_dict['draft_po_qty'], qty_dict['min_qty'])
-            if float_compare(
-                    qty_dict['virtual_available'] + qty_dict['draft_po_qty'],
-                    qty_dict['min_qty'],
-                    precision_rounding=op.product_uom.rounding) < 0:
+            compare = float_compare(
+                qty_dict['virtual_available'] + qty_dict['draft_po_qty'],
+                qty_dict['min_qty'],
+                precision_rounding=qty_dict['product'].uom_id.rounding)
+            if compare < 0:
                 vals = self._prepare_suggest_line(product_id, qty_dict)
                 if vals:
                     p_suggest_lines.append(vals)
@@ -201,6 +210,8 @@ class PurchaseSuggest(models.TransientModel):
     orderpoint_id = fields.Many2one(
         'stock.warehouse.orderpoint', string='Re-ordering Rule',
         readonly=True)
+    location_id = fields.Many2one(
+        'stock.location', string='Stock Location', readonly=True)
     min_qty = fields.Float(
         string="Min Quantity", readonly=True,
         digits=dp.get_precision('Product Unit of Measure'))
@@ -223,9 +234,14 @@ class PurchaseSuggestPoCreate(models.TransientModel):
         pick_type_dom = [
             ('code', '=', 'incoming'),
             ('warehouse_id.company_id', '=', company.id)]
-
         pick_types = spto.search(
-            pick_type_dom + [('default_location_dest_id', '=', location.id)])
+            pick_type_dom + [(
+                'default_location_dest_id',
+                'child_of',
+                location.location_id.id)])
+        # I use location.parent_id.id to support 2 step-receptions
+        # where the stock.location .type is linked to Warehouse > Receipt
+        # but location is Warehouse > Stock
         if not pick_types:
             pick_types = spto.search(pick_type_dom)
             if not pick_types:
@@ -233,11 +249,8 @@ class PurchaseSuggestPoCreate(models.TransientModel):
                     "Make sure you have at least an incoming picking "
                     "type defined"))
         po_vals['picking_type_id'] = pick_types[0].id
-        pick_type_dict = ponull.onchange_picking_type_id(pick_types.id)
+        pick_type_dict = ponull.onchange_picking_type_id(pick_types[0].id)
         po_vals.update(pick_type_dict['value'])
-        # I do that at the very end because onchange_picking_type_id()
-        # returns a default location_id
-        po_vals['location_id'] = location.id
         return po_vals
 
     def _prepare_purchase_order_line(self, partner, product, qty_to_order):
@@ -307,7 +320,7 @@ class PurchaseSuggestPoCreate(models.TransientModel):
         location = False
         for line in self.env['purchase.suggest'].browse(psuggest_ids):
             if not location:
-                location = line.orderpoint_id.location_id
+                location = line.location_id
             if not line.qty_to_order:
                 continue
             if not line.product_id.seller_id:
