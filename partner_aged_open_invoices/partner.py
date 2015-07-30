@@ -49,16 +49,16 @@ class ResPartner(models.Model):
             'target_move': 'all',
             }
         vals.update(filter_change['value'])
-        wizard = self.env['aged.open.invoices.webkit'].create(vals)
+        wizard = aoiwo.create(vals)
         data = {'form': {
             'chart_account_id': wizard.chart_account_id.id,
-            'filter': 'filter_date',
+            'filter': vals['filter'],
             'date_from': vals['date_from'],
             'date_to': vals['date_to'],
             'period_to': False,
-            'fiscalyear_id': fy_id,
-            'partner_ids': [self.commercial_partner_id.id],
-            'target_move': 'all',
+            'fiscalyear_id': vals['fiscalyear_id'],
+            'partner_ids': vals['partner_ids'][0][2],
+            'target_move': vals['target_move'],
             }
         }
         action = wizard._print_report(data)
