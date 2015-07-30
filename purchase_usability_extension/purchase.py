@@ -28,3 +28,19 @@ class PurchaseOrderLine(models.Model):
     _order = 'order_id, sequence, id'
 
     sequence = fields.Integer(string='Sequence', default=10)
+
+
+class PurchaseOrder(models.Model):
+    _inherit = 'purchase.order'
+
+    state = fields.Selection(track_visibility='onchange')
+    location_id = fields.Many2one(track_visibility='onchange')
+    dest_address_id = fields.Many2one(track_visibility='onchange')
+    pricelist_id = fields.Many2one(track_visibility='onchange')
+    date_approve = fields.Date(track_visibility='onchange')
+    validator = fields.Many2one(track_visibility='onchange')
+    invoice_method = fields.Selection(track_visibility='onchange')
+    payment_term_id = fields.Many2one(track_visibility='onchange')
+    fiscal_position = fields.Many2one(track_visibility='onchange')
+    incoterm_id = fields.Many2one(track_visibility='onchange')
+    partner_ref = fields.Char(track_visibility='onchange')
