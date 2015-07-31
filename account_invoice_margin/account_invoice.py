@@ -42,17 +42,24 @@ class AccountInvoiceLine(models.Model):
         string='Margin in Company Currency', readonly=True, store=True,
         compute='_compute_margin',
         digits=dp.get_precision('Account'))
+    margin_rate = fields.Float(
+        string="Margin Rate", readonly=True, store=True,
+        compute='_compute_margin',
+        digits=(16, 2), help="Margin rate in percentage of the sale price")
 
     @api.one
     @api.depends(
         'standard_price_company_currency', 'invoice_id.currency_id',
-        'invoice_id.move_id',
+        'invoice_id.move_id', 'invoice_id.type',
         'invoice_id.date_invoice', 'quantity', 'price_subtotal')
     def _compute_margin(self):
         standard_price_inv_cur = 0.0
         margin_inv_cur = 0.0
         margin_comp_cur = 0.0
-        if self.invoice_id:
+        margin_rate = 0.0
+        if (
+                self.invoice_id and
+                self.invoice_id.type in ('out_invoice', 'out_refund')):
             # it works in _get_current_rate
             # even if we set date = False in context
             standard_price_inv_cur =\
@@ -65,9 +72,17 @@ class AccountInvoiceLine(models.Model):
             margin_comp_cur = self.invoice_id.currency_id.with_context(
                 date=self.invoice_id.date_invoice).compute(
                     margin_inv_cur, self.invoice_id.company_id.currency_id)
+            if self.price_subtotal:
+                margin_rate = 100 * margin_inv_cur / self.price_subtotal
+            # for a refund, margin should be negative
+            # but margin rate should stay positive
+            if self.invoice_id.type == 'out_refund':
+                margin_inv_cur *= -1
+                margin_comp_cur *= -1
         self.standard_price_invoice_currency = standard_price_inv_cur
         self.margin_invoice_currency = margin_inv_cur
         self.margin_company_currency = margin_comp_cur
+        self.margin_rate = margin_rate
 
     # We want to copy standard_price on invoice line for customer
     # invoice/refunds. We can't do that via on_change of product_id,
@@ -144,8 +159,5 @@ class AccountInvoice(models.Model):
             for il in self.invoice_line:
                 margin_inv_cur += il.margin_invoice_currency
                 margin_comp_cur += il.margin_company_currency
-        if self.type == 'out_refund':
-            margin_inv_cur *= -1
-            margin_comp_cur *= -1
         self.margin_invoice_currency = margin_inv_cur
         self.margin_company_currency = margin_comp_cur
