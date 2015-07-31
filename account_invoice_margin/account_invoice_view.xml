@@ -49,6 +49,7 @@
             <field name="standard_price_company_currency" groups="base.group_no_one"/>
             <field name="margin_invoice_currency" groups="base.group_no_one"/>
             <field name="margin_company_currency" groups="base.group_no_one"/>
+            <field name="margin_rate" groups="base.group_no_one"/>
         </xpath>
     </field>
 </record>
