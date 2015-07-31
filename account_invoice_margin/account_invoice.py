@@ -104,12 +104,9 @@ class AccountInvoice(models.Model):
 
     @api.one
     @api.depends(
-        'currency_id', 'date_invoice', 'type', 'move_id',
+        'type',
         'invoice_line.margin_invoice_currency',
         'invoice_line.margin_company_currency')
-    # I invalidate on move_id because the currency rate used for accounting
-    # entries is the currency rate available on invoice validation, so when
-    # the move_id field is written
     def _compute_margin(self):
         margin_inv_cur = 0.0
         margin_comp_cur = 0.0
