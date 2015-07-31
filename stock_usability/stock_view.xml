@@ -142,5 +142,24 @@ in the quantities for his reception -->
     </field>
 </record>
 
+<record id="view_move_tree_receipt_picking" model="ir.ui.view">
+    <field name="name">stock.usability.stock.move.tree2</field>
+    <field name="model">stock.move</field>
+    <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
+    <field name="arch" type="xml">
+        <field name="partner_id" position="attributes">
+            <attribute name="string">Destination Address</attribute>
+            <!-- The partner_id field on stock.move has a label "Destination Address"
+            but a stupid guy has put a string="Supplier" on the tree view
+            And, as this field is very often empty, the users think there is a bug
+            because the supplier is not set ! -->
+date_expected
+        </field>
+        <field name="date_expected" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
+    </field>
+</record>
+
 </data>
 </openerp>
