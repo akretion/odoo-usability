@@ -79,14 +79,44 @@ class AccountInvoiceLine(models.Model):
     def create(self, vals):
         if vals.get('product_id'):
             pp = self.env['product.product'].browse(vals['product_id'])
-            vals['standard_price_company_currency'] = pp.standard_price
+            std_price = pp.standard_price
+            inv_uom_id = vals.get('uos_id')
+            if inv_uom_id and inv_uom_id != pp.uom_id.id:
+                std_price = self.env['product.uom']._compute_price(
+                    pp.uom_id.id, std_price, inv_uom_id)
+            vals['standard_price_company_currency'] = std_price
         return super(AccountInvoiceLine, self).create(vals)
 
     @api.multi
     def write(self, vals):
-        if vals.get('product_id'):
-            pp = self.env['product.product'].browse(vals['product_id'])
-            vals['standard_price_company_currency'] = pp.standard_price
+        if not vals:
+            vals = {}
+        if 'product_id' in vals or 'uos_id' in vals:
+            for il in self:
+                if 'product_id' in vals:
+                    if vals.get('product_id'):
+                        pp = self.env['product.product'].browse(
+                            vals['product_id'])
+                    else:
+                        pp = False
+                else:
+                    pp = il.product_id or False
+                # uos_id is NOT a required field
+                if 'uos_id' in vals:
+                    if vals.get('uos_id'):
+                        inv_uom = self.env['product.uom'].browse(
+                            vals['uos_id'])
+                    else:
+                        inv_uom = False
+                else:
+                    inv_uom = il.uos_id or False
+                std_price = 0.0
+                if pp:
+                    std_price = pp.standard_price
+                    if inv_uom and inv_uom != pp.uom_id:
+                        std_price = self.env['product.uom']._compute_price(
+                            pp.uom_id.id, std_price, inv_uom.id)
+                il.write({'standard_price_company_currency': std_price})
         return super(AccountInvoiceLine, self).write(vals)
 
 
