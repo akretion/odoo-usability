@@ -42,6 +42,21 @@
         <field name="amount_total" position="after">
             <field name="currency_id" groups="base.group_multi_currency"/>
         </field>
+        <field name="state" position="before">
+            <field name="shipped"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_purchase_order_filter" model="ir.ui.view">
+    <field name="name">usability.purchase.order.tree</field>
+    <field name="model">purchase.order</field>
+    <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+    <field name="arch" type="xml">
+        <filter name="not_invoiced" position="after">
+            <filter name="shipped" string="Fully Received" domain="[('shipped', '=', True)]"/>
+            <filter name="not_shipped" string="Not Fully Received" domain="[('shipped', '=', False)]"/>
+        </filter>
     </field>
 </record>
 
