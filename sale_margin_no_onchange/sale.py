@@ -42,6 +42,10 @@ class SaleOrderLine(models.Model):
         string='Margin in Company Currency', readonly=True, store=True,
         compute='_compute_margin',
         digits=dp.get_precision('Account'))
+    margin_rate = fields.Float(
+        string="Margin Rate", readonly=True, store=True,
+        compute='_compute_margin',
+        digits=(16, 2), help="Margin rate in percentage of the sale price")
 
     @api.one
     @api.depends(
@@ -51,6 +55,7 @@ class SaleOrderLine(models.Model):
         standard_price_sale_cur = 0.0
         margin_sale_cur = 0.0
         margin_comp_cur = 0.0
+        margin_rate = 0.0
         if self.order_id and self.order_id.currency_id:
             # it works in _get_current_rate
             # even if we set date = False in context
@@ -65,9 +70,12 @@ class SaleOrderLine(models.Model):
             margin_comp_cur = self.order_id.currency_id.with_context(
                 date=self.order_id.date_order).compute(
                     margin_sale_cur, self.order_id.company_id.currency_id)
+            if self.price_subtotal:
+                margin_rate = 100 * margin_sale_cur / self.price_subtotal
         self.standard_price_sale_currency = standard_price_sale_cur
         self.margin_sale_currency = margin_sale_cur
         self.margin_company_currency = margin_comp_cur
+        self.margin_rate = margin_rate
 
     # We want to copy standard_price on sale order line
     @api.model
