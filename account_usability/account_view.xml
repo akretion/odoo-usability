@@ -43,6 +43,18 @@
     </field>
 </record>
 
+<record id="view_account_invoice_filter" model="ir.ui.view">
+    <field name="name">account_usability.invoice.search</field>
+    <field name="model">account.invoice</field>
+    <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+    <field name="arch" type="xml">
+        <filter name="unpaid" position="after">
+            <filter name="overdue" string="Overdue"
+                domain="[('state', '=', 'open'), ('date_due', '&lt;', current_date)]"/>
+        </filter>
+    </field>
+</record>
+
 <!-- model account.move.line / Journal Items -->
 <record id="account.action_account_moves_all_a" model="ir.actions.act_window">
     <field name="limit">500</field>
