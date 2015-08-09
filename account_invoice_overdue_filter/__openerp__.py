@@ -33,6 +33,8 @@ Account Invoice Overdue Filter
 
 This module adds a filter *Overdue* in the invoice search view.
 
+This module is deprecated and has been replaced by the module account_usability.
+
 Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
     """,
     'author': 'Akretion',

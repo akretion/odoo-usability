@@ -53,3 +53,29 @@ class AccountMoveLine(models.Model):
     def _debit_onchange(self):
         if self.debit and self.credit:
             self.credit = 0
+
+
+class AccountBankStatementLine(models.Model):
+    _inherit = 'account.bank.statement.line'
+
+    # Disable guessing for reconciliation
+    # because my experience with several customers shows that it is a problem
+    # in the following scenario : move line 'x' has been "guessed" by OpenERP
+    # to be reconciled with a statement line 'Y' at the end of the bank statement,
+    # but it is a mistake because it should be reconciled with statement line 'B'
+    # at the beginning of the bank statement
+    # When the user is on statement line 'B', he tries to select
+    # move line 'x', but it can't find it... because it is already "reserved"
+    # by the guess of OpenERP for statement line 'Y' ! To solve this problem, the
+    # user must go to statement line 'Y' and unselect move line 'x' and then come
+    # back on statement line 'B' and select move line 'A'... but non super-expert
+    # users can't do that because it is impossible to figure out that the fact that
+    # the user can't find move line 'x' is caused by this.
+    # Set search_reconciliation_proposition to False by default
+    def get_data_for_reconciliations(
+            self, cr, uid, ids, excluded_ids=None,
+            search_reconciliation_proposition=False, context=None):
+        return super(AccountBankStatementLine ,self).get_data_for_reconciliations(
+            cr, uid, ids, excluded_ids=excluded_ids,
+            search_reconciliation_proposition=search_reconciliation_proposition,
+            context=context)
