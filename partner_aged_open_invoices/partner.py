@@ -39,6 +39,14 @@ class ResPartner(models.Model):
     @api.multi
     def open_aged_open_invoices_report(self):
         aoiwo = self.env['aged.open.invoices.webkit']
+        afo = self.env['account.fiscalyear']
+        # Force 'date_from' to the first day of the company's life
+        # in order to get the full picture of the partner's account
+        # (we could also do that via a filter by period, but, in this case,
+        # account_financial_report_webkit doesn't accept "until_date = today" ;
+        # until_date has to be the end date of the last period
+        fy_years = afo.search([], order='date_start')
+        date_from = fy_years[0].date_start
         fy_id = aoiwo._get_fiscalyear()
         filter_change = aoiwo.onchange_filter(
             filter='filter_date', fiscalyear_id=fy_id)
@@ -49,6 +57,7 @@ class ResPartner(models.Model):
             'target_move': 'all',
             }
         vals.update(filter_change['value'])
+        vals['date_from'] = date_from
         wizard = aoiwo.create(vals)
         data = {'form': {
             'chart_account_id': wizard.chart_account_id.id,
