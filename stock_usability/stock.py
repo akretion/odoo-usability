@@ -37,6 +37,12 @@ class StockLocation(models.Model):
     _inherit = 'stock.location'
 
     name = fields.Char(translate=False)
+    # with the 'quant_ids' field below, you can for example search empty stock
+    # locations with self.env['stock.location'].search([
+    #    ('child_ids', '=', False), ('quant_ids', '=', False),
+    #    ('usage', '=', 'internal')])
+    quant_ids = fields.One2many(
+        'stock.quant', 'location_id', string="Related Quants")
 
 
 class StockPickingType(models.Model):
