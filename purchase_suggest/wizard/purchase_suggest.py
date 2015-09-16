@@ -45,13 +45,12 @@ class PurchaseSuggestionGenerate(models.TransientModel):
     @api.model
     def _prepare_suggest_line(self, product_id, qty_dict):
         porderline_id = False
-        if qty_dict['product'].seller_id:
-            porderlines = self.env['purchase.order.line'].search([
-                ('state', 'not in', ('draft', 'cancel')),
-                ('product_id', '=', product_id)],
-                order='id desc', limit=1)
-            # I cannot filter on 'date_order' because it is not a stored field
-            porderline_id = porderlines and porderlines[0].id or False
+        porderlines = self.env['purchase.order.line'].search([
+            ('state', 'not in', ('draft', 'cancel')),
+            ('product_id', '=', product_id)],
+            order='id desc', limit=1)
+        # I cannot filter on 'date_order' because it is not a stored field
+        porderline_id = porderlines and porderlines[0].id or False
         sline = {
             'company_id':
             qty_dict['orderpoint'] and qty_dict['orderpoint'].company_id.id,
