@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 16:00+0000\n"
-"PO-Revision-Date: 2015-05-28 16:00+0000\n"
+"POT-Creation-Date: 2015-09-16 21:20+0000\n"
+"PO-Revision-Date: 2015-09-16 21:20+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,15 @@ msgstr ""
 
 #. module: purchase_suggest
 #: view:purchase.suggest.po.create:purchase_suggest.purchase_suggest_po_create_form
-msgid "Click on the red button below to create the Purchase Orders."
+msgid "Click on the red button below to create the purchase orders.\n"
+"                If a draft purchase order already exists for one of the suppliers\n"
+"                for the same stock location, it will be updated with the new\n"
+"                products and quantities to order."
+msgstr ""
+
+#. module: purchase_suggest
+#: field:purchase.suggest,company_id:0
+msgid "Company"
 msgstr ""
 
 #. module: purchase_suggest
@@ -99,6 +107,12 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: purchase_suggest
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:248
+#, python-format
+msgid "Make sure you have at least an incoming picking type defined"
+msgstr ""
+
+#. module: purchase_suggest
 #: field:purchase.suggest,min_qty:0
 msgid "Min Quantity"
 msgstr ""
@@ -114,13 +128,13 @@ msgid "More"
 msgstr ""
 
 #. module: purchase_suggest
-#: code:addons/purchase_suggest/wizard/purchase_suggest.py:269
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:337
 #, python-format
-msgid "No purchase orders created"
+msgid "No purchase orders created or updated"
 msgstr ""
 
 #. module: purchase_suggest
-#: code:addons/purchase_suggest/wizard/purchase_suggest.py:252
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:327
 #, python-format
 msgid "No supplier configured for product '%s'."
 msgstr ""
@@ -153,6 +167,12 @@ msgstr ""
 #: view:purchase.suggest:purchase_suggest.purchase_suggest_search
 #: view:purchase.suggest:purchase_suggest.purchase_suggest_tree
 msgid "Purchase Suggestions"
+msgstr ""
+
+#. module: purchase_suggest
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:298
+#, python-format
+msgid "Purchase order updated from purchase suggestions."
 msgstr ""
 
 #. module: purchase_suggest
@@ -191,6 +211,7 @@ msgid "Start to generate the purchase suggestions"
 msgstr ""
 
 #. module: purchase_suggest
+#: field:purchase.suggest,location_id:0
 #: field:purchase.suggest.generate,location_id:0
 msgid "Stock Location"
 msgstr ""
@@ -217,13 +238,13 @@ msgid "The purchase suggestion lines display as much information as possible to 
 msgstr ""
 
 #. module: purchase_suggest
-#: code:addons/purchase_suggest/wizard/purchase_suggest.py:107
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:103
 #, python-format
 msgid "There are 2 orderpoints (%s and %s) for the same product on stock location %s or its children."
 msgstr ""
 
 #. module: purchase_suggest
-#: code:addons/purchase_suggest/wizard/purchase_suggest.py:162
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:172
 #, python-format
 msgid "There are no purchase suggestions to generate."
 msgstr ""
