@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2015 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+<!-- PURCHASE -->
+<record id="product_product_action_puchased" model="ir.actions.act_window">
+    <field name="name">Products</field>
+    <field name="res_model">product.product</field>
+    <field name="view_mode">tree,form,kanban</field>
+    <field name="context">{"search_default_filter_to_purchase":1}</field>
+    <field name="search_view_id" eval="False"/> <!-- Force empty -->
+    <field name="view_id" eval="False"/> <!-- Force empty -->
+</record>
+
+<record id="purchase.menu_procurement_partner_contact_form" model="ir.ui.menu">
+    <field name="action" ref="product_product_action_puchased"/>
+</record>
+
+<!-- STOCK -->
+<record id="stock.menu_stock_products_menu" model="ir.ui.menu">
+    <field name="action" ref="product.product_normal_action"/>
+</record>
+
+<!-- Rename from 'Product Variants' to 'Products' -->
+<record id="product.product_normal_action" model="ir.actions.act_window">
+    <field name="name">Products</field>
+</record>
+
+<!-- SALE -->
+<record id="product.menu_product_template_action" model="ir.ui.menu">
+    <field name="action" ref="product.product_normal_action_sell"/>
+    <field name="view_mode">tree,form,kanban</field>
+</record>
+
+<!-- Hide the native 'Product Variants' menu entry for regular users -->
+<record id="product.menu_products" model="ir.ui.menu">
+    <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+</record>
+
+</data>
+</openerp>
