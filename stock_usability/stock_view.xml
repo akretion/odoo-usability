@@ -86,7 +86,7 @@
         <field name="string_availability_info" position="after">
             <button type="object" name="do_unreserve" string="Unreserve"
                 icon="STOCK_UNDO" groups="stock.group_stock_user"
-                states="assigned"/>
+                states="confirmed,assigned"/>
         </field>
     </field>
 </record>
