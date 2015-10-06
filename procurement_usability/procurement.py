@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models
+from openerp import models, fields
 import logging
 
 logger = logging.getLogger(__name__)
@@ -43,3 +43,13 @@ class ProcurementOrder(models.Model):
             'END procurement scheduler (company ID=%d, uid=%d)',
             company_id, uid)
         return res
+
+
+class ProcurementGroup(models.Model):
+    _inherit = 'procurement.group'
+
+    sale_ids = fields.One2many(
+        'sale.order', 'procurement_group_id', string='Sale Orders',
+        readonly=True)
+    picking_ids = fields.One2many(
+        'stock.picking', 'group_id', string='Pickings', readonly=True)

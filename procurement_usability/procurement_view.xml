@@ -36,6 +36,17 @@
         <field name="move_type" position="after">
             <field name="partner_id" readonly="True"/>
         </field>
+        <xpath expr="//field[@name='move_type']/.." position="after">
+            <group name="procurements" string="Procurements">
+                <field name="procurement_ids" nolabel="1"/>
+            </group>
+            <group name="sale" string="Sale Orders">
+                <field name="sale_ids" nolabel="1"/>
+            </group>
+            <group name="picking" string="Pickings">
+                <field name="picking_ids" nolabel="1"/>
+            </group>
+        </xpath>
     </field>
 </record>
 
