@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Purchase Auto Invoice Method module for OpenERP
-#    Copyright (C) 2013 Akretion (http://www.akretion.com)
+#    Purchase Auto Invoice Method module for Odoo
+#    Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,29 +20,19 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp import models, api
 
 
-class purchase_order(orm.Model):
+class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    _defaults = {
-        'invoice_method': 'picking',
-    }
-
-    def wkf_confirm_order(self, cr, uid, ids, context=None):
-        invoice_method_order_po_ids = []
-        for po in self.browse(cr, uid, ids, context=context):
-            service_only = True
-            for line in po.order_line:
-                if line.product_id.type != 'service':
-                    service_only = False
-            if service_only:
-                invoice_method_order_po_ids.append(po.id)
-        if invoice_method_order_po_ids:
-            self.write(cr, uid, invoice_method_order_po_ids, {
-                'invoice_method': 'order',
-                }, context=context)
-        res = super(purchase_order, self).wkf_confirm_order(
-            cr, uid, ids, context=context)
-        return res
+    @api.multi
+    def wkf_confirm_order(self):
+        for po in self:
+            if (
+                    po.invoice_method == 'picking' and all([
+                        line.product_id and
+                        line.product_id.type == 'service'
+                        for line in po.order_line])):
+                po.invoice_method = 'order'
+        return super(PurchaseOrder, self).wkf_confirm_order()
