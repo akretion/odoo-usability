@@ -18,6 +18,9 @@
         <field name="backorder_id" position="attributes">
             <attribute name="attrs">{}</attribute>
         </field>
+        <field name="date_done" position="attributes">
+            <attribute name="groups"></attribute>
+        </field>
     </field>
 </record>
 
