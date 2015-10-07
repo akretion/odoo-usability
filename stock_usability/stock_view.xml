@@ -39,17 +39,26 @@
     <field name="model">stock.move</field>
     <field name="inherit_id" ref="stock.view_move_form" />
     <field name="arch" type="xml">
-        <group name="quants_grp" position="after">
-            <group name="advanced" string="Advanced Parameters" groups="stock.group_stock_manager">
-                <field name="procurement_id"/>
-                <field name="route_ids" widget="many2many_tags"/>
-                <field name="rule_id" readonly="1"/>
-                <field name="push_rule_id" readonly="1"/>
-                <field name="price_unit" readonly="1"/>
-            </group>
-            <group name="note" string="Notes" colspan="4">
-                <field name="note" nolabel="1"/>
-            </group>
+        <button name="force_assign" position="after">
+            <button type="object" name="do_unreserve" string="Unreserve"
+                groups="stock.group_stock_user"
+                states="confirmed,assigned"/>
+        </button>
+        <group name="moved_quants_grp" position="after">
+            <notebook colspan="2">
+                <page string="Notes" name="notes">
+                    <field name="note" nolabel="1"/>
+                </page>
+                <page string="Advanced Parameters" name="advanced-params" groups="stock.group_stock_manager">
+                    <group name="advanced">
+                        <field name="procurement_id"/>
+                        <field name="route_ids" widget="many2many_tags"/>
+                        <field name="rule_id" readonly="1"/>
+                        <field name="push_rule_id" readonly="1"/>
+                        <field name="price_unit" readonly="1"/>
+                    </group>
+                </page>
+            </notebook>
         </group>
     </field>
 </record>
@@ -59,18 +68,22 @@
     <field name="model">stock.move</field>
     <field name="inherit_id" ref="stock.view_move_picking_form" />
     <field name="arch" type="xml">
-        <group name="quants_grp" position="after">
-            <group name="advanced" string="Advanced Parameters" groups="stock.group_stock_manager">
-                <field name="procurement_id"/>
-                <field name="group_id"/>
-                <field name="route_ids" widget="many2many_tags"/>
-                <field name="rule_id" readonly="1"/>
-                <field name="push_rule_id" readonly="1"/>
-                <field name="price_unit" readonly="1"/>
-            </group>
-            <group name="note" string="Notes" colspan="4">
-                <field name="note" nolabel="1"/>
-            </group>
+        <group name="moved_quants_grp" position="after">
+            <notebook colspan="2">
+                <page string="Notes" name="notes">
+                    <field name="note" nolabel="1"/>
+                </page>
+                <page string="Advanced Parameters" name="advanced-params" groups="stock.group_stock_manager">
+                    <group name="advanced">
+                        <field name="procurement_id"/>
+                        <field name="group_id"/>
+                        <field name="route_ids" widget="many2many_tags"/>
+                        <field name="rule_id" readonly="1"/>
+                        <field name="push_rule_id" readonly="1"/>
+                        <field name="price_unit" readonly="1"/>
+                    </group>
+                </page>
+            </notebook>
         </group>
     </field>
 </record>
