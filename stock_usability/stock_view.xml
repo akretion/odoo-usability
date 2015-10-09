@@ -33,6 +33,14 @@
             <filter string="Partner" context="{'group_by': 'partner_id'}"/>
         </group>
         <filter string="Origin" position="replace"/>
+        <filter string="Expected Date" position="attributes">
+            <!-- group per day -->
+            <attribute name="context">"{'group_by':'min_date:day'}"</attribute>
+        </filter>
+        <filter string="Expected Date" position="after">
+            <filter name="date_done" string="Date Done"
+                context="{'group_by':'date_done:day'}"/>
+        </filter>
     </field>
 </record>
 
