@@ -41,6 +41,15 @@ class AccountInvoice(models.Model):
     fiscal_position = fields.Many2one(track_visibility='onchange')
 
 
+class AccountMove(models.Model):
+    _inherit = 'account.move'
+
+    @api.onchange('date')
+    def date_onchange(self):
+        if self.date:
+            self.period_id = self.env['account.period'].find(self.date)
+
+
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
@@ -61,21 +70,25 @@ class AccountBankStatementLine(models.Model):
     # Disable guessing for reconciliation
     # because my experience with several customers shows that it is a problem
     # in the following scenario : move line 'x' has been "guessed" by OpenERP
-    # to be reconciled with a statement line 'Y' at the end of the bank statement,
-    # but it is a mistake because it should be reconciled with statement line 'B'
-    # at the beginning of the bank statement
+    # to be reconciled with a statement line 'Y' at the end of the bank
+    # statement, but it is a mistake because it should be reconciled with
+    # statement line 'B' at the beginning of the bank statement
     # When the user is on statement line 'B', he tries to select
     # move line 'x', but it can't find it... because it is already "reserved"
-    # by the guess of OpenERP for statement line 'Y' ! To solve this problem, the
-    # user must go to statement line 'Y' and unselect move line 'x' and then come
-    # back on statement line 'B' and select move line 'A'... but non super-expert
-    # users can't do that because it is impossible to figure out that the fact that
-    # the user can't find move line 'x' is caused by this.
+    # by the guess of OpenERP for statement line 'Y' ! To solve this problem,
+    # the user must go to statement line 'Y' and unselect move line 'x'
+    # and then come back on statement line 'B' and select move line 'A'...
+    # but non super-expert users can't do that because it is impossible to
+    # figure out that the fact that the user can't find move line 'x'
+    # is caused by this.
     # Set search_reconciliation_proposition to False by default
     def get_data_for_reconciliations(
             self, cr, uid, ids, excluded_ids=None,
             search_reconciliation_proposition=False, context=None):
-        return super(AccountBankStatementLine ,self).get_data_for_reconciliations(
-            cr, uid, ids, excluded_ids=excluded_ids,
-            search_reconciliation_proposition=search_reconciliation_proposition,
-            context=context)
+        # Make variable name shorted for PEP8 !
+        search_rec_prop = search_reconciliation_proposition
+        return super(AccountBankStatementLine, self).\
+            get_data_for_reconciliations(
+                cr, uid, ids, excluded_ids=excluded_ids,
+                search_reconciliation_proposition=search_rec_prop,
+                context=context)
