@@ -137,6 +137,20 @@
     </field>
 </record>
 
+<record id="view_location_search" model="ir.ui.view">
+    <field name="name">stock.usability.stock.location.search</field>
+    <field name="model">stock.location</field>
+    <field name="inherit_id" ref="stock.view_location_search" />
+    <field name="arch" type="xml">
+        <field name="location_id" position="after">
+            <group string="Group By" name="groupby">
+                <filter name="usage" string="Location Type"
+                    context="{'group_by': 'usage'}"/>
+            </group>
+        </field>
+    </field>
+</record>
+
 <record id="stock_location_path_action" model="ir.actions.act_window">
     <field name="name">Push Rules</field>
     <field name="res_model">stock.location.path</field>
