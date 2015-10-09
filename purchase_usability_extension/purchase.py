@@ -35,6 +35,7 @@ class PurchaseOrder(models.Model):
 
     state = fields.Selection(track_visibility='onchange')
     location_id = fields.Many2one(track_visibility='onchange')
+    picking_type_id = fields.Many2one(track_visibility='onchange')
     dest_address_id = fields.Many2one(track_visibility='onchange')
     pricelist_id = fields.Many2one(track_visibility='onchange')
     date_approve = fields.Date(track_visibility='onchange')
