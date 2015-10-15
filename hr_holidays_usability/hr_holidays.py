@@ -41,6 +41,13 @@ class HrHolidaysStatus(models.Model):
         default='worked')
 
 
+class HrEmployee(models.Model):
+    _inherit = 'hr.employee'
+
+    holiday_exclude_mass_allocation = fields.Boolean(
+        string='Exclude from Mass Holiday Attribution')
+
+
 class HrHolidays(models.Model):
     _inherit = 'hr.holidays'
     _order = 'type desc, date_from desc'

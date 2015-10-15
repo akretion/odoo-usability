@@ -29,8 +29,9 @@ class HrHolidaysMassAllocation(models.TransientModel):
     _description = 'Wizard for mass allocation of holidays'
 
     @api.model
-    def _get_all_employees(self):
-        return self.env['hr.employee'].search([])
+    def _default_employees(self):
+        return self.env['hr.employee'].search([
+            ('holiday_exclude_mass_allocation', '=', False)])
 
     @api.model
     def _get_default_holiday_status(self):
@@ -44,7 +45,7 @@ class HrHolidaysMassAllocation(models.TransientModel):
         'hr.holidays.status', string='Leave Type', required=True,
         default=_get_default_holiday_status)
     employee_ids = fields.Many2many(
-        'hr.employee', string='Employees', default=_get_all_employees)
+        'hr.employee', string='Employees', default=_default_employees)
     auto_approve = fields.Boolean(
         string='Automatic Approval', default=True)
     # size=64 because the name field of hr.holidays is size=64
