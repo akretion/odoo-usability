@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Stock Invoice Try Again module for OpenERP
-#    Copyright (C) 2013 Akretion (http://www.akretion.com)
+#    Stock Invoice Try Again module for Odoo
+#    Copyright (C) 2013-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,43 +20,26 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
-from openerp.tools.translate import _
+from openerp import models, api, _
+from openerp.exceptions import Warning as UserError
 
 
-class stock_picking(orm.Model):
+class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    def revert_to_tobeinvoiced(self, cr, uid, ids, context=None):
-        assert len(ids) == 1, "Only one picking"
-        picking = self.browse(cr, uid, ids[0], context=context)
-        if picking.invoice_state == 'invoiced':
-            if picking.invoice_id:
-                raise orm.except_orm(
-                    _('Error:'),
-                    _("This picking is linked to the invoice with description '%s'. You should first delete this invoice and try again.")
-                    % picking.invoice_id.name)
-            self.write(cr, uid, ids[0], {
-                'invoice_state': '2binvoiced',
-                }, context=context)
+    @api.multi
+    def revert_to_tobeinvoiced(self):
+        self.ensure_one()
+        if self.invoice_state == 'invoiced':
+            if self.invoice_id:
+                raise UserError(_(
+                    "This picking is linked to the invoice with "
+                    "description '%s'. You should first delete this "
+                    "invoice and try again.")
+                    % self.invoice_id.name)
+            self.invoice_state = '2binvoiced'
         else:
-            raise orm.except_orm(
-                _('Error:'),
-                _("You can only do this when the Delivery Order has 'Invoice State' = 'Invoiced'."))
+            raise UserError(_(
+                "You can only do this when the Delivery Order "
+                "has 'Invoice State' = 'Invoiced'."))
         return True
-
-
-class stock_picking_out(orm.Model):
-    _inherit = 'stock.picking.out'
-
-    def revert_to_tobeinvoiced(self, cr, uid, ids, context=None):
-        return self.pool['stock.picking'].revert_to_tobeinvoiced(
-            cr, uid, ids, context=context)
-
-
-class stock_picking_in(orm.Model):
-    _inherit = 'stock.picking.in'
-
-    def revert_to_tobeinvoiced(self, cr, uid, ids, context=None):
-        return self.pool['stock.picking'].revert_to_tobeinvoiced(
-            cr, uid, ids, context=context)
