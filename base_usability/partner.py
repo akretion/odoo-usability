@@ -44,3 +44,4 @@ class Partner(models.Model):
     email = fields.Char(track_visibility='onchange')
     is_company = fields.Boolean(track_visibility='onchange')
     use_parent_address = fields.Boolean(track_visibility='onchange')
+    active = fields.Boolean(track_visibility='onchange')
