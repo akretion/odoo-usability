@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class PurchaseOrderLine(models.Model):
@@ -45,3 +45,30 @@ class PurchaseOrder(models.Model):
     fiscal_position = fields.Many2one(track_visibility='onchange')
     incoterm_id = fields.Many2one(track_visibility='onchange')
     partner_ref = fields.Char(track_visibility='onchange')
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    @api.one
+    def _purchase_stats(self):
+        poo = self.env['purchase.order']
+        aio = self.env['account.invoice']
+        try:
+            self.purchase_order_count = poo.search_count(
+                [('partner_id', 'child_of', self.id)])
+        except:
+            pass
+        try:
+            self.supplier_invoice_count = aio.search_count([
+                ('partner_id', 'child_of', self.id),
+                ('type', '=', 'in_invoice')])
+        except:
+            pass
+
+    # Fix an access right issue when accessing partner form without being
+    # a member of the purchase/User group
+    purchase_order_count = fields.Integer(
+        compute='_purchase_stats', string='# of Purchase Order')
+    supplier_invoice_count = fields.Integer(
+        compute='_purchase_stats', string='# Supplier Invoices')
