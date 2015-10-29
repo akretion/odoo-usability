@@ -15,8 +15,9 @@
     <field name="inherit_id" ref="base.view_company_form" />
     <field name="arch" type="xml">
         <field name="company_registry" position="after">
-            <field name="capital_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-            <field name="title"/>
+            <field name="capital_amount" widget="monetary"
+                options="{'currency_field': 'currency_id'}"/>
+            <field name="title" domain="[('domain', '=', 'partner')]"/>
         </field>
     </field>
 </record>
