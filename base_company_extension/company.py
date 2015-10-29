@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Base Company Extension module for OpenERP/Odoo
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Base Company Extension module for Odoo
+#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,18 +20,16 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class res_company(orm.Model):
+class ResCompany(models.Model):
     _inherit = "res.company"
 
-    _columns = {
-        'capital_amount': fields.integer('Capital Amount'),
-        'title': fields.related(
-            'partner_id', 'title', type='many2one',
-            relation='res.partner.title', string='Legal Form'),
-        }
+    capital_amount = fields.Integer(string='Capital Amount')
+    title = fields.Many2one(
+        'res.partner.title', related='partner_id.title',
+        string='Legal Form')
 
     _sql_constraints = [(
         'capital_amount_positive',
