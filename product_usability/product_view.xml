@@ -73,6 +73,17 @@
                 <field name="price_history_ids" nolabel="1"/>
             </group>
         </group>
+        <!-- START for wider 'name' field -->
+        <div class="oe_left"  position="attributes">
+            <attribute name="style">width: 800px;</attribute>
+        </div>
+        <div class="oe_title" position="attributes">
+            <attribute name="style">width: 700px;</attribute>
+        </div>
+        <field name="name" position="attributes">
+            <attribute name="class"></attribute>
+        </field>
+        <!-- END for wider 'name' field -->
     </field>
 </record>
 
