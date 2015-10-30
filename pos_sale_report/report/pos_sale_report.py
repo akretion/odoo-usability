@@ -31,7 +31,7 @@ class pos_sale_report(models.Model):
     _rec_name = 'date'
     _order = 'date desc'
 
-    date = fields.Datetime(string='Order Date', readonly=True)
+    date = fields.Date(string='Order Date', readonly=True)
     product_id = fields.Many2one(
         'product.product', string='Product Variant', readonly=True)
     product_tmpl_id = fields.Many2one(
@@ -44,7 +44,7 @@ class pos_sale_report(models.Model):
     # WARNING : this code doesn't handle uom conversion for the moment
     def _sale_order_select(self):
         select = """SELECT min(sol.id)*-1 AS id,
-            so.date_order AS date,
+            so.date_order::date AS date,
             sol.product_id AS product_id,
             pp.product_tmpl_id AS product_tmpl_id,
             so.company_id AS company_id,
@@ -61,7 +61,7 @@ class pos_sale_report(models.Model):
 
     def _pos_order_select(self):
         select = """SELECT min(pol.id) AS id,
-            po.date_order AS date,
+            po.date_order::date AS date,
             pol.product_id AS product_id,
             pp.product_tmpl_id AS product_tmpl_id,
             po.company_id AS company_id,

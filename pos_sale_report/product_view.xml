@@ -10,7 +10,8 @@
     res_model="pos.sale.report"
     src_model="product.product"
     view_mode="graph"
-    context="{'search_default_product_id': active_id}"
+    domain="[('product_id', 'in', active_ids)]"
+    context="{'search_default_product_groupby': 1}"
     />
 
 <act_window id="product_template_pos_sale_report_action"
@@ -19,7 +20,8 @@
     res_model="pos.sale.report"
     src_model="product.template"
     view_mode="graph"
-    context="{'search_default_product_tmpl_id': active_id}"
+    domain="[('product_tmpl_id', 'in', active_ids)]"
+    context="{'search_default_product_tmpl_groupby': 1}"
     />
 
 
