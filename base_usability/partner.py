@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class Partner(models.Model):
@@ -45,3 +45,18 @@ class Partner(models.Model):
     is_company = fields.Boolean(track_visibility='onchange')
     use_parent_address = fields.Boolean(track_visibility='onchange')
     active = fields.Boolean(track_visibility='onchange')
+    # For reports
+    name_title = fields.Char(
+        compute='_compute_name_title', string='Name with Title')
+
+    @api.one
+    @api.depends('name', 'title', 'is_company')
+    def _compute_name_title(self):
+        name_title = self.name
+        if self.title:
+            title = self.title.shortcut or self.title
+            if self.is_company:
+                name_title = ' '.join([name_title, title])
+            else:
+                name_title = ' '.join([title, name_title])
+        self.name_title = name_title
