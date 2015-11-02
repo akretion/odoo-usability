@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Base Other Report Engines module for Odoo
-#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
+#    Aeroo Report to Printer module for Odoo
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,19 +22,29 @@
 
 
 {
-    'name': 'Base Other Report Engines',
+    'name': 'Aeroo Report to Printer',
     'version': '0.1',
-    'category': '',
+    'category': 'Aeroo',
     'license': 'AGPL-3',
-    'summary': 'Allows the use of report engines other than Qweb',
+    'summary': 'Connect aeroo_report to base_report_to_printer',
     'description': """
-Base Other Report Engines
-=========================
+Aeroo Report to Printer
+=======================
 
-This module inherit the method *_get_report_from_name()* to allow the use of report engines other than Qweb.
+There is a module *report_aeroo_direct_print* in https://github.com/aeroo/aeroo_reports that adds support for CUPS printing, but it's not as mature and clean as the OCA module *base_report_to_printer* from https://github.com/OCA/report-print-send.
+
+And I want to use the best of both world : the best reporting engine (Aeroo) with the best CUPS printing module (base_report_to_printer). So I developped this small glue module.
+
+You will find some sample code to use this module in the comments of the main Python file.
+
+This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['report'],
-    'data': [],
+    'depends': [
+        'base_report_to_printer',
+        'report_aeroo',
+        'base_other_report_engines',
+        ],
+    'installable': True,
 }
