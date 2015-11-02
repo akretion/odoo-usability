@@ -37,6 +37,8 @@ And I want to use the best of both world : the best reporting engine (Aeroo) wit
 
 You will find some sample code to use this module in the comments of the main Python file.
 
+WARNING: you need this PR for base_report_to_printer to use this module: https://github.com/OCA/report-print-send/pull/39
+
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
