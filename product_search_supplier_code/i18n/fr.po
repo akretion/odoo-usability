@@ -1,12 +1,13 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
+#	* product_search_supplier_code
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-30 12:56+0000\n"
-"PO-Revision-Date: 2015-10-30 12:56+0000\n"
+"POT-Creation-Date: 2015-11-04 15:18+0000\n"
+"PO-Revision-Date: 2015-11-04 15:18+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,6 +17,7 @@ msgstr ""
 
 #. module: product_search_supplier_code
 #: view:product.product:0
+#: view:stock.picking.in:0
 msgid "Supplier Default Code"
-msgstr "Supplier Default Code"
+msgstr "Code Fournisseur"
 

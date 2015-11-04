@@ -29,8 +29,11 @@
     'summary': "Allow to search product by its suppliers'code",
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['product'],
-    'data': ['product_view.xml'],
+    'depends': ['product', 'stock'],
+    'data': [
+        'product_view.xml',
+        'picking_view.xml',
+    ],
     'installable': True,
     'active': False,
 }
