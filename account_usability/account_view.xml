@@ -57,12 +57,12 @@
 
 <!-- model account.move.line / Journal Items -->
 <record id="account.action_account_moves_all_a" model="ir.actions.act_window">
-    <field name="limit">500</field>
+    <field name="limit">200</field>
 </record>
 
 <!-- model account.move / Journal Entries -->
 <record id="account.action_move_journal_line" model="ir.actions.act_window">
-    <field name="limit">500</field>
+    <field name="limit">200</field>
 </record>
 
 <record id="view_account_move_line_filter" model="ir.ui.view">
