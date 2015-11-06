@@ -22,6 +22,9 @@
 
 from openerp import models, api, _
 from openerp.exceptions import Warning as UserError
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class PrintingPrinter(models.Model):
@@ -57,6 +60,9 @@ class PrintingPrinter(models.Model):
             'id': object_id,
             'report_type': 'aeroo',
             }
+        logger.info(
+            'Request printing aeroo report %s model %s ID %d in %d copies',
+            report_name, data['model'], data['id'], copies)
         aeroo_report_content, aeroo_report_format = report.create(
             self.env.cr, self.env.uid, [object_id],
             data, context=dict(self.env.context))
