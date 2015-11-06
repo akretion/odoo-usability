@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Stock Usability module for Odoo
@@ -35,6 +35,7 @@ The usability enhancements inclure:
 * display the source location on the tree view of the move lines of the pickings (by default, only the destination location is displayed).
 * always display the field *Backorder* on the form view of picking (by default, this field is only displayed when it has a value, so the user doesn't know when the field has no value because he doesn't see the field !)
 * add a group by Partner in the picking search view (particularly usefull for receptions)
+* add graph view for pickings
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
