@@ -35,6 +35,8 @@ This module is an ALTERNATIVE to the module *procurement_suggest* ; it is simila
 
 The advantage is that you are not impacted by the faulty procurements (for example :  a procurement generates a PO ; the PO is confirmed ; the related picking is cancelled and deleted -> the procurements will always stay in running without related stock moves !)
 
+You may want to increase the osv_memory_age_limit (default value = 1h) in Odoo server config file, in order to let some time to the purchase user to finish his work on the purchase suggestions.
+
 Warning: this module doesn't handle the case where a product uses multiple units of measures for the moment.
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
