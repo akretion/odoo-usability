@@ -23,7 +23,7 @@
 
 {
     'name': 'Stock Usability',
-    'version': '0.1',
+    'version': '0.2',
     'category': 'Inventory, Logistic, Storage',
     'license': 'AGPL-3',
     'summary': 'Several usability enhancements in Warehouse management',
@@ -36,6 +36,7 @@ The usability enhancements inclure:
 * always display the field *Backorder* on the form view of picking (by default, this field is only displayed when it has a value, so the user doesn't know when the field has no value because he doesn't see the field !)
 * add a group by Partner in the picking search view (particularly usefull for receptions)
 * add graph view for pickings
+* remove ability to translate stock.location, stock.location.route and stock.picking.type
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
