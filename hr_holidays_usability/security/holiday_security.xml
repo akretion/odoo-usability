@@ -1,19 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data noupdate="1">
+<data noupdate="0">
+
+<!--
+Employee : only see his holidays
+Officer = the manager of some employees : see his holidays and the ones of his subordinates
+Manager = person that administrates the holidays process : can see everything
+-->
 
 <record id="hr_holidays_counter_personal_rule" model="ir.rule">
     <field name="name">Personal Holiday Counters</field>
     <field name="model_id" ref="model_hr_holidays_employee_counter"/>
-    <field name="domain_force">['|',('employee_id.user_id','=',user.id),('employee_id.user_id','=',False)]</field>
+    <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
     <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+</record>
+
+<record id="hr_holidays_counter_see_me_and_subordinates" model="ir.rule">
+    <field name="name">My Holiday Counter and Subordinates</field>
+    <field name="model_id" ref="model_hr_holidays_employee_counter"/>
+     <field name="domain_force">['|', ('employee_id.user_id','=',user.id), ('employee_id','child_of',user.employee_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('base.group_hr_user'))]"/>
 </record>
 
 <record id="hr_holidays_counter_see_all" model="ir.rule">
     <field name="name">All Holiday Counters</field>
     <field name="model_id" ref="model_hr_holidays_employee_counter"/>
     <field name="domain_force">[(1,'=',1)]</field>
-    <field name="groups" eval="[(4, ref('base.group_hr_user'))]"/>
+    <field name="groups" eval="[(6, 0, [ref('base.group_hr_manager')])]"/>
+</record>
+
+<!-- inherit native ir.rule ; Officer can see the holidays of his subordinates, not all employees -->
+<record id="hr_holidays.property_rule_holidays_officer" model="ir.rule">
+    <field name="domain_force">['|', ('employee_id.user_id','=',user.id), ('employee_id','child_of',user.employee_ids.ids)]</field>
+</record>
+
+<record id="hr_holidays_manager_all" model="ir.rule">
+    <field name="name">HR Manager can see all Holidays</field>
+    <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+    <field name="domain_force">[(1,'=',1)]</field>
+    <field name="groups" eval="[(4, ref('base.group_hr_manager'))]"/>
 </record>
 
 </data>

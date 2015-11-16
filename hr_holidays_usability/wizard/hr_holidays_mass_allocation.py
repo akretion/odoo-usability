@@ -88,5 +88,6 @@ class HrHolidaysMassAllocation(models.TransientModel):
             'target': 'current',
             'domain': [('id', 'in', alloc_hol_ids)],
             'nodestroy': True,
+            'context': "{'default_type':'add'}",
             })
         return action

@@ -22,6 +22,7 @@
 
 from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
+from openerp.exceptions import Warning as UserError
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import pytz
@@ -39,6 +40,11 @@ class HrHolidaysStatus(models.Model):
         # TODO find proper English translation
         ], string='Vacation Compute Method', required=True,
         default='worked')
+    add_validation_manager = fields.Boolean(
+        string='Allocation validated by HR Manager',
+        help="If enabled, allocation requests for this leave type "
+        "can be validated only by an HR Manager "
+        "(not possible by an HR Officer).")
 
 
 class HrEmployee(models.Model):
@@ -336,6 +342,34 @@ class HrHolidays(models.Model):
                 days = obj._compute_number_of_days()
                 if days != obj.number_of_days_temp:
                     obj.number_of_days_temp = days
+        return res
+
+    @api.multi
+    def holidays_validate(self):
+        for holi in self:
+            if holi.user_id == self.env.user:
+                if holi.type == 'remove':
+                    raise UserError(_(
+                        "You cannot validate your own Leave request '%s'.")
+                        % holi.name)
+                elif (
+                        holi.type == 'add' and
+                        not self.pool['res.users'].has_group(
+                            self._cr, self._uid, 'base.group_hr_manager')):
+                    raise UserError(_(
+                        "You cannot validate your own Allocation "
+                        "request '%s'.")
+                        % holi.name)
+            if (
+                    holi.type == 'add' and
+                    holi.holiday_status_id.add_validation_manager and
+                    not self.pool['res.users'].has_group(
+                        self._cr, self._uid, 'base.group_hr_manager')):
+                raise UserError(_(
+                    "Allocation request '%s' has a leave type '%s' that "
+                    "can be approved only by an HR Manager.")
+                    % (holi.name, holi.holiday_status_id.name))
+        res = super(HrHolidays, self).holidays_validate()
         return res
 
 

@@ -9,7 +9,7 @@
     'dbname': cr.dbname,
 })
 template_id=self.pool.get('ir.model.data').get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
-self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, force_send=True, context=context)</field>
+self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, context=context)</field>
     <field name="state">code</field>
     <field name="type">ir.actions.server</field>
     <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
@@ -23,7 +23,7 @@ self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, force
     'dbname': cr.dbname,
 })
 template_id=self.pool.get('ir.model.data').get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
-self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, force_send=True, context=context)</field>
+self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, context=context)</field>
     <field name="state">code</field>
     <field name="type">ir.actions.server</field>
     <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
@@ -37,7 +37,7 @@ self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, force
     'dbname': cr.dbname,
 })
 template_id=self.pool.get('ir.model.data').get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
-self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, force_send=True, context=context)</field>
+self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, context=context)</field>
     <field name="state">code</field>
     <field name="type">ir.actions.server</field>
     <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
@@ -70,10 +70,10 @@ self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, force
 <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
 
 % if ctx.get('dbname') and 'prod' not in ctx.get('dbname'):
-<p>WARNING : THIS IS A TEST E-MAIL sent from a test OpenERP database (${ctx.get('dbname')}). Do not take into account !</p>
+<p>WARNING : THIS IS A TEST E-MAIL sent from a test Odoo database (${ctx.get('dbname')}). Do not take into account !</p>
 
 % endif
-<p>The following ${object.type == 'remove' and 'leave request' or 'ALLOCATION request (i.e. credit of days, not debit !)'} has been ${ctx.get('wkf_tracker') or 'ERROR'} today in OpenERP by ${user.name or ''} :</p>
+<p>The following ${object.type == 'remove' and 'leave request' or 'ALLOCATION request (i.e. credit of days, not debit !)'} has been ${ctx.get('wkf_tracker') or 'ERROR'} today in Odoo by ${user.name or ''} :</p>
 
 <ul>
 <li>Employee : ${object.employee_id.name or ''}</li>
@@ -102,7 +102,7 @@ self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, force
 % endif
 <p>
 -- <br/>
-Automatic e-mail sent by OpenERP. Do not reply.<br/>
+Automatic e-mail sent by Odoo. Do not reply.<br/>
 Database : ${ctx.get('dbname')}<br/>
 </p>
 </div>

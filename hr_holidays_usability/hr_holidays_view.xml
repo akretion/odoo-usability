@@ -120,6 +120,9 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
         <field name="name" position="after">
             <field name="vacation_compute_method"/>
         </field>
+        <field name="limit" position="after">
+            <field name="add_validation_manager"/>
+        </field>
     </field>
 </record>
 
