@@ -50,7 +50,7 @@ class StockPickingType(models.Model):
 
     name = fields.Char(translate=False)
 
-class StockLocationRoute(models.Model)
+class StockLocationRoute(models.Model):
     _inherit = 'stock.location.route'
 
     name = fields.Char(translate=False)
