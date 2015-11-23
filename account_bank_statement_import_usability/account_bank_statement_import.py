@@ -29,14 +29,6 @@ class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
 
     @api.model
-    @api.returns('res.partner.bank')
-    def _create_bank_account(
-            self, account_number, company_id=False, currency_id=False):
-        raise UserError(_(
-            "The bank account corresponding to this file "
-            "is not one of the company's bank accounts in Odoo"))
-
-    @api.model
     def _find_bank_account_id(self, account_number):
         """ Get res.partner.bank ID """
         bank_account_id = None
