@@ -56,7 +56,7 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
             </group>
         </xpath>
         <field name="department_id" position="after">
-            <field name="posted_date" groups="base.group_hr_user"/>
+            <field name="posted_date" groups="base.group_hr_manager"/>
         </field>
     </field>
 </record>
@@ -84,7 +84,7 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
             <attribute name="invisible">0</attribute>
         </field>
         <field name="holiday_status_id" position="after">
-            <field name="posted_date" groups="base.group_hr_user"/>
+            <field name="posted_date" groups="base.group_hr_manager"/>
         </field>
     </field>
 </record>
