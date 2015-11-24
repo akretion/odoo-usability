@@ -20,7 +20,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning as UserError
 
 
 class AccountInvoice(models.Model):
@@ -92,3 +93,41 @@ class AccountBankStatementLine(models.Model):
                 cr, uid, ids, excluded_ids=excluded_ids,
                 search_reconciliation_proposition=search_rec_prop,
                 context=context)
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    @api.multi
+    def show_partner_receivable_or_payable_account(self):
+        self.ensure_one()
+        if self.customer and not self.supplier:
+            account_id = self.property_account_receivable.id
+        elif self.supplier and not self.customer:
+            account_id = self.property_account_payable.id
+        else:
+            raise UserError(_(
+                'This shortcut only works for partners that are only '
+                'customer or only supplier'))
+        action = self.env['ir.actions.act_window'].for_xml_id(
+            'account', 'action_account_moves_all_tree')
+        action['context'] = {
+            'search_default_partner_id': [self.ids[0]],
+            'default_partner_id': self.ids[0],
+            'search_default_account_id': account_id,
+            }
+        return action
+
+    @api.multi
+    def _compute_journal_item_count(self):
+        amlo = self.env['account.move.line']
+        for partner in self:
+            partner.journal_item_count = amlo.search_count([
+                ('partner_id', '=', partner.id),
+                ('account_id', 'in', (
+                    partner.property_account_receivable.id,
+                    partner.property_account_payable.id))])
+
+    journal_item_count = fields.Integer(
+        compute='_compute_journal_item_count',
+        string="Journal Items", readonly=True)
