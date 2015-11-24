@@ -111,6 +111,19 @@
     </field>
 </record>
 
+<!-- On the partner form, when a user clicks on the journal items
+we wants to see only the account payable or account receivable -->
+<record id="partner_view_button_journal_item_count" model="ir.ui.view">
+    <field name="name">usability.res.partner.journal.items.button</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="account.partner_view_button_journal_item_count"/>
+    <field name="arch" type="xml">
+        <button name="%(account.action_account_moves_all_tree)d" position="attributes">
+            <attribute name="type">object</attribute>
+            <attribute name="name">show_partner_receivable_or_payable_account</attribute>
+        </button>
+    </field>
+</record>
 
 </data>
 </openerp>
