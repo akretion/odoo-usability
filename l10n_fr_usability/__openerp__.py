@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Stock Usability module for Odoo
-#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
+#    l10n FR Usability module for Odoo
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,27 +22,23 @@
 
 
 {
-    'name': 'Stock Usability',
+    'name': 'French Usability',
     'version': '0.2',
     'category': 'Inventory, Logistic, Storage',
     'license': 'AGPL-3',
-    'summary': 'Several usability enhancements in Warehouse management',
+    'summary': 'Several usability enhancements for French localization',
     'description': """
-Stock Usability
-===============
+French Localization Usability
+=============================
 
 The usability enhancements include:
-* display the source location on the tree view of the move lines of the pickings (by default, only the destination location is displayed).
-* always display the field *Backorder* on the form view of picking (by default, this field is only displayed when it has a value, so the user doesn't know when the field has no value because he doesn't see the field !)
-* add a group by Partner in the picking search view (particularly usefull for receptions)
-* add graph view for pickings
-* remove ability to translate stock.location, stock.location.route and stock.picking.type
+* bank account type is IBAN by default
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['stock'],
-    'data': ['stock_view.xml'],
+    'depends': ['l10n_fr'],
+    'data': [],
     'installable': True,
 }
