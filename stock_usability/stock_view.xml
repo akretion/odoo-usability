@@ -21,6 +21,12 @@
         <field name="date_done" position="attributes">
             <attribute name="groups"></attribute>
         </field>
+        <!-- Maybe it's usefull to always display stock pack operations...
+        or maybe only for debugging... I haven't decided yet !
+        <page string="Operations" position="attributes">
+            <attribute name="attrs"></attribute>
+        </page>
+        -->
     </field>
 </record>
 
