@@ -36,12 +36,17 @@ This module adds *track_visibility='onchange'* on all the important fields of th
 By default, Odoo doesn't display the title field on all the partner form views. This module fixes it (it replaces the module base_title_on_partner).
 
 By default, users in the Partner Contact group also have create/write access on Countries and States. This module removes that: only the users in the *Administration > Configuration* group have create/write/delete access on those objects.
+
+It also adds a log message at INFO level when sending an email via SMTP.
+
+It displays the Local modules by default in tree view (instead of Kanban) filtered on installed modules (instead of filtered on Apps).
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['base', 'mail'],
     'data': [
         'partner_view.xml',
+        'module_view.xml',
         'security/ir.model.access.csv',
         ],
     'installable': True,
