@@ -47,6 +47,7 @@ It displays the Local modules by default in tree view (instead of Kanban) filter
     'data': [
         'partner_view.xml',
         'module_view.xml',
+        'translation_view.xml',
         'security/ir.model.access.csv',
         ],
     'installable': True,
