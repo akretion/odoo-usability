@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Sale Usability Extension module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Sale Stock Usability module for Odoo
+#    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,24 +22,24 @@
 
 
 {
-    'name': 'Sale Usability Extension',
-    'version': '0.1',
-    'category': 'Sale Management',
+    'name': 'Sale Stock Usability',
+    'version': '0.2',
+    'category': 'Sales Management',
     'license': 'AGPL-3',
-    'summary': 'Show invoices and deliveries on sale orders',
+    'summary': 'use management',
     'description': """
-Sale Usability Extension
-========================
+Sale Stock Usability
+====================
 
-Display Invoices and Delivery Orders on Sale Order form view (in dedicated tabs).
+The usability enhancements include:
 
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
+* *To invoice* filter on pickings filters on invoice_state = 2binvoiced AND state = done
+
+This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['sale'],
-    'data': [
-        'sale_view.xml',
-        ],
-    'active': False,
+    'depends': ['sale_stock'],
+    'data': ['sale_stock_view.xml'],
+    'installable': True,
 }
