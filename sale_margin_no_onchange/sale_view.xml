@@ -33,6 +33,18 @@
     </field>
 </record>
 
+<record id="view_order_line_tree" model="ir.ui.view">
+    <field name="name">margin.sale.order.line.tree</field>
+    <field name="model">sale.order.line</field>
+    <field name="inherit_id" ref="sale.view_order_line_tree" />
+    <field name="arch" type="xml">
+        <field name="price_subtotal" position="after">
+            <field name="standard_price_company_currency"/>
+            <field name="margin_company_currency"/>
+            <field name="margin_rate"/>
+        </field>
+    </field>
+</record>
 
 </data>
 </openerp>
