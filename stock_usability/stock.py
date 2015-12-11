@@ -21,6 +21,7 @@
 ##############################################################################
 
 from openerp import models, fields
+import openerp.addons.decimal_precision as dp
 
 
 class StockInventory(models.Model):
@@ -50,10 +51,12 @@ class StockPickingType(models.Model):
 
     name = fields.Char(translate=False)
 
+
 class StockLocationRoute(models.Model):
     _inherit = 'stock.location.route'
 
     name = fields.Char(translate=False)
+
 
 class StockWarehouseOrderpoint(models.Model):
     _inherit = 'stock.warehouse.orderpoint'
@@ -64,3 +67,24 @@ class StockWarehouseOrderpoint(models.Model):
         'An orderpoint already exists for the same company, same warehouse, '
         'same stock location and same product.'
         )]
+
+
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
+
+    qty = fields.Float(digits=dp.get_precision('Product Unit of Measure'))
+
+
+class StockMove(models.Model):
+    _inherit = 'stock.move'
+
+    reserved_availability = fields.Float(
+        digits=dp.get_precision('Product Unit of Measure'))
+    availability = fields.Float(
+        digits=dp.get_precision('Product Unit of Measure'))
+
+
+class StockMoveOperationLink(models.Model):
+    _inherit = 'stock.move.operation.link'
+
+    qty = fields.Float(digits=dp.get_precision('Product Unit of Measure'))
