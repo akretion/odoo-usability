@@ -231,6 +231,9 @@ in the quantities for his reception -->
         <field name="reservation_id" position="attributes">
             <attribute name="invisible">0</attribute>
         </field>
+        <field name="qty" position="attributes">
+            <attribute name="sum">Total Qty</attribute>
+        </field>
     </field>
 </record>
 
