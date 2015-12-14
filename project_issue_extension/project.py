@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Project Issue Extension module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Project Issue Extension module for Odoo
+#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,47 +20,36 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
-class project_issue(orm.Model):
+class ProjectIssue(models.Model):
     _inherit = 'project.issue'
+    _rec_name = 'display_name'
 
-    def name_get(self, cr, uid, ids, context=None):
-        res = []
-        if isinstance(ids, (int, long)):
-            ids = [ids]
-        for record in self.browse(cr, uid, ids, context=context):
-            res.append((record.id, u'[%s] %s' % (record.number, record.name)))
-        return res
+    @api.multi
+    @api.depends('number', 'name')
+    def compute_display_name(self):
+        for issue in self:
+            issue.display_name = u'[%s] %s' % (issue.number, issue.name)
 
-    _columns = {
-        'number': fields.char('Number', size=32),
-        'create_date': fields.datetime('Creation Date', readonly=True),
-        'target_date': fields.datetime('Target Resolution Date',
-            track_visibility='onchange'),
-        'product_ids': fields.many2many(
-            'product.product', string="Related Products"),
-    }
+    number = fields.Char(string='Number', copy=False, default='/')
+    display_name = fields.Char(
+        compute='compute_display_name', string='Display Name', store=True)
+    target_date = fields.Datetime(
+        string='Target Resolution Date', track_visibility='onchange')
+    product_ids = fields.Many2many(
+        'product.product', string="Related Products")
 
-    _defaults = {
-        'number': lambda self, cr, uid, context:
-        self.pool['ir.sequence'].next_by_code(
-            cr, uid, 'project.issue', context=context),
-    }
+    @api.model
+    def create(self, vals):
+        if vals.get('number', '/'):
+            vals['number'] = self.env['ir.sequence'].next_by_code(
+                'project.issue')
+        return super(ProjectIssue, self).create(vals)
 
     _sql_constraints = [(
         'number_company_uniq',
         'unique(number, company_id)',
         'An issue with the same number already exists for this company !'
         )]
-
-    def copy(self, cr, uid, id, default=None, context=None):
-        if default is None:
-            default = {}
-        default.update({
-            'number': self.pool['ir.sequence'].next_by_code(
-                cr, uid, 'project.issue', context=context),
-        })
-        return super(project_issue, self).copy(
-            cr, uid, id, default=default, context=context)
