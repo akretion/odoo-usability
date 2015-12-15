@@ -60,7 +60,7 @@ class ProductCategTaxMixin(models.AbstractModel):
     @api.multi
     def write(self, vals):
         self.write_or_create(vals)
-        return super(ProductCategTaxMixin, self).create(vals)
+        return super(ProductCategTaxMixin, self).write(vals)
 
 
 class ProductTemplate(models.Model):
