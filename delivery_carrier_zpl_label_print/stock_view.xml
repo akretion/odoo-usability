@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2015 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+
+<record id="view_picking_out_form" model="ir.ui.view">
+    <field name="name">delivery_carrier_zpl_label_print.picking.out.form</field>
+    <field name="model">stock.picking.out</field>
+    <field name="inherit_id" ref="base_delivery_carrier_label.view_picking_out_form" />
+    <field name="arch" type="xml">
+        <button name="action_generate_carrier_label" position="after">
+            <button name="print_zpl_delivery_label" type="object" string="Print Delivery Labels" attrs="{'invisible': [('has_delivery_labels', '!=', True)]}"/>
+        </button>
+        <field name="weight_net" position="after">
+            <field name="has_delivery_labels" invisible="0"/>
+        </field>
+    </field>
+</record>
+
+
+</data>
+</openerp>

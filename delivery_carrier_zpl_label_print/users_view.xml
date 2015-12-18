@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2015 Alexis de Lattre <alexis@via.ecp.fr>
+  The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+<record id="view_users_form" model="ir.ui.view">
+    <field name="name">delivery.carrier.zpl.label.res.users.form</field>
+    <field name="model">res.users</field>
+    <field name="inherit_id" ref="base_report_to_printer.view_printing_users_form"/>
+    <field name="arch" type="xml">
+        <field name="printing_printer_id" position="after">
+            <field name="label_printer_id"/>
+        </field>
+    </field>
+</record>
+
+</data>
+</openerp>
