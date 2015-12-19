@@ -33,6 +33,8 @@ Delivery Carrier ZPL Label Print
 
 Add a *Print Label* on Delivery Order that gets the ZPL attached to the picking and sends it to the printer via CUPS.
 
+It requires this PR: https://github.com/OCA/report-print-send/pull/44
+
 Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
     """,
     'author': 'Akretion',
