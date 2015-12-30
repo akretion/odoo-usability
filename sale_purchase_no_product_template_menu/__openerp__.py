@@ -26,14 +26,12 @@
     'version': '0.1',
     'category': 'Sale and Purchase',
     'license': 'AGPL-3',
-    'summary': "Use only if you don't use variants of products",
+    'summary': "Remplace product.template menu entries by product.product menu entries",
     'description': """
 Sale Purchase No Product Template
 =================================
 
-You may use this module only if you don't use product variants i.e. you don't have (and don't plan to have in the future) several product.product attached to one product.template.
-
-This module replaces the menu entries for product.template by menu entries for product.product in the *Sales*, *Purchases* and *Warehouse* menu entry.
+This module replaces the menu entries for product.template by menu entries for product.product in the *Sales*, *Purchases* and *Warehouse* menu entry. The only remaining menu entry for product.template is in the menu *Sales > Configuration > Product Categories and Attributes*.
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,

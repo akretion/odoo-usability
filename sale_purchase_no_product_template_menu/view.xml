@@ -33,14 +33,28 @@
 </record>
 
 <!-- SALE -->
+<!-- Move template menu entry to configuration menu -->
 <record id="product.menu_product_template_action" model="ir.ui.menu">
-    <field name="action" ref="product.product_normal_action_sell"/>
+    <!-- related action is "product.product_template_action" -->
+    <field name="parent_id" ref="product.prod_config_main"/>
+</record>
+
+<record id="product.product_template_action" model="ir.actions.act_window">
+    <field name="name">Product Templates</field>  <!-- native value is "Products" -->
+    <field name="view_mode">tree,form,kanban</field>
+    <field name="view_id" eval="False"/>
+    <field name="context">{}</field>
+</record>
+
+<record id="product.product_normal_action_sell" model="ir.actions.act_window">
+    <field name="name">Products</field>  <!-- native value is "Product Variants" -->
     <field name="view_mode">tree,form,kanban</field>
 </record>
 
-<!-- Hide the native 'Product Variants' menu entry for regular users -->
+<!-- Show the native 'Product Variants' menu entry for everybody -->
 <record id="product.menu_products" model="ir.ui.menu">
-    <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+    <!-- related action is "product.product_normal_action_sell" -->
+    <field name="groups_id" eval="False"/>
 </record>
 
 <!-- set name as editable on product.product form -->
