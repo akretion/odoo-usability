@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2015 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+<record id="view_stock_product_tree" model="ir.ui.view">
+    <field name="name">purchase_suggest_min_qty_on_product.product.product.tree</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="stock.view_stock_product_tree"/>
+    <field name="arch" type="xml">
+        <field name="virtual_available" position="after">
+            <field name="min_qty"/>
+        </field>
+    </field>
+</record>
+
+<record id="product_normal_form_view" model="ir.ui.view">
+    <field name="name">purchase_suggest_min_qty_on_product.product.product.form</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="product.product_normal_form_view"/>
+    <field name="priority">1000</field>
+    <field name="arch" type="xml">
+        <field name="virtual_available" position="after">
+            <separator name="min_qty" colspan="2"/>
+            <field name="min_qty"/>
+        </field>
+    </field>
+</record>
+
+
+</data>
+</openerp>

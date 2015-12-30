@@ -93,7 +93,7 @@ class PurchaseSuggestionGenerate(models.TransientModel):
             if op.product_id.id not in products:
                 products[op.product_id.id] = {
                     'min_qty': op.product_min_qty,
-                    'draft_po_qty': 0.0,
+                    'draft_po_qty': 0.0,  # This value is set later on
                     'orderpoint': op,
                     'product': op.product_id
                     }
