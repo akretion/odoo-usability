@@ -33,6 +33,8 @@ Sale Purchase No Product Template
 
 This module replaces the menu entries for product.template by menu entries for product.product in the *Sales*, *Purchases* and *Warehouse* menu entry. The only remaining menu entry for product.template is in the menu *Sales > Configuration > Product Categories and Attributes*.
 
+This module also switches to the tree view by default for Product menu entries, instead of the kanban view.
+
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
