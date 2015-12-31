@@ -54,7 +54,8 @@
 <!-- Show the native 'Product Variants' menu entry for everybody -->
 <record id="product.menu_products" model="ir.ui.menu">
     <!-- related action is "product.product_normal_action_sell" -->
-    <field name="groups_id" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Products</field>
 </record>
 
 <!-- set name as editable on product.product form -->
