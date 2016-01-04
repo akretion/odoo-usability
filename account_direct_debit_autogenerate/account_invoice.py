@@ -48,7 +48,7 @@ class AccountInvoice(models.Model):
             'order_id': payment_order.id,
             'move_line_id': move_line.id,
             'partner_id': move_line.partner_id.id,
-            'amount_currency': move_line.amount_to_receive,
+            'amount_currency': move_line.debit,
             'communication': move_line.invoice.number.replace('/', ''),
             'state': 'structured',
             'date': move_line.date_maturity,
