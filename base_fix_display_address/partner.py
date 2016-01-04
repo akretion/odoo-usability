@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Base Fix Display Address module for OpenERP
@@ -20,16 +20,16 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp import models
 
 
-class res_partner(orm.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     def _display_address(
             self, cr, uid, address, without_company=False, context=None):
         '''Remove empty lines'''
-        res = super(res_partner, self)._display_address(
+        res = super(ResPartner, self)._display_address(
             cr, uid, address, without_company=without_company, context=context)
         while "\n\n" in res:
             res = res.replace('\n\n', '\n')
