@@ -3,15 +3,19 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Calendar Usability',
-    'summary': 'Make calendar creation quicker',
+    'name': 'Calendar Default Values',
+    'summary': 'Makes calendar creation quicker',
     'description': """
-Calendar Usability
-==================
+Calendar Default Values
+=======================
 
 Define opening hours for each day of week at calendar creation.
 
-Override map_day() and get_my_calendar_data() method to customize behavior.
+Method to override for behavior customization:
+
+    - get_my_calendar_data()
+    - map_day()
+    - string_format()
 
 """,
     'version': '8.0.1.0.0',
@@ -22,6 +26,7 @@ Override map_day() and get_my_calendar_data() method to customize behavior.
     ],
     'website': 'http://www.akretion.com/',
     'data': [
+        'calendar_view.xml',
     ],
     'license': 'AGPL-3',
 }
