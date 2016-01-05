@@ -1,0 +1,75 @@
+# coding: utf-8
+# © 2015 David BEAL @ Akretion
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
+import collections
+from openerp import models, fields, api
+
+
+class ResourceCalendar(models.Model):
+    _inherit = 'resource.calendar'
+
+    name = fields.Char(compute='_compute_name', store=True)
+
+    @api.multi
+    @api.depends('attendance_ids')
+    def _compute_name(self):
+        for rec in self:
+            if rec.attendance_ids:
+                info = []
+                for day in rec.attendance_ids:
+                    selection = day._fields['dayofweek'].selection
+                    string_day = self.map_day()[
+                        selection[int(day.dayofweek)][1]]
+                    info.append(
+                        '%s %s/%s'
+                        % (string_day, int(day.hour_from), int(day.hour_to)))
+                rec.name = ', '.join(info) or '_'
+            else:
+                rec.name = '_'
+
+    @api.model
+    def map_day(self):
+        'Override me to customize calendar name'
+        return {'Monday': 'L', 'Tuesday': 'Ma', 'Wednesday': 'Me',
+                'Thursday': 'J', 'Friday': 'V', 'Saturday': 'S',
+                'Sunday': 'D'}
+
+    @api.model
+    def get_my_calendar_data(self):
+        'Override me according to your opening hours'
+        Params = collections.namedtuple(
+            'Params', 'hour_from hour_to hour_from2 hour_to2 endday')
+        return Params(
+            endday=5,
+            hour_from=8,
+            hour_to=12,
+            # put hour_to/from to False if you don't want use them
+            hour_from2=13,
+            hour_to2=17,
+        )
+
+    @api.model
+    def _populate_attendance(self, day, hour_from, hour_to):
+        return {
+            'hour_from': hour_from,
+            'hour_to': hour_to,
+            'name': '.',
+            'dayofweek': str(day),
+        }
+
+    @api.model
+    def create(self, vals):
+        if not vals.get('attendance_ids'):
+            values = []
+            params = self.get_my_calendar_data()
+            for day in range(0, params.endday):
+                mapping = self._populate_attendance(
+                    day, params.hour_from, params.hour_to)
+                values.append((0, 0, mapping))
+                if params.hour_from2 and params.hour_to2:
+                    mapping = self._populate_attendance(
+                        day, params.hour_from2, params.hour_to2)
+                    values.append((0, 0, mapping))
+            vals['attendance_ids'] = values
+        return super(ResourceCalendar, self).create(vals)
