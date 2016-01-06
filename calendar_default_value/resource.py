@@ -36,24 +36,24 @@ class ResourceCalendar(models.Model):
         values = super(ResourceCalendar, self).default_get(fields_list)
         vals = []
         params = self.get_my_calendar_data()
-        for hours in range(0, params.endday):
+        for day in range(0, params.endday):
             mapping = self._populate_attendance(
-                hours, params.hour_from, params.hour_to)
+                day, params.hour_from, params.hour_to)
             vals.append((0, 0, mapping))
             if params.hour_from2 and params.hour_to2:
                 mapping = self._populate_attendance(
-                    hours, params.hour_from2, params.hour_to2)
+                    day, params.hour_from2, params.hour_to2)
                 vals.append((0, 0, mapping))
         values['attendance_ids'] = vals
         return values
 
     @api.model
-    def _populate_attendance(self, hours, hour_from, hour_to):
+    def _populate_attendance(self, day, hour_from, hour_to):
         return {
             'hour_from': hour_from,
             'hour_to': hour_to,
             'name': '.',
-            'dayofweek': str(hours),
+            'dayofweek': str(day),
         }
 
     @api.model
