@@ -60,5 +60,10 @@
     </field>
 </record>
 
+<!-- Do not show cancelled quotations by default in "Requests for Quotation" -->
+<record id="purchase.purchase_rfq" model="ir.actions.act_window">
+    <field name="context">{'search_default_draft': True}</field>
+</record>
+
 </data>
 </openerp>
