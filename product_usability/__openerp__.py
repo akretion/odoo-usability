@@ -32,7 +32,10 @@ Product Usability
 =================
 
 The usability enhancements include:
+
 * show the object product.price.history in the product template form view
+
+* wider name field in product form view
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
