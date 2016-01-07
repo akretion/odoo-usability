@@ -74,11 +74,13 @@
             </group>
         </group>
         <!-- START for wider 'name' field -->
+        <!-- Don't make it too big, othesize computers with small resolutions
+        will see the product name + image under the block of buttons -->
         <div class="oe_left"  position="attributes">
-            <attribute name="style">width: 800px;</attribute>
+            <attribute name="style">width: 700px;</attribute>
         </div>
         <div class="oe_title" position="attributes">
-            <attribute name="style">width: 700px;</attribute>
+            <attribute name="style">width: 600px;</attribute>
         </div>
         <field name="name" position="attributes">
             <attribute name="class"></attribute>
