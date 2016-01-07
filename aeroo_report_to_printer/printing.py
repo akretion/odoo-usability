@@ -49,8 +49,7 @@ class PrintingPrinter(models.Model):
                 raise UserError(_(
                     "Missing 'Default Printer' in your preferences"))
             self.env.user.printing_printer_id.aeroo_print_document(
-                'stock.report_picking', self.env.context['active_id'],
-                copies=2)
+                'stock.report_picking', self.id, copies=2)
         '''
         self.ensure_one()
         report = self.env['ir.actions.report.xml']._lookup_report(report_name)
