@@ -111,17 +111,27 @@
     </field>
 </record>
 
-<!-- On the partner form, when a user clicks on the journal items
-we wants to see only the account payable or account receivable -->
 <record id="partner_view_button_journal_item_count" model="ir.ui.view">
     <field name="name">usability.res.partner.journal.items.button</field>
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="account.partner_view_button_journal_item_count"/>
     <field name="arch" type="xml">
+        <button name="%(account.action_account_moves_all_tree)d" position="after">
+            <button name="show_payable_account" type="object"
+                attrs="{'invisible': [('supplier', '=', False)]}"
+                icon="fa-list" class="oe_stat_button">
+                <field string="Payable Account" name="payable_journal_item_count"
+                    widget="statinfo"/>
+            </button>
+        </button>
         <button name="%(account.action_account_moves_all_tree)d" position="attributes">
             <attribute name="type">object</attribute>
-            <attribute name="name">show_partner_receivable_or_payable_account</attribute>
+            <attribute name="name">show_receivable_account</attribute>
+            <attribute name="attrs">{'invisible': [('customer', '=', False)]}</attribute>
         </button>
+        <field name="journal_item_count" position="attributes">
+            <attribute name="string">Receivable Account</attribute>
+        </field>
     </field>
 </record>
 
