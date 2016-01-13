@@ -1,0 +1,26 @@
+diff --git a/addons/point_of_sale/static/src/js/db.js b/addons/point_of_sale/static/src/js/db.js
+index 819c21f..317eda9 100644
+--- a/addons/point_of_sale/static/src/js/db.js
++++ b/addons/point_of_sale/static/src/js/db.js
+@@ -188,6 +188,9 @@ function openerp_pos_db(instance, module){
+                 if(product.ean13){
+                     this.product_by_ean13[product.ean13] = product;
+                 }
++                if(product.second_ean13){
++                    this.product_by_ean13[product.second_ean13] = product;
++                }
+                 if(product.default_code){
+                     this.product_by_reference[product.default_code] = product;
+                 }
+diff --git a/addons/point_of_sale/static/src/js/models.js b/addons/point_of_sale/static/src/js/models.js
+index 0bd1b99..86e8b2f 100644
+--- a/addons/point_of_sale/static/src/js/models.js
++++ b/addons/point_of_sale/static/src/js/models.js
+@@ -282,6 +282,7 @@ function openerp_pos_models(instance, module){ //module is instance.point_of_sal
+             model:  'product.product',
+             fields: ['display_name', 'list_price','price','pos_categ_id', 'taxes_id', 'ean13', 'default_code', 
+                      'to_weight', 'uom_id', 'uos_id', 'uos_coeff', 'mes_type', 'description_sale', 'description',
++                     'second_ean13',
+                      'product_tmpl_id'],
+             domain: [['sale_ok','=',true],['available_in_pos','=',true]],
+             context: function(self){ return { pricelist: self.pricelist.id, display_default_code: false }; },
