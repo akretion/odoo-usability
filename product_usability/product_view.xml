@@ -89,6 +89,29 @@
     </field>
 </record>
 
+<!-- Also search on EAN13 -->
+<record id="product_template_search_view" model="ir.ui.view">
+    <field name="name">product_usability.product.template.search</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_search_view"/>
+    <field name="arch" type="xml">
+        <field name="name" position="attributes">
+            <attribute name="filter_domain">['|', '|', ('name', 'ilike', self), ('default_code', 'ilike', self), ('ean13', '=', self)]</attribute>
+        </field>
+    </field>
+</record>
+
+<!-- product.product -->
+<record id="product_search_form_view" model="ir.ui.view">
+    <field name="name">product_usability.product.search</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="product.product_search_form_view"/>
+    <field name="arch" type="xml">
+        <field name="name" position="attributes">
+            <attribute name="filter_domain">['|', '|', ('name', 'ilike', self), ('default_code', 'ilike', self), ('ean13', '=', self)]</attribute>
+        </field>
+    </field>
+</record>
 
 </data>
 </openerp>
