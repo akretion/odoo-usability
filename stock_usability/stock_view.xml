@@ -259,5 +259,10 @@ in the quantities for his reception -->
     </field>
 </record>
 
+<!-- more detailed stock.move tree view when using the button from product form -->
+<record id="stock.act_product_stock_move_open" model="ir.actions.act_window">
+    <field name="view_id" ref="stock.view_move_tree"/>
+</record>
+
 </data>
 </openerp>
