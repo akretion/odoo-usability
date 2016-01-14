@@ -1,3 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 from . import sale
+from . import account_invoice
