@@ -111,6 +111,17 @@
     </field>
 </record>
 
+<record id="view_account_type_tree" model="ir.ui.view">
+    <field name="name">account_usability.account_type_tree</field>
+    <field name="model">account.account.type</field>
+    <field name="inherit_id" ref="account.view_account_type_tree" />
+    <field name="arch"  type="xml">
+        <field name="code" position="after">
+            <field name="close_method" />
+        </field>
+    </field>
+</record>
+
 <record id="partner_view_button_journal_item_count" model="ir.ui.view">
     <field name="name">usability.res.partner.journal.items.button</field>
     <field name="model">res.partner</field>
