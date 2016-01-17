@@ -22,6 +22,9 @@
 
 from openerp import models, fields
 import openerp.addons.decimal_precision as dp
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class StockInventory(models.Model):
@@ -88,3 +91,21 @@ class StockMoveOperationLink(models.Model):
     _inherit = 'stock.move.operation.link'
 
     qty = fields.Float(digits=dp.get_precision('Product Unit of Measure'))
+
+
+class ProcurementOrder(models.Model):
+    _inherit = "procurement.order"
+
+    def _procure_orderpoint_confirm(
+            self, cr, uid, use_new_cursor=False, company_id=False,
+            context=None):
+        logger.info(
+            'procurement scheduler: START to create procurements from '
+            'orderpoints')
+        res = super(ProcurementOrder, self)._procure_orderpoint_confirm(
+            cr, uid, use_new_cursor=use_new_cursor, company_id=company_id,
+            context=context)
+        logger.info(
+            'procurement scheduler: END creation of procurements from '
+            'orderpoints')
+        return res
