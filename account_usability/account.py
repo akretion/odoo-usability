@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Account Usability module for Odoo
@@ -20,8 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning as UserError
+from openerp import models, fields, api
 
 
 class AccountInvoice(models.Model):
@@ -137,3 +136,46 @@ class ResPartner(models.Model):
     payable_journal_item_count = fields.Integer(
         compute='_compute_journal_item_count',
         string="Payable Journal Items", readonly=True)
+
+
+class AccountFiscalPosition(models.Model):
+    _inherit = 'account.fiscal.position'
+
+    @api.model
+    def get_fiscal_position_no_partner(
+            self, company_id=None, vat_subjected=False, country_id=None):
+        '''This method is inspired by the method get_fiscal_position()
+        in odoo/addons/account/partner.py : it uses the same algo
+        but without a real partner.
+        Returns a recordset of fiscal position, or False'''
+        domains = [[
+            ('auto_apply', '=', True),
+            ('vat_required', '=', vat_subjected),
+            ('company_id', '=', company_id)]]
+        if vat_subjected:
+            domains += [[
+                ('auto_apply', '=', True),
+                ('vat_required', '=', False),
+                ('company_id', '=', company_id)]]
+
+        for domain in domains:
+            if country_id:
+                fps = self.search(
+                    domain + [('country_id', '=', country_id)], limit=1)
+                if fps:
+                    return fps[0]
+
+                fps = self.search(
+                    domain +
+                    [('country_group_id.country_ids', '=', country_id)],
+                    limit=1)
+                if fps:
+                    return fps[0]
+
+            fps = self.search(
+                domain +
+                [('country_id', '=', None), ('country_group_id', '=', None)],
+                limit=1)
+            if fps:
+                return fps[0]
+        return False
