@@ -28,3 +28,15 @@ class SaleOrder(models.Model):
 
     warehouse_id = fields.Many2one(track_visibility='onchange')
     incoterm = fields.Many2one(track_visibility='onchange')
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    # The sale_stock module defines the field product_tmpl_id as related
+    # field without readonly=True, which causes some access right issues
+    # when you change the product on a sale.order.line and you don't have
+    # write access on product.product
+    product_tmpl_id = fields.Many2one(
+        'product.template', related='product_id.product_tmpl_id',
+        string='Product Template', readonly=True)
