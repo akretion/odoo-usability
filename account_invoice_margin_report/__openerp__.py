@@ -26,9 +26,9 @@
     'version': '0.1',
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
-    'summary': 'Add margin du Invoices Analysis',
+    'summary': 'Add margin measure in Invoices Analysis',
     'description': """
-This module adds the margin in the Invoices Analysis pivot table. It is in a separate module because it depends on the module *bi_invoice_company_currency* (in which I re-wrote the Invoice Analysis pivot table).
+This module adds the measure *Margin* in the Invoices Analysis pivot table. It is in a separate module because it depends on the module *bi_invoice_company_currency* (in which I re-wrote the Invoice Analysis pivot table).
 
 This module has been written by Alexis de Lattre from Akretion
 <alexis.delattre@akretion.com>.
