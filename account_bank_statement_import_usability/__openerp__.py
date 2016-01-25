@@ -31,7 +31,13 @@
 Account Bank Statement Import Usability
 =======================================
 
-Blocks the *Automagically create bank account*, because it's too dangerous : it creates new bank accounts and new account journal... and the user doesn't even realize that !
+This module adds the following changes:
+
+* Blocks the *Automagically create bank account*, because it's too dangerous : it creates new bank accounts and new account journal... and the user doesn't even realize that !
+
+* Works if the bank statement file only contain the account number and not the full IBAN
+
+* If you have 2 accounts with the same number (I know a company that has an account in EUR and an account in USD with the same number), you should force the journal and it will work (instead of blocking with an error message)
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,

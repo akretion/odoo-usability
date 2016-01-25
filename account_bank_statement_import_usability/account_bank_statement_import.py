@@ -20,8 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, api, _
-from openerp.exceptions import Warning as UserError
+from openerp import models, api
 
 
 class AccountBankStatementImport(models.TransientModel):
@@ -30,10 +29,32 @@ class AccountBankStatementImport(models.TransientModel):
 
     @api.model
     def _find_bank_account_id(self, account_number):
-        """ Get res.partner.bank ID """
+        """Compared to the code in the module account_bank_statement_import,
+        this code:
+        - works when the account_number is not a complete IBAN,
+          but just an account number (most statement files only have the
+          account number)
+        - works if you have 2 bank accounts with the same number
+          (I have seen that at Crédit du Nord: the company had 1 account in USD
+          and 1 account in EUR with the same number !)
+          -> for that, I filter on the journal if the journal_id field is set
+          """
         bank_account_id = None
         if account_number and len(account_number) > 4:
-            self._cr.execute("select id from res_partner_bank where replace(replace(acc_number,' ',''),'-','') like %s and journal_id is not null", ('%' + account_number + '%',))
+            if self.journal_id:
+                self._cr.execute("""
+                    SELECT id FROM res_partner_bank
+                    WHERE replace(replace(acc_number,' ',''),'-','') like %s
+                    AND journal_id=%s
+                    ORDER BY id
+                    """, ('%' + account_number + '%', self.journal_id.id))
+            else:
+                self._cr.execute("""
+                    SELECT id FROM res_partner_bank
+                    WHERE replace(replace(acc_number,' ',''),'-','') like %s
+                    AND journal_id is not null
+                    ORDER BY id
+                    """, ('%' + account_number + '%', ))
             bank_account_ids = [id[0] for id in self._cr.fetchall()]
             if bank_account_ids:
                 bank_account_id = bank_account_ids[0]
