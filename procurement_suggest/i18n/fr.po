@@ -1,0 +1,212 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* procurement_suggest
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-07 15:19+0000\n"
+"PO-Revision-Date: 2015-12-07 15:19+0000\n"
+"Last-Translator: 2015-12-08\n"
+"Language-Team: EL HADJ MIMOUNE Mourad <mourad.elhadj.mimoune@akretion.com> \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: procurement_suggest
+#: code:addons/procurement_suggest/wizard/procurement_suggest.py:195
+#: code:addons/procurement_suggest/wizard/procurement_suggest.py:196
+#, python-format
+msgid " Suggest"
+msgstr " Suggerer"
+
+#. module: procurement_suggest
+#: code:addons/procurement_suggest/wizard/procurement_suggest.py:202
+#, python-format
+msgid "All requested quantities are null."
+msgstr "Toutes les quantités recherchées sont null."
+
+#. module: procurement_suggest
+#: view:procurement.create.from.suggest:procurement_suggest.procurement_create_from_suggest_form
+#: view:procurement.suggest.generate:procurement_suggest.procurement_suggest_generate_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: procurement_suggest
+#: model:ir.actions.act_window,name:procurement_suggest.procurement_create_from_suggest_action
+#: view:procurement.create.from.suggest:procurement_suggest.procurement_create_from_suggest_form
+msgid "Create Procurements"
+msgstr "Créer un réappro"
+
+#. module: procurement_suggest
+#: model:ir.model,name:procurement_suggest.model_procurement_create_from_suggest
+msgid "Create Procurements from Procurement Suggestions"
+msgstr "Créer un réappro à partir de Suggestions de réappro"
+
+#. module: procurement_suggest
+#: view:procurement.create.from.suggest:procurement_suggest.procurement_create_from_suggest_form
+msgid "Create Purchase Orders"
+msgstr "Créer une commande d'achat"
+
+#. module: procurement_suggest
+#: field:procurement.create.from.suggest,create_uid:0
+#: field:procurement.suggest,create_uid:0
+#: field:procurement.suggest.generate,create_uid:0
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: procurement_suggest
+#: field:procurement.create.from.suggest,create_date:0
+#: field:procurement.suggest,create_date:0
+#: field:procurement.suggest.generate,create_date:0
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: procurement_suggest
+#: field:procurement.suggest,procurement_qty:0
+msgid "Current Procurement Quantity"
+msgstr "Qté réappro courrante"
+
+#. module: procurement_suggest
+#: view:procurement.suggest.generate:procurement_suggest.procurement_suggest_generate_form
+msgid "Generate"
+msgstr "Générer"
+
+#. module: procurement_suggest
+#: view:procurement.suggest.generate:procurement_suggest.procurement_suggest_generate_form
+msgid "Generate Procurement Suggestions"
+msgstr "Générer des Suggestions de réappro"
+
+#. module: procurement_suggest
+#: view:procurement.suggest:procurement_suggest.procurement_suggest_search
+msgid "Group By"
+msgstr "Grouper par"
+
+#. module: procurement_suggest
+#: field:procurement.create.from.suggest,id:0
+#: field:procurement.suggest,id:0
+#: field:procurement.suggest.generate,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: procurement_suggest
+#: field:procurement.suggest,incoming_qty:0
+msgid "Incoming Quantity"
+msgstr "Qté Entrante"
+
+#. module: procurement_suggest
+#: field:procurement.create.from.suggest,write_uid:0
+#: field:procurement.suggest,write_uid:0
+#: field:procurement.suggest.generate,write_uid:0
+msgid "Last Updated by"
+msgstr "Dernière MAJ par"
+
+#. module: procurement_suggest
+#: field:procurement.create.from.suggest,write_date:0
+#: field:procurement.suggest,write_date:0
+#: field:procurement.suggest.generate,write_date:0
+msgid "Last Updated on"
+msgstr "Dernière MAJ le"
+
+#. module: procurement_suggest
+#: model:ir.model,name:procurement_suggest.model_stock_warehouse_orderpoint
+msgid "Minimum Inventory Rule"
+msgstr "Règle de stock minimum"
+
+#. module: procurement_suggest
+#: field:procurement.suggest,new_procurement_qty:0
+msgid "New Procurement Quantity"
+msgstr "Qté à acheter"
+
+#. module: procurement_suggest
+#: field:procurement.suggest,outgoing_qty:0
+msgid "Outgoing Quantity"
+msgstr "Qté sortante"
+
+#. module: procurement_suggest
+#: model:ir.actions.act_window,name:procurement_suggest.procurement_suggest_action
+#: model:ir.actions.act_window,name:procurement_suggest.procurement_suggest_generate_action
+#: model:ir.model,name:procurement_suggest.model_procurement_suggest
+#: model:ir.ui.menu,name:procurement_suggest.procurement_suggest_generate_menu
+#: view:procurement.suggest:procurement_suggest.procurement_suggest_search
+#: view:procurement.suggest:procurement_suggest.procurement_suggest_tree
+msgid "Procurement Suggestions"
+msgstr "Suggestions"
+
+#. module: procurement_suggest
+#: field:procurement.suggest,product_id:0
+msgid "Product"
+msgstr "Article"
+
+#. module: procurement_suggest
+#: field:procurement.suggest.generate,categ_id:0
+msgid "Product Category"
+msgstr "Catégorie article"
+
+#. module: procurement_suggest
+#: field:procurement.suggest,qty_available:0
+msgid "Quantity On Hand"
+msgstr "Quantité en stock"
+
+#. module: procurement_suggest
+#: field:procurement.suggest,orderpoint_id:0
+msgid "Re-ordering Rule"
+msgstr "Règle de réassort"
+
+#. module: procurement_suggest
+#: view:stock.warehouse.orderpoint:procurement_suggest.warehouse_orderpoint_search
+msgid "Real"
+msgstr "Réel"
+
+#. module: procurement_suggest
+#: view:procurement.suggest:procurement_suggest.procurement_suggest_search
+msgid "Seller"
+msgstr "Fournisseur"
+
+#. module: procurement_suggest
+#: model:ir.model,name:procurement_suggest.model_procurement_suggest_generate
+msgid "Start to generate the procurement suggestions"
+msgstr "Début de génération des suggestion de réappro"
+
+#. module: procurement_suggest
+#: field:procurement.suggest.generate,location_id:0
+msgid "Stock Location"
+msgstr "Emplacement de stock"
+
+#. module: procurement_suggest
+#: view:stock.warehouse.orderpoint:procurement_suggest.warehouse_orderpoint_search
+#: field:stock.warehouse.orderpoint,suggest:0
+msgid "Suggest"
+msgstr "Suggerer"
+
+#. module: procurement_suggest
+#: field:procurement.suggest,seller_id:0
+#: field:procurement.suggest.generate,seller_id:0
+msgid "Supplier"
+msgstr "Fournisseur"
+
+#. module: procurement_suggest
+#: code:addons/procurement_suggest/wizard/procurement_suggest.py:138
+#, python-format
+msgid "The virtual stock for all related products is above the minimum stock level."
+msgstr "Le stock virtuel des produits est au dessus de stock min."
+
+#. module: procurement_suggest
+#: code:addons/procurement_suggest/wizard/procurement_suggest.py:102
+#, python-format
+msgid "There are 2 orderpoints (%s and %s) for the same product on stock location %s or its children."
+msgstr "Il y a 2 règle de stock min (%s and %s) pour le même article et le même dépot %s."
+
+#. module: procurement_suggest
+#: view:procurement.create.from.suggest:procurement_suggest.procurement_create_from_suggest_form
+msgid "This wizard will create procurements and confirm them, so that it creates purchase orders or manufacturing orders."
+msgstr "Ce wizard créra des réapprot et les confirme. Ces réappro crééron des commandes d'achat ou des ordres de fabrication en fonction des articles."
+
+
+
+
+
+
+
