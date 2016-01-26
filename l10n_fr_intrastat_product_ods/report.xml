@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+
+<record id="intrastat_product_declaration_ods" model="ir.actions.report.xml">
+    <field name="name">DEB ODS</field>
+    <field name="model">l10n.fr.intrastat.product.declaration</field>
+    <field name="report_name">intrastat.product.declaration.ods</field>
+    <field name="report_type">aeroo</field>
+    <field name="in_format">oo-ods</field>
+    <field name="report_rml">l10n_fr_intrastat_product_ods/deb.ods</field>
+    <field name="parser_state">default</field>
+    <field name="tml_source">file</field>
+    <field name="out_format" ref="report_aeroo.report_mimetypes_ods_ods"/>
+</record>
+
+<record id="intrastat_product_declaration_ods_button" model="ir.values">
+    <field name="name">DEB ODS</field>
+    <field name="model">l10n.fr.intrastat.product.declaration</field>
+    <field name="key2">client_print_multi</field>
+    <field name="value" eval="'ir.actions.report.xml,%d'%intrastat_product_declaration_ods"/>
+</record>
+
+
+</data>
+</openerp>
