@@ -86,6 +86,25 @@ class StockMove(models.Model):
     availability = fields.Float(
         digits=dp.get_precision('Product Unit of Measure'))
 
+    def name_get(self, cr, uid, ids, context=None):
+        '''name_get of stock_move is important for the reservation of the
+        quants: so want to add the name of the customer and the expected date
+        in it'''
+        res = []
+        for line in self.browse(cr, uid, ids, context=context):
+            name = line.location_id.name + ' > ' + line.location_dest_id.name
+            if line.product_id.code:
+                name = line.product_id.code + ': ' + name
+            if line.picking_id.origin:
+                name = line.picking_id.origin + ' ' + name
+            if line.partner_id:
+                name = line.partner_id.name + ' ' + name
+            if line.date_expected:
+                date_expec_dt = fields.Datetime.from_string(line.date_expected)
+                name = name + ' ' + fields.Date.to_string(date_expec_dt)
+            res.append((line.id, name))
+        return res
+
 
 class StockMoveOperationLink(models.Model):
     _inherit = 'stock.move.operation.link'
