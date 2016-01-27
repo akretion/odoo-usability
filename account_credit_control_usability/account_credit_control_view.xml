@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<record id="credit_control_line_tree" model="ir.ui.view">
+    <field name="name">credit_control_usability.credit_control_line_tree</field>
+    <field name="model">credit.control.line</field>
+    <field name="inherit_id" ref="account_credit_control.credit_control_line_tree"/>
+    <field name="arch" type="xml">
+        <field name="account_id" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+        <field name="move_line_id" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+    </field>
+</record>
+
+<record id="credit_control_policy_form" model="ir.ui.view">
+    <field name="name">credit_control_usability.credit.control.policy.form</field>
+    <field name="model">credit.control.policy</field>
+    <field name="inherit_id" ref="account_credit_control.credit_control_policy_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='level_ids']/tree/field[@name='name']" position="before">
+            <field name="internal_name"/>
+        </xpath>
+        <xpath expr="//field[@name='level_ids']/form//field[@name='name']" position="replace">
+            <group name="level-main">
+
+                <field name="internal_name"/>
+                <field name="name"/>
+            </group>
+        </xpath>
+    </field>
+</record>
+
+<record id="credit_mangement_policy_level_form" model="ir.ui.view">
+    <field name="name">credit_control_usability.credit.control.policy.level.form</field>
+    <field name="model">credit.control.policy.level</field>
+    <field name="inherit_id" ref="account_credit_control.credit_mangement_policy_level_form"/>
+    <field name="arch" type="xml">
+        <field name="name" position="before">
+            <field name="internal_name"/>
+        </field>
+    </field>
+</record>
+
+<record id="credit_control_policy_level_tree" model="ir.ui.view">
+    <field name="name">credit_control_usability.credit.control.policy.level.tree</field>
+    <field name="model">credit.control.policy.level</field>
+    <field name="inherit_id" ref="account_credit_control.credit_control_policy_level_tree"/>
+    <field name="arch" type="xml">
+        <field name="name" position="before">
+            <field name="internal_name"/>
+        </field>
+    </field>
+</record>
+
+</data>
+</openerp>
