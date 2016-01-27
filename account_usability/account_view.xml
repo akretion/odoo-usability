@@ -73,6 +73,10 @@
         <field name="partner_id" position="after">
             <field name="reconcile_ref" />
         </field>
+        <filter name="unreconciled" position="before">
+            <filter name="reconciled" string="Fully Reconciled" domain="[('reconcile_id', '!=', False)]"/>
+            <filter name="partial_reconciled" string="Partially Reconciled" domain="[('reconcile_partial_id', '!=', False)]"/>
+        </filter>
     </field>
 </record>
 
