@@ -58,11 +58,30 @@
 <!-- model account.move.line / Journal Items -->
 <record id="account.action_account_moves_all_a" model="ir.actions.act_window">
     <field name="limit">200</field>
+    <!-- Win space, because there are already many columns -->
+    <field name="context">{'journal_show_code_only': True}</field>
 </record>
 
 <!-- model account.move / Journal Entries -->
 <record id="account.action_move_journal_line" model="ir.actions.act_window">
     <field name="limit">200</field>
+</record>
+
+<record id="view_move_form" model="ir.ui.view">
+    <field name="name">account_usability.account_move_form</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_move_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='line_id']/tree/field[@name='tax_code_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='line_id']/tree/field[@name='tax_amount']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='line_id']/tree/field[@name='state']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+    </field>
 </record>
 
 <record id="view_account_move_line_filter" model="ir.ui.view">
@@ -77,6 +96,9 @@
             <filter name="reconciled" string="Fully Reconciled" domain="[('reconcile_id', '!=', False)]"/>
             <filter name="partial_reconciled" string="Partially Reconciled" domain="[('reconcile_partial_id', '!=', False)]"/>
         </filter>
+        <field name="name" position="attributes">
+            <attribute name="string">Name or Reference</attribute>
+        </field>
     </field>
 </record>
 
