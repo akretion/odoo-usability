@@ -20,8 +20,9 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 from openerp.tools import float_compare
+from openerp.exceptions import Warning as UserError
 
 
 class AccountInvoice(models.Model):
@@ -40,6 +41,18 @@ class AccountInvoice(models.Model):
     journal_id = fields.Many2one(track_visibility='onchange')
     partner_bank_id = fields.Many2one(track_visibility='onchange')
     fiscal_position = fields.Many2one(track_visibility='onchange')
+
+    @api.multi
+    def action_move_create(self):
+        today = fields.Date.context_today(self)
+        for invoice in self:
+            if invoice.date_invoice and invoice.date_invoice > today:
+                raise UserError(_(
+                    "You cannot validate the invoice of '%s' "
+                    " with an invoice date (%s) in the future !") % (
+                        invoice.partner_id.name_get()[0][1],
+                        invoice.date_invoice))
+        return super(AccountInvoice, self).action_move_create()
 
 
 class AccountJournal(models.Model):
@@ -78,7 +91,9 @@ class AccountAnalyticAccount(models.Model):
         if self._context.get('analytic_account_show_code_only'):
             res = []
             for record in self:
-                res.append((record.id, record.code or record._get_one_full_name(record)))
+                res.append((
+                    record.id,
+                    record.code or record._get_one_full_name(record)))
             return res
         else:
             return super(AccountAnalyticAccount, self).name_get()
