@@ -21,6 +21,7 @@
 ##############################################################################
 
 from openerp import models, fields, api
+from openerp.tools import float_compare
 
 
 class AccountInvoice(models.Model):
@@ -39,6 +40,48 @@ class AccountInvoice(models.Model):
     journal_id = fields.Many2one(track_visibility='onchange')
     partner_bank_id = fields.Many2one(track_visibility='onchange')
     fiscal_position = fields.Many2one(track_visibility='onchange')
+
+
+class AccountJournal(models.Model):
+    _inherit = 'account.journal'
+
+    @api.multi
+    def name_get(self):
+        if self._context.get('journal_show_code_only'):
+            res = []
+            for record in self:
+                res.append((record.id, record.code))
+            return res
+        else:
+            return super(AccountJournal, self).name_get()
+
+
+class AccountAccount(models.Model):
+    _inherit = 'account.account'
+
+    @api.multi
+    def name_get(self):
+        if self._context.get('account_account_show_code_only'):
+            res = []
+            for record in self:
+                res.append((record.id, record.code))
+            return res
+        else:
+            return super(AccountAccount, self).name_get()
+
+
+class AccountAnalyticAccount(models.Model):
+    _inherit = 'account.analytic.account'
+
+    @api.multi
+    def name_get(self):
+        if self._context.get('analytic_account_show_code_only'):
+            res = []
+            for record in self:
+                res.append((record.id, record.code or record._get_one_full_name(record)))
+            return res
+        else:
+            return super(AccountAnalyticAccount, self).name_get()
 
 
 class AccountMove(models.Model):
@@ -62,6 +105,25 @@ class AccountMoveLine(models.Model):
     def _debit_onchange(self):
         if self.debit and self.credit:
             self.credit = 0
+
+    @api.onchange('currency_id', 'amount_currency')
+    def _amount_currency_change(self):
+        if (
+                self.currency_id and
+                self.amount_currency and
+                not self.credit and
+                not self.debit):
+            date = self.date or None
+            amount_company_currency = self.currency_id.with_context(
+                date=date).compute(
+                    self.amount_currency, self.env.user.company_id.currency_id)
+            precision = self.env['decimal.precision'].precision_get('Account')
+            if float_compare(
+                    amount_company_currency, 0,
+                    precision_digits=precision) == -1:
+                self.debit = amount_company_currency * -1
+            else:
+                self.credit = amount_company_currency
 
 
 class AccountBankStatementLine(models.Model):
