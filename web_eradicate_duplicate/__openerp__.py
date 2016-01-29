@@ -28,10 +28,12 @@
     'license': 'AGPL-3',
     'summary': 'Remove More > Duplicate for all users except admin',
     'description': '''
-Eradicate duplicate
+Eradicate Duplicate
 ===================
 
-This module is inspired by the module *web_hide_duplicate* of Aristobulo Meneses available on https://github.com/menecio/odoo-addons. The main difference is that it will remove the *More > Duplicate* button everywhere (without any change in the XML of the form views) for all users except *admin*.
+This module is inspired by the module *web_hide_duplicate* of Aristobulo Meneses available on https://github.com/menecio/odoo-addons. The main difference is that it will remove the *More > Duplicate* button everywhere by default for all users except *admin*.
+
+It is possible to restore the duplicate feature on some form views by adding an attribute **duplicate_eradicate="false"** (you will find an example in a comment at the end of the file static/src/js/eradicate_duplicate.js).
 
 This module has been written by Alexis de Lattre from Akretion
 <alexis.delattre@akretion.com>.
