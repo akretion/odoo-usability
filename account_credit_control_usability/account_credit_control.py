@@ -20,14 +20,14 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class CreditControlPolicyLevel(models.Model):
     _inherit = "credit.control.policy.level"
     _rec_name = 'internal_name'
 
-    channel = fields.Selection(selection_add=[('phone', 'Phone call')])
+    channel = fields.Selection(selection_add=[('phone', 'Phone Call')])
     name = fields.Char(
         string='Subject',
         help="Will be displayed in the subject of the emails and in "
@@ -38,4 +38,31 @@ class CreditControlPolicyLevel(models.Model):
 class CreditControlLine(models.Model):
     _inherit = "credit.control.line"
 
-    channel = fields.Selection(selection_add=[('phone', 'Phone call')])
+    channel = fields.Selection(selection_add=[('phone', 'Phone Call')])
+
+    @api.multi
+    def open_aged_open_invoices_report(self):
+        self.ensure_one()
+        return self.partner_id.open_aged_open_invoices_report()
+
+
+class CreditControlRun(models.Model):
+    _inherit = "credit.control.run"
+
+    date = fields.Date(default=fields.Date.context_today)
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    @api.one
+    @api.depends('credit_control_line_ids')
+    def _credit_control_line_count(self):
+        try:
+            self.credit_control_line_count = len(self.credit_control_line_ids)
+        except:
+            self.credit_control_line_count = 0
+
+    credit_control_line_count = fields.Integer(
+        compute='_credit_control_line_count',
+        string="# of Credit Control Lines", readonly=True)
