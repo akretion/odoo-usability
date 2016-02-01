@@ -17,6 +17,8 @@
             <attribute name="invisible">1</attribute>
         </field>
         <field name="partner_id" position="after">
+            <button name="go_to_partner_form" type="object"
+                string="Go to Partner" icon="terp-gtk-jump-to-ltr"/>
             <button name="open_aged_open_invoices_report" type="object"
                 string="Open Aged Open Invoices Report" icon="STOCK_ZOOM_IN"/>
         </field>

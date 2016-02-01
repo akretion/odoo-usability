@@ -45,6 +45,19 @@ class CreditControlLine(models.Model):
         self.ensure_one()
         return self.partner_id.open_aged_open_invoices_report()
 
+    @api.multi
+    def go_to_partner_form(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window'].for_xml_id(
+            'base', 'action_partner_customer_form')
+        action.update({
+            'view_mode': 'form,kanban,tree',
+            'views': False,
+            'res_id': self.partner_id.id,
+            'context': {},
+        })
+        return action
+
 
 class CreditControlRun(models.Model):
     _inherit = "credit.control.run"
