@@ -8,8 +8,9 @@
     'wkf_tracker': 'submitted',
     'dbname': cr.dbname,
 })
-template_id=self.pool.get('ir.model.data').get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
-self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, context=context)</field>
+if not object.no_email_notification:
+    template_id=self.pool['ir.model.data'].get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
+    self.pool['email.template'].send_mail(cr, uid, template_id, object.id, context=context)</field>
     <field name="state">code</field>
     <field name="type">ir.actions.server</field>
     <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
@@ -22,8 +23,9 @@ self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, conte
     'wkf_tracker': 'validated',
     'dbname': cr.dbname,
 })
-template_id=self.pool.get('ir.model.data').get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
-self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, context=context)</field>
+if not object.no_email_notification:
+    template_id=self.pool['ir.model.data'].get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
+    self.pool['email.template'].send_mail(cr, uid, template_id, object.id, context=context)</field>
     <field name="state">code</field>
     <field name="type">ir.actions.server</field>
     <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
@@ -36,8 +38,9 @@ self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, conte
     'wkf_tracker': 'refused',
     'dbname': cr.dbname,
 })
-template_id=self.pool.get('ir.model.data').get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
-self.pool.get('email.template').send_mail(cr, uid, template_id, object.id, context=context)</field>
+if not object.no_email_notification:
+    template_id=self.pool['ir.model.data'].get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
+    self.pool['email.template'].send_mail(cr, uid, template_id, object.id, context=context)</field>
     <field name="state">code</field>
     <field name="type">ir.actions.server</field>
     <field name="model_id" ref="hr_holidays.model_hr_holidays"/>

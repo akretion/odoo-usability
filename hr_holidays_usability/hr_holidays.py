@@ -218,6 +218,10 @@ class HrHolidays(models.Model):
     limit = fields.Boolean(  # pose des pbs de droits
         related='holiday_status_id.limit', string='Allow to Override Limit',
         readonly=True)
+    no_email_notification = fields.Boolean(
+        string='No Email Notification',
+        help="This field is designed to workaround the fact that you can't "
+        "pass context in the methods of the workflow")
     posted_date = fields.Date(
         string='Posted Date', track_visibility='onchange')
     number_of_days_temp = fields.Float(string="Number of days")

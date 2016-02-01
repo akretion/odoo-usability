@@ -77,6 +77,7 @@ class HrHolidaysMassAllocation(models.TransientModel):
                 'type': 'add',
                 'holiday_type': 'employee',
                 'holiday_status_id': self.holiday_status_id.id,
+                'no_email_notification': True,
                 })
             if auto_approve:
                 workflow.trg_validate(
