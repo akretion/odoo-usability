@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Account Move Line Start End Dates XLS module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com/)
+#    Account Move Line Start End Dates XLS module for Odoo
+#    Copyright (C) 2014-2016 Akretion (http://www.akretion.com/)
 #    @author: Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,17 +21,22 @@
 ##############################################################################
 
 import xlwt
-from openerp.osv import orm
+from openerp import models, api
 from openerp.addons.report_xls.utils import _render
 from openerp.addons.report_xls.report_xls import report_xls
 
 
-class account_move_line(orm.Model):
+class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    def _report_xls_template(self, cr, uid, context=None):
-        res = super(account_move_line, self)._report_xls_template(
-            cr, uid, context=context)
+    @api.model
+    def _report_xls_fields(self):
+        res = super(AccountMoveLine, self)._report_xls_fields()
+        return res + ['start_date', 'end_date']
+
+    @api.model
+    def _report_xls_template(self):
+        res = super(AccountMoveLine, self)._report_xls_template()
         bc = '22'
         aml_cell_style_date = xlwt.easyxf(
             'borders: left thin, right thin, top thin, bottom thin, '
