@@ -6,14 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-04 16:24+0000\n"
-"PO-Revision-Date: 2016-02-04 16:24+0000\n"
+"POT-Creation-Date: 2016-02-05 22:47+0000\n"
+"PO-Revision-Date: 2016-02-05 22:47+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: partner_search
+#: view:res.partner:partner_search.view_res_partner_filter
+msgid "Name, Ref, Email"
+msgstr ""
 
 #. module: partner_search
 #: view:res.partner:partner_search.view_res_partner_filter

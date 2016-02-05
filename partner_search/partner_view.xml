@@ -11,9 +11,12 @@
                 <field name="city"/>
                 <field name="street" string="Streets"
                        filter_domain="['|', ('street', 'like', self), ('street2', 'like', self)]"/>
-                <field name="email"/>
                 <field name="phone" string="Phones"
                        filter_domain="['|', ('phone', 'like', self), ('mobile', 'like', self)]"/>
+            </field>
+            <!-- Display the real field names of the search -->
+            <field name="name" position="attributes">
+                <attribute name="string">Name, Ref, Email</attribute>
             </field>
         </field>
     </record>
