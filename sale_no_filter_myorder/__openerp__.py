@@ -18,7 +18,7 @@
         "bin": [],
     },
     "depends": [
-        "base",
+        "sale",
     ],
     "data": [
         "views/sale_view.xml",
