@@ -55,6 +55,15 @@ class AccountInvoice(models.Model):
         return super(AccountInvoice, self).action_move_create()
 
 
+class AccountFiscalYear(models.Model):
+    _inherit = 'account.fiscalyear'
+
+    # For companies that have a fiscal year != calendar year
+    # I want to be able to write '2015-2016' in the code field
+    # => size=9 instead of 6
+    code = fields.Char(size=9)
+
+
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
