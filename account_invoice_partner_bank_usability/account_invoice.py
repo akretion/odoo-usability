@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Account Invoice Partner Bank Usability module for OpenERP
-#    Copyright (C) 2013 Akretion (http://www.akretion.com)
+#    Account Invoice Partner Bank Usability module for Odoo
+#    Copyright (C) 2013-2016 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,27 +20,29 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp import models, fields
 
 
-class account_invoice(orm.Model):
+class ResCompany(models.Model):
+    _inherit = 'res.company'
+
+    default_out_invoice_partner_bank_id = fields.Many2one(
+        'res.partner.bank',
+        string='Default Bank Account for Customer Invoices',
+        copy=False, ondelete='restrict',
+        help="This is the bank account of your company that will be selected "
+        "by default when you create a customer invoice.")
+
+
+class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    def invoice_out_get_first_partner_bank(self, cr, uid, context=None):
-        '''Get the first bank account of your company on customer invoice
-        if your company only has one bank account'''
-        if context is None:
-            context = {}
-        res_partner_bank_id = False
-        if context.get('type') == 'out_invoice' or \
-                context.get('inv_type') == 'out_invoice':
-            cur_user = self.pool['res.users'].browse(
-                cr, uid, uid, context=context)
-            partner_banks = cur_user.company_id.partner_id.bank_ids
-            if partner_banks and len(partner_banks) == 1:
-                res_partner_bank_id = partner_banks[0].id
-        return res_partner_bank_id
+    def invoice_out_default_bank_account(self):
+        partner_bank_id = False
+        if self._context.get('type') == 'out_invoice' or \
+                self._context.get('inv_type') == 'out_invoice':
+            partner_bank_id = self.env.user.company_id.\
+                default_out_invoice_partner_bank_id.id or False
+        return partner_bank_id
 
-    _defaults = {
-        'partner_bank_id': invoice_out_get_first_partner_bank,
-    }
+    partner_bank_id = fields.Many2one(default=invoice_out_default_bank_account)
