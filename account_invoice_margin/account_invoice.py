@@ -29,11 +29,16 @@ class AccountInvoiceLine(models.Model):
 
     standard_price_company_currency = fields.Float(
         string='Cost Price in Company Currency', readonly=True,
-        digits=dp.get_precision('Product Price'))
+        digits=dp.get_precision('Product Price'),
+        help="Cost price in company currency in the unit of measure "
+        "of the invoice line (which may be different from the unit "
+        "of measure of the product).")
     standard_price_invoice_currency = fields.Float(
         string='Cost Price in Invoice Currency', readonly=True,
         compute='_compute_margin', store=True,
-        digits=dp.get_precision('Account'))
+        digits=dp.get_precision('Product Price'),
+        help="Cost price in invoice currency in the unit of measure "
+        "of the invoice line")
     margin_invoice_currency = fields.Float(
         string='Margin in Invoice Currency', readonly=True, store=True,
         compute='_compute_margin',
@@ -62,6 +67,7 @@ class AccountInvoiceLine(models.Model):
                 self.invoice_id.type in ('out_invoice', 'out_refund')):
             # it works in _get_current_rate
             # even if we set date = False in context
+            # standard_price_inv_cur is in the UoM of the invoice line
             standard_price_inv_cur =\
                 self.invoice_id.company_id.currency_id.with_context(
                     date=self.invoice_id.date_invoice).compute(
