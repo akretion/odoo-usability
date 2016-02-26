@@ -38,7 +38,18 @@ class MrpBom(orm.Model):
             help="Average labour time for the production of the quantity of "
             "items of the BOM, in hours."),
         'labour_cost_profile_id': fields.many2one(
-            'labour.cost.profile', 'Labour Cost Profile')
+            'labour.cost.profile', 'Labour Cost Profile'),
+        'extra_cost': fields.float(
+            'Extra Cost',
+            digits_compute=dp.get_precision('Product Price'),
+            help="Extra cost for the production of the quantity of "
+            "items of the BOM, in company currency. "
+            "You can use this field to enter the cost of the consumables "
+            "that are used to produce the product but are not listed in "
+            "the BOM"),
+        'company_currency_id': fields.related(
+            'company_id', 'currency_id', readonly=True, type='many2one',
+            relation='res.currency', string='Company Currency'),
         }
 
 
@@ -94,13 +105,11 @@ class MrpProduction(orm.Model):
             relation='res.currency', string='Company Currency'),
         }
 
-    def update_standard_price(self, cr, uid, order, context=None):
-        if context is None:
-            context = {}
+    def compute_order_unit_cost(self, cr, uid, order, context=None):
         puo = self.pool['product.uom']
         mo_total_price = 0.0  # In the UoM of the M0
         labor_cost_per_unit = 0.0  # In the UoM of the product
-        product = order.product_id
+        extra_cost_per_unit = 0.0  # In the UoM of the product
         # I read the raw materials MO, not on BOM, in order to make
         # it work with the "dynamic" BOMs (few raw material are auto-added
         # on the fly on MO)
@@ -144,6 +153,7 @@ class MrpProduction(orm.Model):
             labor_cost_per_unit = (
                 bom.labour_time * bom.labour_cost_profile_id.hour_cost) /\
                 bom_qty_product_uom
+            extra_cost_per_unit = bom.extra_cost / bom_qty_product_uom
         # mo_standard_price and labor_cost_per_unit are
         # in the UoM of the product (not of the MO/BOM)
         mo_qty_product_uom = puo._compute_qty_obj(
@@ -153,10 +163,25 @@ class MrpProduction(orm.Model):
         mo_standard_price = mo_total_price / mo_qty_product_uom
         logger.info(
             'MO %s: labor_cost_per_unit=%s', order.name, labor_cost_per_unit)
+        logger.info(
+            'MO %s: extra_cost_per_unit=%s', order.name, extra_cost_per_unit)
         mo_standard_price += labor_cost_per_unit
+        mo_standard_price += extra_cost_per_unit
         order.write({'unit_cost': mo_standard_price}, context=context)
         logger.info(
-            'MO %s: mo_standard_price=%s', order.name, mo_standard_price)
+            'MO %s: unit_cost=%s', order.name, mo_standard_price)
+        return mo_standard_price
+
+    def update_standard_price(self, cr, uid, order, context=None):
+        if context is None:
+            context = {}
+        puo = self.pool['product.uom']
+        product = order.product_id
+        mo_standard_price = self.compute_order_unit_cost(
+            cr, uid, order, context=context)
+        mo_qty_product_uom = puo._compute_qty_obj(
+            cr, uid, order.product_uom, order.product_qty,
+            order.product_id.uom_id, context=context)
         # I can't use the native method _update_average_price of stock.move
         # because it only works on move.picking_id.type == 'in'
         # As we do the super() at the END of this method,
