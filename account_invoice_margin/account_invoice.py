@@ -55,7 +55,7 @@ class AccountInvoiceLine(models.Model):
     @api.one
     @api.depends(
         'standard_price_company_currency', 'invoice_id.currency_id',
-        'invoice_id.move_id', 'invoice_id.type',
+        'invoice_id.type', 'invoice_id.company_id',
         'invoice_id.date_invoice', 'quantity', 'price_subtotal')
     def _compute_margin(self):
         standard_price_inv_cur = 0.0
