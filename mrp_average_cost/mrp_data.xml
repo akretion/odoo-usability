@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="1">
+
+<record forcecreate="True" id="labour_hours" model="decimal.precision">
+    <field name="name">Labour Hours</field>
+    <field name="digits">3</field>
+</record>
+
+</data>
+</openerp>

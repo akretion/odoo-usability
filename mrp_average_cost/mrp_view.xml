@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2016 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+<record id="mrp_bom_form_view" model="ir.ui.view">
+    <field name="name">mrp_average_cost.mrp.bom.form</field>
+    <field name="model">mrp.bom</field>
+    <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//div[@groups='mrp.group_mrp_routings']" position="after">
+            <label for="labour_time"/>
+            <div name="labour_time">
+                <field name="labour_time" class="oe_inline"/>
+                <label string="hours"/>
+            </div>
+            <field name="labour_cost_profile_id"/>
+        </xpath>
+    </field>
+</record>
+
+<record id="labour_cost_profile_form" model="ir.ui.view">
+    <field name="name">labour_cost_profile_form</field>
+    <field name="model">labour.cost.profile</field>
+    <field name="arch" type="xml">
+        <form string="Labour Cost Profile" version="7.0">
+            <group name="main">
+                <field name="name"/>
+                <field name="hour_cost" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="company_currency_id" invisible="1"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+<record id="labour_cost_profile_tree" model="ir.ui.view">
+    <field name="name">labour_cost_profile_tree</field>
+    <field name="model">labour.cost.profile</field>
+    <field name="arch" type="xml">
+        <tree string="Labour Cost Profiles">
+            <field name="name"/>
+            <field name="hour_cost"/>
+            <field name="company_currency_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="labour_cost_profile_action" model="ir.actions.act_window">
+    <field name="name">Labour Cost Profile</field>
+    <field name="res_model">labour.cost.profile</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="labour_cost_profile_menu" action="labour_cost_profile_action"
+    parent="mrp.menu_mrp_configuration"/>
+
+<record id="mrp_production_form_view" model="ir.ui.view">
+    <field name="name">mrp_average_cost.mrp_production_form</field>
+    <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+    <field name="model">mrp.production</field>
+    <field name="arch" type="xml">
+        <field name="date_finished" position="after">
+            <field name="unit_cost" widget="monetary" options="{'currency_field': 'company_currency_id'}" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+            <field name="company_currency_id" invisible="1"/>
+        </field>
+    </field>
+</record>
+
+
+</data>
+</openerp>
