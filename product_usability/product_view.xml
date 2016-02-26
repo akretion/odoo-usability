@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2015 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+
+<record id="product_price_history_form" model="ir.ui.view">
+    <field name="name">product.price.history.form</field>
+    <field name="model">product.price.history</field>
+    <field name="arch" type="xml">
+        <form string="Product Price History" version="7.0">
+            <group name="main">
+                <field name="product_template_id" invisible="not context.get('product_price_history_main_view')"/>
+                <field name="datetime"/>
+                <field name="cost"/>
+                <field name="origin"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+<record id="product_price_history_tree" model="ir.ui.view">
+    <field name="name">product.price.history.tree</field>
+    <field name="model">product.price.history</field>
+    <field name="arch" type="xml">
+        <tree string="Product Price History" editable="bottom">
+            <field name="product_template_id" invisible="not context.get('product_price_history_main_view')"/>
+            <field name="datetime"/>
+            <field name="cost"/>
+            <field name="origin"/>
+            <field name="company_id" groups="base.group_multi_company"/>
+        </tree>
+    </field>
+</record>
+
+<record id="product_price_history_search" model="ir.ui.view">
+    <field name="name">product.price.history.search</field>
+    <field name="model">product.price.history</field>
+    <field name="arch" type="xml">
+        <search string="Search Product Price History">
+            <field name="product_template_id"/>
+            <group string="Group By" name="groupby">
+                <filter name="product_tmpl_groupby" string="Product" context="{'group_by': 'product_template_id'}"/>
+                <filter name="datetime_groupby" string="Date" context="{'group_by': 'datetime:month'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+<record id="product_price_history_action" model="ir.actions.act_window">
+    <field name="name">Product Price History</field>
+    <field name="res_model">product.price.history</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'product_price_history_main_view': True}</field>
+</record>
+
+<menuitem id="product_price_history_menu" action="product_price_history_action"
+    parent="product.prod_config_main" sequence="55"/>
+
+<!-- product.template form view -->
+<record id="product_normal_form_view" model="ir.ui.view">
+    <field name="name">usability.product.template.form</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="product.product_normal_form_view" />
+    <field name="arch" type="xml">
+        <field name="description_purchase" position="after">
+            <group name="price_history_split">
+                <group name="price_history" string="Price History" groups="product.group_costing_method">
+                    <field name="price_history_ids" nolabel="1"/>
+                </group>
+                <group name="empty"/> <!-- If I don't put this empty group, the group above will take the full width, which make product.price.history difficult to read because there are only 2 fields in tree view -->
+            </group>
+        </field>
+    </field>
+</record>
+
+</data>
+</openerp>
