@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Partner Products Shortcut module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Partner Products Shortcut module for Odoo
+#    Copyright (C) 2014-2016 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -33,13 +33,15 @@ Partner Products Shortcut
 
 Adds a shortcut on supplier partner form to the products supplied by this partner.
 
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
+This module is an alternative to the module *partner_product_variants_shortcut* ; the only difference is that it displays the product view (product.template) instead of the product variants view (product.product).
+
+This module has been written by Alexis de Lattre from Akretion
+<alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['product'],
-    'data': [
-        'partner_view.xml',
-        ],
-    'active': False,
+    'conflicts': ['partner_product_variants_shortcut'],
+    'data': ['partner_view.xml'],
+    'installable': True,
 }
