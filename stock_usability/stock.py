@@ -67,12 +67,6 @@ class StockWarehouseOrderpoint(models.Model):
         )]
 
 
-class StockQuant(models.Model):
-    _inherit = 'stock.quant'
-
-    qty = fields.Float(digits=dp.get_precision('Product Unit of Measure'))
-
-
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
@@ -99,12 +93,6 @@ class StockMove(models.Model):
                 name = name + ' ' + fields.Date.to_string(date_expec_dt)
             res.append((line.id, name))
         return res
-
-
-class StockMoveOperationLink(models.Model):
-    _inherit = 'stock.move.operation.link'
-
-    qty = fields.Float(digits=dp.get_precision('Product Unit of Measure'))
 
 
 class ProcurementOrder(models.Model):
