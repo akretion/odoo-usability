@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Stock Usability module for Odoo
-#    Copyright (C) 2014-2015 Akretion (http://www.akretion.com)
+#    Copyright (C) 2014-2016 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -29,11 +29,6 @@ logger = logging.getLogger(__name__)
 
 class StockInventory(models.Model):
     _inherit = 'stock.inventory'
-    _order = 'id desc'
-
-
-class StockPicking(models.Model):
-    _inherit = 'stock.picking'
     _order = 'id desc'
 
 
