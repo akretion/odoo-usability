@@ -112,17 +112,20 @@ class PurchaseSuggestionGenerate(models.TransientModel):
         self.ensure_one()
         pso = self.env['purchase.suggest']
         polo = self.env['purchase.order.line']
+        puo = self.env['product.uom']
         p_suggest_lines = []
         products = self.generate_products_dict()
         # key = product_id
         # value = {'virtual_qty': 1.0, 'draft_po_qty': 4.0, 'min_qty': 6.0}
-        # TODO : handle the uom
+        # WARNING: draft_po_qty is in the UoM of the product
         logger.info('Starting to compute the purchase suggestions')
         logger.info('Min qty computed on %d products', len(products))
         polines = polo.search([
             ('state', '=', 'draft'), ('product_id', 'in', products.keys())])
         for line in polines:
-            products[line.product_id.id]['draft_po_qty'] += line.product_qty
+            qty_product_po_uom = puo._compute_qty_obj(
+                line.product_uom, line.product_qty, line.product_id.uom_id)
+            products[line.product_id.id]['draft_po_qty'] += qty_product_po_uom
         logger.info('Draft PO qty computed on %d products', len(products))
         virtual_qties = self.pool['product.product']._product_available(
             self._cr, self._uid, products.keys(),
@@ -181,21 +184,32 @@ class PurchaseSuggest(models.TransientModel):
         'res.company', string='Company', required=True)
     product_id = fields.Many2one(
         'product.product', string='Product', required=True, readonly=True)
+    uom_id = fields.Many2one(
+        'product.uom', string='UoM', related='product_id.uom_id',
+        readonly=True)
+    uom_po_id = fields.Many2one(
+        'product.uom', string='Purchase UoM', related='product_id.uom_po_id',
+        readonly=True)
     seller_id = fields.Many2one(
         'res.partner', string='Supplier', readonly=True,
         domain=[('supplier', '=', True)])
     qty_available = fields.Float(
         string='Quantity On Hand', readonly=True,
-        digits=dp.get_precision('Product Unit of Measure'))
+        digits=dp.get_precision('Product Unit of Measure'),
+        help="in the unit of measure of the product")
     incoming_qty = fields.Float(
         string='Incoming Quantity', readonly=True,
-        digits=dp.get_precision('Product Unit of Measure'))
+        digits=dp.get_precision('Product Unit of Measure'),
+        help="in the unit of measure of the product")
     outgoing_qty = fields.Float(
         string='Outgoing Quantity', readonly=True,
-        digits=dp.get_precision('Product Unit of Measure'))
+        digits=dp.get_precision('Product Unit of Measure'),
+        help="in the unit of measure of the product")
     draft_po_qty = fields.Float(
         string='Draft PO Quantity', readonly=True,
-        digits=dp.get_precision('Product Unit of Measure'))
+        digits=dp.get_precision('Product Unit of Measure'),
+        help="Draft purchase order quantity in the unit of measure "
+        "of the product (NOT in the purchase unit of measure !)")
     last_po_line_id = fields.Many2one(
         'purchase.order.line', string='Last Purchase Order Line',
         readonly=True)
@@ -206,6 +220,9 @@ class PurchaseSuggest(models.TransientModel):
         related='last_po_line_id.product_qty', readonly=True,
         digits=dp.get_precision('Product Unit of Measure'),
         string='Quantity of the Last Order')
+    last_po_uom = fields.Many2one(
+        related='last_po_line_id.product_uom', readonly=True,
+        string='UoM of the Last Order')
     orderpoint_id = fields.Many2one(
         'stock.warehouse.orderpoint', string='Re-ordering Rule',
         readonly=True)
@@ -213,10 +230,13 @@ class PurchaseSuggest(models.TransientModel):
         'stock.location', string='Stock Location', readonly=True)
     min_qty = fields.Float(
         string="Min Quantity", readonly=True,
-        digits=dp.get_precision('Product Unit of Measure'))
+        digits=dp.get_precision('Product Unit of Measure'),
+        help="in the unit of measure for the product")
     qty_to_order = fields.Float(
         string='Quantity to Order',
-        digits=dp.get_precision('Product Unit of Measure'))
+        digits=dp.get_precision('Product Unit of Measure'),
+        help="Quantity to order in the purchase unit of measure for the "
+        "product")
 
 
 class PurchaseSuggestPoCreate(models.TransientModel):
@@ -252,12 +272,13 @@ class PurchaseSuggestPoCreate(models.TransientModel):
         po_vals.update(pick_type_dict['value'])
         return po_vals
 
-    def _prepare_purchase_order_line(self, partner, product, qty_to_order):
+    def _prepare_purchase_order_line(
+            self, partner, product, qty_to_order, uom):
         polo = self.env['purchase.order.line']
         polnull = polo.browse(False)
         product_change_res = polnull.onchange_product_id(
             partner.property_product_pricelist_purchase.id,
-            product.id, qty_to_order, False, partner.id,
+            product.id, qty_to_order, uom.id, partner.id,
             fiscal_position_id=partner.property_account_position.id)
         product_change_vals = product_change_res['value']
         taxes_id_vals = []
@@ -272,6 +293,7 @@ class PurchaseSuggestPoCreate(models.TransientModel):
             self, partner, company, po_lines, location):
         polo = self.env['purchase.order.line']
         poo = self.env['purchase.order']
+        puo = self.env['product.uom']
         existing_pos = poo.search([
             ('partner_id', '=', partner.id),
             ('company_id', '=', company.id),
@@ -281,16 +303,18 @@ class PurchaseSuggestPoCreate(models.TransientModel):
         if existing_pos:
             # update the first existing PO
             existing_po = existing_pos[0]
-            for product, qty_to_order in po_lines:
-                existing_poline = polo.search([
+            for product, qty_to_order, uom in po_lines:
+                existing_polines = polo.search([
                     ('product_id', '=', product.id),
                     ('order_id', '=', existing_po.id),
                     ])
-                if existing_poline:
-                    existing_poline[0].product_qty += qty_to_order
+                if existing_polines:
+                    existing_poline = existing_polines[0]
+                    existing_poline.product_qty += puo._compute_qty_obj(
+                        uom, qty_to_order, existing_poline.product_uom)
                 else:
                     pol_vals = self._prepare_purchase_order_line(
-                        partner, product, qty_to_order)
+                        partner, product, qty_to_order, uom)
                     pol_vals['order_id'] = existing_po.id
                     polo.create(pol_vals)
             existing_po.message_post(
@@ -300,9 +324,9 @@ class PurchaseSuggestPoCreate(models.TransientModel):
             # create new PO
             po_vals = self._prepare_purchase_order(partner, company, location)
             order_lines = []
-            for product, qty_to_order in po_lines:
+            for product, qty_to_order, uom in po_lines:
                 pol_vals = self._prepare_purchase_order_line(
-                    partner, product, qty_to_order)
+                    partner, product, qty_to_order, uom)
                 order_lines.append((0, 0, pol_vals))
             po_vals['order_line'] = order_lines
             new_po = poo.create(po_vals)
@@ -314,7 +338,7 @@ class PurchaseSuggestPoCreate(models.TransientModel):
         # group by supplier
         po_to_create = {}
         # key = (seller, company)
-        # value = [(product1, qty1), (product2, qty2)]
+        # value = [(product1, qty1, uom1), (product2, qty2, uom2)]
         psuggest_ids = self.env.context.get('active_ids')
         location = False
         for line in self.env['purchase.suggest'].browse(psuggest_ids):
@@ -328,10 +352,10 @@ class PurchaseSuggestPoCreate(models.TransientModel):
                     % line.product_id.name)
             if (line.seller_id, line.company_id) in po_to_create:
                 po_to_create[(line.seller_id, line.company_id)].append(
-                    (line.product_id, line.qty_to_order))
+                    (line.product_id, line.qty_to_order, line.uom_po_id))
             else:
                 po_to_create[(line.seller_id, line.company_id)] = [
-                    (line.product_id, line.qty_to_order)]
+                    (line.product_id, line.qty_to_order, line.uom_po_id)]
         if not po_to_create:
             raise Warning(_('No purchase orders created or updated'))
         po_ids = []

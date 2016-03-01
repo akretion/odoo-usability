@@ -37,8 +37,6 @@ The advantage is that you are not impacted by the faulty procurements (for examp
 
 You may want to increase the osv_memory_age_limit (default value = 1h) in Odoo server config file, in order to let some time to the purchase user to finish his work on the purchase suggestions.
 
-Warning: this module doesn't handle the case where a product uses multiple units of measures for the moment.
-
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',

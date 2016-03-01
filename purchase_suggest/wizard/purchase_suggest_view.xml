@@ -60,9 +60,12 @@
             <field name="outgoing_qty"/>
             <field name="draft_po_qty"/>
             <field name="min_qty"/>
+            <field name="uom_id" groups="product.group_uom"/>
             <field name="last_po_date" widget="date"/>
             <field name="last_po_qty"/>
+            <field name="last_po_uom" groups="product.group_uom"/>
             <field name="qty_to_order"/>
+            <field name="uom_po_id" groups="product.group_uom"/>
         </tree>
     </field>
 </record>
