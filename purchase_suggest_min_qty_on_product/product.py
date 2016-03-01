@@ -32,4 +32,5 @@ class ProductProduct(models.Model):
         digits=dp.get_precision('Product Unit of Measure'),
         company_dependent=True,
         help="If the forecast quantity is lower than the value of this field, "
-        "Odoo will suggest to re-order this product.")
+        "Odoo will suggest to re-order this product. This field is in the "
+        "unit of measure of the product.")
