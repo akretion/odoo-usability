@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Sale Usability Extension module for OpenERP
-#    Copyright (C) 2014 Akretion (http://www.akretion.com)
+#    Sale Usability Extension module for Odoo
+#    Copyright (C) 2014-2016 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -26,12 +26,15 @@
     'version': '0.1',
     'category': 'Sale Management',
     'license': 'AGPL-3',
-    'summary': 'Show invoices and deliveries on sale orders',
+    'summary': 'Show invoices on sale orders',
     'description': """
 Sale Usability Extension
 ========================
 
-Display Invoices and Delivery Orders on Sale Order form view (in dedicated tabs).
+Several small usability improvements:
+
+* Display Invoices on Sale Order form view (in dedicated tab).
+* Display currency in tree view
 
 Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
     """,
@@ -41,5 +44,5 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'data': [
         'sale_view.xml',
         ],
-    'active': False,
+    'installable': True,
 }

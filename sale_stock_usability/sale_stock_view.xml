@@ -21,6 +21,18 @@
     </field>
 </record>
 
+<record id="view_order_form_inherit" model="ir.ui.view">
+    <field name="name">sale_stock_usability.sale_order_form</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+    <field name="arch" type="xml">
+        <notebook position="inside">
+            <page string="Delivery Orders" states="progress,waiting_date,manual,invoice_except,shipping_except,done">
+                <field name="picking_ids" nolabel="1"/>
+            </page>
+        </notebook>
+    </field>
+</record>
 
 </data>
 </openerp>
