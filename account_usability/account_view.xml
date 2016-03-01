@@ -17,6 +17,11 @@
         <field name="fiscal_position" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
+        <!-- by default, period_id is restricted to account.group_account_user
+        But a member of account.group_account_invoice may need to change it -->
+        <field name="period_id" position="attributes">
+            <attribute name="groups"></attribute>
+        </field>
     </field>
 </record>
 
@@ -27,6 +32,11 @@
     <field name="arch" type="xml">
         <field name="fiscal_position" position="attributes">
             <attribute name="widget">selection</attribute>
+        </field>
+        <!-- by default, period_id is restricted to account.group_account_user
+        But a member of account.group_account_invoice may need to change it -->
+        <field name="period_id" position="attributes">
+            <attribute name="groups"></attribute>
         </field>
     </field>
 </record>
