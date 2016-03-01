@@ -26,7 +26,7 @@
     'version': '0.2',
     'category': 'Sales Management',
     'license': 'AGPL-3',
-    'summary': 'use management',
+    'summary': 'Small usability improvements to the sale_stock module',
     'description': """
 Sale Stock Usability
 ====================
@@ -34,6 +34,7 @@ Sale Stock Usability
 The usability enhancements include:
 
 * *To invoice* filter on pickings filters on invoice_state = 2binvoiced AND state = done
+* Add a tab with the list of related pickings in sale order form
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
