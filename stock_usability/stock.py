@@ -32,6 +32,13 @@ class StockInventory(models.Model):
     _order = 'id desc'
 
 
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+    _order = 'id desc'
+    # In the stock module: _order = "priority desc, date asc, id desc"
+    # The problem is date asc
+
+
 class StockLocation(models.Model):
     _inherit = 'stock.location'
 
@@ -70,10 +77,13 @@ class StockWarehouseOrderpoint(models.Model):
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    reserved_availability = fields.Float(
-        digits=dp.get_precision('Product Unit of Measure'))
-    availability = fields.Float(
-        digits=dp.get_precision('Product Unit of Measure'))
+# It seems that it is not necessary any more to
+# have the digits= on these 2 fields to fix the bug
+# https://github.com/odoo/odoo/pull/10038
+#    reserved_availability = fields.Float(
+#        digits=dp.get_precision('Product Unit of Measure'))
+#    availability = fields.Float(
+#        digits=dp.get_precision('Product Unit of Measure'))
 
     def name_get(self, cr, uid, ids, context=None):
         '''name_get of stock_move is important for the reservation of the
