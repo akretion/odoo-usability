@@ -28,19 +28,74 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+class MrpBomLabourLine(orm.Model):
+    _name = 'mrp.bom.labour.line'
+    _description = 'Labour lines on BOM'
+
+    _columns = {
+        'bom_id': fields.many2one(
+            'mrp.bom', 'Labour Lines', ondelete='cascade'),
+        'labour_time': fields.float(
+            'Labour Time',
+            digits_compute=dp.get_precision('Labour Hours'),
+            help="Average labour time for the production of "
+            "items of the BOM, in hours."),
+        'labour_cost_profile_id': fields.many2one(
+            'labour.cost.profile', 'Labour Cost Profile', required=True),
+        'note': fields.text('Note'),
+        }
+
+    _sql_constraints = [(
+        'labour_time_positive',
+        'CHECK (labour_time >= 0)',
+        "The value of the field 'Labour Time' must be positive or 0.")]
+
+
 class MrpBom(orm.Model):
     _inherit = 'mrp.bom'
 
+    def _compute_total_labour_cost(
+            self, cr, uid, ids, name, arg, context=None):
+        res = {}
+        for bom in self.browse(cr, uid, ids, context=context):
+            cost = 0.0
+            for lline in bom.labour_line_ids:
+                cost += lline.labour_time * lline.labour_cost_profile_id.hour_cost
+            res[bom.id] = cost
+        return res
+
+    def _get_bom_from_labour_lines(self, cr, uid, ids, context=None):
+        return self.pool['mrp.bom'].search(
+            cr, uid, [('labour_line_ids', 'in', ids)], context=context)
+
+    def _get_bom_from_cost_profile(self, cr, uid, ids, context=None):
+        labour_line_ids = self.pool['mrp.bom.labour.line'].search(
+            cr, uid, [('labour_cost_profile_id', 'in', ids)], context=context)
+        return self.pool['mrp.bom'].search(
+            cr, uid, [('labour_line_ids', 'in', labour_line_ids)], context=context)
+
     _columns = {
+        # TODO: delete this field once migration is done
         'labour_time': fields.float(
             'Labour Time',
             digits_compute=dp.get_precision('Labour Hours'),
             help="Average labour time for the production of the quantity of "
             "items of the BOM, in hours."),
+        # TODO: delete this field once migration is done
         'labour_cost_profile_id': fields.many2one(
             'labour.cost.profile', 'Labour Cost Profile'),
+        'total_labour_cost': fields.function(
+            _compute_total_labour_cost, type='float', readonly=True,
+            string="Total Labour Cost", store={
+                'labour.cost.profile': (_get_bom_from_cost_profile, [
+                    'hour_cost', 'company_id'], 10),
+                'mrp.bom.labour.line': (_get_bom_from_labour_lines, [
+                    'bom_id', 'labour_time', 'labour_cost_profile_id'], 20),
+                }),
+        'labour_line_ids': fields.one2many(
+            'mrp.bom.labour.line', 'bom_id', 'Labour Lines'),
         'extra_cost': fields.float(
-            'Extra Cost',
+            'Extra Cost', track_visibility='onchange',
             digits_compute=dp.get_precision('Product Price'),
             help="Extra cost for the production of the quantity of "
             "items of the BOM, in company currency. "
@@ -131,15 +186,10 @@ class MrpProduction(orm.Model):
             mo_total_price += raw_material_cost
         if order.bom_id:
             bom = order.bom_id
-            if not bom.labour_cost_profile_id:
+            if not bom.total_labour_cost:
                 raise orm.except_orm(
                     _('Error:'),
-                    _("Labor Cost Profile is not set on bill of "
-                        "material '%s'.") % bom.name)
-            if not bom.labour_time:
-                raise orm.except_orm(
-                    _('Error:'),
-                    _("Labour Time is not set on bill of material '%s'.")
+                    _("Total Labor Cost is 0 on bill of material '%s'.")
                     % bom.name)
             if not bom.product_qty:
                 raise orm.except_orm(
@@ -150,9 +200,7 @@ class MrpProduction(orm.Model):
                 cr, uid, bom.product_uom, bom.product_qty,
                 bom.product_id.uom_id, context=context)
             assert bom_qty_product_uom > 0, 'BoM qty should be positive'
-            labor_cost_per_unit = (
-                bom.labour_time * bom.labour_cost_profile_id.hour_cost) /\
-                bom_qty_product_uom
+            labor_cost_per_unit = bom.total_labour_cost / bom_qty_product_uom
             extra_cost_per_unit = bom.extra_cost / bom_qty_product_uom
         # mo_standard_price and labor_cost_per_unit are
         # in the UoM of the product (not of the MO/BOM)

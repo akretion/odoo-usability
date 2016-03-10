@@ -14,18 +14,55 @@
     <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
     <field name="arch" type="xml">
         <xpath expr="//div[@groups='mrp.group_mrp_routings']" position="after">
+            <field name="total_labour_cost" widget="monetary"
+                options="{'currency_field': 'company_currency_id'}"/>
             <field name="extra_cost" widget="monetary"
                 options="{'currency_field': 'company_currency_id'}"/>
             <field name="company_currency_id" invisible="1"/>
-            <label for="labour_time"/>
-            <div name="labour_time">
-                <field name="labour_time" class="oe_inline"/>
-                <label string="hours"/>
-            </div>
-            <field name="labour_cost_profile_id"/>
         </xpath>
+        <page string="Components" position="after">
+            <page string="Labour" name="labour_lines">
+                <group name="labour_lines_grp">
+                    <field name="labour_line_ids" nolabel="1"/>
+                </group>
+            </page>
+        </page>
     </field>
 </record>
+
+<record id="mrp_bom_labour_line_tree" model="ir.ui.view">
+    <field name="name">mrp_bom_labour_line.tree</field>
+    <field name="model">mrp.bom.labour.line</field>
+    <field name="arch" type="xml">
+        <tree string="Labour Lines" editable="bottom">
+            <field name="bom_id" invisible="not context.get('mrp_bom_labour_line_main_view')"/>
+            <field name="labour_time" string="Labour Time (hours)"/>
+            <field name="labour_cost_profile_id"/>
+            <field name="note"/>
+        </tree>
+    </field>
+</record>
+
+<record id="mrp_bom_labour_line_form" model="ir.ui.view">
+    <field name="name">mrp_bom_labour_line.form</field>
+    <field name="model">mrp.bom.labour.line</field>
+    <field name="arch" type="xml">
+        <form string="Labour Line" version="7.0">
+            <group name="main">
+                <field name="bom_id" invisible="not context.get('mrp_bom_labour_line_main_view')"/>
+                <label for="labour_time"/>
+                <div name="labour_time">
+                    <field name="labour_time" class="oe_inline"/>
+                    <label string="hours"/>
+                </div>
+                <field name="labour_cost_profile_id"/>
+                <field name="note"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+
 
 <record id="labour_cost_profile_form" model="ir.ui.view">
     <field name="name">labour_cost_profile_form</field>
