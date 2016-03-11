@@ -168,7 +168,7 @@ class MrpProduction(orm.Model):
         # I read the raw materials MO, not on BOM, in order to make
         # it work with the "dynamic" BOMs (few raw material are auto-added
         # on the fly on MO)
-        for raw_smove in order.move_lines:
+        for raw_smove in order.move_lines + order.move_lines2:
             # I don't filter on state, in order to make it work with
             # partial productions
             # For partial productions, mo.product_qty is not updated
@@ -186,11 +186,11 @@ class MrpProduction(orm.Model):
             mo_total_price += raw_material_cost
         if order.bom_id:
             bom = order.bom_id
-            if not bom.total_labour_cost:
-                raise orm.except_orm(
-                    _('Error:'),
-                    _("Total Labor Cost is 0 on bill of material '%s'.")
-                    % bom.name)
+            #if not bom.total_labour_cost:
+            #    raise orm.except_orm(
+            #        _('Error:'),
+            #        _("Total Labor Cost is 0 on bill of material '%s'.")
+            #        % bom.name)
             if not bom.product_qty:
                 raise orm.except_orm(
                     _('Error:'),
