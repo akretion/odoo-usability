@@ -42,16 +42,17 @@ class ProductTemplate(orm.Model):
         retrieve the cost of a product template for a given date'''
         if context is None:
             context = {}
-        price_history_obj = self.pool['product.price.history']
-        user_company = self.pool['res.users'].browse(
-            cr, uid, uid, context=context).company_id.id
-        company_id = context.get('force_company', user_company)
-        price_history_obj.create(cr, SUPERUSER_ID, {
-            'product_template_id': product_tmpl_id,
-            'cost': value,
-            'company_id': company_id,
-            'origin': context.get('product_price_history_origin', False),
-            }, context=context)
+        if not context.get('dont_create_price_history'):
+            price_history_obj = self.pool['product.price.history']
+            user_company = self.pool['res.users'].browse(
+                cr, uid, uid, context=context).company_id.id
+            company_id = context.get('force_company', user_company)
+            price_history_obj.create(cr, SUPERUSER_ID, {
+                'product_template_id': product_tmpl_id,
+                'cost': value,
+                'company_id': company_id,
+                'origin': context.get('product_price_history_origin', False),
+                }, context=context)
 
     def create(self, cr, uid, vals, context=None):
         product_template_id = super(ProductTemplate, self).create(
