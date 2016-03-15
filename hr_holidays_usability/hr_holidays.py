@@ -264,7 +264,7 @@ class HrHolidays(models.Model):
 
     @api.onchange('vacation_date_from', 'vacation_time_from')
     def vacation_from(self):
-        hour = 0  # = morning
+        hour = 5  # = morning
         if self.vacation_time_from and self.vacation_time_from == 'noon':
             hour = 13  # noon, LOCAL TIME
             # Warning : when the vacation STARTs at Noon, it starts at 1 p.m.
@@ -287,7 +287,7 @@ class HrHolidays(models.Model):
 
     @api.onchange('vacation_date_to', 'vacation_time_to')
     def vacation_to(self):
-        hour = 23  # = evening
+        hour = 22  # = evening
         if self.vacation_time_to and self.vacation_time_to == 'noon':
             hour = 12  # Noon, LOCAL TIME
             # Warning : when vacation STOPs at Noon, it stops at 12 a.m.
