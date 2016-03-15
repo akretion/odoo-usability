@@ -89,6 +89,30 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
     </field>
 </record>
 
+
+<record id="view_holiday_simple" model="ir.ui.view">
+    <field name="name">hr_holidays_usability.report_tree</field>
+    <field name="model">hr.holidays</field>
+    <field name="inherit_id" ref="hr_holidays.view_holiday_simple"/>
+    <field name="arch" type="xml">
+        <field name="date_from" position="attributes">
+             <attribute name="invisible">1</attribute>
+        </field>
+        <field name="date_from" position="after">
+             <field name="vacation_date_from"/>
+             <field name="vacation_time_from"/>
+        </field>
+        <field name="date_to" position="attributes">
+             <attribute name="invisible">1</attribute>
+        </field>
+        <field name="date_to" position="after">
+             <field name="vacation_date_to"/>
+             <field name="vacation_time_to"/>
+        </field>
+    </field>
+</record>
+
+
 <record id="view_hr_holidays_filter" model="ir.ui.view">
     <field name="name">hr_holidays_usability.leave_request_tree</field>
     <field name="model">hr.holidays</field>
