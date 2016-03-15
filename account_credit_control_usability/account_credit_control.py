@@ -39,6 +39,7 @@ class CreditControlLine(models.Model):
     _inherit = "credit.control.line"
 
     channel = fields.Selection(selection_add=[('phone', 'Phone Call')])
+    note = fields.Text(string='Notes')
 
     @api.multi
     def open_aged_open_invoices_report(self):
