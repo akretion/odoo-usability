@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record id="product.variants_action" model="ir.actions.act_window">
+        <field name="res_model">product.attribute.value</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="product.attribute_action" model="ir.actions.act_window">
+        <field name="res_model">product.attribute</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- After installation of the module, open the adhoc menu -->
+    <record id="action_client_attribute_usabi_menu" model="ir.actions.client">
+        <field name="name">Open Attribute Usability Menu</field>
+        <field name="tag">reload</field>
+        <field name="params" eval="{'menu_id': ref('product.menu_variants_action')}"/>
+    </record>
+    <record id="base.open_menu" model="ir.actions.todo">
+        <field name="action_id" ref="action_client_attribute_usabi_menu"/>
+        <field name="state">open</field>
+    </record>
+
+</data>
+</openerp>
