@@ -13,7 +13,8 @@ class ProductAttributeValue(models.Model):
     def _get_attributes_to_filter(self):
         """ Inherit if you want reduce the list """
         return [(x.id, x.name)
-                for x in self.env['product.attribute'].search([])]
+                for x in self.env['product.attribute'].search(
+                    [], order='name DESC')]
 
     @api.model
     def _customize_attribute_filters(self, my_filter):
