@@ -17,5 +17,16 @@
         <field name="context">{}</field>
     </record>
 
+    <!-- After installation of the module, open the adhoc menu -->
+    <record id="action_client_module_usabi_menu" model="ir.actions.client">
+        <field name="name">Open Module Usability Menu</field>
+        <field name="tag">reload</field>
+        <field name="params" eval="{'menu_id': ref('base.menu_module_tree')}"/>
+    </record>
+    <record id="base.open_menu" model="ir.actions.todo">
+        <field name="action_id" ref="action_client_module_usabi_menu"/>
+        <field name="state">open</field>
+    </record>
+
 </data>
 </openerp>
