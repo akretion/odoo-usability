@@ -8,7 +8,8 @@
     'category': 'Product',
     'summary': "Attribute views improved",
     'description': """
-Add a form view to Attribute and Attribute Value views
+- Create filter dynamically for each attributes in attribute values search view
+- Add a form view to Attribute and Attribute Value views
 
 Contributors: David BEAL
     """,
