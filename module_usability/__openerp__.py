@@ -4,7 +4,7 @@
 
 {
     'name': 'Module Usability',
-    'version': '0.8',
+    'version': '8.0.0.0.0',
     'category': 'Base',
     'summary': "Module views improved",
     'description': """
