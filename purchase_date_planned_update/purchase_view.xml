@@ -13,7 +13,7 @@
     <field name="model">purchase.order</field>
     <field name="inherit_id" ref="purchase.purchase_order_form"/>
     <field name="arch" type="xml">
-        <button name="action_cancel" position="after">
+        <button name="view_invoice" position="after">
             <button name="%(purchase_date_planned_update_action)d" type="action"
                 string="Update Scheduled Dates"
                 states="confirmed,approved,except_picking,except_invoice"/>
