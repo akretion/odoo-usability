@@ -15,7 +15,7 @@
     <field name="arch" type="xml">
         <button name="action_cancel" position="after">
             <button name="%(purchase_date_planned_update_action)d" type="action"
-                string="Update Scheduled Date"
+                string="Update Scheduled Dates"
                 states="confirmed,approved,except_picking,except_invoice"/>
         </button>
     </field>

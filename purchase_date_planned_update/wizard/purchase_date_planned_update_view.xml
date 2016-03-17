@@ -12,7 +12,7 @@
     <field name="name">purchase_date_planned_update_form</field>
     <field name="model">purchase.date.planned.update</field>
     <field name="arch" type="xml">
-        <form string="Update Scheduled Date">
+        <form string="Update Scheduled Dates">
             <group name="main">
                 <label string="You can update all the lines at once or update only selected lines." colspan="2"/>
                 <label string="The purchase order lines that are already fully received are not listed below." colspan="2"/>
@@ -39,7 +39,7 @@
 </record>
 
 <record id="purchase_date_planned_update_action" model="ir.actions.act_window">
-    <field name="name">Update Scheduled Date</field>
+    <field name="name">Update Scheduled Dates</field>
     <field name="res_model">purchase.date.planned.update</field>
     <field name="view_mode">form</field>
     <field name="target">new</field>
