@@ -22,6 +22,9 @@
             <field name="date_confirm"
                 attrs="{'invisible': [('state', 'in', ('draft', 'sent'))]}"/>
         </field>
+        <field name="fiscal_position" position="attributes">
+            <attribute name="widget">selection</attribute>
+        </field>
     </field>
 </record>
 
