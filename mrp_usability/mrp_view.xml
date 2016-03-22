@@ -22,5 +22,17 @@
     </field>
 </record>
 
+<record id="view_procurement_form_inherit" model="ir.ui.view">
+    <field name="name">mrp_usability.procurement.order.form</field>
+    <field name="model">procurement.order</field>
+    <field name="inherit_id" ref="mrp.view_procurement_form_inherit"/>
+    <field name="arch" type="xml">
+        <field name="production_id" position="attributes">
+            <attribute name="attrs">{}</attribute>
+        </field>
+    </field>
+</record>
+
+
 </data>
 </openerp>
