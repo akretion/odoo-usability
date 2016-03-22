@@ -14,9 +14,13 @@
     <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
     <field name="arch" type="xml">
         <xpath expr="//div[@groups='mrp.group_mrp_routings']" position="after">
+            <field name="total_components_cost" widget="monetary"
+                options="{'currency_field': 'company_currency_id'}"/>
             <field name="total_labour_cost" widget="monetary"
                 options="{'currency_field': 'company_currency_id'}"/>
             <field name="extra_cost" widget="monetary"
+                options="{'currency_field': 'company_currency_id'}"/>
+            <field name="total_cost" widget="monetary"
                 options="{'currency_field': 'company_currency_id'}"/>
             <field name="company_currency_id" invisible="1"/>
         </xpath>
@@ -27,6 +31,9 @@
                 </group>
             </page>
         </page>
+        <xpath expr="//field[@name='bom_lines']/tree/field[@name='product_uom']" position="after">
+            <field name="standard_price"/>
+        </xpath>
     </field>
 </record>
 

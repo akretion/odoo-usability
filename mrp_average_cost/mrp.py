@@ -36,7 +36,7 @@ class MrpBomLabourLine(orm.Model):
         'bom_id': fields.many2one(
             'mrp.bom', 'Labour Lines', ondelete='cascade'),
         'labour_time': fields.float(
-            'Labour Time',
+            'Labour Time', required=True,
             digits_compute=dp.get_precision('Labour Hours'),
             help="Average labour time for the production of "
             "items of the BOM, in hours."),
@@ -74,16 +74,28 @@ class MrpBom(orm.Model):
         return self.pool['mrp.bom'].search(
             cr, uid, [('labour_line_ids', 'in', labour_line_ids)], context=context)
 
+    def _compute_total_cost(
+            self, cr, uid, ids, name, arg, context=None):
+        res = {}
+        puo = self.pool['product.uom']
+        for bom in self.browse(cr, uid, ids, context=context):
+            component_cost = 0.0
+            for line in bom.bom_lines:
+                component_price = line.product_id.standard_price
+                component_qty_product_uom = puo._compute_qty_obj(
+                    cr, uid, line.product_uom, line.product_qty,
+                    line.product_id.uom_id, context=context)
+                component_cost += component_price * component_qty_product_uom
+            total_cost = component_cost + bom.extra_cost + bom.total_labour_cost
+            res[bom.id] = {
+                'total_components_cost': component_cost,
+                'total_cost': total_cost,
+                }
+        return res
+
     _columns = {
-        # TODO: delete this field once migration is done
-        'labour_time': fields.float(
-            'Labour Time',
-            digits_compute=dp.get_precision('Labour Hours'),
-            help="Average labour time for the production of the quantity of "
-            "items of the BOM, in hours."),
-        # TODO: delete this field once migration is done
-        'labour_cost_profile_id': fields.many2one(
-            'labour.cost.profile', 'Labour Cost Profile'),
+        'labour_line_ids': fields.one2many(
+            'mrp.bom.labour.line', 'bom_id', 'Labour Lines'),
         'total_labour_cost': fields.function(
             _compute_total_labour_cost, type='float', readonly=True,
             string="Total Labour Cost", store={
@@ -92,8 +104,6 @@ class MrpBom(orm.Model):
                 'mrp.bom.labour.line': (_get_bom_from_labour_lines, [
                     'bom_id', 'labour_time', 'labour_cost_profile_id'], 20),
                 }),
-        'labour_line_ids': fields.one2many(
-            'mrp.bom.labour.line', 'bom_id', 'Labour Lines'),
         'extra_cost': fields.float(
             'Extra Cost', track_visibility='onchange',
             digits_compute=dp.get_precision('Product Price'),
@@ -102,9 +112,21 @@ class MrpBom(orm.Model):
             "You can use this field to enter the cost of the consumables "
             "that are used to produce the product but are not listed in "
             "the BOM"),
+        'total_components_cost': fields.function(
+            _compute_total_cost, type='float', readonly=True,
+            multi='total-cost', string='Total Components Cost'),
+        'total_cost': fields.function(
+            _compute_total_cost, type='float', readonly=True,
+            multi='total-cost', string='Total Cost',
+            help="Total Cost = Total Components Cost + "
+            "Total Labour Cost + Extra Cost"),
         'company_currency_id': fields.related(
             'company_id', 'currency_id', readonly=True, type='many2one',
             relation='res.currency', string='Company Currency'),
+        # to display in bom lines
+        'standard_price': fields.related(
+            'product_id', 'standard_price', readonly=True,
+            type='float', string='Standard Price')
         }
 
 
