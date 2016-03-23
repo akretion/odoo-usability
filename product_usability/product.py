@@ -75,6 +75,20 @@ class ProductTemplate(orm.Model):
         return res
 
 
+class ProductProduct(orm.Model):
+    _inherit = 'product.product'
+
+    # unfortunately required in old-API...
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
+        default.update({
+            'price_history_ids': False,
+            })
+        return super(ProductProduct, self).copy(
+            cr, uid, id, default=default, context=context)
+
+
 class ProductPriceHistory(orm.Model):
     # This is a backport of the datamodel of v8
     # The code below is (C) Odoo SA
