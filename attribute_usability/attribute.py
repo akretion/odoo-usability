@@ -2,8 +2,13 @@
 # © 2016 David BEAL @ Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api
+from openerp import models, api
 from lxml import etree
+
+
+class ProductAtribute(models.Model):
+    _inherit = 'product.attribute'
+    _order = 'sequence ASC'
 
 
 class ProductAttributeValue(models.Model):
