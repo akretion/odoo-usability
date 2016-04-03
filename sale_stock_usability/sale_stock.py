@@ -40,3 +40,13 @@ class SaleOrderLine(models.Model):
     product_tmpl_id = fields.Many2one(
         'product.template', related='product_id.product_tmpl_id',
         string='Product Template', readonly=True)
+
+
+class ProcurementGroup(models.Model):
+    _inherit = 'procurement.group'
+
+    sale_ids = fields.One2many(
+        'sale.order', 'procurement_group_id', string='Sale Orders',
+        readonly=True)
+    picking_ids = fields.One2many(
+        'stock.picking', 'group_id', string='Pickings', readonly=True)

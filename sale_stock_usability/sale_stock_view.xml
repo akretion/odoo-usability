@@ -34,5 +34,22 @@
     </field>
 </record>
 
+
+<record id="procurement_group_form_view" model="ir.ui.view">
+    <field name="name">sale_stock_usability.procurement.group.form</field>
+    <field name="model">procurement.group</field>
+    <field name="inherit_id" ref="procurement.procurement_group_form_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='move_type']/.." position="after">
+            <group name="sale" string="Sale Orders">
+                <field name="sale_ids" nolabel="1"/>
+            </group>
+            <group name="picking" string="Pickings">
+                <field name="picking_ids" nolabel="1"/>
+            </group>
+        </xpath>
+    </field>
+</record>
+
 </data>
 </openerp>
