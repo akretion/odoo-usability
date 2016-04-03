@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2015-2016 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+    The licence is in the file __openerp__.py
+-->
+
+<openerp>
+<data>
+
+<record id="procurement_group_form_view" model="ir.ui.view">
+    <field name="name">stock_usability.procurement.group.form</field>
+    <field name="model">procurement.group</field>
+    <field name="inherit_id" ref="procurement.procurement_group_form_view"/>
+    <field name="arch" type="xml">
+        <field name="move_type" position="after">
+            <field name="partner_id" readonly="True"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_procurement_form_stock_inherit" model="ir.ui.view">
+    <field name="name">procurement_usability.procurement.order.form</field>
+    <field name="model">procurement.order</field>
+    <field name="inherit_id" ref="stock.view_procurement_form_stock_inherit"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='company_id']/.." position="after">
+            <group name="move_ids" string="Stock Moves" colspan="4">
+                <field name="move_ids" nolabel="1" readonly="True"/>
+            </group>
+        </xpath>
+        <field name="partner_dest_id" position="before">
+            <field name="orderpoint_id" readonly="True"/>
+        </field>
+    </field>
+</record>
+
+<record id="procurement_scheduler_log_tree" model="ir.ui.view">
+    <field name="name">procurement_scheduler_log_tree</field>
+    <field name="model">procurement.scheduler.log</field>
+    <field name="arch" type="xml">
+        <tree string="Procurement Scheduler Logs">
+            <field name="start_datetime"/>
+            <field name="create_date" string="Scheduler End Time"/>
+            <field name="create_uid" string="Scheduler Executed by"/>
+            <field name="company_id" groups="base.group_multi_company"/>
+        </tree>
+    </field>
+</record>
+
+<record id="procurement_scheduler_log_action" model="ir.actions.act_window">
+    <field name="name">Scheduler Logs</field>
+    <field name="res_model">procurement.scheduler.log</field>
+    <field name="view_mode">tree</field>
+</record>
+
+<menuitem id="procurement_scheduler_log_menu"
+    action="procurement_scheduler_log_action"
+    parent="stock.menu_stock_sched" sequence="22"/>
+
+</data>
+</openerp>

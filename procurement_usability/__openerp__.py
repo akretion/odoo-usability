@@ -37,7 +37,9 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['sale_stock'],
-    'data': ['procurement_view.xml'],
+    'depends': ['procurement'],
+    'data': [
+        'procurement_view.xml',
+        ],
     'installable': True,
 }
