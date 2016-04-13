@@ -20,8 +20,14 @@
                 options="{'currency_field': 'company_currency_id'}"/>
             <field name="extra_cost" widget="monetary"
                 options="{'currency_field': 'company_currency_id'}"/>
-            <field name="total_cost" widget="monetary"
-                options="{'currency_field': 'company_currency_id'}"/>
+            <label for="total_cost"/>
+            <div>
+                <field name="total_cost" widget="monetary"
+                    options="{'currency_field': 'company_currency_id'}"
+                    class="oe_inline"/>
+                <button type="object" name="manual_update_product_standard_price"
+                    string="Update Cost Price of Product" class="oe_link"/>
+            </div>
             <field name="company_currency_id" invisible="1"/>
         </xpath>
         <page string="Components" position="after">

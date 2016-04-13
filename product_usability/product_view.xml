@@ -20,6 +20,7 @@
                 <field name="datetime"/>
                 <field name="cost"/>
                 <field name="origin"/>
+                <field name="user_id"/>
                 <field name="company_id" groups="base.group_multi_company"/>
             </group>
         </form>
@@ -35,6 +36,7 @@
             <field name="datetime"/>
             <field name="cost"/>
             <field name="origin"/>
+            <field name="user_id"/>
             <field name="company_id" groups="base.group_multi_company"/>
         </tree>
     </field>

@@ -52,6 +52,7 @@ class ProductTemplate(orm.Model):
                 'cost': value,
                 'company_id': company_id,
                 'origin': context.get('product_price_history_origin', False),
+                'user_id': uid,
                 }, context=context)
 
     def create(self, cr, uid, vals, context=None):
@@ -107,6 +108,8 @@ class ProductPriceHistory(orm.Model):
             digits_compute=dp.get_precision('Product Price')),
         # the 'origin' field is not in v8, it's an idea of mine !
         'origin': fields.char('Origin'),
+        # fields used as a remplacement of create_uid
+        'user_id': fields.many2one('res.users', 'Created by'),
     }
 
     def _get_default_company(self, cr, uid, context=None):
@@ -120,4 +123,5 @@ class ProductPriceHistory(orm.Model):
     _defaults = {
         'datetime': fields.datetime.now,
         'company_id': _get_default_company,
+        'user_id': lambda self, cr, uid, ctx: uid,
     }
