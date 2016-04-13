@@ -23,6 +23,7 @@
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 import openerp.addons.decimal_precision as dp
+from openerp.tools import float_compare, float_is_zero
 import logging
 
 logger = logging.getLogger(__name__)
@@ -98,6 +99,7 @@ class MrpBom(orm.Model):
             'mrp.bom.labour.line', 'bom_id', 'Labour Lines'),
         'total_labour_cost': fields.function(
             _compute_total_labour_cost, type='float', readonly=True,
+            digits_compute=dp.get_precision('Product Price'),
             string="Total Labour Cost", store={
                 'labour.cost.profile': (_get_bom_from_cost_profile, [
                     'hour_cost', 'company_id'], 10),
@@ -114,10 +116,12 @@ class MrpBom(orm.Model):
             "the BOM"),
         'total_components_cost': fields.function(
             _compute_total_cost, type='float', readonly=True,
+            digits_compute=dp.get_precision('Product Price'),
             multi='total-cost', string='Total Components Cost'),
         'total_cost': fields.function(
             _compute_total_cost, type='float', readonly=True,
             multi='total-cost', string='Total Cost',
+            digits_compute=dp.get_precision('Product Price'),
             help="Total Cost = Total Components Cost + "
             "Total Labour Cost + Extra Cost"),
         'company_currency_id': fields.related(
@@ -128,6 +132,39 @@ class MrpBom(orm.Model):
             'product_id', 'standard_price', readonly=True,
             type='float', string='Standard Price')
         }
+
+    def manual_update_product_standard_price(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        if 'product_price_history_origin' not in ctx:
+            ctx['product_price_history_origin'] = u'Manual update from BOM'
+        precision = self.pool['decimal.precision'].precision_get(
+            cr, uid, 'Product Price')
+        for bom in self.browse(cr, uid, ids, context=context):
+            if not bom.product_id:
+                continue
+            if float_compare(
+                    bom.product_id.standard_price, bom.total_cost,
+                    precision_digits=precision):
+                bom.product_id.write(
+                        {'standard_price': bom.total_cost}, context=ctx)
+                logger.info(
+                    'Cost price updated to %s on product %s',
+                    bom.total_cost, bom.product_id.name_get()[0][1])
+        return True
+
+    def _phantom_update_product_standard_price(self, cr, uid, context=None):
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        ctx['product_price_history_origin'] = 'Automatic update of Phantom BOMs'
+        mbo = self.pool['mrp.bom']
+        bom_ids = mbo.search(
+            cr, uid, [('type', '=', 'phantom')], context=context)
+        self.manual_update_product_standard_price(
+            cr, uid, bom_ids, context=ctx)
+        return True
 
 
 class LabourCostProfile(orm.Model):
