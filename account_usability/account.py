@@ -184,13 +184,17 @@ class AccountBankStatementLine(models.Model):
         self.ensure_one()
         action = self.env['ir.actions.act_window'].for_xml_id(
             'account', 'action_move_journal_line')
-        action.update({
-            'views': False,
-            'view_id': False,
-            'view_mode': 'form,tree',
-            'res_id': self.id,
-            })
-        return action
+        if self.journal_entry_id:
+            action.update({
+                'views': False,
+                'view_id': False,
+                'view_mode': 'form,tree',
+                'res_id': self.journal_entry_id.id,
+                })
+            return action
+        else:
+            raise UserError(_(
+                'No journal entry linked to this bank statement line.'))
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
