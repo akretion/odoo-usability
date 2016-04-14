@@ -179,6 +179,18 @@ class AccountBankStatementLine(models.Model):
                 search_reconciliation_proposition=search_rec_prop,
                 context=context)
 
+    @api.multi
+    def show_account_move(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window'].for_xml_id(
+            'account', 'action_move_journal_line')
+        action.update({
+            'views': False,
+            'view_id': False,
+            'view_mode': 'form,tree',
+            'res_id': self.id,
+            })
+        return action
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
