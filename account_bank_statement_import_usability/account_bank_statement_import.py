@@ -59,3 +59,22 @@ class AccountBankStatementImport(models.TransientModel):
             if bank_account_ids:
                 bank_account_id = bank_account_ids[0]
         return bank_account_id
+
+
+class AccountBankStatement(models.Model):
+    _inherit = 'account.bank.statement'
+
+    # When we use the import of bank statement via files,
+    # the start/end_balance is usually computed from the lines itself
+    # because we don't have the 'real' information in the file
+    # But, in the module account_bank_statement_import, in the method
+    # _create_bank_statement(), the bank statement lines already present in
+    # Odoo are filtered out, but the start/end balance is not adjusted,
+    # so the user has to manually modifiy it the close the bank statement
+    # I think the solution is just to remove the start/end balance system
+    # on the bank statement when we use the file import
+    # This code is present in the 'account' module, but I override it here
+    # and not in account_usability because the users who don't have
+    # account_bank_statement_import may want to keep start/end balance
+    def balance_check(self, cr, uid, st_id, journal_type='bank', context=None):
+        return True
