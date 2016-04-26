@@ -305,10 +305,13 @@ class MrpProduction(orm.Model):
         # so we consider that standard_price is in company currency
         # It will not work if you are in multi-company environment
         # with companies in different currencies
-        new_std_price = (
-            (product.standard_price * qty_before_mo) +
-            (mo_standard_price * mo_qty_product_uom)) / \
-            (qty_before_mo + mo_qty_product_uom)
+        if not qty_before_mo + mo_qty_product_uom:
+            new_std_price = mo_standard_price
+        else:
+            new_std_price = (
+                (product.standard_price * qty_before_mo) +
+                (mo_standard_price * mo_qty_product_uom)) / \
+                (qty_before_mo + mo_qty_product_uom)
         ctx_product = context.copy()
         ctx_product['product_price_history_origin'] = _(
             '%s (Qty before: %s - Added qty: %s - Unit price of '
