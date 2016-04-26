@@ -48,7 +48,10 @@ class AccountInvoice(models.Model):
                     # delete attachment
                     attach = attachs[0]
                     attach_name = attach.name
-                    attachs.unlink()
+                    # I need sudo() because the user that has the right to
+                    # do a "back2draft" on an invoice may not have the right
+                    # to delete an account.invoice
+                    attachs.sudo().unlink()
                     invoice.message_post(
                         _('Attachement %s has been deleted') % attach_name)
         return res
