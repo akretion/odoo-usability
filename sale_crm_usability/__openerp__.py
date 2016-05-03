@@ -18,6 +18,8 @@ This module adds a One2many link from opportunities to sale orders.
 When a sale order linked to an opportunity is confirmed, the opportunity
 is automatically moved to the *Won* step.
 
+When you click on the button *Mark as lost* on an opportunity, the related quotations (*draft* or *sent* state) are automatically cancelled.
+
 This module has been written by Alexis de Lattre from Akretion
 <alexis.delattre@akretion.com>.
     """,

@@ -16,7 +16,7 @@
         <field name="pricelist_id" position="after">
             <field name="lead_id"
                 domain="[('type', '=', 'opportunity'), ('partner_id', '=', partner_id)]"
-                context="{'default_type': 'opportunity', 'default_partner_id': partner_id, 'default_user_id': uid, 'stage_type': 'opportunity'}"/>
+                context="{'default_type': 'opportunity', 'default_partner_id': partner_id, 'default_user_id': uid, 'stage_type': 'opportunity', 'usability_default_stage_xmlid': 'crm.stage_lead4'}"/>
         </field>
     </field>
 </record>

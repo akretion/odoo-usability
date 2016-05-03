@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
-from openerp import models, fields, api, _
+from openerp import models, fields, api, _, workflow
 from openerp.exceptions import Warning as UserError
 
 
@@ -59,3 +59,31 @@ class CrmLead(models.Model):
         else:
             raise UserError(_(
                 'There are no quotations linked to this opportunity'))
+
+    @api.model
+    def create(self, vals):
+        if vals is None:
+            vals = {}
+        if self._context.get('usability_default_stage_xmlid'):
+            stage = self.env.ref(self._context['usability_default_stage_xmlid'])
+            vals['stage_id'] = stage.id
+        return super(CrmLead, self).create(vals)
+
+    @api.multi
+    def case_mark_lost(self):
+        """When opportunity is marked as lost, cancel the related quotations
+        I don't inherit the write but the button, because it leaves a waty to
+        mask lead as lost and not cancel the quotations
+        """
+        res = super(CrmLead, self).case_mark_lost()
+        sales = self.env['sale.order'].search([
+            ('lead_id', 'in', self.ids),
+            ('state', 'in', ('draft', 'sent'))])
+        for so in sales:
+            workflow.trg_validate(
+                self._uid, 'sale.order', so.id, 'cancel', self._cr)
+            so.message_post(_(
+                'The related opportunity has been marked as lost, '
+                'therefore this quotation has been automatically cancelled.'))
+        return res
+
