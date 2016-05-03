@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+<data>
+
+<record model="ir.actions.act_window" id="purchase.purchase_form_action">
+    <field name="context">{'purchase_order': True}</field>
+</record>
+
+</data>
+</openerp>
