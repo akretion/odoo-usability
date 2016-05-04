@@ -33,7 +33,7 @@ class SaleOrderLine(models.Model):
     standard_price_sale_currency = fields.Float(
         string='Cost Price in Sale Currency', readonly=True,
         compute='_compute_margin', store=True,
-        digits=dp.get_precision('Account'))
+        digits=dp.get_precision('Product Price'))
     margin_sale_currency = fields.Float(
         string='Margin in Sale Currency', readonly=True, store=True,
         compute='_compute_margin',
