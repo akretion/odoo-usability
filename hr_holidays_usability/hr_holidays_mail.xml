@@ -89,10 +89,8 @@ if not object.no_email_notification:
 % endif
 <li>Number of days : ${object.number_of_days < 0 and object.number_of_days * -1 or object.number_of_days}</li>
 <li>Leave type : ${object.holiday_status_id.name or ''}</li>
-<li>Description : ${object.name or ''}</li>
-% if object.notes:
-<li>Notes : ${object.notes or ''}</li>
-% endif
+<li>Public title : ${object.name or ''}</li>
+<li>Notes for the manager : ${object.notes or ''}</li>
 </ul>
 
 % if ctx.get('wkf_tracker') == 'submitted':

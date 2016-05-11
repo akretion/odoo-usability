@@ -225,6 +225,11 @@ class HrHolidays(models.Model):
     posted_date = fields.Date(
         string='Posted Date', track_visibility='onchange')
     number_of_days_temp = fields.Float(string="Number of days")
+    # The 'name' field is displayed publicly in the calendar
+    # So the label should not be 'Description' but 'Public Title'
+    name = fields.Char(
+        string='Public Title', help="Warning: this title is shown publicly in the "
+        "calendar. Don't write private/personnal information in this field.")
 
     @api.one
     @api.constrains(
