@@ -25,23 +25,11 @@ class ProductTemplate(orm.Model):
     }
 
 
-class ReportIntrastatService(orm.Model):
-    _inherit = "report.intrastat.service"
+class ReportIntrastatCommon(orm.Model):
+    _inherit = "report.intrastat.common"
 
     def _is_service(self, cr, uid, invoice_line, context=None):
         if invoice_line.product_id.intrastat_type == 'service':
-            return True
-        else:
-            return False
-
-
-class ReportIntrastatProduct(orm.Model):
-    _inherit = 'report.intrastat.product'
-
-    def _is_product(self, cr, uid, invoice_line, context=None):
-        if (
-                invoice_line.product_id and
-                invoice_line.product_id.intrastat_type == 'product'):
             return True
         else:
             return False
