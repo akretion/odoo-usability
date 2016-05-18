@@ -4,7 +4,8 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
 
-from openerp import models, fields
+from openerp import models, fields, api, _
+from openerp.exceptions import ValidationError
 
 
 class ProductTemplate(models.Model):
@@ -17,6 +18,32 @@ class ProductTemplate(models.Model):
         help="Type of product used for the intrastat declarations. "
         "For example, you can configure a product with "
         "'Product Type' = 'Consumable' and 'Intrastat Type' = 'Service'.")
+
+    @api.multi
+    @api.constrains('type', 'intrastat_type')
+    def check_intrastat_type(self):
+        for pt in self:
+            if pt.intrastat_type == 'product' and pt.type == 'service':
+                raise ValidationError(_(
+                    "On the product %s, you cannot set Product Type to "
+                    "'Service' and Intrastat Type to 'Product'.") % pt.name)
+            if pt.intrastat_type == 'service' and pt.type == 'product':
+                raise ValidationError(_(
+                    "On the product %s, you cannot set Intrastat Type to "
+                    "'Service' and Product Type to 'Stockable product' "
+                    "(but you can set Product Type to 'Consumable' or "
+                    "'Service').") % pt.name)
+
+    @api.multi
+    def onchange_type(self, type):
+        res = super(ProductTemplate, self).onchange_type(type)
+        if 'value' not in res:
+            res['value'] = {}
+        if type == 'product':
+            res['value']['intrastat_type'] = 'product'
+        elif type == 'service':
+            res['value']['intrastat_type'] = 'service'
+        return res
 
 
 class L10nFrIntrastatServiceDeclaration(models.Model):
