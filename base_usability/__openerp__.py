@@ -45,11 +45,12 @@ It displays the Local modules by default in tree view (instead of Kanban) filter
     'website': 'http://www.akretion.com',
     'depends': ['base', 'mail'],
     'data': [
+        'security/group.xml',
+        'security/ir.model.access.csv',
         'partner_view.xml',
         'country_view.xml',
         'module_view.xml',
         'translation_view.xml',
-        'security/ir.model.access.csv',
         ],
     'installable': True,
 }
