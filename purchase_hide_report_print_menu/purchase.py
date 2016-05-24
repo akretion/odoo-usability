@@ -11,18 +11,13 @@ class PurchaseOrder(models.Model):
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
                         submenu=False):
-        context = self._context
         res = super(PurchaseOrder, self).fields_view_get(
             view_id=view_id, view_type=view_type, toolbar=toolbar,
             submenu=submenu)
-        if ('purchase_order' in context and 'toolbar' in res and
-                'print' in res['toolbar']):
+        if self._context.get('purchase_order', False):
             report_purchase_quotation = self.env.ref(
                 'purchase.report_purchase_quotation')
-            list_print_submenu_to_hide = []
-            for print_submenu in res['toolbar']['print']:
-                if print_submenu['id'] in [report_purchase_quotation.id]:
-                    list_print_submenu_to_hide.append(print_submenu)
-            for print_submenu_to_hide in list_print_submenu_to_hide:
-                res['toolbar']['print'].remove(print_submenu_to_hide)
+            for print_submenu in res.get('toolbar', {}).get('print', []):
+                if print_submenu['id'] == report_purchase_quotation.id:
+                    res['toolbar']['print'].remove(print_submenu)
         return res
