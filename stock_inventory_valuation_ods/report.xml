@@ -4,7 +4,7 @@
 
 
 <record id="stock_inventory_valuation_ods" model="ir.actions.report.xml">
-    <field name="name">Inventory Valuation ODS</field>
+    <field name="name">Inventory Valuation per Location (ODS)</field>
     <field name="model">stock.inventory</field>
     <field name="report_name">stock.inventory.ods</field>
     <field name="report_type">aeroo</field>
@@ -16,10 +16,30 @@
 </record>
 
 <record id="stock_inventory_valuation_ods_button" model="ir.values">
-    <field name="name">Inventory Valuation ODS</field>
+    <field name="name">Inventory Valuation per Location ODS</field>
     <field name="model">stock.inventory</field>
     <field name="key2">client_print_multi</field>
     <field name="value" eval="'ir.actions.report.xml,%d'%stock_inventory_valuation_ods"/>
+</record>
+
+<record id="stock_inventory_valuation_grouped_ods" model="ir.actions.report.xml">
+    <field name="name">Inventory Valuation (ODS)</field>
+    <field name="model">stock.inventory</field>
+    <field name="report_name">stock.inventory.grouped.ods</field>
+    <field name="report_type">aeroo</field>
+    <field name="in_format">oo-ods</field>
+    <field name="report_rml">stock_inventory_valuation_ods/inventory_grouped.ods</field>
+    <field name="parser_state">loc</field>
+    <field name="parser_loc">stock_inventory_valuation_ods/inventory_grouped.py</field>
+    <field name="tml_source">file</field>
+    <field name="out_format" ref="report_aeroo.report_mimetypes_ods_ods"/>
+</record>
+
+<record id="stock_inventory_valuation_grouped_ods_button" model="ir.values">
+    <field name="name">Inventory Valuation ODS</field>
+    <field name="model">stock.inventory</field>
+    <field name="key2">client_print_multi</field>
+    <field name="value" eval="'ir.actions.report.xml,%d'%stock_inventory_valuation_grouped_ods"/>
 </record>
 
 
