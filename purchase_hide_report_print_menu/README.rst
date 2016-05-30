@@ -6,7 +6,7 @@
 Purchase Hide Report Print Menu
 ================================
 
-This module hide print report 'Request for Quotation' in purchase order menu.
+This module hides 'Request for Quotation' mention in purchase order print report.
  
 Usage
 =====
