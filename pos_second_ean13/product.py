@@ -29,7 +29,7 @@ class ProductProduct(models.Model):
     _inherit = 'product.product'
 
     second_ean13 = fields.Char(
-        string='Second EAN13 Barcode', size=13,
+        string='Second EAN13 Barcode', size=13, copy=False,
         help='If the same product is available with two EAN13, you can enter '
         'a second EAN13 in this field')
 
