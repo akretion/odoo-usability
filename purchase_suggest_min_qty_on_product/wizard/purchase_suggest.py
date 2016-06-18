@@ -46,17 +46,10 @@ class PurchaseSuggestionGenerate(models.TransientModel):
     def generate_products_dict(self):
         '''inherit the native method to use min_qty on product.product'''
         ppo = self.env['product.product']
-        product_domain = []
         products = {}
+        product_domain = self._prepare_product_domain()
         if self.product_type == 'product':
             product_domain.append(('type', '=', 'product'))
-        if self.categ_ids or self.seller_ids:
-            if self.categ_ids:
-                product_domain.append(
-                    ('categ_id', 'child_of', self.categ_ids.ids))
-            if self.seller_ids:
-                product_domain.append(
-                    ('seller_id', 'in', self.seller_ids.ids))
         product_to_analyse = ppo.search(product_domain)
         for product in product_to_analyse:
             # We also want the missing product that have min_qty = 0

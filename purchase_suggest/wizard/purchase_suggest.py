@@ -29,7 +29,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class PurchaseSuggestionGenerate(models.TransientModel):
+class PurchaseSuggestGenerate(models.TransientModel):
     _name = 'purchase.suggest.generate'
     _description = 'Start to generate the purchase suggestions'
 
@@ -69,6 +69,17 @@ class PurchaseSuggestionGenerate(models.TransientModel):
         return sline
 
     @api.model
+    def _prepare_product_domain(self):
+        product_domain = []
+        if self.categ_ids:
+            product_domain.append(
+                ('categ_id', 'child_of', self.categ_ids.ids))
+        if self.seller_ids:
+            product_domain.append(
+                ('seller_id', 'in', self.seller_ids.ids))
+        return product_domain
+
+    @api.model
     def generate_products_dict(self):
         ppo = self.env['product.product']
         swoo = self.env['stock.warehouse.orderpoint']
@@ -79,14 +90,8 @@ class PurchaseSuggestionGenerate(models.TransientModel):
             ('location_id', 'child_of', self.location_id.id),
             ]
         if self.categ_ids or self.seller_ids:
-            product_domain = []
-            if self.categ_ids:
-                product_domain.append(
-                    ('categ_id', 'child_of', self.categ_ids.ids))
-            if self.seller_ids:
-                product_domain.append(
-                    ('seller_id', 'in', self.seller_ids.ids))
-            products_subset = ppo.search(product_domain)
+
+            products_subset = ppo.search(self._prepare_product_domain())
             op_domain.append(('product_id', 'in', products_subset.ids))
         ops = swoo.search(op_domain)
         for op in ops:
