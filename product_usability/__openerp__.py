@@ -37,6 +37,8 @@ The usability enhancements include:
 
 * wider name field in product form view
 
+* hide description field on product (description_sale must be use instead of description)
+
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',

@@ -85,6 +85,9 @@
         <field name="name" position="attributes">
             <attribute name="class"></attribute>
         </field>
+        <field name="description" position="attributes">
+            <attribute name="attrs">{'invisible': True}</attribute>
+        </field>
         <!-- END for wider 'name' field -->
     </field>
 </record>
