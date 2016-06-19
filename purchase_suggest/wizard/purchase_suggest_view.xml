@@ -59,7 +59,8 @@
             <field name="incoming_qty"/>
             <field name="outgoing_qty"/>
             <field name="draft_po_qty"/>
-            <field name="min_qty"/>
+            <field name="min_qty" string="Min Qty"/>
+            <field name="max_qty" string="Max Qty"/>
             <field name="uom_id" groups="product.group_uom"/>
             <field name="last_po_date" widget="date"/>
             <field name="last_po_qty"/>

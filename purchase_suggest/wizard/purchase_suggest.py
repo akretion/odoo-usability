@@ -51,6 +51,16 @@ class PurchaseSuggestGenerate(models.TransientModel):
             order='id desc', limit=1)
         # I cannot filter on 'date_order' because it is not a stored field
         porderline_id = porderlines and porderlines[0].id or False
+        future_qty = qty_dict['virtual_available'] + qty_dict['draft_po_qty']
+        if float_compare(
+                qty_dict['max_qty'], qty_dict['min_qty'],
+                precision_rounding=qty_dict['product'].uom_id.rounding) == 1:
+            # order to go up to qty_max
+            qty_to_order = qty_dict['max_qty'] - future_qty
+        else:
+            # order to go up to qty_min
+            qty_to_order = qty_dict['min_qty'] - future_qty
+
         sline = {
             'company_id':
             qty_dict['orderpoint'] and qty_dict['orderpoint'].company_id.id,
@@ -64,7 +74,9 @@ class PurchaseSuggestGenerate(models.TransientModel):
             qty_dict['orderpoint'] and qty_dict['orderpoint'].id,
             'location_id': self.location_id.id,
             'min_qty': qty_dict['min_qty'],
+            'max_qty': qty_dict['max_qty'],
             'last_po_line_id': porderline_id,
+            'qty_to_order': qty_to_order,
             }
         return sline
 
@@ -98,6 +110,7 @@ class PurchaseSuggestGenerate(models.TransientModel):
             if op.product_id.id not in products:
                 products[op.product_id.id] = {
                     'min_qty': op.product_min_qty,
+                    'max_qty': op.product_max_qty,
                     'draft_po_qty': 0.0,  # This value is set later on
                     'orderpoint': op,
                     'product': op.product_id
@@ -235,6 +248,10 @@ class PurchaseSuggest(models.TransientModel):
         'stock.location', string='Stock Location', readonly=True)
     min_qty = fields.Float(
         string="Min Quantity", readonly=True,
+        digits=dp.get_precision('Product Unit of Measure'),
+        help="in the unit of measure for the product")
+    max_qty = fields.Float(
+        string="Max Quantity", readonly=True,
         digits=dp.get_precision('Product Unit of Measure'),
         help="in the unit of measure for the product")
     qty_to_order = fields.Float(

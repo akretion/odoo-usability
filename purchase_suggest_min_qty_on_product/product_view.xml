@@ -29,6 +29,7 @@
         <field name="virtual_available" position="after">
             <separator name="min_qty" colspan="2"/>
             <field name="min_qty"/>
+            <field name="max_qty"/>
         </field>
     </field>
 </record>

@@ -44,7 +44,8 @@ class PurchaseSuggestionGenerate(models.TransientModel):
 
     @api.model
     def generate_products_dict(self):
-        '''inherit the native method to use min_qty on product.product'''
+        '''inherit the native method to use min_qty/max_qty on
+        product.product'''
         ppo = self.env['product.product']
         products = {}
         product_domain = self._prepare_product_domain()
@@ -56,6 +57,7 @@ class PurchaseSuggestionGenerate(models.TransientModel):
             # So we remove "if product.z_stock_min > 0"
             products[product.id] = {
                 'min_qty': product.min_qty,
+                'max_qty': product.max_qty,
                 'draft_po_qty': 0.0,  # This value is set later on
                 'orderpoint': False,
                 'product': product,
