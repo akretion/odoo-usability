@@ -8,10 +8,20 @@
 <openerp>
 <data>
 
-<record id="base.open_module_tree" model="ir.actions.act_window">
-    <field name="context">{'search_default_installed': 1}</field>
-    <field name="view_mode">tree,form,kanban</field>
-</record>
+    <record id="view_module_filter" model="ir.ui.view">
+        <field name="model">ir.module.module</field>
+        <field name="inherit_id" ref="base.view_module_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@string='Category']" position="after">
+                <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="base.open_module_tree" model="ir.actions.act_window">
+        <field name="res_model">ir.module.module</field>
+        <field name="context">{}</field>
+    </record>
 
 </data>
 </openerp>
