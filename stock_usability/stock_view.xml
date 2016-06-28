@@ -114,7 +114,8 @@
                         <field name="route_ids" widget="many2many_tags"/>
                         <field name="rule_id" readonly="1"/>
                         <field name="push_rule_id" readonly="1"/>
-                        <field name="price_unit" readonly="1"/>
+                        <field name="price_unit"
+                            attrs="{'readonly': [('state', '=', 'done')]}"/>
                     </group>
                 </page>
             </notebook>
@@ -234,8 +235,27 @@ in the quantities for his reception -->
         <field name="qty" position="attributes">
             <attribute name="sum">Total Qty</attribute>
         </field>
+        <field name="qty" position="after">
+            <field name="uom_id"/>
+        </field>
     </field>
 </record>
+
+<record id="view_stock_quant_form" model="ir.ui.view">
+    <field name="name">stock.usability.quant.form</field>
+    <field name="model">stock.quant</field>
+    <field name="inherit_id" ref="stock.view_stock_quant_form"/>
+    <field name="arch" type="xml">
+        <field name="qty" position="replace">
+            <label for="qty"/>
+            <div>
+                <field name="qty" class="oe_inline"/>
+                <field name="uom_id" class="oe_inline"/>
+            </div>
+        </field>
+    </field>
+</record>
+
 
 <record id="view_move_tree_receipt_picking" model="ir.ui.view">
     <field name="name">stock.usability.stock.move.tree2</field>
