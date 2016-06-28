@@ -103,3 +103,10 @@ class StockMove(models.Model):
                 name = name + ' ' + fields.Date.to_string(date_expec_dt)
             res.append((line.id, name))
         return res
+
+
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
+
+    uom_id = fields.Many2one(
+        'product.uom', related='product_id.uom_id', readonly=True)
