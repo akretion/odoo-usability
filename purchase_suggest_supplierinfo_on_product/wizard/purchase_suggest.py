@@ -20,6 +20,13 @@ class PurchaseSuggestionGenerate(models.TransientModel):
             for supplierinfo in product.seller_ids:
                 if supplierinfo.name in self.seller_ids:
                     sline['seller_id'] = supplierinfo.name.id
+        porderlines = self.env['purchase.order.line'].search([
+            ('state', 'not in', ('draft', 'cancel')),
+            ('product_id', '=', product_id),
+            ('partner_id', '=', sline['seller_id'])],
+            order='id desc', limit=1)
+        if not porderlines:
+            sline['last_po_line_id'] = False
         return sline
 
     @api.model
@@ -92,3 +99,14 @@ class PurchaseSuggest(models.TransientModel):
     _inherit = 'purchase.suggest'
 
     draft_po_qty = fields.Float(readonly=False)
+
+    @api.multi
+    def write(self, vals):
+        vals['qty_to_order'] = 0.0
+        if 'draft_po_qty' in vals:
+            if vals['draft_po_qty'] > self.draft_po_qty:
+                vals['qty_to_order'] = vals['draft_po_qty'] - self.draft_po_qty
+            else:
+                raise Warning(_("La nouvelle quantité sur la commande ne peut pas être inférieure à l'anciennne quantité"))
+        super(PurchaseSuggest, self).write(vals)
+        return True
