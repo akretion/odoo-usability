@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+<data>
+
+    <record id="purchase_suggest_tree" model="ir.ui.view">
+        <field name="model">purchase.suggest</field>
+        <field name="inherit_id" ref="purchase_suggest.purchase_suggest_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree[@string='Purchase Suggestions']/field[@name='min_qty']" position="attributes">
+                <attribute name="invisible">context.get('purchase_suggest_supplier')</attribute>
+            </xpath>
+            <xpath expr="//tree[@string='Purchase Suggestions']/field[@name='max_qty']" position="attributes">
+                <attribute name="invisible">context.get('purchase_suggest_supplier')</attribute>
+            </xpath>
+            <xpath expr="//tree[@string='Purchase Suggestions']/field[@name='qty_to_order']" position="attributes">
+                <attribute name="invisible">context.get('purchase_suggest_supplier')</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</data>
+</openerp>
