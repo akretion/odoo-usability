@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# © 2016 Chafique DELLI @ Akretion
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api, _
 
@@ -15,6 +17,7 @@ class PurchaseSuggestionGenerate(models.TransientModel):
         sline = super(PurchaseSuggestionGenerate, self)._prepare_suggest_line(
             product_id, qty_dict)
         sline['company_id'] = self.env.user.company_id.id
+        sline['qty_to_order'] = 0.0
         if sline['seller_id'] not in self.seller_ids.ids:
             product = self.env['product.product'].browse(sline['product_id'])
             for supplierinfo in product.seller_ids:
@@ -102,11 +105,13 @@ class PurchaseSuggest(models.TransientModel):
 
     @api.multi
     def write(self, vals):
-        vals['qty_to_order'] = 0.0
+        #vals['qty_to_order'] = 0.0
         if 'draft_po_qty' in vals:
             if vals['draft_po_qty'] > self.draft_po_qty:
                 vals['qty_to_order'] = vals['draft_po_qty'] - self.draft_po_qty
             else:
-                raise Warning(_("La nouvelle quantité sur la commande ne peut pas être inférieure à l'anciennne quantité"))
+                raise Warning(_('The new quantity for the existing '
+                                'purchase order line can not be less than '
+                                'the old quantity'))
         super(PurchaseSuggest, self).write(vals)
         return True

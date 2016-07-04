@@ -1,0 +1,74 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* purchase_suggest_supplierinfo_on_product
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-07-04 13:57+0000\n"
+"PO-Revision-Date: 2016-07-04 13:57+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: purchase_suggest_supplierinfo_on_product
+#: view:purchase.suggest.generate:purchase_suggest_supplierinfo_on_product.purchase_suggest_generate_form
+msgid "Create Purchase Orders"
+msgstr "Créer les commandes d'achat"
+
+#. module: purchase_suggest_supplierinfo_on_product
+#: view:purchase.suggest.generate:purchase_suggest_supplierinfo_on_product.purchase_suggest_generate_form
+msgid "More"
+msgstr "Autres options"
+
+#. module: purchase_suggest_supplierinfo_on_product
+#: view:purchase.suggest.generate:purchase_suggest_supplierinfo_on_product.purchase_suggest_generate_form
+msgid "Once you have changed the Draft PO Quantity for all the lines you would like to re-order, select this lines and click on"
+msgstr "Une fois que vous avez modifié la quantité de la demande de prix pour toutes les lignes pour lesquelles vous souhaitez re-commander, sélectionnez ces lignes et cliquer sur"
+
+#. module: purchase_suggest_supplierinfo_on_product
+#: model:ir.model,name:purchase_suggest_supplierinfo_on_product.model_purchase_suggest
+msgid "Purchase Suggestions"
+msgstr "Suggestion réappro"
+
+#. module: purchase_suggest_supplierinfo_on_product
+#: model:ir.model,name:purchase_suggest_supplierinfo_on_product.model_purchase_suggest_generate
+msgid "Start to generate the purchase suggestions"
+msgstr "Commencer à générer les suggestions d'achat"
+
+#. module: purchase_suggest_supplierinfo_on_product
+#: code:addons/purchase_suggest_supplierinfo_on_product/wizard/purchase_suggest.py:111
+#, python-format
+msgid "The new quantity for the existing purchase order line can not be less than the old quantity"
+msgstr "La nouvelle quantité pour la ligne de commande d'achat existante ne peut pas être inférieure à l'ancienne quantité"
+
+#. module: purchase_suggest_supplierinfo_on_product
+#: view:purchase.suggest.generate:purchase_suggest_supplierinfo_on_product.purchase_suggest_generate_form
+msgid "The purchase suggestion lines display as much information as possible to help you take the decision on the quantity that you would like to re-order. When you have decided the quantity you want to re-order, add the quantity at the value in the Draft PO Quantity column."
+msgstr "Les lignes de suggestion d'achat affichent autant d'informations que possible afin de vous aider à évaluer la quantité à re-commander. Quand vous avez décidé de la quantité à re-commander, ajouter cette quantité à la valeur de la colonne Quantité Demande de Prix."
+
+#. module: purchase_suggest_supplierinfo_on_product
+#: code:addons/purchase_suggest_supplierinfo_on_product/wizard/purchase_suggest.py:95
+#, python-format
+msgid "There are no purchase suggestions to generate."
+msgstr "Aucune suggestion d'achat à faire."
+
+#. module: purchase_suggest_supplierinfo_on_product
+#: view:purchase.suggest:purchase_suggest_supplierinfo_on_product.purchase_suggest_tree
+msgid "context.get('purchase_suggest_supplier')"
+msgstr "context.get('purchase_suggest_supplier')"
+
+#. module: purchase_suggest_supplierinfo_on_product
+#: view:purchase.suggest.generate:purchase_suggest_supplierinfo_on_product.purchase_suggest_generate_form
+msgid "if found product then it will create a purchase suggestion line"
+msgstr "il sera créé autant de lignes de suggestion d'achat que de produits trouvés"
+
+#. module: purchase_suggest_supplierinfo_on_product
+#: view:purchase.suggest.generate:purchase_suggest_supplierinfo_on_product.purchase_suggest_generate_form
+msgid "it will search all the products linked to the selected stock location and suppliers, limited to the product categories if some were selected"
+msgstr "il recherchera tous les produits pour les emplacements et les fournisseurs sélectionnés, en filtrant également sur la catégorie si l'option a été renseignée"
+
