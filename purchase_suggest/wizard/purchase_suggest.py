@@ -366,7 +366,7 @@ class PurchaseSuggestPoCreate(models.TransientModel):
         for line in self.env['purchase.suggest'].browse(psuggest_ids):
             if not location:
                 location = line.location_id
-            if not line.qty_to_order:
+            if line.qty_to_order == 0.0:
                 continue
             if not line.product_id.seller_id:
                 raise Warning(_(

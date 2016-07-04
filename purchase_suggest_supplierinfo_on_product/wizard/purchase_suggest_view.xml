@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+<data>
+
+    <record id="purchase_suggest_tree" model="ir.ui.view">
+        <field name="model">purchase.suggest</field>
+        <field name="inherit_id" ref="purchase_suggest.purchase_suggest_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree[@string='Purchase Suggestions']/field[@name='min_qty']" position="attributes">
+                <attribute name="invisible">context.get('purchase_suggest_supplier')</attribute>
+            </xpath>
+            <xpath expr="//tree[@string='Purchase Suggestions']/field[@name='max_qty']" position="attributes">
+                <attribute name="invisible">context.get('purchase_suggest_supplier')</attribute>
+            </xpath>
+            <xpath expr="//tree[@string='Purchase Suggestions']/field[@name='qty_to_order']" position="attributes">
+                <attribute name="invisible">context.get('purchase_suggest_supplier')</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_suggest_generate_form" model="ir.ui.view">
+    <field name="model">purchase.suggest.generate</field>
+    <field name="inherit_id" ref="purchase_suggest.purchase_suggest_generate_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//form[@string='Generate Purchase Suggestions']/ol" position="replace">
+            <ol>
+                <li>it will search all the products linked to the selected stock location and suppliers, limited to the product categories if some were selected</li>
+                <li>if found product then it will create a purchase suggestion line</li>
+            </ol>
+        </xpath>
+        <xpath expr="//form[@string='Generate Purchase Suggestions']/p[2]" position="replace">
+            <p>The purchase suggestion lines display as much information as possible to help you take the decision on the quantity that you would like to re-order. When you have decided the quantity you want to re-order, add the quantity at the value in the Draft PO Quantity column.</p>
+        </xpath>
+        <xpath expr="//form[@string='Generate Purchase Suggestions']/p[3]" position="replace">
+            <p>Once you have changed the Draft PO Quantity for all the lines you would like to re-order, select this lines and click on <i>More</i> > <i>Create Purchase Orders</i></p>
+        </xpath>
+    </field>
+</record>
+
+</data>
+</openerp>
