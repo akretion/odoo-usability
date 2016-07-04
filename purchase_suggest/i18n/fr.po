@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-16 21:21+0000\n"
-"PO-Revision-Date: 2015-09-16 21:21+0000\n"
+"POT-Creation-Date: 2016-07-04 12:45+0000\n"
+"PO-Revision-Date: 2016-07-04 12:45+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -59,9 +59,41 @@ msgid "Created on"
 msgstr "Date de création"
 
 #. module: purchase_suggest
+#: field:purchase.suggest,last_po_date:0
+msgid "Date of the Last Order"
+msgstr "Date de la dernière commande"
+
+#. module: purchase_suggest
+#: help:purchase.suggest,uom_id:0
+msgid "Default Unit of Measure used for all stock operation."
+msgstr "Unité de mesure par défaut utilisé pour toutes les opérations de stock."
+
+#. module: purchase_suggest
+#: help:purchase.suggest,uom_po_id:0
+msgid "Default Unit of Measure used for purchase orders. It must be in the same category than the default unit of measure."
+msgstr "Unité de mesure par défaut utilisé pour les commandes d'achat. Elle doit être dans la même catégorie que l'unité de mesure par défaut."
+
+#. module: purchase_suggest
+#: help:purchase.suggest,last_po_date:0
+msgid "Depicts the date where the Quotation should be validated and converted into a Purchase Order, by default it's the creation date."
+msgstr "Représente la date à laquelle le devis a été validé et converti en bon de commande, par défaut, c'est la date de création."
+
+#. module: purchase_suggest
+#: field:purchase.suggest,display_name:0
+#: field:purchase.suggest.generate,display_name:0
+#: field:purchase.suggest.po.create,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: purchase_suggest
 #: field:purchase.suggest,draft_po_qty:0
 msgid "Draft PO Quantity"
-msgstr "PO quantité (brouillon)"
+msgstr "Quantité dans demande de prix"
+
+#. module: purchase_suggest
+#: help:purchase.suggest,draft_po_qty:0
+msgid "Draft purchase order quantity in the unit of measure of the product (NOT in the purchase unit of measure !)"
+msgstr "Quantité sur la demande de prix dans l'unité de mesure du produit (PAS dans l'unité de mesure de la commande !)"
 
 #. module: purchase_suggest
 #: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
@@ -91,6 +123,13 @@ msgid "Incoming Quantity"
 msgstr "A recevoir"
 
 #. module: purchase_suggest
+#: field:purchase.suggest,__last_update:0
+#: field:purchase.suggest.generate,__last_update:0
+#: field:purchase.suggest.po.create,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: purchase_suggest
 #: field:purchase.suggest,last_po_line_id:0
 msgid "Last Purchase Order Line"
 msgstr "Dernière ligne d'achat"
@@ -110,10 +149,25 @@ msgid "Last Updated on"
 msgstr "Dernière mise à jour"
 
 #. module: purchase_suggest
-#: code:addons/purchase_suggest/wizard/purchase_suggest.py:248
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:289
 #, python-format
 msgid "Make sure you have at least an incoming picking type defined"
 msgstr "Make sure you have at least an incoming picking type defined"
+
+#. module: purchase_suggest
+#: view:purchase.suggest:purchase_suggest.purchase_suggest_tree
+msgid "Max Qty"
+msgstr "Qté Max"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,max_qty:0
+msgid "Max Quantity"
+msgstr "Quantité Max"
+
+#. module: purchase_suggest
+#: view:purchase.suggest:purchase_suggest.purchase_suggest_tree
+msgid "Min Qty"
+msgstr "Qté Min"
 
 #. module: purchase_suggest
 #: field:purchase.suggest,min_qty:0
@@ -131,13 +185,13 @@ msgid "More"
 msgstr "Plus"
 
 #. module: purchase_suggest
-#: code:addons/purchase_suggest/wizard/purchase_suggest.py:337
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:382
 #, python-format
 msgid "No purchase orders created or updated"
 msgstr "Aucune commande fournisseur créée ou mise-à-jour"
 
 #. module: purchase_suggest
-#: code:addons/purchase_suggest/wizard/purchase_suggest.py:327
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:372
 #, python-format
 msgid "No supplier configured for product '%s'."
 msgstr "Aucune fournisseur configuré pour l'article '%s'."
@@ -173,7 +227,12 @@ msgid "Purchase Suggestions"
 msgstr "Suggestion réappro"
 
 #. module: purchase_suggest
-#: code:addons/purchase_suggest/wizard/purchase_suggest.py:298
+#: field:purchase.suggest,uom_po_id:0
+msgid "Purchase UoM"
+msgstr "Purchase UoM"
+
+#. module: purchase_suggest
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:343
 #, python-format
 msgid "Purchase order updated from purchase suggestions."
 msgstr "Purchase order updated from purchase suggestions."
@@ -189,9 +248,19 @@ msgid "Quantity On Hand"
 msgstr "Stock réel"
 
 #. module: purchase_suggest
+#: field:purchase.suggest,last_po_qty:0
+msgid "Quantity of the Last Order"
+msgstr "Quantité de la dernière commande"
+
+#. module: purchase_suggest
 #: field:purchase.suggest,qty_to_order:0
 msgid "Quantity to Order"
 msgstr "Quantité à commander"
+
+#. module: purchase_suggest
+#: help:purchase.suggest,qty_to_order:0
+msgid "Quantity to order in the purchase unit of measure for the product"
+msgstr "Quantity to order in the purchase unit of measure for the product"
 
 #. module: purchase_suggest
 #: field:purchase.suggest,orderpoint_id:0
@@ -241,13 +310,13 @@ msgid "The purchase suggestion lines display as much information as possible to 
 msgstr "Les lignes de suggestion affichent de nombreuses informations afin de vous aider à déterminer la quantité à commander. Une fois votre décision prise, saisissez la quantité dans la dernière colonne."
 
 #. module: purchase_suggest
-#: code:addons/purchase_suggest/wizard/purchase_suggest.py:103
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:120
 #, python-format
 msgid "There are 2 orderpoints (%s and %s) for the same product on stock location %s or its children."
 msgstr "Il y a 2 règles de réassort (%s et %s) pour le même article pour l'emplacement de stock %s ou l'un de ses enfants."
 
 #. module: purchase_suggest
-#: code:addons/purchase_suggest/wizard/purchase_suggest.py:172
+#: code:addons/purchase_suggest/wizard/purchase_suggest.py:192
 #, python-format
 msgid "There are no purchase suggestions to generate."
 msgstr "Aucune suggestion d'achat à faire."
@@ -258,11 +327,35 @@ msgid "This wizard will generate purchase suggestions based on the following rul
 msgstr "Cet assistant va créer des suggestions d'achat en fonction des règles suivantes:"
 
 #. module: purchase_suggest
+#: field:purchase.suggest,uom_id:0
+msgid "UoM"
+msgstr "UoM"
+
+#. module: purchase_suggest
+#: field:purchase.suggest,last_po_uom:0
+msgid "UoM of the Last Order"
+msgstr "UoM de la dernière commande"
+
+#. module: purchase_suggest
 #: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
 msgid "if the quantity on hand + incoming quantity - outgoing quantity + quantity in draft purchase orders is strictly inferior to the minimum stock level, it will create a purchase suggestion line"
 msgstr "si le stock réel + la quantité à recevoir - la quantité sortante + la quantité commandée (brouillon) est strictement inférieure au stock minimum, une ligne de suggestion sera créé."
 
 #. module: purchase_suggest
+#: help:purchase.suggest,max_qty:0
+#: help:purchase.suggest,min_qty:0
+msgid "in the unit of measure for the product"
+msgstr "dans l'unité de mesure du produit"
+
+#. module: purchase_suggest
+#: help:purchase.suggest,incoming_qty:0
+#: help:purchase.suggest,outgoing_qty:0
+#: help:purchase.suggest,qty_available:0
+msgid "in the unit of measure of the product"
+msgstr "dans l'unité de mesure du produit"
+
+#. module: purchase_suggest
 #: view:purchase.suggest.generate:purchase_suggest.purchase_suggest_generate_form
 msgid "it will search all the re-ordering rules linked to the selected stock location, limited to the product categories and the suppliers if some were selected"
 msgstr "Pour chercher toutes les règles de réassort liées à l'emplacement sélectionné, à la catégorie d'article et aux fournisseurs (si ils sont sélectionnés)"
+
