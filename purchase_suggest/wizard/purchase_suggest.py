@@ -22,7 +22,7 @@
 
 from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
-from openerp.tools import float_compare
+from openerp.tools import float_compare, float_is_zero
 from openerp.exceptions import Warning
 import logging
 
@@ -363,21 +363,20 @@ class PurchaseSuggestPoCreate(models.TransientModel):
         # value = [(product1, qty1, uom1), (product2, qty2, uom2)]
         psuggest_ids = self.env.context.get('active_ids')
         location = False
+        precision = self.env['decimal.precision'].precision_get(
+            'Product Unit of Measure')
         for line in self.env['purchase.suggest'].browse(psuggest_ids):
             if not location:
                 location = line.location_id
-            if not line.qty_to_order:
+            if float_is_zero(line.qty_to_order, precision_digits=precision):
                 continue
             if not line.product_id.seller_id:
                 raise Warning(_(
                     "No supplier configured for product '%s'.")
                     % line.product_id.name)
-            if (line.seller_id, line.company_id) in po_to_create:
-                po_to_create[(line.seller_id, line.company_id)].append(
-                    (line.product_id, line.qty_to_order, line.uom_po_id))
-            else:
-                po_to_create[(line.seller_id, line.company_id)] = [
-                    (line.product_id, line.qty_to_order, line.uom_po_id)]
+            po_to_create.setdefault(
+                (line.seller_id, line.company_id), []).append(
+                (line.product_id, line.qty_to_order, line.uom_po_id))
         if not po_to_create:
             raise Warning(_('No purchase orders created or updated'))
         po_ids = []
@@ -389,9 +388,5 @@ class PurchaseSuggestPoCreate(models.TransientModel):
 
         action = self.env['ir.actions.act_window'].for_xml_id(
             'purchase', 'purchase_rfq')
-        action.update({
-            'nodestroy': False,
-            'target': 'current',
-            'domain': [('id', 'in', po_ids)],
-            })
+        action['domain'] = [('id', 'in', po_ids)]
         return action
