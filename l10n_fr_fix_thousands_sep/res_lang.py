@@ -28,10 +28,10 @@ class ResLang(models.Model):
 
     @api.v7
     def init(self, cr):
-        narrow_no_break_space = u'\u202f'
+        no_break_space = u'\u00A0'
         cr.execute(
             "UPDATE res_lang SET thousands_sep=%s, grouping='[3,0]' "
-            "WHERE code='fr_FR'", (narrow_no_break_space, ))
+            "WHERE code='fr_FR'", (no_break_space, ))
         cr.execute(
             "UPDATE res_lang SET grouping='[3,0]' WHERE code='en_US'")
         return True
