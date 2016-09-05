@@ -228,7 +228,8 @@ class HrHolidays(models.Model):
     # The 'name' field is displayed publicly in the calendar
     # So the label should not be 'Description' but 'Public Title'
     name = fields.Char(
-        string='Public Title', help="Warning: this title is shown publicly in the "
+        string='Public Title',
+        help="Warning: this title is shown publicly in the "
         "calendar. Don't write private/personnal information in this field.")
 
     @api.one
@@ -380,6 +381,19 @@ class HrHolidays(models.Model):
                     % (holi.name, holi.holiday_status_id.name))
         res = super(HrHolidays, self).holidays_validate()
         return res
+
+    @api.multi
+    def holidays_refuse(self):
+        for holi in self:
+            if (
+                    holi.user_id == self.env.user and
+                    not self.pool['res.users'].has_group(
+                        self._cr, self._uid, 'base.group_hr_manager')):
+                raise UserError(_(
+                    "You cannot refuse your own Leave or Allocation "
+                    "holiday request '%s'.")
+                    % holi.name)
+        return super(HrHolidays, self).holidays_refuse()
 
 
 class ResCompany(models.Model):
