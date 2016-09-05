@@ -184,6 +184,9 @@ class HrHolidays(models.Model):
 
     vacation_date_from = fields.Date(
         string='First Day of Vacation', track_visibility='onchange',
+        readonly=True, states={
+            'draft': [('readonly', False)],
+            'confirm': [('readonly', False)]},
         help="Enter the first day of vacation. For example, if "
         "you leave one full calendar week, the first day of vacation "
         "is Monday morning (and not Friday of the week before)")
@@ -191,11 +194,16 @@ class HrHolidays(models.Model):
         ('morning', 'Morning'),
         ('noon', 'Noon'),
         ], string="Start of Vacation", track_visibility='onchange',
-        default='morning',
+        default='morning', readonly=True, states={
+            'draft': [('readonly', False)],
+            'confirm': [('readonly', False)]},
         help="For example, if you leave one full calendar week, "
         "the first day of vacation is Monday Morning")
     vacation_date_to = fields.Date(
         string='Last Day of Vacation', track_visibility='onchange',
+        readonly=True, states={
+            'draft': [('readonly', False)],
+            'confirm': [('readonly', False)]},
         help="Enter the last day of vacation. For example, if you "
         "leave one full calendar week, the last day of vacation is "
         "Friday evening (and not Monday of the week after)")
@@ -203,7 +211,9 @@ class HrHolidays(models.Model):
         ('noon', 'Noon'),
         ('evening', 'Evening'),
         ], string="End of Vacation", track_visibility='onchange',
-        default='evening',
+        default='evening', readonly=True, states={
+            'draft': [('readonly', False)],
+            'confirm': [('readonly', False)]},
         help="For example, if you leave one full calendar week, "
         "the end of vacation is Friday Evening")
     current_leaves_taken = fields.Float(
