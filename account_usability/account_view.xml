@@ -132,6 +132,13 @@
         <field name="analytic_account_id" position="attributes">
             <attribute name="invisible"></attribute>
         </field>
+        <field name="reconcile_ref" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+        <field name="reconcile_ref" position="after">
+            <field name="reconcile_id"/>
+            <field name="reconcile_partial_id"/>
+        </field>
     </field>
 </record>
 
