@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 import openerp.addons.decimal_precision as dp
 import logging
 
@@ -110,3 +110,14 @@ class StockQuant(models.Model):
 
     uom_id = fields.Many2one(
         'product.uom', related='product_id.uom_id', readonly=True)
+
+
+class StockIncoterms(models.Model):
+    _inherit = 'stock.incoterms'
+
+    @api.multi
+    def name_get(self):
+        res = []
+        for inco in self:
+            res.append((inco.id, u'[%s] %s' % (inco.code, inco.name)))
+        return res
