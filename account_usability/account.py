@@ -54,6 +54,14 @@ class AccountInvoice(models.Model):
                         invoice.date_invoice))
         return super(AccountInvoice, self).action_move_create()
 
+    @api.multi
+    def onchange_payment_term_date_invoice(self, payment_term_id, date_invoice):
+        res = super(AccountInvoice, self).onchange_payment_term_date_invoice(
+            payment_term_id, date_invoice)
+        if res and isinstance(res, dict) and 'value' in res:
+            res['value']['period_id'] = False
+        return res
+
 
 class AccountFiscalYear(models.Model):
     _inherit = 'account.fiscalyear'
