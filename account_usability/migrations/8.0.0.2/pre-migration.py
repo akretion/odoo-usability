@@ -10,6 +10,8 @@ def migrate(cr, version):
     # in account_usability/account.py
     cr.execute(
         "UPDATE account_move_line SET name= "
-        "CASE WHEN name='/' THEN ref ELSE ref||' - '||name END "
-        "WHERE ref is not null AND journal_id in "
+        "CASE WHEN account_move_line.name='/' THEN account_move.name "
+        "ELSE account_move.name||' - '||account_move_line.name END "
+        "FROM account_move WHERE account_move_line.move_id = account_move.id "
+        "AND account_move_line.journal_id in "
         "(SELECT id FROM account_journal WHERE type in ('sale', 'sale_refund'))")
