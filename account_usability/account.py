@@ -44,15 +44,42 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_move_create(self):
+        res = super(AccountInvoice, self).action_move_create()
         today = fields.Date.context_today(self)
+        # When empty, the invoice_date is set by action_move_create()
         for invoice in self:
-            if invoice.date_invoice and invoice.date_invoice > today:
+            if invoice.date_invoice > today:
                 raise UserError(_(
                     "You cannot validate the invoice of '%s' "
                     " with an invoice date (%s) in the future !") % (
                         invoice.partner_id.name_get()[0][1],
                         invoice.date_invoice))
-        return super(AccountInvoice, self).action_move_create()
+            if (
+                    not invoice.internal_number and
+                    invoice.type in ('out_invoice', 'out_refund')):
+                previous_invoices = self.search([
+                    ('journal_id', '=', invoice.journal_id.id),
+                    ('date_invoice', '!=', False),
+                    ('internal_number', '!=', False),
+                    ], order='date_invoice desc', limit=1)
+                if (
+                        previous_invoices and
+                        previous_invoices[0].date_invoice >
+                        invoice.date_invoice):
+                    raise UserError(_(
+                        "You cannot validate the invoice for '%s' "
+                        "with an invoice date %s because another invoice "
+                        "number %s is dated %s in the same journal. "
+                        "In order to have a coherent "
+                        "invoice number sequence, the date of this invoice "
+                        "should the same or a later date as the "
+                        "previous one in the same journal.") % (
+                            invoice.partner_id.name_get()[0][1],
+                            invoice.date_invoice,
+                            previous_invoices[0].internal_number,
+                            previous_invoices[0].date_invoice,
+                            ))
+        return res
 
     @api.multi
     def onchange_payment_term_date_invoice(self, payment_term_id, date_invoice):
