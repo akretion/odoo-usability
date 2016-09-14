@@ -62,6 +62,23 @@ class AccountInvoice(models.Model):
             res['value']['period_id'] = False
         return res
 
+    # I really hate to see a "/" in the 'name' field of the account.move.line
+    # generated from customer invoices linked to the partners' account because:
+    # 1) the label of an account move line is an important field, we can't
+    #    write a rubbish '/' in it !
+    # 2) the 'name' field of the account.move.line is used in the overdue letter,
+    # and '/' is not meaningful for our customer !
+    @api.multi
+    def action_number(self):
+        res = super(AccountInvoice, self).action_number()
+        for inv in self:
+            if inv.type in ('out_invoice', 'out_refund'):
+                self._cr.execute(
+                    "UPDATE account_move_line SET name=%s WHERE "
+                    "move_id=%s AND name='/'", (inv.number, inv.move_id.id))
+                self.invalidate_cache()
+        return res
+
 
 class AccountFiscalYear(models.Model):
     _inherit = 'account.fiscalyear'
