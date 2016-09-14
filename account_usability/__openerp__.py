@@ -23,7 +23,7 @@
 
 {
     'name': 'Account Usability',
-    'version': '0.1',
+    'version': '0.2',
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'summary': 'Small usability enhancements in account module',
