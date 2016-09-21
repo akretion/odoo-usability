@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+
+<record id="account_cutoff_accrual_picking_ods" model="ir.actions.report.xml">
+    <field name="name">Cutoff Accrual ODS</field>
+    <field name="model">account.cutoff</field>
+    <field name="report_name">account.cutoff.accrual.picking.ods</field>
+    <field name="report_type">aeroo</field>
+    <field name="in_format">oo-ods</field>
+    <field name="report_rml">account_cutoff_accrual_picking_ods/cutoff_accrual.ods</field>
+    <field name="parser_state">default</field>
+    <field name="tml_source">file</field>
+    <field name="out_format" ref="report_aeroo.report_mimetypes_ods_ods"/>
+</record>
+
+<record id="account_cutoff_accrual_picking_ods_button" model="ir.values">
+    <field name="name">Cutoff Accrual ODS</field>
+    <field name="model">account.cutoff</field>
+    <field name="key2">client_print_multi</field>
+    <field name="value" eval="'ir.actions.report.xml,%d'%account_cutoff_accrual_picking_ods"/>
+</record>
+
+
+</data>
+</openerp>
