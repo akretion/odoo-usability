@@ -36,4 +36,4 @@ msgstr "Code postal tronqué permettant de faire des regroupements"
 #: view:stock.picking:stock_picking_zip.view_picking_internal_search
 #: field:stock.picking,short_zip:0
 msgid "Zip"
-msgstr "Code P."
+msgstr "Code Postal"
