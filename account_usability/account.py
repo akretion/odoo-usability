@@ -60,13 +60,12 @@ class AccountInvoice(models.Model):
     def action_number(self):
         res = super(AccountInvoice, self).action_number()
         for inv in self:
-            if inv.type in ('out_invoice', 'out_refund'):
-                self._cr.execute(
-                    "UPDATE account_move_line SET name= "
-                    "CASE WHEN name='/' THEN %s "
-                    "ELSE %s||' - '||name END "
-                    "WHERE move_id=%s", (inv.number, inv.number, inv.move_id.id))
-                self.invalidate_cache()
+            self._cr.execute(
+                "UPDATE account_move_line SET name= "
+                "CASE WHEN name='/' THEN %s "
+                "ELSE %s||' - '||name END "
+                "WHERE move_id=%s", (inv.number, inv.number, inv.move_id.id))
+            self.invalidate_cache()
         return res
 
 
