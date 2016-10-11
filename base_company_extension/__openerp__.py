@@ -41,5 +41,5 @@ This module adds 2 fields on the Company :
     'website': 'http://www.akretion.com',
     'depends': ['base'],
     'data': ['company_view.xml'],
-    'installable': True,
+    'installable': False,
 }
