@@ -26,10 +26,10 @@ from openerp import models, fields
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    capital_amount = fields.Integer(string='Capital Amount')
-    title = fields.Many2one(
-        'res.partner.title', related='partner_id.title',
-        string='Legal Form')
+    capital_amount = fields.Monetary(string='Capital Amount')
+    # in v9, title is only for contacts, not for companies
+    legal_type = fields.Char(
+        string="Legal Type", help="Type of Company, e.g. SARL, SAS, ...")
 
     _sql_constraints = [(
         'capital_amount_positive',

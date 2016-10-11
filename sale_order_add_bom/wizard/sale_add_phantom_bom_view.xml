@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+<data>
+
+<record id="sale_add_phantom_bom_form" model="ir.ui.view">
+    <field name="name">sale.add.phantom.bom.form</field>
+    <field name="model">sale.add.phantom.bom</field>
+    <field name="arch"  type="xml">
+        <form string="Add Phantom BOM to the Quotation">
+            <group name="main">
+                <field name="bom_id"/>
+                <field name="qty"/>
+            </group>
+            <footer>
+                <button name="add" type="object"
+                    class="oe_highlight" string="Add to Quotation"/>
+                <button special="cancel" string="Cancel" class="oe_link"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="sale_add_phantom_bom_action" model="ir.actions.act_window">
+    <field name="name">Add Kit</field>
+    <field name="res_model">sale.add.phantom.bom</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+</data>
+</odoo>
