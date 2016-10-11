@@ -48,5 +48,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'security/product_security.xml',
         'product_view.xml',
         ],
-    'installable': True,
+    'installable': False,
 }
