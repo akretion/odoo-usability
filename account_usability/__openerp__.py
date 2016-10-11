@@ -50,5 +50,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'depends': ['account'],
     'conflicts': ['account_invoice_overdue_filter'],
     'data': ['account_view.xml'],
-    'installable': True,
+    'installable': False,
 }

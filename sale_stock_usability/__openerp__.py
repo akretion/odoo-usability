@@ -42,5 +42,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['sale_stock'],
     'data': ['sale_stock_view.xml'],
-    'installable': True,
+    'installable': False,
 }
