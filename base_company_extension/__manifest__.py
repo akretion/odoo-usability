@@ -35,11 +35,11 @@ This module adds 2 fields on the Company :
 
 * *Capital Amount*
 
-* *Legal Form* (technical name: title, configured as a related field of res.partner)
+* *Legal Form*
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['base'],
     'data': ['company_view.xml'],
-    'installable': False,
+    'installable': True,
 }
