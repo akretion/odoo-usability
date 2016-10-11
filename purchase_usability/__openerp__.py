@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Stock Display Destination Move module for OpenERP
+#    Purchase Usability module for OpenERP
 #    Copyright (C) 2014 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
@@ -22,23 +22,24 @@
 
 
 {
-    'name': 'Stock Display Destination Move',
+    'name': 'Purchase Usability',
     'version': '0.1',
-    'category': 'Inventory, Logistic, Storage',
+    'category': 'Purchase Management',
     'license': 'AGPL-3',
-    'summary': 'Display the field Destination Move in the Stock Move form view',
+    'summary': 'Show invoices and receptions on PO',
     'description': """
-Stock Display Destination Move
-==============================
+Purchase Usability Extension
+============================
 
-Display the field Destination Move in the Stock Move form view for Stock Managers in read-only. Very usefull for advanced users and debug purposes.
+Display Invoices and Incoming Shipments on Purchase Order form view (in dedicated tabs).
 
 Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['stock'],
-    'data': ['stock_view.xml'],
-    'installable': True,
+    'depends': ['purchase'],
+    'data': [
+        'purchase_view.xml',
+        ],
     'active': False,
 }
