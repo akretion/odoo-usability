@@ -41,5 +41,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['purchase', 'sale', 'base_usability'],
     'data': ['view.xml'],
-    'installable': True,
+    'installable': False,
 }
