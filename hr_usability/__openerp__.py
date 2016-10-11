@@ -41,5 +41,5 @@ This module has been developped by Alexis de Lattre <alexis.delattre@akretion.co
     'data': [
         'hr_view.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

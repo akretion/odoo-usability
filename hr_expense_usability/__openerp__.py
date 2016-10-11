@@ -34,5 +34,5 @@
     'data': [
         'security/expense_security.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

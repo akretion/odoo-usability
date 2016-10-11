@@ -42,5 +42,5 @@ This module has been written by  Alexis de Lattre
     'website': 'http://www.akretion.com',
     'depends': ['point_of_sale'],
     'data': ['pos_journal_sequence_view.xml'],
-    'installable': True,
+    'installable': False,
 }

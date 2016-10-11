@@ -37,5 +37,5 @@ This module has been written by Alexis de Lattre from Akretion
     'website': 'http://www.akretion.com',
     'depends': ['sale_margin_no_onchange', 'bi_sale_company_currency'],
     'data': [],
-    'installable': True,
+    'installable': False,
 }

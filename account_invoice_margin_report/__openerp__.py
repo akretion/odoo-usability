@@ -37,5 +37,5 @@ This module has been written by Alexis de Lattre from Akretion
     'website': 'http://www.akretion.com',
     'depends': ['account_invoice_margin', 'bi_invoice_company_currency'],
     'data': [],
-    'installable': True,
+    'installable': False,
 }

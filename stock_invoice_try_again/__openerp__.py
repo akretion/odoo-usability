@@ -39,5 +39,5 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'website': 'http://www.akretion.com',
     'depends': ['stock_picking_invoice_link', 'stock_account'],
     'data': ['stock_view.xml'],
-    'installable': True,
+    'installable': False,
 }

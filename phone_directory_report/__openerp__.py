@@ -37,5 +37,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['asterisk_click2dial', 'report_aeroo'],
     'data': ['report.xml'],
-    'installable': True,
+    'installable': False,
 }

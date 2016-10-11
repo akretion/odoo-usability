@@ -43,5 +43,5 @@ This module has been written by Alexis de Lattre from Akretion
     'depends': ['product'],
     'conflicts': ['partner_product_variants_shortcut'],
     'data': ['partner_view.xml'],
-    'installable': True,
+    'installable': False,
 }

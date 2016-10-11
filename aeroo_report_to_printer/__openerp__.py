@@ -48,5 +48,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'report_aeroo',
         'base_other_report_engines',
         ],
-    'installable': True,
+    'installable': False,
 }
