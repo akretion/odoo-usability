@@ -22,7 +22,7 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 from openerp.tools.translate import _
 import requests
 from datetime import datetime
@@ -38,15 +38,13 @@ logger = logging.getLogger(__name__)
 URL = 'https://www.infogreffe.fr'
 
 
-class res_partner(orm.Model):
+class res_partner(models.Model):
     _inherit = 'res.partner'
 
-    _columns = {
-        'infogreffe_date': fields.date('Date', readonly=True),
-        'infogreffe_turnover': fields.integer(u'Turnover (€)', readonly=True),
-        'infogreffe_profit': fields.integer(u'Profit (€)', readonly=True),
-        'infogreffe_headcount': fields.integer('Headcount', readonly=True),
-    }
+    infogreffe_date = fields.Date(string='Date', readonly=True)
+    infogreffe_turnover = fields.Integer(string=u'Turnover (€)', readonly=True)
+    infogreffe_profit = fields.Integer(string=u'Profit (€)', readonly=True)
+    infogreffe_headcount = fields.Integer(string='Headcount', readonly=True)
 
     def copy(self, cr, uid, id, default=None, context=None):
         if default is None:

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2016 Akretion (http://www.akretion.com/)
+    @author Alexis de Lattre <alexis.delattre@akretion.com>
+-->
+
+<odoo>
+<data>
+
+<record id="view_partner_stock_form" model="ir.ui.view">
+    <field name="name">sale_from_private_stock.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="stock.view_partner_stock_form" />
+    <field name="arch" type="xml">
+        <field name="property_stock_supplier" position="after">
+            <field name="default_sale_route_id"
+                attrs="{'invisible': ['|', ('customer', '=', False), ('parent_id', '!=', False)]}"/>
+            <button name="create_private_location_route" type="object"
+                string="Create Private Stock"
+                attrs="{'invisible': ['|', '|', ('default_sale_route_id', '!=', False), ('customer', '=', False), ('parent_id', '!=', False)]}"/>
+        </field>
+    </field>
+</record>
+
+
+</data>
+</odoo>
