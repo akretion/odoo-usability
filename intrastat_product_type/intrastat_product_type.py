@@ -30,12 +30,12 @@ class ProductTemplate(orm.Model):
             if pt.intrastat_type == 'product' and pt.type == 'service':
                 raise orm.except_orm(
                     _("Error"),
-                    _("On the product %s, you cannot set Product Type to "
+                    _("On the product '%s', you cannot set Product Type to "
                       "'Service' and Intrastat Type to 'Product'.") % pt.name)
             if pt.intrastat_type == 'service' and pt.type == 'product':
                 raise orm.except_orm(
                     _("Error"),
-                    _("On the product %s, you cannot set Intrastat Type to "
+                    _("On the product '%s', you cannot set Intrastat Type to "
                       "'Service' and Product Type to 'Stockable product' "
                       "(but you can set Product Type to 'Consumable' or "
                       "'Service').") % pt.name)

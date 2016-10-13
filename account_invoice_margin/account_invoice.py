@@ -174,7 +174,9 @@ class AccountInvoiceLine(orm.Model):
     # We write standard_price_company_currency even on supplier invoice/refunds
     # because we don't have access to the 'type' of the invoice
     def create(self, cr, uid, vals, context=None):
-        if vals.get('product_id'):
+        if (
+                vals.get('product_id') and
+                'standard_price_company_currency' not in vals):
             pp = self.pool['product.product'].browse(
                 cr, uid, vals['product_id'], context=context)
             std_price = pp.standard_price
