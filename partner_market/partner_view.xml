@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="view_partner_form" model="ir.ui.view">
+    <field name="name">partner_market.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+        <field name="lang" position="after">
+            <field name="market_id" widget="selection"
+                attrs="{'invisible': ['|', ('customer', '=', False), ('parent_id', '!=', False)]}"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_res_partner_filter" model="ir.ui.view">
+    <field name="name">partner_market.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_res_partner_filter"/>
+    <field name="arch" type="xml">
+        <group name="group_by" position="inside">
+            <filter string="Market" name="market_groupby"
+                context="{'group_by': 'market_id'}"/>
+        </group>
+    </field>
+</record>
+
+<record id="res_partner_market_tree" model="ir.ui.view">
+    <field name="name">res.partner.market.tree</field>
+    <field name="model">res.partner.market</field>
+    <field name="arch" type="xml">
+        <tree editable="bottom">
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+
+<record id="res_partner_market_action" model="ir.actions.act_window">
+    <field name="name">Market</field>
+    <field name="res_model">res.partner.market</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="res_partner_market_root" name="Market"
+    parent="base.menu_custom" sequence="100"/>
+
+<menuitem id="res_partner_market_menu" action="res_partner_market_action"
+    parent="res_partner_market_root"/>
+
+</odoo>
