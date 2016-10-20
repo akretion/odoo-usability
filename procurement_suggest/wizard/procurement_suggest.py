@@ -41,6 +41,7 @@ class ProcurementSuggestionGenerate(models.TransientModel):
     location_id = fields.Many2one(
         'stock.location', string='Stock Location', required=True,
         default=lambda self: self.env.ref('stock.stock_location_stock'))
+        # TODO This code must be fixed in case of multicompany project
 
     @api.model
     def _compute_procurement_qty(self, orderpoint):
