@@ -4,8 +4,7 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 <!-- PURCHASE -->
 <record id="product_product_action_puchased" model="ir.actions.act_window">
@@ -22,7 +21,7 @@
 </record>
 
 <!-- STOCK -->
-<record id="stock.menu_stock_products_menu" model="ir.ui.menu">
+<record id="stock.menu_product_variant_config_stock" model="ir.ui.menu">
     <field name="action" ref="product.product_normal_action"/>
 </record>
 
@@ -42,7 +41,7 @@ so I redefine a new menu entry -->
 
 <!-- To keep good translations, we re-use the product.template menu
 entry and link it to product product -->
-<record id="product.menu_product_template_action" model="ir.ui.menu">
+<record id="sale.menu_product_template_action" model="ir.ui.menu">
     <!-- related action is "product.product_template_action" -->
     <field name="action" ref="product_product_action_sell"/>
 </record>
@@ -56,7 +55,7 @@ entry and link it to product product -->
 
 <!-- Create a product template menu entry in configuration -->
 <menuitem id="sale_config_product_template_menu" action="product.product_template_action"
-    parent="product.prod_config_main"/>
+    parent="sale.prod_config_main"/>
 
 
 <record id="product.product_normal_action_sell" model="ir.actions.act_window">
@@ -64,11 +63,14 @@ entry and link it to product product -->
 </record>
 
 <!-- Hide native 'Product Variants' menu -->
+<!--
 <record id="product.menu_products" model="ir.ui.menu">
     <field name="groups_id" eval="[(6, 0, [ref('base_usability.group_nobody')])]"/>
 </record>
+-->
 
 <!-- set name as editable on product.product form -->
+<!--
 <record id="product_normal_form_view" model="ir.ui.view">
     <field name="name">no_product_template_menu.product_product_form</field>
     <field name="model">product.product</field>
@@ -82,6 +84,6 @@ entry and link it to product product -->
         </field>
     </field>
 </record>
+-->
 
-</data>
-</openerp>
+</odoo>
