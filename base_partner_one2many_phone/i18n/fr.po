@@ -1,0 +1,89 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* base_partner_one2many_phone
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 8.0alpha1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-02 13:37+0000\n"
+"PO-Revision-Date: 2014-07-02 15:50+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 1.5.7\n"
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Home"
+msgstr "Domicile"
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Home Fax"
+msgstr "Fax domicile"
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Mobile"
+msgstr "Mobile"
+
+#. module: base_partner_one2many_phone
+#: field:res.partner.phone,note:0
+msgid "Note"
+msgstr "Note"
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Office"
+msgstr "Bureau"
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Office Fax"
+msgstr "Fax bureau"
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Other"
+msgstr "Autre"
+
+#. module: base_partner_one2many_phone
+#: model:ir.model,name:base_partner_one2many_phone.model_res_partner
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: base_partner_one2many_phone
+#: field:res.partner.phone,phone:0
+msgid "Phone"
+msgstr "Numéro de tél."
+
+#. module: base_partner_one2many_phone
+#: field:res.partner.phone,type:0
+msgid "Phone Type"
+msgstr "Type de téléphone"
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Phone/fax Home"
+msgstr "Domicile tél./fax"
+
+#. module: base_partner_one2many_phone
+#: model:ir.actions.act_window,name:base_partner_one2many_phone.res_partner_phone_action
+#: model:ir.ui.menu,name:base_partner_one2many_phone.res_partner_phone_menu
+#: field:res.partner,phone_ids:0 view:res.partner.phone:0
+msgid "Phones"
+msgstr "Numéro de tél."
+
+#. module: base_partner_one2many_phone
+#: field:res.partner.phone,partner_id:0
+msgid "Related Partner"
+msgstr "Partenaire lié"
+
+#. module: base_partner_one2many_phone
+#: model:ir.model,name:base_partner_one2many_phone.model_res_partner_phone
+msgid "res.partner.phone"
+msgstr "res.partner.phone"
