@@ -5,8 +5,7 @@
 -->
 
 
-<openerp>
-<data noupdate="1">
+<odoo noupdate="1">
 
 <!-- This group is used to hide menu entries to everybody,
 so you should not put any user in this group. It is used
@@ -20,5 +19,4 @@ common to have several users that belong to this group -->
     <field name="name">Nobody (used to hide native menus)</field>
 </record>
 
-</data>
-</openerp>
+</odoo>

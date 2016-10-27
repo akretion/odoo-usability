@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-   Copyright (C) 2015 Akretion (http://www.akretion.com/)
-   @author: Alexis de Lattre <alexis.delattre@akretion.com>
-   The licence is in the file __openerp__.py
+  © 2015-2016 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 <record id="res_country_state_search" model="ir.ui.view">
     <field name="name">base_usability.res.country.state.search</field>
@@ -43,11 +42,10 @@
     <field name="model">res.country</field>
     <field name="inherit_id" ref="base.view_country_form"/>
     <field name="arch" type="xml">
-        <field name="currency_id" position="after">
+        <field name="code" position="after">
             <field name="country_group_ids" widget="many2many_tags"/>
         </field>
     </field>
 </record>
 
-</data>
-</openerp>
+</odoo>
