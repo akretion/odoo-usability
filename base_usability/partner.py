@@ -1,31 +1,16 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    Base Usability module for Odoo
-#    Copyright (C) 2015 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from odoo import models, fields, api
 
 
-class Partner(models.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+    # track_visibility is handled in the 'mail' module, and base_usability
+    # doesn't depend on 'mail', but that doesn't hurt, it will just be
+    # ignored if mail is not installed
     name = fields.Char(track_visibility='onchange')
     parent_id = fields.Many2one(track_visibility='onchange')
     ref = fields.Char(track_visibility='onchange')
@@ -43,20 +28,26 @@ class Partner(models.Model):
     country_id = fields.Many2one(track_visibility='onchange')
     email = fields.Char(track_visibility='onchange')
     is_company = fields.Boolean(track_visibility='onchange')
-    use_parent_address = fields.Boolean(track_visibility='onchange')
     active = fields.Boolean(track_visibility='onchange')
     # For reports
     name_title = fields.Char(
         compute='_compute_name_title', string='Name with Title')
 
-    @api.one
-    @api.depends('name', 'title', 'is_company')
+    @api.multi
+    @api.depends('name', 'title')
     def _compute_name_title(self):
-        name_title = self.name
-        if self.title:
-            title = self.title.shortcut or self.title
-            if self.is_company:
-                name_title = ' '.join([name_title, title])
-            else:
+        for partner in self:
+            name_title = partner.name
+            if partner.title and not partner.is_company:
+                title = partner.title.shortcut or partner.title
                 name_title = ' '.join([title, name_title])
-        self.name_title = name_title
+            partner.name_title = name_title
+
+    @api.multi
+    def _display_address(self, without_company=False):
+        '''Remove empty lines'''
+        res = super(ResPartner, self)._display_address(
+            without_company=without_company)
+        while "\n\n" in res:
+            res = res.replace('\n\n', '\n')
+        return res
