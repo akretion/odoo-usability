@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
-    Copyright (C) 2015 Akretion (http://www.akretion.com/)
-    @author Alexis de Lattre <alexis.delattre@akretion.com>
-    The licence is in the file __openerp__.py
+  © 2015-2016 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 
 <record id="product_price_history_form" model="ir.ui.view">
@@ -16,7 +14,7 @@
     <field name="arch" type="xml">
         <form string="Product Price History">
             <group name="main">
-                <field name="product_template_id" invisible="not context.get('product_price_history_main_view')"/>
+                <field name="product_id" invisible="not context.get('product_price_history_main_view')"/>
                 <field name="datetime"/>
                 <field name="cost"/>
                 <field name="company_id" groups="base.group_multi_company"/>
@@ -30,7 +28,7 @@
     <field name="model">product.price.history</field>
     <field name="arch" type="xml">
         <tree string="Product Price History" editable="bottom">
-            <field name="product_template_id" invisible="not context.get('product_price_history_main_view')"/>
+            <field name="product_id" invisible="not context.get('product_price_history_main_view')"/>
             <field name="datetime"/>
             <field name="cost"/>
             <field name="company_id" groups="base.group_multi_company"/>
@@ -43,9 +41,9 @@
     <field name="model">product.price.history</field>
     <field name="arch" type="xml">
         <search string="Search Product Price History">
-            <field name="product_template_id"/>
+            <field name="product_id"/>
             <group string="Group By" name="groupby">
-                <filter name="product_tmpl_groupby" string="Product" context="{'group_by': 'product_template_id'}"/>
+                <filter name="product_groupby" string="Product" context="{'group_by': 'product_id'}"/>
                 <filter name="datetime_groupby" string="Date" context="{'group_by': 'datetime:month'}"/>
             </group>
         </search>
@@ -59,8 +57,9 @@
     <field name="context">{'product_price_history_main_view': True}</field>
 </record>
 
+<!--
 <menuitem id="product_price_history_menu" action="product_price_history_action"
-    parent="product.prod_config_main" sequence="55"/>
+    parent="product.prod_config_main" sequence="55"/>  -->
 
 <!-- product.template form view -->
 <record id="product_template_form_view" model="ir.ui.view">
@@ -68,50 +67,46 @@
     <field name="model">product.template</field>
     <field name="inherit_id" ref="product.product_template_form_view" />
     <field name="arch" type="xml">
+            <!--
         <group name="general" position="after">
             <group name="price_history" string="Price History">
                 <field name="price_history_ids" nolabel="1"/>
             </group>
         </group>
+            -->
         <!-- START for wider 'name' field -->
         <!-- Don't make it too big, othesize computers with small resolutions
         will see the product name + image under the block of buttons -->
-        <div class="oe_left"  position="attributes">
-            <attribute name="style">width: 700px;</attribute>
-        </div>
         <div class="oe_title" position="attributes">
-            <attribute name="style">width: 600px;</attribute>
+            <attribute name="style">width: 650px;</attribute>
         </div>
-        <field name="name" position="attributes">
-            <attribute name="class"></attribute>
-        </field>
-        <field name="description" position="attributes">
-            <attribute name="attrs">{'invisible': True}</attribute>
-        </field>
         <!-- END for wider 'name' field -->
     </field>
 </record>
 
-<!-- Also search on EAN13 -->
-<record id="product_template_search_view" model="ir.ui.view">
-    <field name="name">product_usability.product.template.search</field>
-    <field name="model">product.template</field>
-    <field name="inherit_id" ref="product.product_template_search_view"/>
+<!-- product.category -->
+<record id="product_category_list_view" model="ir.ui.view">
+    <field name="name">usability.product.category.tree</field>
+    <field name="model">product.category</field>
+    <field name="inherit_id" ref="product.product_category_list_view"/>
     <field name="arch" type="xml">
-        <field name="name" position="attributes">
-            <attribute name="filter_domain">['|', '|', ('name', 'ilike', self), ('default_code', 'ilike', self), ('ean13', '=', self)]</attribute>
+        <field name="display_name" position="after">
+            <field name="type"/>
         </field>
     </field>
 </record>
 
-<!-- product.product -->
-<record id="product_search_form_view" model="ir.ui.view">
-    <field name="name">product_usability.product.search</field>
-    <field name="model">product.product</field>
-    <field name="inherit_id" ref="product.product_search_form_view"/>
+<record id="product_category_search_view" model="ir.ui.view">
+    <field name="name">usability.product.category.search</field>
+    <field name="model">product.category</field>
+    <field name="inherit_id" ref="product.product_category_search_view"/>
     <field name="arch" type="xml">
-        <field name="name" position="attributes">
-            <attribute name="filter_domain">['|', '|', ('name', 'ilike', self), ('default_code', 'ilike', self), ('ean13', '=', self)]</attribute>
+        <field name="parent_id" position="after">
+            <filter name="view" string="View" domain="[('type', '=', 'view')]"/>
+            <filter name="normal" string="Normal" domain="[('type', '=', 'normal')]"/>
+            <group name="group_by" string="Group By">
+                <filter name="type_groupby" string="Type" context="{'group_by': 'type'}"/>
+            </group>
         </field>
     </field>
 </record>
@@ -129,5 +124,4 @@
 </record>
 
 
-</data>
-</openerp>
+</odoo>
