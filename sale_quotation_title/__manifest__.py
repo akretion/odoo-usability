@@ -5,7 +5,7 @@
 
 {
     'name': 'Sale Quotation Title',
-    'version': '0.1',
+    'version': '10.0.1.0.0',
     'category': 'Sale Management',
     'license': 'AGPL-3',
     'summary': 'Adds a title field on quotations',
@@ -22,5 +22,5 @@ This module has been written by Alexis de Lattre from Akretion
     'website': 'http://www.akretion.com',
     'depends': ['sale'],
     'data': ['sale_view.xml'],
-    'installable': False,
+    'installable': True,
 }
