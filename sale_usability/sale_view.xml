@@ -62,6 +62,16 @@
     </field>
 </record>
 
+<!-- Restore the behavior of Odoo v8:
+https://github.com/odoo/odoo/commit/c1e5ab9b1331c3cb7dc2232bf78952bdb40ad939 -->
+<record id="sale.action_quotations" model="ir.actions.act_window">
+    <field name="domain">[('state', 'in', ('draft', 'sent', 'cancel'))]</field>
+</record>
+
+<record id="sale.action_quotations_salesteams" model="ir.actions.act_window">
+    <field name="domain">[('state', 'in', ('draft', 'sent', 'cancel'))]</field>
+</record>
+
 <record id="procurement_form_view" model="ir.ui.view">
     <field name="name">procurement_usability.procurement.order.form</field>
     <field name="model">procurement.order</field>
@@ -85,5 +95,6 @@
         </xpath>
     </field>
 </record>
+
 
 </odoo>
