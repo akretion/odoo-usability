@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>
+<data noupdate="0">
 
 <record id="ir_actions_server_hr_holidays_confirm_mail" model="ir.actions.server">
     <field name="name">Auto-email confirmed leave</field>
@@ -58,6 +58,9 @@ if not object.no_email_notification:
 <record id="hr_holidays.act_refuse" model="workflow.activity">
     <field name="action_id" ref="ir_actions_server_hr_holidays_refuse_mail"/>
 </record>
+
+</data>
+<data noupdate="1">
 
 <record id="email_template_hr_holidays" model="email.template">
     <field name="name">Holidays email template</field>
