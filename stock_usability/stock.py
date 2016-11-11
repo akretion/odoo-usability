@@ -60,11 +60,10 @@ class StockWarehouseOrderpoint(models.Model):
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    product_code = fields.Char(
-        string='Supplier Code', compute='_compute_product_code',
+    product_supplier_code = fields.Char(
+        string='Supplier Code', compute='_compute_supplier_code',
         store=True, readonly=True,
-        help="Supplier product code if exist else product "
-             "Internal Reference if exist")
+        help="Supplier product code if Partner is the supplier")
 
 # It seems that it is not necessary any more to
 # have the digits= on these 2 fields to fix the bug
@@ -76,11 +75,14 @@ class StockMove(models.Model):
 
     @api.multi
     @api.depends('product_id', 'picking_id.partner_id')
-    def _compute_product_code(self):
+    def _compute_supplier_code(self):
         for rec in self:
+            supplier_code = False
             if rec.picking_id.partner_id and rec.product_id:
-                rec.product_code = rec.with_context(
-                    partner_id=rec.picking_id.partner_id.id).product_id.code
+                for supplier_info in rec.product_id.seller_ids:
+                    if supplier_info.name == rec.picking_id.partner_id:
+                        supplier_code = supplier_info.product_code
+            rec.product_supplier_code = supplier_code
 
     def name_get(self, cr, uid, ids, context=None):
         '''name_get of stock_move is important for the reservation of the
