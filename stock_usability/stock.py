@@ -77,8 +77,9 @@ class StockWarehouseOrderpoint(models.Model):
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    product_supplier_code = fields.Char(
-        string='Product Code', compute='_compute_product_supplier_code',
+    product_code = fields.Char(
+        string='Supplier Code', compute='_compute_product_code',
+        store=True, readonly=True,
         help="Supplier product code if exist else product "
              "Internal Reference if exist")
 
@@ -92,10 +93,10 @@ class StockMove(models.Model):
 
     @api.multi
     @api.depends('product_id', 'picking_id.partner_id')
-    def _compute_product_supplier_code(self):
+    def _compute_product_code(self):
         for rec in self:
             if rec.picking_id.partner_id and rec.product_id:
-                rec.product_supplier_code = rec.with_context(
+                rec.product_code = rec.with_context(
                     partner_id=rec.picking_id.partner_id.id).product_id.code
 
     def name_get(self, cr, uid, ids, context=None):

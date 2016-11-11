@@ -24,7 +24,7 @@ msgstr "\"{'group_by': 'min_date:day'}\""
 #: view:stock.move:stock_usability.view_move_form
 #: view:stock.move:stock_usability.view_move_picking_form
 msgid "Advanced Parameters"
-msgstr "Advanced Parameters"
+msgstr "Paramètres Avancées"
 
 #. module: stock_usability
 #: sql_constraint:stock.warehouse.orderpoint:0
@@ -34,22 +34,22 @@ msgstr "An orderpoint already exists for the same company, same warehouse, same 
 #. module: stock_usability
 #: field:procurement.scheduler.log,company_id:0
 msgid "Company"
-msgstr "Company"
+msgstr "Société"
 
 #. module: stock_usability
 #: field:procurement.scheduler.log,create_uid:0
 msgid "Created by"
-msgstr "Created by"
+msgstr "Créé par"
 
 #. module: stock_usability
 #: field:procurement.scheduler.log,create_date:0
 msgid "Created on"
-msgstr "Created on"
+msgstr "Créé le"
 
 #. module: stock_usability
 #: view:stock.picking:stock_usability.view_picking_internal_search
 msgid "Date Done"
-msgstr "Date Done"
+msgstr "Date Terminé"
 
 #. module: stock_usability
 #: help:stock.quant,uom_id:0
@@ -59,7 +59,7 @@ msgstr "Default Unit of Measure used for all stock operation."
 #. module: stock_usability
 #: field:procurement.scheduler.log,display_name:0
 msgid "Display Name"
-msgstr "Display Name"
+msgstr "Nom Affiché"
 
 #. module: stock_usability
 #: view:stock.picking:stock_usability.view_picking_internal_search
@@ -69,7 +69,7 @@ msgstr "Date prévue"
 #. module: stock_usability
 #: view:stock.location:stock_usability.view_location_search
 msgid "Group By"
-msgstr "Group By"
+msgstr "Groupé par"
 
 #. module: stock_usability
 #: field:procurement.scheduler.log,id:0
@@ -99,22 +99,22 @@ msgstr "Routes logistiques"
 #. module: stock_usability
 #: field:procurement.scheduler.log,__last_update:0
 msgid "Last Modified on"
-msgstr "Last Modified on"
+msgstr "Modifié le"
 
 #. module: stock_usability
 #: field:procurement.scheduler.log,write_uid:0
 msgid "Last Updated by"
-msgstr "Last Updated by"
+msgstr "Mis à jour par"
 
 #. module: stock_usability
 #: field:procurement.scheduler.log,write_date:0
 msgid "Last Updated on"
-msgstr "Last Updated on"
+msgstr "Modifié le"
 
 #. module: stock_usability
 #: view:stock.location:stock_usability.view_location_search
 msgid "Location Type"
-msgstr "Location Type"
+msgstr "Type d'Emplacement"
 
 #. module: stock_usability
 #: model:ir.model,name:stock_usability.model_procurement_scheduler_log
@@ -140,7 +140,7 @@ msgstr "Origine"
 #. module: stock_usability
 #: view:stock.picking:stock_usability.view_picking_internal_search
 msgid "Partner"
-msgstr "Partner"
+msgstr "Partenaire"
 
 #. module: stock_usability
 #: model:ir.model,name:stock_usability.model_stock_picking
@@ -161,11 +161,6 @@ msgstr "Approvisionnement"
 #: view:procurement.scheduler.log:stock_usability.procurement_scheduler_log_tree
 msgid "Procurement Scheduler Logs"
 msgstr "Procurement Scheduler Logs"
-
-#. module: stock_usability
-#: field:stock.move,product_supplier_code:0
-msgid "Product Code"
-msgstr "Code Produit"
 
 #. module: stock_usability
 #: model:ir.actions.act_window,name:stock_usability.stock_location_path_action
@@ -207,7 +202,7 @@ msgstr "Scheduler Logs"
 #. module: stock_usability
 #: field:procurement.scheduler.log,start_datetime:0
 msgid "Start Date"
-msgstr "Start Date"
+msgstr "Date de Début"
 
 #. module: stock_usability
 #: model:ir.model,name:stock_usability.model_stock_move
@@ -217,12 +212,17 @@ msgstr "Mouvement de stock"
 #. module: stock_usability
 #: view:procurement.order:stock_usability.view_procurement_form_stock_inherit
 msgid "Stock Moves"
-msgstr "Stock Moves"
+msgstr "Mouvements de stock"
 
 #. module: stock_usability
-#: help:stock.move,product_supplier_code:0
+#: field:stock.move,product_code:0
+msgid "Supplier Code"
+msgstr "Code Fournisseur"
+
+#. module: stock_usability
+#: help:stock.move,product_code:0
 msgid "Supplier product code if exist else product Internal Reference if exist"
-msgstr "Code produit fournisseur si existant sinon Référence Interne du produit si existant"
+msgstr "Code article fournisseur si existant sinon référence interne de l'article si existant"
 
 #. module: stock_usability
 #: model:ir.model,name:stock_usability.model_stock_picking_type
@@ -237,21 +237,21 @@ msgstr "Total"
 #. module: stock_usability
 #: view:stock.quant:stock_usability.view_stock_quant_tree
 msgid "Total Qty"
-msgstr "Total Qty"
+msgstr "Qté Total"
 
 #. module: stock_usability
 #: view:stock.picking:stock_usability.stock_picking_graph
 msgid "Transfers"
-msgstr "Transfers"
+msgstr "Transferts"
 
 #. module: stock_usability
 #: field:stock.quant,uom_id:0
 msgid "Unit of Measure"
-msgstr "Unit of Measure"
+msgstr "Unité de Mesure"
 
 #. module: stock_usability
 #: view:stock.move:stock_usability.view_move_form
 #: view:stock.move:stock_usability.view_move_picking_tree
 msgid "Unreserve"
-msgstr "Unreserve"
+msgstr "Déréserver"
 
