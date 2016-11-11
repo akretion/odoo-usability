@@ -60,6 +60,11 @@ class StockWarehouseOrderpoint(models.Model):
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
+    product_supplier_code = fields.Char(
+        string='Supplier Code', compute='_compute_supplier_code',
+        store=True, readonly=True,
+        help="Supplier product code if Partner is the supplier")
+
 # It seems that it is not necessary any more to
 # have the digits= on these 2 fields to fix the bug
 # https://github.com/odoo/odoo/pull/10038
@@ -67,6 +72,17 @@ class StockMove(models.Model):
 #        digits=dp.get_precision('Product Unit of Measure'))
 #    availability = fields.Float(
 #        digits=dp.get_precision('Product Unit of Measure'))
+
+    @api.multi
+    @api.depends('product_id', 'picking_id.partner_id')
+    def _compute_supplier_code(self):
+        for rec in self:
+            supplier_code = False
+            if rec.picking_id.partner_id and rec.product_id:
+                for supplier_info in rec.product_id.seller_ids:
+                    if supplier_info.name == rec.picking_id.partner_id:
+                        supplier_code = supplier_info.product_code
+            rec.product_supplier_code = supplier_code
 
     def name_get(self, cr, uid, ids, context=None):
         '''name_get of stock_move is important for the reservation of the
