@@ -28,8 +28,7 @@ class SaleAddPhantomBom(models.TransientModel):
 
     @api.model
     def _prepare_sale_order_line(self, bom_line, sale_order, wizard_qty):
-        qty_in_product_uom = self.env['product.uom']._compute_qty_obj(
-            bom_line.product_uom,
+        qty_in_product_uom = bom_line.product_uom_id._compute_quantity(
             bom_line.product_qty,
             bom_line.product_id.uom_id)
         vals = {
@@ -55,10 +54,6 @@ class SaleAddPhantomBom(models.TransientModel):
         solo = self.env['sale.order.line']
         for line in self.bom_id.bom_line_ids:
             if float_is_zero(line.product_qty, precision_digits=prec):
-                continue
-            if line.date_start and line.date_start > today:
-                continue
-            if line.date_stop and line.date_stop < today:
                 continue
             # The onchange is played in the inherit of the create()
             # of sale order line in the 'sale' module
