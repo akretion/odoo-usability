@@ -24,7 +24,7 @@ class ResPartner(models.Model):
         "for this customer.")
 
     @api.multi
-    def create_private_location_route(self):
+    def create_private_location_route(self, location_name=False):
         self.ensure_one()
         assert not self.default_sale_route_id,\
             'Already has a default_sale_route_id'
@@ -33,6 +33,8 @@ class ResPartner(models.Model):
         pro = self.env['procurement.rule']
         slro = self.env['stock.location.route']
         company = self.env.user.company_id
+        if not location_name:
+            location_name = self.name
         warehouses = swo.search([
             ('company_id', '=', company.id),
             ('private_stock_out_type_id', '!=', False)])
@@ -42,13 +44,13 @@ class ResPartner(models.Model):
                 "company %s") % company.name)
         warehouse = warehouses[0]
         private_stock_loc = slo.create({
-            'name': _('Private stock %s') % self.name,
+            'name': location_name,
             'location_id': warehouse.view_location_id.id,
             'usage': 'internal',
             'company_id': company.id,
             })
         rule = pro.create({
-            'name': _('From private stock %s to customer') % self.name,
+            'name': _('From specific stock %s to customer') % location_name,
             'company_id': company.id,
             'warehouse_id': warehouse.id,
             'action': 'move',
@@ -59,7 +61,7 @@ class ResPartner(models.Model):
             })
 
         route = slro.create({
-            'name': _('Take from %s') % self.name,
+            'name': _('Take from %s') % location_name,
             'sequence': 1000,
             'pull_ids': [(6, 0, [rule.id])],
             'product_selectable': False,
