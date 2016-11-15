@@ -36,4 +36,4 @@ class ProcurementOrder(models.Model):
     def _product_virtual_get(self, order_point):
         if order_point.suggest:
             return None
-        return (ProcurementOrder, self)._product_virtual_get(order_point)
+        return super(ProcurementOrder, self)._product_virtual_get(order_point)
