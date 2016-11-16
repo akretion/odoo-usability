@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-   Copyright (C) 2015 Akretion (http://www.akretion.com/)
-   @author: Alexis de Lattre <alexis.delattre@akretion.com>
-   The licence is in the file __openerp__.py
+  © 2015-2016 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 <!-- INVOICE -->
 <record id="invoice_supplier_form" model="ir.ui.view">
@@ -14,13 +13,8 @@
     <field name="model">account.invoice</field>
     <field name="inherit_id" ref="account.invoice_supplier_form"/>
     <field name="arch" type="xml">
-        <field name="fiscal_position" position="attributes">
+        <field name="fiscal_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
-        </field>
-        <!-- by default, period_id is restricted to account.group_account_user
-        But a member of account.group_account_invoice may need to change it -->
-        <field name="period_id" position="attributes">
-            <attribute name="groups"></attribute>
         </field>
     </field>
 </record>
@@ -30,13 +24,8 @@
     <field name="model">account.invoice</field>
     <field name="inherit_id" ref="account.invoice_form"/>
     <field name="arch" type="xml">
-        <field name="fiscal_position" position="attributes">
+        <field name="fiscal_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
-        </field>
-        <!-- by default, period_id is restricted to account.group_account_user
-        But a member of account.group_account_invoice may need to change it -->
-        <field name="period_id" position="attributes">
-            <attribute name="groups"></attribute>
         </field>
     </field>
 </record>
@@ -46,22 +35,9 @@
     <field name="model">account.invoice</field>
     <field name="inherit_id" ref="account.invoice_tree"/>
     <field name="arch" type="xml">
-        <field name="number" position="after">
-            <field name="supplier_invoice_number"
-                invisible="not context.get('type') in ('in_invoice', 'in_refund')"/>
+        <field name="reference" position="attributes">
+            <attribute name="invisible">not context.get('type') in ('in_invoice', 'in_refund')</attribute>
         </field>
-    </field>
-</record>
-
-<record id="view_account_invoice_filter" model="ir.ui.view">
-    <field name="name">account_usability.invoice.search</field>
-    <field name="model">account.invoice</field>
-    <field name="inherit_id" ref="account.view_account_invoice_filter"/>
-    <field name="arch" type="xml">
-        <filter name="unpaid" position="after">
-            <filter name="overdue" string="Overdue"
-                domain="[('state', '=', 'open'), ('date_due', '&lt;', current_date)]"/>
-        </filter>
     </field>
 </record>
 
@@ -77,35 +53,29 @@
     <field name="limit">200</field>
 </record>
 
+<!--
 <record id="view_move_form" model="ir.ui.view">
     <field name="name">account_usability.account_move_form</field>
     <field name="model">account.move</field>
     <field name="inherit_id" ref="account.view_move_form"/>
     <field name="arch" type="xml">
-        <xpath expr="//field[@name='line_id']/tree/field[@name='tax_code_id']" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </xpath>
-        <xpath expr="//field[@name='line_id']/tree/field[@name='tax_amount']" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </xpath>
-        <xpath expr="//field[@name='line_id']/tree/field[@name='state']" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </xpath>
     </field>
 </record>
+-->
 
 <record id="view_account_move_line_filter" model="ir.ui.view">
     <field name="name">account_usability.account_move_line_search</field>
     <field name="model">account.move.line</field>
     <field name="inherit_id" ref="account.view_account_move_line_filter"/>
     <field name="arch" type="xml">
+        <!--
         <field name="partner_id" position="after">
             <field name="reconcile_ref" />
         </field>
         <filter name="unreconciled" position="before">
             <filter name="reconciled" string="Fully Reconciled" domain="[('reconcile_id', '!=', False)]"/>
             <filter name="partial_reconciled" string="Partially Reconciled" domain="[('reconcile_partial_id', '!=', False)]"/>
-        </filter>
+        </filter> -->
         <field name="name" position="attributes">
             <attribute name="string">Name or Reference</attribute>
         </field>
@@ -123,15 +93,12 @@
     </field>
 </record>
 
-<!-- Display analytic account even when you don't have any journal selected -->
+<!--
 <record id="view_move_line_tree" model="ir.ui.view">
     <field name="name">account_usability.account_move_line_tree</field>
     <field name="model">account.move.line</field>
     <field name="inherit_id" ref="account.view_move_line_tree"/>
     <field name="arch" type="xml">
-        <field name="analytic_account_id" position="attributes">
-            <attribute name="invisible"></attribute>
-        </field>
         <field name="reconcile_ref" position="attributes">
             <attribute name="invisible">1</attribute>
         </field>
@@ -141,50 +108,15 @@
         </field>
     </field>
 </record>
-
-<record id="view_account_list" model="ir.ui.view">
-    <field name="name">account_usability.account_account.tree</field>
-    <field name="model">account.account</field>
-    <field name="inherit_id" ref="account.view_account_list"/>
-    <field name="arch" type="xml">
-        <field name="user_type" position="replace"/>
-        <field name="type" position="after">
-            <field name="user_type"/>
-        </field>
-    </field>
-</record>
+-->
 
 <record id="view_account_type_tree" model="ir.ui.view">
     <field name="name">account_usability.account_type_tree</field>
     <field name="model">account.account.type</field>
     <field name="inherit_id" ref="account.view_account_type_tree" />
     <field name="arch"  type="xml">
-        <field name="code" position="after">
-            <field name="close_method" />
-        </field>
-    </field>
-</record>
-
-<record id="partner_view_button_journal_item_count" model="ir.ui.view">
-    <field name="name">usability.res.partner.journal.items.button</field>
-    <field name="model">res.partner</field>
-    <field name="inherit_id" ref="account.partner_view_button_journal_item_count"/>
-    <field name="arch" type="xml">
-        <button name="%(account.action_account_moves_all_tree)d" position="after">
-            <button name="show_payable_account" type="object"
-                attrs="{'invisible': [('supplier', '=', False)]}"
-                icon="fa-list" class="oe_stat_button">
-                <field string="Payable Account" name="payable_journal_item_count"
-                    widget="statinfo"/>
-            </button>
-        </button>
-        <button name="%(account.action_account_moves_all_tree)d" position="attributes">
-            <attribute name="type">object</attribute>
-            <attribute name="name">show_receivable_account</attribute>
-            <attribute name="attrs">{'invisible': [('customer', '=', False)]}</attribute>
-        </button>
-        <field name="journal_item_count" position="attributes">
-            <attribute name="string">Receivable Account</attribute>
+        <field name="type" position="after">
+            <field name="include_initial_balance" />
         </field>
     </field>
 </record>
@@ -197,11 +129,10 @@
         <xpath expr="//field[@name='line_ids']/tree/field[@name='bank_account_id']" position="after">
             <!-- The cancel button is provided by the account_cancel module, but we don't want to depend on it -->
             <button name="show_account_move" type="object"
-                string="View Account Move" icon="gtk-redo"
-                attrs="{'invisible': [('journal_entry_id', '=', False)]}"/>
+                string="View Account Move" icon="fa fa-arrow-right"
+                attrs="{'invisible': [('journal_entry_ids', '=', [])]}"/>
         </xpath>
     </field>
 </record>
 
-</data>
-</openerp>
+</odoo>

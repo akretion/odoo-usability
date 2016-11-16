@@ -6,7 +6,7 @@
 
 {
     'name': 'Stock Usability',
-    'version': '0.2',
+    'version': '10.0.1.0.0',
     'category': 'Inventory, Logistic, Storage',
     'license': 'AGPL-3',
     'summary': 'Several usability enhancements in Warehouse management',
