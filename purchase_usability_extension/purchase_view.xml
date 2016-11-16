@@ -68,5 +68,52 @@
     <field name="context">{'search_default_draft': True}</field>
 </record>
 
+
+<!-- Product Supplier Info -->
+<record id="product_supplierinfo_view_tree" model="ir.ui.view">
+    <field name="model">product.supplierinfo</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="sequence" widget="handle"/>
+            <field name="name"/>
+            <field name="product_name"/>
+            <field name="product_code" string="Supplier Code"/>
+            <field name="min_qty"/>
+            <field name="delay"/>
+            <field name="product_uom"/>
+            <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+        </tree>
+    </field>
+</record>
+
+<record id="product_supplierinfo_view_filter" model="ir.ui.view">
+    <field name="model">product.supplierinfo</field>
+    <field name="arch" type="xml">
+        <search string="Product">
+            <field name="name" string="Product (code or name)"
+                   filter_domain="['|',('product_code','ilike',self),('product_name','ilike',self)]"/>
+            <field name="name" string="Supplier" filter_domain="[('name','ilike',self)]"/>
+            <group expand='0' string='Group by...'>
+               <filter string='Supplier' domain="[]" context="{'group_by' : 'name'}"/>
+               <filter string='Quantity' domain="[]" context="{'group_by' : 'min_qty'}"/>
+               <filter string='Delay' domain="[]" context="{'group_by' : 'delay'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+<record id="product_supplierinfo_action" model="ir.actions.act_window">
+    <field name="name">Product Supplier Info</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">product.supplierinfo</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="product_supplierinfo_menu" 
+          name="Product Supplier"
+          parent="purchase.menu_procurement_management_product"
+          action="product_supplierinfo_action"
+          sequence="50"/>
+
 </data>
 </openerp>

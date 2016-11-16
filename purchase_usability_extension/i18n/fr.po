@@ -1,0 +1,123 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* purchase_usability_extension
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-16 16:58+0000\n"
+"PO-Revision-Date: 2016-11-16 18:01+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: fr\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#. module: purchase_usability_extension
+#: view:product.supplierinfo:purchase_usability_extension.product_supplierinfo_view_filter
+msgid "Delay"
+msgstr "Delay"
+
+#. module: purchase_usability_extension
+#: view:purchase.order:purchase_usability_extension.purchase_order_form
+msgid "Deliveries"
+msgstr "Livraisons"
+
+#. module: purchase_usability_extension
+#: view:purchase.order:purchase_usability_extension.purchase_order_form
+msgid "Deliveries & Invoices"
+msgstr "Livraisons & Factures"
+
+#. module: purchase_usability_extension
+#: view:product.supplierinfo:purchase_usability_extension.product_supplierinfo_view_filter
+msgid "Delivery"
+msgstr "Livraison"
+
+#. module: purchase_usability_extension
+#: view:purchase.order:purchase_usability_extension.view_purchase_order_filter
+msgid "Fully Received"
+msgstr "Complètement reçue"
+
+#. module: purchase_usability_extension
+#: view:product.supplierinfo:purchase_usability_extension.product_supplierinfo_view_filter
+msgid "Group by..."
+msgstr "Grouper par..."
+
+#. module: purchase_usability_extension
+#: view:purchase.order:purchase_usability_extension.purchase_order_form
+msgid "Invoices"
+msgstr "Factures"
+
+#. module: purchase_usability_extension
+#: view:purchase.order:purchase_usability_extension.view_purchase_order_filter
+msgid "Not Fully Received"
+msgstr "Pas Complètement Reçue"
+
+#. module: purchase_usability_extension
+#: view:purchase.order:purchase_usability_extension.purchase_order_form
+msgid "Other Information"
+msgstr "Autre information"
+
+#. module: purchase_usability_extension
+#: model:ir.model,name:purchase_usability_extension.model_res_partner
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: purchase_usability_extension
+#: view:product.supplierinfo:purchase_usability_extension.product_supplierinfo_view_filter
+msgid "Product"
+msgstr "Article :"
+
+#. module: purchase_usability_extension
+#: view:product.supplierinfo:purchase_usability_extension.product_supplierinfo_view_filter
+msgid "Product (code or name)"
+msgstr "Article (code ou nom)"
+
+#. module: purchase_usability_extension
+#: model:ir.ui.menu,name:purchase_usability_extension.product_supplierinfo_menu
+msgid "Product Supplier"
+msgstr "Article Fournisseur"
+
+#. module: purchase_usability_extension
+#: model:ir.actions.act_window,name:purchase_usability_extension.product_supplierinfo_action
+msgid "Product Supplier Info"
+msgstr "Product Supplier Info"
+
+#. module: purchase_usability_extension
+#: model:ir.model,name:purchase_usability_extension.model_purchase_order
+msgid "Purchase Order"
+msgstr "Commande d'Achat"
+
+#. module: purchase_usability_extension
+#: model:ir.model,name:purchase_usability_extension.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Ligne de commande d'achat"
+
+#. module: purchase_usability_extension
+#: view:product.supplierinfo:purchase_usability_extension.product_supplierinfo_view_filter
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: purchase_usability_extension
+#: field:purchase.order.line,sequence:0
+msgid "Sequence"
+msgstr "Séquence"
+
+#. module: purchase_usability_extension
+#: view:product.supplierinfo:purchase_usability_extension.product_supplierinfo_view_filter
+msgid "Supplier"
+msgstr "Fournisseur"
+
+#. module: purchase_usability_extension
+#: view:product.supplierinfo:purchase_usability_extension.product_supplierinfo_view_tree
+msgid "Supplier Code"
+msgstr "Code Fournisseur"
+
+#. module: purchase_usability_extension
+#: view:purchase.order:purchase_usability_extension.purchase_order_form
+msgid "selection"
+msgstr "sélection"
