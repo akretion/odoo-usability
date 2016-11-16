@@ -41,6 +41,103 @@
     </field>
 </record>
 
+<!-- Having a menu entry on invoice lines is often very usefull for odoo user:
+they can search in their lines, etc...
+So I enhance the generic views and add actions, but I don't add menu entries here ;
+the creation of the corresponding menu entry should be done in the customer-specifc
+module -->
+<record id="view_invoice_line_tree" model="ir.ui.view">
+    <field name="name">account_usability.invoice_line_tree</field>
+    <field name="model">account.invoice.line</field>
+    <field name="inherit_id" ref="account.view_invoice_line_tree"/>
+    <field name="arch" type="xml">
+        <field name="name" position="before">
+            <field name="partner_id" invisible="not context.get('show_invoice_fields')"/>
+            <field name="date_invoice" invisible="not context.get('show_invoice_fields')"/>
+            <field name="invoice_number" invisible="not context.get('show_invoice_fields')"/>
+        </field>
+        <field name="currency_id" position="after">
+            <field name="state" invisible="not context.get('show_invoice_fields')"/>
+            <field name="invoice_type" invisible="1"/>
+        </field>
+        <xpath expr="/tree" position="attributes">
+            <attribute name="decoration-info">state == 'draft'</attribute>
+            <attribute name="decoration-muted">state == 'cancel'</attribute>
+            <attribute name="edit">0</attribute>
+            <attribute name="create">0</attribute>
+        </xpath>
+    </field>
+</record>
+
+<record id="account_invoice_line_search" model="ir.ui.view">
+    <field name="name">account_usability.invoice_line_search</field>
+    <field name="model">account.invoice.line</field>
+    <field name="arch" type="xml">
+        <search string="Search Invoice Lines">
+            <field name="partner_id"/>
+            <field name="product_id"/>
+            <field name="account_id"/>
+            <field name="invoice_number"/>
+            <field name="name"/>
+            <filter name="out_invoice" string="Customer Invoices"
+                domain="[('invoice_type', '=', 'out_invoice')]"/>
+            <filter name="out_refund" string="Customer Refunds"
+                domain="[('invoice_type', '=', 'out_refund')]"/>
+            <filter name="in_invoice" string="Supplier Invoices"
+                domain="[('invoice_type', '=', 'in_invoice')]"/>
+            <filter name="in_refund" string="Supplier Refunds"
+                domain="[('invoice_type', '=', 'in_refund')]"/>
+            <separator/>
+            <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+            <filter name="unpaid" string="Not Paid" domain="[('state', '=', 'open')]"/>
+            <filter name="paid" string="Paid" domain="[('state', '=', 'paid')]"/>
+
+            <group string="Group By" name="groupby">
+                <filter name="partner_groupby" string="Partner"
+                    context="{'group_by': 'partner_id'}"/>
+                <filter name="date_groupby" string="Invoice Date"
+                    context="{'group_by': 'date_invoice'}"/>
+                <filter name="product_groupby" string="Product"
+                    context="{'group_by': 'product_id'}"/>
+                <filter name="account_groupby" string="Account"
+                    context="{'group_by': 'account_id'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+<record id="out_invoice_line_action" model="ir.actions.act_window">
+    <field name="name">Customer Invoice Lines</field>
+    <field name="res_model">account.invoice.line</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('invoice_type', '=', 'out_invoice')]</field>
+    <field name="context">{'show_invoice_fields': True}</field>
+</record>
+
+<record id="out_refund_line_action" model="ir.actions.act_window">
+    <field name="name">Customer Refund Lines</field>
+    <field name="res_model">account.invoice.line</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('invoice_type', '=', 'out_refund')]</field>
+    <field name="context">{'show_invoice_fields': True}</field>
+</record>
+
+<record id="in_invoice_line_action" model="ir.actions.act_window">
+    <field name="name">Supplier Invoice Lines</field>
+    <field name="res_model">account.invoice.line</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('invoice_type', '=', 'in_invoice')]</field>
+    <field name="context">{'show_invoice_fields': True}</field>
+</record>
+
+<record id="in_refund_line_action" model="ir.actions.act_window">
+    <field name="name">Supplier Refund Lines</field>
+    <field name="res_model">account.invoice.line</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('invoice_type', '=', 'in_refund')]</field>
+    <field name="context">{'show_invoice_fields': True}</field>
+</record>
+
 <!-- model account.move.line / Journal Items -->
 <record id="account.action_account_moves_all_a" model="ir.actions.act_window">
     <field name="limit">200</field>
