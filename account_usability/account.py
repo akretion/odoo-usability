@@ -47,13 +47,19 @@ class AccountInvoiceLine(models.Model):
 
     # In the 'account' module, we have related stored field for:
     # company_id, partner_id, currency_id
-    type = fields.Selection(
+    invoice_type = fields.Selection(
         related='invoice_id.type', store=True, readonly=True)
     date_invoice = fields.Date(
         related='invoice_id.date_invoice', store=True, readonly=True)
     commercial_partner_id = fields.Many2one(
-        related='invoice_id.commercial_partner_id',
+        related='invoice_id.partner_id.commercial_partner_id',
         store=True, readonly=True)
+    state = fields.Selection(
+        related='invoice_id.state', store=True, readonly=True,
+        string='Invoice State')
+    invoice_number = fields.Char(
+        related='invoice_id.move_id.name', store=True, readonly=True,
+        string='Invoice Number')
 
 
 class AccountJournal(models.Model):
