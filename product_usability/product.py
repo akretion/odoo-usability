@@ -11,3 +11,13 @@ class ProductProduct(models.Model):
     price_history_ids = fields.One2many(
         'product.price.history', 'product_id',
         string='Product Price History')
+
+    _sql_constraints = [(
+        # Maybe it could be better to have a constrain per company
+        # but the company_id field is on product.template,
+        # not on product.product
+        # If it's a problem, we'll create a company_id field on
+        # product.product
+        'default_code_uniq',
+        'unique(default_code)',
+        'This internal reference already exists!')]
