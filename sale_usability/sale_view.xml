@@ -72,6 +72,17 @@ https://github.com/odoo/odoo/commit/c1e5ab9b1331c3cb7dc2232bf78952bdb40ad939 -->
     <field name="domain">[('state', 'in', ('draft', 'sent', 'cancel'))]</field>
 </record>
 
+<record id="view_sales_order_line_filter" model="ir.ui.view">
+    <field name="name">usability.sale.order.line.search</field>
+    <field name="model">sale.order.line</field>
+    <field name="inherit_id" ref="sale.view_sales_order_line_filter"/>
+    <field name="arch" type="xml">
+        <group expand="0" position="inside">
+            <filter string="Customer" context="{'group_by': 'order_partner_id'}"/>
+        </group>
+    </field>
+</record>
+
 <record id="procurement_form_view" model="ir.ui.view">
     <field name="name">procurement_usability.procurement.order.form</field>
     <field name="model">procurement.order</field>
