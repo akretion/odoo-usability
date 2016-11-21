@@ -4,7 +4,7 @@
 
 {
     'name': 'Sale Purchase No Product Template Menu',
-    'version': '0.1',
+    'version': '10.0.1.0.0',
     'category': 'Sale and Purchase',
     'license': 'AGPL-3',
     'summary': "Remplace product.template menu entries by product.product menu entries",
