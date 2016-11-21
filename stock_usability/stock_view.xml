@@ -205,6 +205,25 @@
     </field>
 </record>
 
+<record id="location_open_orderpoint" model="ir.actions.act_window">
+    <field name="name">Reordering Rules</field>
+    <field name="res_model">stock.warehouse.orderpoint</field>
+    <field name="context">{'default_location_id': active_id, 'search_default_location_id': active_id}</field>
+</record>
+
+<record id="view_location_form" model="ir.ui.view">
+    <field name="name">stock.usability.stock.location.form</field>
+    <field name="model">stock.location</field>
+    <field name="inherit_id" ref="stock.view_location_form"/>
+    <field name="arch" type="xml">
+        <button class="oe_stat_button" icon="fa-filter" position="after">
+            <button type="action" name="%(location_open_orderpoint)d"
+                string="Reordering Rules"
+                class="oe_stat_button" icon="fa-refresh"/>
+        </button>
+    </field>
+</record>
+
 <record id="view_stock_quant_tree" model="ir.ui.view">
     <field name="name">stock.usability.quant.tree</field>
     <field name="model">stock.quant</field>

@@ -49,6 +49,20 @@ class StockLocationRoute(models.Model):
 class StockWarehouseOrderpoint(models.Model):
     _inherit = 'stock.warehouse.orderpoint'
 
+    # This is for the button shortcut "reordering rules" on
+    # stock.location form view, so that the location_id has the
+    # good value, not the default stock location of the first WH of the company
+    @api.model
+    def default_get(self, fields):
+        res = {}
+        if self._context.get('default_location_id'):
+            location = self.env['stock.location'].browse(
+                self._context['default_location_id'])
+            wh = location.get_warehouse()
+            if location and wh:
+                self = self.with_context(default_warehouse_id=wh.id)
+        return super(StockWarehouseOrderpoint, self).default_get(fields)
+
     # This SQL constraint blocks the use of the "active" field
     # but I think it's not very useful to have such an "active" field
     # on orderpoints ; when you think the order point is bad, you update
