@@ -69,21 +69,4 @@ entry and link it to product product -->
 </record>
 -->
 
-<!-- set name as editable on product.product form -->
-<!--
-<record id="product_normal_form_view" model="ir.ui.view">
-    <field name="name">no_product_template_menu.product_product_form</field>
-    <field name="model">product.product</field>
-    <field name="inherit_id" ref="product.product_normal_form_view"/>
-    <field name="arch" type="xml">
-        <field name="name" position="attributes">
-            <attribute name="attrs">{}</attribute>
-        </field>
-        <field name="product_tmpl_id" position="attributes">
-            <attribute name="attrs">{'invisible': 1, 'required': 0}</attribute>
-        </field>
-    </field>
-</record>
--->
-
 </odoo>
