@@ -49,6 +49,10 @@ class StockLocationRoute(models.Model):
 class StockWarehouseOrderpoint(models.Model):
     _inherit = 'stock.warehouse.orderpoint'
 
+    # This SQL constraint blocks the use of the "active" field
+    # but I think it's not very useful to have such an "active" field
+    # on orderpoints ; when you think the order point is bad, you update
+    # the min/max values, you don't de-active it !
     _sql_constraints = [(
         'company_wh_location_product_unique',
         'unique(company_id, warehouse_id, location_id, product_id)',
@@ -68,12 +72,13 @@ class StockMove(models.Model):
 #    availability = fields.Float(
 #        digits=dp.get_precision('Product Unit of Measure'))
 
-    def name_get(self, cr, uid, ids, context=None):
+    @api.multi
+    def name_get(self):
         '''name_get of stock_move is important for the reservation of the
         quants: so want to add the name of the customer and the expected date
         in it'''
         res = []
-        for line in self.browse(cr, uid, ids, context=context):
+        for line in self:
             name = line.location_id.name + ' > ' + line.location_dest_id.name
             if line.product_id.code:
                 name = line.product_id.code + ': ' + name
@@ -86,13 +91,6 @@ class StockMove(models.Model):
                 name = name + ' ' + fields.Date.to_string(date_expec_dt)
             res.append((line.id, name))
         return res
-
-
-class StockQuant(models.Model):
-    _inherit = 'stock.quant'
-
-    uom_id = fields.Many2one(
-        'product.uom', related='product_id.uom_id', readonly=True)
 
 
 class StockIncoterms(models.Model):
