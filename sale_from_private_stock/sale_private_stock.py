@@ -23,18 +23,14 @@ class ResPartner(models.Model):
         help="Stock location route used by default in sale order lines"
         "for this customer.")
 
-    @api.multi
-    def create_private_location_route(self, location_name=False):
-        self.ensure_one()
-        assert not self.default_sale_route_id,\
-            'Already has a default_sale_route_id'
+    @api.model
+    def _create_private_location_records(self, location_name):
+        assert location_name, 'missing arg location_name'
         slo = self.env['stock.location']
         swo = self.env['stock.warehouse']
         pro = self.env['procurement.rule']
         slro = self.env['stock.location.route']
         company = self.env.user.company_id
-        if not location_name:
-            location_name = self.name
         warehouses = swo.search([
             ('company_id', '=', company.id),
             ('private_stock_out_type_id', '!=', False)])
@@ -69,7 +65,21 @@ class ResPartner(models.Model):
             'warehouse_selectable': False,
             'sale_selectable': True,
             })
-        self.default_sale_route_id = route.id
+        return {
+            'location': private_stock_loc,
+            'rule': rule,
+            'route': route,
+            }
+
+    @api.multi
+    def create_private_location_route(self):
+        self.ensure_one()
+        assert not self.default_sale_route_id,\
+            'Already has a default_sale_route_id'
+        location_name = self._context.get('location_name') or self.name
+        res_dict = self._create_private_location_records(
+            location_name)
+        self.default_sale_route_id = res_dict['route'].id
 
 
 class SaleOrderLine(models.Model):
@@ -77,9 +87,6 @@ class SaleOrderLine(models.Model):
 
     @api.onchange('product_id')
     def _set_default_sale_route(self):
-        print "DO NOT EXECUTE"
         commercial_partner = self.order_id.partner_id.commercial_partner_id
         if commercial_partner.default_sale_route_id:
             self.route_id = commercial_partner.default_sale_route_id
-
-    # TODO: check compat between warehouse and route ?
