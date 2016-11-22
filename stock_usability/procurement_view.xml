@@ -35,6 +35,7 @@
         </xpath>
         <field name="partner_dest_id" position="before">
             <field name="orderpoint_id" readonly="1"/>
+            <field name="move_dest_id" groups="base.group_no_one" readonly="1"/>
         </field>
     </field>
 </record>

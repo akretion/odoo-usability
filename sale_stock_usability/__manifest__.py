@@ -6,7 +6,7 @@
 
 {
     'name': 'Sale Stock Usability',
-    'version': '0.2',
+    'version': '10.0.1.0.3',
     'category': 'Sales Management',
     'license': 'AGPL-3',
     'summary': 'Small usability improvements to the sale_stock module',
