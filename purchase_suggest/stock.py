@@ -20,10 +20,20 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class StockWarehouseOrderpoint(models.Model):
     _inherit = 'stock.warehouse.orderpoint'
 
     suggest = fields.Boolean(string='Suggest', default=True)
+
+
+class ProcurementOrder(models.Model):
+    _inherit = 'procurement.order'
+
+    @api.model
+    def _product_virtual_get(self, order_point):
+        if order_point.suggest:
+            return None
+        return super(ProcurementOrder, self)._product_virtual_get(order_point)
