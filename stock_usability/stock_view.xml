@@ -257,4 +257,18 @@
     <field name="view_id" ref="stock.view_move_tree"/>
 </record>  -->
 
+<!-- The native menu entry of quants is called "Inventory Valuation"
+but it forces a group by on products that you can't remove
+So I create another "regular" Quants" menu entry -->
+<record id="stock_quant_action" model="ir.actions.act_window">
+    <field name="name">Quants</field>
+    <field name="res_model">stock.quant</field>
+    <field name="view_mode">tree,form,pivot</field>
+    <field name="context">{'search_default_internal_loc': 1}</field>
+</record>
+
+<menuitem id="stock_quant_menu" action="stock_quant_action"
+    parent="stock.menu_warehouse_report" groups="stock.group_stock_manager"
+    sequence="135"/>
+
 </odoo>
