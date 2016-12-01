@@ -19,6 +19,10 @@
                 string="Create Private Stock"
                 attrs="{'invisible': ['|', '|', ('default_sale_route_id', '!=', False), ('customer', '=', False), ('parent_id', '!=', False)]}"/>
         </field>
+        <!-- remove base.group_no_one -->
+        <group name="container_row_stock" position="attributes">
+            <attribute name="groups"></attribute>
+        </group>
     </field>
 </record>
 

@@ -6,7 +6,7 @@
 
 {
     'name': 'MRP Usability',
-    'version': '0.1',
+    'version': '10.0.1.0.1',
     'category': 'Manufacturing',
     'license': 'AGPL-3',
     'summary': 'Usability improvements on manufacturing',
