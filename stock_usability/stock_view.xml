@@ -154,8 +154,6 @@
     </field>
 </record>
 
-<!-- This view has changed a lot ; most fields are invisible, so it's probably not used a lot -->
-<!--
 <record id="view_move_picking_tree" model="ir.ui.view">
     <field name="name">stock_usability.src_location.in.picking.form</field>
     <field name="model">stock.move</field>
@@ -164,14 +162,11 @@
         <field name="location_id" position="attributes">
             <attribute name="invisible">0</attribute>
         </field>
-        <field name="string_availability_info" position="after">
-            <button type="object" name="do_unreserve" string="Unreserve"
-                icon="STOCK_UNDO" groups="stock.group_stock_user"
-                states="confirmed,assigned"/>
+        <field name="location_dest_id" position="attributes">
+            <attribute name="invisible">0</attribute>
         </field>
     </field>
 </record>
--->
 
 <record id="view_warehouse" model="ir.ui.view">
     <field name="name">stock.usability.warehouse.form</field>
