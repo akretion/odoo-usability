@@ -7,6 +7,7 @@
 
 from odoo import models, fields, api
 from odoo.addons.base_phone.fields import Phone, Fax
+import phonenumbers
 
 
 class ResPartnerPhone(models.Model):
@@ -30,21 +31,41 @@ class ResPartnerPhone(models.Model):
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    @api.one
+    @api.model
+    def convert_from_international_to_e164(self, phone_num):
+        res = False
+        try:
+            res_parse = phonenumbers.parse(phone_num)
+            res = phonenumbers.format_number(
+                res_parse, phonenumbers.PhoneNumberFormat.E164)
+        except:
+            pass
+        return res
+    # without this convert, we would have in DB:
+    # E.164 format in res_partner_phone table
+    # phonenumbers.PhoneNumberFormat.INTERNATIONAL in res_partner
+    # TODO bug: but even with this, it doesn't work, the format
+    # is stored in international format in res_partner
+    # => I'll try to find the reason later
+
+    @api.multi
     @api.depends('phone_ids.phone', 'phone_ids.type')
     def _compute_partner_phone(self):
-        phone = mobile = fax = False
-        for partner_phone in self.phone_ids:
-            not_phone_type = ('2_mobile', '4_home_fax', '5_office_fax')
-            if partner_phone.type not in not_phone_type:
-                phone = partner_phone.phone
-            if partner_phone.type == '2_mobile':
-                mobile = partner_phone.phone
-            if partner_phone.type in ('5_office_fax', '4_home_fax'):
-                fax = partner_phone.phone
-        self.phone = phone
-        self.mobile = mobile
-        self.fax = fax
+        for partner in self:
+            phone = mobile = fax = False
+            for partner_phone in partner.phone_ids:
+                num_e164 = self.convert_from_international_to_e164(
+                    partner_phone.phone)
+                if num_e164:
+                    if partner_phone.type == '2_mobile':
+                        mobile = num_e164
+                    elif partner_phone.type in ('5_office_fax', '4_home_fax'):
+                        fax = num_e164
+                    else:
+                        phone = num_e164
+            partner.phone = phone
+            partner.mobile = mobile
+            partner.fax = fax
 
     phone_ids = fields.One2many(
         'res.partner.phone', 'partner_id', string='Phones')
