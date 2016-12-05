@@ -7,7 +7,7 @@
 
 {
     'name': 'Base Partner One2many Phone',
-    'version': '0.1',
+    'version': '10.0.1.0.0',
     'category': 'Phone',
     'license': 'AGPL-3',
     'summary': 'One2many link between partners and phone numbers',
