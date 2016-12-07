@@ -21,7 +21,7 @@ It has been developped by brother Bernard from Barroux Abbey and Alexis de Lattr
     """,
     'author': 'Barroux',
     'website': 'http://www.barroux.org',
-    'depends': ['base_phone'],
+    'depends': ['base_phone', 'sales_team'],
     'data': [
         'partner_phone_view.xml',
         'security/ir.model.access.csv',
