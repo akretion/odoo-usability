@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
-<data>
+<odoo>
 
 <!-- Add entry in the "More" drop down list in form view -->
 <act_window id="product_product_pos_sale_report_action"
@@ -9,7 +8,7 @@
     name="Sales Statistics"
     res_model="pos.sale.report"
     src_model="product.product"
-    view_mode="graph"
+    view_mode="pivot"
     domain="[('product_id', 'in', active_ids)]"
     context="{'search_default_product_groupby': 1}"
     />
@@ -19,11 +18,10 @@
     name="Sales Statistics"
     res_model="pos.sale.report"
     src_model="product.template"
-    view_mode="graph"
+    view_mode="pivot"
     domain="[('product_tmpl_id', 'in', active_ids)]"
     context="{'search_default_product_tmpl_groupby': 1}"
     />
 
 
-</data>
-</openerp>
+</odoo>

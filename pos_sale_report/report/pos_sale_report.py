@@ -1,30 +1,12 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    POS Sale Report module for Odoo
-#    Copyright (C) 2015 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# © 2015-2016 Akretion (http://www.akretion.com)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields
-from openerp import tools
+from odoo import models, fields, tools, api
 
 
-class pos_sale_report(models.Model):
+class PosSaleReport(models.Model):
     _name = 'pos.sale.report'
     _description = 'POS orders and Sale orders aggregated report'
     _auto = False
@@ -76,7 +58,7 @@ class pos_sale_report(models.Model):
         """
         return select
 
-    def init(self, cr):
-        tools.drop_view_if_exists(cr, self._table)
-        cr.execute("CREATE OR REPLACE VIEW %s AS (%s UNION %s)" % (
+    def init(self):
+        tools.drop_view_if_exists(self._cr, self._table)
+        self._cr.execute("CREATE OR REPLACE VIEW %s AS (%s UNION %s)" % (
             self._table, self._sale_order_select(), self._pos_order_select()))
