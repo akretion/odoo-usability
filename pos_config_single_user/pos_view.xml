@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_pos_config_form" model="ir.ui.view">
+    <field name="name">pos_config_single_user.pos.config</field>
+    <field name="model">pos.config</field>
+    <field name="inherit_id" ref="point_of_sale.view_pos_config_form"/>
+    <field name="arch"  type="xml">
+        <field name="sequence_id" position="after">
+            <field name="allowed_user_id"/>
+        </field>
+    </field>
+</record>
+
+</odoo>

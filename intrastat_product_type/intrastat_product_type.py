@@ -4,8 +4,8 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
 
-from openerp import models, fields, api, _
-from openerp.exceptions import ValidationError
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 
 class ProductTemplate(models.Model):
@@ -34,16 +34,12 @@ class ProductTemplate(models.Model):
                     "(but you can set Product Type to 'Consumable' or "
                     "'Service').") % pt.name)
 
-    @api.multi
-    def onchange_type(self, type):
-        res = super(ProductTemplate, self).onchange_type(type)
-        if 'value' not in res:
-            res['value'] = {}
-        if type == 'product':
-            res['value']['intrastat_type'] = 'product'
-        elif type == 'service':
-            res['value']['intrastat_type'] = 'service'
-        return res
+    @api.onchange('type')
+    def intrastat_type_onchange(self):
+        if self.type in ('product', 'consu'):
+            self.intrastat_type = 'product'
+        elif self.type == 'service':
+            self.intrastat_type = 'service'
 
 
 class L10nFrIntrastatServiceDeclaration(models.Model):

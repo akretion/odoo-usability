@@ -27,9 +27,11 @@
     <field name="arch"  type="xml">
         <xpath expr="//field[@name='statement_ids']/tree/field[@name='total_entry_encoding']" position="attributes">
             <attribute name="sum">Total Transactions</attribute>
+            <attribute name="widget">monetary</attribute>
         </xpath>
         <xpath expr="//field[@name='statement_ids']/tree/field[@name='balance_end_real']" position="attributes">
             <attribute name="sum">Total Balance Finale</attribute>
+            <attribute name="widget">monetary</attribute>
         </xpath>
     </field>
 </record>

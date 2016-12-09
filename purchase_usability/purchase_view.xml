@@ -43,6 +43,7 @@
     <field name="arch" type="xml">
         <field name="state" position="after">
             <field name="is_shipped" invisible="not context.get('show_purchase', False)"/>
+            <field name="currency_id" invisible="1"/>
         </field>
     </field>
 </record>
