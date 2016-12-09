@@ -41,7 +41,7 @@
 </record>
 
 <menuitem id="res_partner_phone_menu" action="res_partner_phone_action"
-    parent="sales_team.menu_sales" sequence="2"/>
+    parent="sales_team.menu_sales" sequence="10"/>
 
 <record id="view_partner_form" model="ir.ui.view">
     <field name="name">add.phone_ids.on.partner.form</field>
