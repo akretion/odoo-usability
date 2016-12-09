@@ -21,3 +21,10 @@ class ProductProduct(models.Model):
         'default_code_uniq',
         'unique(default_code)',
         'This internal reference already exists!')]
+
+
+class ProductSupplierinfo(models.Model):
+    _inherit = 'product.supplierinfo'
+
+    name = fields.Many2one(
+        domain=[('supplier', '=', True), ('parent_id', '=', False)])
