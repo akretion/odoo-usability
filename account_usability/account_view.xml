@@ -145,9 +145,14 @@ module -->
     <field name="context">{'journal_show_code_only': True}</field>
 </record>
 
+<!-- remove base.group_no_one on Journal Items-->
+<record id="account.menu_action_account_moves_all" model="ir.ui.menu">
+    <field name="groups_id" eval="[(6, 0, [ref('account.group_account_user')])]"/>
+</record>
 <!-- model account.move / Journal Entries -->
 <record id="account.action_move_journal_line" model="ir.actions.act_window">
     <field name="limit">200</field>
+    <field name="context">{}</field>  <!-- Don't filter by default on misc journal -->
 </record>
 
 <!--
@@ -165,14 +170,13 @@ module -->
     <field name="model">account.move.line</field>
     <field name="inherit_id" ref="account.view_account_move_line_filter"/>
     <field name="arch" type="xml">
-        <!--
         <field name="partner_id" position="after">
-            <field name="reconcile_ref" />
+            <field name="full_reconcile_id" />
         </field>
         <filter name="unreconciled" position="before">
-            <filter name="reconciled" string="Fully Reconciled" domain="[('reconcile_id', '!=', False)]"/>
-            <filter name="partial_reconciled" string="Partially Reconciled" domain="[('reconcile_partial_id', '!=', False)]"/>
-        </filter> -->
+            <filter name="reconciled" string="Fully Reconciled" domain="[('full_reconcile_id', '!=', False)]"/>
+<!--            <filter name="partial_reconciled" string="Partially Reconciled" domain="[('reconcile_partial_id', '!=', False)]"/> -->
+        </filter>
         <field name="name" position="attributes">
             <attribute name="string">Name or Reference</attribute>
         </field>
