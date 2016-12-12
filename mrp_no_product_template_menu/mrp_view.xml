@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="product_product_action_mrp" model="ir.actions.act_window">
+    <field name="name">Products</field>
+    <field name="res_model">product.product</field>
+    <field name="view_mode">tree,form,kanban</field>
+    <field name="context">{'search_default_consumable': 1, 'default_type': 'product'}</field>
+</record>
+
+<record id="mrp.menu_mrp_product_form" model="ir.ui.menu">
+    <field name="action" ref="product_product_action_mrp"/>
+</record>
+
+</odoo>
