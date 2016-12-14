@@ -30,4 +30,16 @@
     </field>
 </record>
 
+<record id="view_res_partner_filter" model="ir.ui.view">
+    <field name="name">base_usability.partner.search.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_res_partner_filter"/>
+    <field name="arch" type="xml">
+        <field name="name" position="attributes">
+            <attribute name="string">Name or Email</attribute>
+        </field>
+    </field>
+</record>
+
+
 </odoo>
