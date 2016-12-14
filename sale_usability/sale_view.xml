@@ -34,7 +34,6 @@
     <field name="arch" type="xml">
         <field name="amount_total" position="before">
             <field name="amount_untaxed" sum="Total Untaxed" widget="monetary"/>
-            <field name="currency_id" invisible="1"/>
         </field>
     </field>
 </record>
@@ -46,7 +45,6 @@
     <field name="arch" type="xml">
         <field name="amount_total" position="before">
             <field name="amount_untaxed" sum="Total Untaxed" widget="monetary"/>
-            <field name="currency_id" invisible="1"/>
         </field>
         <field name="date_order" position="attributes">
             <attribute name="invisible">1</attribute>
