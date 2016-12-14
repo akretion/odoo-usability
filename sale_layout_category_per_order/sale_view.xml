@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<!-- SALE ORDER -->
+<record id="view_order_form" model="ir.ui.view">
+    <field name="name">sale_layoutcategory_per_order.sale.order.form</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='order_line']/form//field[@name='layout_category_id']" position="attributes">
+            <attribute name="domain">['|', ('order_id', '=', parent.id), ('order_id', '=', False)]</attribute>
+            <attribute name="context">{'default_order_id': parent.id}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='order_line']/tree/field[@name='layout_category_id']" position="attributes">
+            <attribute name="domain">['|', ('order_id', '=', parent.id), ('order_id', '=', False)]</attribute>
+            <attribute name="context">{'default_order_id': parent.id}</attribute>
+        </xpath>
+    </field>
+</record>
+
+
+<!-- SALE LAYOUT CATEG -->
+<record id="report_configuration_form_view" model="ir.ui.view">
+    <field name="name">sale_layoutcategory_per_order.form.view</field>
+    <field name="model">sale.layout_category</field>
+    <field name="inherit_id" ref="sale.report_configuration_form_view"/>
+    <field name="arch" type="xml">
+        <field name="name" position="after">
+            <field name="order_id"/>
+        </field>
+    </field>
+</record>
+
+<record id="report_configuration_tree_view" model="ir.ui.view">
+    <field name="name">sale_layoutcategory_per_order.tree.view</field>
+    <field name="model">sale.layout_category</field>
+    <field name="inherit_id" ref="sale.report_configuration_tree_view"/>
+    <field name="arch" type="xml">
+        <field name="name" position="after">
+            <field name="order_id"/>
+        </field>
+    </field>
+</record>
+
+<record id="report_configuration_search_view" model="ir.ui.view">
+    <field name="name">sale_layoutcategory_per_order.search.view</field>
+    <field name="model">sale.layout_category</field>
+    <field name="inherit_id" ref="sale.report_configuration_search_view"/>
+    <field name="arch" type="xml">
+        <filter domain="[('subtotal','=','True')]" position="before">
+            <filter string="Order-independant" name="no_order" domain="[('order_id', '=', False)]"/>
+            <filter string="Order-specific" name="has_order" domain="[('order_id', '!=', False)]"/>
+        </filter>
+        <filter context="{'group_by' : 'name'}" position="after">
+            <filter string="Order" name="order_groupby" context="{'group_by': 'order_id'}"/>
+        </filter>
+    </field>
+</record>
+
+<record id="sale.report_configuration_action" model="ir.actions.act_window">
+    <field name="context">{'search_default_no_order': 1}</field>
+</record>
+
+</odoo>
