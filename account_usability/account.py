@@ -105,6 +105,12 @@ class AccountAnalyticAccount(models.Model):
         else:
             return super(AccountAnalyticAccount, self).name_get()
 
+    _sql_constraints = [(
+        'code_company_unique',
+        'unique(code, company_id)',
+        'An analytic account with the same code already '
+        'exists in the same company!')]
+
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
