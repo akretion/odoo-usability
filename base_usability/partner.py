@@ -39,8 +39,14 @@ class ResPartner(models.Model):
         for partner in self:
             name_title = partner.name
             if partner.title and not partner.is_company:
-                title = partner.title.shortcut or partner.title
-                name_title = ' '.join([title, name_title])
+                partner_lg = partner
+                # If prefer to read the lang of the partner than the lang
+                # of the context. That way, an English man will be displayed
+                # with his title in English whatever the environment
+                if partner.lang:
+                    partner_lg = partner.with_context(lang=partner.lang)
+                title = partner_lg.title.shortcut or partner_lg.title.name
+                name_title = u' '.join([title, name_title])
             partner.name_title = name_title
 
     @api.multi
