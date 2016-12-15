@@ -203,6 +203,8 @@ class AccountBankStatementLine(models.Model):
 class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
 
+    note = fields.Text(translate=True)
+
     @api.model
     def get_fiscal_position_no_partner(
             self, company_id=None, vat_subjected=False, country_id=None):
