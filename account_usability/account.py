@@ -21,6 +21,20 @@ class AccountInvoice(models.Model):
     journal_id = fields.Many2one(track_visibility='onchange')
     partner_bank_id = fields.Many2one(track_visibility='onchange')
     fiscal_position_id = fields.Many2one(track_visibility='onchange')
+    # for invoice report
+    has_discount = fields.Boolean(
+        compute='_compute_has_discount', readonly=True)
+
+    @api.multi
+    def _compute_has_discount(self):
+        prec = self.env['decimal.precision'].precision_get('Discount')
+        for inv in self:
+            has_discount = False
+            for line in inv.invoice_line_ids:
+                if not float_is_zero(line.discount, precision_digits=prec):
+                    has_discount = True
+                    break
+            inv.has_discount = has_discount
 
     # I really hate to see a "/" in the 'name' field of the account.move.line
     # generated from customer invoices linked to the partners' account because:
