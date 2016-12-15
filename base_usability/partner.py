@@ -2,7 +2,7 @@
 # © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 
 class ResPartner(models.Model):
@@ -56,4 +56,51 @@ class ResPartner(models.Model):
             without_company=without_company)
         while "\n\n" in res:
             res = res.replace('\n\n', '\n')
+        return res
+
+    # for reports
+    @api.multi
+    def _display_full_address(
+            self, details=['address', 'phone', 'fax', 'mobile', 'email'],
+            icon=True, without_company=False):
+        self.ensure_one()
+        res = self.name_title
+        if (
+                not without_company and
+                self.parent_id and
+                self.parent_id.is_company):
+            res = self.parent_id.name + '\n' + res
+        options = {
+            'phone': {
+                'value': self.phone,
+                # http://www.fileformat.info/info/unicode/char/1f4de/index.htm
+                'icon': u'\U0001F4DE',
+                'label': _('Tel:')},
+            'fax': {
+                'value': self.fax,
+                # http://www.fileformat.info/info/unicode/char/1f5b7/index.htm
+                'icon': u'\U0001F5B7',
+                'label': _('Fax:')},
+            'mobile': {
+                'value': self.mobile,
+                # http://www.fileformat.info/info/unicode/char/1f4f1/index.htm
+                'icon': u'\U0001F4F1',
+                'label': _('Mobile:')},
+            'email': {
+                'value': self.email,
+                # http://www.fileformat.info/info/unicode/char/2709/index.htm
+                'icon': u'\u2709',
+                'label': _('E-mail:')},
+            'address': {
+                'value': self._display_address(without_company=True),
+                }
+            }
+        for detail in details:
+            if options.get(detail) and options[detail]['value']:
+                entry = options[detail]
+                prefix = icon and entry.get('icon') or entry.get('label')
+                if prefix:
+                    res += u'\n%s %s' % (prefix, entry['value'])
+                else:
+                    res += u'\n%s' % entry['value']
         return res
