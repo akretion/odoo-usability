@@ -17,6 +17,22 @@ class PurchaseOrder(models.Model):
     fiscal_position_id = fields.Many2one(track_visibility='onchange')
     incoterm_id = fields.Many2one(track_visibility='onchange')
     partner_ref = fields.Char(track_visibility='onchange')
+    # for report
+    delivery_partner_id = fields.Many2one(
+        'res.partner', compute='_compute_delivery_partner_id', readonly=True)
+
+    @api.multi
+    @api.depends('dest_address_id', 'picking_type_id')
+    def _compute_delivery_partner_id(self):
+        for o in self:
+            delivery_partner_id = False
+            if o.dest_address_id:
+                delivery_partner_id = o.dest_address_id
+            elif (
+                    o.picking_type_id.warehouse_id and
+                    o.picking_type_id.warehouse_id.partner_id):
+                delivery_partner_id = o.picking_type_id.warehouse_id.partner_id
+            o.delivery_partner_id = delivery_partner_id
 
 
 class ResPartner(models.Model):
