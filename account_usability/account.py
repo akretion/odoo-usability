@@ -6,6 +6,7 @@
 from odoo import models, fields, api, _
 from odoo.tools import float_compare, float_is_zero
 from odoo.exceptions import UserError
+from itertools import groupby
 
 
 class AccountInvoice(models.Model):
@@ -54,6 +55,48 @@ class AccountInvoice(models.Model):
     #            "WHERE move_id=%s", (inv.number, inv.number, inv.move_id.id))
     #        self.invalidate_cache()
     #    return res
+
+
+    # for report
+    @api.multi
+    def py3o_lines_layout(self):
+        self.ensure_one()
+        res1 = []
+        # [
+        #    {'categ': categ(6), 'lines': [l1, l2], 'subtotal': 23.32},
+        #    {'categ': categ(1), 'lines': [l3, l4, l5], 'subtotal': 12.42},
+        # ]
+        for categ, lines in\
+                groupby(self.invoice_line_ids, lambda l: l.layout_category_id):
+            entry = {'lines': [], 'categ': categ}
+            if categ.subtotal:
+                entry['subtotal'] = 0.0
+            for line in lines:
+                entry['lines'].append(line)
+                if 'subtotal' in entry:
+                    entry['subtotal'] += line.price_subtotal
+            res1.append(entry)
+        res2 = []
+        if len(res1) == 1 and not res1[0]['categ']:
+            # No category at all
+            for l in res1[0]['lines']:
+                res2.append({'line': l})
+        else:
+            # TODO : gérer qd il n'y a pas de categ
+            for ldict in res1:
+                res2.append({'categ': ldict['categ']})
+                for line in ldict['lines']:
+                    res2.append({'line': line})
+                if 'subtotal' in ldict:
+                    res2.append({'subtotal': ldict['subtotal']})
+        # res2:
+        # [
+        #    {'categ': categ(1)},
+        #    {'line': invoice_line(2)},
+        #    {'line': invoice_line(3)},
+        #    {'subtotal': 8932.23},
+        # ]
+        return res2
 
 
 class AccountInvoiceLine(models.Model):
