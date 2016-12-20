@@ -43,7 +43,8 @@ class SaleOrder(models.Model):
         #    {'categ': categ(6), 'lines': [l1, l2], 'subtotal': 23.32},
         #    {'categ': categ(1), 'lines': [l3, l4, l5], 'subtotal': 12.42},
         # ]
-        for categ, lines in groupby(self.order_line, lambda l: l.layout_category_id):
+        for categ, lines in\
+                groupby(self.order_line, lambda l: l.layout_category_id):
             entry = {'lines': [], 'categ': categ}
             if categ.subtotal:
                 entry['subtotal'] = 0.0
@@ -61,8 +62,8 @@ class SaleOrder(models.Model):
             # TODO : gérer qd il n'y a pas de categ
             for ldict in res1:
                 res2.append({'categ': ldict['categ']})
-                for soline in ldict['lines']:
-                    res2.append({'line': soline})
+                for line in ldict['lines']:
+                    res2.append({'line': line})
                 if 'subtotal' in ldict:
                     res2.append({'subtotal': ldict['subtotal']})
         # res2:
