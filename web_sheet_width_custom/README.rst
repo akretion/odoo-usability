@@ -7,11 +7,7 @@
 Web Sheet Width Custom
 ======================
 
-This module adds a css class to change a Form Sheet view
-to cover the full screen.
-
-You can apply this css class either in the arch xml view 
-either by configuration in the view form.
+Allow to modify form width with a field selection in the form view.
 
 
 Configuration
@@ -30,17 +26,6 @@ To configure this module, you need to:
    :alt: Set full width
    :width: 600 px
 
-|
-
-Alternative way is to define the css class directly in your view.
-
-You can activate the Full Screen view by the creation of an
-inherited view with the following content:
-::
-
-    <xpath expr="//sheet" position="attributes">
-        <attribute name="class">oe_form_sheet_full_screen</attribute>
-    </xpath>
 
 
 Install the 'web_sheet_full_width' module if you want to have a full screen
@@ -87,4 +72,3 @@ Idea
 ----
 
 Idea comes from module web_sheet_full_width (Luc De Meyer)
-
