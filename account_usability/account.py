@@ -209,6 +209,25 @@ class AccountMoveLine(models.Model):
                 self.credit = amount_company_currency
 
 
+class AccountBankStatement(models.Model):
+    _inherit = 'account.bank.statement'
+
+    start_date = fields.Date(
+        compute='_compute_dates', string='Start Date', readonly=True,
+        store=True)
+    end_date = fields.Date(
+        compute='_compute_dates', string='End Date', readonly=True,
+        store=True)
+
+    @api.multi
+    @api.depends('line_ids.date')
+    def _compute_dates(self):
+        for st in self:
+            dates = [line.date for line in st.line_ids]
+            st.start_date = dates and min(dates) or False
+            st.end_date = dates and max(dates) or False
+
+
 class AccountBankStatementLine(models.Model):
     _inherit = 'account.bank.statement.line'
 
