@@ -43,7 +43,8 @@ class AccountInvoice(models.Model):
     fiscal_position = fields.Many2one(track_visibility='onchange')
 
     @api.multi
-    def onchange_payment_term_date_invoice(self, payment_term_id, date_invoice):
+    def onchange_payment_term_date_invoice(
+            self, payment_term_id, date_invoice):
         res = super(AccountInvoice, self).onchange_payment_term_date_invoice(
             payment_term_id, date_invoice)
         if res and isinstance(res, dict) and 'value' in res:
@@ -54,8 +55,8 @@ class AccountInvoice(models.Model):
     # generated from customer invoices linked to the partners' account because:
     # 1) the label of an account move line is an important field, we can't
     #    write a rubbish '/' in it !
-    # 2) the 'name' field of the account.move.line is used in the overdue letter,
-    # and '/' is not meaningful for our customer !
+    # 2) the 'name' field of the account.move.line is used in the overdue
+    #    letter and '/' is not meaningful for our customer !
     @api.multi
     def action_number(self):
         res = super(AccountInvoice, self).action_number()
@@ -164,6 +165,25 @@ class AccountMoveLine(models.Model):
                 self.credit = amount_company_currency
 
 
+class AccountBankStatement(models.Model):
+    _inherit = 'account.bank.statement'
+
+    start_date = fields.Date(
+        compute='_compute_dates', string='Start Date', readonly=True,
+        store=True)
+    end_date = fields.Date(
+        compute='_compute_dates', string='End Date', readonly=True,
+        store=True)
+
+    @api.multi
+    @api.depends('line_ids.date')
+    def _compute_dates(self):
+        for st in self:
+            dates = [line.date for line in st.line_ids]
+            st.start_date = dates and min(dates) or False
+            st.end_date = dates and max(dates) or False
+
+
 class AccountBankStatementLine(models.Model):
     _inherit = 'account.bank.statement.line'
 
@@ -209,6 +229,7 @@ class AccountBankStatementLine(models.Model):
         else:
             raise UserError(_(
                 'No journal entry linked to this bank statement line.'))
+
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
