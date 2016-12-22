@@ -70,6 +70,9 @@ class ResPartner(models.Model):
                 self.parent_id and
                 self.parent_id.is_company):
             res = self.parent_id.name + '\n' + res
+        # To make the icons work with py3o with PDF export, on the py3o server:
+        # 1) sudo apt-get install fonts-symbola
+        # 2) start libreoffice in xvfb (don't use --headless) (To confirm)
         options = {
             'phone': {
                 'value': self.phone,
