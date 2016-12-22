@@ -23,8 +23,9 @@ class ResPartner(models.Model):
         help="Stock location route used by default in sale order lines"
         "for this customer.")
 
-    @api.model
+    @api.multi
     def _create_private_location_records(self, location_name):
+        self.ensure_one()
         assert location_name, 'missing arg location_name'
         slo = self.env['stock.location']
         swo = self.env['stock.warehouse']
@@ -44,6 +45,7 @@ class ResPartner(models.Model):
             'location_id': warehouse.view_location_id.id,
             'usage': 'internal',
             'company_id': company.id,
+            'partner_id': self.id,
             })
         rule = pro.create({
             'name': _('From specific stock %s to customer') % location_name,
