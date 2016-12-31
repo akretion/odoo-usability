@@ -5,9 +5,23 @@
 from odoo import models, fields
 
 
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    name = fields.Char(track_visibility='onchange')
+    type = fields.Selection(track_visibility='onchange')
+    categ_id = fields.Many2one(track_visibility='onchange')
+    list_price = fields.Float(track_visibility='onchange')
+    sale_ok = fields.Boolean(track_visibility='onchange')
+    purchase_ok = fields.Boolean(track_visibility='onchange')
+
+
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
+    default_code = fields.Char(track_visibility='onchange')
+    barcode = fields.Char(track_visibility='onchange')
+    weight = fields.Float(track_visibility='onchange')
     price_history_ids = fields.One2many(
         'product.price.history', 'product_id',
         string='Product Price History')
