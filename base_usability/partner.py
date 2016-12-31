@@ -61,49 +61,57 @@ class ResPartner(models.Model):
     # for reports
     @api.multi
     def _display_full_address(
-            self, details=['address', 'phone', 'fax', 'mobile', 'email'],
-            icon=True, without_company=False):
+            self, details=[
+                'company', 'name', 'address', 'phone', 'fax',
+                'mobile', 'email'],
+            icon=True):
         self.ensure_one()
-        res = self.name_title
-        if (
-                not without_company and
-                self.parent_id and
-                self.parent_id.is_company):
-            res = self.parent_id.name + '\n' + res
         # To make the icons work with py3o with PDF export, on the py3o server:
         # 1) sudo apt-get install fonts-symbola
         # 2) start libreoffice in xvfb (don't use --headless) (To confirm)
         options = {
+            'name': {
+                'value': self.name_title,
+                },
+            'company': {
+                'value': self.parent_id and self.parent_id.is_company and
+                self.parent_id.name or False,
+                },
             'phone': {
                 'value': self.phone,
                 # http://www.fileformat.info/info/unicode/char/1f4de/index.htm
                 'icon': u'\U0001F4DE',
-                'label': _('Tel:')},
+                'label': _('Tel:'),
+                },
             'fax': {
                 'value': self.fax,
                 # http://www.fileformat.info/info/unicode/char/1f5b7/index.htm
                 'icon': u'\U0001F5B7',
-                'label': _('Fax:')},
+                'label': _('Fax:'),
+                },
             'mobile': {
                 'value': self.mobile,
                 # http://www.fileformat.info/info/unicode/char/1f4f1/index.htm
                 'icon': u'\U0001F4F1',
-                'label': _('Mobile:')},
+                'label': _('Mobile:'),
+                },
             'email': {
                 'value': self.email,
                 # http://www.fileformat.info/info/unicode/char/2709/index.htm
                 'icon': u'\u2709',
-                'label': _('E-mail:')},
+                'label': _('E-mail:'),
+                },
             'address': {
                 'value': self._display_address(without_company=True),
                 }
             }
+        res = []
         for detail in details:
             if options.get(detail) and options[detail]['value']:
                 entry = options[detail]
                 prefix = icon and entry.get('icon') or entry.get('label')
                 if prefix:
-                    res += u'\n%s %s' % (prefix, entry['value'])
+                    res.append(u'%s %s' % (prefix, entry['value']))
                 else:
-                    res += u'\n%s' % entry['value']
-        return res
+                    res.append(u'%s' % entry['value'])
+        return '\n'.join(res)
