@@ -114,4 +114,5 @@ class ResPartner(models.Model):
                     res.append(u'%s %s' % (prefix, entry['value']))
                 else:
                     res.append(u'%s' % entry['value'])
-        return '\n'.join(res)
+        res = '\n'.join(res)
+        return res
