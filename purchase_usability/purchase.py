@@ -9,7 +9,6 @@ from odoo import models, fields, api
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    state = fields.Selection(track_visibility='onchange')
     picking_type_id = fields.Many2one(track_visibility='onchange')
     dest_address_id = fields.Many2one(track_visibility='onchange')
     currency_id = fields.Many2one(track_visibility='onchange')
