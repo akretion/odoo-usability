@@ -30,6 +30,20 @@
     </field>
 </record>
 
+<record id="view_partner_tree" model="ir.ui.view">
+    <field name="name">base_usability.res.partner.tree</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_tree"/>
+    <field name="arch" type="xml">
+        <field name="country_id" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
+        <field name="country_id" position="before">
+            <field name="city"/>
+        </field>
+    </field>
+</record>
+
 <record id="view_res_partner_filter" model="ir.ui.view">
     <field name="name">base_usability.partner.search.form</field>
     <field name="model">res.partner</field>
@@ -40,6 +54,5 @@
         </field>
     </field>
 </record>
-
 
 </odoo>
