@@ -101,6 +101,12 @@ class ResPartner(models.Model):
                 'icon': u'\u2709',
                 'label': _('E-mail:'),
                 },
+            'website': {
+                'value': self.website,
+                # http://www.fileformat.info/info/unicode/char/1f310/index.htm
+                'icon': u'\U0001f310',
+                'label': _('Website:'),
+                },
             'address': {
                 'value': self._display_address(without_company=True),
                 }
