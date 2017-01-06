@@ -56,6 +56,7 @@ class ResPartner(models.Model):
             'location_src_id': private_stock_loc.id,
             'procure_method': 'make_to_stock',
             'picking_type_id': warehouse.private_stock_out_type_id.id,
+            'partner_address_id': self.id,
             })
 
         route = slro.create({
