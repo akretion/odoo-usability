@@ -223,6 +223,17 @@
     </field>
 </record>
 
+<!-- By default, the menu entry for stock location is only under
+Configuration > Warehouse management
+But, the view of stock location is very useful to be able to list
+of the items present on a particular stock location => so every user
+should be able to access it. So I add a menu entry under Inventory Control. -->
+
+<menuitem id="stock_location_menu" action="stock.action_location_form"
+    parent="stock.menu_stock_inventory_control"
+    groups="stock.group_stock_multi_locations"
+    sequence="50"/>
+
 <record id="view_stock_quant_tree" model="ir.ui.view">
     <field name="name">stock.usability.quant.tree</field>
     <field name="model">stock.quant</field>
