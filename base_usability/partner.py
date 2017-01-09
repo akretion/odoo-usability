@@ -69,13 +69,19 @@ class ResPartner(models.Model):
         # To make the icons work with py3o with PDF export, on the py3o server:
         # 1) sudo apt-get install fonts-symbola
         # 2) start libreoffice in xvfb (don't use --headless) (To confirm)
+        if self.is_company:
+            company = self.name
+            name = False
+        else:
+            name = self.name_title
+            company = self.parent_id and self.parent_id.is_company and\
+                self.parent_id.name or False
         options = {
             'name': {
-                'value': self.name_title,
+                'value': name,
                 },
             'company': {
-                'value': self.parent_id and self.parent_id.is_company and
-                self.parent_id.name or False,
+                'value': company,
                 },
             'phone': {
                 'value': self.phone,
