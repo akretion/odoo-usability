@@ -25,6 +25,7 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'depends': ['sale'],
     'data': [
         'sale_view.xml',
+        'product_view.xml',
         ],
     'installable': True,
 }
