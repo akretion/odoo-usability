@@ -32,6 +32,17 @@
     </field>
 </record>
 
+<record id="vpicktree" model="ir.ui.view">
+    <field name="name">stock_usability.view_picking_tree</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.vpicktree" />
+    <field name="arch" type="xml">
+        <field name="min_date" position="after">
+            <field name="date_done"/>
+        </field>
+    </field>
+</record>
+ 
 <record id="view_picking_internal_search" model="ir.ui.view">
     <field name="name">stock_usability.view_picking_search</field>
     <field name="model">stock.picking</field>
