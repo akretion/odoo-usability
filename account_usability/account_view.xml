@@ -191,6 +191,9 @@ module -->
         <field name="quantity" position="after">
             <field name="product_id" />
         </field>
+        <field name="move_id" position="after">
+            <field name="invoice_id"/>
+        </field>
     </field>
 </record>
 

@@ -130,6 +130,9 @@ class AccountAnalyticAccount(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
+    # Update field only to add a string (there is no string in account module)
+    invoice_id = fields.Many2one(string='Invoice')
+
     @api.onchange('credit')
     def _credit_onchange(self):
         prec = self.env['decimal.precision'].precision_get('Account')
