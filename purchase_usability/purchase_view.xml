@@ -60,6 +60,41 @@
     </field>
 </record>
 
+<!-- Default measure should be Total without taxes instead of Total with taxes -->
+<record id="purchase_order_pivot" model="ir.ui.view">
+    <field name="name">usability.purchase.order.pivot</field>
+    <field name="model">purchase.order</field>
+    <field name="inherit_id" ref="purchase.purchase_order_pivot"/>
+    <field name="arch" type="xml">
+        <field name="amount_total" type="measure" position="replace">
+            <field name="amount_untaxed" type="measure"/>
+        </field>
+    </field>
+</record>
+
+<record id="purchase_order_graph" model="ir.ui.view">
+    <field name="name">usability.purchase.order.graph</field>
+    <field name="model">purchase.order</field>
+    <field name="inherit_id" ref="purchase.purchase_order_graph"/>
+    <field name="arch" type="xml">
+        <field name="amount_total" type="measure" position="replace">
+            <field name="amount_untaxed" type="measure"/>
+        </field>
+    </field>
+</record>
+
+<record id="purchase_order_calendar" model="ir.ui.view">
+    <field name="name">usability.purchase.order.calendar</field>
+    <field name="model">purchase.order</field>
+    <field name="inherit_id" ref="purchase.purchase_order_calendar"/>
+    <field name="arch" type="xml">
+        <field name="amount_total" position="replace">
+            <field name="amount_untaxed" widget="monetary"/>
+        </field>
+    </field>
+</record>
+
+
 <!-- Do not show cancelled quotations by default in "Requests for Quotation" -->
 <record id="purchase.purchase_rfq" model="ir.actions.act_window">
     <field name="context">{'search_default_draft': 1, 'search_default_todo': 1}</field>
