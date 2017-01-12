@@ -15,10 +15,11 @@ Sale Usability Extension
 
 Several small usability improvements:
 
-* Display Invoices on Sale Order form view (in dedicated tab).
-* Display currency in tree view
+* Display amount untaxed in tree view
+* TODO: update this list
 
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
+This module has been written by Alexis de Lattre from Akretion
+<alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
