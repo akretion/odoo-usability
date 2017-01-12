@@ -43,18 +43,17 @@ class AccountInvoice(models.Model):
     #    write a rubbish '/' in it !
     # 2) the 'name' field of the account.move.line is used in the overdue letter,
     # and '/' is not meaningful for our customer !
-    # TODO port to v10
-    #@api.multi
-    #def action_number(self):
-    #    res = super(AccountInvoice, self).action_number()
-    #    for inv in self:
-    #        self._cr.execute(
-    #            "UPDATE account_move_line SET name= "
-    #            "CASE WHEN name='/' THEN %s "
-    #            "ELSE %s||' - '||name END "
-    #            "WHERE move_id=%s", (inv.number, inv.number, inv.move_id.id))
-    #        self.invalidate_cache()
-    #    return res
+    @api.multi
+    def action_move_create(self):
+        res = super(AccountInvoice, self).action_move_create()
+        for inv in self:
+            self._cr.execute(
+                "UPDATE account_move_line SET name= "
+                "CASE WHEN name='/' THEN %s "
+                "ELSE %s||' - '||name END "
+                "WHERE move_id=%s", (inv.number, inv.number, inv.move_id.id))
+            self.invalidate_cache()
+        return res
 
 
 class AccountInvoiceLine(models.Model):
@@ -218,6 +217,23 @@ class AccountBankStatementLine(models.Model):
     #            cr, uid, ids, excluded_ids=excluded_ids,
     #            search_reconciliation_proposition=search_rec_prop,
     #            context=context)
+
+    def _prepare_reconciliation_move(self, move_ref):
+        vals = super(AccountBankStatementLine, self).\
+            _prepare_reconciliation_move(move_ref)
+        # By default, ref contains the name of the statement + name of the
+        # statement line. It causes 2 problems:
+        # 1) The 'ref' field is too big
+        # 2) The name of the statement line is already written in the name of
+        # the move line -> not useful to have the info 2 times
+        # In the end, I think it's better to just put nothing (we could write
+        # the name of the statement which has the account number, but it doesn't
+        # bring any useful info to the accountant)
+        # The only "good" thing to do would be to have a sequence per
+        # statement line and write it in this 'ref' field
+        # But that would required an additionnal field on statement lines
+        vals['ref'] = False
+        return vals
 
     @api.multi
     def show_account_move(self):

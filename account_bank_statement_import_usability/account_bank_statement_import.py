@@ -7,7 +7,6 @@ from odoo import models, api
 
 
 class AccountBankStatementImport(models.TransientModel):
-    """Extend model account.bank.statement."""
     _inherit = 'account.bank.statement.import'
 
     def _check_journal_bank_account(self, journal, account_number):

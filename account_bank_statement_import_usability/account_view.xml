@@ -7,6 +7,11 @@
 
 <odoo>
 
+<!--
+  Let's try again to work with balance_start and balance_end_real
+  in v10 to see if we can work with it in v10 or not...
+  If we really can't, I'll re-activate this view inheritance again
+
 <record id="view_bank_statement_form" model="ir.ui.view">
     <field name="name">bank_statement_import_usability.account.bank.statement.form</field>
     <field name="model">account.bank.statement</field>
@@ -20,6 +25,7 @@
         </field>
     </field>
 </record>
+-->
 
 <record id="view_bank_statement_tree" model="ir.ui.view">
     <field name="name">bank_statement_import_usability.account.bank.statement.tree</field>
