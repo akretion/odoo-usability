@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="crm_case_form_view_oppor" model="ir.ui.view">
+    <field name="name">usability.crm.lead.form.opportunity</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+    <field name="arch" type="xml">
+        <field name="referred" position="after">
+            <field name="probable_revenue"/>
+        </field>
+    </field>
+</record>
+
+<record id="crm_case_tree_view_oppor" model="ir.ui.view">
+    <field name="name">usability.crm.lead.tree.opportunity</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+    <field name="arch" type="xml">
+        <field name="probability" position="after">
+            <field name="probable_revenue" sum="Total Probable Revenue"/>
+        </field>
+    </field>
+</record>
+
+
+</odoo>
