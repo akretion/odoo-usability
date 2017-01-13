@@ -19,7 +19,6 @@ class ResPartner(models.Model):
     default_sale_route_id = fields.Many2one(
         'stock.location.route', string="Default Stock Location Route",
         company_dependent=True,
-        domain=[('usage', '=', 'internal')],
         help="Stock location route used by default in sale order lines"
         "for this customer.")
 
