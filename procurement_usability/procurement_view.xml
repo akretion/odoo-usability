@@ -20,4 +20,15 @@
     </field>
 </record>
 
+<record id="view_procurement_rule_filter" model="ir.ui.view">
+    <field name="name">usability.procurement.rule.select</field>
+    <field name="model">procurement.rule</field>
+    <field name="inherit_id" ref="procurement.view_procurement_rule_filter"/>
+    <field name="arch" type="xml">
+        <filter name="route_false" position="before">
+            <field name="name"/>
+        </filter>
+    </field>
+</record>
+
 </odoo>
