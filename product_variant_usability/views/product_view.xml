@@ -9,7 +9,7 @@
     <field name="arch" type="xml">
         <field name="attribute_line_ids" position="after">
             <field name="product_variant_ids" nolabel="1" domain="['|', ('active', '=', False), ('active', '=', True)]">
-                <tree>
+                <tree create="0">
                     <field name="default_code"/>
                     <field name="attribute_value_ids" widget="many2many_tags"/>
                     <field name="qty_available"/>
