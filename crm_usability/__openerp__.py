@@ -24,6 +24,9 @@ This module has been written by Alexis de Lattre from Akretion
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['crm'],
-    'data': ['wizard/base_partner_merge_view.xml'],
+    'data': [
+        'crm_view.xml',
+        'wizard/base_partner_merge_view.xml',
+        ],
     'installable': True,
 }
