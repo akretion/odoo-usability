@@ -75,5 +75,25 @@
     </field>
 </record>
 
+<record id="account_analytic_account_sale_order_action" model="ir.actions.act_window">
+    <field name="name">Quotations and Sales</field>
+    <field name="res_model">sale.order</field>
+    <field name="view_mode">tree,form,graph,calendar</field>
+    <field name="context">{'search_default_project_id': active_id}</field>
+</record>
+
+<record id="view_account_analytic_account_form" model="ir.ui.view">
+    <field name="name">analytic.analytic.account.form</field>
+    <field name="model">account.analytic.account</field>
+    <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+    <field name="arch" type="xml">
+        <div name="buttons" position="inside">
+            <button class="oe_inline oe_stat_button" type="action" name="%(account_analytic_account_sale_order_action)d" icon="fa-strikethrough" attrs="{'invisible': [('type', '!=', 'contract')]}">
+               <field string="Quote/Order" name="sale_order_count" widget="statinfo"/>
+            </button>
+        </div>
+    </field>
+</record>
+
 </data>
 </openerp>
