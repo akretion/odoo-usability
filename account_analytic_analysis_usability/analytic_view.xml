@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<openerp>
+<data>
+
+<record id="view_account_analytic_account_tree_c2c_3" model="ir.ui.view">
+    <field name="name">usability.analytic_analysis.account.analytic.account.tree.contract</field>
+    <field name="model">account.analytic.account</field>
+    <field name="inherit_id" ref="account_analytic_analysis.view_account_analytic_account_tree_c2c_3"/>
+    <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+    <field name="arch" type="xml">
+        <field name="date" position="after">
+            <field name="recurring_rule_type"/>
+            <field name="recurring_next_date"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_account_analytic_account_overdue_search" model="ir.ui.view">
+    <field name="name">usability.analytic_analysis.account.analytic.account.search</field>
+    <field name="model">account.analytic.account</field>
+    <field name="inherit_id" ref="account_analytic_analysis.view_account_analytic_account_overdue_search"/>
+    <field name="arch" type="xml">
+        <filter context="{'group_by' : 'pricelist_id'}" position="after">
+            <filter name="recurring_rule_type_groupby" string="Invoicing Frequency" context="{'group_by': 'recurring_rule_type'}"/>
+            <filter name="recurring_next_date_groupby" string="Next Invoice Date" context="{'group_by': 'recurring_next_date'}"/>
+        </filter>
+        <filter name="cancelled" position="after">
+            <separator/>
+            <filter name="recurring_invoices" string="Recurring Invoicing" domain="[('recurring_invoices', '=', True)]"/>
+        </filter>
+    </field>
+</record>
+
+</data>
+</openerp>
