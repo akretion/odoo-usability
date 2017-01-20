@@ -285,6 +285,12 @@ module -->
     </field>
 </record>
 
+<!-- When you click on the "Contract" button of partner form view,
+the newly created analytic accounts should be of type contract ! -->
+<record id="account.action_open_partner_analytic_accounts" model="ir.actions.act_window">
+    <field name="context">{'search_default_partner_id': [active_id], 'default_partner_id': active_id, 'default_type': 'contract'}</field>
+</record>
+
 <record id="view_bank_statement_form" model="ir.ui.view">
     <field name="name">usability.account.bank.statement.form</field>
     <field name="model">account.bank.statement</field>
@@ -351,7 +357,7 @@ module -->
     <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
     <field name="arch" type="xml">
         <notebook position="inside">
-            <page name="invoice_lines" string="Related Invoice Lines">
+            <page name="invoice_lines" string="Related Invoice Lines" attrs="{'invisible': [('type', 'not in', ('contract', 'normal'))]}">
                 <field name="invoice_line_ids" nolabel="1" context="{'show_invoice_fields': 1}"/>
             </page>
         </notebook>
