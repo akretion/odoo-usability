@@ -8,7 +8,7 @@
     <field name="priority" eval="64"/>
     <field name="arch" type="xml">
         <field name="attribute_line_ids" position="after">
-            <field name="product_variant_ids" nolabel="1" domain="['|', ('active', '=', False), ('active', '=', True)]">
+            <field name="product_variant_ids" nolabel="1" domain="['|', ('active', '=', False), ('active', '=', True)]" required="0">
                 <tree create="0">
                     <field name="default_code"/>
                     <field name="attribute_value_ids" widget="many2many_tags"/>
