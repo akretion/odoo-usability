@@ -61,6 +61,11 @@ class ResCompany(models.Model):
             }
         return options
 
+    def _report_company_legal_name(self):
+        '''Method inherited in the module base_company_extension'''
+        self.ensure_one()
+        return self.name
+
     # for reports
     @api.multi
     def _display_report_header(
@@ -70,7 +75,8 @@ class ResCompany(models.Model):
         res = u''
         address = self.partner_id._display_address(without_company=True)
         address = address.replace('\n', u' - ')
-        line1 = u'%s - %s' % (self.name, address)
+
+        line1 = u'%s - %s' % (self._report_company_legal_name(), address)
         lines = [line1]
         options = self._prepare_header_options()
         for details in line_details:
