@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="view_order_form" model="ir.ui.view">
+    <field name="name">sale_partner_prospect.sale.order.form</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+        <field name="partner_id" position="attributes">
+            <attribute name="domain">['|', ('prospect', '=', True), ('customer', '=', True)]</attribute>
+        </field>
+    </field>
+</record>
+
+<record id="res_partner_view_buttons" model="ir.ui.view">
+    <field name="name">sale_partner_prospect.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="sale.res_partner_view_buttons"/>
+    <field name="arch" type="xml">
+        <button name="%(sale.act_res_partner_2_sale_order)d" position="attributes">
+            <attribute name="attrs">{'invisible': [('prospect', '=', False), ('customer', '=', False)]}</attribute>
+        </button>
+    </field>
+</record>
+
+</odoo>

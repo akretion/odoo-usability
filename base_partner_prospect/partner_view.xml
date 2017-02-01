@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="view_partner_form" model="ir.ui.view">
+    <field name="name">base_usability.title.on.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//page[@name='sales_purchases']//group[@name='sale']/field[@name='customer']" position="after">
+            <field name="prospect"/>
+        </xpath>
+    </field>
+</record>
+
+<record id="view_res_partner_filter" model="ir.ui.view">
+    <field name="name">base_usability.partner.search.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_res_partner_filter"/>
+    <field name="arch" type="xml">
+        <filter name="customer" position="after">
+            <filter name="prospect" string="Prospects" domain="[('prospect', '=', True), ('parent_id', '=', False)]"/>
+        </filter>
+    </field>
+</record>
+
+<record id="partner_prospect_action" model="ir.actions.act_window">
+    <field name="name">Prospects</field>
+    <field name="res_model">res.partner</field>
+    <field name="view_mode">tree,form,kanban</field>
+    <field name="context">{'default_prospect': 1, 'search_default_prospect': 1}</field>
+</record>
+
+<!-- I don't add a menu entry ; it should be added in custom module if needed -->
+
+</odoo>
