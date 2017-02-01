@@ -21,7 +21,8 @@ This module adds 2 fields on the Company :
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['base'],
+    # I depend on base_usability only for _report_company_legal_name()
+    'depends': ['base_usability'],
     'data': ['company_view.xml'],
     'installable': True,
 }
