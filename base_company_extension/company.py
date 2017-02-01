@@ -14,6 +14,14 @@ class ResCompany(models.Model):
     legal_type = fields.Char(
         string="Legal Type", help="Type of Company, e.g. SARL, SAS, ...")
 
+    def _report_company_legal_name(self):
+        self.ensure_one()
+        if self.legal_type:
+            name = u'%s %s' % (self.name, self.legal_type)
+        else:
+            name = self.name
+        return name
+
     _sql_constraints = [(
         'capital_amount_positive',
         'CHECK (capital_amount >= 0)',
