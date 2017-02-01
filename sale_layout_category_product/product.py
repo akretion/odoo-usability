@@ -47,7 +47,7 @@ class SaleLayoutCategory(models.Model):
         string='Products')
     product_categ_ids = fields.One2many(
         'product.category', 'layout_category_id',
-        string='Product Categories')
+        string='Product Categories', domain=[('type', '!=', 'view')])
 
 
 class SaleOrderLine(models.Model):

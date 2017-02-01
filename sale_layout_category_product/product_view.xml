@@ -26,11 +26,10 @@
     <field name="inherit_id" ref="product.product_category_form_view"/>
     <field name="arch" type="xml">
         <field name="type" position="after">
-            <field name="layout_category_id"/>
+            <field name="layout_category_id" attrs="{'invisible': [('type', '=', 'view')]}"/>
         </field>
     </field>
 </record>
-
 
 
 <!-- SALE LAYOUT CATEG -->
@@ -41,10 +40,10 @@
     <field name="arch" type="xml">
         <xpath expr="/form/group" position="after">
             <group name="product_categ" string="Product Categories">
-                <field name="product_categ_ids" nolabel="1"/>
+                <field name="product_categ_ids" nolabel="1" widget="many2many"/>
             </group>
             <group name="product" string="Products">
-                <field name="product_tmpl_ids" nolabel="1"/>
+                <field name="product_tmpl_ids" nolabel="1" widget="many2many"/>
             </group>
         </xpath>
     </field>
