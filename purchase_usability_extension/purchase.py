@@ -55,3 +55,9 @@ class ResPartner(models.Model):
         compute='_purchase_stats', string='# of Purchase Order')
     supplier_invoice_count = fields.Integer(
         compute='_purchase_stats', string='# Supplier Invoices')
+
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    purchase_ok = fields.Boolean(track_visibility='onchange')

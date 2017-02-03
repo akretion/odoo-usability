@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Product Usability module for Odoo
@@ -29,3 +29,20 @@ class ProductTemplate(models.Model):
     price_history_ids = fields.One2many(
         'product.price.history', 'product_template_id',
         string='Product Price History')
+    name = fields.Char(track_visibility='onchange')
+    type = fields.Selection(track_visibility='onchange')
+    categ_id = fields.Many2one(track_visibility='onchange')
+    list_price = fields.Float(track_visibility='onchange')
+    sale_ok = fields.Boolean(track_visibility='onchange')
+    active = fields.Boolean(track_visibility='onchange')
+    state = fields.Selection(track_visibility='onchange')
+    weight = fields.Float(track_visibility='onchange')
+    weight_net = fields.Float(track_visibility='onchange')
+
+
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+
+    default_code = fields.Char(track_visibility='onchange')
+    ean13 = fields.Char(track_visibility='onchange')
+    active = fields.Boolean(track_visibility='onchange')
