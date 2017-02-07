@@ -8,7 +8,7 @@
 <data>
 
 <!-- PURCHASE -->
-<record id="product_product_action_puchased" model="ir.actions.act_window">
+<record id="product_product_action_purchased" model="ir.actions.act_window">
     <field name="name">Products</field>
     <field name="res_model">product.product</field>
     <field name="view_mode">tree,form,kanban</field>
@@ -18,7 +18,7 @@
 </record>
 
 <record id="purchase.menu_procurement_partner_contact_form" model="ir.ui.menu">
-    <field name="action" ref="product_product_action_puchased"/>
+    <field name="action" ref="product_product_action_purchased"/>
 </record>
 
 <!-- STOCK -->
