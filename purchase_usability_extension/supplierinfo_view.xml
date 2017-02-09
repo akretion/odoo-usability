@@ -4,34 +4,46 @@
 <openerp>
 <data>
 
-    <record id="product_supplierinfo_view_tree" model="ir.ui.view">
+    <record id="product_supplierinfo_form_view" model="ir.ui.view">
         <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
         <field name="arch" type="xml">
-            <tree>
-                <field name="sequence" widget="handle"/>
-                <field name="name"/>
-                <field name="product_name"/>
-                <field name="product_code" string="Supplier Code"/>
-                <field name="min_qty"/>
-                <field name="delay"/>
-                <field name="product_uom"/>
-                <field name="company_id" groups="base.group_multi_company" widget="selection"/>
-            </tree>
+            <field name="name" position="before">
+                <field name="product_tmpl_id" invisible="not context.get('supplierinfo_main_view')"/>
+            </field>
         </field>
     </record>
 
+    <record id="product_supplierinfo_tree_view" model="ir.ui.view">
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="product_tmpl_id" invisible="not context.get('supplierinfo_main_view')"/>
+            </field>
+            <field name="name" position="after">
+                <field name="product_name"/>
+                <field name="product_code" string="Supplier Code"/>
+            </field>
+            <field name="min_qty" position="after">
+                <field name="product_uom"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- There is no native search view -->
     <record id="product_supplierinfo_view_filter" model="ir.ui.view">
         <field name="model">product.supplierinfo</field>
         <field name="arch" type="xml">
-            <search string="Product">
-                <field name="name" string="Product (code or name)"
-                       filter_domain="['|',('product_code','ilike',self),('product_name','ilike',self)]"/>
-                <field name="name" string="Supplier" filter_domain="[('name','ilike',self)]"/>
+            <search string="Product Supplier">
+                <field name="product_tmpl_id" string="Product"
+                       filter_domain="['|', ('product_name','ilike',self), ('product_tmpl_id', 'ilike', self)]"/>
+                <field name="product_code" string="Product Supplier Code"/>
+                <field name="name" string="Supplier"/>
                 <filter name="supplier_not_company" string="Supplier is not a company" domain="[('supplier_is_company','=',False)]"/>
-                <group expand='0' string='Group by...'>
-                   <filter string='Supplier' domain="[]" context="{'group_by' : 'name'}"/>
-                   <filter string='Quantity' domain="[]" context="{'group_by' : 'min_qty'}"/>
-                   <filter string='Delay' domain="[]" context="{'group_by' : 'delay'}"/>
+                <group expand="0" string="Group by" name="groupby">
+                   <filter name="supplier_groupby" string="Supplier" context="{'group_by' : 'name'}"/>
+                   <filter name="product_groupby" string="Product" context="{'group_by' : 'product_tmpl_id'}"/>
                 </group>
             </search>
         </field>
@@ -39,9 +51,9 @@
 
     <record id="product_supplierinfo_action" model="ir.actions.act_window">
         <field name="name">Product Supplier Info</field>
-        <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.supplierinfo</field>
         <field name="view_mode">tree,form</field>
+        <field name="context">{'supplierinfo_main_view': True}</field>
     </record>
 
     <menuitem id="product_supplierinfo_menu" 

@@ -70,7 +70,7 @@ msgstr "Partenaire"
 #. module: purchase_usability_extension
 #: view:product.supplierinfo:purchase_usability_extension.product_supplierinfo_view_filter
 msgid "Product"
-msgstr "Article :"
+msgstr "Article"
 
 #. module: purchase_usability_extension
 #: view:product.supplierinfo:purchase_usability_extension.product_supplierinfo_view_filter
