@@ -8,5 +8,8 @@ from openerp import models, fields
 class ProductSupplierinfo(models.Model):
     _inherit = 'product.supplierinfo'
 
-    supplier_is_company = fields.Boolean(
-        comodel_name='res.partner', related='name.is_company')
+    # Change product_tmpl_id to required=False
+    # because I added that field to form view and it blocks when you save
+    # the product form with a new supplier info
+    # This field is now required in the form view
+    product_tmpl_id = fields.Many2one(required=False)

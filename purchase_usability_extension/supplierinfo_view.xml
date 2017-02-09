@@ -9,7 +9,7 @@
         <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
         <field name="arch" type="xml">
             <field name="name" position="before">
-                <field name="product_tmpl_id" invisible="not context.get('supplierinfo_main_view')"/>
+                <field name="product_tmpl_id" invisible="not context.get('supplierinfo_main_view')" required="context.get('supplierinfo_main_view')"/>
             </field>
         </field>
     </record>
@@ -40,7 +40,6 @@
                        filter_domain="['|', ('product_name','ilike',self), ('product_tmpl_id', 'ilike', self)]"/>
                 <field name="product_code" string="Product Supplier Code"/>
                 <field name="name" string="Supplier"/>
-                <filter name="supplier_not_company" string="Supplier is not a company" domain="[('supplier_is_company','=',False)]"/>
                 <group expand="0" string="Group by" name="groupby">
                    <filter name="supplier_groupby" string="Supplier" context="{'group_by' : 'name'}"/>
                    <filter name="product_groupby" string="Product" context="{'group_by' : 'product_tmpl_id'}"/>
