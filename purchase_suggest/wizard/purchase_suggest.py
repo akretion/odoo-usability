@@ -277,12 +277,16 @@ class PurchaseSuggestPoCreate(models.TransientModel):
             ('warehouse_id.company_id', '=', company.id)]
         pick_types = spto.search(
             pick_type_dom + [(
-                'default_location_dest_id',
-                'child_of',
-                location.location_id.id)])
+                'default_location_dest_id', 'child_of', location.id)])
         # I use location.parent_id.id to support 2 step-receptions
         # where the stock.location .type is linked to Warehouse > Receipt
         # but location is Warehouse > Stock
+        if not pick_types:
+            pick_types = spto.search(
+                pick_type_dom + [(
+                    'default_location_dest_id',
+                    'child_of',
+                    location.location_id.id)])
         if not pick_types:
             pick_types = spto.search(pick_type_dom)
             if not pick_types:
