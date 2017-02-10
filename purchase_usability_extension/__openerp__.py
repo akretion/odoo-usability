@@ -26,6 +26,7 @@ for any help or question about this module.
     'depends': ['purchase'],
     'data': [
         'purchase_view.xml',
+        'stock_view.xml',
         'supplierinfo_view.xml',
     ],
     'active': False,
