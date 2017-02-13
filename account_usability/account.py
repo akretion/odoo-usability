@@ -22,6 +22,8 @@ class AccountInvoice(models.Model):
     journal_id = fields.Many2one(track_visibility='onchange')
     partner_bank_id = fields.Many2one(track_visibility='onchange')
     fiscal_position_id = fields.Many2one(track_visibility='onchange')
+    # I want to see the number of cancelled invoice in chatter
+    move_id = fields.Many2one(track_visibility='onchange')
     # for invoice report
     has_discount = fields.Boolean(
         compute='_compute_has_discount', readonly=True)

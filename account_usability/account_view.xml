@@ -122,6 +122,14 @@ module -->
     <field name="context">{'show_invoice_fields': True}</field>
 </record>
 
+<record id="out_invoice_refund_line_action" model="ir.actions.act_window">
+    <field name="name">Customer Invoice Lines</field>
+    <field name="res_model">account.invoice.line</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('invoice_type', 'in', ('out_invoice', 'out_refund'))]</field>
+    <field name="context">{'show_invoice_fields': True}</field>
+</record>
+
 <record id="in_invoice_line_action" model="ir.actions.act_window">
     <field name="name">Supplier Invoice Lines</field>
     <field name="res_model">account.invoice.line</field>
@@ -135,6 +143,14 @@ module -->
     <field name="res_model">account.invoice.line</field>
     <field name="view_mode">tree,form</field>
     <field name="domain">[('invoice_type', '=', 'in_refund')]</field>
+    <field name="context">{'show_invoice_fields': True}</field>
+</record>
+
+<record id="in_invoice_refund_line_action" model="ir.actions.act_window">
+    <field name="name">Supplier Invoice Lines</field>
+    <field name="res_model">account.invoice.line</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('invoice_type', 'in', ('in_invoice', 'in_refund'))]</field>
     <field name="context">{'show_invoice_fields': True}</field>
 </record>
 
