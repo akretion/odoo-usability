@@ -1,0 +1,53 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* product_expiry_simple
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-14 13:19+0000\n"
+"PO-Revision-Date: 2017-02-14 13:19+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_expiry_simple
+#: view:stock.production.lot:product_expiry_simple.search_product_lot_filter
+#: view:stock.quant:product_expiry_simple.quant_search_view
+msgid "Expired"
+msgstr "Périmé"
+
+#. module: product_expiry_simple
+#: view:stock.production.lot:product_expiry_simple.search_product_lot_filter
+#: field:stock.production.lot,expiry_date:0
+#: view:stock.quant:product_expiry_simple.quant_search_view
+#: field:stock.quant,expiry_date:0
+msgid "Expiry Date"
+msgstr "Date de péremption"
+
+#. module: product_expiry_simple
+#: model:ir.model,name:product_expiry_simple.model_stock_production_lot
+msgid "Lot/Serial"
+msgstr "Lot/N° série"
+
+#. module: product_expiry_simple
+#: view:stock.production.lot:product_expiry_simple.search_product_lot_filter
+#: view:stock.quant:product_expiry_simple.quant_search_view
+msgid "Not Expired"
+msgstr "Non périmé"
+
+#. module: product_expiry_simple
+#: model:ir.model,name:product_expiry_simple.model_stock_quant
+msgid "Quants"
+msgstr "Quants"
+
+#. module: product_expiry_simple
+#: view:stock.production.lot:product_expiry_simple.view_production_lot_tree
+#: view:stock.quant:product_expiry_simple.view_stock_quant_tree
+msgid "red:expiry_date and expiry_date < current_date;green:expiry_date >= current_date"
+msgstr "red:expiry_date and expiry_date < current_date;green:expiry_date >= current_date"
+
