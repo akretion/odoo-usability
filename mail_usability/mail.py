@@ -47,6 +47,6 @@ class MailNotification(models.Model):
         footer = super(MailNotification, self).get_signature_footer(
             cr, uid, user_id, res_model=res_model, res_id=res_id,
             context=context, user_signature=user_signature)
-        footer = footer[:footer.find('\n\n<br /><small>Sent by ')]
-        footer = footer[:footer.find(u'\n\n<br /><small>Envoyé par ')]
+        footer = footer[:footer.find('\n<br /><small>Sent by ')]
+        footer = footer[:footer.find(u'\n<br /><small>Envoyé par ')]
         return footer
