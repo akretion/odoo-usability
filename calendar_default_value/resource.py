@@ -9,32 +9,23 @@ from openerp import models, fields, api
 class ResourceCalendarAttendance(models.Model):
     _inherit = 'resource.calendar.attendance'
 
-    # PR is done for v9
-    # https://github.com/odoo/odoo/pull/10310
     calendar_id = fields.Many2one(ondelete='cascade')
 
 
 class ResourceCalendar(models.Model):
     _inherit = 'resource.calendar'
-    _rec_name = 'display_name'
+    #_rec_name = 'display_name'
 
     hour_range = fields.Char(
         string='Hour Range', compute='_compute_hour_range',
         readonly=True, store=True,
         help="String representation of working hours")
-    display_name = fields.Char(compute='_compute_display_name', store=True)
-
-    @api.multi
-    @api.depends('name', 'hour_range')
-    def _compute_display_name(self):
-        for rec in self:
-            rec.display_name = "%s: %s" % (rec.name, rec.hour_range)
 
     @api.model
     def default_get(self, fields_list):
         "'attendance_ids' field default value"
         values = super(ResourceCalendar, self).default_get(fields_list)
-        vals = []
+        vals = [(5,0,0)] # need to renew the values in the client interface
         params = self.get_my_calendar_data()
         for day in range(0, params.endday):
             mapping = self._populate_attendance(
