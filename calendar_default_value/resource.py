@@ -20,6 +20,13 @@ class ResourceCalendar(models.Model):
         string='Hour Range', compute='_compute_hour_range',
         readonly=True, store=True,
         help="String representation of working hours")
+    display_name = fields.Char(compute='_compute_display_name', store=True)
+
+    @api.multi
+    @api.depends('name', 'hour_range')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = "%s: %s" % (rec.name, rec.hour_range)
 
     @api.model
     def default_get(self, fields_list):
