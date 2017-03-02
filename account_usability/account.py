@@ -80,14 +80,34 @@ class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
     @api.multi
+    @api.depends(
+        'name', 'currency_id', 'company_id', 'company_id.currency_id', 'code')
     def name_get(self):
+        res = []
         if self._context.get('journal_show_code_only'):
-            res = []
-            for record in self:
-                res.append((record.id, record.code))
+            for journal in self:
+                res.append((journal.id, journal.code))
             return res
         else:
-            return super(AccountJournal, self).name_get()
+            for journal in self:
+                currency = journal.currency_id or journal.company_id.currency_id
+                name = "[%s] %s (%s)" % (journal.code, journal.name, currency.name)
+                res.append((journal.id, name))
+            return res
+
+    # Also search on start of 'code', not only on 'name'
+    @api.model
+    def name_search(
+            self, name='', args=None, operator='ilike', limit=80):
+        if args is None:
+            args = []
+        if name:
+            jrls = self.search(
+                [('code', '=ilike', name + '%')] + args, limit=limit)
+            if jrls:
+                return jrls.name_get()
+        return super(AccountJournal, self).name_search(
+            name=name, args=args, operator=operator, limit=limit)
 
 
 class AccountAccount(models.Model):
@@ -124,6 +144,16 @@ class AccountAnalyticAccount(models.Model):
         'unique(code, company_id)',
         'An analytic account with the same code already '
         'exists in the same company!')]
+
+
+class AccountMove(models.Model):
+    _inherit = 'account.move'
+
+    default_move_line_name = fields.Char(string='Default Label',
+        states={'posted': [('readonly', True)]})
+    # By default, we can still modify "ref" when account move is posted
+    # which seems a bit lazy for me...
+    ref = fields.Char(states={'posted': [('readonly', True)]})
 
 
 class AccountMoveLine(models.Model):
@@ -167,6 +197,19 @@ class AccountMoveLine(models.Model):
                 self.debit = amount_company_currency * -1
             else:
                 self.credit = amount_company_currency
+
+    @api.multi
+    def show_account_move_form(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window'].for_xml_id(
+            'account', 'action_move_line_form')
+        action.update({
+            'res_id': self.move_id.id,
+            'view_id': False,
+            'views': False,
+            'view_mode': 'form,tree',
+        })
+        return action
 
 
 class AccountBankStatement(models.Model):
