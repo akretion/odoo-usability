@@ -14,6 +14,7 @@ class ProductTemplate(models.Model):
     list_price = fields.Float(track_visibility='onchange')
     sale_ok = fields.Boolean(track_visibility='onchange')
     purchase_ok = fields.Boolean(track_visibility='onchange')
+    active = fields.Boolean(track_visibility='onchange')
 
 
 class ProductProduct(models.Model):
@@ -22,6 +23,7 @@ class ProductProduct(models.Model):
     default_code = fields.Char(track_visibility='onchange')
     barcode = fields.Char(track_visibility='onchange')
     weight = fields.Float(track_visibility='onchange')
+    active = fields.Boolean(track_visibility='onchange')
     price_history_ids = fields.One2many(
         'product.price.history', 'product_id',
         string='Product Price History')
