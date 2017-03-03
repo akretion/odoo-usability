@@ -53,7 +53,10 @@ class AccountMoveLineFilterWizard(models.TransientModel):
         self.ensure_one()
         action = self.env['ir.actions.act_window'].for_xml_id(
             'account', 'action_account_moves_all_a')
-        action['context'] = {'search_default_account_id': [self.account_id.id]}
+        action['context'] = {
+            'search_default_account_id': [self.account_id.id],
+            'journal_show_code_only': True,
+            }
         if self.partner_id:
             action['context']['search_default_partner_id'] =\
                 [self.partner_id.id]
