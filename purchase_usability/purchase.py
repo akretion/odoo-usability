@@ -34,6 +34,15 @@ class PurchaseOrder(models.Model):
             o.delivery_partner_id = delivery_partner_id
 
 
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    # Field added to have a clickable link from picking to PO
+    purchase_id = fields.Many2one(
+        related='move_lines.purchase_line_id.order_id', readonly=True,
+        string='Purchase Order')
+
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
