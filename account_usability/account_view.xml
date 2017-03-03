@@ -234,6 +234,7 @@ module -->
         <field name="reconcile_ref" position="after">
             <field name="reconcile_id"/>
             <field name="reconcile_partial_id"/>
+            <button name="show_account_move_form" type="object" icon="STOCK_GO_FORWARD" string="Show Journal Entry"/>
         </field>
     </field>
 </record>
