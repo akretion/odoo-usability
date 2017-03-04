@@ -152,6 +152,13 @@ class AccountAnalyticAccount(models.Model):
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
+    # When ref is too long, the PDF general ledger report becomes
+    # unreadable
+    ref = fields.Char(size=32)
+    # If you want to migrate existing data :
+    # update account_move set ref=left(ref,32) where ref is not null;
+    # update account_move_line set ref=left(ref,32) where ref is not null;
+
     @api.onchange('date')
     def date_onchange(self):
         if self.date:
