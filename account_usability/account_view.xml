@@ -247,6 +247,19 @@ module -->
     </field>
 </record>
 
+<record id="view_account_journal_search" model="ir.ui.view">
+    <field name="name">usability.account.journal.search</field>
+    <field name="model">account.journal</field>
+    <field name="inherit_id" ref="account.view_account_journal_search"/>
+    <field name="arch"  type="xml">
+        <filter name="dashboard" position="after">
+            <group name="groupby" string="Group By">
+                <filter name="type_groupby" string="Type" context="{'group_by': 'type'}"/>
+            </group>
+        </filter>
+    </field>
+</record>
+
 <record id="view_bank_statement_form" model="ir.ui.view">
     <field name="name">usability.account.bank.statement.form</field>
     <field name="model">account.bank.statement</field>
