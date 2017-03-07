@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+<data>
+
+<record id="view_order_form" model="ir.ui.view">
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//sheet/group/group[1]/field[@name='partner_shipping_id']" position="attributes">
+            <attribute name="domain">['|', ('parent_id', '=', partner_id), ('id', '=', partner_id)]</attribute>
+        </xpath>
+    </field>
+</record>
+
+</data>
+</openerp>
