@@ -197,18 +197,8 @@ class AccountMoveLine(models.Model):
             else:
                 self.credit = amount_company_currency
 
-    @api.multi
-    def show_account_move_form(self):
-        self.ensure_one()
-        action = self.env['ir.actions.act_window'].for_xml_id(
-            'account', 'action_move_line_form')
-        action.update({
-            'res_id': self.move_id.id,
-            'view_id': False,
-            'views': False,
-            'view_mode': 'form,tree',
-        })
-        return action
+    analytic_account_id = fields.Many2one(
+        domain=[('type', 'not in', ('view', 'template'))])
 
 
 class AccountBankStatement(models.Model):
