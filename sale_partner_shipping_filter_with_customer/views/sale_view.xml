@@ -7,8 +7,11 @@
     <field name="model">sale.order</field>
     <field name="inherit_id" ref="sale.view_order_form"/>
     <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_id']" position="after">
+            <field name="parent_id" invisible="1"/>
+        </xpath>
         <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
-            <attribute name="domain">['|', ('id', '=', partner_id), '&amp;', ('parent_id', '=', partner_id), ('type','=', 'delivery')]</attribute>
+            <attribute name="domain">['|', ('id', '=', partner_id), '&amp;', ('type','=', 'delivery'), '|', ('parent_id', '=', partner_id), '&amp;', ('parent_id', '=', parent_id), ('parent_id', '!=', False)]</attribute>
         </xpath>
     </field>
 </record>
