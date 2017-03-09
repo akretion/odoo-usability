@@ -16,6 +16,6 @@
         'sale',
     ],
     'data': [
-        'sale_view.xml',
+        'views/sale_view.xml',
     ]
 }
