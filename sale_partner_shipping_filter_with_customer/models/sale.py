@@ -8,5 +8,5 @@ from openerp import models, fields
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    parent_id = fields.Many2one(related='partner_id.parent_id',
+    partner_parent_id = fields.Many2one(related='partner_id.parent_id',
                                         readonly=True)
