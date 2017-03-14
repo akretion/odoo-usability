@@ -11,7 +11,7 @@
     'license': 'AGPL-3',
     'installable': True,
     'depends': [
-        'point_of_sale',
+        'sale',
         'purchase',
         'mrp',
     ],

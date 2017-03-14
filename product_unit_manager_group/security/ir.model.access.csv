@@ -5,4 +5,3 @@ sale.access_product_uom_sale_manager,product.uom salemanager,product.model_produ
 purchase.access_product_uom_purchase_manager,product.uom purchase_manager,product.model_product_uom,purchase.group_purchase_manager,1,0,0,0
 mrp.access_product_uom_mrp_manager,product.uom mrp_manager,product.model_product_uom,mrp.group_mrp_manager,1,0,0,0
 stock.access_product_uom_stock_manager,product.uom stock_manager,product.model_product_uom,stock.group_stock_manager,1,0,0,0
-point_of_sale.access_product_uom_manager,product.uom manager,product.model_product_uom,point_of_sale.group_pos_manager,1,0,0,0
