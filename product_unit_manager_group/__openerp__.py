@@ -11,8 +11,9 @@
     'license': 'AGPL-3',
     'installable': True,
     'depends': [
-        'sale',
+        'point_of_sale',
         'purchase',
+        'mrp',
     ],
     'data': [
         'security/product_security.xml',
