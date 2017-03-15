@@ -6,12 +6,6 @@ import collections
 from openerp import models, fields, api
 
 
-class ResourceCalendarAttendance(models.Model):
-    _inherit = 'resource.calendar.attendance'
-
-    calendar_id = fields.Many2one(ondelete='cascade')
-
-
 class ResourceCalendar(models.Model):
     _inherit = 'resource.calendar'
     #_rec_name = 'display_name'
