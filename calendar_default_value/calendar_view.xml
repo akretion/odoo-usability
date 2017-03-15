@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
-  <data>
-
-
+<odoo>
     <record id="resource_calendar_form" model="ir.ui.view">
         <field name="model">resource.calendar</field>
         <field name="inherit_id" ref="resource.resource_calendar_form"/>
         <field name="arch" type="xml">
-            <field name="name" position="after">
+            <field name="attendance_ids" position="before">
                 <field name="hour_range"/>
             </field>
+
         </field>
     </record>
 
@@ -23,7 +21,4 @@
             </field>
         </field>
     </record>
-
-
-  </data>
-</openerp>
+</odoo>
