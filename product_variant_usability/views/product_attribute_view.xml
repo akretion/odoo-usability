@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+<record id="product_attribute_view_form" model="ir.ui.view">
+    <field name="model">product.attribute</field>
+    <field name="arch" type="xml">
+        <form string="Product Attribute">
+            <sheet>
+                <div class="oe_title" style="width: 390px;">
+                    <label class="oe_edit_only" for="name" string="Product Name"/>
+                    <h1><field name="name" class="oe_inline"/></h1>
+                </div>
+                <group>
+                    <field name="code"/>
+                    <field name="value_ids" colspan="4" nolabel="1">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="comment"/>
+                        </tree>
+                    </field>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="attribute_tree_view" model="ir.ui.view">
+    <field name="model">product.attribute</field>
+    <field name="inherit_id" ref="product.attribute_tree_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//tree" position="attributes">
+            <attribute name="editable"></attribute>
+        </xpath>
+    </field>
+</record>
+
+<record id="product.attribute_action" model="ir.actions.act_window">
+    <field name="view_mode">tree,form</field>
+</record>
+
+    </data>
+</openerp>
