@@ -50,7 +50,9 @@
     <field name="inherit_id" ref="base.view_res_partner_filter"/>
     <field name="arch" type="xml">
         <field name="name" position="attributes">
-            <attribute name="string">Name or Email</attribute>
+            <attribute name="string">Name or Email or Reference</attribute>
+            <!-- for 'ref', change '=' to 'start with' -->
+            <attribute name="filter_domain">['|','|',('display_name','ilike',self),('ref','=ilike',self + '%'),('email','ilike',self)]</attribute>
         </field>
     </field>
 </record>
