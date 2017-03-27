@@ -160,6 +160,12 @@ class AccountMove(models.Model):
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
+    # Native order:
+    # _order = "date desc, id desc"
+    # Problem: when you manually create a journal entry, the
+    # order of the lines is inverted when you save ! It is quite annoying for
+    # the user...
+    _order = "date desc, id asc"
 
     # Update field only to add a string (there is no string in account module)
     invoice_id = fields.Many2one(string='Invoice')
