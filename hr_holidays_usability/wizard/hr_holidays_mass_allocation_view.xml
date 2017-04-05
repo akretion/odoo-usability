@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright (C) 2015 Akretion (http://www.akretion.com/)
-    @author: Alexis de Lattre <alexis.delattre@akretion.com>
-    The licence is in the file __openerp__.py
+  © 2015-2017 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 <record id="hr_holidays_mass_allocation_form" model="ir.ui.view">
     <field name="name">hr_holidays_mass_allocation_form</field>
@@ -38,8 +37,7 @@
 
 <menuitem id="hr_holidays_mass_allocation_menu"
     action="hr_holidays_mass_allocation_action"
-    parent="hr_holidays.menu_open_ask_holidays"
-    groups="base.group_hr_manager"/>
+    parent="hr_holidays_administration_menu"
+    groups="hr_holidays.group_hr_holidays_manager"/>
 
-</data>
-</openerp>
+</odoo>

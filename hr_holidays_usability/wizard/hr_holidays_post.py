@@ -1,27 +1,10 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    HR Holidays Usability module for Odoo
-#    Copyright (C) 2015 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# © 2015-2017 Akretion (http://www.akretion.com)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 
 class HrHolidaysPost(models.TransientModel):
@@ -74,16 +57,15 @@ class HrHolidaysPost(models.TransientModel):
         holidays_to_post = self.holidays_to_post_ids
         today = fields.Date.context_today(self)
         if not self.holidays_to_post_ids:
-            raise Warning(
-                _('No leave request to post.'))
+            raise UserError(_('No leave request to post.'))
         self.holidays_to_post_ids.write({'posted_date': today})
-        view_id = self.env.ref('hr_holidays_usability.hr_holiday_graph').id
+        view_id = self.env.ref('hr_holidays_usability.hr_holiday_pivot').id
         action = {
             'name': _('Leave Requests'),
             'res_model': 'hr.holidays',
             'type': 'ir.actions.act_window',
             'domain': [('id', 'in', holidays_to_post.ids)],
-            'view_mode': 'graph',
+            'view_mode': 'pivot',
             'view_id': view_id,
             }
         return action

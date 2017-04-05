@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-<data>
+<odoo>
 
 <record id="hr_holidays_employee_counter_tree" model="ir.ui.view">
     <field name="name">hr.holidays.employee.counter.tree</field>
@@ -44,8 +43,7 @@
 
 <menuitem id="hr_holidays_employee_counter_menu"
     action="hr_holidays_employee_counter_action"
-    parent="hr_holidays.menu_open_ask_holidays"/>
+    parent="hr_holidays.menu_hr_holidays_my_leaves"/>
 
 
-</data>
-</openerp>
+</odoo>

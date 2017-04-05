@@ -1,27 +1,10 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    HR Holidays Usability module for Odoo
-#    Copyright (C) 2015 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# © 2015-2017 Akretion (http://www.akretion.com)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, workflow, _
-from openerp.exceptions import Warning
+from odoo import models, fields, api, workflow, _
+from odoo.exceptions import UserError
 
 
 class HrHolidaysMassAllocation(models.TransientModel):
@@ -61,11 +44,11 @@ class HrHolidaysMassAllocation(models.TransientModel):
     def run(self):
         self.ensure_one()
         if not self.number_of_days:
-            raise Warning(
-                _('You must set a value for the number of days.'))
+            raise UserError(_(
+                'You must set a value for the number of days.'))
         if not self.employee_ids:
-            raise Warning(
-                _('You must select at least one employee.'))
+            raise UserError(_(
+                'You must select at least one employee.'))
         alloc_hol_ids = []
         hho = self.env['hr.holidays']
         auto_approve = self.auto_approve
@@ -77,11 +60,10 @@ class HrHolidaysMassAllocation(models.TransientModel):
                 'type': 'add',
                 'holiday_type': 'employee',
                 'holiday_status_id': self.holiday_status_id.id,
-                'no_email_notification': True,
                 })
             if auto_approve:
-                workflow.trg_validate(
-                    self._uid, 'hr.holidays', hol.id, 'validate', self._cr)
+                # TODO: handle the no_email_notification
+                hol.action_validate()
             alloc_hol_ids.append(hol.id)
         action = self.env['ir.actions.act_window'].for_xml_id(
             'hr_holidays', 'open_allocation_holidays')

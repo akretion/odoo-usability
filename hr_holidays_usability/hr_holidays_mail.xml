@@ -1,65 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-<data>
+<odoo>
 
-<record id="ir_actions_server_hr_holidays_confirm_mail" model="ir.actions.server">
-    <field name="name">Auto-email confirmed leave</field>
-    <field name="code">context.update({
-    'wkf_tracker': 'submitted',
-    'dbname': cr.dbname,
-})
-if not object.no_email_notification:
-    template_id=self.pool['ir.model.data'].get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
-    self.pool['email.template'].send_mail(cr, uid, template_id, object.id, context=context)</field>
-    <field name="state">code</field>
-    <field name="type">ir.actions.server</field>
-    <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
-    <field name="condition">True</field>
-</record>
-
-<record id="ir_actions_server_hr_holidays_validate_mail" model="ir.actions.server">
-    <field name="name">Auto-email validated leave</field>
-    <field name="code">context.update({
-    'wkf_tracker': 'validated',
-    'dbname': cr.dbname,
-})
-if not object.no_email_notification:
-    template_id=self.pool['ir.model.data'].get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
-    self.pool['email.template'].send_mail(cr, uid, template_id, object.id, context=context)</field>
-    <field name="state">code</field>
-    <field name="type">ir.actions.server</field>
-    <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
-    <field name="condition">True</field>
-</record>
-
-<record id="ir_actions_server_hr_holidays_refuse_mail" model="ir.actions.server">
-    <field name="name">Auto-email refused leave</field>
-    <field name="code">context.update({
-    'wkf_tracker': 'refused',
-    'dbname': cr.dbname,
-})
-if not object.no_email_notification:
-    template_id=self.pool['ir.model.data'].get_object_reference(cr, uid, 'hr_holidays_usability', 'email_template_hr_holidays')[1]
-    self.pool['email.template'].send_mail(cr, uid, template_id, object.id, context=context)</field>
-    <field name="state">code</field>
-    <field name="type">ir.actions.server</field>
-    <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
-    <field name="condition">True</field>
-</record>
-
-<record id="hr_holidays.act_confirm" model="workflow.activity">
-    <field name="action_id" ref="ir_actions_server_hr_holidays_confirm_mail"/>
-</record>
-
-<record id="hr_holidays.act_validate" model="workflow.activity">
-    <field name="action_id" ref="ir_actions_server_hr_holidays_validate_mail"/>
-</record>
-
-<record id="hr_holidays.act_refuse" model="workflow.activity">
-    <field name="action_id" ref="ir_actions_server_hr_holidays_refuse_mail"/>
-</record>
-
-<record id="email_template_hr_holidays" model="email.template">
+<record id="email_template_hr_holidays" model="mail.template">
     <field name="name">Holidays email template</field>
     <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
     <field name="email_from">${user.company_id.email}</field>
@@ -110,5 +52,4 @@ Database : ${ctx.get('dbname')}<br/>
 ]]></field>
 </record>
 
-</data>
-</openerp>
+</odoo>

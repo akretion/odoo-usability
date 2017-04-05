@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright (C) 2015 Akretion (http://www.akretion.com/)
-    @author: Alexis de Lattre <alexis.delattre@akretion.com>
-    The licence is in the file __openerp__.py
+  © 2015-2017 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 <!-- Beware that, in v8, the form view hr_holidays.allocation_company_new
 is not used any more (even if it's defined in the XML ; the form view
@@ -61,13 +60,13 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
             </group>
         </field>
         <field name="department_id" position="after">
-            <field name="posted_date" groups="base.group_hr_manager"/>
+            <field name="posted_date" groups="hr_holidays.group_hr_holidays_manager"/>
         </field>
     </field>
 </record>
 
 <record id="view_holiday" model="ir.ui.view">
-    <field name="name">hr_holidays_usability.leave_request_tree</field>
+    <field name="name">hr_holidays_usability.hr.holidays.tree</field>
     <field name="model">hr.holidays</field>
     <field name="inherit_id" ref="hr_holidays.view_holiday"/>
     <field name="arch" type="xml">
@@ -85,14 +84,12 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
              <field name="vacation_date_to"/>
              <field name="vacation_time_to"/>
         </field>
-        <field name="holiday_status_id" position="attributes">
-            <attribute name="invisible">0</attribute>
-        </field>
         <field name="holiday_status_id" position="after">
-            <field name="posted_date" groups="base.group_hr_manager"/>
+            <field name="posted_date" groups="hr_holidays.group_hr_holidays_manager"/>
         </field>
     </field>
 </record>
+
 
 
 <record id="view_holiday_simple" model="ir.ui.view">
@@ -129,15 +126,15 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
     </field>
 </record>
 
-<record id="hr_holiday_graph" model="ir.ui.view">
-    <field name="name">hr_holidays_usability.hr_holiday_graph</field>
+<record id="hr_holiday_pivot" model="ir.ui.view">
+    <field name="name">hr_holidays_usability.hr_holiday_pivot</field>
     <field name="model">hr.holidays</field>
     <field name="arch" type="xml">
-        <graph string="Leave Requests" type="pivot">
+        <pivot string="Leave Requests">
             <field name="employee_id" type="row"/>
             <field name="holiday_status_id" type="col"/>
             <field name="number_of_days_temp" type="measure"/>
-        </graph>
+        </pivot>
     </field>
 </record>
  
@@ -171,31 +168,39 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
     <field name="sequence" eval="4"/>
 </record>
 
-<record id="action_open_ask_holidays_graph" model="ir.actions.act_window.view">
+<record id="action_open_ask_holidays_pivot" model="ir.actions.act_window.view">
     <field name="sequence" eval="5"/>
-    <field name="view_mode">graph</field>
-    <field name="view_id" ref="hr_holiday_graph"/>
+    <field name="view_mode">pivot</field>
+    <field name="view_id" ref="hr_holiday_pivot"/>
     <field name="act_window_id" ref="hr_holidays.open_ask_holidays"/>
 </record>
 
+<!--
 <record id="resource_calendar_leaves_cal_first_action" model="ir.actions.act_window">
     <field name="name">Leaves Calendar</field>
     <field name="res_model">resource.calendar.leaves</field>
     <field name="view_mode">calendar,tree,form</field>
 </record>
+-->
+
 <!-- Warning: when you have mrp installed, there is an ACL that gives write/create access to MRP Users on resource.calendar.leaves You should inherit this ACL with XMLID mrp.access_resource_calendar_leaves_user to give only read access:
 
 mrp.access_resource_calendar_leaves_user,only read access to manufacuting user,resource.model_resource_calendar_leaves,mrp.group_mrp_user,1,0,0,0
 
  -->
-
+ <!--
 <menuitem id="resource_calendar_leaves_cal_first_menu"
     action="resource_calendar_leaves_cal_first_action"
     parent="hr_holidays.menu_open_ask_holidays" sequence="100"/>
+-->
+
+<menuitem id="hr_holidays_administration_menu"
+    parent="hr_holidays.menu_hr_holidays_root"
+    groups="hr_holidays.group_hr_holidays_manager"
+    name="Administration" sequence="50"/>
 
 <record id="hr_holidays.menu_open_company_allocation" model="ir.ui.menu">
-    <field name="groups_id" eval="[(4, ref('base.group_hr_user'))]"/>
+    <field name="groups_id" eval="[(4, ref('hr_holidays.group_hr_holidays_user'))]"/>
 </record>
 
-</data>
-</openerp>
+</odoo>

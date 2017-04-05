@@ -1,28 +1,11 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    HR Holidays Usability module for Odoo
-#    Copyright (C) 2015 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# © 2015-2017 Akretion (http://www.akretion.com)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, _
-from openerp.exceptions import ValidationError
-from openerp.exceptions import Warning as UserError
+
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError, UserError
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import pytz
@@ -56,8 +39,6 @@ class HrEmployee(models.Model):
 
 class HrHolidays(models.Model):
     _inherit = 'hr.holidays'
-    _order = 'type desc, date_from desc'
-    # by default : type desc, date_from asc
 
 # Idea :
 # For allocation (type = add), we don't change anything:
@@ -161,26 +142,26 @@ class HrHolidays(models.Model):
                 date_dt += relativedelta(days=1)
         return days
 
-    @api.one
     @api.depends('holiday_type', 'employee_id', 'holiday_status_id')
     def _compute_current_leaves(self):
-        total_allocated_leaves = 0
-        current_leaves_taken = 0
-        current_remaining_leaves = 0
-        if (
-                self.holiday_type == 'employee' and
-                self.employee_id and
-                self.holiday_status_id):
-            days = self.holiday_status_id.get_days(self.employee_id.id)
-            total_allocated_leaves =\
-                days[self.holiday_status_id.id]['max_leaves']
-            current_leaves_taken =\
-                days[self.holiday_status_id.id]['leaves_taken']
-            current_remaining_leaves =\
-                days[self.holiday_status_id.id]['remaining_leaves']
-        self.total_allocated_leaves = total_allocated_leaves
-        self.current_leaves_taken = current_leaves_taken
-        self.current_remaining_leaves = current_remaining_leaves
+        for holi in self:
+            total_allocated_leaves = 0
+            current_leaves_taken = 0
+            current_remaining_leaves = 0
+            if (
+                    holi.holiday_type == 'employee' and
+                    holi.employee_id and
+                    holi.holiday_status_id):
+                days = holi.holiday_status_id.get_days(holi.employee_id.id)
+                total_allocated_leaves =\
+                    days[holi.holiday_status_id.id]['max_leaves']
+                current_leaves_taken =\
+                    days[holi.holiday_status_id.id]['leaves_taken']
+                current_remaining_leaves =\
+                    days[holi.holiday_status_id.id]['remaining_leaves']
+            holi.total_allocated_leaves = total_allocated_leaves
+            holi.current_leaves_taken = current_leaves_taken
+            holi.current_remaining_leaves = current_remaining_leaves
 
     vacation_date_from = fields.Date(
         string='First Day of Vacation', track_visibility='onchange',
@@ -228,10 +209,6 @@ class HrHolidays(models.Model):
     limit = fields.Boolean(  # pose des pbs de droits
         related='holiday_status_id.limit', string='Allow to Override Limit',
         readonly=True)
-    no_email_notification = fields.Boolean(
-        string='No Email Notification',
-        help="This field is designed to workaround the fact that you can't "
-        "pass context in the methods of the workflow")
     posted_date = fields.Date(
         string='Posted Date', track_visibility='onchange')
     number_of_days_temp = fields.Float(string="Number of days")
@@ -242,40 +219,40 @@ class HrHolidays(models.Model):
         help="Warning: this title is shown publicly in the "
         "calendar. Don't write private/personnal information in this field.")
 
-    @api.one
     @api.constrains(
         'vacation_date_from', 'vacation_date_to', 'holiday_type', 'type')
     def _check_vacation_dates(self):
         hhpo = self.env['hr.holidays.public']
-        if self.type == 'remove':
-            if self.vacation_date_from > self.vacation_date_to:
-                raise ValidationError(
-                    _('The first day cannot be after the last day !'))
-            elif (
-                    self.vacation_date_from == self.vacation_date_to and
-                    self.vacation_time_from == self.vacation_time_to):
-                raise ValidationError(
-                    _("The start of vacation is exactly the "
+        for holi in self:
+            if holi.type == 'remove':
+                if holi.vacation_date_from > holi.vacation_date_to:
+                    raise ValidationError(_(
+                        'The first day cannot be after the last day !'))
+                elif (
+                        holi.vacation_date_from == holi.vacation_date_to and
+                        holi.vacation_time_from == holi.vacation_time_to):
+                    raise ValidationError(_(
+                        "The start of vacation is exactly the "
                         "same as the end !"))
-            date_from_dt = fields.Date.from_string(
-                self.vacation_date_from)
-            if date_from_dt.weekday() in (5, 6):
-                raise ValidationError(
-                    _("The first day of vacation cannot be a "
+                date_from_dt = fields.Date.from_string(
+                    holi.vacation_date_from)
+                if date_from_dt.weekday() in (5, 6):
+                    raise ValidationError(_(
+                        "The first day of vacation cannot be a "
                         "saturday or sunday !"))
-            date_to_dt = fields.Date.from_string(
-                self.vacation_date_to)
-            if date_to_dt.weekday() in (5, 6):
-                raise ValidationError(
-                    _("The last day of Vacation cannot be a "
+                date_to_dt = fields.Date.from_string(
+                    holi.vacation_date_to)
+                if date_to_dt.weekday() in (5, 6):
+                    raise ValidationError(_(
+                        "The last day of Vacation cannot be a "
                         "saturday or sunday !"))
-            if hhpo.is_public_holiday(date_from_dt, self.employee_id.id):
-                raise ValidationError(
-                    _("The first day of vacation cannot be a "
+                if hhpo.is_public_holiday(date_from_dt, holi.employee_id.id):
+                    raise ValidationError(_(
+                        "The first day of vacation cannot be a "
                         "bank holiday !"))
-            if hhpo.is_public_holiday(date_to_dt, self.employee_id.id):
-                raise ValidationError(
-                    _("The last day of vacation cannot be a "
+                if hhpo.is_public_holiday(date_to_dt, holi.employee_id.id):
+                    raise ValidationError(_(
+                        "The last day of vacation cannot be a "
                         "bank holiday !"))
 
     @api.onchange('vacation_date_from', 'vacation_time_from')
@@ -334,14 +311,13 @@ class HrHolidays(models.Model):
             self.number_of_days_temp = days
 
     # Neutralize the native on_change on dates
-    def onchange_date_from(self, cr, uid, ids, date_to, date_from):
+    def _onchange_date_from(self):
+        print "_onchange_date_from self=", self
         return {}
 
-    def onchange_date_to(self, cr, uid, ids, date_to, date_from):
+    def _onchange_date_to(self):
+        print "xxxxxxxxxxxxxxx _onchange_date_to self=", self
         return {}
-
-    # in v8, no more need to inherit check_holidays() as I did in v8
-    # because it doesn't use number_of_days_temp
 
     # I want to set number_of_days_temp as readonly in the view of leaves
     # and, even in v8, we can't write on a readonly field
@@ -365,7 +341,7 @@ class HrHolidays(models.Model):
         return res
 
     @api.multi
-    def holidays_validate(self):
+    def action_validate(self):
         for holi in self:
             if holi.user_id == self.env.user:
                 if holi.type == 'remove':
@@ -374,36 +350,34 @@ class HrHolidays(models.Model):
                         % holi.name)
                 elif (
                         holi.type == 'add' and
-                        not self.pool['res.users'].has_group(
-                            self._cr, self._uid, 'base.group_hr_manager')):
+                        not self.env.user.has_group(
+                            'hr_holidays.group_hr_holidays_manager')):
                     raise UserError(_(
                         "You cannot validate your own Allocation "
-                        "request '%s'.")
-                        % holi.name)
+                        "request '%s'.") % holi.name)
             if (
                     holi.type == 'add' and
                     holi.holiday_status_id.add_validation_manager and
-                    not self.pool['res.users'].has_group(
-                        self._cr, self._uid, 'base.group_hr_manager')):
+                    not self.env.user.has_group(
+                        'hr_holidays.group_hr_holidays_manager')):
                 raise UserError(_(
                     "Allocation request '%s' has a leave type '%s' that "
                     "can be approved only by an HR Manager.")
                     % (holi.name, holi.holiday_status_id.name))
-        res = super(HrHolidays, self).holidays_validate()
-        return res
+        return super(HrHolidays, self).action_validate()
 
     @api.multi
-    def holidays_refuse(self):
+    def action_refuse(self):
         for holi in self:
             if (
                     holi.user_id == self.env.user and
-                    not self.pool['res.users'].has_group(
-                        self._cr, self._uid, 'base.group_hr_manager')):
+                    not self.env.user.has_group(
+                        'hr_holidays.group_hr_holidays_manager')):
                 raise UserError(_(
                     "You cannot refuse your own Leave or Allocation "
                     "holiday request '%s'.")
                     % holi.name)
-        return super(HrHolidays, self).holidays_refuse()
+        return super(HrHolidays, self).action_refuse()
 
 
 class ResCompany(models.Model):
@@ -411,3 +385,10 @@ class ResCompany(models.Model):
 
     mass_allocation_default_holiday_status_id = fields.Many2one(
         'hr.holidays.status', string='Default Leave Type for Mass Allocation')
+
+
+class BaseConfigSettings(models.TransientModel):
+    _inherit = 'base.config.settings'
+
+    mass_allocation_default_holiday_status_id = fields.Many2one(
+        related='company_id.mass_allocation_default_holiday_status_id')
