@@ -41,26 +41,3 @@ class StockPicking(models.Model):
     purchase_id = fields.Many2one(
         related='move_lines.purchase_line_id.order_id', readonly=True,
         string='Purchase Order')
-
-
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
-
-    # Fix an access right issue when accessing partner form without being
-    # a member of the purchase/User group
-    @api.multi
-    def _purchase_invoice_count(self):
-        poo = self.env['purchase.order']
-        aio = self.env['account.invoice']
-        for partner in self:
-            try:
-                partner.purchase_order_count = poo.search_count(
-                    [('partner_id', 'child_of', partner.id)])
-            except:
-                pass
-            try:
-                partner.supplier_invoice_count = aio.search_count([
-                    ('partner_id', 'child_of', partner.id),
-                    ('type', '=', 'in_invoice')])
-            except:
-                pass

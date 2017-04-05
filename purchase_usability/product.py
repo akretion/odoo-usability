@@ -9,3 +9,4 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     purchase_method = fields.Selection(track_visibility='onchange')
+    purchase_line_warn = fields.Selection(track_visibility='onchange')
