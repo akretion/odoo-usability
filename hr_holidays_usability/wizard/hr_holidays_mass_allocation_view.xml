@@ -39,7 +39,7 @@
 <menuitem id="hr_holidays_mass_allocation_menu"
     action="hr_holidays_mass_allocation_action"
     parent="hr_holidays.menu_open_ask_holidays"
-    groups="base.group_hr_user"/>
+    groups="base.group_hr_user" sequence="20"/>
 
 </data>
 </openerp>

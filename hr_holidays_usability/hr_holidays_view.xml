@@ -132,9 +132,65 @@ mrp.access_resource_calendar_leaves_user,only read access to manufacuting user,r
 
  -->
 
+<!-- When you have a balance of legal leaves of 0.1 (for example), you cannot 'use'
+it because this module only allows you to use 0.5, 1, 1.5, ...
+So, if you want to "cleanup" this balance of 0.1, you should declare a leave of 0.1
+and an allocation of 0.1 on a newer legal leave
+This menu entry is designed for this and only accessible to HR Manager -->
+
+<record id="hr_holidays_leave_force_number_form" model="ir.ui.view">
+    <field name="name">Leave request force qty</field>
+    <field name="model">hr.holidays</field>
+    <field name="arch" type="xml">
+        <form string="Leave Request Force Qty" version="7.0">
+            <header>
+                <button string="Approve" name="validate" states="confirm" type="workflow" groups="base.group_hr_user" class="oe_highlight"/>
+                <button string="Validate" name="second_validate" states="validate1" type="workflow" groups="base.group_hr_user" class="oe_highlight"/>
+                <button string="Refuse" name="refuse" states="confirm,validate,validate1" type="workflow" groups="base.group_hr_user"/>
+                <button string="Reset to New" name="set_to_draft" states="cancel,refuse" type="object" groups="base.group_hr_user"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate" statusbar_colors='{"confirm":"blue","validate1":"blue","refuse":"red"}'/>
+            </header>
+            <sheet>
+                <group>
+                    <group>
+                        <field name="name" required="1" attrs="{'readonly':[('state','!=','draft'),('state','!=','confirm')]}"/>
+                        <field name="holiday_status_id" context="{'employee_id':employee_id}"/>
+                        <label for="number_of_days_temp" string="Leave"/>
+                        <div>
+                            <field name="number_of_days_temp" class="oe_inline"/> days
+                        </div>
+                    </group>
+                    <group>
+                        <field name="holiday_type" on_change="onchange_type(holiday_type)" context="{'employee_id':employee_id}" />
+                        <field name="employee_id" attrs="{'required':[('holiday_type','=','employee')], 'invisible':[('holiday_type','=','category')]}"/>
+                        <field name="category_id" attrs="{'required':[('holiday_type','=','category')], 'invisible':[('holiday_type','=','employee')]}"/>
+                        <field name="department_id" attrs="{'invisible':[('holiday_type','=','category')]}"/>
+                    </group>
+                </group>
+                <field name="notes" nolabel="1" colspan="4" placeholder="Add a reason..."/>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+        </form>
+    </field>
+</record>
+
+<record id="hr_holidays_leave_force_number_action" model="ir.actions.act_window">
+    <field name="name">Leave Requests Force Qty</field>
+    <field name="res_model">hr.holidays</field>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="hr_holidays_leave_force_number_form"/>
+    <field name="context">{'default_type': 'remove'}</field>
+    <field name="domain">[('type','=','remove')]</field>
+</record>
+
+<menuitem id="hr_holidays_leave_force_number_menu" action="hr_holidays_leave_force_number_action" parent="hr_holidays.menu_open_ask_holidays" sequence="15" groups="base.group_hr_manager"/>
+
 <menuitem id="resource_calendar_leaves_cal_first_menu"
     action="resource_calendar_leaves_cal_first_action"
-    parent="hr_holidays.menu_open_ask_holidays" sequence="100"/>
+    parent="hr_holidays.menu_open_ask_holidays" sequence="50"/>
 
 <record id="hr_holidays.menu_open_company_allocation" model="ir.ui.menu">
     <field name="groups_id" eval="[(4, ref('base.group_hr_user'))]"/>

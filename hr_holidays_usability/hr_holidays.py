@@ -78,7 +78,7 @@ class HrHolidays(orm.Model):
         hhpo = self.pool['hr.holidays.public']
         for hol in self.browse(cr, uid, ids, context=context):
             days = 0.0
-            if hol.type == 'remove' and hol.holiday_type == 'employee':
+            if hol.type == 'remove' and hol.holiday_type == 'employee' and hol.vacation_date_from and hol.vacation_date_to:
                 if hol.holiday_status_id.vacation_compute_method == 'business':
                     business = True
                 else:
@@ -136,12 +136,16 @@ class HrHolidays(orm.Model):
                                 days -= 0.5
                         break
                     date_dt += relativedelta(days=1)
-
-            if hol.type == 'remove':
-                # read number_of_days_remove instead of number_of_days_temp
                 res[hol.id] = {
                     'number_of_days': days * -1,
                     'number_of_days_remove': days,
+                    }
+
+            elif hol.type == 'remove':
+                # When we do a leave and force qty
+                res[hol.id] = {
+                    'number_of_days': hol.number_of_days_temp * -1,
+                    'number_of_days_remove': hol.number_of_days_temp,
                     }
             else:
                 # for allocations, we read the native field number_of_days_temp
@@ -231,7 +235,7 @@ class HrHolidays(orm.Model):
     def _check_vacation_dates(self, cr, uid, ids):
         hhpo = self.pool['hr.holidays.public']
         for hol in self.browse(cr, uid, ids):
-            if hol.type == 'remove':
+            if hol.type == 'remove' and hol.vacation_date_from and hol.vacation_date_to:
                 if hol.vacation_date_from > hol.vacation_date_to:
                     raise orm.except_orm(
                         _('Error:'),

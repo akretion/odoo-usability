@@ -44,7 +44,8 @@
 
 <menuitem id="hr_holidays_employee_counter_menu"
     action="hr_holidays_employee_counter_action"
-    parent="hr_holidays.menu_open_ask_holidays"/>
+    parent="hr_holidays.menu_open_ask_holidays"
+    sequence="30"/>
 
 
 </data>

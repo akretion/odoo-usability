@@ -9,6 +9,22 @@ This module adds what I consider the minimum usability level for the holiday man
 
  * It sends an email to the manager when the employee submits a holiday requests (with the employee in Cc) and it sends an email to the employee (with the manager in Cc) when the holiday request is validated/refused.
 
+Installation
+============
+
+This module requires a patch on the official hr_holidays module:
+in addons/hr_holidays/hr_holidays.py, in the method holidays_validate(), remplace
+
+.. code::
+
+  if record.holiday_type == 'employee' and record.type == 'remove':
+
+by
+
+.. code::
+
+  if record.holiday_type == 'employee' and record.type == 'remove' and record.date_from and record.date_to:
+
 Known issues / Roadmap
 ======================
 
