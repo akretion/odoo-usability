@@ -125,6 +125,78 @@
     </field>
 </record>
 
+<record id="product_ul_form_view" model="ir.ui.view">
+    <field name="name">usability.product.ul.form</field>
+    <field name="model">product.ul</field>
+    <field name="inherit_id" ref="product.product_ul_form_view"/>
+    <field name="arch" type="xml">
+        <!-- Useusally, the size of packaging is written in cm,
+        so I propose to use that UoM for size of packaging.
+        Nothing is written in the native product module about this -->
+        <field name="height" position="replace">
+            <label for="height"/>
+            <div name="height">
+                <field name="height" class="oe_inline"/>
+                <label string=" cm" class="oe_inline"/>
+            </div>
+        </field>
+        <field name="width" position="replace">
+            <label for="width"/>
+            <div name="width">
+                <field name="width" class="oe_inline"/>
+                <label string=" cm" class="oe_inline"/>
+            </div>
+        </field>
+        <field name="length" position="replace">
+            <label for="length"/>
+            <div name="length">
+                <field name="length" class="oe_inline"/>
+                <label string=" cm" class="oe_inline"/>
+            </div>
+        </field>
+        <field name="weight" position="replace">
+            <label for="weight"/>
+            <div name="weight">
+                <field name="weight" class="oe_inline"/>
+                <label string=" kg" class="oe_inline"/>
+            </div>
+        </field>
+    </field>
+</record>
+
+<record id="product_ul_tree" model="ir.ui.view">
+    <field name="name">usability.product.ul.tree</field>
+    <field name="model">product.ul</field>
+    <field name="inherit_id" ref="product.product_ul_tree"/>
+    <field name="arch" type="xml">
+        <field name="type" position="after">
+            <!-- not so important, but we have room in the tree view, so let's use it -->
+            <field name="height"/>
+            <field name="width"/>
+            <field name="length"/>
+            <field name="weight"/>
+        </field>
+    </field>
+</record>
+
+<!-- Add missing search view on product.ul -->
+<!-- It doesn't work: when you activate the group by type, it gives a JS error
+TypeError: key.indexOf is not a function
+-->
+<!--
+<record id="product_ul_search" model="ir.ui.view">
+    <field name="name">usability.product.ul.search</field>
+    <field name="model">product.ul</field>
+    <field name="arch" type="xml">
+        <search string="Search Logistic Units">
+            <field name="name"/>
+            <group string="Group By" name="groupby">
+                <filter name="type_groupby" string="Type" context="{'group_by': 'type'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+-->
 
 </data>
 </openerp>

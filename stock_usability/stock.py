@@ -38,6 +38,8 @@ class StockPicking(models.Model):
     # In the stock module: _order = "priority desc, date asc, id desc"
     # The problem is date asc
 
+    partner_id = fields.Many2one(track_visibility='onchange')
+
 
 class StockLocation(models.Model):
     _inherit = 'stock.location'
