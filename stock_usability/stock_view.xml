@@ -256,6 +256,16 @@ in the quantities for his reception -->
     </field>
 </record>
 
+<record id="view_quant_package_tree" model="ir.ui.view">
+    <field name="name">stock.usability.quant.package.tree</field>
+    <field name="model">stock.quant.package</field>
+    <field name="inherit_id" ref="stock.view_quant_package_tree"/>
+    <field name="arch" type="xml">
+        <field name="company_id" position="attributes">
+            <attribute name="groups">base.group_multi_company</attribute>
+        </field>
+    </field>
+</record>
 
 <record id="view_move_tree_receipt_picking" model="ir.ui.view">
     <field name="name">stock.usability.stock.move.tree2</field>
