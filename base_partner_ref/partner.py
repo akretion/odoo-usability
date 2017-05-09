@@ -8,6 +8,8 @@ from odoo import models, fields, api, _
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+    ref = fields.Char(copy=False)  # To avoid blocking duplicate
+
     _sql_constraints = [(
         'ref_unique',
         'unique(ref)',
