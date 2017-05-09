@@ -5,7 +5,7 @@
 
 {
     'name': 'CRM Usability',
-    'version': '8.0.1.0.0',
+    'version': '8.0.1.0.1',
     'category': 'Customer Relationship Management',
     'license': 'AGPL-3',
     'summary': 'CRM usability enhancements',
@@ -13,10 +13,12 @@
 CRM Usability
 =============
 
-Some enhancements in the *Merge Partners* wizard:
+The usability improvements include :
 
-* take into account the unaccent option of the server config file
-* add optional group by on 'customer' and 'supplier' (active by default)
+* Adds multi-company record rules on crm.lead.
+* Some enhancements in the *Merge Partners* wizard:
+  * take into account the unaccent option of the server config file
+  * add optional group by on 'customer' and 'supplier' (active by default)
 
 This module has been written by Alexis de Lattre from Akretion
 <alexis.delattre@akretion.com>.
@@ -27,6 +29,7 @@ This module has been written by Alexis de Lattre from Akretion
     'data': [
         'crm_view.xml',
         'wizard/base_partner_merge_view.xml',
+        'security/rule.xml',
         ],
     'installable': True,
 }
