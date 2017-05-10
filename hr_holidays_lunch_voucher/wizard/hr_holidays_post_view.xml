@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<openerp>
+<data>
+
+
+<record id="hr_holidays_post_form" model="ir.ui.view">
+    <field name="name">hr_holidays_post_form</field>
+    <field name="model">hr.holidays.post</field>
+    <field name="inherit_id" ref="hr_holidays_usability.hr_holidays_post_form"/>
+    <field name="arch" type="xml">
+        <field name="holidays_to_post_ids" position="before">
+            <field name="lunch_voucher_po" states="done"/>
+            <field name="work_days"
+                attrs="{'invisible': ['|', ('state', '!=', 'done'), ('lunch_voucher_po', '=', False)]}"/>
+        </field>
+    </field>
+</record>
+
+
+</data>
+</openerp>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+<data noupdate="1">
+
+
+<record id="lunch_voucher_product" model="product.product">
+    <field name="name">Lunch Vouchers</field>
+    <field name="categ_id" ref="product.product_category_all"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="list_price">0</field>
+    <field name="standard_price">8</field>
+    <field name="type">service</field> <!-- For those who want to manage stock of lunch vouchers, they can switch type to product manually -->
+    <field name="uom_id" ref="product.product_uom_unit"/>
+    <field name="uom_po_id" ref="product.product_uom_unit"/>
+    <field name="supplier_taxes_id" eval="False"/>
+    <field name="taxes_id" eval="False"/>
+</record>
+
+<record id="base.main_company" model="res.company">
+    <field name="lunch_voucher_product_id" ref="lunch_voucher_product"/>
+</record>
+
+
+</data>
+</openerp>
