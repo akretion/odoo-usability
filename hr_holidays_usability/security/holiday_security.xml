@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data noupdate="0">
+<data noupdate="1">
 
 <!--
 Employee : only see his holidays
@@ -40,6 +40,13 @@ Manager = person that administrates the holidays process : can see everything, d
     <field name="domain_force">[(1,'=',1)]</field>
     <field name="groups" eval="[(4, ref('base.group_hr_manager'))]"/>
 </record>
+
+<record id="hr_holidays_multicompany_rule" model="ir.rule">
+    <field name="name">Holidays multi-company</field>
+    <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
+    <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+</record>
+
 
 </data>
 </openerp>

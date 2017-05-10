@@ -31,7 +31,9 @@ class HrHolidaysMassAllocation(models.TransientModel):
     @api.model
     def _default_employees(self):
         return self.env['hr.employee'].search([
-            ('holiday_exclude_mass_allocation', '=', False)])
+            ('holiday_exclude_mass_allocation', '=', False),
+            ('company_id', '=', self.env.user.company_id.id),
+            ])
 
     @api.model
     def _get_default_holiday_status(self):

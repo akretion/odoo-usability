@@ -241,6 +241,10 @@ class HrHolidays(models.Model):
         string='Public Title',
         help="Warning: this title is shown publicly in the "
         "calendar. Don't write private/personnal information in this field.")
+    # by default, there is no company_id field on hr.holidays !
+    company_id = fields.Many2one(
+        related='employee_id.resource_id.company_id', store=True,
+        readonly=True)
 
     @api.one
     @api.constrains(

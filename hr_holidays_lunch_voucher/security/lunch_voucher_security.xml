@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="1">
+
+
+<record id="lunch_voucher_attribution_employee" model="ir.rule">
+    <field name="name">Personal Lunch Voucher Attributions</field>
+    <field name="model_id" ref="hr_holidays_lunch_voucher.model_lunch_voucher_attribution"/>
+    <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+    <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+</record>
+
+<record id="lunch_voucher_attribution_officer" model="ir.rule">
+    <field name="name">HR Officer sees all Lunch Voucher Attributions</field>
+    <field name="model_id" ref="hr_holidays_lunch_voucher.model_lunch_voucher_attribution"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('base.group_hr_manager'))]"/>
+</record>
+
+<record id="lunch_voucher_attribution_multicompany_rule" model="ir.rule">
+    <field name="name">Lunch Voucher Attribution multi-company</field>
+    <field name="model_id" ref="hr_holidays_lunch_voucher.model_lunch_voucher_attribution"/>
+    <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+</record>
+
+
+</data>
+</openerp>

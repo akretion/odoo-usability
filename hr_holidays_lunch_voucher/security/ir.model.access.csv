@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lunch_voucher_attribution_full,Full access on lunch_voucher_attribution,model_lunch_voucher_attribution,base.group_hr_manager,1,1,1,1
+access_lunch_voucher_attribution_read,Read access on lunch_voucher_attribution,model_lunch_voucher_attribution,base.group_user,1,0,0,0

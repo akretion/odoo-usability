@@ -61,6 +61,7 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
             </group>
         </field>
         <field name="department_id" position="after">
+            <field name="company_id" groups="base.group_multi_company"/>
             <field name="posted_date" groups="base.group_hr_manager"/>
         </field>
     </field>
@@ -90,6 +91,7 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
         </field>
         <field name="holiday_status_id" position="after">
             <field name="posted_date" groups="base.group_hr_manager"/>
+            <field name="company_id" groups="base.group_multi_company"/>
         </field>
     </field>
 </record>

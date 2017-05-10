@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<openerp>
+<data>
+
+
+<record id="edit_holiday_new" model="ir.ui.view">
+    <field name="name">hr_holidays_lunch_voucher.leave_request_form</field>
+    <field name="model">hr.holidays</field>
+    <field name="inherit_id" ref="hr_holidays_usability.edit_holiday_new"/>
+    <field name="arch" type="xml">
+        <group name="counters" position="after">
+            <group name="lunch_vouchers" string="Lunch Vouchers" attrs="{'invisible': [('type', '!=', 'remove')]}">
+                <field name="lunch_voucher_remove_qty"/>
+                <field name="lunch_voucher_id"/>
+            </group>
+        </group>
+    </field>
+</record>
+
+<record id="view_holiday" model="ir.ui.view">
+    <field name="name">hr_holidays_lunch_voucher.leave_request_tree</field>
+    <field name="model">hr.holidays</field>
+    <field name="inherit_id" ref="hr_holidays_usability.view_holiday"/>
+    <field name="arch" type="xml">
+        <field name="number_of_days" position="after">
+             <field name="lunch_voucher_remove_qty" string="Lunch Vouchers -=" sum="Total"/>
+        </field>
+    </field>
+</record>
+
+
+</data>
+</openerp>

@@ -12,13 +12,13 @@
     <field name="name">hr_holidays_post_form</field>
     <field name="model">hr.holidays.post</field>
     <field name="arch" type="xml">
-        <form string="Post Leaves" version="7.0">
+        <form string="Post Leaves">
             <group name="main" string="Leave Requests to Post">
                 <field name="state" invisible="1"/>
                 <field name="before_date" states="draft"/>
                 <field name="holidays_to_post_ids" nolabel="1"
                     context="{'tree_view_ref': 'hr_holidays.view_holiday'}"
-                    states="done"/>
+                    states="done" colspan="2"/>
             </group>
             <footer>
                 <button name="select_date" type="object" string="Get Holiday Requests"

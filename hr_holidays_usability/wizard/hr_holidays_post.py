@@ -56,6 +56,7 @@ class HrHolidaysPost(models.TransientModel):
             ('state', '=', 'validate'),
             ('posted_date', '=', False),
             ('vacation_date_to', '<=', self.before_date),
+            ('company_id', '=', self.env.user.company_id.id),
             ])
         self.write({
             'state': 'done',
