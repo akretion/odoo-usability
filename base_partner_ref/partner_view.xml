@@ -24,8 +24,13 @@
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="base.view_partner_tree"/>
     <field name="arch" type="xml">
+        <!-- show name and ref in separate columns -->
         <field name="display_name" position="after">
+            <field name="name"/>
             <field name="ref"/>
+        </field>
+        <field name="display_name" position="attributes">
+            <attribute name="invisible">1</attribute>
         </field>
     </field>
 </record>
