@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="sale_confirm_form" model="ir.ui.view">
+    <field name="name">sale.confirm.form</field>
+    <field name="model">sale.confirm</field>
+    <field name="arch" type="xml">
+        <form string="Confirm Order">
+            <div><p>At this stage, you have received the Purchase Order from the customer and you are about to convert the related quotation to an order.</p></div>
+            <group name="main">
+                <field name="sale_id"/>
+                <field name="client_order_ref"/>
+                <field name="partner_invoice_id" context="{'default_type': 'invoice'}"
+                    groups="sale.group_delivery_invoice_address"/>
+                <!-- partner_invoice_id can't show the full address because
+                    we are in edit mode -->
+                <field name="show_partner_invoice_id" options="{'always_reload': True}"
+                    context="{'show_address': 1}"
+                    groups="sale.group_delivery_invoice_address"/>
+                <field name="partner_shipping_id"
+                    context="{'default_type': 'delivery'}"
+                    groups="sale.group_delivery_invoice_address"/>
+                <field name="show_partner_shipping_id" options="{'always_reload': True}"
+                    context="{'show_address': 1}"
+                    groups="sale.group_delivery_invoice_address"/>
+                <field name="payment_term_id"/>
+            </group>
+            <footer>
+                <button type="object" name="confirm"
+                    string="Confirm Sale" class="btn-primary"/>
+                or 
+                <button special="cancel" string="Annuler" class="btn-default"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="sale_confirm_action" model="ir.actions.act_window">
+    <field name="name">Confirm Order</field>
+    <field name="res_model">sale.confirm</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+</odoo>
