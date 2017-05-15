@@ -21,9 +21,16 @@
 ##############################################################################
 
 import xlwt
+import logging
 from openerp import models, api
-from openerp.addons.report_xls.utils import _render
-from openerp.addons.report_xls.report_xls import report_xls
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from openerp.addons.report_xls.utils import _render
+    from openerp.addons.report_xls.report_xls import report_xls
+except (ImportError, IOError) as err:
+    _logger.debug(err)
 
 
 class AccountMoveLine(models.Model):
