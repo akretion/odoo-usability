@@ -18,9 +18,8 @@ class LabourCostProfile(models.Model):
 
     name = fields.Char(
         string='Name', required=True, track_visibility='onchange')
-    hour_cost = fields.Monetary(
+    hour_cost = fields.Float(
         string='Cost per Hour', required=True,
-        currency_field='company_currency_id',
         digits=dp.get_precision('Product Price'),
         track_visibility='onchange',
         help="Labour cost per hour per person in company currency")
@@ -54,9 +53,9 @@ class MrpBomLabourLine(models.Model):
         "items of the BOM, in hours.")
     labour_cost_profile_id = fields.Many2one(
         'labour.cost.profile', string='Labour Cost Profile', required=True)
-    labour_cost_subtotal = fields.Monetary(
+    labour_cost_subtotal = fields.Float(
         compute='_compute_labour_cost_subtotal', readonly=True, store=True,
-        string='Subtotal', currency_field='company_currency_id')
+        digits=dp.get_precision('Product Price'), string='Subtotal')
     company_currency_id = fields.Many2one(
         related='bom_id.company_id.currency_id', readonly=True,
         string='Company Currency')
@@ -107,28 +106,24 @@ class MrpBom(models.Model):
     company_currency_id = fields.Many2one(
         related='company_id.currency_id', readonly=True,
         string='Company Currency')
-    total_labour_cost = fields.Monetary(
+    total_labour_cost = fields.Float(
         compute='_compute_total_labour_cost', readonly=True,
-        currency_field='company_currency_id',
         digits=dp.get_precision('Product Price'),
         string="Total Labour Cost")
-    extra_cost = fields.Monetary(
+    extra_cost = fields.Float(
         string='Extra Cost', track_visibility='onchange',
         digits=dp.get_precision('Product Price'),
-        currency_field='company_currency_id',
         help="Extra cost for the production of the quantity of "
         "items of the BOM, in company currency. "
         "You can use this field to enter the cost of the consumables "
         "that are used to produce the product but are not listed in "
         "the BOM")
-    total_components_cost = fields.Monetary(
+    total_components_cost = fields.Float(
         compute='_compute_total_cost', readonly=True,
-        currency_field='company_currency_id',
         digits=dp.get_precision('Product Price'),
         string='Total Components Cost')
     total_cost = fields.Float(
-        compute='_compute_total_cost', readonly=True,
-        currency_field='company_currency_id', string='Total Cost',
+        compute='_compute_total_cost', readonly=True, string='Total Cost',
         digits=dp.get_precision('Product Price'),
         help="Total Cost = Total Components Cost + "
         "Total Labour Cost + Extra Cost")
@@ -170,16 +165,16 @@ class MrpBomLine(models.Model):
 
     standard_price = fields.Float(
         related='product_id.standard_price', readonly=True)
-    # Monetary ? standard_price on product is a float...
-    # company_currency_id =
+    company_currency_id = fields.Many2one(
+        related='bom_id.company_id.currency_id', readonly=True,
+        string='Company Currency')
 
 
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
-    unit_cost = fields.Monetary(
+    unit_cost = fields.Float(
         string='Unit Cost', readonly=True,
-        currency_field='company_currency_id',
         digits=dp.get_precision('Product Price'),
         help="This cost per unit in the unit of measure of the product "
         "in company currency takes into account "
