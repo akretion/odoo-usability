@@ -119,7 +119,7 @@
     <field name="model">mrp.production</field>
     <field name="arch" type="xml">
         <field name="availability" position="after">
-            <field name="unit_cost" widget="monetary" options="{'currency_field': 'company_currency_id'}" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+            <field name="unit_cost" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
             <field name="company_currency_id" invisible="1"/>
         </field>
     </field>

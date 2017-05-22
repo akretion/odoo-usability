@@ -153,8 +153,7 @@ class MrpBom(models.Model):
         origin = 'Automatic update of Phantom BOMs'
         boms = self.env['mrp.bom'].search([('type', '=', 'phantom')])
         for bom in boms:
-            bom.with_context(product_price_history_origin=origin).\
-                manual_update_product_standard_price()
+            bom.manual_update_product_standard_price()
         logger.info(
             'End automatic update of cost price of phantom bom products')
         return True
@@ -184,98 +183,14 @@ class MrpProduction(models.Model):
         related='company_id.currency_id', readonly=True,
         string='Company Currency')
 
-    def compute_order_unit_cost(self):
-        self.ensure_one()
-        mo_total_price = 0.0  # In the UoM of the M0
-        labor_cost_per_unit = 0.0  # In the UoM of the product
-        extra_cost_per_unit = 0.0  # In the UoM of the product
-        # I read the raw materials MO, not on BOM, in order to make
-        # it work with the "dynamic" BOMs (few raw material are auto-added
-        # on the fly on MO)
-        for raw_smove in self.move_raw_ids:
-            # I don't filter on state, in order to make it work with
-            # partial productions
-            # For partial productions, mo.product_qty is not updated
-            # so we compute with fully qty and we compute with all raw
-            # materials (consumed or not), so it gives a good price
-            # per unit at the end
-            raw_price = raw_smove.product_id.standard_price
-            raw_qty_product_uom = raw_smove.product_uom._compute_quantity(
-                raw_smove.product_qty,
-                raw_smove.product_id.uom_id)
-            raw_material_cost = raw_price * raw_qty_product_uom
-            logger.info(
-                'MO %s product %s: raw_material_cost=%s',
-                self.name, raw_smove.product_id.name, raw_material_cost)
-            mo_total_price += raw_material_cost
+    def _generate_finished_moves(self):
+        move = super(MrpProduction, self)._generate_finished_moves()
         if self.bom_id:
-            bom = self.bom_id
-            if not bom.product_qty:
-                raise UserError(_(
-                    "Missing Product Quantity on bill of material '%s'.")
-                    % bom.name)
-            bom_qty_product_uom = bom.product_uom_id._compute_quantity(
-                bom.product_qty, bom.product_tmpl_id.uom_id)
-            assert bom_qty_product_uom > 0, 'BoM qty should be positive'
-            labor_cost_per_unit = bom.total_labour_cost / bom_qty_product_uom
-            extra_cost_per_unit = bom.extra_cost / bom_qty_product_uom
-        # mo_standard_price and labor_cost_per_unit are
-        # in the UoM of the product (not of the MO/BOM)
-        mo_qty_product_uom = self.product_uom_id._compute_quantity(
-            self.product_qty, self.product_id.uom_id)
-        assert mo_qty_product_uom > 0, 'MO qty should be positive'
-        mo_standard_price = mo_total_price / mo_qty_product_uom
-        logger.info(
-            'MO %s: labor_cost_per_unit=%s', self.name, labor_cost_per_unit)
-        logger.info(
-            'MO %s: extra_cost_per_unit=%s', self.name, extra_cost_per_unit)
-        mo_standard_price += labor_cost_per_unit
-        mo_standard_price += extra_cost_per_unit
-        self.write({'unit_cost': mo_standard_price})
-        logger.info('MO %s: unit_cost=%s', self.name, mo_standard_price)
-        return mo_standard_price
+            move.price_unit = self.bom_id.total_cost
+            # TODO: handle uom conversion
+            self.unit_cost = self.bom_id.total_cost
+        return move
 
-    def update_standard_price(self):
-        self.ensure_one()
-        product = self.product_id
-        mo_standard_price = self.compute_order_unit_cost()
-        mo_qty_product_uom = self.product_uom_id._compute_quantity(
-            self.product_qty, self.product_id.uom_id)
-        # I can't use the native method _update_average_price of stock.move
-        # because it only works on move.picking_id.type == 'in'
-        # As we do the super() at the END of this method,
-        # the qty produced by this MO in NOT counted inside
-        # product.qty_available
-        qty_before_mo = product.qty_available
-        logger.info(
-            'MO %s product %s: standard_price before production: %s',
-            self.name, product.name, product.standard_price)
-        logger.info(
-            'MO %s product %s: qty before production: %s',
-            self.name, product.name, qty_before_mo)
-        # Here, we handle as if we were in v8 (!)
-        # so we consider that standard_price is in company currency
-        # It will not work if you are in multi-company environment
-        # with companies in different currencies
-        new_std_price = (
-            (product.standard_price * qty_before_mo) +
-            (mo_standard_price * mo_qty_product_uom)) / \
-            (qty_before_mo + mo_qty_product_uom)
-        origin = _(
-            '%s (Qty before: %s - Added qty: %s - Unit price of '
-            'added qty: %s)') % (
-            self.name, qty_before_mo, mo_qty_product_uom, mo_standard_price)
-        product.with_context(product_price_history_origin=origin).write(
-            {'standard_price': new_std_price})
-        logger.info(
-            'MO %s product %s: standard_price updated to %s',
-            self.name, product.name, new_std_price)
-        return True
-
-    def button_mark_done(self):
-        self.ensure_one()
-        # cost_method is a compute field that gets the value from product
-        # or, if empty, from the product category
-        if self.product_id.cost_method == 'average':
-            self.update_standard_price()
-        return super(MrpProduction, self).button_mark_done()
+    # No need to write directly on standard_price of product
+    # the method product_price_update_after_done of stock.move
+    # located in stock_account does the job for us
