@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016-2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="mrp_bom_form_view" model="ir.ui.view">
+    <field name="name">mrp_average_cost.mrp.bom.form</field>
+    <field name="model">mrp.bom</field>
+    <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+    <field name="arch" type="xml">
+        <field name="routing_id" position="after">
+            <field name="total_components_cost"/>
+            <field name="total_labour_cost"/>
+            <field name="extra_cost"/>
+            <label for="total_cost"/>
+            <div>
+                <field name="total_cost" widget="monetary"
+                    options="{'currency_field': 'company_currency_id'}"
+                    class="oe_inline"/>
+                <button type="object" name="manual_update_product_standard_price"
+                    string="Update Cost Price of Product" class="oe_link"/>
+            </div>
+            <field name="company_currency_id" invisible="1"/>
+        </field>
+        <xpath expr="//field[@name='bom_line_ids']/.." position="after">
+            <page string="Labour" name="labour_lines">
+                <group name="labour_lines_grp">
+                    <field name="labour_line_ids" nolabel="1"/>
+                </group>
+            </page>
+        </xpath>
+        <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_uom_id']" position="after">
+            <field name="standard_price"/>
+        </xpath>
+    </field>
+</record>
+
+<record id="mrp_bom_labour_line_tree" model="ir.ui.view">
+    <field name="name">mrp_bom_labour_line.tree</field>
+    <field name="model">mrp.bom.labour.line</field>
+    <field name="arch" type="xml">
+        <tree string="Labour Lines" editable="bottom">
+            <field name="bom_id" invisible="not context.get('mrp_bom_labour_line_main_view')"/>
+            <field name="labour_time" string="Labour Time (hours)"/>
+            <field name="labour_cost_profile_id"/>
+            <field name="labour_cost_subtotal" sum="Total"/>
+            <field name="company_currency_id" invisible="1"/>
+            <field name="note"/>
+        </tree>
+    </field>
+</record>
+
+<record id="mrp_bom_labour_line_form" model="ir.ui.view">
+    <field name="name">mrp_bom_labour_line.form</field>
+    <field name="model">mrp.bom.labour.line</field>
+    <field name="arch" type="xml">
+        <form string="Labour Line">
+            <group name="main">
+                <field name="bom_id" invisible="not context.get('mrp_bom_labour_line_main_view')"/>
+                <label for="labour_time"/>
+                <div name="labour_time">
+                    <field name="labour_time" class="oe_inline"/>
+                    <label string="hours"/>
+                </div>
+                <field name="labour_cost_profile_id"/>
+                <field name="labour_cost_subtotal"/>
+                <field name="company_currency_id" invisible="1"/>
+                <field name="note"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+
+
+<record id="labour_cost_profile_form" model="ir.ui.view">
+    <field name="name">labour_cost_profile_form</field>
+    <field name="model">labour.cost.profile</field>
+    <field name="arch" type="xml">
+        <form string="Labour Cost Profile">
+            <group name="main">
+                <field name="name"/>
+                <field name="hour_cost"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="company_currency_id" invisible="1"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+<record id="labour_cost_profile_tree" model="ir.ui.view">
+    <field name="name">labour_cost_profile_tree</field>
+    <field name="model">labour.cost.profile</field>
+    <field name="arch" type="xml">
+        <tree string="Labour Cost Profiles">
+            <field name="name"/>
+            <field name="hour_cost"/>
+            <field name="company_currency_id" invisible="1"/>
+        </tree>
+    </field>
+</record>
+
+<record id="labour_cost_profile_action" model="ir.actions.act_window">
+    <field name="name">Labour Cost Profile</field>
+    <field name="res_model">labour.cost.profile</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="labour_cost_profile_menu" action="labour_cost_profile_action"
+    parent="mrp.menu_mrp_configuration"/>
+
+<record id="mrp_production_form_view" model="ir.ui.view">
+    <field name="name">mrp_average_cost.mrp_production_form</field>
+    <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+    <field name="model">mrp.production</field>
+    <field name="arch" type="xml">
+        <field name="availability" position="after">
+            <field name="unit_cost" widget="monetary" options="{'currency_field': 'company_currency_id'}" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+            <field name="company_currency_id" invisible="1"/>
+        </field>
+    </field>
+</record>
+
+
+</odoo>
