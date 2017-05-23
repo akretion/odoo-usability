@@ -2,10 +2,9 @@
 # © 2016-2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api
 import odoo.addons.decimal_precision as dp
-from odoo.exceptions import UserError
-from odoo.tools import float_compare
+from odoo.tools import float_compare, float_is_zero
 import logging
 
 logger = logging.getLogger(__name__)
@@ -114,7 +113,7 @@ class MrpBom(models.Model):
         string='Extra Cost', track_visibility='onchange',
         digits=dp.get_precision('Product Price'),
         help="Extra cost for the production of the quantity of "
-        "items of the BOM, in company currency. "
+        "the BOM in the unit of measure of the BOM, in company currency. "
         "You can use this field to enter the cost of the consumables "
         "that are used to produce the product but are not listed in "
         "the BOM")
@@ -125,8 +124,9 @@ class MrpBom(models.Model):
     total_cost = fields.Float(
         compute='_compute_total_cost', readonly=True, string='Total Cost',
         digits=dp.get_precision('Product Price'),
-        help="Total Cost = Total Components Cost + "
-        "Total Labour Cost + Extra Cost")
+        help="Total Cost for the production of the quantity of the BOM "
+        "in the unit of measure of the BOM in company currency. Total Cost = "
+        "Total Components Cost + Total Labour Cost + Extra Cost")
 
     def manual_update_product_standard_price(self):
         self.ensure_one()
@@ -150,7 +150,6 @@ class MrpBom(models.Model):
         '''Called by cron'''
         logger.info(
             'Start automatic update of cost price of phantom bom products')
-        origin = 'Automatic update of Phantom BOMs'
         boms = self.env['mrp.bom'].search([('type', '=', 'phantom')])
         for bom in boms:
             bom.manual_update_product_standard_price()
@@ -185,10 +184,19 @@ class MrpProduction(models.Model):
 
     def _generate_finished_moves(self):
         move = super(MrpProduction, self)._generate_finished_moves()
-        if self.bom_id:
-            move.price_unit = self.bom_id.total_cost
-            # TODO: handle uom conversion
-            self.unit_cost = self.bom_id.total_cost
+        prec = self.env['decimal.precision'].precision_get(
+            'Product Unit of Measure')
+        if (
+                self.bom_id and
+                not float_is_zero(
+                    self.bom_id.product_qty, precision_digits=prec)):
+            unit_cost_bom_uom =\
+                self.bom_id.total_cost / self.bom_id.product_qty
+            unit_cost_mo_uom = self.bom_id.product_uom_id._compute_quantity(
+                unit_cost_bom_uom, self.product_uom_id)
+            # MO and finished move are in the same UoM
+            move.price_unit = unit_cost_mo_uom
+            self.unit_cost = unit_cost_mo_uom
         return move
 
     # No need to write directly on standard_price of product

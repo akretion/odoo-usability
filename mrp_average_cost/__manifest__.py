@@ -14,9 +14,10 @@ MRP Average Cost
 
 By default, the official *stock* module updates the *standard_price* of a product that has costing_method = *average* when validating an incoming picking. But the official *mrp* module doesn't do that when you validate a manufactuging order.
 
-With this module, when you validate a manufacturing order of a product that has costing method = *average*, the standard_price of the product will be updated by taking into account the standard_price of each raw material and also the labour cost lines defined on the BOM.
+With this module, when you validate a manufacturing order of a product that has costing method = *average*, the standard_price of the product will be updated by taking into account the standard_price of each raw material and also the labour cost lines defined on the BOM. In fact, if you use the costing method *Last Price* (from the module *stock_cost_method_last*), it will work too.
 
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
+This module has been written by Alexis de Lattre from Akretion
+<alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',

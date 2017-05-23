@@ -21,7 +21,8 @@
                     options="{'currency_field': 'company_currency_id'}"
                     class="oe_inline"/>
                 <button type="object" name="manual_update_product_standard_price"
-                    string="Update Cost Price of Product" class="oe_link"/>
+                    string="Update Cost Price of Product" class="oe_link"
+                    groups="mrp.group_mrp_manager"/>
             </div>
             <field name="company_currency_id" invisible="1"/>
         </field>
