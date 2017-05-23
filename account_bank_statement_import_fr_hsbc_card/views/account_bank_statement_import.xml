@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="account_bank_statement_import_view" model="ir.ui.view">
+    <field name="name">hsbc.fr.csv.account.bank.statement.import.form</field>
+    <field name="model">account.bank.statement.import</field>
+    <field name="inherit_id" ref="account_bank_statement_import.account_bank_statement_import_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//ul[@id='statement_format']" position="inside">
+            <li>French HSBC Credit Cards (CSV format)</li>
+        </xpath>
+    </field>
+</record>
+
+
+</odoo>
