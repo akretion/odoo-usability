@@ -72,7 +72,7 @@ class AccountBankStatementImport(models.TransientModel):
             end_balance += amount
             date_dt = datetime.strptime(line['date'], '%d/%m/%Y')
             date_str = fields.Date.to_string(date_dt)
-            if line[u'acc_currency'] != currency_code:
+            if line['acc_currency'] != currency_code:
                 raise UserError(_(
                     "On line %d of the HSBC CSV file, the column "
                     "'Dev Cpt Affaires' contains '%s' instead of 'EUR'")
@@ -81,8 +81,14 @@ class AccountBankStatementImport(models.TransientModel):
                 'date': date_str,
                 'name': name,
                 'ref': False,
-                'unique_import_id': '%s-%s-%.2f-%s' % (
-                    date_str, line['hour'], amount, name),
+                # unfortunately, I'm obliged to include i in
+                # the unique_import_id, which will disable the auto-delete
+                # of already imported lines. But experice has proven that
+                # Internet payment often have hour=00:00, and it's possible
+                # to have 2 internet payments for the same supplier the same
+                # day with the same amount (e.g. purchase a return ticket)
+                'unique_import_id': '%s-%s-%.2f-%s-%d' % (
+                    date_str, line['hour'], amount, name, i),
                 'amount': amount,
                 'partner_id': False,
                 }
