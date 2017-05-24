@@ -41,6 +41,24 @@ class ProductTemplate(models.Model):
         elif self.type == 'service':
             self.intrastat_type = 'service'
 
+    @api.model
+    def create(self, vals):
+        if vals.get('type'):
+            if not vals.get('intrastat_type'):
+                if vals['type'] in ('product', 'consu'):
+                    vals['intrastat_type'] = 'product'
+                elif vals['type'] == 'service':
+                    vals['intrastat_type'] = 'service'
+            elif (
+                    vals.get('intrastat_type') == 'product' and
+                    vals['type'] == 'service'):
+                # usefull because intrastat_type = 'product' by default and
+                # wizards in other modules that don't depend on this module
+                # (e.g. sale_rental) may create a product with only
+                # {'type': 'service'} and no 'intrastat_type'
+                vals['intrastat_type'] = 'service'
+        return super(ProductTemplate, self).create(vals)
+
 
 class L10nFrIntrastatServiceDeclaration(models.Model):
     _inherit = "l10n.fr.intrastat.service.declaration"
