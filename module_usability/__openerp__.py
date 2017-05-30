@@ -26,4 +26,5 @@ Contributors: David BEAL
         'view.xml',
     ],
     'installable': True,
+    'auto_install': True,
 }
