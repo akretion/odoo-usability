@@ -1,3 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
+
 from . import hr_holidays_mass_allocation
-from . import hr_holidays_post
+from . import hr_holidays_to_payslip

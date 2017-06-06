@@ -4,7 +4,7 @@
 <!--
 Employee : only see his holidays
 Officer = the manager of some employees : see his holidays and the ones of his subordinates
-Manager = person that administrates the holidays process : can see everything, do mass allocation, post holidays, etc...
+Manager = person that administrates the holidays process : can see everything, do mass allocation, transfer to payslip, etc...
 -->
 
 <record id="hr_holidays_counter_personal_rule" model="ir.rule">

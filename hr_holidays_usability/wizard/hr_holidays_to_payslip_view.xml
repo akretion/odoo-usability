@@ -7,22 +7,22 @@
 
 <odoo>
 
-<record id="hr_holidays_post_form" model="ir.ui.view">
-    <field name="name">hr_holidays_post_form</field>
-    <field name="model">hr.holidays.post</field>
+<record id="hr_holidays_to_payslip_form" model="ir.ui.view">
+    <field name="name">hr_holidays_to_payslip_form</field>
+    <field name="model">hr.holidays.to.payslip</field>
     <field name="arch" type="xml">
-        <form string="Post Leaves">
-            <group name="main" string="Leave Requests to Post">
+        <form string="Transfer Leaves to Payslip">
+            <group name="main" string="Leave Requests to Transfer to Payslip">
                 <field name="state" invisible="1"/>
                 <field name="before_date" states="draft"/>
-                <field name="holidays_to_post_ids" nolabel="1" colspan="2"
+                <field name="holidays_to_payslip_ids" nolabel="1" colspan="2"
                     context="{'tree_view_ref': 'hr_holidays.view_holiday'}"
                     states="done"/>
             </group>
             <footer>
                 <button name="select_date" type="object" string="Get Holiday Requests"
                     class="oe_highlight" states="draft"/>
-                <button name="run" type="object" string="Post"
+                <button name="run" type="object" string="Transfer to Payslip"
                     class="oe_highlight" states="done"/>
                 <button special="cancel" string="Cancel" class="oe_link"/>
             </footer>
@@ -30,15 +30,15 @@
     </field>
 </record>
 
-<record id="hr_holidays_post_action" model="ir.actions.act_window">
-    <field name="name">Post Leave Requests</field>
-    <field name="res_model">hr.holidays.post</field>
+<record id="hr_holidays_to_payslip_action" model="ir.actions.act_window">
+    <field name="name">Transfer to Payslip</field>
+    <field name="res_model">hr.holidays.to.payslip</field>
     <field name="view_mode">form</field>
     <field name="target">new</field>
 </record>
 
-<menuitem id="hr_holidays_post_menu"
-    action="hr_holidays_post_action"
+<menuitem id="hr_holidays_to_payslip_menu"
+    action="hr_holidays_to_payslip_action"
     parent="hr_holidays_administration_menu"
     groups="hr_holidays.group_hr_holidays_manager"/>
 

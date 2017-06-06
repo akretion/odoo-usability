@@ -7,9 +7,9 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 
-class HrHolidaysPost(models.TransientModel):
-    _name = 'hr.holidays.post'
-    _description = 'Wizard for post holidays'
+class HrHolidaysToPayslip(models.TransientModel):
+    _name = 'hr.holidays.to.payslip'
+    _description = 'Wizard for transfer holidays to payslip'
 
     before_date = fields.Date(
         string='Select Leave Requests That Ended Before', required=True,
@@ -17,13 +17,13 @@ class HrHolidaysPost(models.TransientModel):
         help="The wizard will select the validated holidays "
         "that ended before that date (including holidays that "
         "ended on that date).")
-    holidays_to_post_ids = fields.Many2many(
-        'hr.holidays', string='Leave Requests to Post',
+    holidays_to_payslip_ids = fields.Many2many(
+        'hr.holidays', string='Leave Requests to Transfer to Payslip',
         domain=[
             ('type', '=', 'remove'),
             ('holiday_type', '=', 'employee'),
             ('state', '=', 'validate'),
-            ('posted_date', '=', False),
+            ('payslip_date', '=', False),
             ])
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -37,35 +37,35 @@ class HrHolidaysPost(models.TransientModel):
             ('type', '=', 'remove'),
             ('holiday_type', '=', 'employee'),
             ('state', '=', 'validate'),
-            ('posted_date', '=', False),
+            ('payslip_date', '=', False),
             ('vacation_date_to', '<=', self.before_date),
             ('company_id', '=', self.env.user.company_id.id),
             ])
         self.write({
             'state': 'done',
-            'holidays_to_post_ids': [(6, 0, hols.ids)],
+            'holidays_to_payslip_ids': [(6, 0, hols.ids)],
             })
         action = self.env['ir.actions.act_window'].for_xml_id(
-            'hr_holidays_usability', 'hr_holidays_post_action')
+            'hr_holidays_usability', 'hr_holidays_to_payslip_action')
         action['res_id'] = self.id
         return action
 
     @api.multi
     def run(self):
         self.ensure_one()
-        # I have to make a copy of self.holidays_to_post_ids in a variable
+        # I have to make a copy of self.holidays_to_payslip_ids in a variable
         # because, after the write, it doesn't have a value any more !!!
-        holidays_to_post = self.holidays_to_post_ids
+        holidays_to_payslip = self.holidays_to_payslip_ids
         today = fields.Date.context_today(self)
-        if not self.holidays_to_post_ids:
-            raise UserError(_('No leave request to post.'))
-        self.holidays_to_post_ids.write({'posted_date': today})
+        if not self.holidays_to_payslip_ids:
+            raise UserError(_('No leave request to transfer to payslip.'))
+        self.holidays_to_payslip_ids.write({'payslip_date': today})
         view_id = self.env.ref('hr_holidays_usability.hr_holiday_pivot').id
         action = {
             'name': _('Leave Requests'),
             'res_model': 'hr.holidays',
             'type': 'ir.actions.act_window',
-            'domain': [('id', 'in', holidays_to_post.ids)],
+            'domain': [('id', 'in', holidays_to_payslip.ids)],
             'view_mode': 'pivot',
             'view_id': view_id,
             }

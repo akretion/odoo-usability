@@ -59,8 +59,8 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
                 </group>
             </group>
         </field>
-        <field name="department_id" position="after">
-            <field name="posted_date" groups="hr_holidays.group_hr_holidays_manager"/>
+        <field name="payslip_status" position="after">
+            <field name="payslip_date"/>
             <field name="company_id" groups="base.group_multi_company"/>
         </field>
     </field>
@@ -85,10 +85,10 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
              <field name="vacation_date_to"/>
              <field name="vacation_time_to"/>
         </field>
-        <field name="holiday_status_id" position="after">
-            <field name="posted_date" groups="hr_holidays.group_hr_holidays_manager"/>
+        <button name="toggle_payslip_status" position="after">
+            <field name="payslip_date"/>
             <field name="company_id" groups="base.group_multi_company"/>
-        </field>
+        </button>
     </field>
 </record>
 
@@ -122,8 +122,11 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
     <field name="model">hr.holidays</field>
     <field name="inherit_id" ref="hr_holidays.view_hr_holidays_filter"/>
     <field name="arch" type="xml">
-        <filter name="validated" position="after">
-            <filter name="posted" string="Posted" domain="[('posted_date', '!=', False)]"/>
+        <filter name="gray" position="after">
+            <filter string="Reported in Payslip" name="green" domain="[('payslip_status', '=', True)]" groups="hr_holidays.group_hr_holidays_manager"/>
+        </filter>
+        <filter name="group_type" position="after">
+            <filter name="group_payslip_date" string="Transfer to Payslip Date" context="{'group_by': 'payslip_date:day'}"/>
         </filter>
     </field>
 </record>

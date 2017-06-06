@@ -21,7 +21,7 @@
         'security/holiday_security.xml',
         'security/ir.model.access.csv',
         'wizard/hr_holidays_mass_allocation_view.xml',
-        'wizard/hr_holidays_post_view.xml',
+        'wizard/hr_holidays_to_payslip_view.xml',
         ],
     'installable': True,
 }

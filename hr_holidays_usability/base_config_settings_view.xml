@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2015-2017 Akretion (http://www.akretion.com)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+<record id="view_general_configuration" model="ir.ui.view">
+    <field name="name">hr_holidays_usability.base.config.settings.form</field>
+    <field name="model">base.config.settings</field>
+    <field name="inherit_id" ref="base_setup.view_general_configuration"/>
+    <field name="arch" type="xml">
+        <group name="report" position="after">
+            <group string="Leaves" name="holidays">
+                <field name="mass_allocation_default_holiday_status_id"/>
+            </group>
+        </group>
+    </field>
+</record>
+
+</odoo>

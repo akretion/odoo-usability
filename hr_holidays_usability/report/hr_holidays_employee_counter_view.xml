@@ -11,10 +11,9 @@
             <field name="holiday_status_id"/>
             <field name="allocated_leaves"/>
             <field name="leaves_validated_current"/>
-            <field name="leaves_validated_posted"/>
+            <field name="leaves_validated_payslip"/>
             <field name="leaves_remaining_current"/>
-            <field name="leaves_remaining_posted"
-                sum="Total Posted Remaining Leaves"/>
+            <field name="leaves_remaining_payslip" sum="Total"/>
         </tree>
     </field>
 </record>

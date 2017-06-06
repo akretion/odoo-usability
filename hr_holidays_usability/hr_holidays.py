@@ -163,6 +163,21 @@ class HrHolidays(models.Model):
             holi.current_leaves_taken = current_leaves_taken
             holi.current_remaining_leaves = current_remaining_leaves
 
+    @api.depends('payslip_date')
+    def _compute_payslip_status(self):
+        for holi in self:
+            if holi.payslip_date:
+                holi.payslip_status = True
+            else:
+                holi.payslip_status = False
+
+    def _set_payslip_status(self):
+        for holi in self:
+            if holi.payslip_status:
+                holi.payslip_date = fields.Date.context_today(self)
+            else:
+                holi.payslip_date = False
+
     vacation_date_from = fields.Date(
         string='First Day of Vacation', track_visibility='onchange',
         readonly=True, states={
@@ -209,8 +224,17 @@ class HrHolidays(models.Model):
     limit = fields.Boolean(  # pose des pbs de droits
         related='holiday_status_id.limit', string='Allow to Override Limit',
         readonly=True)
-    posted_date = fields.Date(
-        string='Posted Date', track_visibility='onchange')
+    payslip_date = fields.Date(
+        string='Transfer to Payslip Date', track_visibility='onchange',
+        readonly=True)
+    # even with the new boolean field "payslip_status", I want to keep
+    # the "posted_date" (renamed payslip_date) field, because I want structured
+    # info. The main argument is that, if I don't write down the info at the end
+    # of the wizard "Post Leave Requests", I want to easily
+    # re-display the info
+    payslip_status = fields.Boolean(
+        readonly=True, compute='_compute_payslip_status',
+        inverse='_set_payslip_status', store=True, track_visibility='onchange')
     number_of_days_temp = fields.Float(string="Number of days")
     # The 'name' field is displayed publicly in the calendar
     # So the label should not be 'Description' but 'Public Title'

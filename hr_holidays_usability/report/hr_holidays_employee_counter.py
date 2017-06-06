@@ -17,9 +17,9 @@ class HrHolidaysEmployeeCounter(models.Model):
     holiday_status_id = fields.Many2one(
         "hr.holidays.status", string="Leave Type")
     leaves_validated_current = fields.Float(string='Current Leaves Validated')
-    leaves_validated_posted = fields.Float(string='Leaves Posted')
+    leaves_validated_payslip = fields.Float(string='Leaves in Payslip')
     leaves_remaining_current = fields.Float(string='Current Remaining Leaves')
-    leaves_remaining_posted = fields.Float(string='Posted Remaining Leaves')
+    leaves_remaining_payslip = fields.Float(string='Remaining Leaves in Payslip')
     allocated_leaves = fields.Float(string='Allocated Leaves')
 
     @api.model_cr
@@ -38,18 +38,18 @@ class HrHolidaysEmployeeCounter(models.Model):
                         END) AS leaves_validated_current,
                     sum(
                         CASE WHEN hh.type='remove'
-                            AND hh.posted_date IS NOT null
+                            AND hh.payslip_date IS NOT null
                         THEN hh.number_of_days * -1
                         ELSE 0
-                        END) AS leaves_validated_posted,
+                        END) AS leaves_validated_payslip,
                     sum(hh.number_of_days) AS leaves_remaining_current,
                     sum(
                         CASE WHEN (
-                            hh.type='remove' AND hh.posted_date IS NOT null)
+                            hh.type='remove' AND hh.payslip_date IS NOT null)
                             OR hh.type='add'
                         THEN hh.number_of_days
                         ELSE 0
-                        END) as leaves_remaining_posted,
+                        END) as leaves_remaining_payslip,
                     sum(
                         CASE WHEN hh.type = 'add'
                         THEN hh.number_of_days
