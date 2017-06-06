@@ -15,7 +15,7 @@
             <group name="main" string="Leave Requests to Post">
                 <field name="state" invisible="1"/>
                 <field name="before_date" states="draft"/>
-                <field name="holidays_to_post_ids" nolabel="1"
+                <field name="holidays_to_post_ids" nolabel="1" colspan="2"
                     context="{'tree_view_ref': 'hr_holidays.view_holiday'}"
                     states="done"/>
             </group>

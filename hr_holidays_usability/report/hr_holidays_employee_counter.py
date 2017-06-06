@@ -3,7 +3,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models, tools
+from odoo import fields, models, api, tools
 
 
 class HrHolidaysEmployeeCounter(models.Model):
@@ -22,9 +22,10 @@ class HrHolidaysEmployeeCounter(models.Model):
     leaves_remaining_posted = fields.Float(string='Posted Remaining Leaves')
     allocated_leaves = fields.Float(string='Allocated Leaves')
 
+    @api.model_cr
     def init(self):
-        tools.drop_view_if_exists(self._cr, 'hr_holidays_employee_counter')
-        self._cr.execute("""
+        tools.drop_view_if_exists(self.env.cr, 'hr_holidays_employee_counter')
+        self.env.cr.execute("""
             CREATE or REPLACE view hr_holidays_employee_counter AS (
                 SELECT
                     min(hh.id) AS id,

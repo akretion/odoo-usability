@@ -34,7 +34,7 @@ class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
     holiday_exclude_mass_allocation = fields.Boolean(
-        string='Exclude from Mass Holiday Attribution')
+        string='Exclude from Mass Holiday Allocation')
 
 
 class HrHolidays(models.Model):
@@ -73,7 +73,7 @@ class HrHolidays(models.Model):
 # 1 or 2 for normal holidays
 
     @api.model
-    def _compute_number_of_days(self):
+    def _usability_compute_number_of_days(self):
         # depend on the holiday_status_id
         hhpo = self.env['hr.holidays.public']
         days = 0.0
@@ -218,6 +218,11 @@ class HrHolidays(models.Model):
         string='Public Title',
         help="Warning: this title is shown publicly in the "
         "calendar. Don't write private/personnal information in this field.")
+    # by default, there is no company_id field on hr.holidays !
+    company_id = fields.Many2one(
+        related='employee_id.resource_id.company_id', store=True,
+        readonly=True)
+    state = fields.Selection(default='draft')  # hr_holidays, default='confirm'
 
     @api.constrains(
         'vacation_date_from', 'vacation_date_to', 'holiday_type', 'type')
@@ -307,16 +312,14 @@ class HrHolidays(models.Model):
         'holiday_status_id')
     def leave_number_of_days_change(self):
         if self.type == 'remove':
-            days = self._compute_number_of_days()
+            days = self._usability_compute_number_of_days()
             self.number_of_days_temp = days
 
     # Neutralize the native on_change on dates
     def _onchange_date_from(self):
-        print "_onchange_date_from self=", self
         return {}
 
     def _onchange_date_to(self):
-        print "xxxxxxxxxxxxxxx _onchange_date_to self=", self
         return {}
 
     # I want to set number_of_days_temp as readonly in the view of leaves
@@ -326,7 +329,7 @@ class HrHolidays(models.Model):
     def create(self, vals):
         obj = super(HrHolidays, self).create(vals)
         if obj.type == 'remove':
-            days = obj._compute_number_of_days()
+            days = obj._usability_compute_number_of_days()
             obj.number_of_days_temp = days
         return obj
 
@@ -335,10 +338,21 @@ class HrHolidays(models.Model):
         res = super(HrHolidays, self).write(vals)
         for obj in self:
             if obj.type == 'remove':
-                days = obj._compute_number_of_days()
+                days = obj._usability_compute_number_of_days()
                 if days != obj.number_of_days_temp:
                     obj.number_of_days_temp = days
         return res
+
+    @api.multi
+    def action_confirm(self):
+        for holi in self:
+            if not self._context.get('no_email_notification'):
+                template = self.env.ref(
+                    'hr_holidays_usability.email_template_hr_holidays')
+                template.with_context(
+                    dbname=self._cr.dbname,
+                    new_holiday_state='submitted').send_mail(holi.id)
+        return super(HrHolidays, self).action_confirm()
 
     @api.multi
     def action_validate(self):
@@ -364,6 +378,12 @@ class HrHolidays(models.Model):
                     "Allocation request '%s' has a leave type '%s' that "
                     "can be approved only by an HR Manager.")
                     % (holi.name, holi.holiday_status_id.name))
+            if not self._context.get('no_email_notification'):
+                template = self.env.ref(
+                    'hr_holidays_usability.email_template_hr_holidays')
+                template.with_context(
+                    dbname=self._cr.dbname,
+                    new_holiday_state='validated').send_mail(holi.id)
         return super(HrHolidays, self).action_validate()
 
     @api.multi
@@ -377,6 +397,12 @@ class HrHolidays(models.Model):
                     "You cannot refuse your own Leave or Allocation "
                     "holiday request '%s'.")
                     % holi.name)
+            if not self._context.get('no_email_notification'):
+                template = self.env.ref(
+                    'hr_holidays_usability.email_template_hr_holidays')
+                template.with_context(
+                    dbname=self._cr.dbname,
+                    new_holiday_state='refused').send_mail(holi.id)
         return super(HrHolidays, self).action_refuse()
 
 

@@ -3,7 +3,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, workflow, _
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 
@@ -62,10 +62,10 @@ class HrHolidaysMassAllocation(models.TransientModel):
                 'type': 'add',
                 'holiday_type': 'employee',
                 'holiday_status_id': self.holiday_status_id.id,
+                'state': 'confirm',
                 })
             if auto_approve:
-                # TODO: handle the no_email_notification
-                hol.action_validate()
+                hol.with_context(no_email_notification=True).action_validate()
             alloc_hol_ids.append(hol.id)
         action = self.env['ir.actions.act_window'].for_xml_id(
             'hr_holidays', 'open_allocation_holidays')

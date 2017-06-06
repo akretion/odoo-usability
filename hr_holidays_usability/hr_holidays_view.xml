@@ -35,7 +35,7 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
             <field name="vacation_time_to" attrs="{'required': [('type', '=', 'remove')], 'invisible': [('type', '=', 'add')]}"/>
         </field>
         <field name="notes" position="replace">
-            <group name="bottom">
+            <group name="bottom" colspan="2">
                 <group string="Message for the Manager" name="notes">
                     <field name="notes" nolabel="1" placeholder="Add a message for your manager..."/>
                 </group>
@@ -61,6 +61,7 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
         </field>
         <field name="department_id" position="after">
             <field name="posted_date" groups="hr_holidays.group_hr_holidays_manager"/>
+            <field name="company_id" groups="base.group_multi_company"/>
         </field>
     </field>
 </record>
@@ -86,6 +87,7 @@ hr_holidays.edit_holiday_new is used for both leaves and allocation -->
         </field>
         <field name="holiday_status_id" position="after">
             <field name="posted_date" groups="hr_holidays.group_hr_holidays_manager"/>
+            <field name="company_id" groups="base.group_multi_company"/>
         </field>
     </field>
 </record>

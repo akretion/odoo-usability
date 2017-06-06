@@ -8,7 +8,7 @@
     <field name="email_to">${object.employee_id.parent_id.user_id.email or ''}</field>
     <field name="email_cc">${object.employee_id.user_id.email or ''}</field>
     <field name="reply_to">${user.email or ''}</field>
-    <field name="subject">${ctx.get('dbname') and 'prod' not in ctx.get('dbname') and '[TEST]' or ''}[${object.type == 'remove' and 'Leave' or 'Allocation'} ${ctx.get('wkf_tracker')}] ${object.name or ''} - ${object.employee_id.name or ''}</field>
+    <field name="subject">${ctx.get('dbname') and 'prod' not in ctx.get('dbname') and '[TEST]' or ''}[${object.type == 'remove' and 'Leave' or 'Allocation'} ${ctx.get('new_holiday_state')}] ${object.name or ''} - ${object.employee_id.name or ''}</field>
     <field name="auto_delete" eval="False"/>
     <field name="lang">${user.lang}</field>
     <field name="body_html"><![CDATA[
@@ -18,7 +18,7 @@
 <p>WARNING : THIS IS A TEST E-MAIL sent from a test Odoo database (${ctx.get('dbname')}). Do not take into account !</p>
 
 % endif
-<p>The following ${object.type == 'remove' and 'leave request' or 'ALLOCATION request (i.e. credit of days, not debit !)'} has been ${ctx.get('wkf_tracker') or 'ERROR'} today in Odoo by ${user.name or ''} :</p>
+<p>The following ${object.type == 'remove' and 'leave request' or 'ALLOCATION request (i.e. credit of days, not debit !)'} has been ${ctx.get('new_holiday_state') or 'ERROR'} today in Odoo by ${user.name or ''} :</p>
 
 <ul>
 <li>Employee : ${object.employee_id.name or ''}</li>
@@ -35,11 +35,11 @@
 <li>Notes for the manager : ${object.notes or ''}</li>
 </ul>
 
-% if ctx.get('wkf_tracker') == 'submitted':
+% if ctx.get('new_holiday_state') == 'submitted':
 % if object.type == 'remove':
-<p>To validate or refuse it, go to the menu Human Resources > Leaves > Leave requests to approve.</p>
+<p>To validate or refuse it, go to the menu Leaves > Leaves to Approve > Leaves.</p>
 % else:
-<p>To validate or refuse it, go to the menu Human Resources > Leaves > Allocation requests.</p>
+<p>To validate or refuse it, go to the menu Leaves > Leaves to Approve > Leaves Allocation.</p>
 % endif
 
 % endif
