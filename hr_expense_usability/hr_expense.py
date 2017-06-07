@@ -5,7 +5,7 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_compare
+from odoo.tools import float_compare, float_is_zero
 
 
 # I had to choose between several ideas when I developped this module :
@@ -35,6 +35,7 @@ class ProductTemplate(models.Model):
     private_car_expense_ok = fields.Boolean(
         string='Private Car Expense', track_visibility='onchange')
 
+    # same code in class product.product and product.template
     @api.onchange('private_car_expense_ok')
     def onchange_private_car_expense_ok(self):
         if self.private_car_expense_ok:
@@ -48,6 +49,20 @@ class ProductTemplate(models.Model):
             self.po_uom_id = km_uom.id
             self.taxes_id = False
             self.supplier_taxes_id = False
+
+    # same code in class product.product and product.template
+    @api.onchange('can_be_expensed')
+    def onchange_can_be_expensed(self):
+        if self.can_be_expensed:
+            unit_uom = self.env.ref('product.product_uom_unit')
+            self.type = 'service'
+            self.list_price = 0.0
+            self.private_car_expense_ok = False
+            self.sale_ok = False
+            self.purchase_ok = False
+            self.uom_id = unit_uom.id
+            self.po_uom_id = unit_uom.id
+            self.taxes_id = False
 
     @api.constrains(
         'private_car_expense_ok', 'can_be_expensed', 'uom_id',
@@ -66,6 +81,59 @@ class ProductTemplate(models.Model):
                         "The product '%s' is a Private Car Expense, so "
                         "it's unit of measure must be kilometers (KM).")
                         % product.display_name)
+
+    # It probably doesn't make sense to have a constraint on a property fields
+    # But the same constrain is also on hr.expense
+    @api.constrains('supplier_taxes_id', 'can_be_expensed')
+    def _check_expense_product(self):
+        for product in self:
+            if product.can_be_expensed and product.supplier_taxes_id:
+                if len(product.supplier_taxes_id) > 1:
+                    raise ValidationError(_(
+                        "The module hr_expense_usability only supports one "
+                        "tax for expense products. The product '%s' has "
+                        "more than one tax.") % product.display_name)
+                if not product.supplier_taxes_id[0].price_include:
+                    raise ValidationError(_(
+                        "The module hr_expense_usability only supports "
+                        "taxes with the property 'Included in Price' for "
+                        "expense products. The tax '%s' on the product '%s' "
+                        "is not 'Included in Price'.") % (
+                        product.supplier_taxes_id[0].name,
+                        product.display_name))
+
+
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+
+    # same code in class product.product and product.template
+    @api.onchange('private_car_expense_ok')
+    def onchange_private_car_expense_ok(self):
+        if self.private_car_expense_ok:
+            km_uom = self.env.ref('product.product_uom_km')
+            self.type = 'service'
+            self.list_price = 0.0
+            self.can_be_expensed = False
+            self.sale_ok = False
+            self.purchase_ok = False
+            self.uom_id = km_uom.id
+            self.po_uom_id = km_uom.id
+            self.taxes_id = False
+            self.supplier_taxes_id = False
+
+    # same code in class product.product and product.template
+    @api.onchange('can_be_expensed')
+    def onchange_can_be_expensed(self):
+        if self.can_be_expensed:
+            unit_uom = self.env.ref('product.product_uom_unit')
+            self.type = 'service'
+            self.list_price = 0.0
+            self.private_car_expense_ok = False
+            self.sale_ok = False
+            self.purchase_ok = False
+            self.uom_id = unit_uom.id
+            self.po_uom_id = unit_uom.id
+            self.taxes_id = False
 
 
 class HrEmployee(models.Model):
@@ -116,14 +184,74 @@ class HrEmployee(models.Model):
 class HrExpense(models.Model):
     _inherit = 'hr.expense'
 
+    employee_id = fields.Many2one(track_visibility='onchange')
+    date = fields.Date(track_visibility='onchange', required=True)
+    currency_id = fields.Many2one(track_visibility='onchange', required=True)
+    total_amount = fields.Float(track_visibility='onchange')
     private_car_plate = fields.Char(
-        string='Private Car Plate', size=32, readonly=True,
-        track_visibility='onchange',
-        states={'draft': [('readonly', False)]})
+        string='Private Car Plate', size=32, track_visibility='onchange',
+        readonly=True, states={'draft': [('readonly', False)]})
     private_car_expense = fields.Boolean(
         related='product_id.private_car_expense_ok', readonly=True, store=True)
+    tax_amount = fields.Monetary(
+        string='Tax Amount', currency_field='currency_id',
+        readonly=True, states={'draft': [('readonly', False)]})
+    untaxed_amount_usability = fields.Monetary(
+        string='Untaxed Amount', currency_field='currency_id',
+        readonly=True, states={'draft': [('readonly', False)]})
+    company_currency_id = fields.Many2one(
+        related='company_id.currency_id', readonly=True, store=True)
+    total_amount_company_currency = fields.Monetary(
+        compute='compute_amount_company_currency', readonly=True,
+        store=True, string='Total in Company Currency',
+        currency_field='company_currency_id')
+    untaxed_amount_company_currency = fields.Monetary(
+        compute='compute_amount_company_currency', readonly=True,
+        store=True, string='Untaxed Amount in Company Currency',
+        currency_field='company_currency_id')
+    tax_amount_company_currency = fields.Monetary(
+        compute='compute_amount_company_currency', readonly=True,
+        store=True, string='Tax Amount in Company Currency',
+        currency_field='company_currency_id')
+    # I don't use the native field 'untaxed_amount' (computed, store=True)
 
-    # as private_car_plate id readonly, we have to inherit create() to set it
+    @api.depends(
+        'currency_id', 'company_id', 'total_amount', 'date',
+        'untaxed_amount_usability')
+    def compute_amount_company_currency(self):
+        for exp in self:
+            date = exp.date
+            if exp.currency_id and exp.company_id:
+                src_currency = exp.currency_id.with_context(date=date)
+                dest_currency = exp.company_id.currency_id
+                total_cc = src_currency.compute(
+                    exp.total_amount, dest_currency)
+                untaxed_cc = src_currency.compute(
+                    exp.untaxed_amount_usability, dest_currency)
+                exp.total_amount_company_currency = total_cc
+                exp.untaxed_amount_company_currency = untaxed_cc
+                exp.tax_amount_company_currency = total_cc - untaxed_cc
+
+    @api.onchange('untaxed_amount_usability')
+    def untaxed_amount_usability_change(self):
+        self.tax_amount = self.total_amount - self.untaxed_amount_usability
+
+    @api.onchange('tax_amount')
+    def tax_amount_change(self):
+        self.untaxed_amount_usability = self.total_amount - self.tax_amount
+
+    @api.onchange('unit_amount', 'quantity', 'tax_ids')
+    def total_amount_change(self):
+        total = self.unit_amount * self.quantity
+        if self.tax_ids:
+            res = self.tax_ids.compute_all(
+                self.unit_amount, currency=self.currency_id,
+                quantity=self.quantity, product=self.product_id)
+            self.untaxed_amount_usability = res['total_excluded']
+            self.amount_tax = total - res['total_excluded']
+        else:
+            self.untaxed_amount_usability = total
+            self.tax_amount = False
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
@@ -179,8 +307,9 @@ class HrExpense(models.Model):
                     res['value'] = {'unit_amount': original_unit_amount}
         return res
 
-    @api.constrains('product_id')
-    def _check_private_car(self):
+    @api.constrains(
+        'product_id', 'private_car_plate', 'payment_mode', 'tax_ids')
+    def _check_expense(self):
         generic_private_car_product = self.env.ref(
             'hr_expense_usability.generic_private_car_expense')
         for exp in self:
@@ -194,10 +323,267 @@ class HrExpense(models.Model):
                         exp.name,
                         generic_private_car_product.name,
                         exp.employee_id.display_name))
-            if (
-                    exp.product_id.private_car_expense_ok and
-                    not exp.private_car_plate):
+            if exp.product_id.private_car_expense_ok:
+                if not exp.private_car_plate:
+                    raise ValidationError(_(
+                        "Missing 'Private Car Plate' on the "
+                        "expense '%s' of employee '%s'.")
+                        % (exp.name, exp.employee_id.display_name))
+                if exp.tax_ids:
+                    raise ValidationError(_(
+                        "The expense '%s' is a private car expense "
+                        "so it shouldn't have taxes.")
+                        % exp.name)
+            if exp.tax_ids:
+                if len(exp.tax_ids) > 1:
+                    raise ValidationError(_(
+                        "The expense '%s' has several taxes. The module "
+                        "'hr_expense_usability' only supports one "
+                        "tax on expenses.") % exp.name)
+                if not exp.tax_ids[0].price_include:
+                    raise ValidationError(_(
+                        "The expense '%s' has a tax that doesn't have the "
+                        "property 'Included in Price'. The module "
+                        "'hr_expense_usability' only accepts taxes included "
+                        "in price (to avoid confusing employees).")
+                        % exp.name)
+            # field is hidden and default value is 'own_account', so
+            # it should never happen
+            if exp.payment_mode == 'company_account':
                 raise ValidationError(_(
-                    "Missing 'Private Car Plate' on the "
-                    "expense '%s' of employee '%s'.")
-                    % (exp.name, exp.employee_id.display_name))
+                    "Support for 'Payment By Company' is removed "
+                    "by the module hr_expense_usability."))
+            prec = exp.currency_id.rounding
+            if float_compare(
+                    exp.total_amount,
+                    exp.tax_amount + exp.untaxed_amount_usability,
+                    precision_rounding=prec):
+                raise ValidationError(_(
+                    "The expense '%s' has a total amount (%s) which is "
+                    "different from the sum of the untaxed amount (%s) "
+                    "and the tax amount (%s).") % (
+                    exp.name,
+                    exp.total_amount,
+                    exp.untaxed_amount_usability,
+                    exp.tax_amount))
+            if (
+                    not float_is_zero(
+                        exp.tax_amount, precision_rounding=prec) and
+                    not exp.tax_ids):
+                raise ValidationError(_(
+                    "The amount tax of expense '%s' is %s, "
+                    "but no tax is selected.")
+                    % (exp.name, exp.tax_amount))
+            # TODO: check all have the same sign
+
+    def action_move_create(self):
+        '''disable account.move creation per hr.expense'''
+        raise UserError(_(
+            "The method 'action_move_create' is blocked by the module "
+            "'hr_expense_usability'"))
+
+
+class HrExpenseSheet(models.Model):
+    _inherit = 'hr.expense.sheet'
+
+    name = fields.Char(track_visibility='onchange')
+    employee_id = fields.Many2one(track_visibility='onchange')
+    responsible_id = fields.Many2one(track_visibility='onchange')
+    accounting_date = fields.Date(track_visibility='onchange')
+    company_currency_id = fields.Many2one(
+        related='company_id.currency_id', readonly=True, store=True)
+    total_amount_company_currency = fields.Monetary(
+        compute='compute_total_company_currency',
+        currency_field='company_currency_id', readonly=True, store=True,
+        string='Total', help="Total amount (with taxes) in company currency")
+    untaxed_amount_company_currency = fields.Monetary(
+        compute='compute_total_company_currency',
+        currency_field='company_currency_id', readonly=True, store=True,
+        string='Untaxed Amount', help="Untaxed amount in company currency")
+    tax_amount_company_currency = fields.Monetary(
+        compute='compute_total_company_currency',
+        currency_field='company_currency_id', readonly=True, store=True,
+        string='Tax Amount', help="Tax amount in company currency")
+
+    @api.depends(
+        'expense_line_ids.total_amount_company_currency',
+        'expense_line_ids.untaxed_amount_company_currency')
+    def compute_total_company_currency(self):
+        for sheet in self:
+            total = 0.0
+            untaxed = 0.0
+            for line in sheet.expense_line_ids:
+                total += line.total_amount_company_currency
+                untaxed += line.untaxed_amount_company_currency
+            sheet.total_amount_company_currency = total
+            sheet.untaxed_amount_company_currency = untaxed
+            sheet.tax_amount_company_currency = total - untaxed
+
+    def _prepare_move(self):
+        self.ensure_one()
+        if not self.journal_id:
+            raise UserError(_(
+                "No journal selected for expense report %s.")
+                % self.number)
+        date = self.accounting_date or fields.Date.context_today(self)
+        vals = {
+            'journal_id': self.journal_id.id,
+            'date': date,
+            'ref': self.number,
+            'company_id': self.company_id.id,
+            'line_ids': [],
+            }
+        return vals
+
+    def _prepare_payable_move_line(self, total_company_currency):
+        self.ensure_one()
+        debit = credit = 0.0
+        prec = self.company_id.currency_id.rounding
+        if float_compare(
+                total_company_currency, 0, precision_rounding=prec) > 0:
+            credit = total_company_currency
+        else:
+            debit = total_company_currency * -1
+        if not self.employee_id.address_home_id:
+            raise UserError(_(
+                "The employee '%s' doesn't have a Home Address. "
+                "The partner selected as 'Home Address' on the employee "
+                "will be used as the partner for the accounting entry.")
+                % (self.employee_id.display_name))
+        partner = self.employee_id.address_home_id
+        # by default date_maturity = move date
+        vals = {
+            'account_id': partner.property_account_payable_id.id,
+            'partner_id': partner.id,
+            'name': self.name[:60],
+            'credit': credit,
+            'debit': debit,
+            }
+        return vals
+
+    # TODO: set tax properties for those who use them
+    def _prepare_expense_move_lines(self):
+        self.ensure_one()
+        mlines = []
+        partner_id = self.employee_id.address_home_id.id
+        prec = self.company_id.currency_id.rounding
+        for exp in self.expense_line_ids:
+            # Expense
+            if exp.account_id:
+                account = exp.account_id
+            else:
+                account = exp.product_id.product_tmpl_id.\
+                    _get_product_accounts()['expense']
+                if not account:
+                    raise UserError(_(
+                        "No expense account found for product '%s' nor "
+                        "for it's related product category.") % (
+                        exp.product_id.display_name,
+                        exp.product_id.categ_id.display_name))
+            mlines.append({
+                'type': 'expense',
+                'partner_id': partner_id,
+                'account_id': account.id,
+                'analytic_account_id': exp.analytic_account_id.id or False,
+                'amount': exp.untaxed_amount_company_currency,
+                'name': exp.name.split('\n')[0][:64],
+                })
+            # TAX
+            tax_cmp = float_compare(
+                exp.tax_amount_company_currency, 0, precision_rounding=prec)
+            if tax_cmp:
+                tax = exp.tax_ids[0]  # there is a constrain on this
+                if tax_cmp > 0:
+                    tax_account_id = tax.account_id.id
+                else:
+                    tax_account_id = tax.refund_account_id.id
+                if tax.analytic:
+                    analytic_account_id = exp.analytic_account_id.id or False
+                else:
+                    analytic_account_id = False
+                mlines.append({
+                    'type': 'tax',
+                    'partner_id': partner_id,
+                    'account_id': tax_account_id,
+                    'analytic_account_id': analytic_account_id,
+                    'amount': exp.tax_amount_company_currency,
+                    'name': exp.name.split('\n')[0][:64],
+                    })
+        # grouping
+        group_mlines = {}
+        group = self.journal_id.group_invoice_lines
+        i = 0
+        for mline in mlines:
+            i += 1
+            if group:
+                key = (
+                    mline['type'],
+                    mline['account_id'],
+                    mline['analytic_account_id'],
+                    False)
+            else:
+                key = (False, False, False, i)
+            if key in group_mlines:
+                group_mlines[key]['amount'] += mline['amount']
+                group_mlines[key]['name'] = '%s %s' % (
+                    self.number, self.name[:60])
+            else:
+                group_mlines[key] = mline
+        res_mlines = []
+        total_cc = 0.0
+        for gmlines in group_mlines.itervalues():
+            total_cc += gmlines['amount']
+            credit = debit = 0.0
+            cmp_amount = float_compare(
+                gmlines['amount'], 0, precision_rounding=prec)
+            if cmp_amount > 0:
+                debit = gmlines['amount']
+            elif cmp_amount < 0:
+                credit = gmlines['amount'] * -1
+            else:
+                continue
+            res_mlines.append((0, 0, {
+                'partner_id': gmlines['partner_id'],
+                'account_id': gmlines['account_id'],
+                'analytic_account_id': gmlines['analytic_account_id'],
+                'name': gmlines['name'],
+                'debit': debit,
+                'credit': credit,
+                }))
+        return res_mlines, total_cc
+
+    def action_sheet_move_create(self):
+        for sheet in self:
+            if sheet.state != 'approve':
+                raise UserError(_(
+                    "It is possible to generate accounting entries only "
+                    "for approved expense reports. The expense report %s "
+                    "is in state '%s'.") % (sheet.number, sheet.state))
+            if float_is_zero(
+                    sheet.total_amount,
+                    precision_rounding=sheet.company_id.currency_id.rounding):
+                raise UserError(_(
+                    "The expense report %s has a total amount of 0.")
+                    % sheet.number)
+
+            vals = sheet._prepare_move()
+            exp_mlvals_list, total_cc = self._prepare_expense_move_lines()
+            vals['line_ids'] += exp_mlvals_list
+            pay_mlvals = sheet._prepare_payable_move_line(total_cc)
+            vals['line_ids'].append((0, 0, pay_mlvals))
+            move = self.env['account.move'].create(vals)
+            sheet.write(sheet._prepare_sheet_write_move_create(move))
+
+    def _prepare_sheet_write_move_create(self, move):
+        self.ensure_one()
+        vals = {
+            'state': 'post',
+            'account_move_id': move.id,
+        }
+        if not self.accounting_date:
+            vals['accounting_date'] = move.date
+        return vals
+
+    # TODO: for multi-company with expenses envir., we would need a field
+    # 'default_expense_journal' on company
+    # TODO: test if state => paid(done) when reconciled via bank statement...
