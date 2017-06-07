@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-<data noupdate="0">
+<odoo noupdate="1">
 
-<!--
-Employee : only see his expenses
-HR Officer = the manager of some employees : see his expenses and the ones of his subordinates
-HR Manager = person that administrates the expense process : can see everything
--->
-
-<!-- inherit native ir.rule ; remove HR Officer from 1=1 rule -->
-<record id="hr_expense.property_rule_expense_manager" model="ir.rule">
-    <field name="groups" eval="[(6, 0, [ref('base.group_hr_manager')])]"/>
+<record id="expense_sheet_employee" model="ir.rule">
+    <field name="name">Employee Expense Sheets</field>
+    <field name="model_id" ref="hr_expense.model_hr_expense_sheet"/>
+    <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+    <field name="groups" eval="[(4, ref('base.group_user'))]"/>
 </record>
 
-<record id="hr_expense_officer_see_subordinates" model="ir.rule">
-    <field name="name">HR Officer can see expenses of his subordinates</field>
-    <field name="model_id" ref="hr_expense.model_hr_expense_expense"/>
-    <field name="domain_force">['|', ('employee_id.user_id','=',user.id), ('employee_id','child_of',user.employee_ids.ids)]</field>
-    <field name="groups" eval="[(4, ref('base.group_hr_user'))]"/>
+<record id="expense_sheet_manager" model="ir.rule">
+    <field name="name">Manager Expense Sheets</field>
+    <field name="model_id" ref="hr_expense.model_hr_expense_sheet"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('account.group_account_user')), (4, ref('hr_expense.group_hr_expense_manager')), (4, ref('hr_expense.group_hr_expense_user'))]"/>
 </record>
 
-</data>
-</openerp>
+
+</odoo>

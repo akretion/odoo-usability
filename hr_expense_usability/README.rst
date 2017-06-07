@@ -1,9 +1,13 @@
+====================
 HR Expense Usability
 ====================
 
-This module adds a few usability enhancements to the official Expense modules:
+This module adds a many usability enhancements and new features to the official Expense modules:
 
-* Re-organise access rights: Officer can see the expense notes of his subordinates ; Manager can see all expense notes
+* support for Private car expenses (frais kilométriques selon barème fiscal),
+* remove support for *Payment by Company*
+* TODO: multi-currency fixes
+* TODO: full re-implementation of the account.move
 
 Credits
 =======
