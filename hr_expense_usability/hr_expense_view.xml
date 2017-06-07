@@ -56,7 +56,37 @@
         </field>
     </field>
 </record>
- 
+
+<record id="hr_expense_view_pivot" model="ir.ui.view">
+    <field name="name">usability.hr.expense.pivot</field>
+    <field name="model">hr.expense</field>
+    <field name="inherit_id" ref="hr_expense.hr_expense_view_pivot"/>
+    <field name="arch" type="xml">
+        <field name="total_amount" position="replace">
+            <field name="total_amount_company_currency" type="measure"/>
+        </field>
+        <field name="create_date" position="replace">
+            <field name="date" interval="month" type="col"/>
+        </field>
+    </field>
+</record>
+
+<record id="hr_expense_view_graph" model="ir.ui.view">
+    <field name="name">usability.hr.expense.graph</field>
+    <field name="model">hr.expense</field>
+    <field name="inherit_id" ref="hr_expense.hr_expense_view_graph"/>
+    <field name="arch" type="xml">
+        <field name="total_amount" position="replace">
+            <field name="total_amount_company_currency" type="measure"/>
+        </field>
+        <field name="create_date" position="replace">
+            <field name="date" interval="month" type="col"/>
+        </field>
+    </field>
+</record>
+
+
+
 <record id="view_hr_expense_sheet_form" model="ir.ui.view">
     <field name="name">usability.hr.expense.sheet.form</field>
     <field name="model">hr.expense.sheet</field>
@@ -75,10 +105,14 @@
             <field name="currency_id" invisible="1"/>
             <field name="company_currency_id" invisible="1"/>
             <field name="untaxed_amount_company_currency" sum="Untaxed Total"/>
+            <field name="tax_amount_company_currency" sum="Tax Total"/>
             <field name="total_amount_company_currency" sum="Total"/>
         </xpath>
         <xpath expr="//field[@name='expense_line_ids']/tree/field[@name='total_amount']" position="attributes">
             <attribute name="sum"></attribute>
+        </xpath>
+        <xpath expr="//field[@name='expense_line_ids']/tree/field[@name='analytic_account_id']" position="before">
+            <field name="account_id" groups="account.group_account_user"/>
         </xpath>
         <field name="account_move_id" position="attributes">
             <attribute name="invisible">0</attribute>
@@ -110,6 +144,28 @@
         </field>
     </field>
 </record>
- 
+
+<record id="view_hr_expense_sheet_pivot" model="ir.ui.view">
+    <field name="name">usability.hr.expense.sheet.pivot</field>
+    <field name="model">hr.expense.sheet</field>
+    <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_pivot"/>
+    <field name="arch" type="xml">
+        <field name="total_amount" position="replace">
+            <field name="total_amount_company_currency" type="measure"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_hr_expense_sheet_graph" model="ir.ui.view">
+    <field name="name">usability.hr.expense.sheet.graph</field>
+    <field name="model">hr.expense.sheet</field>
+    <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_graph"/>
+    <field name="arch" type="xml">
+        <field name="total_amount" position="replace">
+            <field name="total_amount_company_currency" type="measure"/>
+        </field>
+    </field>
+</record>
+
 
 </odoo>

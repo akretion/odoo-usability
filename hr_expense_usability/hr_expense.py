@@ -6,6 +6,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare, float_is_zero
+import odoo.addons.decimal_precision as dp
 
 
 # I had to choose between several ideas when I developped this module :
@@ -20,14 +21,14 @@ from odoo.tools import float_compare, float_is_zero
 # Idea : we create only one "private car expense" product, and we
 # create a new object to store the price depending on the CV, etc...
 # Drawback : need to create a new object
+# => that's what is implemented in this module
 
 # 3) single generic "My private car" product selectable by the user ;
 # several specific private car products NOT selectable by the user
 # Idea : When the user selects the generic "My private car" product,
 # it is automatically replaced by the specific one via the on_change
-# Drawback : none ? :)
-# => that's what is implemented in this module
-
+# Drawback : decimal precision 'Product Price' on standard_price of product
+# (but we need 3)
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
@@ -140,7 +141,6 @@ class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
     def compute_private_car_total_km_this_year(self):
-        print "compute_private_car_total_km_this_year self=", self
         res = {}
         private_car_products = self.env['product.product'].search(
             [('private_car_expense_ok', '=', True)])
@@ -180,6 +180,25 @@ class HrEmployee(models.Model):
         "employee is compatible with the number of kilometers "
         "reimbursed to this employee during the civil year.")
 
+    def _get_accounting_partner_from_employee(self):
+        # By default, odoo uses self.employee_id.address_home_id
+        # which users usually don't configure
+        # (even demo data doesn't bother to set it...)
+        # So I decided to put a fallback on employee.user_id.partner_id
+        self.ensure_one()
+        if self.address_home_id:
+            partner = self.address_home_id.commercial_partner_id
+        elif self.user_id:
+            # We don't use "commercial partner" here...
+            partner = self.user_id.partner_id
+        else:
+            raise UserError(_(
+                "The employee '%s' doesn't have a Home Address and isn't "
+                "linked to an Odoo user. You have to set one of these two "
+                "fields on the employee form in order to get a partner from "
+                "the employee for the Journal Items.") % self.display_name)
+        return partner
+
 
 class HrExpense(models.Model):
     _inherit = 'hr.expense'
@@ -188,6 +207,9 @@ class HrExpense(models.Model):
     date = fields.Date(track_visibility='onchange', required=True)
     currency_id = fields.Many2one(track_visibility='onchange', required=True)
     total_amount = fields.Float(track_visibility='onchange')
+    # I want a specific precision for unit_amount of expense
+    # main reason is KM cost which is 3 by default
+    unit_amount = fields.Float(digits=dp.get_precision('Expense Unit Price'))
     private_car_plate = fields.Char(
         string='Private Car Plate', size=32, track_visibility='onchange',
         readonly=True, states={'draft': [('readonly', False)]})
@@ -276,7 +298,8 @@ class HrExpense(models.Model):
         if self.product_id.private_car_expense_ok:
             original_unit_amount = self.product_id.price_compute(
                 'standard_price')[self.product_id.id]
-            prec = self.env['decimal.precision'].precision_get('Product Price')
+            prec = self.env['decimal.precision'].precision_get(
+                'Expense Unit Price')
             if float_compare(
                     original_unit_amount, self.unit_amount,
                     precision_digits=prec):
@@ -308,7 +331,8 @@ class HrExpense(models.Model):
         return res
 
     @api.constrains(
-        'product_id', 'private_car_plate', 'payment_mode', 'tax_ids')
+        'product_id', 'private_car_plate', 'payment_mode', 'tax_ids',
+        'untaxed_amount_usability', 'tax_amount', 'quantity', 'unit_amount')
     def _check_expense(self):
         generic_private_car_product = self.env.ref(
             'hr_expense_usability.generic_private_car_expense')
@@ -374,7 +398,38 @@ class HrExpense(models.Model):
                     "The amount tax of expense '%s' is %s, "
                     "but no tax is selected.")
                     % (exp.name, exp.tax_amount))
-            # TODO: check all have the same sign
+            sign = {
+                'untaxed_amount_usability': 0,
+                'tax_amount': 0,
+                'total_amount': 0,
+                }
+            for field_name in sign.iterkeys():
+                sign[field_name] = float_compare(
+                    exp[field_name], 0, precision_rounding=prec)
+            if (
+                    sign['total_amount'] < 0 and (
+                        sign['untaxed_amount_usability'] > 0 or
+                        sign['tax_amount'] > 0)):
+                raise ValidationError(_(
+                    "On the expense '%s', the total amount (%s) is "
+                    "negative, so the untaxed amount (%s) and the "
+                    "tax amount (%s) should be negative or null.") % (
+                    exp.name,
+                    exp.total_amount,
+                    exp.untaxed_amount_usability,
+                    exp.tax_amount))
+            if (
+                    sign['total_amount'] > 0 and (
+                        sign['untaxed_amount_usability'] < 0 or
+                        sign['tax_amount'] < 0)):
+                raise ValidationError(_(
+                    "On the expense '%s', the total amount (%s) is "
+                    "positive, so the untaxed amount (%s) and the "
+                    "tax amount (%s) should be positive or null.") % (
+                    exp.name,
+                    exp.total_amount,
+                    exp.untaxed_amount_usability,
+                    exp.tax_amount))
 
     def action_move_create(self):
         '''disable account.move creation per hr.expense'''
@@ -419,12 +474,19 @@ class HrExpenseSheet(models.Model):
             sheet.untaxed_amount_company_currency = untaxed
             sheet.tax_amount_company_currency = total - untaxed
 
+    @api.one
+    @api.constrains('expense_line_ids')
+    def _check_amounts(self):
+        '''Remove the constraint 'You cannot have a positive and negative
+        amounts on the same expense report.' '''
+        return True
+
     def _prepare_move(self):
         self.ensure_one()
         if not self.journal_id:
             raise UserError(_(
                 "No journal selected for expense report %s.")
-                % self.number)
+                % self.display_name)
         date = self.accounting_date or fields.Date.context_today(self)
         vals = {
             'journal_id': self.journal_id.id,
@@ -437,35 +499,28 @@ class HrExpenseSheet(models.Model):
 
     def _prepare_payable_move_line(self, total_company_currency):
         self.ensure_one()
-        debit = credit = 0.0
+        debit = credit = False
         prec = self.company_id.currency_id.rounding
         if float_compare(
                 total_company_currency, 0, precision_rounding=prec) > 0:
             credit = total_company_currency
         else:
             debit = total_company_currency * -1
-        if not self.employee_id.address_home_id:
-            raise UserError(_(
-                "The employee '%s' doesn't have a Home Address. "
-                "The partner selected as 'Home Address' on the employee "
-                "will be used as the partner for the accounting entry.")
-                % (self.employee_id.display_name))
-        partner = self.employee_id.address_home_id
+        partner = self.employee_id._get_accounting_partner_from_employee()
         # by default date_maturity = move date
         vals = {
             'account_id': partner.property_account_payable_id.id,
             'partner_id': partner.id,
-            'name': self.name[:60],
+            'name': self.name[:64],
             'credit': credit,
             'debit': debit,
             }
         return vals
 
-    # TODO: set tax properties for those who use them
     def _prepare_expense_move_lines(self):
         self.ensure_one()
         mlines = []
-        partner_id = self.employee_id.address_home_id.id
+        partner = self.employee_id._get_accounting_partner_from_employee()
         prec = self.company_id.currency_id.rounding
         for exp in self.expense_line_ids:
             # Expense
@@ -482,7 +537,7 @@ class HrExpenseSheet(models.Model):
                         exp.product_id.categ_id.display_name))
             mlines.append({
                 'type': 'expense',
-                'partner_id': partner_id,
+                'partner_id': partner.id,
                 'account_id': account.id,
                 'analytic_account_id': exp.analytic_account_id.id or False,
                 'amount': exp.untaxed_amount_company_currency,
@@ -503,7 +558,7 @@ class HrExpenseSheet(models.Model):
                     analytic_account_id = False
                 mlines.append({
                     'type': 'tax',
-                    'partner_id': partner_id,
+                    'partner_id': partner.id,
                     'account_id': tax_account_id,
                     'analytic_account_id': analytic_account_id,
                     'amount': exp.tax_amount_company_currency,
@@ -525,15 +580,14 @@ class HrExpenseSheet(models.Model):
                 key = (False, False, False, i)
             if key in group_mlines:
                 group_mlines[key]['amount'] += mline['amount']
-                group_mlines[key]['name'] = '%s %s' % (
-                    self.number, self.name[:60])
+                group_mlines[key]['name'] = self.name[:64]
             else:
                 group_mlines[key] = mline
         res_mlines = []
         total_cc = 0.0
         for gmlines in group_mlines.itervalues():
             total_cc += gmlines['amount']
-            credit = debit = 0.0
+            credit = debit = False
             cmp_amount = float_compare(
                 gmlines['amount'], 0, precision_rounding=prec)
             if cmp_amount > 0:
@@ -585,5 +639,5 @@ class HrExpenseSheet(models.Model):
         return vals
 
     # TODO: for multi-company with expenses envir., we would need a field
-    # 'default_expense_journal' on company
-    # TODO: test if state => paid(done) when reconciled via bank statement...
+    # 'default_expense_journal' on company (otherwise, it takes the
+    # first purchase journal, which is probably not the good one

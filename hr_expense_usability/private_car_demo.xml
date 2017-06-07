@@ -7,24 +7,41 @@
 
 <odoo noupdate="1">
 
+<record id="demo_private_car_expense" model="product.product">
+    <field name="name">1-2CV 0-12000km Private Car Expenses</field>
+    <field name="default_code">1-2CV/0-12000km</field>
+    <field name="categ_id" ref="hr_expense.cat_expense"/>
+    <field name="sale_ok" eval="False"/>
+    <field name="purchase_ok" eval="False"/>
+    <field name="can_be_expensed" eval="False"/>
+    <field name="private_car_expense_ok" eval="True"/>
+    <field name="type">service</field>
+    <field name="list_price">0</field>
+    <field name="standard_price">0.42</field>
+    <field name="uom_id" ref="product.product_uom_km"/>
+    <field name="uom_po_id" ref="product.product_uom_km"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="supplier_taxes_id" eval="False"/>
+</record>
+
 <record id="hr.employee_root" model="hr.employee">
     <field name="private_car_plate">OD 4212 OO</field>
-    <field name="private_car_product_id" ref="5cv_0-5000km_private_car_expense"/>
+    <field name="private_car_product_id" ref="demo_private_car_expense"/>
 </record>
 
 <record id="hr.employee_mit" model="hr.employee">
     <field name="private_car_plate">OE 1234 EO</field>
-    <field name="private_car_product_id" ref="6cv_0-5000km_private_car_expense"/>
+    <field name="private_car_product_id" ref="demo_private_car_expense"/>
 </record>
 
 <record id="hr.employee_al" model="hr.employee">
     <field name="private_car_plate">BE 6543 AL</field>
-    <field name="private_car_product_id" ref="4cv_0-5000km_private_car_expense"/>
+    <field name="private_car_product_id" ref="demo_private_car_expense"/>
 </record>
 
 <record id="hr.employee_qdp" model="hr.employee">
     <field name="private_car_plate">BE 1235 QD</field>
-    <field name="private_car_product_id" ref="4cv_0-5000km_private_car_expense"/>
+    <field name="private_car_product_id" ref="demo_private_car_expense"/>
 </record>
 
 </odoo>

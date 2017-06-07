@@ -13,16 +13,16 @@
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': [
-        'hr_expense',
         'hr_expense_sequence',
         ],
     'data': [
-        'private_car_data.xml',
         'hr_employee_view.xml',
         'hr_expense_view.xml',
         'product_view.xml',
+        'hr_expense_data.xml',
         'security/expense_security.xml',
         ],
+    'post_init_hook': 'create_private_car_expense_products',
     'demo': ['private_car_demo.xml'],
     'installable': True,
 }
