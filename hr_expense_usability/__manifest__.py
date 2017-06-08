@@ -14,6 +14,7 @@
     'website': 'http://www.akretion.com',
     'depends': [
         'hr_expense_sequence',
+        'hr_expense_usability_dp',
         ],
     'data': [
         'hr_expense_data.xml',
@@ -24,7 +25,6 @@
         'security/expense_security.xml',
         'security/ir.model.access.csv',
         ],
-    'pre_init_hook': 'create_decimal_precision',
     'post_init_hook': 'create_private_car_km_prices',
     'demo': ['private_car_demo.xml'],
     'installable': True,
