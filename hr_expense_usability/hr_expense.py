@@ -33,24 +33,6 @@ import odoo.addons.decimal_precision as dp
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    private_car_expense_ok = fields.Boolean(
-        string='Private Car Expense', track_visibility='onchange')
-
-    # same code in class product.product and product.template
-    @api.onchange('private_car_expense_ok')
-    def onchange_private_car_expense_ok(self):
-        if self.private_car_expense_ok:
-            km_uom = self.env.ref('product.product_uom_km')
-            self.type = 'service'
-            self.list_price = 0.0
-            self.can_be_expensed = False
-            self.sale_ok = False
-            self.purchase_ok = False
-            self.uom_id = km_uom.id
-            self.po_uom_id = km_uom.id
-            self.taxes_id = False
-            self.supplier_taxes_id = False
-
     # same code in class product.product and product.template
     @api.onchange('can_be_expensed')
     def onchange_can_be_expensed(self):
@@ -58,30 +40,11 @@ class ProductTemplate(models.Model):
             unit_uom = self.env.ref('product.product_uom_unit')
             self.type = 'service'
             self.list_price = 0.0
-            self.private_car_expense_ok = False
             self.sale_ok = False
             self.purchase_ok = False
             self.uom_id = unit_uom.id
             self.po_uom_id = unit_uom.id
             self.taxes_id = False
-
-    @api.constrains(
-        'private_car_expense_ok', 'can_be_expensed', 'uom_id',
-        'standard_price')
-    def _check_private_car_expense(self):
-        for product in self:
-            if product.private_car_expense_ok:
-                if product.can_be_expensed:
-                    raise ValidationError(_(
-                        "The product '%s' cannot have both the properties "
-                        "'Can be Expensed' and 'Private Car Expense'.")
-                        % product.display_name)
-                km_uom = self.env.ref('product.product_uom_km')
-                if product.uom_id != km_uom:
-                    raise ValidationError(_(
-                        "The product '%s' is a Private Car Expense, so "
-                        "it's unit of measure must be kilometers (KM).")
-                        % product.display_name)
 
     # It probably doesn't make sense to have a constraint on a property fields
     # But the same constrain is also on hr.expense
@@ -108,28 +71,12 @@ class ProductProduct(models.Model):
     _inherit = 'product.product'
 
     # same code in class product.product and product.template
-    @api.onchange('private_car_expense_ok')
-    def onchange_private_car_expense_ok(self):
-        if self.private_car_expense_ok:
-            km_uom = self.env.ref('product.product_uom_km')
-            self.type = 'service'
-            self.list_price = 0.0
-            self.can_be_expensed = False
-            self.sale_ok = False
-            self.purchase_ok = False
-            self.uom_id = km_uom.id
-            self.po_uom_id = km_uom.id
-            self.taxes_id = False
-            self.supplier_taxes_id = False
-
-    # same code in class product.product and product.template
     @api.onchange('can_be_expensed')
     def onchange_can_be_expensed(self):
         if self.can_be_expensed:
             unit_uom = self.env.ref('product.product_uom_unit')
             self.type = 'service'
             self.list_price = 0.0
-            self.private_car_expense_ok = False
             self.sale_ok = False
             self.purchase_ok = False
             self.uom_id = unit_uom.id
@@ -137,13 +84,29 @@ class ProductProduct(models.Model):
             self.taxes_id = False
 
 
+class PrivateCarKmPrice(models.Model):
+    _name = 'private.car.km.price'
+    _description = 'Private Car Kilometer Price'
+    _order = 'name'
+
+    name = fields.Char(required=True)
+    unit_amount = fields.Float(
+        string='Price per KM', digits=dp.get_precision('Expense Unit Price'),
+        help='Price per kilometer in company currency.')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env['res.company']._company_default_get(
+            'private.car.km.price'))
+    active = fields.Boolean(default=True)
+
+
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
     def compute_private_car_total_km_this_year(self):
         res = {}
-        private_car_products = self.env['product.product'].search(
-            [('private_car_expense_ok', '=', True)])
+        private_car_product_id = self.env.ref(
+            'hr_expense_usability.generic_private_car_expense').id
         today = fields.Date.context_today(self)
         today_dt = fields.Date.from_string(today)
         self._cr.execute(
@@ -152,11 +115,11 @@ class HrEmployee(models.Model):
             FROM hr_expense el
             WHERE el.state NOT IN ('draft', 'cancel')
             AND el.employee_id IN %s
-            AND el.product_id IN %s
+            AND el.product_id=%s
             AND EXTRACT(year FROM el.date) = %s
             GROUP BY el.employee_id
             """,
-            (tuple(self.ids), tuple(private_car_products.ids), today_dt.year))
+            (tuple(self.ids), private_car_product_id, today_dt.year))
         for line in self._cr.dictfetchall():
             res[line['employee_id']] = line['sum']
         for empl in self:
@@ -165,9 +128,8 @@ class HrEmployee(models.Model):
     private_car_plate = fields.Char(
         'Private Car Plate', size=32, copy=False, track_visibility='onchange',
         help="This field will be copied on the expenses of this employee.")
-    private_car_product_id = fields.Many2one(
-        'product.product', string='Private Car Product', copy=False,
-        domain=[('private_car_expense_ok', '=', True)],
+    private_car_km_price_id = fields.Many2one(
+        'private.car.km.price', string='Private Car Price', copy=False,
         ondelete='restrict', track_visibility='onchange',
         help="This field will be copied on the expenses of this employee.")
     private_car_total_km_this_year = fields.Float(
@@ -213,8 +175,12 @@ class HrExpense(models.Model):
     private_car_plate = fields.Char(
         string='Private Car Plate', size=32, track_visibility='onchange',
         readonly=True, states={'draft': [('readonly', False)]})
-    private_car_expense = fields.Boolean(
-        related='product_id.private_car_expense_ok', readonly=True, store=True)
+    private_car_km_price_id = fields.Many2one(
+        'private.car.km.price', string='Private Car Price', copy=False,
+        ondelete='restrict', track_visibility='onchange',
+        help="This field will be copied on the expenses of this employee.")
+    # only for field visibility
+    private_car_expense = fields.Boolean()
     tax_amount = fields.Monetary(
         string='Tax Amount', currency_field='currency_id',
         readonly=True, states={'draft': [('readonly', False)]})
@@ -277,27 +243,42 @@ class HrExpense(models.Model):
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
+        private_car_product = self.env.ref(
+            'hr_expense_usability.generic_private_car_expense')
         if (
-                self.product_id and self.product_id == self.env.ref(
-                    'hr_expense_usability.generic_private_car_expense')):
-            if not self.employee_id.private_car_product_id:
+                self.product_id and
+                self.product_id == private_car_product and
+                self.employee_id):
+            if not self.employee_id.private_car_km_price_id:
                 raise UserError(_(
-                    "Missing Private Car Product on the configuration of "
+                    "Missing Private Car Km Price on the configuration of "
                     "the employee '%s'.") % self.employee_id.display_name)
             if not self.employee_id.private_car_plate:
                 raise UserError(_(
                     "Missing Private Car Plate on the configuration of "
                     "the employee '%s'.") % self.employee_id.display_name)
-            self.product_id = self.employee_id.private_car_product_id
+            self.private_car_expense = True
+            self.currency_id = self.company_id.currency_id
             self.private_car_plate = self.employee_id.private_car_plate
+            self.private_car_km_price_id =\
+                self.employee_id.private_car_km_price_id
+        else:
+            self.private_car_expense = False
+            self.private_car_plate = False
+            self.private_car_km_price_id = False
         return super(HrExpense, self)._onchange_product_id()
+
+    @api.onchange('private_car_km_price_id')
+    def _onchange_private_car_km_price_id(self):
+        if self.private_car_km_price_id and self.employee_id:
+            self.unit_amount =\
+                self.employee_id.private_car_km_price_id.unit_amount
 
     @api.onchange('unit_amount')
     def _onchange_unit_amount(self):
         res = {}
-        if self.product_id.private_car_expense_ok:
-            original_unit_amount = self.product_id.price_compute(
-                'standard_price')[self.product_id.id]
+        if self.private_car_expense:
+            original_unit_amount = self.private_car_km_price_id.unit_amount
             prec = self.env['decimal.precision'].precision_get(
                 'Expense Unit Price')
             if float_compare(
@@ -338,21 +319,23 @@ class HrExpense(models.Model):
             'hr_expense_usability.generic_private_car_expense')
         for exp in self:
             if exp.product_id == generic_private_car_product:
-                raise ValidationError(_(
-                    "You are trying to save the expense '%s' "
-                    "with the generic product '%s': it is not possible, "
-                    "this product should have been automatically replaced "
-                    "by the specific private car product configured for "
-                    "the employee '%s'.") % (
-                        exp.name,
-                        generic_private_car_product.name,
-                        exp.employee_id.display_name))
-            if exp.product_id.private_car_expense_ok:
                 if not exp.private_car_plate:
                     raise ValidationError(_(
                         "Missing 'Private Car Plate' on the "
                         "expense '%s' of employee '%s'.")
                         % (exp.name, exp.employee_id.display_name))
+                if not exp.private_car_km_price_id:
+                    raise ValidationError(_(
+                        "Missing 'Private Car Km Price' on the "
+                        "expense '%s'.") % exp.name)
+                if exp.currency_id != exp.company_id.currency_id:
+                    raise ValidationError(_(
+                        "The expense '%s' is a private car expense, "
+                        "so the currency of this expense (%s) should "
+                        "be the currency of the company (%s).") % (
+                        exp.name,
+                        exp.currency_id.name,
+                        exp.company_id.currency_id.name))
                 if exp.tax_ids:
                     raise ValidationError(_(
                         "The expense '%s' is a private car expense "

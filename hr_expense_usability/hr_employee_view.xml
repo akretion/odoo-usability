@@ -15,8 +15,7 @@
         <page name="hr_settings" position="inside">
             <group name="private_car_expenses" string="Private Car Expenses">
                 <field name="private_car_plate"/>
-                <field name="private_car_product_id"
-                    context="{'default_private_car_expense_ok': True}"/>
+                <field name="private_car_km_price_id"/>
                 <field name="private_car_total_km_this_year"/>
             </group>
         </page>

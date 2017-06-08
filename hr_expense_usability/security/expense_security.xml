@@ -15,5 +15,10 @@
     <field name="groups" eval="[(4, ref('account.group_account_user')), (4, ref('hr_expense.group_hr_expense_manager')), (4, ref('hr_expense.group_hr_expense_user'))]"/>
 </record>
 
+<record id="private_car_km_price_multicompany" model="ir.rule">
+    <field name="name">Private Car Kilometer Prices Multi-company</field>
+    <field name="model_id" ref="model_private_car_km_price"/>
+    <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+</record>
 
 </odoo>
