@@ -24,6 +24,7 @@ from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, \
     DEFAULT_SERVER_DATETIME_FORMAT
+from openerp.tools import float_compare
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import pytz
@@ -345,7 +346,8 @@ class HrHolidays(orm.Model):
                         False)[record.holiday_status_id.id]['remaining_leaves']
                     # here is the code that I modify
                     #if leaves_rest < record.number_of_days_temp:
-                    if leaves_rest < record.number_of_days * -1:
+                    #if leaves_rest < record.number_of_days * -1:
+                    if float_compare(leaves_rest, record.number_of_days * -1, precision_digits=2) < 0:
                         raise orm.except_orm(
                             _('Warning!'),
                             _('There are not enough %s allocated for '
