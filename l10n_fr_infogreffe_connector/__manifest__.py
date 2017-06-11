@@ -22,7 +22,7 @@
 
 {
     'name': 'Infogreffe connector',
-    'version': '0.1',
+    'version': '10.0.0.1.0',
     'category': 'French Localization',
     'license': 'AGPL-3',
     'summary': 'Download info from infogreffe.fr',

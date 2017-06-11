@@ -23,7 +23,7 @@
 
 {
     'name': 'Project Issue Extension',
-    'version': '0.1',
+    'version': '10.0.0.1.0',
     'category': 'Project Management',
     'license': 'AGPL-3',
     'summary': 'Better usability for Project Issues',

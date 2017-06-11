@@ -23,7 +23,7 @@
 
 {
     'name': 'Product Variant CSV Import',
-    'version': '0.1',
+    'version': '10.0.0.1.0',
     'category': 'Barroux',
     'license': 'AGPL-3',
     'summary': 'Add menu entry to allow CSV import of templates with variants',
