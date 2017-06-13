@@ -33,6 +33,9 @@
         <field name="fiscal_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
+        <button name="button_cancel" type="object" position="attributes">
+            <attribute name="confirm">Are you sure you want to cancel this purchase order?</attribute>
+        </button>
     </field>
 </record>
 
