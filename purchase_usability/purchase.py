@@ -16,6 +16,8 @@ class PurchaseOrder(models.Model):
     fiscal_position_id = fields.Many2one(track_visibility='onchange')
     incoterm_id = fields.Many2one(track_visibility='onchange')
     partner_ref = fields.Char(track_visibility='onchange')
+    # field 'partner_id': native value for track_visibility='always'
+    partner_id = fields.Many2one(track_visibility='onchange')
     # for report
     delivery_partner_id = fields.Many2one(
         'res.partner', compute='_compute_delivery_partner_id', readonly=True)

@@ -24,6 +24,9 @@
             <attribute name="context">{'show_address': 1, 'default_type': 'delivery'}</attribute>
             <attribute name="options">{'always_reload': True}</attribute>
         </field>
+        <button name="action_cancel" type="object" position="attributes">
+            <attribute name="confirm">Are you sure you want to cancel this sale order?</attribute>
+        </button>
     </field>
 </record>
 
