@@ -5,7 +5,7 @@
 
 {
     'name': 'Sale Usability',
-    'version': '0.1',
+    'version': '10.0.0.1.0',
     'category': 'Sale Management',
     'license': 'AGPL-3',
     'summary': 'Show invoices on sale orders',
