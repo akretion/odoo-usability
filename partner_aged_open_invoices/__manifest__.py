@@ -23,7 +23,7 @@
 
 {
     'name': 'Partner Aged Open Invoices',
-    'version': '0.1',
+    'version': '10.0.0.1.0',
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'summary': 'Direct access to the aged open invoice report from the partner form',

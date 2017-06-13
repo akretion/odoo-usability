@@ -5,7 +5,7 @@
 
 {
     'name': 'Base Usability',
-    'version': '0.1',
+    'version': '10.0.0.1.0',
     'category': 'Partner',
     'license': 'AGPL-3',
     'summary': 'Better usability in base module',

@@ -4,7 +4,7 @@
 
 {
     'name': 'Point of Sale Usability',
-    'version': '0.2',
+    'version': '10.0.0.2.0',
     'category': 'Point Of Sale',
     'license': 'AGPL-3',
     'summary': 'Small usability enhancements in Point of Sale',
