@@ -161,6 +161,20 @@ module -->
     <field name="context">{'show_invoice_fields': True}</field>
 </record>
 
+<record id="view_account_invoice_report_search" model="ir.ui.view">
+    <field name="name">usability.account.invoice.report.search</field>
+    <field name="model">account.invoice.report</field>
+    <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
+    <field name="arch" type="xml">
+        <field name="categ_id" position="after">
+            <field name="product_id"/>
+        </field>
+        <filter name="category_product" position="after">
+            <filter string="Product" name="product_group_by" context="{'group_by': 'product_id'}"/>
+        </filter>
+    </field>
+</record>
+
 <!-- model account.move.line / Journal Items -->
 <record id="account.action_account_moves_all_a" model="ir.actions.act_window">
     <field name="limit">200</field>

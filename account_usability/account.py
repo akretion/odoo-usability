@@ -23,6 +23,8 @@
 from openerp import models, fields, api, _
 from openerp.tools import float_compare
 from openerp.exceptions import Warning as UserError
+import logging
+logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
@@ -128,6 +130,28 @@ class AccountAccount(models.Model):
         else:
             return super(AccountAccount, self).name_get()
 
+    @api.model
+    def check_account_hierarchy(self):
+        '''designed to be called by a script'''
+        accounts = self.env['account.account'].search([])
+        parent_accounts = self
+        for account in accounts:
+            if account.parent_id and account.parent_id not in parent_accounts:
+                parent_accounts += account.parent_id
+        err_msg = []
+        view_user_type = self.env.ref('account.data_account_type_view')
+        for pacc in parent_accounts:
+            if pacc.type != 'view':
+                err_msg.append(_(
+                    'Parent account %s should have type=view '
+                    '(current type=%s)') % (pacc.code, pacc.type))
+            if pacc.user_type != view_user_type:
+                err_msg.append(_(
+                    'Parent account %s should have user_type=view (current '
+                    '(user_type=%s)') % (pacc.code, pacc.user_type.name))
+        if err_msg:
+            raise UserError('\n'.join(err_msg))
+
 
 class AccountAnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
@@ -163,6 +187,39 @@ class AccountMove(models.Model):
     def date_onchange(self):
         if self.date:
             self.period_id = self.env['account.period'].find(self.date)
+
+    @api.model
+    def delete_move_no_lines(self):
+        '''designed to be called by a script'''
+        moves_no_lines = self.search([('line_id', '=', False)])
+        inv_moves_sr = self.env['account.invoice'].search_read(
+            [('move_id', '!=', False)], ['move_id'])
+        move2inv = {}  # key=move_id, value=invoice_id
+        invoice_move_no_line = {}  # key=ID, value=number
+        deleted_move_ids = []
+        for inv_move_sr in inv_moves_sr:
+            move2inv[inv_move_sr['move_id'][0]] = inv_move_sr['id']
+        for move in moves_no_lines:
+            for l in move.line_id:
+                raise UserError(_('Move %d has a line !') % move.id)
+            if move.id not in move2inv:
+                if move.state == 'posted':
+                    move.state = 'draft'
+                deleted_move_ids.append(move.id)
+                move.unlink()
+            else:
+                invoice_move_no_line[move2inv[move.id]] = move.name
+        if deleted_move_ids:
+            logger.info(
+                'Account move IDs %s have been deleted because they '
+                'had 0 lines', deleted_move_ids)
+        else:
+            logger.info('0 moves without lines found')
+        if invoice_move_no_line:
+            for inv_id, inv_number in invoice_move_no_line.iteritems():
+                logger.info(
+                    'Invoice ID %d number %s has a move with 0 lines',
+                    inv_id, inv_number)
 
 
 class AccountMoveLine(models.Model):
