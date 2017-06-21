@@ -20,7 +20,16 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models, fields, api
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    notify_email = fields.Selection(
+        selection_add=[
+            ('all_except_notification', 'All Messages Except Notifications')],
+        default='all_except_notification')
 
 
 class MailMail(models.Model):
@@ -50,3 +59,15 @@ class MailNotification(models.Model):
         footer = footer[:footer.find('\n<br /><small>Sent by ')]
         footer = footer[:footer.find(u'\n<br /><small>Envoyé par ')]
         return footer
+
+    @api.multi
+    def get_partners_to_email(self, message):
+        notify_pids = super(MailNotification, self).get_partners_to_email(
+            message)
+        for notif in self:
+            if (
+                    message.type == 'notification' and
+                    notif.partner_id.notify_email ==
+                    'all_except_notification'):
+                notify_pids.remove(notif.partner_id.id)
+        return notify_pids
