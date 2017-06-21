@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<openerp>
+<data>
+
+<record id="invoice_supplier_form" model="ir.ui.view">
+    <field name="model">account.invoice</field>
+    <field name="inherit_id" ref="account.invoice_supplier_form"/>
+    <field name="arch" type="xml">
+        <button name="invoice_cancel" position="before">
+            <button name="%(account_invoice_update_action)d" type="action" string="Update Invoice" states="open,paid" groups="account.group_account_invoice"/>
+        </button>
+    </field>
+</record>
+
+<record id="invoice_form" model="ir.ui.view">
+    <field name="model">account.invoice</field>
+    <field name="inherit_id" ref="account.invoice_form"/>
+    <field name="arch" type="xml">
+        <button name="invoice_cancel" position="before">
+            <button name="%(account_invoice_update_action)d" type="action" string="Update Invoice" states="open,paid" groups="account.group_account_invoice"/>
+        </button>
+    </field>
+</record>
+
+</data>
+</openerp>
