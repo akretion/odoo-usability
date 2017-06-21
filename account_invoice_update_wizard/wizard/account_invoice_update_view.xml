@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<openerp>
+<data>
+
+<record id="account_invoice_update_form" model="ir.ui.view">
+    <field name="model">account.invoice.update</field>
+    <field name="arch" type="xml">
+        <form string="Update Invoice Wizard">
+            <group name="main">
+                <field name="invoice_id" invisible="1"/>
+                <field name="type" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="commercial_partner_id" invisible="1"/>
+                <field name="reference" attrs="{'invisible': [('type', 'not in', ('in_invoice', 'in_refund'))]}"/>
+                <field name="origin"/>
+                <field name="name"/>
+                <field name="payment_term" widget="selection"/>
+                <field name="partner_bank_id"/>
+                <field name="user_id"/>
+                <field name="comment"/>
+            </group>
+            <group name="lines">
+                <field name="line_ids" nolabel="1">
+                    <tree editable="bottom">
+                        <field name="invoice_line_id" invisible="1"/>
+                        <field name="name"/>
+                        <field name="quantity"/>
+                        <field name="price_subtotal"/>
+                    </tree>
+                </field>
+            </group>
+            <footer>
+                <button name="run" type="object" class="oe_highlight" string="Update"/>
+                or 
+                <button special="cancel" string="Cancel" class="oe_link"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="account_invoice_update_action" model="ir.actions.act_window">
+    <field name="name">Invoice Update Wizard</field>
+    <field name="res_model">account.invoice.update</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+</data>
+</openerp>
