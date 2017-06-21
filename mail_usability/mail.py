@@ -66,6 +66,7 @@ class MailNotification(models.Model):
             message)
         for notif in self:
             if (
+                    notif.partner_id.id in notify_pids and
                     message.type == 'notification' and
                     notif.partner_id.notify_email ==
                     'all_except_notification'):
