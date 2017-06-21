@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_private_car_km_price_read,Read access on private.car.km.price to employees,model_private_car_km_price,base.group_user,1,0,0,0
-access_private_car_km_price_full,Full access on private.car.km.price to HR Expense Manager,model_private_car_km_price,hr_expense.group_hr_expense_manager,1,1,1,1
-access_private_car_km_price_full,Full access on private.car.km.price to Accounting Manager,model_private_car_km_price,account.group_account_manager,1,1,1,1

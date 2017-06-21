@@ -17,15 +17,9 @@
         'hr_expense_usability_dp',
         ],
     'data': [
-        'hr_expense_data.xml',
-        'hr_employee_view.xml',
         'hr_expense_view.xml',
         'product_view.xml',
-        'private_car_km_price_view.xml',
         'security/expense_security.xml',
-        'security/ir.model.access.csv',
         ],
-    'post_init_hook': 'create_private_car_km_prices',
-    'demo': ['private_car_demo.xml'],
     'installable': True,
 }
