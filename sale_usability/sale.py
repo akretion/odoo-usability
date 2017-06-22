@@ -13,7 +13,10 @@ class SaleOrder(models.Model):
     date_order = fields.Datetime(track_visibility='onchange')
     date_confirm = fields.Date(track_visibility='onchange')
     client_order_ref = fields.Char(track_visibility='onchange')
+    # for partner_id, the 'sale' module sets track_visibility='always'
     partner_id = fields.Many2one(track_visibility='onchange')
+    # for amount_tax, the 'sale' module sets track_visibility='always'
+    amount_tax = fields.Monetary(track_visibility='onchange')
     partner_shipping_id = fields.Many2one(track_visibility='onchange')
     partner_invoice_id = fields.Many2one(track_visibility='onchange')
     pricelist_id = fields.Many2one(track_visibility='onchange')
