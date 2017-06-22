@@ -20,6 +20,7 @@ Small usability improvements on mails:
 
 * remove 'sent by' in notification footer
 
+* add a new entry *All Messages Except Notifications* to the field *Receive Inbox Notifications by Email* of partners (becomes the default value)
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
