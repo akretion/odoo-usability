@@ -5,7 +5,7 @@
 
 {
     'name': 'Account Bank Statement Import Usability',
-    'version': '0.1',
+    'version': '10.0.0.1.0',
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'summary': 'Small usability enhancements in account_bank_statement_import module',

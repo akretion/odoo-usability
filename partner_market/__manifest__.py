@@ -6,7 +6,7 @@
 
 {
     'name': 'Partner Market',
-    'version': '0.1',
+    'version': '10.0.0.1.0',
     'category': 'Partner',
     'license': 'AGPL-3',
     'summary': 'Adds market field on customers',

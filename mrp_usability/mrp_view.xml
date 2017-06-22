@@ -17,6 +17,9 @@
             <field name="date_start"/>
             <field name="date_finished"/>
         </field>
+        <button name="action_cancel" type="object" position="attributes">
+            <attribute name="confirm">Are you sure you want to cancel this manufacturing order?</attribute>
+        </button>
     </field>
 </record>
 
