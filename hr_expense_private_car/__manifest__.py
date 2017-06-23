@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'HR Expense Usability',
+    'name': 'HR Expense Private Car',
     'version': '10.0.1.0.0',
     'category': 'Human Resources',
     'license': 'AGPL-3',
@@ -13,13 +13,17 @@
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': [
-        'hr_expense_sequence',
-        'hr_expense_usability_dp',
+        'hr_expense_usability',
         ],
     'data': [
+        'hr_expense_data.xml',
+        'hr_employee_view.xml',
         'hr_expense_view.xml',
-        'product_view.xml',
+        'private_car_km_price_view.xml',
         'security/expense_security.xml',
+        'security/ir.model.access.csv',
         ],
+    'post_init_hook': 'create_private_car_km_prices',
+    'demo': ['private_car_demo.xml'],
     'installable': True,
 }

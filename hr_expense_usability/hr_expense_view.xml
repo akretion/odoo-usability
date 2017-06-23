@@ -13,11 +13,6 @@
     <field name="model">hr.expense</field>
     <field name="inherit_id" ref="hr_expense.hr_expense_form_view"/>
     <field name="arch" type="xml">
-        <field name="reference" position="after">
-            <field name="private_car_expense" invisible="1"/>
-            <field name="private_car_plate" attrs="{'invisible': [('private_car_expense', '!=', True)]}"/>
-            <field name="private_car_km_price_id" attrs="{'invisible': [('private_car_expense', '!=', True)]}" groups="hr_expense.group_hr_expense_manager,account.group_account_manager"/>
-        </field>
         <label for="payment_mode" position="attributes">
             <attribute name="invisible">1</attribute>
         </label>
