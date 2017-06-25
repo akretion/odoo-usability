@@ -292,6 +292,7 @@ class HrExpenseSheet(models.Model):
                 % self.display_name)
         date = self.accounting_date or fields.Date.context_today(self)
         vals = {
+            'name': '/',
             'journal_id': self.journal_id.id,
             'date': date,
             'ref': self.number,
