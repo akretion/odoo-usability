@@ -262,6 +262,8 @@ class HrExpenseSheet(models.Model):
         compute='compute_total_company_currency',
         currency_field='company_currency_id', readonly=True, store=True,
         string='Tax Amount', help="Tax amount in company currency")
+    account_move_id = fields.Many2one(
+        ondelete='restrict')
 
     @api.depends(
         'expense_line_ids.total_amount_company_currency',
