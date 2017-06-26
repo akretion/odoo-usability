@@ -246,6 +246,9 @@ class AccountBankStatement(models.Model):
 
 class AccountBankStatementLine(models.Model):
     _inherit = 'account.bank.statement.line'
+    # Native order is:
+    # _order = 'statement_id desc, sequence, id desc'
+    _order = 'statement_id desc, date desc, sequence, id desc'
 
     # Disable guessing for reconciliation
     # because my experience with several customers shows that it is a problem
