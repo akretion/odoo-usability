@@ -275,6 +275,9 @@ module -->
             <field name="start_date"/>
             <field name="end_date"/>
         </field>
+        <field name="date" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
     </field>
 </record>
 
