@@ -68,7 +68,7 @@
 <!-- Having a menu entry on invoice lines is often very usefull for odoo user:
 they can search in their lines, etc...
 So I enhance the generic views and add actions, but I don't add menu entries here ;
-the creation of the corresponding menu entry should be done in the customer-specifc
+the creation of the corresponding menu entry should be done in the customer-specific
 module -->
 <record id="view_invoice_line_tree" model="ir.ui.view">
     <field name="name">account_usability.invoice_line_tree</field>
@@ -118,6 +118,8 @@ module -->
             <group string="Group By" name="groupby">
                 <filter name="partner_groupby" string="Partner"
                     context="{'group_by': 'partner_id'}"/>
+                <filter name="commercial_partner_group_by" string="Commercial Partner"
+                    context="{'group_by': 'commercial_partner_id'}"/>
                 <filter name="date_groupby" string="Invoice Date"
                     context="{'group_by': 'date_invoice'}"/>
                 <filter name="product_groupby" string="Product"
