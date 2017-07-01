@@ -347,7 +347,7 @@ class HrExpenseSheet(models.Model):
                 'account_id': account.id,
                 'analytic_account_id': exp.analytic_account_id.id or False,
                 'amount': exp.untaxed_amount_company_currency,
-                'name': exp.name.split('\n')[0][:64],
+                'name': exp.employee_id.name + ': ' + exp.name.split('\n')[0][:64],
                 'product_id': exp.product_id.id,
                 'product_uom_id': exp.product_uom_id.id,
                 'quantity': exp.quantity,
