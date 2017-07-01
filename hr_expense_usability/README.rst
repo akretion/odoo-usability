@@ -15,3 +15,4 @@ Contributors
 ------------
 
 * Alexis de Lattre <alexis.delattre@akretion.com>
+* Stéphane Bidoul <stephane.bidoul@acsone.eu>

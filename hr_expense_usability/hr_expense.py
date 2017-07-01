@@ -262,6 +262,8 @@ class HrExpenseSheet(models.Model):
         compute='compute_total_company_currency',
         currency_field='company_currency_id', readonly=True, store=True,
         string='Tax Amount', help="Tax amount in company currency")
+    account_move_id = fields.Many2one(
+        ondelete='restrict')
 
     @api.depends(
         'expense_line_ids.total_amount_company_currency',
@@ -292,6 +294,7 @@ class HrExpenseSheet(models.Model):
                 % self.display_name)
         date = self.accounting_date or fields.Date.context_today(self)
         vals = {
+            'name': '/',
             'journal_id': self.journal_id.id,
             'date': date,
             'ref': self.number,
@@ -344,7 +347,10 @@ class HrExpenseSheet(models.Model):
                 'account_id': account.id,
                 'analytic_account_id': exp.analytic_account_id.id or False,
                 'amount': exp.untaxed_amount_company_currency,
-                'name': exp.name.split('\n')[0][:64],
+                'name': exp.employee_id.name + ': ' + exp.name.split('\n')[0][:64],
+                'product_id': exp.product_id.id,
+                'product_uom_id': exp.product_uom_id.id,
+                'quantity': exp.quantity,
                 })
             # TAX
             tax_cmp = float_compare(
@@ -384,6 +390,15 @@ class HrExpenseSheet(models.Model):
             if key in group_mlines:
                 group_mlines[key]['amount'] += mline['amount']
                 group_mlines[key]['name'] = self.name[:64]
+                group_mlines[key]['quantity'] += mline['quantity']
+                if 'product_id' in group_mlines[key] and \
+                        group_mlines[key]['product_id'] != \
+                        mline['product_id']:
+                    del group_mlines[key]['product_id']
+                if 'product_uom_id' in group_mlines[key] and \
+                        group_mlines[key]['product_uom_id'] != \
+                        mline['product_uom_id']:
+                    del group_mlines[key]['product_uom_id']
             else:
                 group_mlines[key] = mline
         res_mlines = []
@@ -403,6 +418,9 @@ class HrExpenseSheet(models.Model):
                 'partner_id': gmlines['partner_id'],
                 'account_id': gmlines['account_id'],
                 'analytic_account_id': gmlines['analytic_account_id'],
+                'product_id': gmlines.get('product_id', False),
+                'product_uom_id': gmlines.get('product_uom_id', False),
+                'quantity': gmlines.get('quantity', 1),
                 'name': gmlines['name'],
                 'debit': debit,
                 'credit': credit,
