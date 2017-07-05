@@ -240,6 +240,58 @@ class HrExpense(models.Model):
             "The method 'action_move_create' is blocked by the module "
             "'hr_expense_usability'"))
 
+    @api.multi
+    def _get_expense_move_lines_values(self, partner):
+        self.ensure_one()
+        if self.account_id:
+            account = self.account_id
+        else:
+            account = self.product_id.product_tmpl_id. \
+                _get_product_accounts()['expense']
+            if not account:
+                raise UserError(_(
+                    "No expense account found for product '%s' nor "
+                    "for it's related product category.") % (
+                                    self.product_id.display_name,
+                                    self.product_id.categ_id.display_name))
+        return {
+            'type': 'expense',
+            'partner_id': partner.id,
+            'account_id': account.id,
+            'analytic_account_id': self.analytic_account_id.id or False,
+            'amount': self.untaxed_amount_company_currency,
+            'name': self.employee_id.name + ': ' +
+                    self.name.split('\n')[0][:64],
+            'product_id': self.product_id.id,
+            'product_uom_id': self.product_uom_id.id,
+            'quantity': self.quantity,
+        }
+
+    @api.multi
+    def _get_expense_move_lines_tax_values(self, partner, dp):
+        vals = {}
+        tax_cmp = float_compare(
+            self.tax_amount_company_currency, 0, precision_rounding=dp)
+        if tax_cmp:
+            tax = self.tax_ids[0]  # there is a constrain on this
+            if tax_cmp > 0:
+                tax_account_id = tax.account_id.id
+            else:
+                tax_account_id = tax.refund_account_id.id
+            if tax.analytic:
+                analytic_account_id = self.analytic_account_id.id or False
+            else:
+                analytic_account_id = False
+            vals = {
+                'type': 'tax',
+                'partner_id': partner.id,
+                'account_id': tax_account_id,
+                'analytic_account_id': analytic_account_id,
+                'amount': self.tax_amount_company_currency,
+                'name': self.name.split('\n')[0][:64],
+            }
+        return vals
+
 
 class HrExpenseSheet(models.Model):
     _inherit = 'hr.expense.sheet'
@@ -323,6 +375,41 @@ class HrExpenseSheet(models.Model):
             }
         return vals
 
+    @api.model
+    def _get_group_key(self, mline, group, i):
+        if group:
+            key = [
+                mline['type'],
+                mline['account_id'],
+                mline['analytic_account_id'],
+                False]
+        else:
+            key = [False, False, False, i]
+        return key
+
+    @api.model
+    def _prepare_expense_move_lines_values(self, gmlines, dp):
+        credit = debit = False
+        cmp_amount = float_compare(
+            gmlines['amount'], 0, precision_rounding=dp)
+        if cmp_amount > 0:
+            debit = gmlines['amount']
+        elif cmp_amount < 0:
+            credit = gmlines['amount'] * -1
+        else:
+            return False
+        return {
+            'partner_id': gmlines['partner_id'],
+            'account_id': gmlines['account_id'],
+            'analytic_account_id': gmlines['analytic_account_id'],
+            'product_id': gmlines.get('product_id', False),
+            'product_uom_id': gmlines.get('product_uom_id', False),
+            'quantity': gmlines.get('quantity', 1),
+            'name': gmlines['name'],
+            'debit': debit,
+            'credit': credit,
+        }
+
     def _prepare_expense_move_lines(self):
         self.ensure_one()
         mlines = []
@@ -330,63 +417,20 @@ class HrExpenseSheet(models.Model):
         prec = self.company_id.currency_id.rounding
         for exp in self.expense_line_ids:
             # Expense
-            if exp.account_id:
-                account = exp.account_id
-            else:
-                account = exp.product_id.product_tmpl_id.\
-                    _get_product_accounts()['expense']
-                if not account:
-                    raise UserError(_(
-                        "No expense account found for product '%s' nor "
-                        "for it's related product category.") % (
-                        exp.product_id.display_name,
-                        exp.product_id.categ_id.display_name))
-            mlines.append({
-                'type': 'expense',
-                'partner_id': partner.id,
-                'account_id': account.id,
-                'analytic_account_id': exp.analytic_account_id.id or False,
-                'amount': exp.untaxed_amount_company_currency,
-                'name': exp.employee_id.name + ': ' + exp.name.split('\n')[0][:64],
-                'product_id': exp.product_id.id,
-                'product_uom_id': exp.product_uom_id.id,
-                'quantity': exp.quantity,
-                })
+            vals = exp._get_expense_move_lines_values(partner)
+            mlines.append(vals)
             # TAX
-            tax_cmp = float_compare(
-                exp.tax_amount_company_currency, 0, precision_rounding=prec)
-            if tax_cmp:
-                tax = exp.tax_ids[0]  # there is a constrain on this
-                if tax_cmp > 0:
-                    tax_account_id = tax.account_id.id
-                else:
-                    tax_account_id = tax.refund_account_id.id
-                if tax.analytic:
-                    analytic_account_id = exp.analytic_account_id.id or False
-                else:
-                    analytic_account_id = False
-                mlines.append({
-                    'type': 'tax',
-                    'partner_id': partner.id,
-                    'account_id': tax_account_id,
-                    'analytic_account_id': analytic_account_id,
-                    'amount': exp.tax_amount_company_currency,
-                    'name': exp.name.split('\n')[0][:64],
-                    })
+            tax_line_values = exp._get_expense_move_lines_tax_values(
+                partner, prec)
+            if tax_line_values:
+                mlines.append(tax_line_values)
         # grouping
         group_mlines = {}
         group = self.journal_id.group_invoice_lines
         i = 0
         for mline in mlines:
             i += 1
-            if group:
-                key = (
-                    mline['type'],
-                    mline['account_id'],
-                    mline['analytic_account_id'],
-                    False)
-            else:
-                key = (False, False, False, i)
+            key = tuple(self._get_group_key(mline, group, i))
             if key in group_mlines:
                 group_mlines[key]['amount'] += mline['amount']
                 group_mlines[key]['name'] = self.name[:64]
@@ -405,26 +449,9 @@ class HrExpenseSheet(models.Model):
         total_cc = 0.0
         for gmlines in group_mlines.itervalues():
             total_cc += gmlines['amount']
-            credit = debit = False
-            cmp_amount = float_compare(
-                gmlines['amount'], 0, precision_rounding=prec)
-            if cmp_amount > 0:
-                debit = gmlines['amount']
-            elif cmp_amount < 0:
-                credit = gmlines['amount'] * -1
-            else:
-                continue
-            res_mlines.append((0, 0, {
-                'partner_id': gmlines['partner_id'],
-                'account_id': gmlines['account_id'],
-                'analytic_account_id': gmlines['analytic_account_id'],
-                'product_id': gmlines.get('product_id', False),
-                'product_uom_id': gmlines.get('product_uom_id', False),
-                'quantity': gmlines.get('quantity', 1),
-                'name': gmlines['name'],
-                'debit': debit,
-                'credit': credit,
-                }))
+            vals = self._prepare_expense_move_lines_values(gmlines, prec)
+            if vals:
+                res_mlines.append((0, 0, vals))
         return res_mlines, total_cc
 
     def action_sheet_move_create(self):
