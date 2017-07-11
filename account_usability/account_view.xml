@@ -236,6 +236,20 @@ module -->
     </field>
 </record>
 
+<record id="view_account_search" model="ir.ui.view">
+    <field name="name">account.account.search</field>
+    <field name="model">account.account</field>
+    <field name="inherit_id" ref="account.view_account_search"/>
+    <field name="arch" type="xml">
+        <!-- The native "name" filter uses a domain ['|', ('name','ilike',self), ('code','=like',str(self)+'%')]
+        This is good because it uses '=like' on 'code', but sometimes there are digits in account names,
+        so you get additionnal unexpected accounts in the result of the search -->
+        <field name="name" position="after">
+            <field name="code" filter_domain="[('code', '=like', str(self)+'%')]" string="Code"/>
+        </field>
+    </field>
+</record>
+
 <record id="view_account_type_tree" model="ir.ui.view">
     <field name="name">account_usability.account_type_tree</field>
     <field name="model">account.account.type</field>
