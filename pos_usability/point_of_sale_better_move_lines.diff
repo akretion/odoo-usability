@@ -1,0 +1,62 @@
+diff --git a/addons/point_of_sale/models/pos_order.py b/addons/point_of_sale/models/pos_order.py
+index 4102517..6d6abb3 100644
+--- a/addons/point_of_sale/models/pos_order.py
++++ b/addons/point_of_sale/models/pos_order.py
+@@ -225,12 +225,20 @@ class PosOrder(models.Model):
+             def insert_data(data_type, values):
+                 # if have_to_group_by:
+                 values.update({
+-                    'partner_id': partner_id,
++                    # AKRETION HACK
++                    # all move lines of POS in sale journal should stay anonymous
++                    # because they are never reconciled and we don't want to show
++                    # a debt on that customer
++                    #'partner_id': partner_id,
++                    'partner_id': False,
+                     'move_id': move.id,
+                 })
+ 
+                 if data_type == 'product':
+-                    key = ('product', values['partner_id'], (values['product_id'], tuple(values['tax_ids'][0][2]), values['name']), values['analytic_account_id'], values['debit'] > 0)
++                    # AKRETION HACK
++                    # group by account, not by product
++                    #key = ('product', values['partner_id'], (values['product_id'], tuple(values['tax_ids'][0][2]), values['name']), values['analytic_account_id'], values['debit'] > 0)
++                    key = ('product', values['partner_id'], (values['account_id'], tuple(values['tax_ids'][0][2]), False), values['analytic_account_id'], values['debit'] > 0)
+                 elif data_type == 'tax':
+                     key = ('tax', values['partner_id'], values['tax_line_id'], values['debit'] > 0)
+                 elif data_type == 'counter_part':
+@@ -279,9 +287,10 @@ class PosOrder(models.Model):
+ 
+                 # Create a move for the line for the order line
+                 insert_data('product', {
+-                    'name': name,
+-                    'quantity': line.qty,
+-                    'product_id': line.product_id.id,
++                    'name': order.session_id.name,
++                    #'name': name,
++                    #'quantity': line.qty,
++                    #'product_id': line.product_id.id,
+                     'account_id': income_account,
+                     'analytic_account_id': self._prepare_analytic_account(line),
+                     'credit': ((amount > 0) and amount) or 0.0,
+@@ -298,8 +307,8 @@ class PosOrder(models.Model):
+                 for tax in taxes.compute_all(price, cur, line.qty)['taxes']:
+                     insert_data('tax', {
+                         'name': _('Tax') + ' ' + tax['name'],
+-                        'product_id': line.product_id.id,
+-                        'quantity': line.qty,
++                        #'product_id': line.product_id.id,
++                        #'quantity': line.qty,
+                         'account_id': tax['account_id'] or income_account,
+                         'credit': ((tax['amount'] > 0) and tax['amount']) or 0.0,
+                         'debit': ((tax['amount'] < 0) and -tax['amount']) or 0.0,
+@@ -710,7 +719,8 @@ class PosOrder(models.Model):
+             'amount': data['amount'],
+             'date': data.get('payment_date', fields.Date.today()),
+             'name': self.name + ': ' + (data.get('payment_name', '') or ''),
+-            'partner_id': self.env["res.partner"]._find_accounting_partner(self.partner_id).id or False,
++            # AKRETION HACK: POS payment should stay anonymous
++            #'partner_id': self.env["res.partner"]._find_accounting_partner(self.partner_id).id or False,
+         }
+ 
+         journal_id = data.get('journal', False)
