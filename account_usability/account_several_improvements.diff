@@ -1,0 +1,53 @@
+diff --git a/addons/account/models/account_bank_statement.py b/addons/account/models/account_bank_statement.py
+index 8ed1e48..615da43 100644
+--- a/addons/account/models/account_bank_statement.py
++++ b/addons/account/models/account_bank_statement.py
+@@ -563,7 +563,13 @@ class AccountBankStatementLine(models.Model):
+         """
+         # Blue lines = payment on bank account not assigned to a statement yet
+         reconciliation_aml_accounts = [self.journal_id.default_credit_account_id.id, self.journal_id.default_debit_account_id.id]
+-        domain_reconciliation = ['&', '&', ('statement_id', '=', False), ('account_id', 'in', reconciliation_aml_accounts), ('payment_id','<>', False)]
++        # AKRETION HACK 11/7/2017
++        # Remove ('payment_id','<>', False) in order to allow to select move lines
++        # generated from payment orders or check deposit
++        # but I add ('journal_id', '=', self.journal_id.id) to exclude the
++        # opening entry of the first fiscal year
++        #domain_reconciliation = ['&', '&', ('statement_id', '=', False), ('account_id', 'in', reconciliation_aml_accounts), ('payment_id','<>', False)]
++        domain_reconciliation = ['&', '&', ('statement_id', '=', False), ('account_id', 'in', reconciliation_aml_accounts), ('journal_id', '=', self.journal_id.id)]
+ 
+         # Black lines = unreconciled & (not linked to a payment or open balance created by statement
+         domain_matching = [('reconciled', '=', False)]
+diff --git a/addons/account/models/account_move.py b/addons/account/models/account_move.py
+index b60ffbe..6c27c57 100644
+--- a/addons/account/models/account_move.py
++++ b/addons/account/models/account_move.py
+@@ -599,6 +599,7 @@ class AccountMoveLine(models.Model):
+             domain = expression.AND([domain, [('id', 'not in', excluded_ids)]])
+         if str:
+             str_domain = [
++                '|', ('account_id.code', '=ilike', str + '%'),
+                 '|', ('move_id.name', 'ilike', str),
+                 '|', ('move_id.ref', 'ilike', str),
+                 '|', ('date_maturity', 'like', str),
+diff --git a/addons/account/static/src/js/account_reconciliation_widgets.js b/addons/account/static/src/js/account_reconciliation_widgets.js
+index 453bd41..48c396e 100644
+--- a/addons/account/static/src/js/account_reconciliation_widgets.js
++++ b/addons/account/static/src/js/account_reconciliation_widgets.js
+@@ -76,7 +76,7 @@ var abstractReconciliation = Widget.extend(ControlPanelMixin, {
+         this.model_res_users = new Model("res.users");
+         this.model_tax = new Model("account.tax");
+         this.model_presets = new Model("account.reconcile.model");
+-        this.max_move_lines_displayed = 5;
++        this.max_move_lines_displayed = 15;
+         // Number of reconciliations loaded initially and by clicking 'show more'
+         this.num_reconciliations_fetched_in_batch = 10;
+         this.animation_speed = 100; // "Blocking" animations
+@@ -1755,7 +1755,7 @@ var bankStatementReconciliationLine = abstractReconciliationLine.extend({
+             relation: "res.partner",
+             string: _t("Partner"),
+             type: "many2one",
+-            domain: [['parent_id','=',false], '|', ['customer','=',true], ['supplier','=',true]],
++            domain: [['parent_id','=',false]],  // AKRETION HACK 26/6/2017 allow all parent partners
+             help: "",
+             readonly: false,
+             required: true,
