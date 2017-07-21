@@ -9,7 +9,7 @@
     'website': 'http://akretion.com',
     'author': 'Akretion',
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'depends': [
         'sale',
         'purchase',

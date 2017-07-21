@@ -33,5 +33,5 @@
     'depends': ['account'],
     'data': ['product_view.xml'],
     'demo': [],
-    'installable': True,
+    'installable': False,
 }

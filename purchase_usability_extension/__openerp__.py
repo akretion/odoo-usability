@@ -30,4 +30,5 @@ for any help or question about this module.
         'supplierinfo_view.xml',
     ],
     'active': False,
+    'installable': False,
 }

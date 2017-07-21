@@ -25,5 +25,5 @@ This module has been written by Alexis de Lattre from Akretion
     'data': [
         'analytic_view.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

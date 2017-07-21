@@ -40,5 +40,5 @@ This module has been written by Alexis de Lattre from Akretion
     'website': 'http://www.akretion.com/',
     'depends': ['account_cutoff_prepaid', 'account_move_line_report_xls'],
     'data': [],
-    'installable': True,
+    'installable': False,
 }

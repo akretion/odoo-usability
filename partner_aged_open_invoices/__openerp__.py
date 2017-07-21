@@ -41,4 +41,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['account_financial_report_webkit'],
     'data': ['partner_view.xml'],
+    'installable': False,
 }

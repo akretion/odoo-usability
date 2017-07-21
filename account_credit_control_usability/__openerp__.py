@@ -42,5 +42,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['account_credit_control', 'partner_aged_open_invoices'],
     'data': ['account_credit_control_view.xml'],
-    'installable': True,
+    'installable': False,
 }

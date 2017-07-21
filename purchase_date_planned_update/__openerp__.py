@@ -43,5 +43,5 @@ This module has been written by Alexis de Lattre from Akretion
         'wizard/purchase_date_planned_update_view.xml',
         'purchase_view.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

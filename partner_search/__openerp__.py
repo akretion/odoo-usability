@@ -18,5 +18,5 @@ Search view improved: filter on postal code, city, mail, phone, etc...
     'data': [
         'partner_view.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

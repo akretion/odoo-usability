@@ -37,4 +37,5 @@ This module has been written by Alexis de Lattre from Akretion
     'website': 'http://www.akretion.com',
     'depends': ['product'],
     'data': ['product_view.xml'],
+    'installable': False,
 }

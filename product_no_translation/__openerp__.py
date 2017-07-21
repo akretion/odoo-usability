@@ -37,4 +37,5 @@ And it reduces the start time of the Point of Sale !
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['product'],
+    'installable': False,
 }

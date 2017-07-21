@@ -30,5 +30,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'stock_view.xml',
         'product_removal_data.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

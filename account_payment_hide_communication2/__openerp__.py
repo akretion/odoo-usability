@@ -40,4 +40,5 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
         'payment_view.xml',
         ],
     'active': False,
+    'installable': False,
 }

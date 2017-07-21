@@ -31,5 +31,5 @@ This module has been written by Alexis de Lattre from Akretion
         'wizard/base_partner_merge_view.xml',
         'security/rule.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

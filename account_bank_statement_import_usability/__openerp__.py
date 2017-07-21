@@ -45,5 +45,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['account_bank_statement_import'],
     'data': ['account_view.xml'],
-    'installable': True,
+    'installable': False,
 }

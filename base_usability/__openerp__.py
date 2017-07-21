@@ -53,5 +53,5 @@ A group by 'State' is added to module search view.
         'module_view.xml',
         'translation_view.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

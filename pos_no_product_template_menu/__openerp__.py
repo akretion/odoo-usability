@@ -40,5 +40,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'depends': ['point_of_sale', 'pos_usability'],
     # pos_usability is required to have the filter available_in_pos
     'data': ['view.xml'],
-    'installable': True,
+    'installable': False,
 }

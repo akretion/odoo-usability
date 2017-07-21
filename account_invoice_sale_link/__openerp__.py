@@ -41,6 +41,6 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'website': 'http://www.akretion.com',
     'depends': ['sale'],
     'data': ['account_invoice_view.xml'],
-    'installable': True,
+    'installable': False,
     'active': False,
 }

@@ -47,6 +47,6 @@ with https://github.com/akretion/csv2xml4odoo
         'misc_data.xml',
         'ir_exports_line_data.xml',
     ],
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

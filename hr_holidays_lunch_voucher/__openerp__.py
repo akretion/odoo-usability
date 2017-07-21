@@ -24,5 +24,5 @@
         'hr_holidays_view.xml',
         'wizard/hr_holidays_post_view.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

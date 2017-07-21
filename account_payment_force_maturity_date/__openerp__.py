@@ -37,4 +37,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'author': 'Akretion',
     'depends': ['account_payment'],
     'data': ['payment_view.xml'],
+    'installable': False,
 }

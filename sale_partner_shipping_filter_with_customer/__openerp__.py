@@ -11,7 +11,7 @@
     'website': 'http://akretion.com',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'depends': [
         'sale',
     ],

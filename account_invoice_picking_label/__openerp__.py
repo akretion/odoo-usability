@@ -36,7 +36,7 @@ Adds a function field named *picking_ids_label* on invoices. This field contains
     'website': 'http://www.akretion.com/',
     'depends': ['stock_account'],
     'data': [],
-    'installable': True,
+    'installable': False,
     'active': False,
 }
 

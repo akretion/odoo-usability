@@ -47,5 +47,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'stock_view.xml',
         'wizard/purchase_suggest_view.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

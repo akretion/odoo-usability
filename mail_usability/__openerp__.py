@@ -43,5 +43,5 @@ Small usability improvements on mails:
     'website': 'http://www.akretion.com',
     'depends': ['mail'],
     'data': [],
-    'installable': True,
+    'installable': False,
 }

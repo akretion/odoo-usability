@@ -40,5 +40,5 @@ This module has been written by Alexis de Lattre from Akretion
         'stock_view.xml',
         'users_view.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

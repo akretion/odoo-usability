@@ -34,4 +34,5 @@ With this module, you will see the full address in the sale order form view and 
     'website': 'http://www.akretion.com',
     'depends': ['sale_stock'],
     'data': ['sale_view.xml', 'stock_view.xml'],
+    'installable': False,
 }

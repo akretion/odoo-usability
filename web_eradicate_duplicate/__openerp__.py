@@ -41,5 +41,5 @@ This module has been written by Alexis de Lattre from Akretion
     'author': 'Akretion',
     'depends': ['web'],
     'data': ['views/eradicate_duplicate.xml'],
-    'installable': True,
+    'installable': False,
 }

@@ -37,6 +37,6 @@ By default, you can't enter several addresses for an individual in OpenERP becau
     'website': 'http://www.akretion.com',
     'depends': ['base'],
     'data': ['partner_view.xml'],
-    'installable': True,
+    'installable': False,
     'active': False,
 }

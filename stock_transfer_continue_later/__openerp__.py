@@ -39,5 +39,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['stock'],
     'data': ['wizard/stock_transfer_details.xml'],
-    'installable': True,
+    'installable': False,
 }

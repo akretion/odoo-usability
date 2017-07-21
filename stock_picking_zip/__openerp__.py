@@ -21,6 +21,6 @@ Author: David BEAL
     'data': [
         'stock_view.xml',
     ],
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

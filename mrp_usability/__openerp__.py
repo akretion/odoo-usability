@@ -43,5 +43,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['mrp'],
     'data': ['mrp_view.xml'],
-    'installable': True,
+    'installable': False,
 }

@@ -39,4 +39,5 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'website': 'http://www.akretion.com',
     'depends': ['base_optional_quick_create'],
     'data': [],
+    'installable': False,
 }

@@ -20,5 +20,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['account_cutoff_accrual_picking', 'report_aeroo'],
     'data': ['report.xml'],
-    'installable': True,
+    'installable': False,
 }
