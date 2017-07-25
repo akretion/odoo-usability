@@ -38,6 +38,11 @@
         <field name="period_id" position="attributes">
             <attribute name="groups"></attribute>
         </field>
+        <!-- move sent field and make it visible -->
+        <field name="sent" position="replace"/>
+        <field name="move_id" position="after">
+            <field name="sent"/>
+        </field>
     </field>
 </record>
 
@@ -61,6 +66,9 @@
         <filter name="unpaid" position="after">
             <filter name="overdue" string="Overdue"
                 domain="[('state', '=', 'open'), ('date_due', '&lt;', current_date)]"/>
+            <separator/>
+            <filter name="to_send" string="To Send" domain="[('sent', '=', False), ('state', 'in', ('open', 'paid'))]"/>
+            <filter name="sent" string="Sent" domain="[('sent', '=', True)]"/>
         </filter>
     </field>
 </record>
@@ -180,8 +188,22 @@ module -->
 <!-- model account.move.line / Journal Items -->
 <record id="account.action_account_moves_all_a" model="ir.actions.act_window">
     <field name="limit">200</field>
+    <!-- add graph -->
+    <field name="view_mode">tree_account_move_line_quickadd,form,graph</field>
     <!-- Win space, because there are already many columns -->
     <field name="context">{'journal_show_code_only': True}</field>
+</record>
+
+<record id="account_move_line_graph" model="ir.ui.view">
+    <field name="name">usability.account.move.line.graph</field>
+    <field name="model">account.move.line</field>
+    <field name="inherit_id" ref="account.account_move_line_graph"/>
+    <field name="arch" type="xml">
+        <graph position="attributes">
+            <!-- pivot by default instead of bar -->
+            <attribute name="type">pivot</attribute>
+        </graph>
+    </field>
 </record>
 
 <!-- model account.move / Journal Entries -->

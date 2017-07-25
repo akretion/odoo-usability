@@ -49,6 +49,9 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['account'],
     'conflicts': ['account_invoice_overdue_filter'],
-    'data': ['account_view.xml'],
+    'data': [
+        'account_view.xml',
+        'wizard/account_invoice_mark_sent_view.xml',
+        ],
     'installable': True,
 }
