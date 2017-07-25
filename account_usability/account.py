@@ -130,6 +130,21 @@ class AccountAccount(models.Model):
         else:
             return super(AccountAccount, self).name_get()
 
+    def _check_account_type(self, cr, uid, ids, context=None):
+        '''Disable this native python constraint, because we want to be able
+        to configure payable/receivable accounts with an account type
+        with close_method == 'balance' in order to have opening entries with
+        fewer lines. It is not a problem because we always use
+        account_financial_report_webkit which doesn't take the detailed
+        opening entries into account.'''
+        return True
+
+    _constraints = [
+        # The method name must be exactly the same as the native
+        # method, in order to override it
+        (_check_account_type, 'No error message', ['user_type','type']),
+        ]
+
     @api.model
     def check_account_hierarchy(self):
         '''designed to be called by a script'''
