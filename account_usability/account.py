@@ -29,6 +29,7 @@ logger = logging.getLogger(__name__)
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
+    _order = "date_invoice desc, number desc, id desc"
 
     origin = fields.Char(track_visibility='onchange')
     supplier_invoice_number = fields.Char(track_visibility='onchange')
