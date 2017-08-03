@@ -7,7 +7,7 @@
     <field name="res_model">stock.picking</field>
     <field name="domain">[('picking_type_code', '=', 'outgoing')]</field>
     <field name="view_mode">tree,form</field>
-    <field name="context">{'search_default_available': 1, 'search_default_waiting': 1}</field>
+    <field name="context">{'type': 'outgoing', 'search_default_available': 1, 'search_default_waiting': 1}</field>
 </record>
 
 <menuitem
@@ -21,7 +21,7 @@
     <field name="res_model">stock.picking</field>
     <field name="domain">[('picking_type_code', '=', 'internal')]</field>
     <field name="view_mode">tree,form</field>
-    <field name="context">{'search_default_available': 1, 'search_default_waiting': 1}</field>
+    <field name="context">{'type': 'internal', 'search_default_available': 1, 'search_default_waiting': 1}</field>
 </record>
 
 <menuitem
@@ -35,7 +35,7 @@
     <field name="res_model">stock.picking</field>
     <field name="domain">[('picking_type_code', '=', 'incoming')]</field>
     <field name="view_mode">tree,form</field>
-    <field name="context">{'search_default_available': 1, 'search_default_waiting': 1}</field>
+    <field name="context">{'type', 'incomming', 'search_default_available': 1, 'search_default_waiting': 1}</field>
 </record>
 
 <menuitem
