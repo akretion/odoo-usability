@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<record id="action_picking_out_tree" model="ir.actions.act_window">
+    <field name="name">Livraisons</field>
+    <field name="res_model">stock.picking</field>
+    <field name="domain">[('picking_type_code', '=', 'outgoing')]</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'search_default_available': 1, 'search_default_waiting': 1}</field>
+</record>
+
+<menuitem
+    action="action_picking_out_tree"
+    id="menu_picking_out_tree"
+    parent="stock.menu_stock_warehouse_mgmt"
+    sequence="10"/>
+
+<record id="action_picking_internal_tree" model="ir.actions.act_window">
+    <field name="name">Mouvements internes</field>
+    <field name="res_model">stock.picking</field>
+    <field name="domain">[('picking_type_code', '=', 'internal')]</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'search_default_available': 1, 'search_default_waiting': 1}</field>
+</record>
+
+<menuitem
+    action="action_picking_internal_tree"
+    id="menu_picking_internal_tree"
+    parent="stock.menu_stock_warehouse_mgmt"
+    sequence="20"/>
+
+<record id="action_picking_in_tree" model="ir.actions.act_window">
+    <field name="name">Réceptions</field>
+    <field name="res_model">stock.picking</field>
+    <field name="domain">[('picking_type_code', '=', 'incoming')]</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'search_default_available': 1, 'search_default_waiting': 1}</field>
+</record>
+
+<menuitem
+    action="action_picking_in_tree"
+    id="menu_picking_in_tree"
+    parent="stock.menu_stock_warehouse_mgmt"
+    sequence="30"/>
+
+    </data>
+</openerp>
