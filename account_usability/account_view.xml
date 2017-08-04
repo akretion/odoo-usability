@@ -315,9 +315,10 @@ module -->
             </button>
         </button>
         <button name="%(account.action_account_moves_all_tree)d" position="attributes">
-            <attribute name="type">object</attribute>
-            <attribute name="name">show_receivable_account</attribute>
-            <attribute name="attrs">{'invisible': [('customer', '=', False)]}</attribute>
+            <attribute name="invisible">True</attribute>
+        </button>
+        <button name="%(account.action_account_moves_all_tree)d" position="after">
+            <button type="object" class="oe_stat_button" name="show_receivable_account" icon="fa-list" attrs="{'invisible': [('customer', '=', False)]}"/>
         </button>
         <field name="journal_item_count" position="attributes">
             <attribute name="string">Receivable Account</attribute>
