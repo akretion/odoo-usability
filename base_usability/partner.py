@@ -60,3 +60,15 @@ class Partner(models.Model):
             else:
                 name_title = ' '.join([title, name_title])
         self.name_title = name_title
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        if args is None:
+            args = []
+        if name:
+            # only filter on name and ref not in email
+            args += [
+                '|', ('display_name', 'ilike', name), ('ref', 'ilike', name)]
+        res = super(Partner, self).name_search(
+            name, args=args, operator=operator, limit=limit)
+        return [(pid, val.replace('\n', ' ')) for pid, val in res]

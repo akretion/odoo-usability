@@ -14,10 +14,20 @@
                 <field name="phone" string="Phones"
                        filter_domain="['|', ('phone', 'like', self), ('mobile', 'like', self)]"/>
             </field>
-            <!-- Display the real field names of the search -->
+
+            <!-- We split the search of name, ref / email in two
+                 as searching in email can return a lot of unwanted result
+                 for exemple when you sell on marketplace and search for a customer
+                 amazon you will have all customer that have bought throught the marketplace -->
+
             <field name="name" position="attributes">
-                <attribute name="string">Name, Ref, Email</attribute>
+                <attribute name="string">Name, Ref</attribute>
+                <attribute name="filter_domain">['|', ('display_name','ilike',self), ('ref','=',self)]</attribute>
             </field>
+            <field name="name" position="after">
+                <field name="email"/>
+            </field>
+
         </field>
     </record>
 
