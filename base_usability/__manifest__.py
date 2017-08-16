@@ -21,7 +21,7 @@ By default, users in the Partner Contact group also have create/write access on 
 
 It also adds a log message at INFO level when sending an email via SMTP.
 
-It displays the local modules by default in tree view (instead of Kanban) without filter.
+It displays the local modules with installable filter.
 A group by 'State' is added to module search view.
     """,
     'author': 'Akretion',
