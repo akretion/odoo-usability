@@ -30,5 +30,5 @@ This module adds a button *Update Invoice* on Customer and Supplier invoices in 
         'wizard/account_invoice_update_view.xml',
         'views/account_invoice.xml',
         ],
-    'installable': False,
+    'installable': True,
 }

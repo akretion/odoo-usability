@@ -15,11 +15,11 @@
                 <field name="invoice_id" invisible="1"/>
                 <field name="type" invisible="1"/>
                 <field name="company_id" invisible="1"/>
-                <field name="commercial_partner_id" invisible="1"/>
+                <field name="partner_id" invisible="1"/>
                 <field name="reference" attrs="{'invisible': [('type', 'not in', ('in_invoice', 'in_refund'))]}"/>
                 <field name="origin"/>
                 <field name="name"/>
-                <field name="payment_term" widget="selection"/>
+                <field name="payment_term_id" widget="selection"/>
                 <field name="partner_bank_id"/>
                 <field name="user_id"/>
                 <field name="comment"/>
