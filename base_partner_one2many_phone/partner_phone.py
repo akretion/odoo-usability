@@ -13,6 +13,7 @@ import phonenumbers
 class ResPartnerPhone(models.Model):
     _name = 'res.partner.phone'
     _order = 'partner_id, type'
+    _phone_name_sequence = 8
 
     partner_id = fields.Many2one('res.partner', string='Related Partner')
     type = fields.Selection([
