@@ -28,6 +28,19 @@ class ResPartnerPhone(models.Model):
     phone = Phone('Phone', required=True, partner_field='partner_id')
     note = fields.Char('Note')
 
+    def name_get(self):
+        res = []
+        for pphone in self:
+            if pphone.partner_id:
+                if self._context.get('callerid'):
+                    name = pphone.partner_id.name_get()[0][1]
+                else:
+                    name = u'%s (%s)' % (pphone.phone, pphone.partner_id.name)
+            else:
+                name = pphone.phone
+            res.append((pphone.id, name))
+        return res
+
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
