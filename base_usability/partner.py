@@ -72,3 +72,9 @@ class Partner(models.Model):
         res = super(Partner, self).name_search(
             name, args=args, operator=operator, limit=limit)
         return [(pid, val.replace('\n', ' ')) for pid, val in res]
+
+
+class ResPartnerCategory(models.Model):
+    _inherit = 'res.partner.category'
+
+    name = fields.Char(translate=False)
