@@ -27,3 +27,9 @@ class CrmLead(models.Model):
         for lead in self:
             rev_prob = lead.probability * lead.planned_revenue / 100.0
             lead.probable_revenue = rev_prob
+
+
+class CrmLeadTag(models.Model):
+    _inherit = 'crm.lead.tag'
+
+    name = fields.Char(translate=False)
