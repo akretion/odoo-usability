@@ -128,3 +128,9 @@ class ResPartner(models.Model):
                     res.append(u'%s' % entry['value'])
         res = '\n'.join(res)
         return res
+
+
+class ResPartnerCategory(models.Model):
+    _inherit = 'res.partner.category'
+
+    name = fields.Char(translate=False)
