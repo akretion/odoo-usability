@@ -40,31 +40,27 @@ class ResPartner(models.Model):
     def open_aged_open_invoices_report(self):
         aoiwo = self.env['aged.open.invoices.webkit']
         afo = self.env['account.fiscalyear']
-        # Force 'date_from' to the first day of the company's life
-        # in order to get the full picture of the partner's account
-        # (we could also do that via a filter by period, but, in this case,
-        # account_financial_report_webkit doesn't accept "until_date = today" ;
-        # until_date has to be the end date of the last period
+        # Filter by period (and not by date) to get
+        # the report à nouveau
         fy_years = afo.search([], order='date_start')
         date_from = fy_years[0].date_start
         fy_id = aoiwo._get_fiscalyear()
         filter_change = aoiwo.onchange_filter(
-            filter='filter_date', fiscalyear_id=fy_id)
+            filter='filter_period', fiscalyear_id=fy_id)
         vals = {
             'fiscalyear_id': fy_id,
-            'filter': 'filter_date',
+            'filter': 'filter_period',
             'partner_ids': [(6, 0, [self.commercial_partner_id.id])],
             'target_move': 'all',
             }
         vals.update(filter_change['value'])
-        vals['date_from'] = date_from
         wizard = aoiwo.create(vals)
         data = {'form': {
             'chart_account_id': wizard.chart_account_id.id,
             'filter': vals['filter'],
-            'date_from': vals['date_from'],
-            'date_to': vals['date_to'],
-            'period_to': False,
+            'period_from': vals['period_from'],
+            'period_to': vals['period_to'],
+            'date_to': False,
             'fiscalyear_id': vals['fiscalyear_id'],
             'partner_ids': vals['partner_ids'][0][2],
             'target_move': vals['target_move'],
