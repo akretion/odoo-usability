@@ -1,0 +1,23 @@
+diff --git a/addons/mail/static/src/js/many2many_tags_email.js b/addons/mail/static/src/js/many2many_tags_email.js
+index c3985a3..307cc0c 100644
+--- a/addons/mail/static/src/js/many2many_tags_email.js
++++ b/addons/mail/static/src/js/many2many_tags_email.js
+@@ -17,6 +17,9 @@ instance.web.form.FieldMany2ManyTagsEmail = instance.web.form.FieldMany2ManyTags
+         this.last_processed_value = [];
+ 
+         this.on("change:value", this, this.on_change_value_check);
++        // Restore pop-up when trying to send to a partner without email
++        // Pending PR on odoo v8 https://github.com/odoo/odoo/pull/19466
++        this.on_change_value_check();
+         this._super.apply(this, arguments);
+     },
+ 
+@@ -41,7 +44,7 @@ instance.web.form.FieldMany2ManyTagsEmail = instance.web.form.FieldMany2ManyTags
+         new instance.web.Model('res.partner').call("search", [[
+                 ["id", "in", ids],
+                 ["email", "=", false],
+-                ["notify_email", "=", 'always'] ]],
++                ["notify_email", "in", ['always', 'all_except_notification']] ]],  // Adapt code for mail_usability module
+                 {context: this.build_context()})
+             .then(function (record_ids) {
+                 var popups_deferreds = [];
