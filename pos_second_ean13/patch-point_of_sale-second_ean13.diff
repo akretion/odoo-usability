@@ -1,26 +1,37 @@
 diff --git a/addons/point_of_sale/static/src/js/db.js b/addons/point_of_sale/static/src/js/db.js
-index 819c21f..317eda9 100644
+index c2b3fad..abb64c3 100644
 --- a/addons/point_of_sale/static/src/js/db.js
 +++ b/addons/point_of_sale/static/src/js/db.js
-@@ -188,6 +188,9 @@ function openerp_pos_db(instance, module){
-                 if(product.ean13){
-                     this.product_by_ean13[product.ean13] = product;
-                 }
-+                if(product.second_ean13){
-+                    this.product_by_ean13[product.second_ean13] = product;
-+                }
-                 if(product.default_code){
-                     this.product_by_reference[product.default_code] = product;
-                 }
+@@ -155,6 +155,9 @@ var PosDB = core.Class.extend({
+         if (product.barcode) {
+             str += '|' + product.barcode;
+         }
++        if (product.second_barcode) {
++            str += '|' + product.second_barcode;
++        }
+         if (product.default_code) {
+             str += '|' + product.default_code;
+         }
+@@ -206,6 +209,9 @@ var PosDB = core.Class.extend({
+             if(product.barcode){
+                 this.product_by_barcode[product.barcode] = product;
+             }
++            if(product.second_barcode){
++                this.product_by_barcode[product.second_barcode] = product;
++            }
+         }
+     },
+     _partner_search_string: function(partner){
 diff --git a/addons/point_of_sale/static/src/js/models.js b/addons/point_of_sale/static/src/js/models.js
-index 0bd1b99..86e8b2f 100644
+index 84f033b..f4abc8d 100644
 --- a/addons/point_of_sale/static/src/js/models.js
 +++ b/addons/point_of_sale/static/src/js/models.js
-@@ -282,6 +282,7 @@ function openerp_pos_models(instance, module){ //module is instance.point_of_sal
-             model:  'product.product',
-             fields: ['display_name', 'list_price','price','pos_categ_id', 'taxes_id', 'ean13', 'default_code', 
-                      'to_weight', 'uom_id', 'uos_id', 'uos_coeff', 'mes_type', 'description_sale', 'description',
-+                     'second_ean13',
-                      'product_tmpl_id'],
-             domain: [['sale_ok','=',true],['available_in_pos','=',true]],
-             context: function(self){ return { pricelist: self.pricelist.id, display_default_code: false }; },
+@@ -307,7 +307,7 @@ exports.PosModel = Backbone.Model.extend({
+         },
+     },{
+         model:  'product.product',
+-        fields: ['display_name', 'list_price','price','pos_categ_id', 'taxes_id', 'barcode', 'default_code', 
++        fields: ['display_name', 'list_price','price','pos_categ_id', 'taxes_id', 'barcode', 'second_barcode', 'default_code', 
+                  'to_weight', 'uom_id', 'description_sale', 'description',
+                  'product_tmpl_id','tracking'],
+         order:  ['sequence','default_code','name'],

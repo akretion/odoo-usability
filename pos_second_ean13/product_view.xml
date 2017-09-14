@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-    Copyright (C) 2016 Akretion (http://www.akretion.com/)
-    @author Alexis de Lattre <alexis.delattre@akretion.com>
-    The licence is in the file __openerp__.py
+  Copyright (C) 2016-2017 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
 -->
 
-<openerp>
-<data>
+<odoo>
 
 
 <record id="product_normal_form_view" model="ir.ui.view">
-    <field name="name">usability.product.template.form</field>
+    <field name="name">pos_second_barcode.product.template.form</field>
     <field name="model">product.product</field>
     <field name="inherit_id" ref="product.product_normal_form_view" />
     <field name="arch" type="xml">
-        <field name="ean13" position="after">
-            <field name="second_ean13"/>
+        <field name="barcode" position="after">
+            <field name="second_barcode"/>
         </field>
     </field>
 </record>
 
 
-</data>
-</openerp>
+</odoo>
