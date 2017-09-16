@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-        
+
 <record id="product_template_view_form" model="ir.ui.view">
     <field name="model">product.template</field>
     <field name="inherit_id" ref="product.product_template_only_form_view"/>
     <field name="priority" eval="64"/>
     <field name="arch" type="xml">
         <field name="attribute_line_ids" position="after">
-            <field name="product_variant_ids" nolabel="1" domain="['|', ('active', '=', False), ('active', '=', True)]" required="0">
+            <field name="all_product_variant_ids" nolabel="1" required="0">
                 <tree create="0">
                     <field name="default_code"/>
                     <field name="attribute_value_ids" widget="many2many_tags"/>
@@ -20,7 +20,7 @@
                             icon="gtk-stop"/>
                     <button type="object"
                             name="button_deactivate"
-                            attrs="{'invisible': [('active','=',False)]}" 
+                            attrs="{'invisible': [('active','=',False)]}"
                             icon="gtk-apply"/>
                 </tree>
             </field>
