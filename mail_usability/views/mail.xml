@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+        <template id="assets_backend" name="mail usability assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/mail_usability/static/src/js/many2many_tags_email.js"></script>
+            </xpath>
+        </template>
+    </data>
+</openerp>
