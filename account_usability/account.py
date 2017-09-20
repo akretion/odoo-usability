@@ -199,6 +199,10 @@ class AccountMove(models.Model):
     # update account_move set ref=left(ref,32) where ref is not null;
     # update account_move_line set ref=left(ref,32) where ref is not null;
 
+    # Allow to duplicate an account.move that belongs to a closed period
+    period_id = fields.Many2one(copy=False)
+    date = fields.Date(copy=False)
+
     @api.onchange('date')
     def date_onchange(self):
         if self.date:
