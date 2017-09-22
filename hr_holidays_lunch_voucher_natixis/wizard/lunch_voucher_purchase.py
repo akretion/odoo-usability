@@ -5,6 +5,7 @@
 
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning as UserError
+from openerp.tools import float_is_zero
 
 
 class LunchVoucherPurchase(models.TransientModel):
@@ -15,6 +16,8 @@ class LunchVoucherPurchase(models.TransientModel):
         self.ensure_one()
         action = super(LunchVoucherPurchase, self).run()
         company = self.env.user.company_id
+        # force_company to read standard_price properly
+        company = company.with_context(force_company=company.id)
         lvao = self.env['lunch.voucher.attribution']
         assert self._context.get('active_model')\
             == 'lunch.voucher.attribution', 'wrong source model'
@@ -37,10 +40,18 @@ class LunchVoucherPurchase(models.TransientModel):
                 "Natixis Delivery Code on company '%s' should "
                 "have 7 characters/digits.")
                 % (company.lunch_voucher_natixis_delivery_code, company.name))
-        if not company.lunch_voucher_employer_price:
+        if float_is_zero(
+                company.lunch_voucher_employer_price,
+                precision_digits=2):
             raise UserError(_(
                 "Lunch Voucher Employer Price not set on company '%s'.")
                 % company.name)
+        if float_is_zero(
+                company.lunch_voucher_product_id.standard_price,
+                precision_digits=2):
+            raise UserError(_(
+                "Lunch Voucher Standard Price is not set on product '%s'.")
+                % company.lunch_voucher_product_id.display_name)
         lvouchers = lvao.browse(self._context['active_ids'])
         of = u''
         tmp = {}
