@@ -74,9 +74,11 @@ class HrHolidaysPost(models.TransientModel):
         # because, after the write, it doesn't have a value any more !!!
         holidays_to_post = self.holidays_to_post_ids
         today = fields.Date.context_today(self)
-        if not self.holidays_to_post_ids:
-            raise Warning(
-                _('No leave request to post.'))
+        # Disable the raise below to make the module "hr_holidays_lunch_voucher"
+        # work even when nobody took holidays on the current month
+        # if not self.holidays_to_post_ids:
+        #    raise Warning(
+        #        _('No leave request to post.'))
         self.holidays_to_post_ids.write({'posted_date': today})
         view_id = self.env.ref('hr_holidays_usability.hr_holiday_graph').id
         action = {
