@@ -117,6 +117,7 @@ class HrExpense(models.Model):
         store=True, string='Tax Amount in Company Currency',
         currency_field='company_currency_id')
     # I don't use the native field 'untaxed_amount' (computed, store=True)
+    has_description = fields.Boolean(compute='_compute_has_description', store=True)
 
     @api.depends(
         'currency_id', 'company_id', 'total_amount', 'date',
@@ -134,6 +135,13 @@ class HrExpense(models.Model):
                 exp.total_amount_company_currency = total_cc
                 exp.untaxed_amount_company_currency = untaxed_cc
                 exp.tax_amount_company_currency = total_cc - untaxed_cc
+
+    @api.multi
+    @api.depends('description')
+    def _compute_has_description(self):
+        for rec in self:
+            rec.has_description = (
+                rec.description and bool(rec.description.strip()))
 
     @api.onchange('untaxed_amount_usability')
     def untaxed_amount_usability_change(self):

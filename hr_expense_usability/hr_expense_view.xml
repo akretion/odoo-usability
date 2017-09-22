@@ -103,6 +103,9 @@
             <field name="untaxed_amount_company_currency" sum="Untaxed Total"/>
             <field name="tax_amount_company_currency" sum="Tax Total"/>
             <field name="total_amount_company_currency" sum="Total"/>
+            <field name="has_description" invisible="1"/>
+            <button readonly="1" icon="fa-info-circle"
+                    attrs="{'invisible': [('has_description', '=', False)]}"/>
         </xpath>
         <xpath expr="//field[@name='expense_line_ids']/tree/field[@name='total_amount']" position="attributes">
             <attribute name="sum"></attribute>
