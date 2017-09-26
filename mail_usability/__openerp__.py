@@ -42,6 +42,6 @@ Small usability improvements on mails:
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['mail'],
-    'data': [],
+    'data': ['views/mail.xml'],
     'installable': True,
 }
