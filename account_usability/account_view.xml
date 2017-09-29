@@ -69,6 +69,8 @@
             <separator/>
             <filter name="to_send" string="To Send" domain="[('sent', '=', False), ('state', 'in', ('open', 'paid'))]"/>
             <filter name="sent" string="Sent" domain="[('sent', '=', True)]"/>
+            <separator/>
+            <filter name="no_attachment" string="Missing Attachment" domain="[('has_attachment', '=', False)]"/>
         </filter>
     </field>
 </record>

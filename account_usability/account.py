@@ -44,6 +44,37 @@ class AccountInvoice(models.Model):
     journal_id = fields.Many2one(track_visibility='onchange')
     partner_bank_id = fields.Many2one(track_visibility='onchange')
     fiscal_position = fields.Many2one(track_visibility='onchange')
+    # has_attachment is useful for those who use attachment to archive
+    # supplier invoices. It allows them to find supplier invoices
+    # that don't have any attachment
+    has_attachment = fields.Boolean(
+        compute='_compute_has_attachment',
+        search='_search_has_attachment', readonly=True)
+
+    @api.multi
+    def _compute_has_attachment(self):
+        iao = self.env['ir.attachment']
+        for inv in self:
+            if iao.search([
+                    ('res_model', '=', 'account.invoice'),
+                    ('res_id', '=', inv.id),
+                    ('type', '=', 'binary'),
+                    ('company_id', '=', inv.company_id.id)], limit=1):
+                inv.has_attachment = True
+            else:
+                inv.has_attachment = False
+
+    def _search_has_attachment(self, operator, value):
+        att_inv_ids = {}
+        if operator == '=':
+            search_res = self.env['ir.attachment'].search_read([
+                ('res_model', '=', 'account.invoice'),
+                ('type', '=', 'binary'),
+                ('res_id', '!=', False)], ['res_id'])
+            for att in search_res:
+                att_inv_ids[att['res_id']] = True
+        res = [('id', value and 'in' or 'not in', att_inv_ids.keys())]
+        return res
 
     @api.multi
     def onchange_payment_term_date_invoice(
@@ -143,7 +174,7 @@ class AccountAccount(models.Model):
     _constraints = [
         # The method name must be exactly the same as the native
         # method, in order to override it
-        (_check_account_type, 'No error message', ['user_type','type']),
+        (_check_account_type, 'No error message', ['user_type', 'type']),
         ]
 
     @api.model
