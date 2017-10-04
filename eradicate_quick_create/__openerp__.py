@@ -23,7 +23,7 @@
 
 {
     'name': 'Eradicate Quick Create',
-    'version': '0.1',
+    'version': '9.0.1.0.0',
     'category': 'Tools',
     'license': 'AGPL-3',
     'summary': 'Disable quick create on all objects',
@@ -39,5 +39,5 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'website': 'http://www.akretion.com',
     'depends': ['base_optional_quick_create'],
     'data': [],
-    'installable': False,
+    'installable': True,
 }
