@@ -17,15 +17,11 @@ class AccountInvoiceUpdate(models.TransientModel):
     type = fields.Selection(related='invoice_id.type', readonly=True)
     company_id = fields.Many2one(
         related='invoice_id.company_id', readonly=True)
-    commercial_partner_id = fields.Many2one(
-        related='invoice_id.commercial_partner_id', readonly=True)
+    partner_id = fields.Many2one(
+        related='invoice_id.partner_id', readonly=True)
     user_id = fields.Many2one('res.users', string='Salesperson')
-    # I use the same field name as the original invoice field name
-    # even if it the name is "bad"
-    # Updating payment_term will not work if you use
-    # the OCA module account_constraints (you will just get an error)
-    payment_term = fields.Many2one(
-        'account.payment.term', string='Payment Terms')
+    payment_term_id = fields.Many2one(
+        'account.payment.term', string='Payment Term')
     reference = fields.Char(string='Invoice Reference')
     name = fields.Char(string='Reference/Description')
     origin = fields.Char(string='Source Document')
@@ -42,7 +38,7 @@ class AccountInvoiceUpdate(models.TransientModel):
 
     @api.model
     def _m2o_fields2update(self):
-        return ['payment_term', 'user_id', 'partner_bank_id']
+        return ['payment_term_id', 'user_id', 'partner_bank_id']
 
     @api.model
     def _prepare_default_get(self, invoice):
@@ -51,13 +47,13 @@ class AccountInvoiceUpdate(models.TransientModel):
             res[sfield] = invoice[sfield]
         for m2ofield in self._m2o_fields2update():
             res[m2ofield] = invoice[m2ofield].id or False
-        for line in invoice.invoice_line:
-            res['line_ids'].append({
+        for line in invoice.invoice_line_ids:
+            res['line_ids'].append([0, 0, {
                 'invoice_line_id': line.id,
                 'name': line.name,
                 'quantity': line.quantity,
                 'price_subtotal': line.price_subtotal,
-                })
+                }])
         return res
 
     @api.model
@@ -74,10 +70,10 @@ class AccountInvoiceUpdate(models.TransientModel):
         res = {'domain': {}}
         if self.type in ('out_invoice', 'out_refund'):
             res['domain']['partner_bank_id'] =\
-                "[('partner_id.ref_companies', 'in', [company_id])]"
+                "[('partner_id.ref_company_ids', 'in', [company_id])]"
         else:
             res['domain']['partner_bank_id'] =\
-                "[('partner_id', '=', commercial_partner_id)]"
+                "[('partner_id', '=', partner_id)]"
         return res
 
     @api.multi
@@ -90,8 +86,8 @@ class AccountInvoiceUpdate(models.TransientModel):
         for m2ofield in self._m2o_fields2update():
             if self[m2ofield] != inv[m2ofield]:
                 vals[m2ofield] = self[m2ofield].id or False
-        if 'payment_term' in vals:
-            pterm_list = self.payment_term.compute(
+        if 'payment_term_id' in vals:
+            pterm_list = self.payment_term_id.compute(
                 value=1, date_ref=inv.date_invoice)[0]
             if pterm_list:
                 vals['date_due'] = max(line[0] for line in pterm_list)
@@ -119,10 +115,9 @@ class AccountInvoiceUpdate(models.TransientModel):
         self.ensure_one()
         inv = self.invoice_id
         if (
-                self.payment_term and
-                self.payment_term != inv.payment_term and
-                inv.move_id and
-                inv.move_id.period_id.state == 'draft'):
+                self.payment_term_id and
+                self.payment_term_id != inv.payment_term_id and
+                inv.move_id):
             # I don't update pay term when the invoice is partially (or fully)
             # paid because if you have a payment term with several lines
             # of the same amount, you would also have to take into account
@@ -134,7 +129,7 @@ class AccountInvoiceUpdate(models.TransientModel):
                     "terms on an invoice which is partially or fully "
                     "paid."))
             prec = self.env['decimal.precision'].precision_get('Account')
-            term_res = self.payment_term.compute(
+            term_res = self.payment_term_id.compute(
                 inv.amount_total, inv.date_invoice)[0]
             new_pterm = {}  # key = int(amount * 100), value = [date1, date2]
             for entry in term_res:
@@ -144,7 +139,7 @@ class AccountInvoiceUpdate(models.TransientModel):
                 else:
                     new_pterm[amount] = [entry[0]]
             mlines = {}  # key = int(amount * 100), value : [line1, line2]
-            for line in inv.move_id.line_id:
+            for line in inv.move_id.line_ids:
                 if line.account_id == inv.account_id:
                     amount = int(abs(line.credit - line.debit) * 10 * prec)
                     if amount in mlines:
@@ -159,7 +154,7 @@ class AccountInvoiceUpdate(models.TransientModel):
                         "new payment term '%s'. You can only switch to a "
                         "payment term that has the same number of terms "
                         "with the same amount.") % (
-                        inv.payment_term.name, self.payment_term.name))
+                        inv.payment_term_id.name, self.payment_term_id.name))
                 for line in lines:
                     line.date_maturity = new_pterm[iamount].pop()
 
@@ -179,7 +174,7 @@ class AccountInvoiceUpdate(models.TransientModel):
             if ilvals:
                 updated = True
                 line.invoice_line_id.write(ilvals)
-        if inv.move_id and inv.move_id.period_id.state == 'draft':
+        if inv.move_id:
             mvals = self._prepare_move()
             if mvals:
                 inv.move_id.write(mvals)
