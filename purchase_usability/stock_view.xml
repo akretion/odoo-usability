@@ -14,7 +14,7 @@
     <field name="inherit_id" ref="stock.view_picking_form"/>
     <field name="arch" type="xml">
         <field name="origin" position="after">
-            <field name="purchase_id" attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}"/>
+            <field name="purchase_id" attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}" context="{'show_purchase': True}"/>
         </field>
     </field>
 </record>
