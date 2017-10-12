@@ -60,6 +60,10 @@
             <filter name="not_shipped" string="Not Fully Received" domain="[('is_shipped', '=', False)]"/>
             <separator/>
         </filter>
+        <field name="name" position="attributes">
+            <attribute name="string">Reference or Origin</attribute>
+            <attribute name="filter_domain">['|', ('name', 'ilike', self), ('origin', 'ilike', self)]</attribute>
+        </field>
     </field>
 </record>
 
