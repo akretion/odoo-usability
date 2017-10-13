@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<openerp>
+<data noupdate="1"> <!-- noupdate = 1 for the 'active' field -->
+
+<record id="purge_auth_log_cron" model="ir.cron">
+    <field name="name">Purge old authentication logs</field>
+    <field name="active" eval="True"/>
+    <field name="user_id" ref="base.user_root"/>
+    <field name="interval_number">1</field>
+    <field name="interval_type">months</field>
+    <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
+    <field name="doall" eval="False"/>
+    <field name="model" eval="'res.users.auth.log'"/>
+    <field name="function" eval="'_purge_old_auth_logs'" />
+    <field name="args" eval="'()'"/>
+</record>
+
+</data>
+</openerp>
