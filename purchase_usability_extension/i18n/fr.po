@@ -20,7 +20,7 @@ msgstr ""
 #. module: purchase_usability_extension
 #: view:product.supplierinfo:purchase_usability_extension.product_supplierinfo_view_filter
 msgid "Delay"
-msgstr "Delay"
+msgstr "Délai"
 
 #. module: purchase_usability_extension
 #: view:purchase.order:purchase_usability_extension.purchase_order_form
@@ -54,8 +54,8 @@ msgstr "Factures"
 
 #. module: purchase_usability_extension
 #: view:purchase.order:purchase_usability_extension.view_purchase_order_filter
-msgid "Not Fully Received"
-msgstr "Pas Complètement Reçue"
+msgid "Not Received or Partially Received"
+msgstr "Non reçue ou partiellement reçue"
 
 #. module: purchase_usability_extension
 #: view:purchase.order:purchase_usability_extension.purchase_order_form
@@ -90,7 +90,7 @@ msgstr "Product Supplier Info"
 #. module: purchase_usability_extension
 #: model:ir.model,name:purchase_usability_extension.model_purchase_order
 msgid "Purchase Order"
-msgstr "Commande d'Achat"
+msgstr "Commande d'achat"
 
 #. module: purchase_usability_extension
 #: model:ir.model,name:purchase_usability_extension.model_purchase_order_line
@@ -115,7 +115,7 @@ msgstr "Fournisseur"
 #. module: purchase_usability_extension
 #: view:product.supplierinfo:purchase_usability_extension.product_supplierinfo_view_tree
 msgid "Supplier Code"
-msgstr "Code Fournisseur"
+msgstr "Code fournisseur"
 
 #. module: purchase_usability_extension
 #: view:purchase.order:purchase_usability_extension.purchase_order_form

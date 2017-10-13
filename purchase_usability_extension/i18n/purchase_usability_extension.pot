@@ -52,7 +52,7 @@ msgstr ""
 
 #. module: purchase_usability_extension
 #: view:purchase.order:purchase_usability_extension.view_purchase_order_filter
-msgid "Not Fully Received"
+msgid "Not Received or Partially Received"
 msgstr ""
 
 #. module: purchase_usability_extension

@@ -59,7 +59,7 @@
         <filter name="not_invoiced" position="after">
             <separator/>
             <filter name="shipped" string="Fully Received" domain="[('shipped', '=', True)]"/>
-            <filter name="not_shipped" string="Not Fully Received" domain="[('shipped', '=', False)]"/>
+            <filter name="not_shipped" string="Not Received or Partially Received" domain="[('shipped', '=', False)]"/>
         </filter>
     </field>
 </record>
