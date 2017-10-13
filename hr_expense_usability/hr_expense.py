@@ -117,6 +117,7 @@ class HrExpense(models.Model):
         store=True, string='Tax Amount in Company Currency',
         currency_field='company_currency_id')
     # I don't use the native field 'untaxed_amount' (computed, store=True)
+    has_description = fields.Boolean(compute='_compute_has_description', store=True)
 
     @api.depends(
         'currency_id', 'company_id', 'total_amount', 'date',
@@ -134,6 +135,13 @@ class HrExpense(models.Model):
                 exp.total_amount_company_currency = total_cc
                 exp.untaxed_amount_company_currency = untaxed_cc
                 exp.tax_amount_company_currency = total_cc - untaxed_cc
+
+    @api.multi
+    @api.depends('description')
+    def _compute_has_description(self):
+        for rec in self:
+            rec.has_description = (
+                rec.description and bool(rec.description.strip()))
 
     @api.onchange('untaxed_amount_usability')
     def untaxed_amount_usability_change(self):
@@ -330,6 +338,32 @@ class HrExpenseSheet(models.Model):
             sheet.total_amount_company_currency = total
             sheet.untaxed_amount_company_currency = untaxed
             sheet.tax_amount_company_currency = total - untaxed
+
+    @api.multi
+    def _compute_attachment_number(self):
+        AttachmentObj = self.env['ir.attachment']
+        for rec in self:
+            sheet_attachment_count = AttachmentObj.search_count([
+                ('res_model', '=', self._name),
+                ('res_id', '=', rec.id)])
+            rec.attachment_number = (
+                sum(self.expense_line_ids.mapped('attachment_number')) +
+                sheet_attachment_count)
+
+    @api.multi
+    def action_get_attachment_view(self):
+        self.ensure_one()
+        res = super(HrExpenseSheet, self).action_get_attachment_view()
+        res['domain'] = [
+            '|',
+            '&',
+            ('res_model', '=', 'hr.expense'),
+            ('res_id', 'in', self.expense_line_ids.ids),
+            '&',
+            ('res_model', '=', 'hr.expense.sheet'),
+            ('res_id', '=', self.id),
+        ]
+        return res
 
     @api.one
     @api.constrains('expense_line_ids')
