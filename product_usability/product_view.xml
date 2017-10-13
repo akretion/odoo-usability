@@ -89,7 +89,6 @@
     </field>
 </record>
 
-<!-- Also search on EAN13 -->
 <record id="product_template_search_view" model="ir.ui.view">
     <field name="name">product_usability.product.template.search</field>
     <field name="model">product.template</field>
@@ -97,6 +96,9 @@
     <field name="arch" type="xml">
         <field name="name" position="attributes">
             <attribute name="filter_domain">['|', '|', ('name', 'ilike', self), ('default_code', 'ilike', self), ('ean13', '=', self)]</attribute>
+        </field>
+        <field name="categ_id" position="after">
+            <field name="seller_id" string="Supplier" filter_domain="[('seller_ids.name', 'ilike', self)]"/>
         </field>
     </field>
 </record>
