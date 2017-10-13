@@ -34,9 +34,6 @@ Account Invoice Picking Label
 Adds a function field named *picking_ids_label* on invoices. This field contains the list of pickings related to the invoice as a string. This field is designed to be displayed in the invoice report.""",
     'author': 'Akretion',
     'website': 'http://www.akretion.com/',
-    'depends': ['stock_account'],
-    'data': [],
+    'depends': ['stock_picking_invoice_link'],
     'installable': True,
-    'active': False,
 }
-

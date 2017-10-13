@@ -36,13 +36,10 @@ class account_invoice(orm.Model):
                 pickings = self.pool['stock.picking'].read(
                     cr, uid, invoice['picking_ids'], ['name'],
                     context=context)
-                first = True
+                pick_names = []
                 for picking in pickings:
-                    if first:
-                        label += picking['name']
-                        first = False
-                    else:
-                        label += ', %s' % picking['name']
+                    pick_names.append(picking['name'])
+                label = ','.join(pick_names)
             res[invoice['id']] = label
         return res
 
