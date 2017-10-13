@@ -57,6 +57,7 @@
     <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
     <field name="arch" type="xml">
         <filter name="not_invoiced" position="after">
+            <separator/>
             <filter name="shipped" string="Fully Received" domain="[('shipped', '=', True)]"/>
             <filter name="not_shipped" string="Not Fully Received" domain="[('shipped', '=', False)]"/>
         </filter>
