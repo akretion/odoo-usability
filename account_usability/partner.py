@@ -9,3 +9,5 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     invoice_warn = fields.Selection(track_visibility='onchange')
+    property_account_position_id = fields.Many2one(
+        track_visibility='onchange')
