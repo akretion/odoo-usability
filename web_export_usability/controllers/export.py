@@ -21,4 +21,5 @@ class Export_(Export):
         """
         response = super(Export_, self).formats()
         # put xls, before csv
-        return [response[1], response[0]]
+        response.reverse()
+        return response
