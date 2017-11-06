@@ -1,0 +1,379 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* account_usability
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-06 10:16+0000\n"
+"PO-Revision-Date: 2017-11-06 10:16+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_usability
+#: help:account.invoice.line,state:0
+msgid " * The 'Draft' status is used when a user is encoding a new and unconfirmed Invoice.\n"
+" * The 'Pro-forma' when invoice is in Pro-forma status,invoice does not have an invoice number.\n"
+" * The 'Open' status is used when user create invoice,a invoice number is generated.Its in open status till user does not pay invoice.\n"
+" * The 'Paid' status is set automatically when the invoice is paid. Its related journal entries may or may not be reconciled.\n"
+" * The 'Cancelled' status is used when user cancel invoice."
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+#: model:ir.model,name:account_usability.model_account_account
+msgid "Account"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_move
+msgid "Account Entry"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_analytic_account
+msgid "Analytic Account"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_bank_statement
+msgid "Bank Statement"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.mark.sent:account_usability.account_invoice_mark_sent_form
+msgid "Cancel"
+msgstr ""
+
+#. module: account_usability
+#: field:account.invoice.line,commercial_partner_id:0
+msgid "Commercial Entity"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+msgid "Commercial Partner"
+msgstr ""
+
+#. module: account_usability
+#: field:account.invoice.mark.sent,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: account_usability
+#: field:account.invoice.mark.sent,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: account_usability
+#: field:account.invoice.line,currency_id:0
+msgid "Currency"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.out_invoice_line_action
+msgid "Customer Invoice Lines"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+msgid "Customer Invoices"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.out_refund_line_action
+msgid "Customer Refund Lines"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+msgid "Customer Refunds"
+msgstr ""
+
+#. module: account_usability
+#: view:account.move.line:account_usability.view_account_move_line_filter
+msgid "Debit or Credit"
+msgstr ""
+
+#. module: account_usability
+#: field:account.invoice.mark.sent,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+msgid "Draft"
+msgstr ""
+
+#. module: account_usability
+#: view:account.bank.statement:account_usability.view_bank_statement_search
+#: field:account.bank.statement,end_date:0
+msgid "End Date"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_fiscal_position
+msgid "Fiscal Position"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_fiscalyear
+msgid "Fiscal Year"
+msgstr ""
+
+#. module: account_usability
+#: view:account.move.line:account_usability.view_account_move_line_filter
+msgid "Fully Reconciled"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+msgid "Group By"
+msgstr ""
+
+#. module: account_usability
+#: field:account.invoice.mark.sent,id:0
+msgid "ID"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+#: field:account.invoice.line,date_invoice:0
+msgid "Invoice Date"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_invoice_line
+msgid "Invoice Line"
+msgstr ""
+
+#. module: account_usability
+#: field:account.analytic.account,invoice_line_ids:0
+msgid "Invoice Lines"
+msgstr ""
+
+#. module: account_usability
+#: field:account.invoice.line,invoice_number:0
+msgid "Invoice Number"
+msgstr ""
+
+#. module: account_usability
+#: field:account.invoice.line,state:0
+msgid "Invoice State"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_move_line
+msgid "Journal Items"
+msgstr ""
+
+#. module: account_usability
+#: help:account.invoice.line,date_invoice:0
+msgid "Keep empty to use the current date"
+msgstr ""
+
+#. module: account_usability
+#: field:account.invoice.mark.sent,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: account_usability
+#: field:account.invoice.mark.sent,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: account_usability
+#: field:account.invoice.mark.sent,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.mark.sent:account_usability.account_invoice_mark_sent_form
+#: model:ir.actions.act_window,name:account_usability.account_invoice_mark_sent_action
+msgid "Mark as Sent"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.mark.sent:account_usability.account_invoice_mark_sent_form
+#: model:ir.model,name:account_usability.model_account_invoice_mark_sent
+msgid "Mark invoices as sent"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice:account_usability.view_account_invoice_filter
+msgid "Missing Attachment"
+msgstr ""
+
+#. module: account_usability
+#: code:addons/account_usability/account.py:255
+#, python-format
+msgid "Move %d has a line !"
+msgstr ""
+
+#. module: account_usability
+#: view:account.move.line:account_usability.view_account_move_line_filter
+msgid "Name or Reference"
+msgstr ""
+
+#. module: account_usability
+#: constraint:account.account:0
+msgid "No error message"
+msgstr ""
+
+#. module: account_usability
+#: code:addons/account_usability/account.py:374
+#, python-format
+msgid "No journal entry linked to this bank statement line."
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+msgid "Not Paid"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice:account_usability.view_account_invoice_filter
+msgid "Overdue"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+msgid "Paid"
+msgstr ""
+
+#. module: account_usability
+#: code:addons/account_usability/account.py:192
+#, python-format
+msgid "Parent account %s should have type=view (current type=%s)"
+msgstr ""
+
+#. module: account_usability
+#: code:addons/account_usability/account.py:196
+#, python-format
+msgid "Parent account %s should have user_type=view (current (user_type=%s)"
+msgstr ""
+
+#. module: account_usability
+#: view:account.move.line:account_usability.view_account_move_line_filter
+msgid "Partially Reconciled"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+#: model:ir.model,name:account_usability.model_res_partner
+msgid "Partner"
+msgstr ""
+
+#. module: account_usability
+#: view:res.partner:account_usability.partner_view_button_journal_item_count
+msgid "Payable Account"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+#: view:account.invoice.report:account_usability.view_account_invoice_report_search
+msgid "Product"
+msgstr ""
+
+#. module: account_usability
+#: view:res.partner:account_usability.partner_view_button_journal_item_count
+msgid "Receivable Account"
+msgstr ""
+
+#. module: account_usability
+#: view:account.analytic.account:account_usability.view_account_analytic_account_form
+msgid "Related Invoice Lines"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+msgid "Search Invoice Lines"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice:account_usability.view_account_invoice_filter
+msgid "Sent"
+msgstr ""
+
+#. module: account_usability
+#: view:account.bank.statement:account_usability.view_bank_statement_search
+#: field:account.bank.statement,start_date:0
+msgid "Start Date"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.in_invoice_line_action
+msgid "Supplier Invoice Lines"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+msgid "Supplier Invoices"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.in_refund_line_action
+msgid "Supplier Refund Lines"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.line:account_usability.account_invoice_line_search
+msgid "Supplier Refunds"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice.mark.sent:account_usability.account_invoice_mark_sent_form
+msgid "This wizard will mark as sent all the selected invoices."
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice:account_usability.view_account_invoice_filter
+msgid "To Send"
+msgstr ""
+
+#. module: account_usability
+#: view:res.partner:account_usability.partner_view_button_journal_item_count
+msgid "True"
+msgstr ""
+
+#. module: account_usability
+#: field:account.invoice.line,invoice_type:0
+msgid "Type"
+msgstr ""
+
+#. module: account_usability
+#: view:account.bank.statement:account_usability.view_bank_statement_form
+msgid "View Account Move"
+msgstr ""
+
+#. module: account_usability
+#: view:account.move.line:account_usability.account_move_line_graph
+msgid "pivot"
+msgstr ""
+
+#. module: account_usability
+#: view:account.invoice:account_usability.invoice_form
+#: view:account.invoice:account_usability.invoice_supplier_form
+msgid "selection"
+msgstr ""
+
