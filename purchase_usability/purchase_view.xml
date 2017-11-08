@@ -107,5 +107,76 @@
     <field name="context">{'search_default_draft': 1, 'search_default_todo': 1}</field>
 </record>
 
+<record id="purchase_order_line_form2" model="ir.ui.view">
+    <field name="name">usability.purchase.order.line.form</field>
+    <field name="model">purchase.order.line</field>
+    <field name="inherit_id" ref="purchase.purchase_order_line_form2"/>
+    <field name="arch" type="xml">
+        <field name="order_id" position="attributes">
+            <attribute name="context">{'show_purchase': True}</attribute>
+        </field>
+    </field>
+</record>
+ 
+<record id="purchase_order_line_tree" model="ir.ui.view">
+    <field name="name">usability.purchase.order.line.tree</field>
+    <field name="model">purchase.order.line</field>
+    <field name="inherit_id" ref="purchase.purchase_order_line_tree"/>
+    <field name="arch" type="xml">
+        <field name="name" position="replace"/>
+        <field name="product_id" position="after">
+            <field name="name"/>
+        </field>
+        <field name="product_qty" position="after">
+            <field name="qty_received"/>
+            <field name="qty_invoiced"/>
+        </field>
+        <field name="price_unit" position="replace"/>
+        <field name="product_uom" position="after">
+            <field name="price_unit"/>
+        </field>
+        <field name="product_qty" position="before">
+            <field name="account_analytic_id" groups="purchase.group_analytic_accounting"/>
+            <field name="currency_id" invisible="1"/>
+        </field>
+        <field name="date_planned" position="after">
+            <field name="state"/>
+        </field>
+    </field>
+</record>
+
+<record id="purchase_order_line_search" model="ir.ui.view">
+    <field name="name">usability.purchase.order.line.search</field>
+    <field name="model">purchase.order.line</field>
+    <field name="inherit_id" ref="purchase.purchase_order_line_search"/>
+    <field name="arch" type="xml">
+        <field name="partner_id" position="after">
+            <field name="account_analytic_id" groups="purchase.group_analytic_accounting"/>
+        </field>
+        <group expand="0" position="inside">
+            <filter string="Analytic Account" name="account_analytic_groupby" context="{'group_by': 'account_analytic_id'}"/>
+        </group>
+    </field>
+</record>
+
+<record id="purchase_order_line_pivot" model="ir.ui.view">
+    <field name="name">usability.purchase.order.line.pivot</field>
+    <field name="model">purchase.order.line</field>
+    <field name="arch" type="xml">
+        <pivot string="Purchase Order Lines">
+            <field name="state" type="col"/>
+            <field name="partner_id" type="row"/>
+            <field name="price_subtotal" type="measure"/>  <!-- not good, because it sums-up different currencies -->
+        </pivot>
+    </field>
+</record>
+
+<record id="purchase_order_line_action" model="ir.actions.act_window">
+    <field name="name">Purchase Order Lines</field>
+    <field name="res_model">purchase.order.line</field>
+    <field name="view_mode">tree,form,pivot</field>
+</record>
+
+<!-- The menu entry should be added in customer-specific module -->
 
 </odoo>
