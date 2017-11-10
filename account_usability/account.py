@@ -22,6 +22,7 @@ class AccountInvoice(models.Model):
     journal_id = fields.Many2one(track_visibility='onchange')
     partner_bank_id = fields.Many2one(track_visibility='onchange')
     fiscal_position_id = fields.Many2one(track_visibility='onchange')
+    amount_total = fields.Monetary(track_visibility='onchange')
     # for those fields, the 'account' module sets track_visibility='always':
     partner_id = fields.Many2one(track_visibility='onchange')
     currency_id = fields.Many2one(track_visibility='onchange')
