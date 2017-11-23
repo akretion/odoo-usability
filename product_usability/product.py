@@ -31,7 +31,7 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    default_code = fields.Char(track_visibility='onchange')
+    default_code = fields.Char(track_visibility='onchange', copy=False)
     barcode = fields.Char(track_visibility='onchange')
     weight = fields.Float(track_visibility='onchange')
     active = fields.Boolean(track_visibility='onchange')
