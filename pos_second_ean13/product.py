@@ -23,7 +23,7 @@ class ProductProduct(models.Model):
         'This barcode already exists!')]
 
     @api.constrains('second_barcode')
-    def _check_second_ean13(self):
+    def _check_second_barcode(self):
         for product in self:
             if product.second_barcode and not product.barcode:
                 raise ValidationError(_(
