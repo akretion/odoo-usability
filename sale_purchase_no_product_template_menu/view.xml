@@ -20,6 +20,12 @@
     <field name="action" ref="product_product_action_purchased"/>
 </record>
 
+<!-- menu entry "Accounting > Purchases > Purchasable Products -->
+<record id="purchase.menu_product_normal_action_puchased" model="ir.ui.menu">
+    <field name="action" ref="product_product_action_purchased"/>
+</record>
+
+
 <!-- STOCK -->
 <record id="stock.menu_product_variant_config_stock" model="ir.ui.menu">
     <field name="action" ref="product.product_normal_action"/>
@@ -52,6 +58,12 @@ entry and link it to product product -->
     <field name="view_id" eval="False"/>
     <field name="context">{}</field>
 </record>
+
+<!-- ACCOUNT -->
+<record id="account.menu_product_template_action" model="ir.ui.menu">
+    <field name="action" ref="product_product_action_sell"/>
+</record>
+
 
 <!-- Create a product template menu entry in configuration -->
 <menuitem id="sale_config_product_template_menu" action="product.product_template_action"
