@@ -30,6 +30,11 @@
         <field name="fiscal_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
+        <!-- move sent field and make it visible -->
+        <field name="sent" position="replace"/>
+        <field name="move_id" position="before">
+            <field name="sent"/>
+        </field>
     </field>
 </record>
 
