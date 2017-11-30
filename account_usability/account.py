@@ -33,6 +33,12 @@ class AccountInvoice(models.Model):
     # for invoice report
     has_discount = fields.Boolean(
         compute='_compute_has_discount', readonly=True)
+    # has_attachment is useful for those who use attachment to archive
+    # supplier invoices. It allows them to find supplier invoices
+    # that don't have any attachment
+    has_attachment = fields.Boolean(
+        compute='_compute_has_attachment',
+        search='_search_has_attachment', readonly=True)
 
     @api.multi
     def _compute_has_discount(self):
@@ -44,6 +50,30 @@ class AccountInvoice(models.Model):
                     has_discount = True
                     break
             inv.has_discount = has_discount
+
+    def _compute_has_attachment(self):
+        iao = self.env['ir.attachment']
+        for inv in self:
+            if iao.search([
+                    ('res_model', '=', 'account.invoice'),
+                    ('res_id', '=', inv.id),
+                    ('type', '=', 'binary'),
+                    ('company_id', '=', inv.company_id.id)], limit=1):
+                inv.has_attachment = True
+            else:
+                inv.has_attachment = False
+
+    def _search_has_attachment(self, operator, value):
+        att_inv_ids = {}
+        if operator == '=':
+            search_res = self.env['ir.attachment'].search_read([
+                ('res_model', '=', 'account.invoice'),
+                ('type', '=', 'binary'),
+                ('res_id', '!=', False)], ['res_id'])
+            for att in search_res:
+                att_inv_ids[att['res_id']] = True
+        res = [('id', value and 'in' or 'not in', att_inv_ids.keys())]
+        return res
 
     # I really hate to see a "/" in the 'name' field of the account.move.line
     # generated from customer invoices linked to the partners' account because:
@@ -62,6 +92,12 @@ class AccountInvoice(models.Model):
                 "WHERE move_id=%s", (inv.number, inv.number, inv.move_id.id))
             self.invalidate_cache()
         return res
+
+    def delete_lines_qty_zero(self):
+        lines = self.env['account.invoice.line'].search([
+            ('invoice_id', 'in', self.ids), ('quantity', '=', 0)])
+        lines.unlink()
+        return True
 
 
 class AccountInvoiceLine(models.Model):

@@ -30,6 +30,9 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['account'],
-    'data': ['account_view.xml'],
+    'data': [
+        'account_view.xml',
+        'partner_view.xml',
+        ],
     'installable': True,
 }
