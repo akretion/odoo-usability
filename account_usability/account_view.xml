@@ -60,6 +60,9 @@ module -->
             <field name="state" invisible="not context.get('show_invoice_fields')"/>
             <field name="invoice_type" invisible="1"/>
         </field>
+        <field name="quantity" position="attributes">
+            <attribute name="sum">1</attribute>
+        </field>
         <xpath expr="/tree" position="attributes">
             <attribute name="decoration-info">state == 'draft'</attribute>
             <attribute name="decoration-muted">state == 'cancel'</attribute>
