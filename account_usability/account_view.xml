@@ -157,6 +157,56 @@ module -->
     <field name="context">{'show_invoice_fields': True}</field>
 </record>
 
+<record id="view_account_invoice_report_search" model="ir.ui.view">
+    <field name="name">usability.account.invoice.report.search</field>
+    <field name="model">account.invoice.report</field>
+    <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
+    <field name="arch" type="xml">
+        <field name="categ_id" position="after">
+            <field name="product_id"/>
+        </field>
+    </field>
+</record>
+
+<record id="account_invoice_report_tree" model="ir.ui.view">
+    <field name="name">usability.account.invoice.report.tree</field>
+    <field name="model">account.invoice.report</field>
+    <field name="arch" type="xml">
+        <tree string="Invoices Analysis">
+            <field name="date"/>
+            <field name="commercial_partner_id"/>
+            <field name="type"/>
+            <field name="product_id"/>
+            <field name="product_qty" sum="1"/>
+            <field name="price_total" sum="1"/>
+            <field name="state"/>
+            <field name="currency_id" invisible="1"/>
+            <field name="company_id" groups="base.group_multi_company"/>
+        </tree>
+    </field>
+</record>
+
+<record id="account.action_account_invoice_report_all_supp" model="ir.actions.act_window">
+    <field name="view_mode">pivot,graph,tree</field>
+    <field name="context">{'search_default_current':1, 'search_default_supplier':1, 'search_default_year': 1}</field>
+</record>
+
+<record id="account.action_account_invoice_report_all" model="ir.actions.act_window">
+    <field name="view_mode">pivot,graph,tree</field>
+    <field name="context">{'search_default_current':1, 'search_default_customer':1, 'search_default_year': 1}</field>
+</record>
+
+<record id="view_account_invoice_report_pivot" model="ir.ui.view">
+    <field name="name">usability.account.invoice.report.pivot</field>
+    <field name="model">account.invoice.report</field>
+    <field name="inherit_id" ref="account.view_account_invoice_report_pivot"/>
+    <field name="arch" type="xml">
+        <xpath expr="/pivot" position="attributes">
+            <attribute name="disable_linking"></attribute>
+        </xpath>
+    </field>
+</record>
+
 <record id="view_invoice_tax_form" model="ir.ui.view">
     <field name="name">usability.account.invoice.tax.form</field>
     <field name="model">account.invoice.tax</field>
