@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+    The licence is in the file __openerp__.py
+-->
+
+<odoo>
+
+<record id="account_invoice_mark_sent_form" model="ir.ui.view">
+    <field name="name">account.invoice.mark.sent.form</field>
+    <field name="model">account.invoice.mark.sent</field>
+    <field name="arch"  type="xml">
+        <form string="Mark invoices as sent">
+            <p>
+                This wizard will mark as <i>sent</i> all the selected invoices in open or paid state.
+            </p>
+            <footer>
+                <button type="object" name="run" string="Mark as Sent" class="btn-primary"/>
+                <button special="cancel" string="Cancel" class="oe_link"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<act_window id="account_invoice_mark_sent_action"
+            multi="True"
+            key2="client_action_multi"
+            name="Mark as Sent"
+            res_model="account.invoice.mark.sent"
+            src_model="account.invoice"
+            view_mode="form"
+            target="new"
+            groups="account.group_account_invoice" />
+
+</odoo>
