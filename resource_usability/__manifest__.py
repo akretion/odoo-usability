@@ -5,7 +5,7 @@
 
 {
     'name': 'Resource Usability',
-    'version': '8.0.1.0.1',
+    'version': '10.0.1.0.1',
     'category': 'Hidden/Dependency',
     'license': 'AGPL-3',
     'summary': 'Resource usability enhancements',

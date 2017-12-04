@@ -4,8 +4,7 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 
 <record id="view_resource_calendar" model="ir.ui.view">
@@ -20,5 +19,4 @@
 </record>
 
 
-</data>
-</openerp>
+</odoo>

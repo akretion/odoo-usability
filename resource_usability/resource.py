@@ -3,13 +3,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
-from openerp import models, api
+from odoo import models
 
 
 class ResourceCalendarLeaves(models.Model):
     _inherit = "resource.calendar.leaves"
 
-    @api.multi
     def name_get(self):
         res = []
         for caleaves in self:
