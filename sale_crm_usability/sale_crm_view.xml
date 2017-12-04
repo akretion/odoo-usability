@@ -5,41 +5,20 @@
    The licence is in the file __openerp__.py
 -->
 
-<openerp>
-<data>
+<odoo>
 
-<record id="view_order_form" model="ir.ui.view">
+
+<record id="sale_view_inherit123" model="ir.ui.view">
     <field name="name">sale_crm_usability.sale.order.form</field>
     <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="inherit_id" ref="sale_crm.sale_view_inherit123"/>
     <field name="arch" type="xml">
-        <field name="pricelist_id" position="after">
-            <field name="lead_id"
-                domain="[('type', '=', 'opportunity'), ('partner_id', '=', partner_id)]"
-                context="{'default_type': 'opportunity', 'default_partner_id': partner_id, 'default_user_id': uid, 'stage_type': 'opportunity', 'usability_default_stage_xmlid': 'crm.stage_lead4'}"/>
+        <field name="opportunity_id" position="attributes">
+            <attribute name="domain">[('type', '=', 'opportunity'), ('partner_id', '=', partner_id)]</attribute>
+            <attribute name="context">{'default_type': 'opportunity', 'default_partner_id': partner_id, 'default_user_id': uid, 'opportunity_from_quote': True}</attribute>
         </field>
     </field>
 </record>
 
-<record id="crm_case_form_view_oppor" model="ir.ui.view">
-    <field name="name">sale_crm_usability.opportunity.form</field>
-    <field name="model">crm.lead</field>
-    <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>
-    <field name="priority">100</field>
-    <!-- priority so that the button "View Quotations" is the last button -->
-    <field name="arch" type="xml">
-        <field name="stage_id" position="before">
-            <button name="view_sale_orders" type="object" string="View Quotations"
-                attrs="{'invisible': [('sale_ids', '=', False)]}"/>
-        </field>
-        <notebook position="inside">
-            <page name="sale_orders" string="Sale Orders">
-                <field name="sale_ids" nolabel="1"/>
-            </page>
-        </notebook>
-    </field>
-</record>
 
-
-</data>
-</openerp>
+</odoo>
