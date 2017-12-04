@@ -5,7 +5,7 @@
 
 {
     'name': 'HR Holidays Lunch Voucher',
-    'version': '10.0.1.0.0',
+    'version': '8.0.1.0.0',
     'category': 'Human Resources',
     'license': 'AGPL-3',
     'summary': 'Manage lunch vouchers in holidays requests',

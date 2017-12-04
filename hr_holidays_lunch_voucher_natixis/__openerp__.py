@@ -5,7 +5,7 @@
 
 {
     'name': 'HR Holidays Lunch Voucher Natixis',
-    'version': '10.0.1.0.0',
+    'version': '8.0.1.0.0',
     'category': 'Human Resources',
     'license': 'AGPL-3',
     'summary': 'Generate order file for Natixis lunch vouchers',
