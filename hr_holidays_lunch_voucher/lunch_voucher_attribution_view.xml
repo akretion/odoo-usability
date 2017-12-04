@@ -5,8 +5,7 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 
 <record id="lunch_voucher_attribution_form" model="ir.ui.view">
@@ -38,7 +37,7 @@
             <field name="date"/>
             <field name="employee_id"/>
             <field name="month_work_days"/>
-            <field name="no_lunch_days" sum="Total"/>
+            <field name="no_lunch_days" sum="1"/>
             <field name="qty" sum="Total"/>
             <field name="purchase_id"/>
             <field name="company_id" groups="base.group_multi_company"/>
@@ -93,5 +92,4 @@
             view_mode="form"
             target="new" />
 
-</data>
-</openerp>
+</odoo>

@@ -5,16 +5,15 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 
-<record id="hr_holidays_post_form" model="ir.ui.view">
-    <field name="name">hr_holidays_post_form</field>
-    <field name="model">hr.holidays.post</field>
-    <field name="inherit_id" ref="hr_holidays_usability.hr_holidays_post_form"/>
+<record id="hr_holidays_to_payslip_form" model="ir.ui.view">
+    <field name="name">hr.holidays.to.payslip.form</field>
+    <field name="model">hr.holidays.to.payslip</field>
+    <field name="inherit_id" ref="hr_holidays_usability.hr_holidays_to_payslip_form"/>
     <field name="arch" type="xml">
-        <field name="holidays_to_post_ids" position="before">
+        <field name="holidays_to_payslip_ids" position="before">
             <field name="lunch_voucher_po" states="done"/>
             <field name="work_days"
                 attrs="{'invisible': ['|', ('state', '!=', 'done'), ('lunch_voucher_po', '=', False)]}"/>
@@ -23,5 +22,4 @@
 </record>
 
 
-</data>
-</openerp>
+</odoo>

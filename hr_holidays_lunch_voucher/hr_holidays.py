@@ -3,7 +3,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from odoo import models, fields, api
 from dateutil.relativedelta import relativedelta
 
 
@@ -18,7 +18,6 @@ class HrHolidays(models.Model):
         store=True, string='Lunch Vouchers to Deduct')
 
     @api.depends('employee_id', 'vacation_date_from', 'vacation_date_to')
-    @api.multi
     def _compute_lunch_voucher_remove_qty(self):
         hhpo = self.env['hr.holidays.public']
         for hol in self:

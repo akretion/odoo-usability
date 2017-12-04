@@ -5,8 +5,7 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 
 <record id="edit_holiday_new" model="ir.ui.view">
@@ -29,11 +28,10 @@
     <field name="inherit_id" ref="hr_holidays_usability.view_holiday"/>
     <field name="arch" type="xml">
         <field name="number_of_days" position="after">
-             <field name="lunch_voucher_remove_qty" string="Lunch Vouchers -=" sum="Total"/>
+             <field name="lunch_voucher_remove_qty" string="Lunch Vouchers -=" sum="1"/>
         </field>
     </field>
 </record>
 
 
-</data>
-</openerp>
+</odoo>

@@ -14,7 +14,7 @@
     'website': 'http://www.akretion.com',
     'depends': ['hr_holidays_lunch_voucher'],
     'data': [
-        'company_view.xml',
+        'purchase_config_settings_view.xml',
         ],
     'installable': True,
 }

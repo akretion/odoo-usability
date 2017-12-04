@@ -6,10 +6,10 @@
 from odoo import models, fields
 
 
-class ResCompany(models.Model):
-    _inherit = 'res.company'
+class PurchaseConfigSettings(models.TransientModel):
+    _inherit = 'purchase.config.settings'
 
     lunch_voucher_natixis_customer_code = fields.Char(
-        string='Natixis Customer Ref', size=7)
+        related='company_id.lunch_voucher_natixis_customer_code')
     lunch_voucher_natixis_delivery_code = fields.Char(
-        string='Natixis Delivery Code', size=7)
+        related='company_id.lunch_voucher_natixis_delivery_code')

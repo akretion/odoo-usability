@@ -3,15 +3,15 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from odoo import models, fields, api
 from dateutil.relativedelta import relativedelta
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class HrHolidaysPost(models.TransientModel):
-    _inherit = 'hr.holidays.post'
+class HrHolidaysToPayslip(models.TransientModel):
+    _inherit = 'hr.holidays.to.payslip'
 
     lunch_voucher_po = fields.Boolean(
         string='Generate Lunch Voucher Purchase Order')
@@ -19,7 +19,7 @@ class HrHolidaysPost(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(HrHolidaysPost, self).default_get(fields_list)
+        res = super(HrHolidaysToPayslip, self).default_get(fields_list)
         hhpo = self.env['hr.holidays.public']
         company = self.env.user.company_id
         if company.lunch_voucher_product_id:
@@ -47,7 +47,6 @@ class HrHolidaysPost(models.TransientModel):
         res['work_days'] = work_days
         return res
 
-    @api.multi
     def run(self):
         self.ensure_one()
         lvao = self.env['lunch.voucher.attribution']
@@ -59,7 +58,7 @@ class HrHolidaysPost(models.TransientModel):
         lv_dict = {}
         for employee in employees:
             lv_dict[employee.id] = []
-        for hol in self.holidays_to_post_ids:
+        for hol in self.holidays_to_payslip_ids:
             if not hol.lunch_voucher_id and hol.employee_id.id in lv_dict:
                 lv_dict[hol.employee_id.id].append(hol.id)
         for employee_id, hol_ids in lv_dict.iteritems():
@@ -71,4 +70,4 @@ class HrHolidaysPost(models.TransientModel):
             if hol_ids:
                 vals['holiday_ids'] = [(6, 0, hol_ids)]
             lvao.create(vals)
-        return super(HrHolidaysPost, self).run()
+        return super(HrHolidaysToPayslip, self).run()

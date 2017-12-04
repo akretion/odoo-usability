@@ -3,7 +3,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from odoo import models, fields, api
 
 
 class LunchVoucherAttribution(models.Model):
@@ -35,7 +35,6 @@ class LunchVoucherAttribution(models.Model):
         'hr.holidays', 'lunch_voucher_id', readonly=True)
 
     @api.depends('month_work_days', 'holiday_ids.lunch_voucher_remove_qty')
-    @api.multi
     def _compute_qty(self):
         for rec in self:
             no_lunch_days = 0

@@ -5,14 +5,13 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 
-<record id="view_company_form" model="ir.ui.view">
-    <field name="name">natixis.lunch_voucher.company.form</field>
-    <field name="model">res.company</field>
-    <field name="inherit_id" ref="hr_holidays_lunch_voucher.view_company_form"/>
+<record id="view_purchase_configuration" model="ir.ui.view">
+    <field name="name">natixis.lunch_voucher.purchase.config.settings.form</field>
+    <field name="model">purchase.config.settings</field>
+    <field name="inherit_id" ref="hr_holidays_lunch_voucher.view_purchase_configuration"/>
     <field name="arch"  type="xml">
         <group name="lunch_voucher" position="inside">
             <field name="lunch_voucher_natixis_customer_code"/>
@@ -22,5 +21,4 @@
 </record>
 
 
-</data>
-</openerp>
+</odoo>

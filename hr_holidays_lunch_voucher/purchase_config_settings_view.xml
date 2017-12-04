@@ -5,16 +5,15 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 
-<record id="view_company_form" model="ir.ui.view">
-    <field name="name">lunch_voucher.company.form</field>
-    <field name="model">res.company</field>
-    <field name="inherit_id" ref="base.view_company_form"/>
+<record id="view_purchase_configuration" model="ir.ui.view">
+    <field name="name">lunch_voucher.purchase.config.settings.form</field>
+    <field name="model">purchase.config.settings</field>
+    <field name="inherit_id" ref="purchase.view_purchase_configuration"/>
     <field name="arch"  type="xml">
-        <group name="account_grp" position="after">
+        <xpath expr="//field[@name='module_stock_dropshipping']/.." position="after">
             <group name="lunch_voucher" string="Lunch Vouchers">
                 <field name="lunch_voucher_product_id"/>
                 <!-- <field name="lunch_voucher_po_type"/> -->
@@ -25,5 +24,4 @@
 </record>
 
 
-</data>
-</openerp>
+</odoo>
