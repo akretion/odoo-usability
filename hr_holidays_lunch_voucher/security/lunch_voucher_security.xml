@@ -13,7 +13,7 @@
     <field name="name">HR Officer sees all Lunch Voucher Attributions</field>
     <field name="model_id" ref="hr_holidays_lunch_voucher.model_lunch_voucher_attribution"/>
     <field name="domain_force">[(1, '=', 1)]</field>
-    <field name="groups" eval="[(4, ref('base.group_hr_manager'))]"/>
+    <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]"/>
 </record>
 
 <record id="lunch_voucher_attribution_multicompany_rule" model="ir.rule">

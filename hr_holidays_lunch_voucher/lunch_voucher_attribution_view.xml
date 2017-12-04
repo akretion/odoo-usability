@@ -81,7 +81,7 @@
 
 <menuitem id="lunch_voucher_attribution_menu"
     action="lunch_voucher_attribution_action"
-    parent="hr_holidays.menu_open_ask_holidays" sequence="200"/>
+    parent="hr_holidays.menu_hr_holidays_my_leaves" sequence="200"/>
 
 <act_window id="lunch_voucher_attribution_action_create_po"
             multi="True"

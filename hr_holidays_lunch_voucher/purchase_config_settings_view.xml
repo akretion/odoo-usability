@@ -19,7 +19,7 @@
                 <!-- <field name="lunch_voucher_po_type"/> -->
                 <field name="lunch_voucher_employer_price"/>
             </group>
-        </group>
+        </xpath>
     </field>
 </record>
 
