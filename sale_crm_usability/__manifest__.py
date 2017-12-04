@@ -8,12 +8,10 @@
     'version': '10.0.1.0.0',
     'category': 'Customer Relationship Management',
     'license': 'AGPL-3',
-    'summary': 'Link between opportunities and sale orders',
+    'summary': 'Interactions between opportunities and sale orders',
     'description': """
 Sale CRM Usability
 ==================
-
-This module adds a One2many link from opportunities to sale orders.
 
 When a sale order linked to an opportunity is confirmed, the opportunity
 is automatically moved to the *Won* step.
