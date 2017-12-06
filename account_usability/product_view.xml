@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2017 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_category_property_form" model="ir.ui.view">
+    <field name="name">account_usability.product.category.form</field>
+    <field name="model">product.category</field>
+    <field name="inherit_id" ref="account.view_category_property_form"/>
+    <field name="arch" type="xml">
+        <!-- On product form view, the group for Invoicing tab is limited to account.group_account_invoice... but on product category form, it is limited to account.group_account_manager -> we fix this and also use account.group_account_invoice -->
+        <group name="account_property" position="attributes">
+            <attribute name="groups">account.group_account_invoice</attribute>
+        </group>
+    </field>
+</record>
+
+
+</odoo>
