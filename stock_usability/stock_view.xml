@@ -249,6 +249,20 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
     groups="stock.group_stock_multi_locations"
     sequence="50"/>
 
+
+<record id="view_inventory_form" model="ir.ui.view">
+    <field name="name">usability.stock.inventory.form</field>
+    <field name="model">stock.inventory</field>
+    <field name="inherit_id" ref="stock.view_inventory_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='line_ids']/tree" position="attributes">
+            <!-- native : decoration-info="product_qty != theoretical_qty" decoration-danger="theoretical_qty &lt; 0" -->
+            <attribute name="decoration-info">product_qty &gt; theoretical_qty</attribute>
+            <attribute name="decoration-warning">product_qty &lt; theoretical_qty</attribute>
+        </xpath>
+    </field>
+</record>
+
 <record id="stock_location_route_view_search" model="ir.ui.view">
     <field name="name">usability.stock.location.route.search</field>
     <field name="model">stock.location.route</field>
