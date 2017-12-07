@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_procurement_scheduler_log_full,Full access on procurement.scheduler.log to System group,model_procurement_scheduler_log,base.group_system,1,1,1,1
 access_procurement_scheduler_log_user,Read/Create procurement.scheduler.log to Stock user,model_procurement_scheduler_log,stock.group_stock_user,1,0,1,0
 access_procurement_scheduler_log_read,Read access on procurement.scheduler.log to Employee,model_procurement_scheduler_log,base.group_user,1,0,0,0
+access_stock_warehouse_orderpoint_employee,Read access on stock.warehouse.orderpoint to employee (needed to open product form view with employee-only group),stock.model_stock_warehouse_orderpoint,base.group_user,1,0,0,0
