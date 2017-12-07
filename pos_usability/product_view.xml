@@ -30,7 +30,7 @@
     <field name="inherit_id" ref="product_usability.product_template_search_view"/>
     <field name="arch" type="xml">
         <field name="categ_id" position="after">
-            <field name="pos_categ_id" filter_domain="[('pos_categ_id', 'child_of', self)]"/>
+            <field name="pos_categ_id"/>
         </field>
         <filter name="categ_groupby" position="after">
             <filter name="pos_categ_groupby" string="Point of Sale Category" context="{'group_by': 'pos_categ_id'}"/>
