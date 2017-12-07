@@ -49,6 +49,11 @@ class PurchaseOrder(models.Model):
                 })
         return res
 
+    def print_order(self):
+        action = self.env['report'].get_action(
+            self, 'purchase.report_purchaseorder')
+        return action
+
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
