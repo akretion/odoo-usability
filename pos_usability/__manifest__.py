@@ -18,7 +18,13 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['point_of_sale'],
-    'data': ['pos_view.xml'],
+    'depends': [
+        'point_of_sale',
+        'product_usability',  # I need it for the groupby on the search view product.product_template_search_view
+        ],
+    'data': [
+        'pos_view.xml',
+        'product_view.xml',
+        ],
     'installable': True,
 }
