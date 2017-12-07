@@ -17,6 +17,8 @@
                 <filter name="date_groupby" string="Date" context="{'group_by': 'date'}"/>
                 <filter name="product_tmpl_groupby" string="Product" context="{'group_by': 'product_tmpl_id'}"/>
                 <filter name="product_groupby" string="Product Variants" context="{'group_by': 'product_id'}"/>
+                <filter name="product_categ_groupby" string="Product Categories" context="{'group_by': 'product_categ_id'}"/>
+                <filter name="pos_categ_groupby" string="Point of Sale Categories" context="{'group_by': 'pos_categ_id'}"/>
                 <filter name="company_groupby" string="Company" context="{'group_by': 'company_id'}"/>
                 <filter name="origin_groupby" string="Origin" context="{'group_by': 'origin'}"/>
             </group>
