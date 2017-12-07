@@ -20,11 +20,11 @@ class ResPartner(models.Model):
             try:
                 partner.purchase_order_count = poo.search_count(
                     [('partner_id', 'child_of', partner.id)])
-            except:
+            except Exception:
                 pass
             try:
                 partner.supplier_invoice_count = aio.search_count([
                     ('partner_id', 'child_of', partner.id),
                     ('type', '=', 'in_invoice')])
-            except:
+            except Exception:
                 pass
