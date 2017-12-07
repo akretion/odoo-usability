@@ -37,6 +37,21 @@ class SaleOrder(models.Model):
                     break
             order.has_discount = has_discount
 
+    @api.multi
+    def action_confirm(self):
+        '''Reload view upon order confirmation to display the 3 qty cols'''
+        res = super(SaleOrder, self).action_confirm()
+        if len(self) == 1:
+            res = self.env['ir.actions.act_window'].for_xml_id(
+                'sale', 'action_orders')
+            res.update({
+                'view_mode': 'form,tree,kanban,calendar,pivot,graph',
+                'res_id': self.id,
+                'views': False,
+                'context': {'hide_sale': False},
+                })
+        return res
+
     # for report
     @api.multi
     def py3o_lines_layout(self):

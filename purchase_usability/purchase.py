@@ -35,6 +35,20 @@ class PurchaseOrder(models.Model):
                 delivery_partner_id = o.picking_type_id.warehouse_id.partner_id
             o.delivery_partner_id = delivery_partner_id
 
+    @api.multi
+    def button_confirm(self):
+        '''Reload view upon order confirmation to display the 3 qty cols'''
+        res = super(PurchaseOrder, self).button_confirm()
+        if len(self) == 1:
+            res = self.env['ir.actions.act_window'].for_xml_id(
+                'purchase', 'purchase_form_action')
+            res.update({
+                'view_mode': 'form,tree,kanban,pivot,graph,calendar',
+                'res_id': self.id,
+                'views': False,
+                })
+        return res
+
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
