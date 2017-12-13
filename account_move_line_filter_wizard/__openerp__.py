@@ -23,7 +23,7 @@
 
 {
     'name': 'Account Move Line Filter Wizard',
-    'version': '0.1',
+    'version': '8.0.1.0.1',
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'summary': 'Easy and fast access to the details of an account',
@@ -31,7 +31,7 @@
 Account Move Line Filter Wizard
 ===============================
 
-This module adds a wizard in Accounting > ... > 
+This module adds a wizard in *Accounting > Adviser > Journal Items of Account*.
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,

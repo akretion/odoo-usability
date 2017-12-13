@@ -1,0 +1,103 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* account_move_line_filter_wizard
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-13 22:53+0000\n"
+"PO-Revision-Date: 2017-12-13 22:53+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_move_line_filter_wizard
+#: field:account.move.line.filter.wizard,account_id:0
+msgid "Account"
+msgstr "Compte"
+
+#. module: account_move_line_filter_wizard
+#: view:account.move.line.filter.wizard:account_move_line_filter_wizard.account_move_line_filter_wizard_form
+msgid "Account Move Lines"
+msgstr "Lignes comptables"
+
+#. module: account_move_line_filter_wizard
+#: view:account.move.line.filter.wizard:account_move_line_filter_wizard.account_move_line_filter_wizard_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: account_move_line_filter_wizard
+#: field:account.move.line.filter.wizard,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: account_move_line_filter_wizard
+#: field:account.move.line.filter.wizard,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: account_move_line_filter_wizard
+#: view:account.move.line.filter.wizard:account_move_line_filter_wizard.account_move_line_filter_wizard_form
+msgid "Filters"
+msgstr "Filtres"
+
+#. module: account_move_line_filter_wizard
+#: selection:account.move.line.filter.wizard,reconcile:0
+msgid "Fully Reconciled"
+msgstr "Totalement lettré"
+
+#. module: account_move_line_filter_wizard
+#: field:account.move.line.filter.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: account_move_line_filter_wizard
+#: model:ir.actions.act_window,name:account_move_line_filter_wizard.account_move_line_filter_wizard_action
+#: model:ir.ui.menu,name:account_move_line_filter_wizard.account_move_line_filter_wizard_menu
+msgid "Journal Items of Account"
+msgstr "Consulter compte"
+
+#. module: account_move_line_filter_wizard
+#: field:account.move.line.filter.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: account_move_line_filter_wizard
+#: field:account.move.line.filter.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: account_move_line_filter_wizard
+#: selection:account.move.line.filter.wizard,reconcile:0
+msgid "Partially Reconciled"
+msgstr "Partiellement lettré"
+
+#. module: account_move_line_filter_wizard
+#: field:account.move.line.filter.wizard,partner_id:0
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: account_move_line_filter_wizard
+#: field:account.move.line.filter.wizard,reconcile:0
+msgid "Reconciliation Filter"
+msgstr "Filtre lettrage"
+
+#. module: account_move_line_filter_wizard
+#: view:account.move.line.filter.wizard:account_move_line_filter_wizard.account_move_line_filter_wizard_form
+msgid "Show"
+msgstr "Consulter"
+
+#. module: account_move_line_filter_wizard
+#: selection:account.move.line.filter.wizard,reconcile:0
+msgid "Unreconciled"
+msgstr "Non lettré"
+
+#. module: account_move_line_filter_wizard
+#: model:ir.model,name:account_move_line_filter_wizard.model_account_move_line_filter_wizard
+msgid "Wizard for easy and fast access to account move lines"
+msgstr "Wizard for easy and fast access to account move lines"
+
