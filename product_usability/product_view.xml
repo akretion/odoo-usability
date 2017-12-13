@@ -159,6 +159,19 @@
     </field>
 </record>
 
+<record id="product_pricelist_item_form_view" model="ir.ui.view">
+    <field name="name">usability.product.pricelist.item.form</field>
+    <field name="model">product.pricelist.item</field>
+    <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+    <field name="arch" type="xml">
+        <field name="applied_on" position="before">
+            <field name="pricelist_id" invisible="not context.get('product_pricelist_item_main_view')"/>
+        </field>
+    </field>
+</record>
+
+
+
 <record id="product_pricelist_item_tree_view" model="ir.ui.view">
     <field name="name">usability.product.pricelist.item.tree</field>
     <field name="model">product.pricelist.item</field>
