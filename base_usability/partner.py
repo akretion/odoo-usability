@@ -13,7 +13,7 @@ class ResPartner(models.Model):
     # ignored if mail is not installed
     name = fields.Char(track_visibility='onchange')
     parent_id = fields.Many2one(track_visibility='onchange')
-    ref = fields.Char(track_visibility='onchange')
+    ref = fields.Char(track_visibility='onchange', copy=False)
     lang = fields.Selection(track_visibility='onchange')
     user_id = fields.Many2one(track_visibility='onchange')
     vat = fields.Char(track_visibility='onchange')
