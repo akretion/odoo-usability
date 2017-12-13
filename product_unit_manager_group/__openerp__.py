@@ -4,7 +4,7 @@
 {
     'name': 'Product Unit Manager Group',
     'summary': 'Add a group Product Unit of Measure Manager',
-    'version': '8.0.1.0.0',
+    'version': '8.0.1.0.1',
     'category': 'Product',
     'website': 'http://akretion.com',
     'author': 'Akretion',
