@@ -156,6 +156,18 @@ class HrExpense(models.Model):
             self.untaxed_amount_usability = total
             self.tax_amount = False
 
+    def _check_payment_mode(self):
+        """Allows overriding the 'no Payment By Company' constraint
+
+        Allows deepre customization and reusability of the module
+        by allowing customizing, message, error, additional conditions
+        or restoring the functionality all together, etc.
+        """
+        if self.payment_mode == 'company_account':
+            raise ValidationError(_(
+                "Support for 'Payment By Company' is removed "
+                "by the module hr_expense_usability."))
+
     @api.constrains(
         'product_id', 'payment_mode', 'tax_ids',
         'untaxed_amount_usability', 'tax_amount', 'quantity', 'unit_amount')
@@ -174,12 +186,7 @@ class HrExpense(models.Model):
                         "'hr_expense_usability' only accepts taxes included "
                         "in price (to avoid confusing employees).")
                         % exp.name)
-            # field is hidden and default value is 'own_account', so
-            # it should never happen
-            if exp.payment_mode == 'company_account':
-                raise ValidationError(_(
-                    "Support for 'Payment By Company' is removed "
-                    "by the module hr_expense_usability."))
+            exp._check_payment_mode()
             prec = exp.currency_id.rounding
             if float_compare(
                     exp.total_amount,
