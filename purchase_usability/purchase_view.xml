@@ -90,12 +90,7 @@
 
 <!-- Do not show cancelled quotations by default in "Requests for Quotation" -->
 <record id="purchase.purchase_rfq" model="ir.actions.act_window">
-    <field name="context">{'search_default_draft': 1, 'search_default_todo': 1, 'show_email': 1}</field>
-</record>
-
-<record id="purchase.purchase_form_action" model="ir.actions.act_window">
-    <!-- add show_email=True, to display the email address of the supplier, to make it easy to check it's email before sending the PO -->
-    <field name="context">{'search_default_todo':1, 'show_purchase': True, 'show_email': 1}</field>
+    <field name="context">{'search_default_draft': 1, 'search_default_todo': 1}</field>
 </record>
 
 <record id="purchase_order_line_form2" model="ir.ui.view">
