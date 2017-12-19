@@ -192,6 +192,9 @@
             <field name="product_name"/>
             <field name="product_code" string="Supplier Code"/>
         </field>
+        <field name="price" position="after">
+            <field name="currency_id" groups="base.group_multi_currency"/>
+        </field>
         <field name="min_qty" position="after">
             <field name="product_uom" groups="product.group_uom"/>
         </field>
