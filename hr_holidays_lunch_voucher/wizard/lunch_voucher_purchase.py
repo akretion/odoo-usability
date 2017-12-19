@@ -18,7 +18,7 @@ class LunchVoucherPurchase(models.TransientModel):
             raise UserError(_(
                 "Lunch Voucher Product not configured on company %s")
                 % company.name)
-        if not company.lunch_voucher_product_id.seller_id:
+        if not company.lunch_voucher_product_id.seller_ids:
             raise UserError(_(
                 "Missing supplier on Product '%s'.")
                 % company.lunch_voucher_product_id.name)
@@ -44,7 +44,7 @@ class LunchVoucherPurchase(models.TransientModel):
                     % lvoucher.employee_id.name)
             total_qty += lvoucher.qty
 
-        supplier = company.lunch_voucher_product_id.seller_ids[0]
+        supplier = company.lunch_voucher_product_id.seller_ids[0].name
         pick_type_id = poo.default_get(['picking_type_id'])['picking_type_id']
         vals = {'picking_type_id': pick_type_id, 'partner_id': supplier.id}
         vals = poo.play_onchanges(vals, ['picking_type_id'])
@@ -55,7 +55,6 @@ class LunchVoucherPurchase(models.TransientModel):
             'order_id': vals, 'product_qty': total_qty}
         lvals = polo.play_onchanges(lvals, ['product_id'])
         # TODO check lvals['taxes_id'] uses (6, 0, ...)
-        print "lvals=", lvals
         lvals.pop('order_id')
         vals['order_line'] = [(0, 0, lvals)]
         po = poo.create(vals)

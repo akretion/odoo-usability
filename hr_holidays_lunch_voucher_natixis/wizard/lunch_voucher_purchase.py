@@ -46,14 +46,16 @@ class LunchVoucherPurchase(models.TransientModel):
                 "Lunch Voucher Employer Price not set on company '%s'.")
                 % company.name)
         if float_is_zero(
-                company.lunch_voucher_product_id.standard_price,
+                company.lunch_voucher_product_id.seller_ids[0].price,
                 precision_digits=2):
             raise UserError(_(
-                "Lunch Voucher Standard Price is not set on product '%s'.")
+                "Lunch Voucher Price on supplier info is not set "
+                "on product '%s'.")
                 % company.lunch_voucher_product_id.display_name)
         lvouchers = lvao.browse(self._context['active_ids'])
         of = u''
         tmp = {}
+        price = company.lunch_voucher_product_id.seller_ids[0].price
         for lvoucher in lvouchers:
             if lvoucher.qty > 0:
                 if lvoucher.qty not in tmp:
@@ -70,8 +72,7 @@ class LunchVoucherPurchase(models.TransientModel):
                 unicode(pack_qty).zfill(3),
                 unicode(vouchers_per_pack).zfill(2),
                 unicode(pack_qty * vouchers_per_pack).zfill(5),
-                '{:05.2f}'.format(
-                    company.lunch_voucher_product_id.standard_price),
+                '{:05.2f}'.format(price),
                 '{:05.2f}'.format(company.lunch_voucher_employer_price),
                 ' ' * 64)
             of += line

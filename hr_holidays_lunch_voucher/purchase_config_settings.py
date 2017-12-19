@@ -11,4 +11,5 @@ class PurchaseConfigSettings(models.TransientModel):
     lunch_voucher_product_id = fields.Many2one(
         related='company_id.lunch_voucher_product_id')
     lunch_voucher_employer_price = fields.Monetary(
-        related='company_id.lunch_voucher_employer_price')
+        related='company_id.lunch_voucher_employer_price',
+        currency_field='company_currency_id')
