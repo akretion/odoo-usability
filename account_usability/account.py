@@ -393,3 +393,14 @@ class AccountFiscalPosition(models.Model):
             if fps:
                 return fps[0]
         return False
+
+
+class AccountReconcileModel(models.Model):
+    _inherit = 'account.reconcile.model'
+
+    @api.onchange('name')
+    def onchange_name(self):
+        # Do NOT copy by default name on label
+        # Because it's much better to have the bank statement line label as
+        # label of the counter-part move line, then the label of the button
+        assert True  # Stupid line of code just to have something...
