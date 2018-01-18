@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
 import logging
 
@@ -39,6 +39,13 @@ class StockPicking(models.Model):
     # The problem is date asc
 
     partner_id = fields.Many2one(track_visibility='onchange')
+
+    @api.multi
+    def force_assign(self):
+        res = super(StockPicking, self).force_assign()
+        for pick in self:
+            pick.message_post(_("Using <b>Force Availability</b>!"))
+        return res
 
 
 class StockLocation(models.Model):
