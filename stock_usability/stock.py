@@ -3,8 +3,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api
-import odoo.addons.decimal_precision as dp
+from odoo import models, fields, api, _
 import logging
 
 logger = logging.getLogger(__name__)
@@ -24,6 +23,13 @@ class StockPicking(models.Model):
     partner_id = fields.Many2one(track_visibility='onchange')
     picking_type_id = fields.Many2one(track_visibility='onchange')
     move_type = fields.Selection(track_visibility='onchange')
+
+    @api.multi
+    def force_assign(self):
+        res = super(StockPicking, self).force_assign()
+        for pick in self:
+            pick.message_post(_("Using <b>Force Availability</b>!"))
+        return res
 
 
 class StockLocation(models.Model):
@@ -58,7 +64,6 @@ class StockWarehouseOrderpoint(models.Model):
     # good value, not the default stock location of the first WH of the company
     @api.model
     def default_get(self, fields):
-        res = {}
         if self._context.get('default_location_id'):
             location = self.env['stock.location'].browse(
                 self._context['default_location_id'])
