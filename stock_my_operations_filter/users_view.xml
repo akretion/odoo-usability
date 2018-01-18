@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright (C) 2015 Akretion France (www.akretion.com)
-    @author: Alexis de Lattre <alexis.delattre@akretion.com>
-    The licence is in the file __openerp__.py
+  Copyright (C) 2015-2018 Akretion France (www.akretion.com)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 <record id="view_users_form" model="ir.ui.view">
     <field name="name">usability.default_warehouse.res.users.form</field>
     <field name="model">res.users</field>
     <field name="inherit_id" ref="base.view_users_form"/>
     <field name="arch" type="xml">
-        <group string="Menus Customization" position="inside">
+        <field name="action_id" position="after">
             <field name="default_picking_type_ids" widget="many2many_tags"/>
-        </group>
+        </field>
     </field>
 </record>
 
-</data>
-</openerp>
+</odoo>
