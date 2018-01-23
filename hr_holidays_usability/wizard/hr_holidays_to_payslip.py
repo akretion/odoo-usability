@@ -57,8 +57,10 @@ class HrHolidaysToPayslip(models.TransientModel):
         # because, after the write, it doesn't have a value any more !!!
         holidays_to_payslip = self.holidays_to_payslip_ids
         today = fields.Date.context_today(self)
-        if not self.holidays_to_payslip_ids:
-            raise UserError(_('No leave request to transfer to payslip.'))
+        # Disable the raise below to make the module "hr_holidays_lunch_voucher"
+        # work even when nobody took holidays on the current month
+        # if not self.holidays_to_payslip_ids:
+        #    raise UserError(_('No leave request to transfer to payslip.'))
         self.holidays_to_payslip_ids.write({'payslip_date': today})
         view_id = self.env.ref('hr_holidays_usability.hr_holiday_pivot').id
         action = {
