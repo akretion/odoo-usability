@@ -29,7 +29,11 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['account'],
+    'depends': [
+        'account',
+        'base_usability',  # needed only to access base_usability.group_nobody
+                           # in v12, I may create a module only for group_nobody
+        ],
     'data': [
         'account_view.xml',
         'partner_view.xml',

@@ -421,4 +421,19 @@ module -->
     </field>
 </record>
 
+<!-- Remove menu entry "Accounting > Configuration > Accounting > Bank Accounts"
+(account.journal filtered on type = 'bank' with special tree and form view)
+because it is useless and confusing -->
+<record id="account.menu_action_account_bank_journal_form" model="ir.ui.menu">
+    <field name="groups_id" eval="[(6, 0, [ref('base_usability.group_nobody')])]"/>
+</record>
+
+<!-- Duplicate the menu "Sales > Configuration > Contacts > Bank Accounts"
+under "Accounting > Configuration", because most users will try to find it there -->
+<menuitem id="bank_account_account_config_menu" name="Bank Accounts" parent="account.menu_finance_configuration" sequence="9"/>
+
+<menuitem id="res_bank_account_config_menu" action="base.action_res_bank_form" parent="bank_account_account_config_menu" sequence="10"/>
+
+<menuitem id="res_partner_bank_account_config_menu" action="base.action_res_partner_bank_account_form" parent="bank_account_account_config_menu" sequence="20"/>
+
 </odoo>
