@@ -22,6 +22,14 @@
         <button name="button_cancel" type="object" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this purchase order?</attribute>
         </button>
+        <!-- the 'origin' field can be very long ; it can list a lot of MO or OP!
+        I think limiting the size of the field would not be the best option,
+        because the info it carries can be interesting. So we just move it
+        from the top of the view to the second tab -->
+        <field name="origin" position="replace"/>
+        <field name="date_approve" position="after">
+            <field name="origin"/>
+        </field>
     </field>
 </record>
 
@@ -32,6 +40,13 @@
     <field name="arch" type="xml">
         <field name="state" position="after">
             <field name="is_shipped" invisible="not context.get('show_purchase', False)"/>
+        </field>
+        <!-- the 'origin' field can be very long ; it can list a lot of MO or OP!
+        I think limiting the size of the field would not be the best option,
+        because the info it carries can be interesting. So we just remove it from
+        tree view to avoid layout issues -->
+        <field name="origin" position="attributes">
+            <attribute name="invisible">1</attribute>
         </field>
     </field>
 </record>
