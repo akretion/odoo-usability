@@ -280,7 +280,7 @@ class HrExpense(models.Model):
         vals = {}
         tax_cmp = float_compare(
             self.tax_amount_company_currency, 0, precision_rounding=dp)
-        if tax_cmp:
+        if tax_cmp and self.tax_ids:
             tax = self.tax_ids[0]  # there is a constrain on this
             if tax_cmp > 0:
                 tax_account_id = tax.account_id.id
