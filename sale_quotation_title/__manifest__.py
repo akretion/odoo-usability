@@ -6,7 +6,7 @@
 {
     'name': 'Sale Quotation Title',
     'version': '10.0.1.0.0',
-    'category': 'Sale Management',
+    'category': 'Sales',
     'license': 'AGPL-3',
     'summary': 'Adds a title field on quotations',
     'description': """

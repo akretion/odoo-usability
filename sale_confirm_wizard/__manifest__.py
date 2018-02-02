@@ -5,7 +5,7 @@
 {
     'name': 'Sale Confirm Wizard',
     'version': '10.0.1.0.0',
-    'category': 'Sale Management',
+    'category': 'Sales',
     'license': 'AGPL-3',
     'summary': 'Open a wizard when you confirm a sale order to update important info',
     'description': """
