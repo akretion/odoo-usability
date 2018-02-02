@@ -5,7 +5,7 @@
 {
     'name': 'Sale Order Add Bom',
     'version': '10.0.1.0.0',
-    'category': 'Sales Management',
+    'category': 'Sales',
     'license': 'AGPL-3',
     'summary': 'Wizard to select a bom from a sale order',
     'description': """
