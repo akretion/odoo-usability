@@ -29,7 +29,7 @@
 <li>Start date : ${object.vacation_date_from or ''} ${object.vacation_time_from or ''}</li>
 <li>End date : ${object.vacation_date_to or ''} ${object.vacation_time_to or ''}</li>
 % endif
-<li>Number of days : ${object.number_of_days < 0 and object.number_of_days * -1 or object.number_of_days}</li>
+<li>Number of days : ${abs(object.number_of_days)}</li>
 <li>Leave type : ${object.holiday_status_id.name or ''}</li>
 <li>Public title : ${object.name or ''}</li>
 <li>Notes for the manager : ${object.notes or ''}</li>
@@ -37,9 +37,9 @@
 
 % if ctx.get('new_holiday_state') == 'submitted':
 % if object.type == 'remove':
-<p>To validate or refuse it, go to the menu Leaves > Leaves to Approve > Leaves.</p>
+<p>To validate or refuse it, go to the menu Leaves / Leaves to Approve / Leaves.</p>
 % else:
-<p>To validate or refuse it, go to the menu Leaves > Leaves to Approve > Leaves Allocation.</p>
+<p>To validate or refuse it, go to the menu Leaves / Leaves to Approve / Leaves Allocation.</p>
 % endif
 
 % endif
