@@ -355,7 +355,7 @@ class HrExpenseSheet(models.Model):
             # TAX
             tax_cmp = float_compare(
                 exp.tax_amount_company_currency, 0, precision_rounding=prec)
-            if tax_cmp:
+            if tax_cmp and exp.tax_ids:
                 tax = exp.tax_ids[0]  # there is a constrain on this
                 if tax_cmp > 0:
                     tax_account_id = tax.account_id.id
