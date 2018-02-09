@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-   Copyright (C) 2015 Akretion (http://www.akretion.com/)
-   @author: Alexis de Lattre <alexis.delattre@akretion.com>
-   The licence is in the file __openerp__.py
+  Copyright (C) 2015-2018 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 
 <record id="view_order_form" model="ir.ui.view">
@@ -14,21 +13,20 @@
     <field name="model">sale.order</field>
     <field name="inherit_id" ref="sale.view_order_form"/>
     <field name="arch" type="xml">
-        <field name="company_id" position="after">
-            <field name="margin_sale_currency"
-                string="Margin"
-                widget="monetary"
-                options="{'currency_field': 'currency_id'}"
+        <field name="origin" position="after">
+            <field name="margin_sale_currency" string="Margin"
                 groups="account.group_account_user"/>
             <field name="margin_company_currency"
                 groups="account.group_account_user"/>
+            <field name="company_currency_id" invisible="1"/>
         </field>
         <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
-            <field name="standard_price_sale_currency" groups="base.group_no_one"/>
-            <field name="standard_price_company_currency" groups="base.group_no_one"/>
-            <field name="margin_sale_currency" groups="base.group_no_one"/>
-            <field name="margin_company_currency" groups="base.group_no_one"/>
+            <field name="standard_price_sale_currency" groups="base.group_no_one" string="Cost Price Sale Cur."/>
+            <field name="standard_price_company_currency" groups="base.group_no_one" string="Cost Price Comp. Cur."/>
+            <field name="margin_sale_currency" groups="base.group_no_one" string="Margin Sale Cur."/>
+            <field name="margin_company_currency" groups="base.group_no_one" string="Margin Comp. Cur."/>
             <field name="margin_rate" groups="base.group_no_one"/>
+            <field name="company_currency_id" invisible="1"/>
         </xpath>
     </field>
 </record>
@@ -42,9 +40,9 @@
             <field name="standard_price_company_currency"/>
             <field name="margin_company_currency"/>
             <field name="margin_rate"/>
+            <field name="company_currency_id" invisible="1"/>
         </field>
     </field>
 </record>
 
-</data>
-</openerp>
+</odoo>
