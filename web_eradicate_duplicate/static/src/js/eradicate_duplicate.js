@@ -3,13 +3,17 @@
    Inspired by the module web_hide_duplicate of Aristobulo Meneses
 */
 
-openerp.web_eradicate_duplicate = function (instance) {
-    var _t = instance.web._t;
+odoo.define('web.web_eradicate_duplicate', function(require) {
+    "use strict";
 
-    instance.web.FormView.include({
-        load_form: function(data) {
-            this._super(data);
-            // Remove More > Duplicate button for all users except admin
+    var core = require('web.core');
+    var FormView = require('web.FormView');
+    var _t = core._t;
+
+    FormView.include({
+        render_sidebar: function($node) {
+            this._super($node);
+            // Remove Action > Duplicate button for all users except admin
             // or except if there is an attribute duplicate_eradicate="false"
             // in the form view
             if (
@@ -25,7 +29,7 @@ openerp.web_eradicate_duplicate = function (instance) {
             }
         }
     });
-};
+});
 
 /*
 
