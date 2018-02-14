@@ -4,9 +4,10 @@
 {
     'name': 'Product Unit Manager Group',
     'summary': 'Add a group Product Unit of Measure Manager',
-    'version': '8.0.1.0.1',
+    'version': '10.0.1.0.1',
     'category': 'Product',
-    'website': 'http://akretion.com',
+    'description': 'Splits the use from the mangement for uom rights',
+    'website': 'https://akretion.com',
     'author': 'Akretion',
     'license': 'AGPL-3',
     'installable': True,

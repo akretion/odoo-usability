@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
+<odoo>
 <data>
 
-<record id="product.next_id_16" model="ir.ui.menu">
+<record id="sale.next_id_16" model="ir.ui.menu">
     <field name="groups_id" eval="[(6, 0, [ref('product_unit_manager_group.group_uom_manager')])]"/>
 </record>
 
-<record id="product.menu_product_uom_form_action" model="ir.ui.menu">
+<record id="sale.menu_product_uom_form_action" model="ir.ui.menu">
     <field name="groups_id" eval="[(6, 0, [ref('product_unit_manager_group.group_uom_manager')])]"/>
 </record>
 
-<record id="product.menu_product_uom_categ_form_action" model="ir.ui.menu">
+<record id="sale.menu_product_uom_categ_form_action" model="ir.ui.menu">
     <field name="groups_id" eval="[(6, 0, [ref('product_unit_manager_group.group_uom_manager')])]"/>
 </record>
 
@@ -27,10 +27,6 @@
     <field name="groups_id" eval="[(6, 0, [ref('product_unit_manager_group.group_uom_manager')])]"/>
 </record>
 
-<record id="purchase.menu_purchase_unit_measure_purchase" model="ir.ui.menu">
-    <field name="groups_id" eval="[(6, 0, [ref('product_unit_manager_group.group_uom_manager')])]"/>
-</record>
-
 <record id="purchase.menu_purchase_uom_categ_form_action" model="ir.ui.menu">
     <field name="groups_id" eval="[(6, 0, [ref('product_unit_manager_group.group_uom_manager')])]"/>
 </record>
@@ -40,4 +36,4 @@
 </record>
 
 </data>
-</openerp>
+</odoo>
