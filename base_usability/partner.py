@@ -29,6 +29,7 @@ class ResPartner(models.Model):
     email = fields.Char(track_visibility='onchange')
     is_company = fields.Boolean(track_visibility='onchange')
     active = fields.Boolean(track_visibility='onchange')
+    company_id = fields.Many2one(track_visibility='onchange')
     # For reports
     name_title = fields.Char(
         compute='_compute_name_title', string='Name with Title')
