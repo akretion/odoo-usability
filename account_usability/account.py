@@ -6,6 +6,10 @@
 from odoo import models, fields, api, _
 from odoo.tools import float_compare, float_is_zero
 from odoo.exceptions import UserError
+from odoo import SUPERUSER_ID
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
@@ -167,6 +171,44 @@ class AccountAccount(models.Model):
             return res
         else:
             return super(AccountAccount, self).name_get()
+
+    # https://github.com/odoo/odoo/issues/23040
+    def fix_bank_account_types(self):
+        aao = self.env['account.account']
+        companies = self.env['res.company'].search([])
+        if len(companies) > 1 and self.env.user.id != SUPERUSER_ID:
+            raise UserError(
+                "In multi-company setups, you should run this "
+                "script as admin user")
+        logger.info("START the script 'fix bank and cash account types'")
+        bank_type = self.env.ref('account.data_account_type_liquidity')
+        asset_type = self.env.ref('account.data_account_type_current_assets')
+        journals = self.env['account.journal'].search(
+            [('type', 'in', ('bank', 'cash'))], order='company_id')
+        journal_accounts_bank_type = aao
+        for journal in journals:
+            for account in [
+                    journal.default_credit_account_id,
+                    journal.default_debit_account_id]:
+                if account:
+                    if account.user_type_id != bank_type:
+                        account.user_type_id = bank_type.id
+                        logger.info(
+                            'Company %s: Account %s updated to Bank '
+                            'and Cash type',
+                            account.company_id.display_name, account.code)
+                    if account not in journal_accounts_bank_type:
+                        journal_accounts_bank_type += account
+        accounts = aao.search([
+            ('user_type_id', '=', bank_type.id)], order='company_id, code')
+        for account in aao.search([('user_type_id', '=', bank_type.id)]):
+            if account not in journal_accounts_bank_type:
+                account.user_type_id = asset_type.id
+                logger.info(
+                    'Company %s: Account %s updated to Current Asset type',
+                    account.company_id.display_name, account.code)
+        logger.info("END of the script 'fix bank and cash account types'")
+        return True
 
 
 class AccountAnalyticAccount(models.Model):
