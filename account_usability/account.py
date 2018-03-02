@@ -5,7 +5,7 @@
 
 from odoo import models, fields, api, _
 from odoo.tools import float_compare, float_is_zero
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo import SUPERUSER_ID
 import logging
 
@@ -157,6 +157,30 @@ class AccountJournal(models.Model):
                 return jrls.name_get()
         return super(AccountJournal, self).name_search(
             name=name, args=args, operator=operator, limit=limit)
+
+    @api.constrains('default_credit_account_id', 'default_debit_account_id')
+    def _check_account_type_on_bank_journal(self):
+        bank_acc_type = self.env.ref('account.data_account_type_liquidity')
+        for jrl in self:
+            if jrl.type in ('bank', 'cash'):
+                if (
+                        jrl.default_debit_account_id and
+                        jrl.default_debit_account_id.user_type_id !=
+                        bank_acc_type):
+                    raise ValidationError(_(
+                        "On journal '%s', the default debit account '%s' "
+                        "should be configured with Type = 'Bank and Cash'.")
+                        % (jrl.display_name,
+                           jrl.default_debit_account_id.display_name))
+                if (
+                        jrl.default_credit_account_id and
+                        jrl.default_credit_account_id.user_type_id !=
+                        bank_acc_type):
+                    raise ValidationError(_(
+                        "On journal '%s', the default credit account '%s' "
+                        "should be configured with Type = 'Bank and Cash'.")
+                        % (jrl.display_name,
+                           jrl.default_credit_account_id.display_name))
 
 
 class AccountAccount(models.Model):
