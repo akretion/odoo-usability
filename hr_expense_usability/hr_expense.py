@@ -98,10 +98,10 @@ class HrExpense(models.Model):
     unit_amount = fields.Float(digits=dp.get_precision('Expense Unit Price'))
     tax_amount = fields.Monetary(
         string='Tax Amount', currency_field='currency_id',
-        readonly=True, states={'draft': [('readonly', False)]})
+        readonly=True)
     untaxed_amount_usability = fields.Monetary(
         string='Untaxed Amount', currency_field='currency_id',
-        readonly=True, states={'draft': [('readonly', False)]})
+        readonly=True)
     company_currency_id = fields.Many2one(
         related='company_id.currency_id', readonly=True, store=True)
     total_amount_company_currency = fields.Monetary(
@@ -135,25 +135,19 @@ class HrExpense(models.Model):
                 exp.untaxed_amount_company_currency = untaxed_cc
                 exp.tax_amount_company_currency = total_cc - untaxed_cc
 
-    @api.onchange('untaxed_amount_usability')
-    def untaxed_amount_usability_change(self):
-        self.tax_amount = self.total_amount - self.untaxed_amount_usability
-
-    @api.onchange('tax_amount')
-    def tax_amount_change(self):
-        self.untaxed_amount_usability = self.total_amount - self.tax_amount
-
-    @api.onchange('unit_amount', 'quantity', 'tax_ids')
+    @api.onchange('unit_amount', 'quantity', 'tax_ids',
+                  'currency_id', 'product_id')
     def total_amount_change(self):
-        total = self.unit_amount * self.quantity
         if self.tax_ids:
             res = self.tax_ids.compute_all(
                 self.unit_amount, currency=self.currency_id,
                 quantity=self.quantity, product=self.product_id)
+            self.total_amount = res['total_included']
             self.untaxed_amount_usability = res['total_excluded']
-            self.amount_tax = total - res['total_excluded']
+            self.tax_amount = res['total_included'] - res['total_excluded']
         else:
-            self.untaxed_amount_usability = total
+            self.total_amount = self.unit_amount * self.quantity
+            self.untaxed_amount_usability = self.total_amount
             self.tax_amount = False
 
     @api.constrains(
