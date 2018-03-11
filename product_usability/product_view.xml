@@ -78,6 +78,8 @@
         <div class="oe_title" position="attributes">
             <attribute name="style">width: 650px;</attribute>
         </div>
+        <!-- the 'description' field is defined in the native product modules
+        but never displayed in the view -->
         <group name="description" position="inside">
             <separator string="Internal notes" name="internal_description" colspan="4"/>
             <field name="description" colspan="4" nolabel="1"
