@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+<record id="stock_history_ods" model="ir.actions.report.xml">
+    <field name="name">Inventory at Date (ODS)</field>
+    <field name="model">wizard.valuation.history</field>
+    <field name="report_name">stock.history.ods</field>
+    <field name="report_type">py3o</field>
+    <field name="py3o_filetype">ods</field>
+    <field name="module">stock_history_ods</field>
+    <field name="py3o_template_fallback">inventory_history.ods</field>
+    <field name="py3o_multi_in_one" eval="True"/>
+</record>
+
+
+</odoo>
