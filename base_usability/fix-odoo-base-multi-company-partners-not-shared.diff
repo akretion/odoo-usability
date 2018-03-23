@@ -1,0 +1,18 @@
+diff --git a/odoo/addons/base/res/res_users.py b/odoo/addons/base/res/res_users.py
+index c621ca4..d3880fe 100644
+--- a/odoo/addons/base/res/res_users.py
++++ b/odoo/addons/base/res/res_users.py
+@@ -334,7 +334,12 @@ class Users(models.Model):
+         user = super(Users, self).create(vals)
+         user.partner_id.active = user.active
+         if user.partner_id.company_id:
+-            user.partner_id.write({'company_id': user.company_id.id})
++            # AKRETION HACK: if you have a multi-company setup where
++            # partners are NOT shared between companies, having
++            # company_id=False on partners related to users
++            # avoids a lot of trouble (you should also disable 'read'
++            # on the ir.rule 'user rule' (XMLID base.res_users_rule)
++            user.partner_id.write({'company_id': False})
+         return user
+ 
+     @api.multi

@@ -31,6 +31,7 @@ A group by 'State' is added to module search view.
         'security/group.xml',
         'security/ir.model.access.csv',
         'partner_view.xml',
+        'users_view.xml',
         'country_view.xml',
         'module_view.xml',
         ],
