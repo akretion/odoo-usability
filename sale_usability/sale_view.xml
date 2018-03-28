@@ -58,7 +58,7 @@
             <attribute name="invisible">1</attribute>
         </field>
         <field name="date_order" position="after">
-            <field name="date_confirm"/>
+            <field name="confirmation_date"/>
         </field>
     </field>
 </record>
