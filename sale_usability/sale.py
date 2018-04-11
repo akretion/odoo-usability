@@ -131,7 +131,6 @@ class AccountInvoice(models.Model):
             for l in res1[0]['lines']:
                 res2.append({'line': l})
         else:
-            # TODO : gérer qd il n'y a pas de categ
             for ldict in res1:
                 res2.append({'categ': ldict['categ']})
                 for line in ldict['lines']:
