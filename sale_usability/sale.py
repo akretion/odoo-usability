@@ -4,7 +4,6 @@
 
 from odoo import models, fields, api
 from odoo.tools import float_is_zero
-from itertools import groupby
 
 
 class SaleOrder(models.Model):
@@ -56,33 +55,29 @@ class SaleOrder(models.Model):
     @api.multi
     def py3o_lines_layout(self):
         self.ensure_one()
-        res1 = []
-        # [
-        #    {'categ': categ(6), 'lines': [l1, l2], 'subtotal': 23.32},
-        #    {'categ': categ(1), 'lines': [l3, l4, l5], 'subtotal': 12.42},
-        # ]
-        for categ, lines in\
-                groupby(self.order_line, lambda l: l.layout_category_id):
-            entry = {'lines': [], 'categ': categ}
-            if categ.subtotal:
-                entry['subtotal'] = 0.0
-            for line in lines:
-                entry['lines'].append(line)
-                if 'subtotal' in entry:
-                    entry['subtotal'] += line.price_subtotal
-            res1.append(entry)
+        res1 = {}
+        # {categ(6): {'lines': [l1, l2], 'subtotal': 23.32}}
+        for line in self.order_line:
+            categ = line.layout_category_id
+            if categ in res1:
+                res1[categ]['lines'].append(line)
+                res1[categ]['subtotal'] += line.price_subtotal
+            else:
+                res1[categ] = {
+                    'lines': [line],
+                    'subtotal': line.price_subtotal}
+
         res2 = []
-        if len(res1) == 1 and not res1[0]['categ']:
+        if len(res1) == 1 and not res1.keys()[0]:
             # No category at all
-            for l in res1[0]['lines']:
-                res2.append({'line': l})
+            for line in res1.values()[0]['lines']:
+                res2.append({'line': line})
         else:
-            # TODO : gérer qd il n'y a pas de categ
-            for ldict in res1:
-                res2.append({'categ': ldict['categ']})
+            for categ, ldict in res1.iteritems():
+                res2.append({'categ': categ})
                 for line in ldict['lines']:
                     res2.append({'line': line})
-                if 'subtotal' in ldict:
+                if categ.subtotal:
                     res2.append({'subtotal': ldict['subtotal']})
         # res2:
         # [
@@ -100,48 +95,3 @@ class ProcurementGroup(models.Model):
     sale_ids = fields.One2many(
         'sale.order', 'procurement_group_id', string='Sale Orders',
         readonly=True)
-
-
-class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
-
-    # for report (located in sale_usability and not account_usability
-    # because it uses layout categ defined in sale
-    @api.multi
-    def py3o_lines_layout(self):
-        self.ensure_one()
-        res1 = []
-        # [
-        #    {'categ': categ(6), 'lines': [l1, l2], 'subtotal': 23.32},
-        #    {'categ': categ(1), 'lines': [l3, l4, l5], 'subtotal': 12.42},
-        # ]
-        for categ, lines in\
-                groupby(self.invoice_line_ids, lambda l: l.layout_category_id):
-            entry = {'lines': [], 'categ': categ}
-            if categ.subtotal:
-                entry['subtotal'] = 0.0
-            for line in lines:
-                entry['lines'].append(line)
-                if 'subtotal' in entry:
-                    entry['subtotal'] += line.price_subtotal
-            res1.append(entry)
-        res2 = []
-        if len(res1) == 1 and not res1[0]['categ']:
-            # No category at all
-            for l in res1[0]['lines']:
-                res2.append({'line': l})
-        else:
-            for ldict in res1:
-                res2.append({'categ': ldict['categ']})
-                for line in ldict['lines']:
-                    res2.append({'line': line})
-                if 'subtotal' in ldict:
-                    res2.append({'subtotal': ldict['subtotal']})
-        # res2:
-        # [
-        #    {'categ': categ(1)},
-        #    {'line': invoice_line(2)},
-        #    {'line': invoice_line(3)},
-        #    {'subtotal': 8932.23},
-        # ]
-        return res2
