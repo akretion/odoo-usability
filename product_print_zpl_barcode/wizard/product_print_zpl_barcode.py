@@ -28,7 +28,7 @@ class ProductPrintZplBarcode(models.TransientModel):
                 "Product '%s' doesn't have a barcode") % product.display_name)
         nomenclature = self.env.ref('barcodes.default_barcode_nomenclature')
         company = self.env.user.company_id
-        posconfig = self.env['pos.config'].search(
+        posconfig = self.env['pos.config'].sudo().search(
             [('company_id', '=', company.id)], limit=1)
         if posconfig:
             pricelist = posconfig.pricelist_id
