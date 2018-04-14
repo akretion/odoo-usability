@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="product_print_zpl_barcode_form" model="ir.ui.view">
+    <field name="name">product_print_zpl_barcode.form</field>
+    <field name="model">product.print.zpl.barcode</field>
+    <field name="arch" type="xml">
+        <form string="Generate and Print Product Barcode">
+            <group name="step1" string="Configuration">
+                <field name="state" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="product_id"/>
+                <field name="product_name" attrs="{'readonly': [('state', '=', 'step2')]}"/>
+                <field name="pricelist_id" attrs="{'readonly': [('state', '=', 'step2')]}"/>
+                <field name="price_uom"/>
+                <field name="label_size" attrs="{'readonly': [('state', '=', 'step2')]}"/>
+                <field name="nomenclature_id" attrs="{'readonly': [('state', '=', 'step2')]}"/>
+                <field name="rule_id"/>
+                <field name="barcode_type"/>
+                <field name="barcode"/>
+                <field name="copies" attrs="{'readonly': [('state', '=', 'step2')]}"/>
+            </group>
+            <group string="Enter Quantity" attrs="{'invisible': [('barcode_type', '=', 'product')]}">
+                <div name="qty_uom">
+                    <field name="quantity" attrs="{'readonly': [('state', '=', 'step2')]}" class="oe_inline"/>
+                    <field name="uom_id" class="oe_inline"/>
+                </div>
+            </group>
+            <group name="step2" states="step2" string="Label">
+                <field name="price"/>
+                <field name="zpl_file" filename="zpl_filename" />
+                <field name="zpl_filename" invisible="1"/>
+                <field name="zpl_printer_id" required="1"/>
+            </group>
+            <footer>
+                <button name="generate" type="object" string="Generate Label" class="btn-primary" states="step1"/>
+                <button special="cancel" string="Cancel" class="oe_link" states="step1"/>
+                <button name="print_zpl" type="object" string="Print" class="btn-primary" states="step2"/>
+                <button name="print_zpl" type="object" string="Print and New" class="btn-primary" context="{'print_and_new': True}" attrs="{'invisible': ['|', ('state', '!=', 'step2'), ('barcode_type', '=', 'product')]}"/>
+                <button special="cancel" string="Close" class="oe_link" states="step2"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="product_print_zpl_barcode_action" model="ir.actions.act_window">
+    <field name="name">Generate Barcode</field>
+    <field name="res_model">product.print.zpl.barcode</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+</odoo>

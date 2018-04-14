@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="product_normal_form_view" model="ir.ui.view">
+    <field name="name">generate.weight.price.barcode.product.product.form</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="product.product_normal_form_view" />
+    <field name="arch" type="xml">
+        <header position="inside">
+            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcode"/>
+        </header>
+    </field>
+</record>
+
+
+</odoo>
