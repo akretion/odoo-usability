@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api, _
-from openerp.exceptions import UserError
+from odoo.exceptions import UserError
 
 
 class ResPartner(models.Model):
@@ -44,5 +44,4 @@ class ResPartner(models.Model):
         action.update({
             'domain': "[('id', 'in', %s)]" % pproducts.ids,
             })
-        print "action=", action
         return action
