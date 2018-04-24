@@ -33,11 +33,7 @@ class purchase_order(orm.Model):
     def wkf_confirm_order(self, cr, uid, ids, context=None):
         invoice_method_order_po_ids = []
         for po in self.browse(cr, uid, ids, context=context):
-            service_only = True
-            for line in po.order_line:
-                if line.product_id.type != 'service':
-                    service_only = False
-            if service_only:
+            if all([l.product_id.type == 'service' for l in po.order_line]):
                 invoice_method_order_po_ids.append(po.id)
         if invoice_method_order_po_ids:
             self.write(cr, uid, invoice_method_order_po_ids, {
