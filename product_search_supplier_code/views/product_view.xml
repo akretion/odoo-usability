@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-  <data>
+<odoo>
 
 <record id="product_custom_search_view" model="ir.ui.view">
     <field name="model">product.product</field>
@@ -13,5 +12,15 @@
     </field>
 </record>
 
-  </data>
-</openerp>
+<record id="product_custom_search_view" model="ir.ui.view">
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_search_view"/>
+    <field name="arch" type="xml">
+        <field name="name" position="after">
+            <field name="seller_ids" string="Supplier Default Code"
+                filter_domain="[('seller_ids.product_code','ilike',self)]" />
+        </field>
+    </field>
+</record>
+
+</odoo>
