@@ -24,7 +24,8 @@
             <attribute name="domain">[('type_tax_use', '=', 'purchase'), ('price_include', '=', True)]</attribute>
         </field>
         <field name="total_amount" position="before">
-            <field name="untaxed_amount_usability"/>
+            <field name="untaxed_amount_usability" invisible="1"/>
+            <field name="untaxed_amount_usability_ro"/>
             <field name="tax_amount"/>
         </field>
         <xpath expr="//field[@name='total_amount']/.." position="after">

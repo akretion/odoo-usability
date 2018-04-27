@@ -100,8 +100,12 @@ class HrExpense(models.Model):
         string='Tax Amount', currency_field='currency_id',
         readonly=True)
     untaxed_amount_usability = fields.Monetary(
+        string='Untaxed Amount', currency_field='currency_id'
+        )
+    untaxed_amount_usability_ro = fields.Monetary(
         string='Untaxed Amount', currency_field='currency_id',
-        readonly=True)
+        related='untaxed_amount_usability', readonly=True
+        )
     company_currency_id = fields.Many2one(
         related='company_id.currency_id', readonly=True, store=True)
     total_amount_company_currency = fields.Monetary(
@@ -341,7 +345,8 @@ class HrExpenseSheet(models.Model):
                 'account_id': account.id,
                 'analytic_account_id': exp.analytic_account_id.id or False,
                 'amount': exp.untaxed_amount_company_currency,
-                'name': exp.employee_id.name + ': ' + exp.name.split('\n')[0][:64],
+                'name': (exp.employee_id.name + ': ' +
+                         exp.name.split('\n')[0][:64]),
                 'product_id': exp.product_id.id,
                 'product_uom_id': exp.product_uom_id.id,
                 'quantity': exp.quantity,
