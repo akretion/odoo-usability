@@ -28,6 +28,10 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def invoice_filename_to_match(self):
+        # I cannot use
+        # safe_eval(report.attachment, {'object': obj, 'time': time})
+        # Because, when this code is executed, the obj.state is not 'open'
+        # nor 'paid', so we can't get the filename that way
         return 'INV%.pdf'
 
     @api.multi
