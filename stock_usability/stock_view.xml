@@ -66,18 +66,18 @@
     </field>
 </record>
 
-<record id="stock_picking_graph" model="ir.ui.view">
-    <field name="name">stock_usability.picking_graph</field>
+<record id="stock_picking_pivot" model="ir.ui.view">
+    <field name="name">stock_usability.picking_pivot</field>
     <field name="model">stock.picking</field>
     <field name="arch" type="xml">
-        <graph string="Transfers" type="pivot">
+        <pivot string="Transfers">
             <field name="date_done" type="row" interval="month"/>
-        </graph>
+        </pivot>
     </field>
 </record>
 
 <record id="stock.action_picking_tree_all" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,calendar,graph</field> <!-- add graph -->
+    <field name="view_mode">tree,form,calendar,pivot</field> <!-- add pivot -->
 </record>
 
 <record id="stock.action_picking_tree_done" model="ir.actions.act_window">
