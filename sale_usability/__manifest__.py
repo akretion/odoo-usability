@@ -27,6 +27,7 @@ This module has been written by Alexis de Lattre from Akretion
     'data': [
         'sale_view.xml',
         'product_view.xml',
+        'security/ir.model.access.csv',
         ],
     'installable': True,
 }
