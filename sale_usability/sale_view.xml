@@ -70,6 +70,7 @@
     <field name="arch" type="xml">
         <filter context="{'group_by':'date_order'}" position="after">
             <filter string="Order Confirmation Month" name="confirmation_date_groupby" context="{'group_by': 'confirmation_date'}"/>
+            <filter string="State" name="state_groupby" context="{'group_by': 'state'}"/>
         </filter>
     </field>
 </record>

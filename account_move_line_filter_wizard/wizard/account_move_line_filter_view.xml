@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-    Copyright (C) 2016 Akretion (http://www.akretion.com/)
-    @author Alexis de Lattre <alexis.delattre@akretion.com>
-    The licence is in the file __openerp__.py
+  Copyright (C) 2016-2018 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data>
+<odoo>
 
 <record id="account_move_line_filter_wizard_form" model="ir.ui.view">
     <field name="name">account_move_line_filter_wizard_form</field>
@@ -22,8 +21,8 @@
                     attrs="{'invisible': [('account_reconcile', '!=', True)]}"/>
             </group>
             <footer>
-                <button type="object" name="go" string="Go" class="oe_highlight"/>
-                <button special="cancel" string="Cancel" class="oe_link"/>
+                <button type="object" name="go" string="Go" class="btn-primary"/>
+                <button special="cancel" string="Cancel" class="btn-default"/>
             </footer>
         </form>
     </field>
@@ -42,5 +41,4 @@
     sequence="-1"/>
 
 
-</data>
-</openerp>
+</odoo>
