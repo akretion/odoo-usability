@@ -45,6 +45,7 @@ class Partner(models.Model):
     is_company = fields.Boolean(track_visibility='onchange')
     use_parent_address = fields.Boolean(track_visibility='onchange')
     active = fields.Boolean(track_visibility='onchange')
+    company_id = fields.Many2one(track_visibility='onchange')
     # For reports
     name_title = fields.Char(
         compute='_compute_name_title', string='Name with Title')
@@ -54,7 +55,7 @@ class Partner(models.Model):
     def _compute_name_title(self):
         name_title = self.name
         if self.title:
-            title = self.title.shortcut or self.title
+            title = self.title.shortcut or self.title.name
             if self.is_company:
                 name_title = ' '.join([name_title, title])
             else:
