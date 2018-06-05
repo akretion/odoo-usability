@@ -421,6 +421,40 @@ module -->
     </field>
 </record>
 
+<!-- ACCOUNT TAX GROUP -->
+<!-- in the account module, there is nothing for account.tax.group : no form/tree view, no menu... -->
+<record id="account_tax_group_form" model="ir.ui.view">
+    <field name="name">usability.account.tax.group.form</field>
+    <field name="model">account.tax.group</field>
+    <field name="arch" type="xml">
+        <form string="Tax Group">
+            <group name="main">
+                <field name="name"/>
+                <field name="sequence" invisible="1"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+<record id="account_tax_group_tree" model="ir.ui.view">
+    <field name="name">usability.account.tax.group.tree</field>
+    <field name="model">account.tax.group</field>
+    <field name="arch" type="xml">
+        <tree string="Tax Groups">
+            <field name="sequence" widget="handle"/>
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+
+<record id="account_tax_group_action" model="ir.actions.act_window">
+    <field name="name">Tax Groups</field>
+    <field name="res_model">account.tax.group</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="account_tax_group_menu" action="account_tax_group_action" parent="account.account_account_menu" sequence="2"/>
+
 <!-- Remove menu entry "Accounting > Configuration > Accounting > Bank Accounts"
 (account.journal filtered on type = 'bank' with special tree and form view)
 because it is useless and confusing -->
