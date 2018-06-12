@@ -180,4 +180,32 @@
 
 <!-- The menu entry should be added in customer-specific module -->
 
+<!-- in v10, the cart button is present on the product.template form view
+but not on the product.product form view
+In v8, it was present on both, so I put the cart button on the product.product form view too -->
+<record id="action_purchase_line_product_product_tree" model="ir.actions.act_window">
+    <field name="name">Purchase Order Lines</field>
+    <field name="res_model">purchase.order.line</field>
+    <field name="view_id" ref="purchase_order_line_tree"/>
+    <field name="domain">[('product_id','in',active_ids), ('state', 'in', ['purchase', 'done'])]</field>
+    <field name="context">{}</field>
+</record>
+
+<record id="view_product_normal_purchase_buttons_from" model="ir.ui.view">
+    <field name="name">product.product.purchase.button.inherit</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="product.product_normal_form_view"/>
+    <field name="groups_id" eval="[(4, ref('purchase.group_purchase_user'))]"/>
+    <field name="arch" type="xml">
+        <div name="button_box" position="inside">
+           <button class="oe_inline oe_stat_button"
+                name="%(action_purchase_line_product_product_tree)d"
+                type="action" icon="fa-shopping-cart">
+               <field string="Purchases" name="purchase_count" widget="statinfo"/>
+            </button>
+        </div>
+    </field>
+</record>
+
+
 </odoo>
