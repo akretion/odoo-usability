@@ -122,6 +122,9 @@
                 states="confirmed,assigned"/>
         </button>
         -->
+        <field name="picking_id" position="after">
+            <field name="inventory_id" readonly="1"/>
+        </field>
         <group name="moved_quants_grp" position="after">
             <notebook colspan="2">
                 <page string="Notes" name="notes">
@@ -133,8 +136,10 @@
                         <field name="route_ids" widget="many2many_tags"/>
                         <field name="rule_id" readonly="1"/>
                         <field name="push_rule_id" readonly="1"/>
+                        <field name="propagate" readonly="1"/>
                         <field name="price_unit"
                             attrs="{'readonly': [('state', '=', 'done')]}"/>
+                        <field name="reserved_quant_ids" readonly="1"/>
                     </group>
                 </page>
             </notebook>
@@ -161,7 +166,9 @@
                         <field name="route_ids" widget="many2many_tags"/>
                         <field name="rule_id" readonly="1"/>
                         <field name="push_rule_id" readonly="1"/>
+                        <field name="propagate" readonly="1"/>
                         <field name="price_unit" readonly="1"/>
+                        <field name="reserved_quant_ids" readonly="1"/>
                     </group>
                 </page>
             </notebook>
@@ -311,14 +318,14 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
 but it forces a group by on products that you can't remove
 So I create another "regular" Quants" menu entry -->
 <record id="stock_quant_action" model="ir.actions.act_window">
-    <field name="name">Quants</field>
+    <field name="name">Quants List</field>
     <field name="res_model">stock.quant</field>
     <field name="view_mode">tree,form,pivot</field>
     <field name="context">{'search_default_internal_loc': 1}</field>
 </record>
 
 <menuitem id="stock_quant_menu" action="stock_quant_action"
-    parent="stock.menu_warehouse_report" groups="stock.group_stock_manager"
+    parent="stock.menu_warehouse_report"
     sequence="135"/>
 
 </odoo>
