@@ -31,6 +31,13 @@ class StockPicking(models.Model):
             pick.message_post(_("Using <b>Force Availability</b>!"))
         return res
 
+    @api.multi
+    def do_unreserve(self):
+        res = super(StockPicking, self).do_unreserve()
+        for pick in self:
+            pick.message_post(_("Picking <b>unreserved</b>."))
+        return res
+
 
 class StockLocation(models.Model):
     _inherit = 'stock.location'
@@ -114,6 +121,22 @@ class StockMove(models.Model):
                 name = name + ' ' + fields.Date.to_string(date_expec_dt)
             res.append((line.id, name))
         return res
+
+    def button_do_unreserve(self):
+        for move in self:
+            move.do_unreserve()
+            if move.picking_id:
+                product = move.product_id
+                self.picking_id.message_post(_(
+                    "Product <a href=# data-oe-model=product.product "
+                    "data-oe-id=%d>%s</a> qty %s %s <b>unreserved</b>")
+                    % (product.id, product.display_name,
+                       move.product_qty, move.product_id.uom_id.name))
+            ops = self.env['stock.pack.operation']
+            for smol in move.linked_move_operation_ids:
+                if smol.operation_id:
+                    ops += smol.operation_id
+            ops.unlink()
 
 
 class StockIncoterms(models.Model):
