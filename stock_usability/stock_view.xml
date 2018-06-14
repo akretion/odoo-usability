@@ -117,7 +117,7 @@
         <field name="state" position="before">
             <button type="object" name="button_do_unreserve" string="Unreserve"
                 groups="stock.group_stock_user"
-                states="confirmed,assigned"/>
+                attrs="{'invisible': [('reserved_quant_ids', '=', [])]}"/>
         </field>
         <field name="picking_id" position="after">
             <field name="inventory_id" readonly="1"/>
@@ -152,7 +152,7 @@
         <field name="state" position="before">
             <button type="object" name="button_do_unreserve" string="Unreserve"
                 groups="stock.group_stock_user"
-                states="confirmed,assigned"/>
+                attrs="{'invisible': [('reserved_quant_ids', '=', [])]}"/>
         </field>
         <field name="group_id" position="replace"/> <!-- in stock, this field has invisible="1" re-add it below as visible -->
         <group name="moved_quants_grp" position="after">
@@ -192,8 +192,9 @@
         <field name="state" position="after">
             <button type="object" name="button_do_unreserve" string="Unreserve"
                 groups="stock.group_stock_user"
-                states="confirmed,assigned"
+                attrs="{'invisible': [('reserved_quant_ids', '=', [])]}"
                 icon="fa-ban"/>
+            <field name="reserved_quant_ids" invisible="1"/>
         </field>
     </field>
 </record>
