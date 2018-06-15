@@ -293,6 +293,9 @@ module -->
             <filter name="reconciled" string="Fully Reconciled" domain="[('full_reconcile_id', '!=', False)]"/>
 <!--            <filter name="partial_reconciled" string="Partially Reconciled" domain="[('reconcile_partial_id', '!=', False)]"/> -->
         </filter>
+        <filter name="unreconciled" position="attributes">
+            <attribute name="string">Unreconciled or Partially Reconciled</attribute>
+        </filter>
         <field name="name" position="attributes">
             <attribute name="string">Name or Reference</attribute>
         </field>
