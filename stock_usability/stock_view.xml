@@ -199,6 +199,23 @@
     </field>
 </record>
 
+<!-- By default, stock.move have:
+     _order = 'picking_id, sequence, id'
+     I don't know if they have a good reason to choose this order,
+     but, when you open tree view of move lines from product, you want
+     the most recent moves at the top, so we change the default
+     order in the tree view (lower impact than changing _order -->
+<record id="view_move_tree" model="ir.ui.view">
+    <field name="name">stock_usability.move.tree.better.order</field>
+    <field name="model">stock.move</field>
+    <field name="inherit_id" ref="stock.view_move_tree" />
+    <field name="arch" type="xml">
+        <tree position="attributes">
+            <attribute name="default_order">date desc, picking_id, sequence</attribute>
+        </tree>
+    </field>
+</record>
+
 <record id="view_warehouse" model="ir.ui.view">
     <field name="name">stock.usability.warehouse.form</field>
     <field name="model">stock.warehouse</field>
