@@ -3,3 +3,5 @@ access_procurement_scheduler_log_full,Full access on procurement.scheduler.log t
 access_procurement_scheduler_log_user,Read/Create procurement.scheduler.log to Stock user,model_procurement_scheduler_log,stock.group_stock_user,1,0,1,0
 access_procurement_scheduler_log_read,Read access on procurement.scheduler.log to Employee,model_procurement_scheduler_log,base.group_user,1,0,0,0
 access_stock_warehouse_orderpoint_employee,Read access on stock.warehouse.orderpoint to employee (needed to open product form view with employee-only group),stock.model_stock_warehouse_orderpoint,base.group_user,1,0,0,0
+stock.access_product_product_stock_user,product_product_stock_user,product.model_product_product,stock.group_stock_user,1,0,0,0
+stock.access_product_template_stock_user,product.template stock user,product.model_product_template,stock.group_stock_user,1,0,0,0
