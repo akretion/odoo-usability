@@ -2,9 +2,9 @@
 # © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning as UserError
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import Warning as UserError
+import odoo.addons.decimal_precision as dp
 
 
 class AccountInvoiceUpdate(models.TransientModel):
