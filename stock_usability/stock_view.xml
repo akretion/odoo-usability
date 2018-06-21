@@ -114,14 +114,14 @@
     <field name="model">stock.move</field>
     <field name="inherit_id" ref="stock.view_move_form" />
     <field name="arch" type="xml">
-        <!-- There are no button any more on that view...
-            so probably not a good idea to add one
-        <button name="force_assign" position="after">
-            <button type="object" name="do_unreserve" string="Unreserve"
+        <field name="state" position="before">
+            <button type="object" name="button_do_unreserve" string="Unreserve"
                 groups="stock.group_stock_user"
-                states="confirmed,assigned"/>
-        </button>
-        -->
+                attrs="{'invisible': [('reserved_quant_ids', '=', [])]}"/>
+        </field>
+        <field name="picking_id" position="after">
+            <field name="inventory_id" readonly="1"/>
+        </field>
         <group name="moved_quants_grp" position="after">
             <notebook colspan="2">
                 <page string="Notes" name="notes">
@@ -133,8 +133,10 @@
                         <field name="route_ids" widget="many2many_tags"/>
                         <field name="rule_id" readonly="1"/>
                         <field name="push_rule_id" readonly="1"/>
+                        <field name="propagate" readonly="1"/>
                         <field name="price_unit"
                             attrs="{'readonly': [('state', '=', 'done')]}"/>
+                        <field name="reserved_quant_ids" readonly="1"/>
                     </group>
                 </page>
             </notebook>
@@ -147,6 +149,11 @@
     <field name="model">stock.move</field>
     <field name="inherit_id" ref="stock.view_move_picking_form" />
     <field name="arch" type="xml">
+        <field name="state" position="before">
+            <button type="object" name="button_do_unreserve" string="Unreserve"
+                groups="stock.group_stock_user"
+                attrs="{'invisible': [('reserved_quant_ids', '=', [])]}"/>
+        </field>
         <field name="group_id" position="replace"/> <!-- in stock, this field has invisible="1" re-add it below as visible -->
         <group name="moved_quants_grp" position="after">
             <notebook colspan="2">
@@ -161,7 +168,9 @@
                         <field name="route_ids" widget="many2many_tags"/>
                         <field name="rule_id" readonly="1"/>
                         <field name="push_rule_id" readonly="1"/>
+                        <field name="propagate" readonly="1"/>
                         <field name="price_unit" readonly="1"/>
+                        <field name="reserved_quant_ids" readonly="1"/>
                     </group>
                 </page>
             </notebook>
@@ -180,6 +189,30 @@
         <field name="location_dest_id" position="attributes">
             <attribute name="invisible">0</attribute>
         </field>
+        <field name="state" position="after">
+            <button type="object" name="button_do_unreserve" string="Unreserve"
+                groups="stock.group_stock_user"
+                attrs="{'invisible': [('reserved_quant_ids', '=', [])]}"
+                icon="fa-ban"/>
+            <field name="reserved_quant_ids" invisible="1"/>
+        </field>
+    </field>
+</record>
+
+<!-- By default, stock.move have:
+     _order = 'picking_id, sequence, id'
+     I don't know if they have a good reason to choose this order,
+     but, when you open tree view of move lines from product, you want
+     the most recent moves at the top, so we change the default
+     order in the tree view (lower impact than changing _order -->
+<record id="view_move_tree" model="ir.ui.view">
+    <field name="name">stock_usability.move.tree.better.order</field>
+    <field name="model">stock.move</field>
+    <field name="inherit_id" ref="stock.view_move_tree" />
+    <field name="arch" type="xml">
+        <tree position="attributes">
+            <attribute name="default_order">date desc, picking_id, sequence</attribute>
+        </tree>
     </field>
 </record>
 
@@ -311,14 +344,14 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
 but it forces a group by on products that you can't remove
 So I create another "regular" Quants" menu entry -->
 <record id="stock_quant_action" model="ir.actions.act_window">
-    <field name="name">Quants</field>
+    <field name="name">Quants List</field>
     <field name="res_model">stock.quant</field>
     <field name="view_mode">tree,form,pivot</field>
     <field name="context">{'search_default_internal_loc': 1}</field>
 </record>
 
 <menuitem id="stock_quant_menu" action="stock_quant_action"
-    parent="stock.menu_warehouse_report" groups="stock.group_stock_manager"
+    parent="stock.menu_warehouse_report"
     sequence="135"/>
 
 </odoo>

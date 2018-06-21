@@ -16,6 +16,9 @@
         <field name="property_account_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
+        <group name="accounting_entries" position="attributes">
+            <attribute name="groups">account.group_account_user</attribute>
+        </group>
     </field>
 </record>
 
