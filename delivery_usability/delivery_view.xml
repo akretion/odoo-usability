@@ -12,7 +12,8 @@
     <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
     <field name="arch" type="xml">
         <field name="delivery_type" position="before">
-            <field name="product_id"/>
+            <field name="id" invisible="1"/>
+            <field name="product_id" readonly="1" required="0" attrs="{'invisible': [('id', '=', False)]}"/>
         </field>
     </field>
 </record>
