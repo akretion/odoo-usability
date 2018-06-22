@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-<data>
+<odoo>
 
 
 <record id="intrastat_product_declaration_ods" model="ir.actions.report.xml">
     <field name="name">DEB ODS</field>
     <field name="model">l10n.fr.intrastat.product.declaration</field>
     <field name="report_name">intrastat.product.declaration.ods</field>
-    <field name="report_type">aeroo</field>
-    <field name="in_format">oo-ods</field>
-    <field name="report_rml">l10n_fr_intrastat_product_ods/deb.ods</field>
-    <field name="parser_state">default</field>
-    <field name="tml_source">file</field>
-    <field name="out_format" ref="report_aeroo.report_mimetypes_ods_ods"/>
+    <field name="report_type">py3o</field>
+    <field name="py3o_filetype">ods</field>
+    <field name="module">l10n_fr_intrastat_product_ods</field>
+    <field name="py3o_template_fallback">deb.ods</field>
 </record>
 
 <record id="intrastat_product_declaration_ods_button" model="ir.values">
@@ -23,5 +20,4 @@
 </record>
 
 
-</data>
-</openerp>
+</odoo>
