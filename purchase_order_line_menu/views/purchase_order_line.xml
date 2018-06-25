@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="purchase_order_line_tree" model="ir.ui.view">
+            <field name="name">purchase.order.line.tree</field>
+            <field name="model">purchase.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Purchase Order Lines" create="false">
+                    <field name="po_name"/>
+                    <field name="product_id"/>
+                    <field name="name"/>
+                    <field name="price_unit"/>
+                    <field name="product_qty"/>
+                    <field name="price_subtotal" widget="monetary"/>
+                    <field name="date_planned"  widget="date"/>
+                    <field name="state" />
+                    <field name="partner_id" string="Vendor" />
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="purchase_order_line_action" model="ir.actions.act_window">
+            <field name="name">Purchase Order Lines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order.line</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="view_id" ref="purchase_order_line_tree"/>
+        </record>
+
+        <menuitem action="purchase_order_line_action" id="purchase_order_line_action_id"
+            parent="purchase.menu_procurement_management"
+            sequence="8"/>
+</odoo>
