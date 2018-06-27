@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api, _
-from odoo.exceptions import Warning as UserError
+from odoo.exceptions import UserError
 import odoo.addons.decimal_precision as dp
 
 
