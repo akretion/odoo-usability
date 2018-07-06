@@ -12,17 +12,21 @@
     <field name="model">account.invoice.line</field>
     <field name="inherit_id" ref="account.view_invoice_line_form"/>
     <field name="arch" type="xml">
-        <field name="discount" position="after">
+        <field name="company_id" position="after">
             <field name="standard_price_company_currency"
-                groups="account.group_account_user"/>
+                groups="base.group_no_one"/>
             <field name="standard_price_invoice_currency"
                 widget="monetary"
                 options="{'currency_field': 'currency_id'}"
-                groups="account.group_account_user"/>
+                groups="base.group_no_one"/>
             <field name="margin_invoice_currency"
-                groups="account.group_account_user"/>
+                groups="base.group_no_one"/>
             <field name="margin_company_currency"
-                groups="account.group_account_user"/>
+                groups="base.group_no_one"/>
+            <label for="margin_rate" groups="base.group_no_one"/>
+            <div name="margin_rate" groups="base.group_no_one">
+                <field name="margin_rate" class="oe_inline"/> %
+            </div>
         </field>
     </field>
 </record>
@@ -34,18 +38,10 @@
     <field name="arch" type="xml">
         <field name="move_id" position="after">
             <field name="margin_invoice_currency"
-                string="Margin" groups="account.group_account_user"/>
+                string="Margin" groups="base.group_no_one"/>
             <field name="margin_company_currency"
-                groups="account.group_account_user"/>
+                groups="base.group_no_one"/>
         </field>
-        <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="after">
-            <field name="standard_price_invoice_currency" groups="base.group_no_one" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-            <field name="standard_price_company_currency" groups="base.group_no_one" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
-            <field name="margin_invoice_currency" groups="base.group_no_one"/>
-            <field name="margin_company_currency" groups="base.group_no_one"/>
-            <field name="margin_rate" groups="base.group_no_one"/>
-            <field name="company_currency_id" invisible="1"/>
-        </xpath>
     </field>
 </record>
 
