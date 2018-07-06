@@ -18,7 +18,7 @@ class AccountMoveLineFilterWizard(models.TransientModel):
     account_reconcile = fields.Boolean(
         related='account_id.reconcile', readonly=True)
     reconcile = fields.Selection([
-        ('unreconciled', 'Unreconciled'),
+        ('unreconciled', 'Unreconciled or Partially Reconciled'),
         ('reconciled', 'Fully Reconciled'),
         # ('partial_reconciled', 'Partially Reconciled'),
         ], string='Reconciliation Filter')

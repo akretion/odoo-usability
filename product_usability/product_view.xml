@@ -88,11 +88,15 @@
     </field>
 </record>
 
+<!-- It also adds on product.product search view -->
 <record id="product_template_search_view" model="ir.ui.view">
     <field name="name">usability.product.template.search</field>
     <field name="model">product.template</field>
     <field name="inherit_id" ref="product.product_template_search_view" />
     <field name="arch" type="xml">
+        <field name="categ_id" position="after">
+            <field name="seller_ids" string="Supplier" filter_domain="[('seller_ids.name', 'ilike', self)]"/>
+        </field>
         <field name="pricelist_id" position="after">
             <group string="Group By" name="groupby">
                 <filter name="categ_groupby" string="Internal Category" context="{'group_by': 'categ_id'}"/>

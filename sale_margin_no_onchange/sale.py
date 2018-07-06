@@ -33,7 +33,7 @@ class SaleOrderLine(models.Model):
         string='Margin in Company Currency', readonly=True, store=True,
         compute='_compute_margin', currency_field='company_currency_id')
     margin_rate = fields.Float(
-        string="Margin (%)", readonly=True, store=True,
+        string="Margin Rate", readonly=True, store=True,
         compute='_compute_margin',
         digits=(16, 2), help="Margin rate in percentage of the sale price")
 

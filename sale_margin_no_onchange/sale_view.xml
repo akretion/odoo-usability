@@ -20,13 +20,17 @@
                 groups="account.group_account_user"/>
             <field name="company_currency_id" invisible="1"/>
         </field>
-        <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
-            <field name="standard_price_sale_currency" groups="base.group_no_one" string="Cost Price Sale Cur."/>
-            <field name="standard_price_company_currency" groups="base.group_no_one" string="Cost Price Comp. Cur."/>
-            <field name="margin_sale_currency" groups="base.group_no_one" string="Margin Sale Cur."/>
-            <field name="margin_company_currency" groups="base.group_no_one" string="Margin Comp. Cur."/>
-            <field name="margin_rate" groups="base.group_no_one"/>
+        <xpath expr="//field[@name='order_line']/form//field[@name='analytic_tag_ids']/.." position="after">
+            <field name="standard_price_sale_currency" groups="base.group_no_one"/>
+            <field name="standard_price_company_currency" groups="base.group_no_one"/>
+            <field name="margin_sale_currency" groups="base.group_no_one"/>
+            <field name="margin_company_currency" groups="base.group_no_one"/>
+            <label for="margin_rate"/>
+            <div name="margin_rate">
+                <field name="margin_rate" groups="base.group_no_one" class="oe_inline"/> %
+            </div>
             <field name="company_currency_id" invisible="1"/>
+            <field name="currency_id" invisible="1"/>
         </xpath>
     </field>
 </record>

@@ -241,6 +241,17 @@ module -->
     </field>
 </record>
 
+<record id="view_account_payment_form" model="ir.ui.view">
+    <field name="name">usability.account.payment.form</field>
+    <field name="model">account.payment</field>
+    <field name="inherit_id" ref="account.view_account_payment_form"/>
+    <field name="arch" type="xml">
+        <field name="communication" position="after">
+            <field name="payment_reference"/>
+        </field>
+    </field>
+</record>
+
 <!-- model account.move.line / Journal Items -->
 <record id="account.action_account_moves_all_a" model="ir.actions.act_window">
     <field name="limit">200</field>
