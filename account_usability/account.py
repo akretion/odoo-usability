@@ -114,7 +114,7 @@ class AccountInvoiceLine(models.Model):
         related='invoice_id.date_invoice', store=True, readonly=True)
     commercial_partner_id = fields.Many2one(
         related='invoice_id.partner_id.commercial_partner_id',
-        store=True, readonly=True)
+        store=True, readonly=True, related_sudo=True)
     state = fields.Selection(
         related='invoice_id.state', store=True, readonly=True,
         string='Invoice State')
@@ -225,7 +225,7 @@ class AccountAccount(models.Model):
                         journal_accounts_bank_type += account
         accounts = aao.search([
             ('user_type_id', '=', bank_type.id)], order='company_id, code')
-        for account in aao.search([('user_type_id', '=', bank_type.id)]):
+        for account in accounts:
             if account not in journal_accounts_bank_type:
                 account.user_type_id = asset_type.id
                 logger.info(

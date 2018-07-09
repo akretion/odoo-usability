@@ -69,5 +69,5 @@ class ProductPriceHistory(models.Model):
     _inherit = 'product.price.history'
 
     company_currency_id = fields.Many2one(
-        related='company_id.currency_id', readonly=True,
+        related='company_id.currency_id', readonly=True, related_sudo=True,
         string='Company Currency')

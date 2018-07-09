@@ -10,6 +10,6 @@ class PurchaseConfigSettings(models.TransientModel):
     _inherit = 'purchase.config.settings'
 
     lunch_voucher_natixis_customer_code = fields.Char(
-        related='company_id.lunch_voucher_natixis_customer_code')
+        related='company_id.lunch_voucher_natixis_customer_code', related_sudo=True)
     lunch_voucher_natixis_delivery_code = fields.Char(
-        related='company_id.lunch_voucher_natixis_delivery_code')
+        related='company_id.lunch_voucher_natixis_delivery_code', related_sudo=True)
