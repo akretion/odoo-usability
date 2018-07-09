@@ -19,6 +19,9 @@
         <field name="invoice_line_ids" position="before">
             <button name="delete_lines_qty_zero" states="draft" string="⇒ Delete lines qty=0" type="object" class="oe_link oe_right" groups="account.group_account_invoice"/>
         </field>
+        <xpath expr="//field[@name='tax_line_ids']/tree/field[@name='amount']" position="before">
+            <field name="base" readonly="1"/>
+        </xpath>
     </field>
 </record>
 
@@ -35,6 +38,9 @@
         <field name="move_id" position="before">
             <field name="sent"/>
         </field>
+        <xpath expr="//field[@name='tax_line_ids']/tree/field[@name='amount']" position="before">
+            <field name="base" readonly="1"/>
+        </xpath>
     </field>
 </record>
 
