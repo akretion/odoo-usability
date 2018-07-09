@@ -103,7 +103,7 @@ class HrExpense(models.Model):
         string='Untaxed Amount', currency_field='currency_id',
         readonly=True, states={'draft': [('readonly', False)]})
     company_currency_id = fields.Many2one(
-        related='company_id.currency_id', readonly=True, store=True, related_sudo=True)
+        related='company_id.currency_id', readonly=True, store=True, compute_sudo=True)
     total_amount_company_currency = fields.Monetary(
         compute='compute_amount_company_currency', readonly=True,
         store=True, string='Total in Company Currency',
@@ -309,7 +309,7 @@ class HrExpenseSheet(models.Model):
     responsible_id = fields.Many2one(track_visibility='onchange')
     accounting_date = fields.Date(track_visibility='onchange')
     company_currency_id = fields.Many2one(
-        related='company_id.currency_id', readonly=True, store=True, related_sudo=True)
+        related='company_id.currency_id', readonly=True, store=True, compute_sudo=True)
     total_amount_company_currency = fields.Monetary(
         compute='compute_total_company_currency',
         currency_field='company_currency_id', readonly=True, store=True,

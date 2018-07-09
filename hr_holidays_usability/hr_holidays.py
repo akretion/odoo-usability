@@ -223,7 +223,7 @@ class HrHolidays(models.Model):
         readonly=True)
     limit = fields.Boolean(  # pose des pbs de droits
         related='holiday_status_id.limit', string='Allow to Override Limit',
-        readonly=True, related_sudo=True)
+        readonly=True, compute_sudo=True)
     payslip_date = fields.Date(
         string='Transfer to Payslip Date', track_visibility='onchange',
         readonly=True)
@@ -245,7 +245,7 @@ class HrHolidays(models.Model):
     # by default, there is no company_id field on hr.holidays !
     company_id = fields.Many2one(
         related='employee_id.resource_id.company_id', store=True,
-        readonly=True, related_sudo=True)
+        readonly=True, compute_sudo=True)
     state = fields.Selection(default='draft')  # hr_holidays, default='confirm'
 
     @api.constrains(
@@ -441,4 +441,4 @@ class BaseConfigSettings(models.TransientModel):
     _inherit = 'base.config.settings'
 
     mass_allocation_default_holiday_status_id = fields.Many2one(
-        related='company_id.mass_allocation_default_holiday_status_id', related_sudo=True)
+        related='company_id.mass_allocation_default_holiday_status_id', compute_sudo=True)

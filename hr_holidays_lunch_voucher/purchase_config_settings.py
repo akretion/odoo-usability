@@ -9,7 +9,7 @@ class PurchaseConfigSettings(models.TransientModel):
     _inherit = 'purchase.config.settings'
 
     lunch_voucher_product_id = fields.Many2one(
-        related='company_id.lunch_voucher_product_id', related_sudo=True)
+        related='company_id.lunch_voucher_product_id', compute_sudo=True)
     lunch_voucher_employer_price = fields.Monetary(
         related='company_id.lunch_voucher_employer_price',
-        currency_field='company_currency_id', related_sudo=True)
+        currency_field='company_currency_id', compute_sudo=True)
