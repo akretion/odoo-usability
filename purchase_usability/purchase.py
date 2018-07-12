@@ -4,6 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api
+from odoo.tools.misc import formatLang
 
 
 class PurchaseOrder(models.Model):
@@ -53,6 +54,20 @@ class PurchaseOrder(models.Model):
         action = self.env['report'].get_action(
             self, 'purchase.report_purchaseorder')
         return action
+
+    # Re-write native name_get() to use amount_untaxed instead of amount_total
+    @api.multi
+    @api.depends('name', 'partner_ref')
+    def name_get(self):
+        result = []
+        for po in self:
+            name = po.name
+            if po.partner_ref:
+                name += ' ('+po.partner_ref+')'
+            if po.amount_untaxed:
+                name += ': ' + formatLang(self.env, po.amount_untaxed, currency_obj=po.currency_id)
+            result.append((po.id, name))
+        return result
 
 
 class StockPicking(models.Model):
