@@ -32,6 +32,13 @@
         <button name="action_cancel" type="object" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this picking?</attribute>
         </button>
+        <!-- This sum is useful to check the 'number of items' to transfer... -->
+        <xpath expr="//field[@name='pack_operation_product_ids']/tree/field[@name='product_qty']" position="attributes">
+            <attribute name="sum">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='pack_operation_product_ids']/tree/field[@name='qty_done']" position="attributes">
+            <attribute name="sum">1</attribute>
+        </xpath>
     </field>
 </record>
 
