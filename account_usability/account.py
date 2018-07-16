@@ -265,6 +265,7 @@ class AccountMove(models.Model):
     # By default, we can still modify "ref" when account move is posted
     # which seems a bit lazy for me...
     ref = fields.Char(states={'posted': [('readonly', True)]})
+    date = fields.Date(copy=False)
 
 
 class AccountMoveLine(models.Model):
@@ -278,6 +279,7 @@ class AccountMoveLine(models.Model):
 
     # Update field only to add a string (there is no string in account module)
     invoice_id = fields.Many2one(string='Invoice')
+    date_maturity = fields.Date(copy=False)
 
     @api.onchange('credit')
     def _credit_onchange(self):
