@@ -22,6 +22,7 @@ def formatLang(
         if (
                 'base.usability.installed' in env and
                 int_no_digits and
+                not monetary and
                 isinstance(value, float) and
                 dp):
             prec = env['decimal.precision'].precision_get(dp)
