@@ -24,6 +24,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'data': [
         'delivery_view.xml',
         'sale_view.xml',
+        'stock_view.xml',
         ],
     'installable': True,
 }
