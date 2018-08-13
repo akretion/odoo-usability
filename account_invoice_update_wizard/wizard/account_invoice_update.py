@@ -99,10 +99,29 @@ class AccountInvoiceUpdate(models.TransientModel):
         return vals
 
     @api.model
+    def _line_simple_fields2update(self):
+        return ["name",]
+
+    @api.model
+    def _line_m2o_fields2update(self):
+        return ["account_analytic_id",]
+
+    @api.model
+    def _line_m2m_fields2update(self):
+        return ["analytic_tag_ids",]
+
+    @api.model
     def _prepare_invoice_line(self, line):
         vals = {}
-        if line.name != line.invoice_line_id.name:
-            vals['name'] = line.name
+        for field in self._line_simple_fields2update():
+            if line[field] != line.invoice_line_id[field]:
+                vals[field] = line[field]
+        for field in self._line_m2o_fields2update():
+            if line[field] != line.invoice_line_id[field]:
+                vals[field] = line[field].id
+        for field in self._line_m2m_fields2update():
+            if line[field] != line.invoice_line_id[field]:
+                vals[field] = [(6, 0, line[field].ids)]
         return vals
 
     @api.multi
@@ -229,7 +248,10 @@ class AccountInvoiceUpdate(models.TransientModel):
             mvals = self._prepare_move()
             if mvals:
                 inv.move_id.write(mvals)
-            for ml in inv.move_id.line_ids:
+            for ml in inv.move_id.line_ids.filtered(
+                    # we are only interested in invoice lines, not tax lines
+                    lambda rec: bool(rec.product_id)
+            ):
                 if ml.credit == 0.0:
                     continue
                 inv_line = self._get_matching_inv_line(ml)
