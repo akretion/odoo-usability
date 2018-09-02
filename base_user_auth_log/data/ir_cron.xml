@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  Copyright 2017-2018 Akretion France
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
-<openerp>
-<data noupdate="1"> <!-- noupdate = 1 for the 'active' field -->
+<odoo noupdate="1">
+
 
 <record id="purge_auth_log_cron" model="ir.cron">
     <field name="name">Purge old authentication logs</field>
@@ -20,5 +21,5 @@
     <field name="args" eval="'()'"/>
 </record>
 
-</data>
-</openerp>
+
+</odoo>

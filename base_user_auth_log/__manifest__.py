@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-# © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2017-2018 Akretion France
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
     'name': 'Users authentification logs',
-    'version': '8.0.1.0.0',
+    'version': '10.0.1.0.0',
     'category': 'Tools',
     'license': 'AGPL-3',
     'summary': 'Adds users authentication logs',
