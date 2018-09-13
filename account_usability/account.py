@@ -243,9 +243,7 @@ class AccountAnalyticAccount(models.Model):
         if self._context.get('analytic_account_show_code_only'):
             res = []
             for record in self:
-                res.append((
-                    record.id,
-                    record.code or record._get_one_full_name(record)))
+                res.append((record.id, record.code or record.name))
             return res
         else:
             return super(AccountAnalyticAccount, self).name_get()
