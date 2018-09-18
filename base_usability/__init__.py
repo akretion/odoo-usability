@@ -2,7 +2,6 @@
 
 from . import users
 from . import partner
-from . import partner_bank
 from . import company
 from . import mail
 from . import misc
