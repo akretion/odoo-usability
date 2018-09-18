@@ -34,4 +34,5 @@ def formatLang(
         grouping=grouping, monetary=monetary, dp=dp, currency_obj=currency_obj)
     return res
 
+
 report_sxw.rml_parse.formatLang = formatLang
