@@ -23,7 +23,8 @@ class CrmLeadLost(models.TransientModel):
                 ])
             if quotes:
                 quotes.action_cancel()
-                quotes.message_post(_(
-                    "Quotation automatically cancelled upon marking "
-                    "the related opportunity as lost."))
+                for quote in quotes:
+                    quote.message_post(_(
+                        "Quotation automatically cancelled upon marking "
+                        "the related opportunity as lost."))
         return super(CrmLeadLost, self).action_lost_reason_apply()
