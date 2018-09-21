@@ -14,7 +14,7 @@ Usage
 =====
 
 To use this module, you need to go to Purchase > Purchase Order: there a new field "Buyer"
-It will use buy default the user_id of the supplier and fallback to current user.
+It will use by default the user_id of the supplier and fallback to current user.
 
 Credits
 =======
