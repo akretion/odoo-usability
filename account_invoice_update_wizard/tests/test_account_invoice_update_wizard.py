@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018 Camptocamp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -40,7 +39,7 @@ class TestAccountInvoiceUpdateWizard(TransactionCase):
         self.aa2 = self.env.ref('analytic.analytic_nebula')
         self.atag1 = self.env.ref('analytic.tag_contract')
         self.atag2 = self.env['account.analytic.tag'].create({
-            'name': u'の',
+            'name': 'の',
         })
 
     def create_wizard(self):
