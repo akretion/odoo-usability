@@ -16,6 +16,6 @@
         'views/product_view.xml',
         'views/picking_view.xml',
     ],
-    'installable': False,
+    'installable': True,
     'active': False,
 }
