@@ -52,7 +52,7 @@ class HrEmployee(models.Model):
     def compute_private_car_total_km_this_year(self):
         res = {}
         private_car_product_id = self.env.ref(
-            'hr_expense_usability.generic_private_car_expense').id
+            'hr_expense_private_car.generic_private_car_expense').id
         today = fields.Date.context_today(self)
         today_dt = fields.Date.from_string(today)
         self._cr.execute(
