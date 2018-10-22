@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2018 Camptocamp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
@@ -21,6 +22,8 @@ This module adds a button *Update Invoice* on Customer and Supplier invoices in 
 * Salesman
 * Notes
 * Description of invoice lines
+* Analytic account
+* Analytic tags
 
     """,
     'author': 'Akretion',

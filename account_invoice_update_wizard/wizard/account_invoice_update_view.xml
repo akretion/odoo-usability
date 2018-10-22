@@ -30,7 +30,9 @@
                         <field name="name"/>
                         <field name="quantity"/>
                         <field name="price_subtotal"/>
-                    </tree>
+                        <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+                        <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags"/>
+                   </tree>
                 </field>
             </group>
             <footer>
