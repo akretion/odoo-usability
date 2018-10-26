@@ -1,44 +1,49 @@
 # Copyright 2018 Camptocamp
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License AGPL-3.0 or later (https://gnu.org/licenses/agpl).
 
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 from odoo.exceptions import UserError
 
 
-class TestAccountInvoiceUpdateWizard(TransactionCase):
+class TestAccountInvoiceUpdateWizard(SavepointCase):
 
-    def setUp(self):
-        super(TestAccountInvoiceUpdateWizard, self).setUp()
-        self.customer12 = self.env.ref('base.res_partner_12')
-        self.product16 = self.env.ref('product.product_product_16')
-        self.product24 = self.env.ref('product.product_product_24')
-        uom_unit = self.env.ref('product.product_uom_categ_unit')
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(
+            cls.env.context,
+            tracking_disable=True,
+        ))
+        cls.customer12 = cls.env.ref('base.res_partner_12')
+        cls.product16 = cls.env.ref('product.product_product_16')
+        cls.product24 = cls.env.ref('product.product_product_24')
+        uom_unit = cls.env.ref('product.product_uom_categ_unit')
 
-        self.invoice1 = self.env['account.invoice'].create({
+        cls.invoice1 = cls.env['account.invoice'].create({
             'name': 'Test invoice',
-            'partner_id': self.customer12.id,
+            'partner_id': cls.customer12.id,
         })
-        self.inv_line1 = self.env['account.invoice.line'].create({
-            'invoice_id': self.invoice1.id,
+        cls.inv_line1 = cls.env['account.invoice.line'].create({
+            'invoice_id': cls.invoice1.id,
             'name': "Line1",
-            'product_id': self.product16.id,
+            'product_id': cls.product16.id,
             'product_uom_id': uom_unit.id,
-            'account_id': self.invoice1.account_id.id,
+            'account_id': cls.invoice1.account_id.id,
             'price_unit': 42.0,
         })
-        self.inv_line2 = self.env['account.invoice.line'].create({
-            'invoice_id': self.invoice1.id,
+        cls.inv_line2 = cls.env['account.invoice.line'].create({
+            'invoice_id': cls.invoice1.id,
             'name': "Line2",
-            'product_id': self.product24.id,
+            'product_id': cls.product24.id,
             'product_uom_id': uom_unit.id,
-            'account_id': self.invoice1.account_id.id,
+            'account_id': cls.invoice1.account_id.id,
             'price_unit': 1111.1,
         })
 
-        self.aa1 = self.env.ref('analytic.analytic_partners_camp_to_camp')
-        self.aa2 = self.env.ref('analytic.analytic_nebula')
-        self.atag1 = self.env.ref('analytic.tag_contract')
-        self.atag2 = self.env['account.analytic.tag'].create({
+        cls.aa1 = cls.env.ref('analytic.analytic_partners_camp_to_camp')
+        cls.aa2 = cls.env.ref('analytic.analytic_nebula')
+        cls.atag1 = cls.env.ref('analytic.tag_contract')
+        cls.atag2 = cls.env['account.analytic.tag'].create({
             'name': 'の',
         })
 

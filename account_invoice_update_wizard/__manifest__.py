@@ -8,25 +8,8 @@
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'summary': 'Wizard to update non-legal fields of an open/paid invoice',
-    'description': """
-Account Invoice Update Wizard
-=============================
-
-This module adds a button *Update Invoice* on Customer and Supplier invoices in Open or Paid state. This button starts a wizard which allows the user to update non-legal fields of the invoice:
-
-* Source Document
-* Reference/Description
-* Payment terms (update allowed only to a payment term with same number of terms of the same amount and on invoices without any payment)
-* Bank Account
-* Salesman
-* Notes
-* Description of invoice lines
-* Analytic account
-* Analytic tags
-
-    """,
     'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    'website': 'http://github.com/akretion/odoo-usability',
     'depends': [
         'account',
     ],
