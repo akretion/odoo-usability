@@ -42,5 +42,20 @@
     </field>
 </record>
 
+<!-- ANALYTIC ACCOUNT -->
+<record id="view_account_analytic_account_form" model="ir.ui.view">
+    <field name="name">account_no_analytic_tags.analytic.account.form</field>
+    <field name="model">account.analytic.account</field>
+    <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+    <field name="arch" type="xml">
+        <field name="tag_ids" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+    </field>
+</record>
+
+<record id="account.account_analytic_tag_menu" model="ir.ui.menu">
+    <field name="groups_id" eval="[(6, 0, [ref('base_usability.group_nobody')])]"/>
+</record>
 
 </odoo>
