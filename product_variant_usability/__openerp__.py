@@ -18,11 +18,11 @@
         "bin": [],
     },
     "depends": [
+        "attribute_usability",
         "product_variant_inactive",
     ],
     "data": [
         "views/product_view.xml",
-        "views/product_attribute_view.xml",
     ],
     "demo": [
     ],
