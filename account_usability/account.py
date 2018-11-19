@@ -282,6 +282,28 @@ class AccountMove(models.Model):
     # which seems a bit lazy for me...
     ref = fields.Char(states={'posted': [('readonly', True)]})
     date = fields.Date(copy=False)
+    default_account_id = fields.Many2one(
+        related='journal_id.default_debit_account_id', readonly=True)
+    default_credit = fields.Float(
+        compute='_compute_default_credit_debit', readonly=True)
+    default_debit = fields.Float(
+        compute='_compute_default_credit_debit', readonly=True)
+
+    @api.depends('line_ids.credit', 'line_ids.debit')
+    def _compute_default_credit_debit(self):
+        for move in self:
+            total_debit = total_credit = default_debit = default_credit = 0.0
+            for l in move.line_ids:
+                total_debit += l.debit
+                total_credit += l.credit
+            # I could use float_compare, but I don't think it's really needed
+            # in this context
+            if total_debit > total_credit:
+                default_credit = total_debit - total_credit
+            else:
+                default_debit = total_credit - total_debit
+            move.default_credit = default_credit
+            move.default_debit = default_debit
 
 
 class AccountMoveLine(models.Model):
