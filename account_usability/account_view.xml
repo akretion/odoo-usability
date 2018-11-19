@@ -288,9 +288,15 @@ module -->
     <field name="arch" type="xml">
         <field name="ref" position="after">
             <field name="default_move_line_name"/>
+            <field name="default_account_id" invisible="1"/>
+            <field name="default_credit" invisible="0"/>
+            <field name="default_debit" invisible="0"/>
         </field>
         <xpath expr="//field[@name='line_ids']" position="attributes">
-            <attribute name="context">{'line_ids': line_ids, 'journal_id': journal_id, 'default_name': default_move_line_name}</attribute>
+            <attribute name="context" operation="python_dict" key="default_name">default_move_line_name</attribute>
+            <attribute name="context" operation="python_dict" key="default_account_id">default_account_id</attribute>
+            <attribute name="context" operation="python_dict" key="default_credit">default_credit</attribute>
+            <attribute name="context" operation="python_dict" key="default_debit">default_debit</attribute>
         </xpath>
         <xpath expr="//field[@name='line_ids']/tree/field[@name='date_maturity']" position="after">
             <field name="full_reconcile_id"/>
