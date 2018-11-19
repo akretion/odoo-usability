@@ -92,7 +92,7 @@ class AccountInvoice(models.Model):
                 name = u'%s ...' % ', '.join(name.split(', ')[:3])
                 # if not enough, hard cut
                 if len(name) > 120:
-                    name = u'%s ...' old_re[1][:120]
+                    name = u'%s ...' % old_re[1][:120]
             res.append((old_re[0], name))
         return res
 
