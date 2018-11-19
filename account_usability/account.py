@@ -43,7 +43,6 @@ class AccountInvoice(models.Model):
         compute='_compute_has_attachment',
         search='_search_has_attachment', readonly=True)
 
-    @api.multi
     def _compute_has_discount(self):
         prec = self.env['decimal.precision'].precision_get('Discount')
         for inv in self:
@@ -76,6 +75,25 @@ class AccountInvoice(models.Model):
             for att in search_res:
                 att_inv_ids[att['res_id']] = True
         res = [('id', value and 'in' or 'not in', att_inv_ids.keys())]
+        return res
+
+    # when you have an invoice created from a lot of sale orders, the 'name'
+    # field is very large, which makes the name_get() of that invoice very big
+    # which screws-up the form view of that invoice because of the link at the
+    # top of the screen
+    # That's why we have to cut the name_get() when it's too long
+    def name_get(self):
+        old_res = super(AccountInvoice, self).name_get()
+        res = []
+        for old_re in old_res:
+            name = old_re[1]
+            if name and len(name) > 100:
+                # nice cut
+                name = u'%s ...' % ', '.join(name.split(', ')[:3])
+                # if not enough, hard cut
+                if len(name) > 120:
+                    name = u'%s ...' old_re[1][:120]
+            res.append((old_re[0], name))
         return res
 
     # I really hate to see a "/" in the 'name' field of the account.move.line
