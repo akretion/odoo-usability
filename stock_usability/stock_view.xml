@@ -300,6 +300,10 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
             <attribute name="decoration-info">product_qty &gt; theoretical_qty</attribute>
             <attribute name="decoration-warning">product_qty &lt; theoretical_qty</attribute>
         </xpath>
+        <button name="reset_real_qty" type="object" position="attributes">
+            <attribute name="confirm">Are you sure you want to reset all quantities to 0 ?</attribute>
+        </button>
+
     </field>
 </record>
 
