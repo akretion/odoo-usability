@@ -26,6 +26,7 @@ This module has been written by Alexis de Lattre from Akretion
     'depends': ['sale'],
     'data': [
         'sale_view.xml',
+        'sale_report_view.xml',
         'product_view.xml',
         'security/ir.model.access.csv',
         ],

@@ -38,6 +38,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'data': [
         'account_view.xml',
         'account_report.xml',
+        'account_invoice_report_view.xml',
         'partner_view.xml',
         'product_view.xml',
         'wizard/account_invoice_mark_sent_view.xml',
