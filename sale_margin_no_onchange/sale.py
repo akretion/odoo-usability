@@ -14,7 +14,7 @@ class SaleOrderLine(models.Model):
     # Also defined in bi_sale_company_currency
     company_currency_id = fields.Many2one(
         related='order_id.company_id.currency_id',
-        readonly=True, store=True, compute_sudo=True, string='Company Currency')
+        readonly=True, store=True, string='Company Currency')
     standard_price_company_currency = fields.Float(
         string='Cost Price in Company Currency', readonly=True,
         digits=dp.get_precision('Product Price'),
@@ -77,7 +77,7 @@ class SaleOrderLine(models.Model):
                 sale_uom = self.env['product.uom'].browse(sale_uom_id)
                 # convert from product UoM to sale UoM
                 std_price = pp.uom_id._compute_price(
-                    standard_price, sale_uom)
+                    pp.standard_price, sale_uom)
             vals['standard_price_company_currency'] = std_price
         return super(SaleOrderLine, self).create(vals)
 
@@ -108,7 +108,7 @@ class SaleOrder(models.Model):
 
     # Also defined in bi_sale_company_currency
     company_currency_id = fields.Many2one(
-        related='company_id.currency_id', readonly=True, store=True, compute_sudo=True,
+        related='company_id.currency_id', readonly=True, store=True,
         string="Company Currency")
     margin_sale_currency = fields.Monetary(
         string='Margin in Sale Currency',
