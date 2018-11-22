@@ -298,8 +298,8 @@ module -->
             <attribute name="context" operation="python_dict" key="default_credit">default_credit</attribute>
             <attribute name="context" operation="python_dict" key="default_debit">default_debit</attribute>
         </xpath>
-        <xpath expr="//field[@name='line_ids']/tree/field[@name='date_maturity']" position="after">
-            <field name="full_reconcile_id"/>
+        <xpath expr="//field[@name='line_ids']/tree/field[@name='credit']" position="after">
+            <field name="reconcile_string"/>
         </xpath>
     </field>
 </record>
@@ -310,7 +310,7 @@ module -->
     <field name="inherit_id" ref="account.view_account_move_line_filter"/>
     <field name="arch" type="xml">
         <field name="partner_id" position="after">
-            <field name="full_reconcile_id" />
+            <field name="reconcile_string" />
         </field>
         <filter name="unreconciled" position="before">
             <filter name="reconciled" string="Fully Reconciled" domain="[('full_reconcile_id', '!=', False)]"/>
@@ -335,7 +335,21 @@ module -->
         </field>
         <field name="move_id" position="after">
             <field name="invoice_id"/>
+            <field name="account_reconcile" invisible="1"/>
         </field>
+        <xpath expr="//field[@name='full_reconcile_id']/.." position="replace">
+            <field name="full_reconcile_id" nolabel="1"/>  <!-- label is already in view -->
+            <field name="matched_debit_ids" readonly="1" widget="many2many_tags" attrs="{'invisible': ['|', ('full_reconcile_id', '!=', False), ('matched_debit_ids', '=', [])]}"/>
+            <field name="matched_credit_ids" readonly="1" widget="many2many_tags" attrs="{'invisible': ['|', ('full_reconcile_id', '!=', False), ('matched_credit_ids', '=', [])]}"/>
+            <field name="reconciled" invisible="1"/>
+            <button name="open_reconcile_view" class="oe_link" type="object"
+                    string="-> View partially reconciled entries" colspan="2"
+                    attrs="{'invisible': ['|', ('full_reconcile_id', '!=', False), '&amp;', ('matched_debit_ids', '=', []),('matched_credit_ids', '=', [])]}"/>
+            <span colspan="2" attrs="{'invisible': ['|', '|', ('full_reconcile_id', '!=', False), ('matched_debit_ids', '!=', []), ('matched_credit_ids', '!=', [])]}" class="o_form_field">No Partial Reconcile</span>
+        </xpath>
+        <xpath expr="//label[@for='full_reconcile_id']/.." position="attributes">
+            <attribute name="attrs">{'invisible': [('account_reconcile', '=', False)]}</attribute>
+        </xpath>
     </field>
 </record>
 
@@ -347,7 +361,7 @@ module -->
         <!-- Move reconcile_id to a better position -->
         <field name="full_reconcile_id" position="replace"/>
         <field name="credit" position="after">
-            <field name="full_reconcile_id"/>
+            <field name="reconcile_string"/>
         </field>
         <field name="date_maturity" position="after">
             <button name="show_account_move_form" type="object" icon="fa-arrows-h" string="Show Journal Entry"/>
