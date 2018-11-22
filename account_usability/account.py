@@ -5,6 +5,7 @@
 
 from odoo import models, fields, api, _
 from odoo.tools import float_compare, float_is_zero
+from odoo.tools.misc import formatLang
 from odoo.exceptions import UserError, ValidationError
 from odoo import SUPERUSER_ID
 import logging
@@ -318,6 +319,13 @@ class AccountMoveLine(models.Model):
     # Update field only to add a string (there is no string in account module)
     invoice_id = fields.Many2one(string='Invoice')
     date_maturity = fields.Date(copy=False)
+    account_reconcile = fields.Boolean(
+        related='account_id.reconcile', readonly=True)
+    full_reconcile_id = fields.Many2one(string='Full Reconcile')
+    matched_debit_ids = fields.One2many(string='Partial Reconcile Debit')
+    matched_credit_ids = fields.One2many(string='Partial Reconcile Credit')
+    reconcile_string = fields.Char(
+        compute='_compute_reconcile_string', string='Reconcile', store=True)
 
     @api.onchange('credit')
     def _credit_onchange(self):
@@ -355,7 +363,6 @@ class AccountMoveLine(models.Model):
             else:
                 self.credit = amount_company_currency
 
-    @api.multi
     def show_account_move_form(self):
         self.ensure_one()
         action = self.env['ir.actions.act_window'].for_xml_id(
@@ -367,6 +374,34 @@ class AccountMoveLine(models.Model):
             'view_mode': 'form,tree',
         })
         return action
+
+    @api.depends(
+            'full_reconcile_id', 'matched_debit_ids', 'matched_credit_ids')
+    def _compute_reconcile_string(self):
+        for line in self:
+            rec_str = False
+            if line.full_reconcile_id:
+                rec_str = line.full_reconcile_id.name
+            else:
+                rec_str = ', '.join([
+                    'a%d' % pr.id for pr in line.matched_debit_ids + line.matched_credit_ids])
+            line.reconcile_string = rec_str
+
+
+class AccountPartialReconcile(models.Model):
+    _inherit = "account.partial.reconcile"
+    _rec_name = "id"
+
+    def name_get(self):
+        res = []
+        for rec in self:
+            # There is no seq for partial rec, so I simulate one with the ID
+            # Prefix for full rec: 'A' (upper case)
+            # Prefix for partial rec: 'a' (lower case)
+            amount_fmt = formatLang(self.env, rec.amount, currency_obj=rec.company_currency_id)
+            name = 'a%d (%s)' % (rec.id, amount_fmt)
+            res.append((rec.id, name))
+        return res
 
 
 class AccountBankStatement(models.Model):
