@@ -253,7 +253,7 @@ class AccountAccount(models.Model):
         logger.info("END of the script 'fix bank and cash account types'")
         return True
 
-    def create_account_groups(self, level=2, name_prefix=u'Compte ', root_name='Plan comptable'):
+    def create_account_groups(self, level=2, name_prefix=u'Comptes '):
         '''Should be launched by a script. Make sure the account_group module is installed
         (the account_usability module doesn't depend on it currently'''
         # TODO: convert to multi-company
