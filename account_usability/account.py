@@ -274,7 +274,8 @@ class AccountAccount(models.Model):
                 group_code = account.code[:n]
                 if group_code not in parent['childs']:
                     new_group = ago.create({
-                        'name': u'%s%s' % (name_prefix, group_code),
+                        'name': u'%s%s' % (name_prefix or '', group_code),
+                        'code_prefix': group_code,
                         'parent_id': gparent and gparent.id or False,
                         })
                     parent['childs'][group_code] = {'obj': new_group, 'childs': {}}
