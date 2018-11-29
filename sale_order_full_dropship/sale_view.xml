@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2018 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_order_form_inherit_sale_stock" model="ir.ui.view">
+    <field name="name">sale_order_full_dropship.sale.order.form</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
+    <field name="arch" type="xml">
+        <field name="partner_shipping_id" position="after">
+            <field name="dropship"/>
+        </field>
+    </field>
+</record>
+
+
+</odoo>
