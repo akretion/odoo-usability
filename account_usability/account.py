@@ -256,14 +256,19 @@ class AccountAccount(models.Model):
     def create_account_groups(self, level=2, name_prefix=u'Comptes '):
         '''Should be launched by a script. Make sure the account_group module is installed
         (the account_usability module doesn't depend on it currently'''
-        # TODO: convert to multi-company
         assert level >= 1
         assert isinstance(level, int)
+        companies = self.env['res.company'].search([])
+        if len(companies) > 1:
+            logger.info(
+                'Multi-company detected: running script create_account_groups '
+                'as root')
+            self = self.sudo()
         ago = self.env['account.group']
         groups = ago.search([])
         if groups:
             raise UserError(_("Some account groups already exists"))
-        accounts = self.search([('company_id', '=', self.env.user.company_id.id)])
+        accounts = self.search([])
         struct = {'childs': {}}
         for account in accounts:
             assert len(account.code) > level
