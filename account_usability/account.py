@@ -458,6 +458,16 @@ class AccountBankStatement(models.Model):
             st.start_date = dates and min(dates) or False
             st.end_date = dates and max(dates) or False
 
+    @api.multi
+    @api.depends('name', 'start_date', 'end_date')
+    def name_get(self):
+        res = []
+        for statement in self:
+            name = "%s (%s => %s)" % (
+                statement.name, statement.start_date, statement.end_date)
+            res.append((statement.id, name))
+        return res
+
 
 class AccountBankStatementLine(models.Model):
     _inherit = 'account.bank.statement.line'
