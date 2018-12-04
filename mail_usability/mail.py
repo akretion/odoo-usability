@@ -42,6 +42,17 @@ class ResPartner(models.Model):
                 send_after_commit=send_after_commit,
                 user_signature=user_signature)
 
+    def _notify_by_email(
+        self, message, force_send=False, send_after_commit=True,
+        user_signature=True):
+        if not self._context.get('custom_layout'):
+            self = self.with_context(
+                custom_layout='mail_usability.mail_template_notification')
+	return super(ResPartner, self)._notify_by_email(
+            message, force_send=force_send,
+            send_after_commit=send_after_commit,
+            user_signature=user_signature)
+
 
 class TemplatePreview(models.TransientModel):
     _inherit = "email_template.preview"
@@ -79,3 +90,20 @@ class TemplatePreview(models.TransientModel):
             self._context['template_id'])
         template.send_mail(
             self.res_id, force_send=True, raise_exception=True)
+
+
+class MailThread(models.AbstractModel):
+    _inherit = 'mail.thread'
+
+    @api.multi
+    @api.returns('self', lambda value: value.id)
+    def message_post(self, body='', subject=None, message_type='notification',
+                     subtype=None, parent_id=False, attachments=None,
+                     content_subtype='html', **kwargs):
+        # Do not implicitly follow an object by just sending a message
+	return super(MailThread,
+            self.with_context(mail_create_nosubscribe=True)
+            ).message_post(
+                body=body, subject=subject, message_type=message_type,
+                subtype=subtype, parent_id=parent_id, attachments=attachments,
+                content_subtype=content_subtype, **kwargs)
