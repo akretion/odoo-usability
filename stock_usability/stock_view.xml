@@ -223,6 +223,20 @@
     </field>
 </record>
 
+<record id="view_pack_operation_lot_form" model="ir.ui.view">
+    <field name="name">stock_usability.stock.pack.operation.form</field>
+    <field name="model">stock.pack.operation</field>
+    <field name="inherit_id" ref="stock.view_pack_operation_lot_form" />
+    <field name="arch" type="xml">
+        <field name="product_id" position="after">
+            <field name="picking_source_location_id" invisible="1"/>
+            <field name="picking_destination_location_id" invisible="1"/>
+            <field name="location_id" domain="[('id', 'child_of', picking_source_location_id)]" groups="stock.group_stock_multi_locations"/>
+            <field name="location_dest_id" domain="[('id', 'child_of', picking_destination_location_id)]" groups="stock.group_stock_multi_locations"/>
+        </field>
+    </field>
+</record>
+
 <record id="view_warehouse" model="ir.ui.view">
     <field name="name">stock.usability.warehouse.form</field>
     <field name="model">stock.warehouse</field>
