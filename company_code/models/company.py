@@ -4,22 +4,16 @@
 from odoo import models, fields
 
 
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
-
-    def name_get(self):
-        return self.env['res.company']._add_company_code(super())
-
-
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    code = fields.Char(required=True)
+    code = fields.Char(
+        required=True, default='CODE',
+        help="Field used in object name as suffix")
 
     def _add_company_code(self, super_object):
         ""
-        """ Helper function
-            Add the `code` field to your name:
+        """ Add the `code` field to your _rec_name. Use it like that:
 
             def name_get(self):
                 return self.env['res.company']._add_company_code(super())
