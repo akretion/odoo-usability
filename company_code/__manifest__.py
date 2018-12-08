@@ -4,7 +4,7 @@
 {
     'name': 'Company Code',
     'summary': 'Add a code field in company',
-    'version': '10.0.0.1',
+    'version': '12.0.0.0.1',
     'author': 'Akretion',
     'maintainer': 'Akretion',
     'license': 'AGPL-3',
@@ -16,14 +16,5 @@
     'data': [
         'views/company_view.xml',
     ],
-    'qweb': [
-    ],
-    'sequence': 1,
     'installable': True,
-    'external_dependencies': {
-        'python': [
-            'unidecode',
-            'anthem',
-        ],
-    },
 }

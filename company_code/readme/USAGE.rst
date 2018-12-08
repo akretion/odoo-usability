@@ -1,5 +1,5 @@
-To display your company code in with `name_get()` just 
-produce this code in your custom according your model
+To display your company code with `name_get()` just 
+write this code in your custom code according your model
 
 
 ```python

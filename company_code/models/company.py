@@ -26,7 +26,6 @@ class ResCompany(models.Model):
                      if getattr(x, 'company_id')}
         res = [(elm[0], '%s (%s)' % (elm[1], codes[elm[0]] or ''))
                for elm in super_object.name_get()]
-        print(res)
         return res
 
     def name_get(self):
