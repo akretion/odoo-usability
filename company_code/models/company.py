@@ -24,9 +24,10 @@ class ResCompany(models.Model):
         else:
             codes = {x.id: x['company_id']['code'] for x in records
                      if getattr(x, 'company_id')}
-        res = [(elm[0], '%s (%s)' % (elm[1], codes[elm[0]] or ''))
-               for elm in super_object.name_get()]
-        return res
+        if not codes:
+            return super_object.name_get()
+        return [(elm[0], '%s (%s)' % (elm[1], codes[elm[0]] or ''))
+                for elm in super_object.name_get()]
 
     def name_get(self):
         return self.env['res.company']._add_company_code(super())
