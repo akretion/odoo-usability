@@ -253,6 +253,7 @@ class AccountAccount(models.Model):
         logger.info("END of the script 'fix bank and cash account types'")
         return True
 
+    @api.model
     def create_account_groups(self, level=2, name_prefix=u'Comptes '):
         '''Should be launched by a script. Make sure the account_group module is installed
         (the account_usability module doesn't depend on it currently'''
@@ -262,7 +263,7 @@ class AccountAccount(models.Model):
         if len(companies) > 1:
             logger.info(
                 'Multi-company detected: running script create_account_groups '
-                'as root')
+                'as admin')
             self = self.sudo()
         ago = self.env['account.group']
         groups = ago.search([])
