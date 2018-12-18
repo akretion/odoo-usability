@@ -368,6 +368,7 @@ module -->
         <!-- Move reconcile_id to a better position -->
         <field name="full_reconcile_id" position="replace"/>
         <field name="credit" position="after">
+            <field name="balance" sum="Total Balance"/>
             <field name="reconcile_string"/>
         </field>
         <field name="date_maturity" position="after">
