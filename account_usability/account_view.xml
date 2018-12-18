@@ -419,6 +419,9 @@ module -->
     <field name="model">account.bank.statement</field>
     <field name="inherit_id" ref="account.view_bank_statement_form"/>
     <field name="arch" type="xml">
+        <button name="button_cancel" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </button>
         <xpath expr="//field[@name='line_ids']/tree/field[@name='bank_account_id']" position="after">
             <!-- The cancel button is provided by the account_cancel module, but we don't want to depend on it -->
             <button name="show_account_move" type="object"
@@ -512,6 +515,11 @@ module -->
 (account.journal filtered on type = 'bank' with special tree and form view)
 because it is useless and confusing -->
 <record id="account.menu_action_account_bank_journal_form" model="ir.ui.menu">
+    <field name="groups_id" eval="[(6, 0, [ref('base_usability.group_nobody')])]"/>
+</record>
+
+<!-- Remove menu entry "Accounting > Reports > PDF Reports" as there are broken -->
+<record id="account.menu_finance_legal_statement" model="ir.ui.menu">
     <field name="groups_id" eval="[(6, 0, [ref('base_usability.group_nobody')])]"/>
 </record>
 
