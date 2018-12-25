@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from . import users
 from . import partner
 from . import company

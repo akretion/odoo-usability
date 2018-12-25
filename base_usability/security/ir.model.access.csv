@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-base.access_res_country_group_user,Full access on res.country to Settings group,base.model_res_country,base.group_system,1,1,1,1
-base.access_res_country_state_group_user,Full access on res.country.state to Settings group,base.model_res_country_state,base.group_system,1,1,1,1
-base.access_res_country_group_group_user,Full access on res.country.group to Settings group,base.model_res_country_group,base.group_system,1,1,1,1
-base.access_res_partner_title_group_user,Full access on res.partner.title,base.model_res_partner_title,base.group_system,1,1,1,1

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -19,14 +18,14 @@ class ResCompany(models.Model):
                 value = field[0]
                 label = field[1]
                 uicon = False
-            elif isinstance(field, (str, unicode)) and field in options:
+            elif isinstance(field, str) and field in options:
                 value = options[field]['value']
                 label = options[field].get('label')
                 uicon = options[field].get('icon')
             if value:
                 prefix = icon and uicon or label
                 if prefix:
-                    content.append(u'%s %s' % (prefix, value))
+                    content.append('%s %s' % (prefix, value))
                 else:
                     content.append(value)
         line = separator.join(content)
@@ -39,21 +38,16 @@ class ResCompany(models.Model):
             'phone': {
                 'value': self.phone,
                 # http://www.fileformat.info/info/unicode/char/1f4de/index.htm
-                'icon': u'\U0001F4DE',
+                'icon': '\U0001F4DE',
                 'label': _('Tel:')},
-            'fax': {
-                'value': self.fax,
-                # http://www.fileformat.info/info/unicode/char/1f5b7/index.htm
-                'icon': u'\U0001F5B7',
-                'label': _('Fax:')},
             'email': {
                 'value': self.email,
                 # http://www.fileformat.info/info/unicode/char/2709/index.htm
-                'icon': u'\u2709',
+                'icon': '\u2709',
                 'label': _('E-mail:')},
             'website': {
                 'value': self.website,
-                'icon': u'\U0001f310',
+                'icon': '\U0001f310',
                 'label': _('Website:')},
             'vat': {
                 'value': self.vat,
@@ -69,14 +63,14 @@ class ResCompany(models.Model):
     # for reports
     @api.multi
     def _display_report_header(
-            self, line_details=[['phone', 'fax', 'website'], ['vat']],
+            self, line_details=[['phone', 'website'], ['vat']],
             icon=True, line_separator=' - '):
         self.ensure_one()
-        res = u''
+        res = ''
         address = self.partner_id._display_address(without_company=True)
-        address = address.replace('\n', u' - ')
+        address = address.replace('\n', ' - ')
 
-        line1 = u'%s - %s' % (self._report_company_legal_name(), address)
+        line1 = '%s - %s' % (self._report_company_legal_name(), address)
         lines = [line1]
         options = self._prepare_header_options()
         for details in line_details:

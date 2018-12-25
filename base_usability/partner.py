@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -47,7 +46,7 @@ class ResPartner(models.Model):
                 if partner.lang:
                     partner_lg = partner.with_context(lang=partner.lang)
                 title = partner_lg.title.shortcut or partner_lg.title.name
-                name_title = u' '.join([title, name_title])
+                name_title = ' '.join([title, name_title])
             partner.name_title = name_title
 
     @api.multi
@@ -63,7 +62,7 @@ class ResPartner(models.Model):
     @api.multi
     def _display_full_address(
             self, details=[
-                'company', 'name', 'address', 'phone', 'fax',
+                'company', 'name', 'address', 'phone',
                 'mobile', 'email'],
             icon=True):
         self.ensure_one()
@@ -87,31 +86,25 @@ class ResPartner(models.Model):
             'phone': {
                 'value': self.phone,
                 # http://www.fileformat.info/info/unicode/char/1f4de/index.htm
-                'icon': u'\U0001F4DE',
+                'icon': '\U0001F4DE',
                 'label': _('Tel:'),
-                },
-            'fax': {
-                'value': self.fax,
-                # http://www.fileformat.info/info/unicode/char/1f5b7/index.htm
-                'icon': u'\U0001F5B7',
-                'label': _('Fax:'),
                 },
             'mobile': {
                 'value': self.mobile,
                 # http://www.fileformat.info/info/unicode/char/1f4f1/index.htm
-                'icon': u'\U0001F4F1',
+                'icon': '\U0001F4F1',
                 'label': _('Mobile:'),
                 },
             'email': {
                 'value': self.email,
                 # http://www.fileformat.info/info/unicode/char/2709/index.htm
-                'icon': u'\u2709',
+                'icon': '\u2709',
                 'label': _('E-mail:'),
                 },
             'website': {
                 'value': self.website,
                 # http://www.fileformat.info/info/unicode/char/1f310/index.htm
-                'icon': u'\U0001f310',
+                'icon': '\U0001f310',
                 'label': _('Website:'),
                 },
             'address': {
@@ -124,9 +117,9 @@ class ResPartner(models.Model):
                 entry = options[detail]
                 prefix = icon and entry.get('icon') or entry.get('label')
                 if prefix:
-                    res.append(u'%s %s' % (prefix, entry['value']))
+                    res.append('%s %s' % (prefix, entry['value']))
                 else:
-                    res.append(u'%s' % entry['value'])
+                    res.append('%s' % entry['value'])
         res = '\n'.join(res)
         return res
 
