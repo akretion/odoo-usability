@@ -29,11 +29,11 @@ _display_full_address on res.partner which are useful for reporting.
     'depends': ['base'],
     'data': [
         'security/group.xml',
-        'partner_view.xml',
-        'partner_bank_view.xml',
-        'users_view.xml',
-        'country_view.xml',
-        'module_view.xml',
+        'views/partner_view.xml',
+        'views/partner_bank_view.xml',
+        'views/users_view.xml',
+        'views/country_view.xml',
+        'views/module_view.xml',
         ],
     'installable': True,
 }
