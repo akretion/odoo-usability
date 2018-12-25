@@ -6,7 +6,7 @@
 
 {
     'name': 'Partner Tree Default',
-    'version': '10.0.1.0.0',
+    'version': '12.0.1.0.0',
     'category': 'Partner',
     'license': 'AGPL-3',
     'summary': 'Tree view by default instead of kanban for partners',
@@ -21,6 +21,6 @@ This module has been written by Alexis de Lattre <alexis.delattre@akretion.com> 
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['base'],
-    'data': ['partner_view.xml'],
+    'data': ['views/partner_view.xml'],
     'installable': True,
 }
