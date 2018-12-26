@@ -13,7 +13,7 @@
     <field name="inherit_id" ref="base.view_partner_form"/>
     <field name="arch" type="xml">
         <!-- Wider 'name' field -->
-        <xpath expr="//sheet/div[@class='oe_title']" position="attributes">
+        <xpath expr="//sheet/div[hasclass('oe_title')]" position="attributes">
             <attribute name="style">width: 650px;</attribute>
         </xpath>
         <xpath expr="//field[@name='child_ids']/form//field[@name='email']" position="attributes">
