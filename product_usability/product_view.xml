@@ -78,13 +78,6 @@
         <div class="oe_title" position="attributes">
             <attribute name="style">width: 650px;</attribute>
         </div>
-        <!-- the 'description' field is defined in the native product modules
-        but never displayed in the view -->
-        <group name="description" position="inside">
-            <separator string="Internal notes" name="internal_description" colspan="4"/>
-            <field name="description" colspan="4" nolabel="1"
-                placeholder="Notes for internal use."/>
-        </group>
     </field>
 </record>
 
@@ -135,34 +128,6 @@
         </field>
         <field name="lst_price" position="attributes">
             <attribute name="widget">monetary</attribute>
-        </field>
-    </field>
-</record>
-
-
-<!-- product.category -->
-<record id="product_category_list_view" model="ir.ui.view">
-    <field name="name">usability.product.category.tree</field>
-    <field name="model">product.category</field>
-    <field name="inherit_id" ref="product.product_category_list_view"/>
-    <field name="arch" type="xml">
-        <field name="display_name" position="after">
-            <field name="type"/>
-        </field>
-    </field>
-</record>
-
-<record id="product_category_search_view" model="ir.ui.view">
-    <field name="name">usability.product.category.search</field>
-    <field name="model">product.category</field>
-    <field name="inherit_id" ref="product.product_category_search_view"/>
-    <field name="arch" type="xml">
-        <field name="parent_id" position="after">
-            <filter name="view" string="View" domain="[('type', '=', 'view')]"/>
-            <filter name="normal" string="Normal" domain="[('type', '=', 'normal')]"/>
-            <group name="group_by" string="Group By">
-                <filter name="type_groupby" string="Type" context="{'group_by': 'type'}"/>
-            </group>
         </field>
     </field>
 </record>
