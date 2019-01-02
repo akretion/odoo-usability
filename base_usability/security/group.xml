@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+
+<odoo noupdate="1">
+
+<!-- This group is used to hide menu entries to everybody,
+so you should not put any user in this group. It is used
+by the module account_hide_analytic_line, but it will certainly
+be used by other modules in the future, that's why I declare
+this group in the base_usability module
+I don't want to use the base.group_no_one for this, because a lot
+of interesing menu entries are attached to this group, so it's
+common to have several users that belong to this group -->
+<record id="group_nobody" model="res.groups">
+    <field name="name">Nobody (used to hide native menus)</field>
+</record>
+
+</odoo>

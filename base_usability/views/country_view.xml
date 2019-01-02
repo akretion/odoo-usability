@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2015-2016 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="res_country_state_search" model="ir.ui.view">
+    <field name="name">base_usability.res.country.state.search</field>
+    <field name="model">res.country.state</field>
+    <field name="arch" type="xml">
+        <search string="Search States">
+            <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', '=', self)]" string="Name or Code"/>
+            <field name="code"/>
+            <field name="country_id"/>
+            <group string="Group By" name="groupby">
+                <filter name="country_groupby" string="Country" context="{'group_by': 'country_id'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+<record id="res_country_search" model="ir.ui.view">
+    <field name="name">base_usability.res.country.search</field>
+    <field name="model">res.country</field>
+    <field name="arch" type="xml">
+        <search string="Search Countries">
+            <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', '=', self)]" string="Name or Code"/>
+            <field name="code"/>
+            <field name="currency_id"/>
+            <group string="Group By" name="groupby">
+                <filter name="currency_groupby" string="Currency" context="{'group_by': 'currency_id'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+<record id="view_country_form" model="ir.ui.view">
+    <field name="name">base_usability.res.country.form</field>
+    <field name="model">res.country</field>
+    <field name="inherit_id" ref="base.view_country_form"/>
+    <field name="arch" type="xml">
+        <field name="code" position="after">
+            <field name="country_group_ids" widget="many2many_tags"/>
+        </field>
+    </field>
+</record>
+
+</odoo>

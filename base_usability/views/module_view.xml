@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2015-2016 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="view_module_filter" model="ir.ui.view">
+    <field name="model">ir.module.module</field>
+    <field name="inherit_id" ref="base.view_module_filter"/>
+    <field name="arch" type="xml">
+        <xpath expr="//filter[@name='extra']" position="after">
+            <filter name="installable" string="Installable" domain="[('state', '!=', 'uninstallable')]"/>
+        </xpath>
+        <group expand="0" position="inside">
+            <filter name="state_groupby" string="State" context="{'group_by': 'state'}"/>
+        </group>
+    </field>
+</record>
+
+<record id="base.open_module_tree" model="ir.actions.act_window">
+    <field name="context">{'search_default_installable': 1}</field>
+</record>
+
+</odoo>
