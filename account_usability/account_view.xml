@@ -329,6 +329,9 @@ module -->
         <field name="name" position="attributes">
             <attribute name="string">Name or Reference</attribute>
         </field>
+        <field name="partner_id" position="attributes">
+            <attribute name="domain">['|', ('parent_id', '=', False), ('is_company', '=', True)]</attribute>
+        </field>
     </field>
 </record>
 
@@ -373,6 +376,17 @@ module -->
         </field>
         <field name="date_maturity" position="after">
             <button name="show_account_move_form" type="object" icon="fa-arrows-h" string="Show Journal Entry"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_account_move_filter" model="ir.ui.view">
+    <field name="name">account_usability.account_move_search</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_account_move_filter"/>
+    <field name="arch" type="xml">
+        <field name="partner_id" position="attributes">
+            <attribute name="domain">['|', ('parent_id', '=', False), ('is_company', '=', True)]</attribute>
         </field>
     </field>
 </record>
