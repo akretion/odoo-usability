@@ -4,6 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models
+from collections import OrderedDict
 
 
 class AccountInvoice(models.Model):
@@ -15,7 +16,7 @@ class AccountInvoice(models.Model):
     # https://github.com/akretion/odoo-py3o-report-templates/tree/10.0/account_invoice_report_py3o
     def py3o_lines_layout(self):
         self.ensure_one()
-        res1 = {}
+        res1 = OrderedDict()
         #    {'categ(6)': {'lines': [l1, l2], 'subtotal': 23.32}}
         for line in self.invoice_line_ids:
             categ = line.layout_category_id
@@ -52,7 +53,7 @@ class AccountInvoice(models.Model):
         # defined above: you just have to change the call in the invoice
         # ODT template
         self.ensure_one()
-        res1 = {}
+        res1 = OrderedDict()
         # {categ(1): {'lines': [l1, l2], 'subtotal': 23.32}}
         soo = self.env['sale.order']
         for line in self.invoice_line_ids:

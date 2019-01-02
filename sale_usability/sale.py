@@ -4,6 +4,7 @@
 
 from odoo import models, fields, api
 from odoo.tools import float_is_zero
+from collections import OrderedDict
 
 
 class SaleOrder(models.Model):
@@ -55,7 +56,7 @@ class SaleOrder(models.Model):
     @api.multi
     def py3o_lines_layout(self):
         self.ensure_one()
-        res1 = {}
+        res1 = OrderedDict()
         # {categ(6): {'lines': [l1, l2], 'subtotal': 23.32}}
         for line in self.order_line:
             categ = line.layout_category_id
