@@ -6,7 +6,7 @@
     'name': 'Partner Shipping Filter with Customer',
     'summary': "Shows only delivery addresses that are linked "
     "with the customer",
-    'version': '8.0.1.0.0',
+    'version': '10.0.1.0.0',
     'category': 'Sale Management',
     'website': 'http://akretion.com',
     'author': 'Akretion, Odoo Community Association (OCA)',
