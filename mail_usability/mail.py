@@ -43,6 +43,13 @@ class ResPartner(models.Model):
             send_after_commit=send_after_commit,
             user_signature=user_signature)
 
+    def _notify_prepare_email_values(self, message):
+        res = super(ResPartner, self)._notify_prepare_email_values(message)
+        # Never auto delete notification email
+        # fucking to hard to debug when message have been delete
+        res['auto_delete'] = False
+        return res
+
 
 class TemplatePreview(models.TransientModel):
     _inherit = "email_template.preview"
