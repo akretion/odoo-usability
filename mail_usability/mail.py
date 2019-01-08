@@ -15,40 +15,30 @@ class ResPartner(models.Model):
             ('all_except_notification', 'All Messages Except Notifications')],
         default='all_except_notification')
 
-    @api.multi
-    def _notify(
-            self, message, force_send=False, send_after_commit=True,
-            user_signature=True):
+    def _should_be_notify_by_email(self, message):
         if message.message_type == 'notification':
-            message_sudo = message.sudo()
-            email_channels = message.channel_ids.filtered(
-                lambda channel: channel.email_send)
-            bad_email = message_sudo.author_id and\
-                message_sudo.author_id.email or message.email_from
-            self.sudo().search([
-                '|',
-                ('id', 'in', self.ids),
-                ('channel_ids', 'in', email_channels.ids),
-                ('email', '!=', bad_email),
-                ('notify_email', '=', 'always')])._notify_by_email(
-                    message, force_send=force_send,
-                    send_after_commit=send_after_commit,
-                    user_signature=user_signature)
-            self._notify_by_chat(message)
-            return True
+            if self.notify_email == 'always':
+                return True
+            else:
+                return False
         else:
-            return super(ResPartner, self)._notify(
-                message, force_send=force_send,
-                send_after_commit=send_after_commit,
-                user_signature=user_signature)
+            return True
 
     def _notify_by_email(
         self, message, force_send=False, send_after_commit=True,
         user_signature=True):
+
+        # use an empty layout for notification by default
         if not self._context.get('custom_layout'):
             self = self.with_context(
                 custom_layout='mail_usability.mail_template_notification')
-	return super(ResPartner, self)._notify_by_email(
+
+        # Filter the partner that should receive the notification
+        filtered_partners = self.filtered(
+            lambda p: p._should_be_notify_by_email(message)
+            )
+
+	return super(ResPartner, filtered_partners)._notify_by_email(
             message, force_send=force_send,
             send_after_commit=send_after_commit,
             user_signature=user_signature)
@@ -100,7 +90,9 @@ class MailThread(models.AbstractModel):
     def message_post(self, body='', subject=None, message_type='notification',
                      subtype=None, parent_id=False, attachments=None,
                      content_subtype='html', **kwargs):
-        # Do not implicitly follow an object by just sending a message
+        if not 'mail_create_nosubscribe' in self._context:
+            # Do not implicitly follow an object by just sending a message
+            self = self.with_context(mail_create_nosubscribe=True)
 	return super(MailThread,
             self.with_context(mail_create_nosubscribe=True)
             ).message_post(
