@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="view_mail_tree" model="ir.ui.view">
+    <field name="model">mail.mail</field>
+    <field name="inherit_id" ref="mail.view_mail_tree"/>
+    <field name="arch" type="xml">
+        <field name="email_from" position="replace"/>
+        <field name="date" position="after">
+            <field name="email_from"/>
+            <field name="email_to"/>
+        </field>
+    </field>
+</record>
+
+</odoo>
