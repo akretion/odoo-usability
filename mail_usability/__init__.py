@@ -3,3 +3,4 @@
 from . import mail
 from . import tools
 from . import mail_template
+from . import mail_message
