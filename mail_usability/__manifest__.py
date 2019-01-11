@@ -26,8 +26,9 @@ Small usability improvements on mails:
     'website': 'http://www.akretion.com',
     'depends': ['mail'],
     'data': [
-        'mail_view.xml',
-        'mail_data.xml',
+        'views/mail_view.xml',
+        'data/mail_data.xml',
+        'wizard/email_template_preview_view.xml',
         ],
     'installable': True,
 }
