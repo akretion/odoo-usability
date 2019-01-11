@@ -31,7 +31,7 @@ class ProductProduct(models.Model):
     _inherit = 'product.product'
 
     default_code = fields.Char(track_visibility='onchange', copy=False)
-    barcode = fields.Char(track_visibility='onchange')
+    barcode = fields.Char(track_visibility='onchange', copy=False)
     weight = fields.Float(track_visibility='onchange')
     active = fields.Boolean(track_visibility='onchange')
     price_history_ids = fields.One2many(
