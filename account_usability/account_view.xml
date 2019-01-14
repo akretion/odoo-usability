@@ -318,6 +318,7 @@ module -->
     <field name="arch" type="xml">
         <field name="partner_id" position="after">
             <field name="reconcile_string" />
+            <field name="debit" filter_domain="['|', ('debit', '=', self), ('credit', '=', self)]" string="Debit or Credit"/>
         </field>
         <filter name="unreconciled" position="before">
             <filter name="reconciled" string="Fully Reconciled" domain="[('full_reconcile_id', '!=', False)]"/>
