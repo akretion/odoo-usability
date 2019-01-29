@@ -52,7 +52,7 @@ class HrEmployee(models.Model):
     def compute_private_car_total_km_this_year(self):
         res = {}
         private_car_product_id = self.env.ref(
-            'hr_expense_usability.generic_private_car_expense').id
+            'hr_expense_private_car.generic_private_car_expense').id
         today = fields.Date.context_today(self)
         today_dt = fields.Date.from_string(today)
         self._cr.execute(
@@ -105,7 +105,7 @@ class HrExpense(models.Model):
     @api.onchange('product_id')
     def _onchange_product_id(self):
         private_car_product = self.env.ref(
-            'hr_expense_usability.generic_private_car_expense')
+            'hr_expense_private_car.generic_private_car_expense')
         if (
                 self.product_id and
                 self.product_id == private_car_product and
@@ -176,7 +176,7 @@ class HrExpense(models.Model):
         'product_id', 'private_car_plate', 'private_car_km_price_id')
     def _check_expense(self):
         generic_private_car_product = self.env.ref(
-            'hr_expense_usability.generic_private_car_expense')
+            'hr_expense_private_car.generic_private_car_expense')
         for exp in self:
             if exp.product_id == generic_private_car_product:
                 if not exp.private_car_plate:
