@@ -116,7 +116,7 @@
         <field name="account_move_id" position="attributes">
             <attribute name="invisible">0</attribute>
             <attribute name="groups">account.group_account_user</attribute>
-            <attribute name="states">post</attribute>
+            <attribute name="states">post,done</attribute>
             <attribute name="readonly">1</attribute>
         </field>
         <button name="action_open_journal_entries" position="attributes">
