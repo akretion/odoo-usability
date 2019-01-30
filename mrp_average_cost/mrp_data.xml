@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-<data noupdate="1">
+<odoo noupdate="1">
 
 <record forcecreate="True" id="labour_hours" model="decimal.precision">
     <field name="name">Labour Hours</field>
@@ -16,10 +15,8 @@
     <field name="interval_type">days</field>
     <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
     <field name="doall" eval="False"/>
-    <field name="model" eval="'mrp.bom'"/>
-    <field name="function" eval="'_phantom_update_product_standard_price'"/>
-    <field name="args" eval="'()'"/>
+    <field name="model_id" ref="mrp.model_mrp_bom"/>
+    <field name="code">model._phantom_update_product_standard_price()</field>
 </record>
 
-</data>
-</openerp>
+</odoo>

@@ -1,50 +1,30 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    MRP Average Cost module for Odoo
-#    Copyright (C) 2016 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# Copyright (C) 2016-2019 Akretion (http://www.akretion.com)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
-import openerp.addons.decimal_precision as dp
-from openerp.tools import float_compare, float_is_zero
+from odoo import models, fields, api, _
+import odoo.addons.decimal_precision as dp
+from odoo.tools import float_compare, float_is_zero
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class MrpBomLabourLine(orm.Model):
+class MrpBomLabourLine(models.Model):
     _name = 'mrp.bom.labour.line'
     _description = 'Labour lines on BOM'
 
-    _columns = {
-        'bom_id': fields.many2one(
-            'mrp.bom', 'Labour Lines', ondelete='cascade'),
-        'labour_time': fields.float(
-            'Labour Time', required=True,
-            digits_compute=dp.get_precision('Labour Hours'),
-            help="Average labour time for the production of "
-            "items of the BOM, in hours."),
-        'labour_cost_profile_id': fields.many2one(
-            'labour.cost.profile', 'Labour Cost Profile', required=True),
-        'note': fields.text('Note'),
-        }
+    bom_id = fields.Many2one(
+        'mrp.bom', string='Labour Lines', ondelete='cascade')
+    labour_time = fields.Float(
+        string='Labour Time', required=True,
+        digits=dp.get_precision('Labour Hours'),
+        help="Average labour time for the production of "
+        "items of the BOM, in hours.")
+    labour_cost_profile_id = fields.Many2one(
+        'labour.cost.profile', string='Labour Cost Profile', required=True)
+    note = fields.Text(string='Note')
 
     _sql_constraints = [(
         'labour_time_positive',
@@ -52,86 +32,67 @@ class MrpBomLabourLine(orm.Model):
         "The value of the field 'Labour Time' must be positive or 0.")]
 
 
-class MrpBom(orm.Model):
+class MrpBom(models.Model):
     _inherit = 'mrp.bom'
 
-    def _compute_total_labour_cost(
-            self, cr, uid, ids, name, arg, context=None):
-        res = {}
-        for bom in self.browse(cr, uid, ids, context=context):
+    @api.depends('labour_line_ids.labour_time', 'labour_line_ids.labour_cost_profile_id.hour_cost')
+    def _compute_total_labour_cost(self):
+        for bom in self:
             cost = 0.0
             for lline in bom.labour_line_ids:
                 cost += lline.labour_time * lline.labour_cost_profile_id.hour_cost
-            res[bom.id] = cost
-        return res
+            bom.total_labour_cost = cost
 
-    def _get_bom_from_labour_lines(self, cr, uid, ids, context=None):
-        return self.pool['mrp.bom'].search(
-            cr, uid, [('labour_line_ids', 'in', ids)], context=context)
-
-    def _get_bom_from_cost_profile(self, cr, uid, ids, context=None):
-        labour_line_ids = self.pool['mrp.bom.labour.line'].search(
-            cr, uid, [('labour_cost_profile_id', 'in', ids)], context=context)
-        return self.pool['mrp.bom'].search(
-            cr, uid, [('labour_line_ids', 'in', labour_line_ids)], context=context)
-
-    def _compute_total_cost(
-            self, cr, uid, ids, name, arg, context=None):
-        res = {}
+    @api.depends('bom_line_ids.product_id.standard_price', 'total_labour_cost', 'extra_cost')
+    def _compute_total_cost(self):
         puo = self.pool['product.uom']
-        for bom in self.browse(cr, uid, ids, context=context):
+        for bom in self:
             component_cost = 0.0
-            for line in bom.bom_lines:
+            for line in bom.bom_line_ids:
                 component_price = line.product_id.standard_price
                 component_qty_product_uom = puo._compute_qty_obj(
                     cr, uid, line.product_uom, line.product_qty,
-                    line.product_id.uom_id, context=context)
+                    line.product_id.uom_id, context=context)  # TODO
                 component_cost += component_price * component_qty_product_uom
             total_cost = component_cost + bom.extra_cost + bom.total_labour_cost
-            res[bom.id] = {
-                'total_components_cost': component_cost,
-                'total_cost': total_cost,
-                }
-        return res
+            bom.total_components_cost = component_cost
+            bom.total_cost = total_cost
 
-    _columns = {
-        'labour_line_ids': fields.one2many(
-            'mrp.bom.labour.line', 'bom_id', 'Labour Lines'),
-        'total_labour_cost': fields.function(
-            _compute_total_labour_cost, type='float', readonly=True,
-            digits_compute=dp.get_precision('Product Price'),
-            string="Total Labour Cost", store={
-                'labour.cost.profile': (_get_bom_from_cost_profile, [
-                    'hour_cost', 'company_id'], 10),
-                'mrp.bom.labour.line': (_get_bom_from_labour_lines, [
-                    'bom_id', 'labour_time', 'labour_cost_profile_id'], 20),
-                }),
-        'extra_cost': fields.float(
-            'Extra Cost', track_visibility='onchange',
-            digits_compute=dp.get_precision('Product Price'),
-            help="Extra cost for the production of the quantity of "
-            "items of the BOM, in company currency. "
-            "You can use this field to enter the cost of the consumables "
-            "that are used to produce the product but are not listed in "
-            "the BOM"),
-        'total_components_cost': fields.function(
-            _compute_total_cost, type='float', readonly=True,
-            digits_compute=dp.get_precision('Product Price'),
-            multi='total-cost', string='Total Components Cost'),
-        'total_cost': fields.function(
-            _compute_total_cost, type='float', readonly=True,
-            multi='total-cost', string='Total Cost',
-            digits_compute=dp.get_precision('Product Price'),
-            help="Total Cost = Total Components Cost + "
-            "Total Labour Cost + Extra Cost"),
-        'company_currency_id': fields.related(
-            'company_id', 'currency_id', readonly=True, type='many2one',
-            relation='res.currency', string='Company Currency'),
+    labour_line_ids = fields.One2many(
+        'mrp.bom.labour.line', 'bom_id', string='Labour Lines')
+    total_labour_cost = fields.Float(
+        compute='_compute_total_labour_cost', readonly=True,
+        digits=dp.get_precision('Product Price'),
+        string="Total Labour Cost", store=True)
+    extra_cost = fields.Float(
+        string='Extra Cost', track_visibility='onchange',
+        digits=dp.get_precision('Product Price'),
+        help="Extra cost for the production of the quantity of "
+        "items of the BOM, in company currency. "
+        "You can use this field to enter the cost of the consumables "
+        "that are used to produce the product but are not listed in "
+        "the BOM")
+    total_components_cost = fields.Float(
+        compute='_compute_total_cost', readonly=True,
+        digits=dp.get_precision('Product Price'),
+        string='Total Components Cost')
+    total_cost = fields.Float(
+        compute='_compute_total_cost', readonly=True,
+        string='Total Cost',
+        digits=dp.get_precision('Product Price'),
+        help="Total Cost = Total Components Cost + "
+        "Total Labour Cost + Extra Cost")
+    company_currency_id = fields.Many2one(
+        related='company_id.currency_id', readonly=True,
+        string='Company Currency')
         # to display in bom lines
-        'standard_price': fields.related(
-            'product_id', 'standard_price', readonly=True,
-            type='float', string='Standard Price')
-        }
+
+class MrpBomLine(models.Model):
+    _inherit = 'mrp.bom.line'
+
+    standard_price = fields.Float(
+        related='product_id.standard_price', readonly=True,
+        string='Standard Price')
 
     def manual_update_product_standard_price(self, cr, uid, ids, context=None):
         if context is None:
@@ -167,58 +128,50 @@ class MrpBom(orm.Model):
         return True
 
 
-class LabourCostProfile(orm.Model):
+class LabourCostProfile(models.Model):
     _name = 'labour.cost.profile'
     _inherit = ['mail.thread']
     _description = 'Labour Cost Profile'
 
-    _columns = {
-        'name': fields.char(
-            'Name', required=True, track_visibility='onchange'),
-        'hour_cost': fields.float(
-            'Cost per Hour', required=True,
-            digits_compute=dp.get_precision('Product Price'),
-            track_visibility='onchange',
-            help="Labour cost per hour per person in company currency"),
-        'company_id': fields.many2one('res.company', 'Company', required=True),
-        'company_currency_id': fields.related(
-            'company_id', 'currency_id', readonly=True, type='many2one',
-            relation='res.currency', string='Company Currency')
-        }
+    name = fields.Char(
+        string='Name', required=True, track_visibility='onchange')
+    hour_cost = fields.Float(
+        string='Cost per Hour', required=True,
+        digits=dp.get_precision('Product Price'),
+        track_visibility='onchange',
+        help="Labour cost per hour per person in company currency")
+    company_id = fields.Many2one(
+        'res.company', string='Company', required=True,
+        default=lambda self: self.env['res.company']._company_default_get())
+    company_currency_id = fields.Many2one(
+        related='company_id.currency_id', readonly=True, store=True,
+        string='Company Currency')
 
-    _defaults = {
-        'company_id': lambda self, cr, uid, context:
-        self.pool['res.company']._company_default_get(
-            cr, uid, 'labour.cost.profile', context=context),
-        }
-
-    def name_get(self, cr, uid, ids, context=None):
+    @api.depends('name', 'hour_cost', 'company_currency_id.symbol')
+    def name_get(self):
         res = []
-        if isinstance(ids, (int, long)):
-            ids = [ids]
-        for record in self.browse(cr, uid, ids, context=context):
+        for record in self:
             res.append((record.id, u'%s (%s %s)' % (
                 record.name, record.hour_cost,
                 record.company_currency_id.symbol)))
         return res
 
 
-class MrpProduction(orm.Model):
+class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
-    _columns = {
-        'unit_cost': fields.float(
-            'Unit Cost', readonly=True,
-            digits_compute=dp.get_precision('Product Price'),
-            help="This cost per unit in the unit of measure of the product "
-            "in company currency takes into account "
-            "the cost of the raw materials and the labour cost defined on"
-            "the BOM."),
-        'company_currency_id': fields.related(
-            'company_id', 'currency_id', readonly=True, type='many2one',
-            relation='res.currency', string='Company Currency'),
-        }
+    unit_cost = fields.Float(
+        string='Unit Cost', readonly=True,
+        digits=dp.get_precision('Product Price'),
+        help="This cost per unit in the unit of measure of the product "
+        "in company currency takes into account "
+        "the cost of the raw materials and the labour cost defined on"
+        "the BOM.")
+    company_currency_id = fields.Many2one(
+        related='company_id.currency_id', readonly=True,
+        string='Company Currency')
 
+    # TODO port to v12
     def compute_order_unit_cost(self, cr, uid, order, context=None):
         puo = self.pool['product.uom']
         mo_total_price = 0.0  # In the UoM of the M0
