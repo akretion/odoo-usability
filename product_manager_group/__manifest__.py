@@ -12,7 +12,7 @@
 Product Manager Group
 =====================
 
-This module adds a group Product Manager. This group used to exist in older versions of OpenERP (5.0, 6.0) but was unfortunately removed in OpenERP 6.1. This group restores this group.
+This module adds a group Product Manager. This group used to exist in older versions of OpenERP (5.0, 6.0) but was unfortunately removed in OpenERP 6.1. This module restores this group.
 
 Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
     """,
