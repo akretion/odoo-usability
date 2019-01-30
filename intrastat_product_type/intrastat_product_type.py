@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2016 Akretion (http://www.akretion.com)
+# Copyright 2016-2019 Akretion (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
@@ -60,14 +60,14 @@ class ProductTemplate(models.Model):
         return super(ProductTemplate, self).create(vals)
 
 
-class L10nFrIntrastatServiceDeclaration(models.Model):
-    _inherit = "l10n.fr.intrastat.service.declaration"
+#class L10nFrIntrastatServiceDeclaration(models.Model):
+#    _inherit = "l10n.fr.intrastat.service.declaration"
 
-    def _is_service(self, invoice_line):
-        if invoice_line.product_id.intrastat_type == 'service':
-            return True
-        else:
-            return False
+#    def _is_service(self, invoice_line):
+#        if invoice_line.product_id.intrastat_type == 'service':
+#            return True
+#        else:
+#            return False
 
 
 class IntrastatProductDeclaration(models.Model):
