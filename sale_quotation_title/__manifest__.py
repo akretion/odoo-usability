@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
-# © 2016 Akretion (http://www.akretion.com)
+# Copyright 2016-2019 Akretion (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
 {
     'name': 'Sale Quotation Title',
-    'version': '10.0.1.0.0',
+    'version': '12.0.1.0.0',
     'category': 'Sales',
     'license': 'AGPL-3',
     'summary': 'Adds a title field on quotations',
