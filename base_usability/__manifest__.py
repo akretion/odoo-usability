@@ -34,6 +34,7 @@ _display_full_address on res.partner which are useful for reporting.
         'views/users_view.xml',
         'views/country_view.xml',
         'views/module_view.xml',
+        'views/base_view.xml',
         ],
     'installable': True,
 }
