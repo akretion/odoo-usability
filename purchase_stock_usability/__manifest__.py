@@ -3,24 +3,27 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Purchase Usability',
+    'name': 'Purchase Stock Usability',
     'version': '12.0.1.0.0',
     'category': 'Purchases',
     'license': 'AGPL-3',
-    'summary': 'Usability improvements on purchase module',
+    'summary': 'Usability improvements on purchase_stock module',
     'description': """
-Purchase Usability
-==================
+Purchase Stock Usability
+========================
 
-Several usability improvements on the official purchase module:
+Several usability improvements on the official purchase_stock module:
 
 Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['purchase'],
+    'depends': [
+        'purchase_stock',
+        'purchase_usability',
+        ],
     'data': [
-        'purchase_view.xml',
+        'stock_view.xml',
         ],
     'installable': True,
 }

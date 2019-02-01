@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2015-2016 Akretion (http://www.akretion.com)
+# Copyright 2015-2019 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -10,45 +10,22 @@ from odoo.tools.misc import formatLang
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    picking_type_id = fields.Many2one(track_visibility='onchange')
     dest_address_id = fields.Many2one(track_visibility='onchange')
     currency_id = fields.Many2one(track_visibility='onchange')
     payment_term_id = fields.Many2one(track_visibility='onchange')
     fiscal_position_id = fields.Many2one(track_visibility='onchange')
-    incoterm_id = fields.Many2one(track_visibility='onchange')
     partner_ref = fields.Char(track_visibility='onchange')
     # field 'partner_id': native value for track_visibility='always'
     partner_id = fields.Many2one(track_visibility='onchange')
-    # for report
+    # the field 'delivery_partner_id' is used in report
+    # the compute method of that field is inherited in purchase_stock_usability
     delivery_partner_id = fields.Many2one(
         'res.partner', compute='_compute_delivery_partner_id', readonly=True)
 
-    @api.multi
-    @api.depends('dest_address_id', 'picking_type_id')
+    @api.depends('dest_address_id')
     def _compute_delivery_partner_id(self):
-        for o in self:
-            delivery_partner_id = False
-            if o.dest_address_id:
-                delivery_partner_id = o.dest_address_id
-            elif (
-                    o.picking_type_id.warehouse_id and
-                    o.picking_type_id.warehouse_id.partner_id):
-                delivery_partner_id = o.picking_type_id.warehouse_id.partner_id
-            o.delivery_partner_id = delivery_partner_id
-
-    @api.multi
-    def button_confirm(self):
-        '''Reload view upon order confirmation to display the 3 qty cols'''
-        res = super(PurchaseOrder, self).button_confirm()
-        if len(self) == 1:
-            res = self.env['ir.actions.act_window'].for_xml_id(
-                'purchase', 'purchase_form_action')
-            res.update({
-                'view_mode': 'form,tree,kanban,pivot,graph,calendar',
-                'res_id': self.id,
-                'views': False,
-                })
-        return res
+        for order in self:
+            order.delivery_partner_id = order.dest_address_id
 
     def print_order(self):
         action = self.env['report'].get_action(
@@ -63,17 +40,8 @@ class PurchaseOrder(models.Model):
         for po in self:
             name = po.name
             if po.partner_ref:
-                name += ' ('+po.partner_ref+')'
-            if po.amount_untaxed:
+                name += ' (' + po.partner_ref + ')'
+            if self.env.context.get('show_total_amount') and po.amount_total:
                 name += ': ' + formatLang(self.env, po.amount_untaxed, currency_obj=po.currency_id)
             result.append((po.id, name))
         return result
-
-
-class StockPicking(models.Model):
-    _inherit = 'stock.picking'
-
-    # Field added to have a clickable link from picking to PO
-    purchase_id = fields.Many2one(
-        related='move_lines.purchase_line_id.order_id', readonly=True,
-        string='Purchase Order')

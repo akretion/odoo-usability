@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2014-2016 Akretion (http://www.akretion.com/)
+  Copyright 2014-2019 Akretion (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -14,7 +14,7 @@
     <field name="inherit_id" ref="purchase.purchase_order_form"/>
     <field name="arch" type="xml">
         <button name="action_rfq_send" states="purchase" position="after">
-            <button name="print_order" states="purchase" string="Print Order" type="object" groups="base.group_user"/>
+            <button name="print_order" states="purchase" string="Print Order" type="object"/>
         </button>
         <field name="fiscal_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
@@ -38,9 +38,6 @@
     <field name="model">purchase.order</field>
     <field name="inherit_id" ref="purchase.purchase_order_tree"/>
     <field name="arch" type="xml">
-        <field name="state" position="after">
-            <field name="is_shipped" invisible="not context.get('show_purchase', False)"/>
-        </field>
         <!-- the 'origin' field can be very long ; it can list a lot of MO or OP!
         I think limiting the size of the field would not be the best option,
         because the info it carries can be interesting. So we just remove it from
@@ -56,11 +53,6 @@
     <field name="model">purchase.order</field>
     <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
     <field name="arch" type="xml">
-        <filter name="not_invoiced" position="before">
-            <filter name="shipped" string="Fully Received" domain="[('is_shipped', '=', True)]"/>
-            <filter name="not_shipped" string="Not Fully Received" domain="[('is_shipped', '=', False)]"/>
-            <separator/>
-        </filter>
         <field name="name" position="attributes">
             <attribute name="string">Reference or Origin</attribute>
             <attribute name="filter_domain">['|', ('name', 'ilike', self), ('origin', 'ilike', self)]</attribute>
@@ -105,20 +97,9 @@
 
 <!-- Do not show cancelled quotations by default in "Requests for Quotation" -->
 <record id="purchase.purchase_rfq" model="ir.actions.act_window">
-    <field name="context">{'search_default_draft': 1, 'search_default_todo': 1}</field>
+    <field name="context">{'search_default_draft': 1}</field>
 </record>
 
-<record id="purchase_order_line_form2" model="ir.ui.view">
-    <field name="name">usability.purchase.order.line.form</field>
-    <field name="model">purchase.order.line</field>
-    <field name="inherit_id" ref="purchase.purchase_order_line_form2"/>
-    <field name="arch" type="xml">
-        <field name="order_id" position="attributes">
-            <attribute name="context">{'show_purchase': True}</attribute>
-        </field>
-    </field>
-</record>
- 
 <record id="purchase_order_line_tree" model="ir.ui.view">
     <field name="name">usability.purchase.order.line.tree</field>
     <field name="model">purchase.order.line</field>
@@ -180,42 +161,5 @@
 
 <!-- The menu entry should be added in customer-specific module -->
 
-<!-- in v10, the cart button is present on the product.template form view
-but not on the product.product form view
-In v8, it was present on both, so I put the cart button on the product.product form view too -->
-<record id="action_purchase_line_product_product_tree" model="ir.actions.act_window">
-    <field name="name">Purchase Order Lines</field>
-    <field name="res_model">purchase.order.line</field>
-    <field name="view_id" ref="purchase_order_line_tree"/>
-    <field name="domain">[('product_id','in',active_ids), ('state', 'in', ['purchase', 'done'])]</field>
-    <field name="context">{}</field>
-</record>
-
-<record id="view_product_normal_purchase_buttons_from" model="ir.ui.view">
-    <field name="name">product.product.purchase.button.inherit</field>
-    <field name="model">product.product</field>
-    <field name="inherit_id" ref="product.product_normal_form_view"/>
-    <field name="groups_id" eval="[(4, ref('purchase.group_purchase_user'))]"/>
-    <field name="arch" type="xml">
-        <div name="button_box" position="inside">
-           <button class="oe_inline oe_stat_button"
-                name="%(action_purchase_line_product_product_tree)d"
-                type="action" icon="fa-shopping-cart">
-               <field string="Purchases" name="purchase_count" widget="statinfo"/>
-            </button>
-        </div>
-    </field>
-</record>
-
-<record id="view_product_supplier_inherit" model="ir.ui.view">
-    <field name="name">purchase_usability.product.template.form</field>
-    <field name="model">product.template</field>
-    <field name="inherit_id" ref="purchase.view_product_supplier_inherit"/>
-    <field name="arch" type="xml">
-        <field name="purchase_method" position="attributes">
-            <attribute name="groups"></attribute>
-        </field>
-    </field>
-</record>
 
 </odoo>
