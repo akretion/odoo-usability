@@ -296,8 +296,8 @@ module -->
         <field name="ref" position="after">
             <field name="default_move_line_name"/>
             <field name="default_account_id" invisible="1"/>
-            <field name="default_credit" invisible="0"/>
-            <field name="default_debit" invisible="0"/>
+            <field name="default_credit" invisible="1"/>
+            <field name="default_debit" invisible="1"/>
         </field>
         <xpath expr="//field[@name='line_ids']" position="attributes">
             <attribute name="context" operation="python_dict" key="default_name">default_move_line_name</attribute>
