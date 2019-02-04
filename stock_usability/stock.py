@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# © 2014-2016 Akretion (http://www.akretion.com)
+# Copyright 2014-2019 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -7,11 +6,6 @@ from odoo import models, fields, api, _
 import logging
 
 logger = logging.getLogger(__name__)
-
-
-class StockInventory(models.Model):
-    _inherit = 'stock.inventory'
-    _order = 'id desc'
 
 
 class StockPicking(models.Model):
@@ -25,30 +19,11 @@ class StockPicking(models.Model):
     move_type = fields.Selection(track_visibility='onchange')
 
     @api.multi
-    def force_assign(self):
-        res = super(StockPicking, self).force_assign()
-        for pick in self:
-            pick.message_post(_("Using <b>Force Availability</b>!"))
-        return res
-
-    @api.multi
     def do_unreserve(self):
         res = super(StockPicking, self).do_unreserve()
         for pick in self:
             pick.message_post(_("Picking <b>unreserved</b>."))
         return res
-
-
-class StockLocation(models.Model):
-    _inherit = 'stock.location'
-
-    name = fields.Char(translate=False)
-    # with the 'quant_ids' field below, you can for example search empty stock
-    # locations with self.env['stock.location'].search([
-    #    ('child_ids', '=', False), ('quant_ids', '=', False),
-    #    ('usage', '=', 'internal')])
-    quant_ids = fields.One2many(
-        'stock.quant', 'location_id', string="Related Quants")
 
 
 class StockPickingType(models.Model):
@@ -94,14 +69,6 @@ class StockWarehouseOrderpoint(models.Model):
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-# It seems that it is not necessary any more to
-# have the digits= on these 2 fields to fix the bug
-# https://github.com/odoo/odoo/pull/10038
-#    reserved_availability = fields.Float(
-#        digits=dp.get_precision('Product Unit of Measure'))
-#    availability = fields.Float(
-#        digits=dp.get_precision('Product Unit of Measure'))
-
     @api.multi
     def name_get(self):
         '''name_get of stock_move is important for the reservation of the
@@ -117,37 +84,26 @@ class StockMove(models.Model):
             if line.partner_id:
                 name = line.partner_id.name + ' ' + name
             if line.date_expected:
-                date_expec_dt = fields.Datetime.from_string(line.date_expected)
-                name = name + ' ' + fields.Date.to_string(date_expec_dt)
+                name = name + ' ' + line.date_expected
             res.append((line.id, name))
         return res
 
-    def button_do_unreserve(self):
-        for move in self:
-            move.do_unreserve()
-            if move.picking_id:
-                product = move.product_id
-                self.picking_id.message_post(_(
-                    "Product <a href=# data-oe-model=product.product "
-                    "data-oe-id=%d>%s</a> qty %s %s <b>unreserved</b>")
-                    % (product.id, product.display_name,
-                       move.product_qty, move.product_id.uom_id.name))
-            ops = self.env['stock.pack.operation']
-            for smol in move.linked_move_operation_ids:
-                if smol.operation_id:
-                    ops += smol.operation_id
-            ops.unlink()
+#    def button_do_unreserve(self):
+#        for move in self:
+#            move.do_unreserve()
+#            if move.picking_id:
+#                product = move.product_id
+#                self.picking_id.message_post(_(
+#                    "Product <a href=# data-oe-model=product.product "
+#                    "data-oe-id=%d>%s</a> qty %s %s <b>unreserved</b>")
+#                    % (product.id, product.display_name,
+#                       move.product_qty, move.product_id.uom_id.name))
+#            ops = self.env['stock.pack.operation']
+#            for smol in move.linked_move_operation_ids:
+#                if smol.operation_id:
+#                    ops += smol.operation_id
+#            ops.unlink()
 
-
-class StockIncoterms(models.Model):
-    _inherit = 'stock.incoterms'
-
-    @api.multi
-    def name_get(self):
-        res = []
-        for inco in self:
-            res.append((inco.id, u'[%s] %s' % (inco.code, inco.name)))
-        return res
 
 
 class ProcurementGroup(models.Model):

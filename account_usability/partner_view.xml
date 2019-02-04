@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2017 Akretion (http://www.akretion.com/)
+  Copyright 2017-2019 Akretion (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -16,9 +16,6 @@
         <field name="property_account_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
-        <group name="accounting_entries" position="attributes">
-            <attribute name="groups">account.group_account_user</attribute>
-        </group>
     </field>
 </record>
 

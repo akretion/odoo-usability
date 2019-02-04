@@ -18,8 +18,9 @@ because the parent menu entry is in the sale module -->
 
 <!-- This menu entry is very useful for mass export/import of prices -->
 <menuitem id="product_pricelist_item_menu"
-  parent="sale.menu_product_pricelist_main"
+  parent="sale.product_menu_catalog"
   action="product_pricelist_item_action"
+  groups="product.group_pricelist_item"
   sequence="50"/>
 
 

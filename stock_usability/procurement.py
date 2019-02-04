@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# © 2015-2016 Akretion (http://www.akretion.com)
+# Copyright 2015-2019 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -10,28 +9,22 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class ProcurementOrder(models.Model):
-    _inherit = 'procurement.order'
+class ProcurementGroup(models.Model):
+    _inherit = 'procurement.group'
 
     @api.model
     def _procure_orderpoint_confirm(
             self, use_new_cursor=False, company_id=False):
         logger.info(
-            'procurement scheduler: START to create procurements from '
+            'procurement scheduler: START to create moves from '
             'orderpoints')
-        res = super(ProcurementOrder, self)._procure_orderpoint_confirm(
+        res = super(ProcurementGroup, self)._procure_orderpoint_confirm(
             use_new_cursor=use_new_cursor, company_id=company_id)
         logger.info(
-            'procurement scheduler: END creation of procurements from '
+            'procurement scheduler: END creation of moves from '
             'orderpoints')
         return res
 
-    # Why is this code in stock_usability and not in procurement_usability ?
-    # For a very good reason
-    # The stock module inherits run_scheduler(). So, if we want to have the
-    # START and END log message and a good end date
-    # for procurement.scheduler.log, the method below must be called first,
-    # so we must be "above" all modules that call run_scheduler()
     @api.model
     def run_scheduler(
             self, use_new_cursor=False, company_id=False):
@@ -41,7 +34,7 @@ class ProcurementOrder(models.Model):
             '(company ID=%d, uid=%d, use_new_cursor=%s)',
             company_id, self._uid, use_new_cursor)
         start_datetime = datetime.now()
-        res = super(ProcurementOrder, self).run_scheduler(
+        res = super(ProcurementGroup, self).run_scheduler(
             use_new_cursor=use_new_cursor, company_id=company_id)
         logger.info(
             'END procurement scheduler '

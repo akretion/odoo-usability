@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2014-2016 Akretion (http://www.akretion.com/)
+  Copyright 2014-2019 Akretion (http://www.akretion.com/)
   @author Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -16,27 +16,15 @@
         <field name="backorder_id" position="attributes">
             <attribute name="attrs">{}</attribute>
         </field>
-        <field name="min_date" position="after">
-            <field name="date_done" states="done"/>
-        </field>
         <field name="partner_id" position="attributes">
             <attribute name="context">{'show_address': 1}</attribute>
             <attribute name="options">{'always_reload': True}</attribute>
         </field>
-        <!-- Maybe it's usefull to always display stock pack operations...
-        or maybe only for debugging... I haven't decided yet !
-        <page string="Operations" position="attributes">
-            <attribute name="attrs"></attribute>
-        </page>
-        -->
         <button name="action_cancel" type="object" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this picking?</attribute>
         </button>
         <!-- This sum is useful to check the 'number of items' to transfer... -->
-        <xpath expr="//field[@name='pack_operation_product_ids']/tree/field[@name='product_qty']" position="attributes">
-            <attribute name="sum">1</attribute>
-        </xpath>
-        <xpath expr="//field[@name='pack_operation_product_ids']/tree/field[@name='qty_done']" position="attributes">
+        <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_uom_qty']" position="attributes">
             <attribute name="sum">1</attribute>
         </xpath>
     </field>
@@ -47,7 +35,7 @@
     <field name="model">stock.picking</field>
     <field name="inherit_id" ref="stock.vpicktree" />
     <field name="arch" type="xml">
-        <field name="min_date" position="after">
+        <field name="scheduled_date" position="after">
             <field name="date_done"/>
         </field>
     </field>
@@ -58,17 +46,17 @@
     <field name="model">stock.picking</field>
     <field name="inherit_id" ref="stock.view_picking_internal_search" />
     <field name="arch" type="xml">
-        <group expand="0" position="inside">
-            <filter string="Partner" context="{'group_by': 'partner_id'}"/>
-        </group>
-        <filter context="{'group_by':'origin'}" position="replace"/>
-        <filter context="{'group_by':'min_date'}" position="after">
-            <filter name="date_done" string="Date Done"
+        <filter name="picking_type" position="after">
+            <filter string="Partner" name="partner_groupby" context="{'group_by': 'partner_id'}"/>
+        </filter>
+        <filter name="origin" position="replace"/>
+        <filter name="expected_date" position="after">
+            <filter name="date_done_groupby" string="Date Done"
                 context="{'group_by': 'date_done:day'}"/>
         </filter>
-        <filter context="{'group_by':'min_date'}" position="attributes">
+        <filter name="expected_date" position="attributes">
             <!-- group per day -->
-            <attribute name="context">"{'group_by': 'min_date:day'}"</attribute>
+            <attribute name="context">"{'group_by': 'scheduled_date:day'}"</attribute>
         </filter>
     </field>
 </record>
@@ -84,38 +72,43 @@
 </record>
 
 <record id="stock.action_picking_tree_all" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,calendar,pivot</field> <!-- add pivot -->
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
+</record>
+
+<record id="stock.stock_picking_action_picking_type" model="ir.actions.act_window">
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
 </record>
 
 <record id="stock.action_picking_tree_done" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,calendar,graph</field> <!-- add graph -->
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
 </record>
 
 <record id="stock.action_picking_tree_ready" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,calendar,graph</field> <!-- add graph -->
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
 </record>
 
 <record id="stock.action_picking_tree_done_grouped" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,calendar,graph</field> <!-- add graph -->
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
 </record>
 
 <record id="stock.action_picking_tree_waiting" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,calendar,graph</field> <!-- add graph -->
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
 </record>
 
 <record id="stock.action_picking_tree_late" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,calendar,graph</field> <!-- add graph -->
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
 </record>
 
 <record id="stock.action_picking_tree_backorder" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,calendar,graph</field> <!-- add graph -->
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
 </record>
 
 <record id="stock.action_picking_tree" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,calendar,graph</field> <!-- add graph -->
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
 </record>
 
 <!-- Display route in stock moves -->
+<!-- 
 <record id="view_move_form" model="ir.ui.view">
     <field name="name">stock.usability.stock.move.form</field>
     <field name="model">stock.move</field>
@@ -150,7 +143,9 @@
         </group>
     </field>
 </record>
+-->
 
+<!--
 <record id="view_move_picking_form" model="ir.ui.view">
     <field name="name">stock.usability.stock.move.picking.form</field>
     <field name="model">stock.move</field>
@@ -161,7 +156,7 @@
                 groups="stock.group_stock_user"
                 attrs="{'invisible': [('reserved_quant_ids', '=', [])]}"/>
         </field>
-        <field name="group_id" position="replace"/> <!-- in stock, this field has invisible="1" re-add it below as visible -->
+        <field name="group_id" position="replace"/>
         <group name="moved_quants_grp" position="after">
             <notebook colspan="2">
                 <page string="Notes" name="notes">
@@ -184,6 +179,7 @@
         </group>
     </field>
 </record>
+-->
 
 <record id="view_move_picking_tree" model="ir.ui.view">
     <field name="name">stock_usability.src_location.in.picking.form</field>
@@ -196,13 +192,14 @@
         <field name="location_dest_id" position="attributes">
             <attribute name="invisible">0</attribute>
         </field>
+        <!--
         <field name="state" position="after">
             <button type="object" name="button_do_unreserve" string="Unreserve"
                 groups="stock.group_stock_user"
                 attrs="{'invisible': [('reserved_quant_ids', '=', [])]}"
                 icon="fa-ban"/>
             <field name="reserved_quant_ids" invisible="1"/>
-        </field>
+        </field>  -->
     </field>
 </record>
 
@@ -220,20 +217,6 @@
         <tree position="attributes">
             <attribute name="default_order">date desc, picking_id, sequence</attribute>
         </tree>
-    </field>
-</record>
-
-<record id="view_pack_operation_lot_form" model="ir.ui.view">
-    <field name="name">stock_usability.stock.pack.operation.form</field>
-    <field name="model">stock.pack.operation</field>
-    <field name="inherit_id" ref="stock.view_pack_operation_lot_form" />
-    <field name="arch" type="xml">
-        <field name="product_id" position="after">
-            <field name="picking_source_location_id" invisible="1"/>
-            <field name="picking_destination_location_id" invisible="1"/>
-            <field name="location_id" domain="[('id', 'child_of', picking_source_location_id)]" groups="stock.group_stock_multi_locations"/>
-            <field name="location_dest_id" domain="[('id', 'child_of', picking_destination_location_id)]" groups="stock.group_stock_multi_locations"/>
-        </field>
     </field>
 </record>
 
@@ -266,7 +249,7 @@
     <field name="arch" type="xml">
         <filter name="inactive" position="after">
             <group string="Group By" name="groupby">
-                <filter name="usage" string="Location Type"
+                <filter name="usage_groupby" string="Location Type"
                     context="{'group_by': 'usage'}"/>
             </group>
         </filter>
@@ -314,21 +297,10 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
             <attribute name="decoration-info">product_qty &gt; theoretical_qty</attribute>
             <attribute name="decoration-warning">product_qty &lt; theoretical_qty</attribute>
         </xpath>
-        <button name="reset_real_qty" type="object" position="attributes">
+        <button name="action_reset_product_qty" type="object" position="attributes">
             <attribute name="confirm">Are you sure you want to reset all quantities to 0 ?</attribute>
         </button>
 
-    </field>
-</record>
-
-<record id="stock_location_route_view_search" model="ir.ui.view">
-    <field name="name">usability.stock.location.route.search</field>
-    <field name="model">stock.location.route</field>
-    <field name="inherit_id" ref="stock.stock_location_route_view_search"/>
-    <field name="arch" type="xml">
-        <filter name="inactive" position="before">
-            <field name="name"/>
-        </filter>
     </field>
 </record>
 
@@ -337,27 +309,14 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
     <field name="model">stock.quant</field>
     <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
     <field name="arch" type="xml">
-        <field name="reservation_id" position="attributes">
-            <attribute name="invisible">0</attribute>
+        <field name="quantity" position="attributes">
+            <attribute name="sum">1</attribute>
         </field>
-        <field name="qty" position="attributes">
-            <attribute name="sum">Total Qty</attribute>
-        </field>
-    </field>
-</record>
-
-<!--
-<record id="view_template_property_form" model="ir.ui.view">
-    <field name="name">stock.usability.product.template.form</field>
-    <field name="model">product.template</field>
-    <field name="inherit_id" ref="stock.view_template_property_form"/>
-    <field name="arch" type="xml">
-        <field name="virtual_available" position="before">
-            <field name="outgoing_qty"/>
+        <field name="reserved_quantity" position="attributes">
+            <attribute name="sum">1</attribute>
         </field>
     </field>
 </record>
--->
 
 <!-- more detailed stock.move tree view when using the button from product form -->
 <!-- TODO TEST
@@ -376,7 +335,7 @@ So I create another "regular" Quants" menu entry -->
 </record>
 
 <menuitem id="stock_quant_menu" action="stock_quant_action"
-    parent="stock.menu_warehouse_report"
+    parent="stock.menu_stock_inventory_control"
     sequence="135"/>
 
 </odoo>

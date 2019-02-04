@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
-#    Copyright (C) 2015 Akretion (http://www.akretion.com)
-#    @author Alexis de Lattre <alexis.delattre@akretion.com>
+# Copyright (C) 2015-2019 Akretion France (http://www.akretion.com)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api
 from odoo.tools import float_is_zero
@@ -11,11 +11,10 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     date_order = fields.Datetime(track_visibility='onchange')
-    date_confirm = fields.Date(track_visibility='onchange')
+    confirmation_date = fields.Datetime(track_visibility='onchange')
     client_order_ref = fields.Char(track_visibility='onchange')
     # for partner_id, the 'sale' module sets track_visibility='always'
     partner_id = fields.Many2one(track_visibility='onchange')
-    # for amount_tax, the 'sale' module sets track_visibility='always'
     amount_tax = fields.Monetary(track_visibility='onchange')
     partner_shipping_id = fields.Many2one(track_visibility='onchange')
     partner_invoice_id = fields.Many2one(track_visibility='onchange')
@@ -36,21 +35,6 @@ class SaleOrder(models.Model):
                     has_discount = True
                     break
             order.has_discount = has_discount
-
-    @api.multi
-    def action_confirm(self):
-        '''Reload view upon order confirmation to display the 3 qty cols'''
-        res = super(SaleOrder, self).action_confirm()
-        if len(self) == 1:
-            res = self.env['ir.actions.act_window'].for_xml_id(
-                'sale', 'action_orders')
-            res.update({
-                'view_mode': 'form,tree,kanban,calendar,pivot,graph',
-                'res_id': self.id,
-                'views': False,
-                'context': {'hide_sale': False},
-                })
-        return res
 
     # for report
     @api.multi
@@ -88,11 +72,3 @@ class SaleOrder(models.Model):
         #    {'subtotal': 8932.23},
         # ]
         return res2
-
-
-class ProcurementGroup(models.Model):
-    _inherit = 'procurement.group'
-
-    sale_ids = fields.One2many(
-        'sale.order', 'procurement_group_id', string='Sale Orders',
-        readonly=True)

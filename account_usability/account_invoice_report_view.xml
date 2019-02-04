@@ -21,7 +21,7 @@
             <field name="user_id"/>
             <field name="product_id"/>
             <field name="product_qty" sum="1"/>
-            <field name="uom_name" groups="product.group_uom"/>
+            <field name="uom_name" groups="uom.group_uom"/>
             <field name="price_total" sum="1"/>
             <field name="state"/>
         </tree>

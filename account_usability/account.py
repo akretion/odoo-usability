@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# © 2015-2016 Akretion (http://www.akretion.com)
+# Copyright 2015-2019 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -27,11 +26,6 @@ class AccountInvoice(models.Model):
     partner_bank_id = fields.Many2one(track_visibility='onchange')
     fiscal_position_id = fields.Many2one(track_visibility='onchange')
     amount_total = fields.Monetary(track_visibility='onchange')
-    # for those fields, the 'account' module sets track_visibility='always':
-    partner_id = fields.Many2one(track_visibility='onchange')
-    currency_id = fields.Many2one(track_visibility='onchange')
-    type = fields.Selection(track_visibility='onchange')
-    amount_untaxed = fields.Monetary(track_visibility='onchange')
     # I want to see the number of cancelled invoice in chatter
     move_id = fields.Many2one(track_visibility='onchange')
     # for invoice report
@@ -75,7 +69,7 @@ class AccountInvoice(models.Model):
                 ('res_id', '!=', False)], ['res_id'])
             for att in search_res:
                 att_inv_ids[att['res_id']] = True
-        res = [('id', value and 'in' or 'not in', att_inv_ids.keys())]
+        res = [('id', value and 'in' or 'not in', list(att_inv_ids))]
         return res
 
     # when you have an invoice created from a lot of sale orders, the 'name'
@@ -103,17 +97,18 @@ class AccountInvoice(models.Model):
     #    write a rubbish '/' in it !
     # 2) the 'name' field of the account.move.line is used in the overdue
     # letter, and '/' is not meaningful for our customer !
-    @api.multi
-    def action_move_create(self):
-        res = super(AccountInvoice, self).action_move_create()
-        for inv in self:
-            self._cr.execute(
-                "UPDATE account_move_line SET name= "
-                "CASE WHEN name='/' THEN %s "
-                "ELSE %s||' - '||name END "
-                "WHERE move_id=%s", (inv.number, inv.number, inv.move_id.id))
-            self.invalidate_cache()
-        return res
+# TODO mig to v12
+#    @api.multi
+#    def action_move_create(self):
+#        res = super(AccountInvoice, self).action_move_create()
+#        for inv in self:
+#            self._cr.execute(
+#                "UPDATE account_move_line SET name= "
+#                "CASE WHEN name='/' THEN %s "
+#                "ELSE %s||' - '||name END "
+#                "WHERE move_id=%s", (inv.number, inv.number, inv.move_id.id))
+#            self.invalidate_cache()
+#        return res
 
     def delete_lines_qty_zero(self):
         lines = self.env['account.invoice.line'].search([
@@ -151,8 +146,7 @@ class AccountInvoiceLine(models.Model):
 
     # In the 'account' module, we have related stored field for:
     # company_id, partner_id, currency_id
-    invoice_type = fields.Selection(
-        related='invoice_id.type', store=True, readonly=True)
+    invoice_type = fields.Selection(store=True)
     date_invoice = fields.Date(
         related='invoice_id.date_invoice', store=True, readonly=True)
     commercial_partner_id = fields.Many2one(
@@ -187,20 +181,6 @@ class AccountJournal(models.Model):
                 res.append((journal.id, name))
             return res
 
-    # Also search on start of 'code', not only on 'name'
-    @api.model
-    def name_search(
-            self, name='', args=None, operator='ilike', limit=80):
-        if args is None:
-            args = []
-        if name:
-            jrls = self.search(
-                [('code', '=ilike', name + '%')] + args, limit=limit)
-            if jrls:
-                return jrls.name_get()
-        return super(AccountJournal, self).name_search(
-            name=name, args=args, operator=operator, limit=limit)
-
     @api.constrains('default_credit_account_id', 'default_debit_account_id')
     def _check_account_type_on_bank_journal(self):
         bank_acc_type = self.env.ref('account.data_account_type_liquidity')
@@ -230,6 +210,7 @@ class AccountAccount(models.Model):
     _inherit = 'account.account'
 
     @api.multi
+    @api.depends('name', 'code')
     def name_get(self):
         if self._context.get('account_account_show_code_only'):
             res = []
@@ -240,6 +221,7 @@ class AccountAccount(models.Model):
             return super(AccountAccount, self).name_get()
 
     # https://github.com/odoo/odoo/issues/23040
+    # TODO mig to v12
     def fix_bank_account_types(self):
         aao = self.env['account.account']
         companies = self.env['res.company'].search([])
@@ -277,6 +259,7 @@ class AccountAccount(models.Model):
         logger.info("END of the script 'fix bank and cash account types'")
         return True
 
+    # TODO mig to v12
     @api.model
     def create_account_groups(self, level=2, name_prefix=u'Comptes '):
         '''Should be launched by a script. Make sure the account_group module is installed
@@ -379,7 +362,6 @@ class AccountMoveLine(models.Model):
 
     # Update field only to add a string (there is no string in account module)
     invoice_id = fields.Many2one(string='Invoice')
-    date_maturity = fields.Date(copy=False)
     account_reconcile = fields.Boolean(
         related='account_id.reconcile', readonly=True)
     full_reconcile_id = fields.Many2one(string='Full Reconcile')
@@ -544,7 +526,6 @@ class AccountBankStatementLine(models.Model):
         vals['ref'] = False
         return vals
 
-    @api.multi
     def show_account_move(self):
         self.ensure_one()
         action = self.env['ir.actions.act_window'].for_xml_id(
@@ -565,8 +546,7 @@ class AccountBankStatementLine(models.Model):
 class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
 
-    note = fields.Text(translate=True)
-
+    # TODO mig to v12 ?
     @api.model
     def get_fiscal_position_no_partner(
             self, company_id=None, vat_subjected=False, country_id=None):

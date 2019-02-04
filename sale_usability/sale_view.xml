@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2015-2016 Akretion (http://www.akretion.com/)
+  Copyright 2015-2019 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -12,17 +12,11 @@
     <field name="model">sale.order</field>
     <field name="inherit_id" ref="sale.view_order_form"/>
     <field name="arch" type="xml">
-        <notebook position="inside">
-            <page string="Invoices" states="progress,waiting_date,manual,invoice_except,shipping_except,done">
-                <field name="invoice_ids" nolabel="1" context="{'form_view_ref': 'account.invoice_form'}"/>
-            </page>
-        </notebook>
         <field name="fiscal_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
         <field name="partner_shipping_id" position="attributes">
-            <attribute name="context">{'show_address': 1, 'default_type': 'delivery'}</attribute>
-            <attribute name="options">{'always_reload': True}</attribute>
+            <attribute name="context" operation="python_dict" key="show_address">1</attribute>
         </field>
         <button name="action_cancel" type="object" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this sale order?</attribute>
@@ -41,7 +35,7 @@
     <field name="inherit_id" ref="sale.view_quotation_tree"/>
     <field name="arch" type="xml">
         <field name="amount_total" position="before">
-            <field name="amount_untaxed" sum="Total Untaxed" widget="monetary"/>
+            <field name="amount_untaxed" sum="Total Untaxed"/>
         </field>
     </field>
 </record>
@@ -52,13 +46,7 @@
     <field name="inherit_id" ref="sale.view_order_tree"/>
     <field name="arch" type="xml">
         <field name="amount_total" position="before">
-            <field name="amount_untaxed" sum="Total Untaxed" widget="monetary"/>
-        </field>
-        <field name="date_order" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </field>
-        <field name="date_order" position="after">
-            <field name="confirmation_date"/>
+            <field name="amount_untaxed" sum="Total Untaxed"/>
         </field>
     </field>
 </record>
@@ -68,7 +56,7 @@
     <field name="model">sale.order</field>
     <field name="inherit_id" ref="sale.view_sales_order_filter"/>
     <field name="arch" type="xml">
-        <filter context="{'group_by':'date_order'}" position="after">
+        <filter name="order_month" position="after">
             <filter string="Order Confirmation Month" name="confirmation_date_groupby" context="{'group_by': 'confirmation_date'}"/>
             <filter string="State" name="state_groupby" context="{'group_by': 'state'}"/>
         </filter>
@@ -81,6 +69,10 @@ https://github.com/odoo/odoo/commit/c1e5ab9b1331c3cb7dc2232bf78952bdb40ad939 -->
     <field name="domain">[('state', 'in', ('draft', 'sent', 'cancel'))]</field>
 </record>
 
+<record id="sale.action_quotations_with_onboarding" model="ir.actions.act_window">
+    <field name="domain">[('state', 'in', ('draft', 'sent', 'cancel'))]</field>
+</record>
+
 <record id="sale.action_quotations_salesteams" model="ir.actions.act_window">
     <field name="domain">[('state', 'in', ('draft', 'sent', 'cancel'))]</field>
 </record>
@@ -90,9 +82,9 @@ https://github.com/odoo/odoo/commit/c1e5ab9b1331c3cb7dc2232bf78952bdb40ad939 -->
     <field name="model">sale.order.line</field>
     <field name="inherit_id" ref="sale.view_sales_order_line_filter"/>
     <field name="arch" type="xml">
-        <group expand="0" position="inside">
-            <filter string="Customer" context="{'group_by': 'order_partner_id'}"/>
-        </group>
+        <filter name="product" position="before">
+            <filter string="Customer" name="partner_groupby" context="{'group_by': 'order_partner_id'}"/>
+        </filter>
     </field>
 </record>
 
@@ -113,31 +105,6 @@ https://github.com/odoo/odoo/commit/c1e5ab9b1331c3cb7dc2232bf78952bdb40ad939 -->
         <field name="qty_to_invoice" position="attributes">
             <attribute name="sum">1</attribute>
         </field>
-    </field>
-</record>
-
-
-<record id="procurement_form_view" model="ir.ui.view">
-    <field name="name">procurement_usability.procurement.order.form</field>
-    <field name="model">procurement.order</field>
-    <field name="inherit_id" ref="procurement.procurement_form_view"/>
-    <field name="arch" type="xml">
-        <field name="origin" position="after">
-            <field name="sale_line_id" readonly="True"/>
-        </field>
-    </field>
-</record>
-
-<record id="procurement_group_form_view" model="ir.ui.view">
-    <field name="name">sale_usability.procurement.group.form</field>
-    <field name="model">procurement.group</field>
-    <field name="inherit_id" ref="procurement.procurement_group_form_view"/>
-    <field name="arch" type="xml">
-        <xpath expr="//field[@name='move_type']/.." position="after">
-            <group name="sale" string="Sale Orders">
-                <field name="sale_ids" nolabel="1"/>
-            </group>
-        </xpath>
     </field>
 </record>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2018 Akretion (http://www.akretion.com/)
+  Copyright 2018-2019 Akretion (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -21,7 +21,7 @@
             <field name="product_uom_qty" sum="1"/>
             <field name="qty_delivered" sum="1"/>
             <field name="qty_to_invoice" sum="1"/>
-            <field name="product_uom" groups="product.group_uom"/>
+            <field name="product_uom" groups="uom.group_uom"/>
             <field name="price_subtotal" sum="1"/>
             <field name="state"/>
         </tree>
