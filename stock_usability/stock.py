@@ -117,8 +117,7 @@ class StockMove(models.Model):
             if line.partner_id:
                 name = line.partner_id.name + ' ' + name
             if line.date_expected:
-                date_expec_dt = fields.Datetime.from_string(line.date_expected)
-                name = name + ' ' + fields.Date.to_string(date_expec_dt)
+                name = name + ' ' + line.date_expected
             res.append((line.id, name))
         return res
 
