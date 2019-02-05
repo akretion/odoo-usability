@@ -168,6 +168,35 @@
 </record>
 
 <!-- product.pricelist -->
+
+<record id="pricelist_item_fullscreen_action" model="ir.actions.act_window">
+    <field name="name">Pricelists Items</field>
+    <field name="res_model">product.pricelist.item</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('pricelist_id', '=', active_id)]</field>
+    <field name="context">{'product_pricelist_item_main_view': True}</field>
+</record>
+
+<record id="product_pricelist_view" model="ir.ui.view">
+    <field name="name">usability.product.pricelist.form</field>
+    <field name="model">product.pricelist</field>
+    <field name="inherit_id" ref="product.product_pricelist_view"/>
+    <field name="arch" type="xml">
+        <div name="button_box" position="inside">
+            <button name="%(pricelist_item_fullscreen_action)d"
+                        class="oe_stat_button"
+                        icon="fa-building-o"
+                        type="action"
+                        help="List view of pricelist items">
+                <div class="o_form_field o_stat_info">
+                    <span class="o_stat_text">Lines Fullscreen</span>
+                </div>
+            </button>
+        </div>
+    </field>
+</record>
+ 
+
 <record id="product_pricelist_view_tree" model="ir.ui.view">
     <field name="name">usability.product.pricelist.tree</field>
     <field name="model">product.pricelist</field>
