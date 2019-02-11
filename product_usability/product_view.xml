@@ -18,6 +18,7 @@
                 <field name="product_id" invisible="not context.get('product_price_history_main_view')"/>
                 <field name="datetime"/>
                 <field name="cost" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                <field name="create_uid"/>
                 <field name="company_id" groups="base.group_multi_company"/>
                 <field name="company_currency_id" invisible="1"/>
             </group>
@@ -33,6 +34,7 @@
             <field name="product_id" invisible="not context.get('product_price_history_main_view')"/>
             <field name="datetime"/>
             <field name="cost" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+            <field name="create_uid"/>
             <field name="company_id" groups="base.group_multi_company"/>
             <field name="company_currency_id" invisible="1"/>
         </tree>
@@ -48,6 +50,7 @@
             <group string="Group By" name="groupby">
                 <filter name="product_groupby" string="Product" context="{'group_by': 'product_id'}"/>
                 <filter name="datetime_groupby" string="Date" context="{'group_by': 'datetime:month'}"/>
+                <filter name="create_uid_groupby" string="Created by" context="{'group_by': 'create_uid'}"/>
             </group>
         </search>
     </field>
