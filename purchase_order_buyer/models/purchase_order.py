@@ -17,12 +17,9 @@ class PurchaseOrder(models.Model):
     @api.multi
     @api.onchange('partner_id')
     def onchange_partner_id(self):
-        """Update the user_id (buyer)"""
-        for rec in self:
-            if rec.partner_id and rec.partner_id.user_id:
-                user_id = rec.partner_id.user_id.id
-            else:
-                user_id = self.env.user
-            return rec.update({
-                'user_id': user_id,
-            })
+        res = super(PurchaseOrder, self).onchange_partner_id()
+        if self.partner_id and self.partner_id.user_id:
+            self.user_id = self.partner_id.user_id.id
+        else:
+            self.user_id = self.env.user
+        return res
