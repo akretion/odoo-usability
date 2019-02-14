@@ -102,6 +102,13 @@
     </field>
 </record>
 
+<!-- By default, the purchase report menu is a 2nd level menu which appear in blue
+     and users are not used to that, so they don't think they can click on it -->
+<record id="purchase.purchase_report" model="ir.ui.menu">
+    <field name="action"></field>
+</record>
+
+<menuitem id="purchase_report_usability" action="purchase.action_purchase_order_report_all" sequence="10" parent="purchase.purchase_report"/>
 
 <!-- Do not show cancelled quotations by default in "Requests for Quotation" -->
 <record id="purchase.purchase_rfq" model="ir.actions.act_window">
