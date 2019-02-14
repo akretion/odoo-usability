@@ -418,9 +418,9 @@ class AccountMoveLine(models.Model):
             if float_compare(
                     amount_company_currency, 0,
                     precision_digits=precision) == -1:
-                self.debit = amount_company_currency * -1
+                self.credit = amount_company_currency * -1
             else:
-                self.credit = amount_company_currency
+                self.debit = amount_company_currency
 
     def show_account_move_form(self):
         self.ensure_one()
