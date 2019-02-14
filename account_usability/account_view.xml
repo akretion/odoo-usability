@@ -539,6 +539,11 @@ because it is useless and confusing -->
     <field name="groups_id" eval="[(6, 0, [ref('base_usability.group_nobody')])]"/>
 </record>
 
+<!-- Also hide the corresponding configuration menu "Accounting > Configuration > Financial Reports" -->
+<record id="account.menu_account_reports" model="ir.ui.menu">
+    <field name="groups_id" eval="[(6, 0, [ref('base_usability.group_nobody')])]"/>
+</record>
+
 <!-- Duplicate the menu "Sales > Configuration > Contacts > Bank Accounts"
 under "Accounting > Configuration", because most users will try to find it there -->
 <menuitem id="bank_account_account_config_menu" name="Bank Accounts" parent="account.menu_finance_configuration" sequence="9"/>
