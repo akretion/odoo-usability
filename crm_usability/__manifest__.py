@@ -26,6 +26,7 @@ This module has been written by Alexis de Lattre from Akretion
     'depends': ['crm'],
     'data': [
         #'wizard/base_partner_merge_view.xml',
+        'security/crm_security.xml',
         'crm_view.xml',
         ],
     'installable': True,
