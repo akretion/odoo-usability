@@ -7,13 +7,31 @@
 
 <odoo>
 
+<!-- In the official account module, on product category and product template,
+some fields/groups are on account.group_account_invoice, some on
+account.group_account_user and some on account.group_account_manager
+Here, we set all those fields on account.group_account_invoice
+-->
+
+<record id="product_template_form_view" model="ir.ui.view">
+    <field name="name">account_usability.product.template.form</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="account.product_template_form_view"/>
+    <field name="arch" type="xml">
+        <field name="property_account_income_id" position="attributes">
+            <attribute name="groups">account.group_account_invoice</attribute>
+        </field>
+        <field name="property_account_expense_id" position="attributes">
+            <attribute name="groups">account.group_account_invoice</attribute>
+        </field>
+    </field>
+</record>
 
 <record id="view_category_property_form" model="ir.ui.view">
     <field name="name">account_usability.product.category.form</field>
     <field name="model">product.category</field>
     <field name="inherit_id" ref="account.view_category_property_form"/>
     <field name="arch" type="xml">
-        <!-- On product form view, the group for Invoicing tab is limited to account.group_account_invoice... but on product category form, it is limited to account.group_account_manager -> we fix this and also use account.group_account_invoice -->
         <group name="account_property" position="attributes">
             <attribute name="groups">account.group_account_invoice</attribute>
         </group>
