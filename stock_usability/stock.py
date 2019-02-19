@@ -84,7 +84,7 @@ class StockMove(models.Model):
             if line.partner_id:
                 name = line.partner_id.name + ' ' + name
             if line.date_expected:
-                name = name + ' ' + line.date_expected
+                name = '%s %s' % (name, line.date_expected)
             res.append((line.id, name))
         return res
 
@@ -103,7 +103,6 @@ class StockMove(models.Model):
 #                if smol.operation_id:
 #                    ops += smol.operation_id
 #            ops.unlink()
-
 
 
 class ProcurementGroup(models.Model):
