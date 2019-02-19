@@ -5,10 +5,23 @@
 
 
 from odoo import models, api
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class MailThread(models.AbstractModel):
     _inherit = 'mail.thread'
+
+    def _active_message_auto_subscribe_notify(self):
+        _logger.debug('Skip automatic subscribe notification')
+        return False
+
+    def _message_auto_subscribe_notify(self, partner_ids):
+        if self._active_message_auto_subscribe_notify():
+            return super(MailThread, self)._message_auto_subscribe_notify(
+                partner_ids)
+        else:
+            return True
 
     @api.multi
     @api.returns('self', lambda value: value.id)
