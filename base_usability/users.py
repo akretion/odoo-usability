@@ -25,7 +25,7 @@ class ResUsers(models.Model):
     @api.model
     def _script_partners_linked_to_users_no_company(self):
         if self.env.user.id != SUPERUSER_ID:
-            raise UserError(_('You must run this script as admin user'))
+            self = self.sudo()
         logger.info(
             'START to set company_id=False on partners related to users')
         users = self.search(
