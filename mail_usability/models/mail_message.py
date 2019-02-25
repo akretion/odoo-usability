@@ -14,5 +14,7 @@ class MailMessage(models.Model):
         # we do not use a reference field here as mail message
         # are used everywhere and many model are not yet loaded
         # so odoo raise exception
-        self.ensure_one()
-        return self.env[self.model].browse(self.res_id)
+        if self:
+            self.ensure_one()
+            return self.env[self.model].browse(self.res_id)
+        return None
