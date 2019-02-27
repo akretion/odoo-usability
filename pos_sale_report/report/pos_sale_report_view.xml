@@ -9,6 +9,7 @@
         <search string="POS orders and Sale orders aggregated report">
             <field name="product_tmpl_id"/>
             <field name="product_id"/>
+            <field name="product_categ_id"/>
             <filter name="today" string="Today"
                 domain="[('date', '=', context_today().strftime('%Y-%m-%d'))]"/>
              <filter name="yesterday" string="Yesterday"
