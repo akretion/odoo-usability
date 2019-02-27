@@ -297,7 +297,13 @@ class AccountAccount(models.Model):
         accounts = self.search([])
         struct = {'childs': {}}
         for account in accounts:
-            assert len(account.code) > level
+            if len(account.code) <= level:
+                logger.warning(
+                    "Account '%s' in company '%s' is smaller than "
+                    "level (%d).",
+                    account.display_name, account.company_id.display_name,
+                    level)
+                continue
             n = 1
             parent = struct
             gparent = False
