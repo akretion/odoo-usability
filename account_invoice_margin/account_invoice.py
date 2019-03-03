@@ -83,8 +83,9 @@ class AccountInvoiceLine(models.Model):
             std_price = pp.standard_price
             inv_uom_id = vals.get('uom_id')
             if inv_uom_id and inv_uom_id != pp.uom_id.id:
-                std_price = self.env['product.uom']._compute_price(
-                    pp.uom_id.id, std_price, inv_uom_id)
+                inv_uom = self.env['product.uom'].browse(inv_uom_id)
+                std_price = pp.uom_id._compute_price(
+                    std_price, inv_uom)
             vals['standard_price_company_currency'] = std_price
         return super(AccountInvoiceLine, self).create(vals)
 
