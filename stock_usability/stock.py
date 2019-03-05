@@ -105,7 +105,6 @@ class StockMove(models.Model):
 #            ops.unlink()
 
 
-
 class ProcurementGroup(models.Model):
     _inherit = 'procurement.group'
 
