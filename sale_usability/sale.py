@@ -25,7 +25,7 @@ class SaleOrder(models.Model):
     has_discount = fields.Boolean(
         compute='_compute_has_discount', readonly=True)
 
-    @api.multi
+    @api.depends('order_line.discount')
     def _compute_has_discount(self):
         prec = self.env['decimal.precision'].precision_get('Discount')
         for order in self:
@@ -37,38 +37,30 @@ class SaleOrder(models.Model):
             order.has_discount = has_discount
 
     # for report
-    @api.multi
     def py3o_lines_layout(self):
         self.ensure_one()
-        res1 = OrderedDict()
-        # {categ(6): {'lines': [l1, l2], 'subtotal': 23.32}}
+        res = []
+        has_sections = False
+        subtotal = 0.0
         for line in self.order_line:
-            categ = line.layout_category_id
-            if categ in res1:
-                res1[categ]['lines'].append(line)
-                res1[categ]['subtotal'] += line.price_subtotal
+            if line.display_type == 'line_section':
+                # insert line
+                if has_sections:
+                    res.append({'subtotal': subtotal})
+                subtotal = 0.0  # reset counter
+                has_sections = True
             else:
-                res1[categ] = {
-                    'lines': [line],
-                    'subtotal': line.price_subtotal}
-
-        res2 = []
-        if len(res1) == 1 and not res1.keys()[0]:
-            # No category at all
-            for line in res1.values()[0]['lines']:
-                res2.append({'line': line})
-        else:
-            for categ, ldict in res1.iteritems():
-                res2.append({'categ': categ})
-                for line in ldict['lines']:
-                    res2.append({'line': line})
-                if categ.subtotal:
-                    res2.append({'subtotal': ldict['subtotal']})
-        # res2:
+                if not line.display_type:
+                    subtotal += line.price_subtotal
+            res.append({'line': line})
+        if has_sections:  # insert last subtotal line
+            res.append({'subtotal': subtotal})
+        # res:
         # [
-        #    {'categ': categ(1)},
-        #    {'line': sale_order_line(2)},
-        #    {'line': sale_order_line(3)},
+        #    {'line': sale_order_line(1) with display_type=='line_section'},
+        #    {'line': sale_order_line(2) without display_type},
+        #    {'line': sale_order_line(3) without display_type},
+        #    {'line': sale_order_line(4) with display_type=='line_note'},
         #    {'subtotal': 8932.23},
         # ]
-        return res2
+        return res

@@ -76,15 +76,15 @@ class StockMove(models.Model):
         in it'''
         res = []
         for line in self:
-            name = line.location_id.name + ' > ' + line.location_dest_id.name
+            name = '%s > %s' % (line.location_id.name, line.location_dest_id.name)
             if line.product_id.code:
-                name = line.product_id.code + ': ' + name
+                name = '%s: %s' % (line.product_id.code, name)
             if line.picking_id.origin:
-                name = line.picking_id.origin + ' ' + name
+                name = '%s %s' % (line.picking_id.origin, name)
             if line.partner_id:
-                name = line.partner_id.name + ' ' + name
+                name = '%s %s' % (line.partner_id.name, name)
             if line.date_expected:
-                name = name + ' ' + line.date_expected
+                name = '%s %s' % (name, line.date_expected)
             res.append((line.id, name))
         return res
 
