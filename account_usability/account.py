@@ -140,6 +140,36 @@ class AccountInvoice(models.Model):
                     attach.id, attach.name)
         logger.info('END fix customer invoice attachment filename')
 
+    # for report
+    def py3o_lines_layout(self):
+        self.ensure_one()
+        res = []
+        has_sections = False
+        subtotal = 0.0
+        sign = self.type == 'out_refund' and -1 or 1
+        for line in self.invoice_line_ids:
+            if line.display_type == 'line_section':
+                # insert line
+                if has_sections:
+                    res.append({'subtotal': subtotal})
+                subtotal = 0.0  # reset counter
+                has_sections = True
+            else:
+                if not line.display_type:
+                    subtotal += line.price_subtotal * sign
+            res.append({'line': line})
+        if has_sections:  # insert last subtotal line
+            res.append({'subtotal': subtotal})
+        # res:
+        # [
+        #    {'line': account_invoice_line(1) with display_type=='line_section'},
+        #    {'line': account_invoice_line(2) without display_type},
+        #    {'line': account_invoice_line(3) without display_type},
+        #    {'line': account_invoice_line(4) with display_type=='line_note'},
+        #    {'subtotal': 8932.23},
+        # ]
+        return res
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'

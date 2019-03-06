@@ -28,8 +28,8 @@ class PurchaseOrder(models.Model):
             order.delivery_partner_id = order.dest_address_id
 
     def print_order(self):
-        action = self.env['report'].get_action(
-            self, 'purchase.report_purchaseorder')
+        report = self.env.ref('purchase.action_report_purchase_order')
+        action = report.report_action(self)
         return action
 
     # Re-write native name_get() to use amount_untaxed instead of amount_total
