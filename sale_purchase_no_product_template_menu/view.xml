@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<!-- PURCHASE -->
+<record id="product_product_action_purchased" model="ir.actions.act_window">
+    <field name="name">Products</field>
+    <field name="res_model">product.product</field>
+    <field name="view_mode">tree,form,kanban</field>
+    <field name="context">{'search_default_filter_to_purchase': 1}</field>
+    <field name="search_view_id" eval="False"/> <!-- Force empty -->
+    <field name="view_id" eval="False"/> <!-- Force empty -->
+</record>
+
+<record id="purchase.menu_procurement_partner_contact_form" model="ir.ui.menu">
+    <field name="action" ref="product_product_action_purchased"/>
+</record>
+
+<!-- STOCK -->
+<record id="stock.menu_product_variant_config_stock" model="ir.ui.menu">
+    <field name="action" ref="product.product_normal_action"/>
+</record>
+
+<!-- SALE -->
+<!-- I'd prefer to inherit product.product_normal_action_sell and
+change the "name" field, but it doesn't work with translation,
+so I redefine a new menu entry -->
+<record id="product_product_action_sell" model="ir.actions.act_window">
+    <field name="name">Products</field>
+    <field name="res_model">product.product</field>
+    <field name="view_mode">tree,form,kanban</field>
+    <field name="context">{'search_default_filter_to_sell': 1}</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="view_id" ref="product.product_product_tree_view"/>
+    <field name="search_view_id" ref="product.product_search_form_view"/>
+</record>
+
+<!-- To keep good translations, we re-use the product.template menu
+entry and link it to product product -->
+<record id="sale.menu_product_template_action" model="ir.ui.menu">
+    <!-- related action is "product.product_template_action" -->
+    <field name="action" ref="product_product_action_sell"/>
+</record>
+
+<record id="product.product_template_action" model="ir.actions.act_window">
+    <field name="name">Product Templates</field>  <!-- native value is "Products" -->
+    <field name="view_mode">tree,form,kanban</field>
+    <field name="view_id" eval="False"/>
+    <field name="context">{}</field>
+</record>
+
+
+<!-- Create a product template menu entry in configuration -->
+<menuitem id="sale_config_product_template_menu" action="product.product_template_action"
+    parent="sale.prod_config_main"/>
+
+
+<record id="product.product_normal_action_sell" model="ir.actions.act_window">
+    <field name="view_mode">tree,form,kanban</field>
+</record>
+
+
+</odoo>
