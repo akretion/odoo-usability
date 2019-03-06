@@ -4,10 +4,10 @@
 
 {
     'name': 'Sale Purchase No Product Template Menu',
-    'version': '10.0.1.0.0',
+    'version': '12.0.1.0.0',
     'category': 'Sale and Purchase',
     'license': 'AGPL-3',
-    'summary': "Remplace product.template menu entries by product.product menu entries",
+    'summary': "Replace product.template menu entries by product.product menu entries",
     'description': """
 Sale Purchase No Product Template
 =================================
@@ -23,7 +23,6 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'depends': [
         'purchase',
         'sale',
-        #'base_usability',
         ],
     'data': ['view.xml'],
     'installable': True,
