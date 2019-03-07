@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -7,7 +6,7 @@
     'version': '10.0.1.0.0',
     'category': 'Manufacturing',
     'license': 'AGPL-3',
-    'summary': "Remplace product.template menu entries by product.product menu entries",
+    'summary': "Replace product.template menu entries by product.product menu entries",
     'description': """
 MRP No Product Template
 =======================
@@ -20,7 +19,8 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['mrp'],
+    'depends': ['mrp', 'sale_purchase_no_product_template_menu'],
+    'auto_install': True,
     'data': ['mrp_view.xml'],
     'installable': True,
 }
