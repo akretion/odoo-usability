@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+<menuitem id="conf_tech" parent="base.menu_administration" name="🧰" groups="base.group_erp_manager" sequence="100"/>
+<menuitem id="model" name="Model" parent="conf_tech" action="base.action_model_model" sequence="10"/>
+<menuitem id="view" name="View" parent="conf_tech" action="base.action_ui_view" sequence="20" />
+<menuitem id="rec_rule" name="Record Rule" parent="conf_tech" action="base.action_rule" sequence="30" />
+<menuitem id="menu" name="Menu" parent="conf_tech" action="base.grant_menu_access" sequence="100" />
+<menuitem id="seq" name="Sequence" parent="conf_tech" action="base.ir_sequence_form" sequence="100" />
+<menuitem id="model_data" name="Model Data" parent="conf_tech" action="base.action_model_data" sequence="100" />
+<menuitem id="param" name="Param" parent="conf_tech" action="base.ir_config_list_action" sequence="100" />
+<menuitem id="cron" name="Cron" parent="conf_tech" action="base.ir_cron_act" sequence="100" />
+<menuitem id="window" name="Act Window" parent="conf_tech" action="base.ir_action_window" sequence="100" />
+<menuitem id="server" name="Act Server" parent="conf_tech" action="base.action_server_action" sequence="100" />
+<menuitem id="report" name="Report" parent="conf_tech" action="base.ir_action_report" sequence="100" />
+<menuitem id="mail_tmpl" name="Mail Tmpl" parent="conf_tech" action="mail.action_email_template_tree_all" sequence="100" />
+<menuitem id="property" name="Property" parent="conf_tech" action="base.ir_property_form" sequence="100" />
+
+
+</odoo>
