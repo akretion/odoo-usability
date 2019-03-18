@@ -23,6 +23,8 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'depends': [
         'account_financial_report_qweb',
         ],
-    'data': [],
+    'data': [
+        'views/reports.xml',
+        'views/layouts.xml',],
     'installable': True,
 }
