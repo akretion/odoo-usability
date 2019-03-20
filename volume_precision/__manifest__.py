@@ -3,7 +3,7 @@
 
 {
     'name': 'Volume Precision',
-    'summary': 'Add a code field in company',
+    'summary': 'Set precision on volume fields',
     'version': '12.0.0.0.1',
     'author': 'Akretion',
     'maintainer': 'Akretion',
