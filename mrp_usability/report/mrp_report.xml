@@ -2,6 +2,15 @@
 <odoo>
 
 <template id="report_mrporder" inherit_id="mrp.report_mrporder">
+
+    <xpath expr="//table[1]//thead//th[1]" position="before">
+        <th t-if="has_serial_number">Lot</th>
+    </xpath>
+
+    <xpath expr="//table[1]//tbody//td[1]" position="before">
+        <td t-if="has_serial_number"><span t-field="ml.lot_id"/></td>
+    </xpath>
+
     <xpath expr="//div[@class='oe_structure'][2]" position="after">
         <t t-set="has_product_unavailable"
            t-value="any(o.move_raw_ids.filtered(lambda x: not x.reserved_availability))"/>
