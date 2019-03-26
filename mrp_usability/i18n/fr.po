@@ -1,0 +1,47 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* mrp_usability
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-03-26 08:56+0000\n"
+"PO-Revision-Date: 2019-03-26 08:56+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mrp_usability
+#: model_terms:ir.ui.view,arch_db:mrp_usability.mrp_production_form_view
+msgid "Are you sure you want to cancel this manufacturing order?"
+msgstr "Etes vous sur de vouloir annuler cet ordre de production"
+
+#. module: mrp_usability
+#: model_terms:ir.ui.view,arch_db:mrp_usability.report_mrporder
+msgid "Product"
+msgstr "Article"
+
+#. module: mrp_usability
+#: model:ir.model,name:mrp_usability.model_mrp_production
+msgid "Production Order"
+msgstr "Ordre de production"
+
+#. module: mrp_usability
+#: model_terms:ir.ui.view,arch_db:mrp_usability.report_mrporder
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: mrp_usability
+#: model_terms:ir.ui.view,arch_db:mrp_usability.report_mrporder
+msgid "These products were unavailable while edition of this Manufacturing Order"
+msgstr "Ces produits étaient indisponibles au moment de l'édition de l'Ordre de Production"
+
+#. module: mrp_usability
+#: model_terms:ir.ui.view,arch_db:mrp_usability.view_mrp_bom_filter
+msgid "Type"
+msgstr "Type"
+
