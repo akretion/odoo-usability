@@ -17,6 +17,8 @@ class StockPicking(models.Model):
     partner_id = fields.Many2one(track_visibility='onchange')
     picking_type_id = fields.Many2one(track_visibility='onchange')
     move_type = fields.Selection(track_visibility='onchange')
+    # Can be used in view to hide some fields depending of pick type
+    picking_type_code = fields.Selection(related='picking_type_id.code')
 
     @api.multi
     def do_unreserve(self):
