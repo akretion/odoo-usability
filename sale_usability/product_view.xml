@@ -24,4 +24,15 @@ because the parent menu entry is in the sale module -->
   sequence="50"/>
 
 
+<record id="product_pricelist_view" model="ir.ui.view">
+    <field name="model">product.pricelist</field>
+    <field name="inherit_id" ref="product.product_pricelist_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//div[@groups='product.group_pricelist_item']" position="attributes">
+            <div name="groups">product.group_pricelist_item,base_usability.group_nobody</div>
+        </xpath>
+    </field>
+</record>
+
+
 </odoo>
