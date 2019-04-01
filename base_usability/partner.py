@@ -73,16 +73,31 @@ class ResPartner(models.Model):
         if self.is_company:
             company = self.name
             name = False
+            name_no_title = False
+            title = False
+            title_short = False
         else:
-            name = self.name_title
             company = self.parent_id and self.parent_id.is_company and\
                 self.parent_id.name or False
+            name = self.name_title
+            name_no_title = self.name
+            title = self.title.name
+            title_short = self.title.shortcut
         options = {
             'name': {
                 'value': name,
                 },
             'company': {
                 'value': company,
+                },
+            'title': {
+                'value': title,
+                },
+            'title_short': {
+                'value': title_short,
+                },
+            'name_no_title': {
+                'value': name_no_title,
                 },
             'phone': {
                 'value': self.phone,
