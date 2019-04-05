@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api, _
-from odoo.tools import float_compare, float_is_zero
+from odoo.tools import float_compare, float_is_zero, float_round
 from odoo.tools.misc import formatLang
 from odoo.exceptions import UserError, ValidationError
 from odoo import SUPERUSER_ID
@@ -373,6 +373,58 @@ class AccountMove(models.Model):
                 default_debit = total_credit - total_debit
             move.default_credit = default_credit
             move.default_debit = default_debit
+
+    @api.model
+    def _fix_debit_credit_round_bug(self):
+        logger.info('START script _fix_debit_credit_round_bug')
+        moves = self.sudo().search([])  # sudo to search in all companies
+        bug_move_ids = []
+        for move in moves:
+            buggy = False
+            for l in move.line_ids:
+                if not float_is_zero(l.debit, precision_digits=2):
+                    debit_rounded = float_round(l.debit, precision_digits=2)
+                    if float_compare(l.debit, debit_rounded, precision_digits=6):
+                        logger.info('Bad move to fix ID %d company_id %d name %s ref %s date %s journal %s (line ID %d debit=%s)', move.id, move.company_id.id, move.name, move.ref, move.date, move.journal_id.code, l.id, l.debit)
+                        buggy = True
+                        break
+                else:
+                    credit_rounded = float_round(l.credit, precision_digits=2)
+                    if float_compare(l.credit, credit_rounded, precision_digits=6):
+                        logger.info('Bad move to fix ID %d company_id %d name %s ref %s date %s journal %s (line ID %d credit=%s)', move.id, move.company_id.id, move.name, move.ref, move.date, move.journal_id.code, l.id, l.credit)
+                        buggy = True
+                        break
+            if buggy:
+                bug_move_ids.append(move.id)
+                bal = 0.0
+                max_credit = (False, 0)
+                for l in move.line_ids:
+                    if not float_is_zero(l.debit, precision_digits=2):
+                        new_debit = float_round(l.debit, precision_digits=2)
+                        self._cr.execute(
+                            'UPDATE account_move_line set debit=%s, balance=%s where id=%s',
+                            (new_debit, new_debit, l.id))
+                        bal -= new_debit
+                    elif not float_is_zero(l.credit, precision_digits=2):
+                        new_credit = float_round(l.credit, precision_digits=2)
+                        self._cr.execute(
+                            'UPDATE account_move_line set credit=%s, balance=%s where id=%s',
+                            (new_credit, new_credit * -1, l.id))
+                        bal += new_credit
+                        if new_credit > max_credit[1]:
+                            max_credit = (l, new_credit)
+                if not float_is_zero(bal, precision_digits=2):
+                    assert abs(bal) < 0.05
+                    l = max_credit[0]
+                    new_credit = max_credit[1]
+                    new_new_credit = float_round(new_credit - bal, precision_digits=2)
+                    assert new_new_credit > 0
+                    self._cr.execute(
+                        'UPDATE account_move_line set credit=%s, balance=%s where id=%s',
+                        (new_new_credit, new_new_credit * -1, l.id))
+                logger.info('Move ID %d fixed', move.id)
+        logger.info('%d buggy moves fixed (IDs: %s)', len(bug_move_ids), bug_move_ids)
+        logger.info('END detect_equilibre_bug')
 
 
 class AccountMoveLine(models.Model):
