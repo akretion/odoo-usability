@@ -475,6 +475,17 @@ module -->
     </field>
 </record>
 
+<!-- ACCOUNT TAX -->
+<record id="view_tax_tree" model="ir.ui.view">
+    <field name="model">account.tax</field>
+    <field name="inherit_id" ref="account.view_tax_tree"/>
+    <field name="arch" type="xml">
+        <field name="company_id" position="before">
+            <field name="price_include" string="Include"/>
+        </field>
+    </field>
+</record>
+
 <!-- ACCOUNT TAX GROUP -->
 <!-- in the account module, there is nothing for account.tax.group : no form/tree view, no menu... -->
 <record id="account_tax_group_form" model="ir.ui.view">
