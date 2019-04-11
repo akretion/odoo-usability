@@ -45,6 +45,10 @@
         <field name="origin" position="attributes">
             <attribute name="invisible">1</attribute>
         </field>
+        <field name="state" position="after">
+            <!-- State field is not sufficient to define what is the next step of the purchase-->
+            <field name="invoice_status"/>
+        </field>
     </field>
 </record>
 
@@ -53,6 +57,9 @@
     <field name="model">purchase.order</field>
     <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
     <field name="arch" type="xml">
+        <group expand="0" position="inside">
+            <filter string="Billing Status" name="invoice_status_groupby" context="{'group_by': 'invoice_status'}"/>
+        </group>
         <field name="name" position="attributes">
             <attribute name="string">Reference or Origin</attribute>
             <attribute name="filter_domain">['|', ('name', 'ilike', self), ('origin', 'ilike', self)]</attribute>
