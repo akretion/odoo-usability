@@ -125,7 +125,7 @@
             <field name="price_unit"/>
         </field>
         <field name="product_qty" position="before">
-            <field name="account_analytic_id" groups="purchase.group_analytic_accounting"/>
+            <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
             <field name="currency_id" invisible="1"/>
         </field>
         <field name="date_planned" position="after">
@@ -140,7 +140,7 @@
     <field name="inherit_id" ref="purchase.purchase_order_line_search"/>
     <field name="arch" type="xml">
         <field name="partner_id" position="after">
-            <field name="account_analytic_id" groups="purchase.group_analytic_accounting"/>
+            <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
         </field>
         <group expand="0" position="inside">
             <filter string="Analytic Account" name="account_analytic_groupby" context="{'group_by': 'account_analytic_id'}"/>
