@@ -33,7 +33,7 @@
     <field name="name">Prospects</field>
     <field name="res_model">res.partner</field>
     <field name="view_mode">tree,form,kanban</field>
-    <field name="context">{'default_prospect': 1, 'search_default_prospect': 1}</field>
+    <field name="context">{'default_prospect': 1, 'default_customer': False, 'search_default_prospect': 1}</field>
 </record>
 
 <!-- I don't add a menu entry ; it should be added in custom module if needed -->
