@@ -10,7 +10,8 @@ class CrmLead(models.Model):
 
     @api.multi
     def _lead_create_contact(self, name, is_company, parent_id=False):
-        partner = super(CrmLead, self)._lead_create_contact(
+        self_ctx = self.with_context(
+            default_customer=False, default_prospect=True)
+        partner = super(CrmLead, self_ctx)._lead_create_contact(
             name, is_company, parent_id=parent_id)
-        partner.write({'prospect': True, 'customer': False})
         return partner
