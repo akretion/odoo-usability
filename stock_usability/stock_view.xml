@@ -321,6 +321,47 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
     </field>
 </record>
 
+
+<record id="stock_inventory_line_tree" model="ir.ui.view">
+    <field name="name">usability.stock.inventory.line.tree</field>
+    <field name="model">stock.inventory.line</field>
+    <field name="inherit_id" ref="stock.stock_inventory_line_tree"/>
+    <field name="arch" type="xml">
+        <tree position="attributes">
+            <attribute name="decoration-info">product_qty &gt; theoretical_qty</attribute>
+            <attribute name="decoration-warning">product_qty &lt; theoretical_qty</attribute>
+            <attribute name="decoration-danger">theoretical_qty &lt; 0</attribute>
+        </tree>
+        <field name="product_id" position="before">
+            <field name="inventory_id" invisible="not context.get('stock_inventory_line_main_view')"/>
+            <field name="inventory_date" invisible="not context.get('stock_inventory_line_main_view')"/>
+        </field>
+        <field name="product_qty" position="before">
+            <field name="theoretical_qty"/>
+        </field>
+        <field name="product_id" position="after">
+            <field name="prod_lot_id"  groups="stock.group_production_lot"/>
+            <field name="package_id" groups="stock.group_tracking_lot"/>
+            <field name="partner_id" groups="stock.group_tracking_owner"/>
+        </field>
+        <field name="location_id" position="after">
+            <field name="state" readonly="1"/>
+        </field>
+    </field>
+</record>
+
+<!-- Add shortcut to inventory lines on product form -->
+<act_window
+    id="product_product_stock_inventory_line_action"
+    name="Show Inventory Lines"
+    context="{'search_default_product_id': [active_id], 'stock_inventory_line_main_view': True}"
+    res_model="stock.inventory.line"
+    src_model="product.product"
+    groups="stock.group_stock_user"
+    view_id="stock_inventory_line_tree"
+    />
+
+
 <record id="stock_location_route_view_search" model="ir.ui.view">
     <field name="name">usability.stock.location.route.search</field>
     <field name="model">stock.location.route</field>

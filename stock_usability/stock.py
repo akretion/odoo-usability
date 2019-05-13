@@ -14,6 +14,25 @@ class StockInventory(models.Model):
     _order = 'id desc'
 
 
+class StockInventoryLine(models.Model):
+    _inherit = 'stock.inventory.line'
+
+    inventory_id = fields.Many2one(states={'done': [('readonly', True)]})
+    inventory_date = fields.Datetime(
+        related='inventory_id.date', readonly=True)
+    partner_id = fields.Many2one(states={'done': [('readonly', True)]})
+    product_id = fields.Many2one(states={'done': [('readonly', True)]})
+    product_code = fields.Char(readonly=True)
+    product_uom_id = fields.Many2one(states={'done': [('readonly', True)]})
+    product_qty = fields.Float(states={'done': [('readonly', True)]})
+    location_id = fields.Many2one(states={'done': [('readonly', True)]})
+    location_name = fields.Char(readonly=True)
+    package_id = fields.Many2one(states={'done': [('readonly', True)]})
+    prod_lot_id = fields.Many2one(states={'done': [('readonly', True)]})
+    state = fields.Selection(store=True)
+    inventory_location_id = fields.Many2one(readonly=True)
+
+
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
     _order = 'id desc'
