@@ -19,7 +19,11 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['account_usability'],
+    'depends': [
+        'account_usability',
+        'account_financial_report_qweb',
+        'account_fiscal_year',
+        ],
     'data': ['wizard/account_move_line_filter_view.xml'],
     'installable': True,
 }
