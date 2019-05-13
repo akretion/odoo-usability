@@ -12,7 +12,7 @@
     <field name="name">account_move_line_filter_wizard_form</field>
     <field name="model">account.move.line.filter.wizard</field>
     <field name="arch" type="xml">
-        <form string="Account Move Lines">
+        <form string="Show Account">
             <group name="filters" string="Filters">
                 <field name="partner_id"/>
                 <field name="account_id"/>

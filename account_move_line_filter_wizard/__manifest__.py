@@ -5,7 +5,7 @@
 
 {
     'name': 'Account Move Line Filter Wizard',
-    'version': '10.0.1.0.0',
+    'version': '10.0.2.0.0',
     'category': 'Accounting',
     'license': 'AGPL-3',
     'summary': 'Easy and fast access to the details of an account',
@@ -13,7 +13,11 @@
 Account Move Line Filter Wizard
 ===============================
 
-This module adds a wizard in Accounting > ... > 
+This module adds a *Show Account* wizard under *Accounting > Adviser*. This wizard gives an easy and fast access to the details of an account:
+
+* access to the General Ledger Report,
+* access to the Open Items Report (if the user selected a reconciliable account and the Unreconciled filter),
+* access to the Journal Items view.
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
