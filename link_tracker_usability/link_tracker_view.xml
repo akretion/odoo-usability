@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2019 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="link_tracker.action_view_click_statistics" model="ir.actions.act_window">
+    <field name="view_mode">graph,tree,form</field>
+</record>
+
+<record id="view_link_tracker_click_tree" model="ir.ui.view">
+    <field name="name">usability.link.tracker.click.tree</field>
+    <field name="model">link.tracker.click</field>
+    <field name="inherit_id" ref="link_tracker.view_link_tracker_click_tree"/>
+    <field name="arch" type="xml">
+        <field name="country_id" position="after">
+            <field name="create_date" string="Click Date"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_link_tracker_click_form" model="ir.ui.view">
+    <field name="name">usability.link.tracker.click.form</field>
+    <field name="model">link.tracker.click</field>
+    <field name="inherit_id" ref="link_tracker.view_link_tracker_click_form"/>
+    <field name="arch" type="xml">
+        <field name="country_id" position="after">
+            <field name="create_date" string="Click Date"/>
+        </field>
+    </field>
+</record>
+
+</odoo>
