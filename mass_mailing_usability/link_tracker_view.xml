@@ -8,47 +8,41 @@
 <odoo>
 
 
-<record id="link_tracker.action_view_click_statistics" model="ir.actions.act_window">
-    <field name="view_mode">graph,tree,form</field>
-</record>
-
 <record id="view_link_tracker_click_tree" model="ir.ui.view">
-    <field name="name">usability.link.tracker.click.tree</field>
+    <field name="name">mm.usability.link.tracker.click.tree</field>
     <field name="model">link.tracker.click</field>
     <field name="inherit_id" ref="link_tracker.view_link_tracker_click_tree"/>
     <field name="arch" type="xml">
         <field name="country_id" position="after">
-            <field name="create_date" string="Click Date"/>
+            <field name="mass_mailing_id"/>
+            <field name="mail_stat_recipient"/>
         </field>
     </field>
 </record>
 
 <record id="view_link_tracker_click_form" model="ir.ui.view">
-    <field name="name">usability.link.tracker.click.form</field>
+    <field name="name">mm.usability.link.tracker.click.form</field>
     <field name="model">link.tracker.click</field>
     <field name="inherit_id" ref="link_tracker.view_link_tracker_click_form"/>
     <field name="arch" type="xml">
         <field name="country_id" position="after">
-            <field name="create_date" string="Click Date"/>
+            <field name="mass_mailing_id"/>
+            <field name="mass_mailing_campaign_id"/>
+            <field name="mail_stat_id"/>
+            <field name="mail_stat_recipient"/>
         </field>
     </field>
 </record>
 
-<!-- There is no native search form -->
 <record id="link_tracker_click_search" model="ir.ui.view">
-    <field name="name">usability.link.tracker.click.search</field>
+    <field name="name">mm.usability.link.tracker.click.search</field>
     <field name="model">link.tracker.click</field>
+    <field name="inherit_id" ref="link_tracker_usability.link_tracker_click_search"/>
     <field name="arch" type="xml">
-        <search>
-            <field name="link_id"/>
-            <group name="groupby">
-                <filter name="create_date_groupby" string="Click Date" context="{'group_by': 'create_date'}"/>
-                <filter name="link_groupby" string="Link" context="{'group_by': 'link_id'}"/>
-                <filter name="country_groupby" string="Country" context="{'group_by': 'country_id'}"/>
-            </group>
-        </search>
+        <field name="link_id" position="after">
+            <field name="mail_stat_recipient"/>
+        </field>
     </field>
 </record>
-
 
 </odoo>
