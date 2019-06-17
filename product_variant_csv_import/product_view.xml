@@ -17,7 +17,7 @@
 
 
 <menuitem id="product_template_special_context_menu"
-action="product_template_special_context_action" parent="product.prod_config_main"
+action="product_template_special_context_action" parent="sale.prod_config_main"
 groups="base.group_no_one" sequence="100"/>
 
 </data>
