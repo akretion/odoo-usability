@@ -72,6 +72,9 @@
             <filter string="Order Confirmation Month" name="confirmation_date_groupby" context="{'group_by': 'confirmation_date'}"/>
             <filter string="State" name="state_groupby" context="{'group_by': 'state'}"/>
         </filter>
+        <field name="project_id" position="attributes">
+            <attribute name="groups">analytic.group_analytic_accounting</attribute>
+        </field>
     </field>
 </record>
 

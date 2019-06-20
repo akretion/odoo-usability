@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2019 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="purchase_report_tree" model="ir.ui.view">
+    <field name="name">usability.purchase.report.tree</field>
+    <field name="model">purchase.report</field>
+    <field name="arch" type="xml">
+        <tree string="Purchase Analysis">
+            <field name="date_order"/>
+            <field name="date_approve"/>
+            <field name="commercial_partner_id"/>
+            <field name="user_id"/>
+            <field name="product_id"/>
+            <field name="unit_quantity" sum="1"/>
+            <field name="product_uom" groups="product.group_uom"/>
+            <field name="price_total" sum="1"/>
+            <field name="state"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_purchase_order_pivot" model="ir.ui.view">
+    <field name="name">usability.purchase.report.pivot</field>
+    <field name="model">purchase.report</field>
+    <field name="inherit_id" ref="purchase.view_purchase_order_pivot"/>
+    <field name="arch" type="xml">
+        <pivot position="attributes">
+            <attribute name="disable_linking"></attribute>
+        </pivot>
+        <field name="price_average" type="measure" position="replace"/>
+    </field>
+</record>
+
+<record id="view_purchase_order_search" model="ir.ui.view">
+    <field name="name">usability.purchase.report.search</field>
+    <field name="model">purchase.report</field>
+    <field name="inherit_id" ref="purchase.view_purchase_order_search"/>
+    <field name="arch" type="xml">
+        <field name="product_id" position="after">
+            <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+        </field>
+    </field>
+</record>
+ 
+</odoo>

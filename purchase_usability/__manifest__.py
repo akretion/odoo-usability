@@ -22,6 +22,7 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'depends': ['purchase'],
     'data': [
         'purchase_view.xml',
+        'purchase_report.xml',
         'stock_view.xml',
         ],
     'active': False,

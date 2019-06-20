@@ -43,4 +43,15 @@
     </field>
 </record>
 
+<record id="view_order_product_search" model="ir.ui.view">
+    <field name="name">usability.sale.report.search</field>
+    <field name="model">sale.report</field>
+    <field name="inherit_id" ref="sale.view_order_product_search"/>
+    <field name="arch" type="xml">
+        <field name="user_id" position="after">
+            <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+        </field>
+    </field>
+</record>
+ 
 </odoo>
