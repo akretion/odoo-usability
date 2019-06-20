@@ -14,6 +14,7 @@ class ResPartner(models.Model):
         selection_add=[
             ('all_except_notification', 'All Messages Except Notifications')],
         default='all_except_notification')
+    opt_out = fields.Boolean(track_visibility='onchange')
 
     def _should_be_notify_by_email(self, message):
         if message.message_type == 'notification':
