@@ -22,7 +22,7 @@ class ProductTemplate(models.Model):
         action = self.env['ir.actions.act_window'].for_xml_id(
             'product_usability', 'product_price_history_action')
         action.update({
-            'domain': "[('id', 'in', %s)]" % products.ids,
+            'domain': "[('product_id', 'in', %s)]" % products.ids,
         })
         return action
 
