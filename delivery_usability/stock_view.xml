@@ -17,6 +17,9 @@
             field definition -->
             <attribute name="attrs">{}</attribute>
         </field>
+        <field name="carrier_tracking_ref" position="attributes">
+            <attribute name="attrs">{}</attribute>
+        </field>
     </field>
 </record>
 
