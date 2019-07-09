@@ -45,14 +45,12 @@ class MrpBom(models.Model):
 
     @api.depends('bom_line_ids.product_id.standard_price', 'total_labour_cost', 'extra_cost')
     def _compute_total_cost(self):
-        puo = self.pool['product.uom']
         for bom in self:
             component_cost = 0.0
             for line in bom.bom_line_ids:
                 component_price = line.product_id.standard_price
-                component_qty_product_uom = puo._compute_qty_obj(
-                    cr, uid, line.product_uom, line.product_qty,
-                    line.product_id.uom_id, context=context)  # TODO
+                component_qty_product_uom = line.product_uom_id._compute_quantity(
+                    line.product_qty, line.product_id.uom_id)
                 component_cost += component_price * component_qty_product_uom
             total_cost = component_cost + bom.extra_cost + bom.total_labour_cost
             bom.total_components_cost = component_cost
@@ -173,7 +171,7 @@ class MrpProduction(models.Model):
 
     # TODO port to v12
     def compute_order_unit_cost(self, cr, uid, order, context=None):
-        puo = self.pool['product.uom']
+        uuo = self.pool['uom.uom']
         mo_total_price = 0.0  # In the UoM of the M0
         labor_cost_per_unit = 0.0  # In the UoM of the product
         extra_cost_per_unit = 0.0  # In the UoM of the product
@@ -188,7 +186,7 @@ class MrpProduction(models.Model):
             # materials (consumed or not), so it gives a good price
             # per unit at the end
             raw_price = raw_smove.product_id.standard_price
-            raw_qty_product_uom = puo._compute_qty_obj(
+            raw_qty_product_uom = uuo._compute_qty_obj(
                 cr, uid, raw_smove.product_uom, raw_smove.product_qty,
                 raw_smove.product_id.uom_id, context=context)
             raw_material_cost = raw_price * raw_qty_product_uom
@@ -208,7 +206,7 @@ class MrpProduction(models.Model):
                     _('Error:'),
                     _("Missing Product Quantity on bill of material '%s'.")
                     % bom.name)
-            bom_qty_product_uom = puo._compute_qty_obj(
+            bom_qty_product_uom = uuo._compute_qty_obj(
                 cr, uid, bom.product_uom, bom.product_qty,
                 bom.product_id.uom_id, context=context)
             assert bom_qty_product_uom > 0, 'BoM qty should be positive'
@@ -216,7 +214,7 @@ class MrpProduction(models.Model):
             extra_cost_per_unit = bom.extra_cost / bom_qty_product_uom
         # mo_standard_price and labor_cost_per_unit are
         # in the UoM of the product (not of the MO/BOM)
-        mo_qty_product_uom = puo._compute_qty_obj(
+        mo_qty_product_uom = uuo._compute_qty_obj(
             cr, uid, order.product_uom, order.product_qty,
             order.product_id.uom_id, context=context)
         assert mo_qty_product_uom > 0, 'MO qty should be positive'
@@ -235,11 +233,11 @@ class MrpProduction(models.Model):
     def update_standard_price(self, cr, uid, order, context=None):
         if context is None:
             context = {}
-        puo = self.pool['product.uom']
+        uuo = self.pool['uom.uom']
         product = order.product_id
         mo_standard_price = self.compute_order_unit_cost(
             cr, uid, order, context=context)
-        mo_qty_product_uom = puo._compute_qty_obj(
+        mo_qty_product_uom = uuo._compute_qty_obj(
             cr, uid, order.product_uom, order.product_qty,
             order.product_id.uom_id, context=context)
         # I can't use the native method _update_average_price of stock.move

@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright (C) 2015-2018 Akretion (http://www.akretion.com)
+# Copyright (C) 2015-2019 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -36,7 +35,7 @@ class AccountInvoice(models.Model):
             for line in res1.values()[0]['lines']:
                 res2.append({'line': line})
         else:
-            for order, ldict in res1.iteritems():
+            for order, ldict in res1.items():
                 res2.append({'categ': order})
                 for line in ldict['lines']:
                     res2.append({'line': line})
