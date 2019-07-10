@@ -24,7 +24,7 @@ class StockPicking(models.Model):
     def do_unreserve(self):
         res = super(StockPicking, self).do_unreserve()
         for pick in self:
-            pick.message_post(_("Picking <b>unreserved</b>."))
+            pick.message_post(body=_("Picking <b>unreserved</b>."))
         return res
 
 
