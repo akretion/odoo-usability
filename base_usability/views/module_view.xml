@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2015-2016 Akretion (http://www.akretion.com/)
+  Copyright 2015-2019 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
 <odoo>
+
+<record id="module_view_kanban" model="ir.ui.view">
+    <field name="name">Better display of module technical name</field>
+    <field name="model">ir.module.module</field>
+    <field name="inherit_id" ref="base.module_view_kanban"/>
+    <field name="arch" type="xml">
+        <xpath expr="//h4[@class='o_kanban_record_title']/code[@groups='base.group_no_one']" position="before">
+            <br/>
+        </xpath>
+    </field>
+</record>
 
 <record id="view_module_filter" model="ir.ui.view">
     <field name="model">ir.module.module</field>
@@ -23,5 +34,6 @@
 <record id="base.open_module_tree" model="ir.actions.act_window">
     <field name="context">{'search_default_installable': 1}</field>
 </record>
+
 
 </odoo>
