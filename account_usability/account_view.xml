@@ -16,6 +16,9 @@
         <field name="fiscal_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
+        <field name="incoterm_id" position="attributes">
+            <attribute name="widget">selection</attribute>
+        </field>
         <field name="invoice_line_ids" position="before">
             <button name="delete_lines_qty_zero" states="draft" string="⇒ Delete lines qty=0" type="object" class="oe_link oe_right" groups="account.group_account_invoice"/>
         </field>
@@ -31,6 +34,9 @@
     <field name="inherit_id" ref="account.invoice_form"/>
     <field name="arch" type="xml">
         <field name="fiscal_position_id" position="attributes">
+            <attribute name="widget">selection</attribute>
+        </field>
+        <field name="incoterm_id" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
         <!-- move sent field and make it visible -->

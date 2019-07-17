@@ -626,3 +626,14 @@ class AccountReconcileModel(models.Model):
         # Because it's much better to have the bank statement line label as
         # label of the counter-part move line, then the label of the button
         assert True  # Stupid line of code just to have something...
+
+
+class AccountIncoterms(models.Model):
+    _inherit = 'account.incoterms'
+
+    @api.depends('code', 'name')
+    def name_get(self):
+        res = []
+        for rec in self:
+            res.append((rec.id, '[%s] %s' % (rec.code, rec.name)))
+        return res
