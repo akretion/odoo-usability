@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
-# © 2014-2016 Akretion (http://www.akretion.com)
+# Copyright 2014-2019 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
 {
     'name': 'Eradicate Quick Create',
-    'version': '10.0.1.0.0',
+    'version': '12.0.1.0.0',
     'category': 'Tools',
     'license': 'AGPL-3',
     'summary': 'Disable quick create on all objects',
