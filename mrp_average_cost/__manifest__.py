@@ -24,10 +24,10 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['mrp'],
     'data': [
-        'mrp_view.xml',
-        'mrp_data.xml',
-        'security/labour_cost_profile_security.xml',
+        'security/mrp_average_cost_security.xml',
         'security/ir.model.access.csv',
+        'data/mrp_data.xml',
+        'views/mrp_view.xml',
         ],
     'installable': True,
 }
