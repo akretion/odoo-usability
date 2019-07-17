@@ -16,6 +16,7 @@
     <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
     <field name="doall" eval="False"/>
     <field name="model_id" ref="mrp.model_mrp_bom"/>
+    <field name="state">code</field>
     <field name="code">model._phantom_update_product_standard_price()</field>
 </record>
 

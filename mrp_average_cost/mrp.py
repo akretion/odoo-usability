@@ -5,6 +5,7 @@
 
 from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
+from odoo.exceptions import UserError
 from odoo.tools import float_compare, float_is_zero
 import logging
 
@@ -35,25 +36,30 @@ class MrpBomLabourLine(models.Model):
 class MrpBom(models.Model):
     _inherit = 'mrp.bom'
 
-    @api.depends('labour_line_ids.labour_time', 'labour_line_ids.labour_cost_profile_id.hour_cost')
+    @api.depends(
+        'labour_line_ids.labour_time',
+        'labour_line_ids.labour_cost_profile_id.hour_cost')
     def _compute_total_labour_cost(self):
         for bom in self:
             cost = 0.0
             for lline in bom.labour_line_ids:
-                cost += lline.labour_time * lline.labour_cost_profile_id.hour_cost
+                cost += lline.labour_time *\
+                    lline.labour_cost_profile_id.hour_cost
             bom.total_labour_cost = cost
 
-    @api.depends('bom_line_ids.product_id.standard_price', 'total_labour_cost', 'extra_cost')
+    @api.depends(
+        'bom_line_ids.product_id.standard_price',
+        'total_labour_cost', 'extra_cost')
     def _compute_total_cost(self):
         for bom in self:
-            component_cost = 0.0
+            comp_cost = 0.0
             for line in bom.bom_line_ids:
-                component_price = line.product_id.standard_price
-                component_qty_product_uom = line.product_uom_id._compute_quantity(
+                comp_price = line.product_id.standard_price
+                comp_qty_product_uom = line.product_uom_id._compute_quantity(
                     line.product_qty, line.product_id.uom_id)
-                component_cost += component_price * component_qty_product_uom
-            total_cost = component_cost + bom.extra_cost + bom.total_labour_cost
-            bom.total_components_cost = component_cost
+                comp_cost += comp_price * comp_qty_product_uom
+            total_cost = comp_cost + bom.extra_cost + bom.total_labour_cost
+            bom.total_components_cost = comp_cost
             bom.total_cost = total_cost
 
     labour_line_ids = fields.One2many(
@@ -81,9 +87,38 @@ class MrpBom(models.Model):
         help="Total Cost = Total Components Cost + "
         "Total Labour Cost + Extra Cost")
     company_currency_id = fields.Many2one(
-        related='company_id.currency_id', readonly=True,
-        string='Company Currency')
-        # to display in bom lines
+        related='company_id.currency_id', string='Company Currency')
+
+    @api.model
+    def _phantom_update_product_standard_price(self):
+        logger.info('Start to auto-update cost price from phantom bom')
+        boms = self.search([('type', '=', 'phantom')])
+        boms.with_context(
+            product_price_history_origin='Automatic update of Phantom BOMs')\
+            .manual_update_product_standard_price()
+        logger.info('End of the auto-update cost price from phantom bom')
+        return True
+
+    def manual_update_product_standard_price(self):
+        if 'product_price_history_origin' not in self._context:
+            self = self.with_context(
+                product_price_history_origin='Manual update from BOM')
+        precision = self.env['decimal.precision'].precision_get(
+            'Product Price')
+        for bom in self:
+            wproduct = bom.product_id
+            if not wproduct:
+                wproduct = bom.product_tmpl_id
+            if float_compare(
+                    wproduct.standard_price, bom.total_cost,
+                    precision_digits=precision):
+                wproduct.with_context().write(
+                    {'standard_price': bom.total_cost})
+                logger.info(
+                    'Cost price updated to %s on product %s',
+                    bom.total_cost, wproduct.display_name)
+        return True
+
 
 class MrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'
@@ -91,39 +126,6 @@ class MrpBomLine(models.Model):
     standard_price = fields.Float(
         related='product_id.standard_price', readonly=True,
         string='Standard Price')
-
-    def manual_update_product_standard_price(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        ctx = context.copy()
-        if 'product_price_history_origin' not in ctx:
-            ctx['product_price_history_origin'] = u'Manual update from BOM'
-        precision = self.pool['decimal.precision'].precision_get(
-            cr, uid, 'Product Price')
-        for bom in self.browse(cr, uid, ids, context=context):
-            if not bom.product_id:
-                continue
-            if float_compare(
-                    bom.product_id.standard_price, bom.total_cost,
-                    precision_digits=precision):
-                bom.product_id.write(
-                        {'standard_price': bom.total_cost}, context=ctx)
-                logger.info(
-                    'Cost price updated to %s on product %s',
-                    bom.total_cost, bom.product_id.name_get()[0][1])
-        return True
-
-    def _phantom_update_product_standard_price(self, cr, uid, context=None):
-        if context is None:
-            context = {}
-        ctx = context.copy()
-        ctx['product_price_history_origin'] = 'Automatic update of Phantom BOMs'
-        mbo = self.pool['mrp.bom']
-        bom_ids = mbo.search(
-            cr, uid, [('type', '=', 'phantom')], context=context)
-        self.manual_update_product_standard_price(
-            cr, uid, bom_ids, context=ctx)
-        return True
 
 
 class LabourCostProfile(models.Model):
@@ -169,16 +171,17 @@ class MrpProduction(models.Model):
         related='company_id.currency_id', readonly=True,
         string='Company Currency')
 
-    # TODO port to v12
-    def compute_order_unit_cost(self, cr, uid, order, context=None):
-        uuo = self.pool['uom.uom']
+    def compute_order_unit_cost(self):
+        self.ensure_one()
         mo_total_price = 0.0  # In the UoM of the M0
         labor_cost_per_unit = 0.0  # In the UoM of the product
         extra_cost_per_unit = 0.0  # In the UoM of the product
         # I read the raw materials MO, not on BOM, in order to make
         # it work with the "dynamic" BOMs (few raw material are auto-added
         # on the fly on MO)
-        for raw_smove in order.move_lines + order.move_lines2:
+        prec = self.env['decimal.precision'].precision_get(
+            'Product Unit of Measure')
+        for raw_smove in self.move_raw_ids:
             # I don't filter on state, in order to make it work with
             # partial productions
             # For partial productions, mo.product_qty is not updated
@@ -186,101 +189,52 @@ class MrpProduction(models.Model):
             # materials (consumed or not), so it gives a good price
             # per unit at the end
             raw_price = raw_smove.product_id.standard_price
-            raw_qty_product_uom = uuo._compute_qty_obj(
-                cr, uid, raw_smove.product_uom, raw_smove.product_qty,
-                raw_smove.product_id.uom_id, context=context)
-            raw_material_cost = raw_price * raw_qty_product_uom
+            raw_material_cost = raw_price * raw_smove.product_qty
             logger.info(
                 'MO %s product %s: raw_material_cost=%s',
-                order.name, raw_smove.product_id.name, raw_material_cost)
+                self.name, raw_smove.product_id.display_name,
+                raw_material_cost)
             mo_total_price += raw_material_cost
-        if order.bom_id:
-            bom = order.bom_id
-            #if not bom.total_labour_cost:
+        if self.bom_id:
+            bom = self.bom_id
+            # if not bom.total_labour_cost:
             #    raise orm.except_orm(
             #        _('Error:'),
             #        _("Total Labor Cost is 0 on bill of material '%s'.")
             #        % bom.name)
-            if not bom.product_qty:
-                raise orm.except_orm(
-                    _('Error:'),
-                    _("Missing Product Quantity on bill of material '%s'.")
-                    % bom.name)
-            bom_qty_product_uom = uuo._compute_qty_obj(
-                cr, uid, bom.product_uom, bom.product_qty,
-                bom.product_id.uom_id, context=context)
+            if float_is_zero(bom.product_qty, precision_digits=prec):
+                raise UserError(_(
+                    "Missing Product Quantity on bill of material '%s'.")
+                    % bom.display_name)
+            bom_qty_product_uom = bom.product_uom_id._compute_quantity(
+                bom.product_qty, bom.product_tmpl_id.uom_id)
             assert bom_qty_product_uom > 0, 'BoM qty should be positive'
             labor_cost_per_unit = bom.total_labour_cost / bom_qty_product_uom
             extra_cost_per_unit = bom.extra_cost / bom_qty_product_uom
         # mo_standard_price and labor_cost_per_unit are
         # in the UoM of the product (not of the MO/BOM)
-        mo_qty_product_uom = uuo._compute_qty_obj(
-            cr, uid, order.product_uom, order.product_qty,
-            order.product_id.uom_id, context=context)
+        mo_qty_product_uom = self.product_uom_id._compute_quantity(
+            self.product_qty, self.product_id.uom_id)
         assert mo_qty_product_uom > 0, 'MO qty should be positive'
         mo_standard_price = mo_total_price / mo_qty_product_uom
         logger.info(
-            'MO %s: labor_cost_per_unit=%s', order.name, labor_cost_per_unit)
-        logger.info(
-            'MO %s: extra_cost_per_unit=%s', order.name, extra_cost_per_unit)
+            'MO %s: labor_cost_per_unit=%s extra_cost_per_unit=%s',
+            self.name, labor_cost_per_unit, extra_cost_per_unit)
         mo_standard_price += labor_cost_per_unit
         mo_standard_price += extra_cost_per_unit
-        order.write({'unit_cost': mo_standard_price}, context=context)
-        logger.info(
-            'MO %s: unit_cost=%s', order.name, mo_standard_price)
         return mo_standard_price
 
-    def update_standard_price(self, cr, uid, order, context=None):
-        if context is None:
-            context = {}
-        uuo = self.pool['uom.uom']
-        product = order.product_id
-        mo_standard_price = self.compute_order_unit_cost(
-            cr, uid, order, context=context)
-        mo_qty_product_uom = uuo._compute_qty_obj(
-            cr, uid, order.product_uom, order.product_qty,
-            order.product_id.uom_id, context=context)
-        # I can't use the native method _update_average_price of stock.move
-        # because it only works on move.picking_id.type == 'in'
-        # As we do the super() at the END of this method,
-        # the qty produced by this MO in NOT counted inside
-        # product.qty_available
-        qty_before_mo = product.qty_available
-        logger.info(
-            'MO %s product %s: standard_price before production: %s',
-            order.name, product.name, product.standard_price)
-        logger.info(
-            'MO %s product %s: qty before production: %s',
-            order.name, product.name, qty_before_mo)
-        # Here, we handle as if we were in v8 (!)
-        # so we consider that standard_price is in company currency
-        # It will not work if you are in multi-company environment
-        # with companies in different currencies
-        if not qty_before_mo + mo_qty_product_uom:
-            new_std_price = mo_standard_price
-        else:
-            new_std_price = (
-                (product.standard_price * qty_before_mo) +
-                (mo_standard_price * mo_qty_product_uom)) / \
-                (qty_before_mo + mo_qty_product_uom)
-        ctx_product = context.copy()
-        ctx_product['product_price_history_origin'] = _(
-            '%s (Qty before: %s - Added qty: %s - Unit price of '
-            'added qty: %s)') % (
-            order.name, qty_before_mo, mo_qty_product_uom, mo_standard_price)
-        product.write({'standard_price': new_std_price}, context=ctx_product)
-        logger.info(
-            'MO %s product %s: standard_price updated to %s',
-            order.name, product.name, new_std_price)
-        return True
-
-    def action_produce(
-            self, cr, uid, production_id, production_qty, production_mode,
-            context=None):
-        if production_mode == 'consume_produce':
-            order = self.browse(cr, uid, production_id, context=context)
+    def post_inventory(self):
+        '''This is the method where _action_done() is called on finished move
+        So we write on 'price_unit' of the finished move and THEN we call
+        super() which will call _action_done() which itself calls
+        product_price_update_before_done()'''
+        for order in self:
             if order.product_id.cost_method == 'average':
-                self.update_standard_price(cr, uid, order, context=context)
-        return super(MrpProduction, self).action_produce(
-            cr, uid, production_id, production_qty, production_mode,
-            context=context)
+                unit_cost = order.compute_order_unit_cost()
+                order.unit_cost = unit_cost
+                logger.info('MO %s: unit_cost=%s', order.name, unit_cost)
+                for finished_move in order.move_finished_ids.filtered(
+                        lambda x: x.product_id == order.product_id):
+                    finished_move.price_unit = unit_cost
+        return super(MrpProduction, self).post_inventory()
