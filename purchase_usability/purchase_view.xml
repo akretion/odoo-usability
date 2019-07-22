@@ -30,6 +30,10 @@
         <field name="date_approve" position="after">
             <field name="origin"/>
         </field>
+        <!-- Remove once this PR is merged https://github.com/odoo/odoo/pull/35073 -->
+        <xpath expr="//field[@name='order_line']/form//field[@name='analytic_tag_ids']" position="attributes">
+            <attribute name="groups">analytic.group_analytic_tags</attribute>
+        </xpath>
     </field>
 </record>
 

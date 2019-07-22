@@ -12,22 +12,24 @@
     <field name="model">account.invoice.line</field>
     <field name="inherit_id" ref="account.view_invoice_line_form"/>
     <field name="arch" type="xml">
-        <field name="company_id" position="after">
+        <xpath expr="//field[@name='analytic_tag_ids']/.." position="inside">
             <field name="standard_price_company_currency"
+                string="Cost Price in Comp. Cur."
                 groups="base.group_no_one"/>
             <field name="standard_price_invoice_currency"
-                widget="monetary"
-                options="{'currency_field': 'currency_id'}"
+                string="Cost Price in Inv. Cur."
                 groups="base.group_no_one"/>
             <field name="margin_invoice_currency"
+                string="Margin in Inv. Cur."
                 groups="base.group_no_one"/>
             <field name="margin_company_currency"
+                string="Margin in Comp. Cur."
                 groups="base.group_no_one"/>
             <label for="margin_rate" groups="base.group_no_one"/>
             <div name="margin_rate" groups="base.group_no_one">
                 <field name="margin_rate" class="oe_inline"/> %
             </div>
-        </field>
+        </xpath>
     </field>
 </record>
 
@@ -38,9 +40,9 @@
     <field name="arch" type="xml">
         <field name="move_id" position="after">
             <field name="margin_invoice_currency"
-                string="Margin" groups="base.group_no_one"/>
+                string="Margin in Inv. Cur." groups="base.group_no_one"/>
             <field name="margin_company_currency"
-                groups="base.group_no_one"/>
+                string="Margin in Comp. Cur." groups="base.group_no_one"/>
         </field>
     </field>
 </record>

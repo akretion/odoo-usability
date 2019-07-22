@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
-# © 2015-2017 Akretion (http://www.akretion.com)
+# Copyright 2015-2019 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 import odoo.addons.decimal_precision as dp
 
 
@@ -48,16 +47,18 @@ class AccountInvoiceLine(models.Model):
                 # it works in _get_current_rate
                 # even if we set date = False in context
                 # standard_price_inv_cur is in the UoM of the invoice line
+                date = inv._get_currency_rate_date() or\
+                    fields.Date.context_today(self)
+                company = inv.company_id
+                company_currency = company.currency_id
                 standard_price_inv_cur =\
-                    inv.company_id.currency_id.with_context(
-                        date=inv.date_invoice).compute(
-                            il.standard_price_company_currency,
-                            inv.currency_id)
+                    company_currency._convert(
+                        il.standard_price_company_currency,
+                        inv.currency_id, company, date)
                 margin_inv_cur =\
                     il.price_subtotal - il.quantity * standard_price_inv_cur
-                margin_comp_cur = inv.currency_id.with_context(
-                    date=inv.date_invoice).compute(
-                        margin_inv_cur, inv.company_id.currency_id)
+                margin_comp_cur = inv.currency_id._convert(
+                    margin_inv_cur, company_currency, company, date)
                 if il.price_subtotal:
                     margin_rate = 100 * margin_inv_cur / il.price_subtotal
                 # for a refund, margin should be negative
@@ -83,13 +84,12 @@ class AccountInvoiceLine(models.Model):
             std_price = pp.standard_price
             inv_uom_id = vals.get('uom_id')
             if inv_uom_id and inv_uom_id != pp.uom_id.id:
-                inv_uom = self.env['product.uom'].browse(inv_uom_id)
+                inv_uom = self.env['uom.uom'].browse(inv_uom_id)
                 std_price = pp.uom_id._compute_price(
                     std_price, inv_uom)
             vals['standard_price_company_currency'] = std_price
         return super(AccountInvoiceLine, self).create(vals)
 
-    @api.multi
     def write(self, vals):
         if not vals:
             vals = {}
@@ -106,7 +106,7 @@ class AccountInvoiceLine(models.Model):
                 # uom_id is NOT a required field
                 if 'uom_id' in vals:
                     if vals.get('uom_id'):
-                        inv_uom = self.env['product.uom'].browse(
+                        inv_uom = self.env['uom.uom'].browse(
                             vals['uom_id'])
                     else:
                         inv_uom = False
@@ -127,11 +127,11 @@ class AccountInvoice(models.Model):
 
     margin_invoice_currency = fields.Monetary(
         string='Margin in Invoice Currency',
-        readonly=True, compute='_compute_margin', store=True,
+        compute='_compute_margin', store=True, readonly=True,
         currency_field='currency_id')
     margin_company_currency = fields.Monetary(
         string='Margin in Company Currency',
-        readonly=True, compute='_compute_margin', store=True,
+        compute='_compute_margin', store=True, readonly=True,
         currency_field='company_currency_id')
 
     @api.depends(
@@ -139,12 +139,14 @@ class AccountInvoice(models.Model):
         'invoice_line_ids.margin_invoice_currency',
         'invoice_line_ids.margin_company_currency')
     def _compute_margin(self):
-        for inv in self:
-            margin_inv_cur = 0.0
-            margin_comp_cur = 0.0
-            if inv.type in ('out_invoice', 'out_refund'):
-                for il in inv.invoice_line_ids:
-                    margin_inv_cur += il.margin_invoice_currency
-                    margin_comp_cur += il.margin_company_currency
-            inv.margin_invoice_currency = margin_inv_cur
-            inv.margin_company_currency = margin_comp_cur
+        res = self.env['account.invoice.line'].read_group(
+            [('invoice_id', 'in', self.ids)],
+            ['invoice_id', 'margin_invoice_currency',
+             'margin_company_currency'],
+            ['invoice_id'])
+        for re in res:
+            if re['invoice_id']:
+                inv = self.browse(re['invoice_id'][0])
+                if inv.type in ('out_invoice', 'out_refund'):
+                    inv.margin_invoice_currency = re['margin_invoice_currency']
+                    inv.margin_company_currency = re['margin_company_currency']

@@ -2,7 +2,7 @@
 <odoo>
 
 
-<record id="stock_inventory_valuation_ods" model="ir.actions.report.xml">
+<record id="stock_inventory_valuation_ods" model="ir.actions.report">
     <field name="name">Inventory Valuation per Location (ODS)</field>
     <field name="model">stock.inventory</field>
     <field name="report_name">stock.inventory.ods</field>
@@ -10,16 +10,11 @@
     <field name="py3o_filetype">ods</field>
     <field name="module">stock_inventory_valuation_ods</field>
     <field name="py3o_template_fallback">inventory.ods</field>
+    <field name="binding_type">report</field>
+    <field name="binding_model_id" ref="stock.model_stock_inventory"/>
 </record>
 
-<record id="stock_inventory_valuation_ods_button" model="ir.values">
-    <field name="name">Inventory Valuation per Location ODS</field>
-    <field name="model">stock.inventory</field>
-    <field name="key2">client_print_multi</field>
-    <field name="value" eval="'ir.actions.report.xml,%d'%stock_inventory_valuation_ods"/>
-</record>
-
-<record id="stock_inventory_valuation_grouped_ods" model="ir.actions.report.xml">
+<record id="stock_inventory_valuation_grouped_ods" model="ir.actions.report">
     <field name="name">Inventory Valuation (ODS)</field>
     <field name="model">stock.inventory</field>
     <field name="report_name">stock.inventory.grouped.ods</field>
@@ -27,13 +22,9 @@
     <field name="py3o_filetype">ods</field>
     <field name="module">stock_inventory_valuation_ods</field>
     <field name="py3o_template_fallback">inventory_grouped.ods</field>
+    <field name="binding_type">report</field>
+    <field name="binding_model_id" ref="stock.model_stock_inventory"/>
 </record>
 
-<record id="stock_inventory_valuation_grouped_ods_button" model="ir.values">
-    <field name="name">Inventory Valuation ODS</field>
-    <field name="model">stock.inventory</field>
-    <field name="key2">client_print_multi</field>
-    <field name="value" eval="'ir.actions.report.xml,%d'%stock_inventory_valuation_grouped_ods"/>
-</record>
 
 </odoo>

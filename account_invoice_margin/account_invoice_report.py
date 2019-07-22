@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
-# Copyright 2018 Akretion (http://www.akretion.com)
+# Copyright 2018-2019 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class AccountInvoiceReport(models.Model):
@@ -19,8 +18,8 @@ class AccountInvoiceReport(models.Model):
             'account_id', 'amount_total_company_signed',
             'commercial_partner_id', 'company_id',
             'currency_id', 'date_due', 'date_invoice', 'fiscal_position_id',
-            'journal_id', 'partner_bank_id', 'partner_id', 'payment_term_id',
-            'residual', 'state', 'type', 'user_id',
+            'journal_id', 'number', 'partner_bank_id', 'partner_id',
+            'payment_term_id', 'residual', 'state', 'type', 'user_id',
         ],
         'account.invoice.line': [
             'account_id', 'invoice_id', 'price_subtotal', 'product_id',
@@ -29,26 +28,25 @@ class AccountInvoiceReport(models.Model):
         ],
         'product.product': ['product_tmpl_id'],
         'product.template': ['categ_id'],
-        'product.uom': ['category_id', 'factor', 'name', 'uom_type'],
+        'uom.uom': ['category_id', 'factor', 'name', 'uom_type'],
         'res.currency.rate': ['currency_id', 'name'],
         'res.partner': ['country_id'],
     }
 
     @api.depends('currency_id', 'date', 'margin')
     def _compute_user_currency_margin(self):
-        context = dict(self._context or {})
-        user_currency_id = self.env.user.company_id.currency_id
-        currency_rate_id = self.env['res.currency.rate'].search([
+        user_currency = self.env.user.company_id.currency_id
+        currency_rate = self.env['res.currency.rate'].search([
             ('rate', '=', 1),
             '|',
             ('company_id', '=', self.env.user.company_id.id),
             ('company_id', '=', False)], limit=1)
-        base_currency_id = currency_rate_id.currency_id
-        ctx = context.copy()
+        base_currency = currency_rate.currency_id
         for record in self:
-            ctx['date'] = record.date
-            record.user_currency_margin = base_currency_id.with_context(
-                ctx).compute(record.margin, user_currency_id)
+            date = record.date or fields.Date.today()
+            company = record.company_id
+            record.user_currency_margin = base_currency._convert(
+                record.margin, user_currency, company, date)
 
     # TODO check for refunds
     def _sub_select(self):
