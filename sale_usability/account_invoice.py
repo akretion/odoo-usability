@@ -30,9 +30,9 @@ class AccountInvoice(models.Model):
         # from pprint import pprint
         # pprint(res1)
         res2 = []
-        if len(res1) == 1 and not res1.keys()[0]:
+        if len(res1) == 1 and not list(res1)[0]:
             # No order at all
-            for line in res1.values()[0]['lines']:
+            for line in list(res1.values())[0]['lines']:
                 res2.append({'line': line})
         else:
             for order, ldict in res1.items():
