@@ -51,8 +51,9 @@ class ProcurementGroup(models.Model):
             # If I don't do an explicit cr.commit(), it doesn't create
             # the procurement.scheduler.log... I don't know why
             self._cr.commit()
-        except:
-            logger.warning('Could not create procurement.scheduler.log')
+        except Exception as e:
+            logger.warning(
+                'Could not create procurement.scheduler.log (error: %s)', e)
         return res
 
 

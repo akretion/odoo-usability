@@ -78,7 +78,8 @@ class StockMove(models.Model):
         in it'''
         res = []
         for line in self:
-            name = '%s > %s' % (line.location_id.name, line.location_dest_id.name)
+            name = '%s > %s' % (
+                line.location_id.name, line.location_dest_id.name)
             if line.product_id.code:
                 name = '%s: %s' % (line.product_id.code, name)
             if line.picking_id.origin:
@@ -112,3 +113,13 @@ class ProcurementGroup(models.Model):
 
     picking_ids = fields.One2many(
         'stock.picking', 'group_id', string='Pickings', readonly=True)
+
+
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
+
+    def action_stock_move_lines_reserved(self):
+        self.ensure_one()
+        action = self.action_view_stock_moves()
+        action['context'] = {'search_default_todo': True}
+        return action
