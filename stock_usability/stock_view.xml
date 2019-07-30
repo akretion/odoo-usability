@@ -119,6 +119,18 @@
     <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
 </record>
 
+<record id="view_picking_type_tree" model="ir.ui.view">
+    <field name="name">usability.stock.picking.type.tree</field>
+    <field name="model">stock.picking.type</field>
+    <field name="inherit_id" ref="stock.view_picking_type_tree"/>
+    <field name="arch" type="xml">
+        <field name="warehouse_id" position="after">
+            <field name="default_location_src_id"/>
+            <field name="default_location_dest_id"/>
+        </field>
+    </field>
+</record>
+
 <!-- Display route in stock moves -->
 <!-- 
 <record id="view_move_form" model="ir.ui.view">
@@ -338,6 +350,17 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
             <attribute name="confirm">Are you sure you want to reset all quantities to 0 ?</attribute>
         </button>
 
+    </field>
+</record>
+
+<record id="view_inventory_tree" model="ir.ui.view">
+    <field name="name">usability.stock.inventory.tree</field>
+    <field name="model">stock.inventory</field>
+    <field name="inherit_id" ref="stock.view_inventory_tree"/>
+    <field name="arch" type="xml">
+        <field name="date" position="after">
+            <field name="location_id" groups="stock.group_stock_multi_locations"/>
+        </field>
     </field>
 </record>
 
