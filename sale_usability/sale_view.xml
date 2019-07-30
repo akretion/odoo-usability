@@ -48,6 +48,9 @@
         <field name="amount_total" position="before">
             <field name="amount_untaxed" sum="Total Untaxed"/>
         </field>
+        <field name="state" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
     </field>
 </record>
 
