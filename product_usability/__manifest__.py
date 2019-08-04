@@ -28,7 +28,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'depends': ['product'],
     'data': [
         'security/product_security.xml',
-        'product_view.xml',
+        'views/product_view.xml',
         ],
     'installable': True,
 }
