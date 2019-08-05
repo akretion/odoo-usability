@@ -4,6 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields
+from odoo.tools.safe_eval import safe_eval
 
 
 class ProductProduct(models.Model):
@@ -40,9 +41,8 @@ class ProductProduct(models.Model):
 
     def show_product_price_history(self):
         self.ensure_one()
-        action = self.env.ref(['ir.actions.act_window'].for_xml_id(
-            'product_usability', 'product_price_history_action')
-        action.update({
-            'domain': "[('product_id', '=', %d)]" % self.ids[0],
-        })
+        action = self.env.ref(
+            'product_usability.product_price_history_action').read()[0]
+        action['domain'] = safe_eval(action['domain'])
+        action['domain'].append(('product_id', '=', self.id))
         return action

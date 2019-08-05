@@ -26,7 +26,7 @@ class ProductTemplate(models.Model):
 
     purchase_ok = fields.Boolean(
         track_visibility='onchange')
-        
+
     active = fields.Boolean(
         track_visibility='onchange')
 
@@ -34,9 +34,7 @@ class ProductTemplate(models.Model):
         self.ensure_one()
         products = self.env['product.product'].search(
             [('product_tmpl_id', '=', self._context['active_id'])])
-        action = self.env['ir.actions.act_window'].for_xml_id(
-            'product_usability', 'product_price_history_action')
-        action.update({
-            'domain': "[('product_id', 'in', %s)]" % products.ids,
-        })
+        action = self.env.ref(
+            'product_usability.product_price_history_action').read()[0]
+        action['domain'] = [('product_id', 'in', products.ids)]
         return action
