@@ -188,20 +188,6 @@ class AccountJournal(models.Model):
                 res.append((journal.id, name))
             return res
 
-    # Also search on start of 'code', not only on 'name'
-    @api.model
-    def name_search(
-            self, name='', args=None, operator='ilike', limit=80):
-        if args is None:
-            args = []
-        if name:
-            jrls = self.search(
-                [('code', '=ilike', name + '%')] + args, limit=limit)
-            if jrls:
-                return jrls.name_get()
-        return super(AccountJournal, self).name_search(
-            name=name, args=args, operator=operator, limit=limit)
-
     @api.constrains('default_credit_account_id', 'default_debit_account_id')
     def _check_account_type_on_bank_journal(self):
         bank_acc_type = self.env.ref('account.data_account_type_liquidity')
