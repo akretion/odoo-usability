@@ -408,6 +408,17 @@ module -->
     </field>
 </record>
 
+<record id="view_account_journal_tree" model="ir.ui.view">
+    <field name="name">usability.account.journal.tree</field>
+    <field name="model">account.journal</field>
+    <field name="inherit_id" ref="account.view_account_journal_tree"/>
+    <field name="arch" type="xml">
+        <field name="name" position="after">
+            <field name="code"/>
+        </field>
+    </field>
+</record>
+
 <record id="view_account_journal_search" model="ir.ui.view">
     <field name="name">usability.account.journal.search</field>
     <field name="model">account.journal</field>
