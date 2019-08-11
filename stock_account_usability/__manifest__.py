@@ -16,13 +16,16 @@ Stock Account Usability
 
 The usability enhancements include:
 
-* TODO update the list
+* activate the refund option by default in return wizard on pickings
+
+* add ability to select a stock location on the inventory valuation report
+
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['stock_account'],
-    'data': [],
+    'data': ['wizard/stock_quantity_history_view.xml'],
     'installable': True,
 }

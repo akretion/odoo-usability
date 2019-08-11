@@ -28,6 +28,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'data': [
         'stock_view.xml',
         'procurement_view.xml',
+        'wizard/stock_quantity_history_view.xml',
         'security/ir.model.access.csv',
         ],
     'installable': True,

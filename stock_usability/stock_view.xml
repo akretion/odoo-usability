@@ -392,6 +392,38 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
         </div>
     </field>
 </record>
+
+<!-- Alternative search view for quants, used in the stock.quantity.history wizard -->
+<record id="quant_search_view_location_child_of" model="ir.ui.view">
+        <field name="name">stock.quant.search with child_of for locations</field>
+        <field name="model">stock.quant</field>
+        <field name="priority" eval="1000"/>
+        <field name="arch" type="xml">
+            <search string="Quants">
+                <field name="product_id"/>
+                <field name="location_id" operator="child_of" string="Location (children included)"/>
+                <field name="package_id" groups="stock.group_tracking_lot"/>
+                <field name="lot_id" groups="stock.group_production_lot"/>
+                <field name="owner_id" groups="stock.group_tracking_owner"/>
+                <separator/>
+                <filter name='internal_loc' string="Internal Locations" domain="[('location_id.usage','=', 'internal')]"/>
+                <filter name='transit_loc' string="Transit Locations" domain="[('location_id.usage' ,'=', 'transit')]"/>
+                <separator/>
+                <filter name="negative" string="Negative Stock" domain="[('quantity', '&lt;', 0.0)]"/>
+                <filter name="positive" string="Positive Stock" domain="[('quantity', '&gt;', 0.0)]"/>
+                <filter name="reserved" string="Reservations" domain="[('reserved_quantity', '&gt;', 0.0)]"/>
+                <group name="groupby">
+                    <filter string='Location' name="locationgroup" context="{'group_by': 'location_id'}"/>
+                    <filter string='Product' name="productgroup" context="{'group_by': 'product_id'}"/>
+                    <filter string='Owner' name="owner" context="{'group_by': 'owner_id'}" groups="stock.group_tracking_owner"/>
+                    <filter string='Lot/Serial Number' name="Lot_Serial_number" context="{'group_by': 'lot_id'}" groups="stock.group_production_lot"/>
+                    <filter string='Package' name="package" context="{'group_by': 'package_id'}" groups="stock.group_tracking_lot"/>
+                    <filter string='Company' name="company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+               </group>
+            </search>
+        </field>
+</record>
+
 <!-- more detailed stock.move tree view when using the button from product form -->
 <!-- TODO TEST
 <record id="stock.act_product_stock_move_open" model="ir.actions.act_window">
@@ -402,11 +434,20 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
 but it forces a group by on products that you can't remove
 So I create another "regular" Quants" menu entry -->
 <record id="stock_quant_action" model="ir.actions.act_window">
-    <field name="name">Quants List</field>
+    <field name="name">Quants</field>
     <field name="res_model">stock.quant</field>
     <field name="view_mode">tree,form,pivot</field>
     <field name="context">{'search_default_internal_loc': 1}</field>
 </record>
+
+<!-- for the Inventory Report wizard -->
+<record id="stock_quantity_history_quant_action" model="ir.actions.act_window">
+    <field name="name">Quants</field>
+    <field name="res_model">stock.quant</field>
+    <field name="view_mode">tree,form,pivot</field>
+    <field name="search_view_id" ref="quant_search_view_location_child_of"/>
+</record>
+
 
 <menuitem id="stock_quant_menu" action="stock_quant_action"
     parent="stock.menu_stock_inventory_control"
