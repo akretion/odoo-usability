@@ -25,8 +25,6 @@ class StockQuantityHistory(models.TransientModel):
                 # insert "location" in context for qty computation
                 action['context']['location'] = self.location_id.id
             else:
-                # force search view with child_of for location_id
-                action = self.env.ref(
-                    'stock_usability.stock_quantity_history_quant_action').read()[0]
-                action['context'] = {'search_default_location_id': self.location_id.id}
+                action['domain'] = [('location_id', 'child_of', self.location_id.id)]
+                action['context'] = {}
         return action
