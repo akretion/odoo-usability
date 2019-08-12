@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
-# © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# Copyright 2018 Camptocamp
+# Copyright 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2019 Camptocamp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api, _
@@ -58,7 +57,7 @@ class AccountInvoiceUpdate(models.TransientModel):
                 'price_subtotal': line.price_subtotal,
                 'account_analytic_id': line.account_analytic_id.id,
                 'analytic_tag_ids': aa_tags,
-                }])
+            }])
         return res
 
     @api.model
@@ -141,7 +140,7 @@ class AccountInvoiceUpdate(models.TransientModel):
         # be grouped unless journal.group_invoice_line is True
         inv_line = self.invoice_id.invoice_line_ids.filtered(
             lambda rec: rec.product_id == move_line.product_id)
-        if len(inv_line) <> 1:
+        if len(inv_line) != 1:
             raise UserError(
                 "Cannot match a single invoice line to move line %s" %
                 move_line.name)
@@ -221,7 +220,7 @@ class AccountInvoiceUpdate(models.TransientModel):
                         mlines[amount].append(line)
                     else:
                         mlines[amount] = [line]
-            for iamount, lines in mlines.iteritems():
+            for iamount, lines in mlines.items():
                 if len(lines) != len(new_pterm.get(iamount, [])):
                     raise UserError(_(
                         "The original payment term '%s' doesn't have the "
@@ -282,7 +281,7 @@ class AccountInvoiceUpdate(models.TransientModel):
                 updated = True
                 line.invoice_line_id.write(ilvals)
         if updated:
-            inv.message_post(_(
+            inv.message_post(body=_(
                 'Non-legal fields of invoice updated via the Invoice Update '
                 'wizard.'))
         return True

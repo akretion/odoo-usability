@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  Copyright 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
@@ -10,7 +10,7 @@
     <field name="model">account.invoice</field>
     <field name="inherit_id" ref="account.invoice_supplier_form"/>
     <field name="arch" type="xml">
-        <button name="action_invoice_cancel" position="before">
+        <button name="action_invoice_draft" position="before">
             <button name="%(account_invoice_update_action)d" type="action" string="Update Invoice" states="open,paid" groups="account.group_account_invoice"/>
         </button>
     </field>
@@ -20,7 +20,7 @@
     <field name="model">account.invoice</field>
     <field name="inherit_id" ref="account.invoice_form"/>
     <field name="arch" type="xml">
-        <button name="action_invoice_cancel" position="before">
+        <button name="action_invoice_draft" position="before">
             <button name="%(account_invoice_update_action)d" type="action" string="Update Invoice" states="open,paid" groups="account.group_account_invoice"/>
         </button>
     </field>
