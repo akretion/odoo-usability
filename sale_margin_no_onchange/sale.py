@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
-# Copyright (C) 2015-2018 Akretion (http://www.akretion.com)
+# Copyright (C) 2015-2019 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 import odoo.addons.decimal_precision as dp
 
 
@@ -14,7 +13,7 @@ class SaleOrderLine(models.Model):
     # Also defined in bi_sale_company_currency
     company_currency_id = fields.Many2one(
         related='order_id.company_id.currency_id',
-        readonly=True, store=True, string='Company Currency')
+        store=True, string='Company Currency')
     standard_price_company_currency = fields.Float(
         string='Cost Price in Company Currency', readonly=True,
         digits=dp.get_precision('Product Price'),
@@ -48,17 +47,19 @@ class SaleOrderLine(models.Model):
             margin_comp_cur = 0.0
             margin_rate = 0.0
             order_cur = line.order_id.pricelist_id.currency_id
-            company_cur = line.order_id.company_id.currency_id
+            company = line.order_id.company_id
+            company_cur = company.currency_id
             if order_cur and company_cur:
                 date = line.order_id.date_order
                 standard_price_sale_cur =\
-                    company_cur.with_context(date=date).compute(
-                        line.standard_price_company_currency, order_cur)
+                    company_cur._convert(
+                        line.standard_price_company_currency, order_cur,
+                        company, date)
                 margin_sale_cur =\
                     line.price_subtotal\
                     - line.product_uom_qty * standard_price_sale_cur
-                margin_comp_cur = order_cur.with_context(date=date).compute(
-                    margin_sale_cur, company_cur)
+                margin_comp_cur = order_cur._convert(
+                    margin_sale_cur, company_cur, company, date)
                 if line.price_subtotal:
                     margin_rate = 100 * margin_sale_cur / line.price_subtotal
             line.standard_price_sale_currency = standard_price_sale_cur
@@ -74,7 +75,7 @@ class SaleOrderLine(models.Model):
             std_price = pp.standard_price
             sale_uom_id = vals.get('product_uom')
             if sale_uom_id and sale_uom_id != pp.uom_id.id:
-                sale_uom = self.env['product.uom'].browse(sale_uom_id)
+                sale_uom = self.env['uom.uom'].browse(sale_uom_id)
                 # convert from product UoM to sale UoM
                 std_price = pp.uom_id._compute_price(
                     pp.standard_price, sale_uom)
@@ -92,7 +93,7 @@ class SaleOrderLine(models.Model):
                 else:
                     pp = sol.product_id
                 if 'product_uom' in vals:
-                    sale_uom = self.env['product.uom'].browse(
+                    sale_uom = self.env['uom.uom'].browse(
                         vals['product_uom'])
                 else:
                     sale_uom = sol.product_uom
@@ -108,7 +109,7 @@ class SaleOrder(models.Model):
 
     # Also defined in bi_sale_company_currency
     company_currency_id = fields.Many2one(
-        related='company_id.currency_id', readonly=True, store=True,
+        related='company_id.currency_id', store=True,
         string="Company Currency")
     margin_sale_currency = fields.Monetary(
         string='Margin in Sale Currency',
