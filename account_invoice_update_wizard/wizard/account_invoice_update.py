@@ -57,6 +57,7 @@ class AccountInvoiceUpdate(models.TransientModel):
                 'price_subtotal': line.price_subtotal,
                 'account_analytic_id': line.account_analytic_id.id,
                 'analytic_tag_ids': aa_tags,
+                'display_type': line.display_type,
             }])
         return res
 
@@ -287,6 +288,9 @@ class AccountInvoiceLineUpdate(models.TransientModel):
     invoice_line_id = fields.Many2one(
         'account.invoice.line', string='Invoice Line', readonly=True)
     name = fields.Text(string='Description', required=True)
+    display_type = fields.Selection([
+        ('line_section', "Section"),
+        ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
     quantity = fields.Float(
         string='Quantity', digits=dp.get_precision('Product Unit of Measure'),
         readonly=True)

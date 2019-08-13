@@ -25,13 +25,14 @@
             </group>
             <group name="lines">
                 <field name="line_ids" nolabel="1">
-                    <tree editable="bottom">
+                    <tree editable="bottom" create="false" delete="false" edit="true">
                         <field name="invoice_line_id" invisible="1"/>
+                        <field name="display_type" invisible="1"/>
                         <field name="name"/>
-                        <field name="quantity"/>
-                        <field name="price_subtotal"/>
-                        <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
-                        <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags"/>
+                        <field name="quantity" attrs="{'invisible': [('display_type', '!=', False)]}"/>
+                        <field name="price_subtotal" attrs="{'invisible': [('display_type', '!=', False)]}"/>
+                        <field name="account_analytic_id" attrs="{'invisible': [('display_type', '!=', False)]}" groups="analytic.group_analytic_accounting"/>
+                        <field name="analytic_tag_ids" attrs="{'invisible': [('display_type', '!=', False)]}" groups="analytic.group_analytic_accounting" widget="many2many_tags"/>
                    </tree>
                 </field>
             </group>
