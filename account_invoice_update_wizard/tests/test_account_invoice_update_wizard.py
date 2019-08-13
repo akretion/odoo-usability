@@ -1,4 +1,4 @@
-# Copyright 2019 Camptocamp
+# Copyright 2018-2019 Camptocamp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.tests.common import SavepointCase

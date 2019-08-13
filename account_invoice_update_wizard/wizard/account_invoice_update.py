@@ -1,5 +1,5 @@
 # Copyright 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
-# Copyright 2019 Camptocamp
+# Copyright 2018-2019 Camptocamp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api, _
