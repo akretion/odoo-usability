@@ -43,11 +43,9 @@ class TestAccountInvoiceUpdateWizard(SavepointCase):
             'name': 'の',
         })
 
-    def create_wizard(self):
-        UpdateWizard = self.env['account.invoice.update'].with_context(
-            active_model='account.invoice',
-            active_id=self.invoice1.id)
-        self.wiz = UpdateWizard.create({})
+    def create_wizard(self, invoice):
+        res = self.invoice1.prepare_update_wizard()
+        self.wiz = self.env['account.invoice.update'].browse(res['res_id'])
 
     def test_add_analytic_account_line1(self):
         """ Add analytic account on an invoice line
@@ -58,7 +56,7 @@ class TestAccountInvoiceUpdateWizard(SavepointCase):
             - create a new analytic line.
         """
         self.invoice1.action_invoice_open()
-        self.create_wizard()
+        self.create_wizard(self.invoice1)
 
         wiz_line = self.wiz.line_ids.filtered(
             lambda rec: rec.invoice_line_id == self.inv_line1)
@@ -80,7 +78,7 @@ class TestAccountInvoiceUpdateWizard(SavepointCase):
         self.inv_line1.account_analytic_id = self.aa2
 
         self.invoice1.action_invoice_open()
-        self.create_wizard()
+        self.create_wizard(self.invoice1)
 
         wiz_line = self.wiz.line_ids.filtered(
             lambda rec: rec.invoice_line_id == self.inv_line1)
@@ -105,7 +103,7 @@ class TestAccountInvoiceUpdateWizard(SavepointCase):
         self.inv_line2.unit_price = 42.0
 
         self.invoice1.action_invoice_open()
-        self.create_wizard()
+        self.create_wizard(self.invoice1)
 
         line1 = self.wiz.line_ids[0]
         line1.account_analytic_id = self.aa1
@@ -119,7 +117,7 @@ class TestAccountInvoiceUpdateWizard(SavepointCase):
         This will update move line.
         """
         self.invoice1.action_invoice_open()
-        self.create_wizard()
+        self.create_wizard(self.invoice1)
 
         wiz_line = self.wiz.line_ids.filtered(
             lambda rec: rec.invoice_line_id == self.inv_line1)
@@ -141,7 +139,7 @@ class TestAccountInvoiceUpdateWizard(SavepointCase):
         self.inv_line1.analytic_tag_ids = self.atag1
 
         self.invoice1.action_invoice_open()
-        self.create_wizard()
+        self.create_wizard(self.invoice1)
 
         wiz_line = self.wiz.line_ids.filtered(
             lambda rec: rec.invoice_line_id == self.inv_line1)
@@ -162,7 +160,7 @@ class TestAccountInvoiceUpdateWizard(SavepointCase):
             - create an analytic line
         """
         self.invoice1.action_invoice_open()
-        self.create_wizard()
+        self.create_wizard(self.invoice1)
 
         wiz_line = self.wiz.line_ids.filtered(
             lambda rec: rec.invoice_line_id == self.inv_line1)
@@ -186,7 +184,7 @@ class TestAccountInvoiceUpdateWizard(SavepointCase):
         self.inv_line1.account_analytic_id = self.aa2
 
         self.invoice1.action_invoice_open()
-        self.create_wizard()
+        self.create_wizard(self.invoice1)
 
         wiz_line = self.wiz.line_ids.filtered(
             lambda rec: rec.invoice_line_id == self.inv_line1)

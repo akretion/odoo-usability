@@ -11,7 +11,7 @@
     <field name="inherit_id" ref="account.invoice_supplier_form"/>
     <field name="arch" type="xml">
         <button name="action_invoice_draft" position="before">
-            <button name="%(account_invoice_update_action)d" type="action" string="Update Invoice" states="open,paid" groups="account.group_account_invoice"/>
+            <button name="prepare_update_wizard" type="object" string="Update Invoice" states="open,paid" groups="account.group_account_invoice"/>
         </button>
     </field>
 </record>
@@ -21,7 +21,7 @@
     <field name="inherit_id" ref="account.invoice_form"/>
     <field name="arch" type="xml">
         <button name="action_invoice_draft" position="before">
-            <button name="%(account_invoice_update_action)d" type="action" string="Update Invoice" states="open,paid" groups="account.group_account_invoice"/>
+            <button name="prepare_update_wizard" type="object" string="Update Invoice" states="open,paid" groups="account.group_account_invoice"/>
         </button>
     </field>
 </record>

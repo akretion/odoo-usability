@@ -60,15 +60,6 @@ class AccountInvoiceUpdate(models.TransientModel):
             }])
         return res
 
-    @api.model
-    def default_get(self, fields_list):
-        res = super(AccountInvoiceUpdate, self).default_get(fields_list)
-        assert self._context.get('active_model') == 'account.invoice',\
-            'active_model should be account.invoice'
-        inv = self.env['account.invoice'].browse(self._context['active_id'])
-        res = self._prepare_default_get(inv)
-        return res
-
     @api.onchange('type')
     def type_on_change(self):
         res = {'domain': {}}

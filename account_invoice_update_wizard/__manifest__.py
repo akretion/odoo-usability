@@ -12,7 +12,7 @@
     'author': 'Akretion',
     'website': 'https://github.com/akretion/odoo-usability',
     'depends': [
-        'account'
+        'account',
     ],
     'data': [
         'wizard/account_invoice_update_view.xml',
