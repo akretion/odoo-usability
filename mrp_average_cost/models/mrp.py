@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2016-2019 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -17,15 +16,24 @@ class MrpBomLabourLine(models.Model):
     _description = 'Labour lines on BOM'
 
     bom_id = fields.Many2one(
-        'mrp.bom', string='Labour Lines', ondelete='cascade')
+        comodel_name='mrp.bom',
+        string='Labour Lines',
+        ondelete='cascade')
+
     labour_time = fields.Float(
-        string='Labour Time', required=True,
+        string='Labour Time',
+        required=True,
         digits=dp.get_precision('Labour Hours'),
         help="Average labour time for the production of "
-        "items of the BOM, in hours.")
+             "items of the BOM, in hours.")
+
     labour_cost_profile_id = fields.Many2one(
-        'labour.cost.profile', string='Labour Cost Profile', required=True)
-    note = fields.Text(string='Note')
+        comodel_name='labour.cost.profile',
+        string='Labour Cost Profile',
+        required=True)
+
+    note = fields.Text(
+        string='Note')
 
     _sql_constraints = [(
         'labour_time_positive',
@@ -124,7 +132,8 @@ class MrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'
 
     standard_price = fields.Float(
-        related='product_id.standard_price', readonly=True,
+        related='product_id.standard_price',
+        readonly=True,
         string='Standard Price')
 
 
@@ -134,17 +143,27 @@ class LabourCostProfile(models.Model):
     _description = 'Labour Cost Profile'
 
     name = fields.Char(
-        string='Name', required=True, track_visibility='onchange')
+        string='Name',
+        required=True,
+        track_visibility='onchange')
+
     hour_cost = fields.Float(
-        string='Cost per Hour', required=True,
+        string='Cost per Hour',
+        required=True,
         digits=dp.get_precision('Product Price'),
         track_visibility='onchange',
         help="Labour cost per hour per person in company currency")
+
     company_id = fields.Many2one(
-        'res.company', string='Company', required=True,
+        comodel_name='res.company',
+        string='Company',
+        required=True,
         default=lambda self: self.env['res.company']._company_default_get())
+
     company_currency_id = fields.Many2one(
-        related='company_id.currency_id', readonly=True, store=True,
+        related='company_id.currency_id',
+        readonly=True,
+        store=True,
         string='Company Currency')
 
     @api.depends('name', 'hour_cost', 'company_currency_id.symbol')
@@ -167,6 +186,7 @@ class MrpProduction(models.Model):
         "in company currency takes into account "
         "the cost of the raw materials and the labour cost defined on"
         "the BOM.")
+
     company_currency_id = fields.Many2one(
         related='company_id.currency_id', readonly=True,
         string='Company Currency')
