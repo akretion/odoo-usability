@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2015-2016 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+    <!-- product.template -->
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">usability.product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <field name="standard_price" class="oe_inline" position="after">
+                <button name="show_product_price_history" class="oe_inline oe_link" type="object" string="Show History" context="{'active_id': active_id}"/>
+            </field>
+            <!-- Don't make it too big, othesize computers with small resolutions
+            will see the product name + image under the block of buttons -->
+            <div class="oe_title" position="attributes">
+                <attribute name="style">width: 650px;</attribute>
+            </div>
+        </field>
+    </record>
+
+    <!-- It also adds on product.product search view -->
+    <record id="product_template_search_view" model="ir.ui.view">
+        <field name="name">usability.product.template.search</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view" />
+        <field name="arch" type="xml">
+            <field name="categ_id" position="after">
+                <field name="seller_ids" string="Supplier" filter_domain="[('seller_ids.name', 'ilike', self)]"/>
+            </field>
+            <field name="pricelist_id" position="after">
+                <group string="Group By" name="groupby">
+                    <filter name="categ_groupby" string="Internal Category" context="{'group_by': 'categ_id'}"/>
+                    <filter name="type_groupby" string="Type" context="{'group_by': 'type'}"/>
+                </group>
+            </field>
+        </field>
+    </record>
+
+    <record id="product_template_tree_view" model="ir.ui.view">
+        <field name="name">usability.product.template.tree</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="list_price" position="after">
+                <field name="currency_id" invisible="1"/>
+            </field>
+            <field name="list_price" position="attributes">
+                <attribute name="widget">monetary</attribute>
+            </field>
+            <field name="standard_price" position="attributes">
+                <attribute name="widget">monetary</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2015-2016 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+    <!-- product.pricelist -->
+    <record id="product_pricelist_view_tree" model="ir.ui.view">
+        <field name="name">usability.product.pricelist.tree</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="currency_id" position="after">
+                <field name="company_id" groups="base.group_multi_company"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- product.pricelist.item  -->
+    <record id="product_pricelist_item_search" model="ir.ui.view">
+        <field name="name">usability.product.pricelist.item.search</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="arch" type="xml">
+            <search string="Search Pricelist Items">
+                <field name="pricelist_id"/>
+                <field name="product_tmpl_id"/>
+                <field name="product_id"/>
+                <field name="categ_id"/>
+                <group string="Group By" name="groupby">
+                    <filter name="pricelist_groupby" string="Pricelist" context="{'group_by': 'pricelist_id'}"/>
+                    <filter name="applied_on_groupby" string="Apply On" context="{'group_by': 'applied_on'}"/>
+                    <filter name="base_on_groupby" string="Based On" context="{'group_by': 'base'}"/>
+                    <filter name="compute_price_groupby" string="Compute Price" context="{'group_by': 'compute_price'}"/>
+                    <filter name="currency_groupby" string="Currency" context="{'group_by': 'currency_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="product_pricelist_item_form_view" model="ir.ui.view">
+        <field name="name">usability.product.pricelist.item.form</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+        <field name="arch" type="xml">
+            <field name="applied_on" position="before">
+                <field name="pricelist_id" invisible="not context.get('product_pricelist_item_main_view')"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="product_pricelist_item_tree_view" model="ir.ui.view">
+        <field name="name">usability.product.pricelist.item.tree</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="pricelist_id" invisible="not context.get('product_pricelist_item_main_view')"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
