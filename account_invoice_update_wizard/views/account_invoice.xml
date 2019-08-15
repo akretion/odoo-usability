@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="invoice_supplier_form" model="ir.ui.view">
+    <field name="model">account.invoice</field>
+    <field name="inherit_id" ref="account.invoice_supplier_form"/>
+    <field name="arch" type="xml">
+        <button name="action_invoice_draft" position="before">
+            <button name="prepare_update_wizard" type="object" string="Update Invoice" states="open,paid" groups="account.group_account_invoice"/>
+        </button>
+    </field>
+</record>
+
+<record id="invoice_form" model="ir.ui.view">
+    <field name="model">account.invoice</field>
+    <field name="inherit_id" ref="account.invoice_form"/>
+    <field name="arch" type="xml">
+        <button name="action_invoice_draft" position="before">
+            <button name="prepare_update_wizard" type="object" string="Update Invoice" states="open,paid" groups="account.group_account_invoice"/>
+        </button>
+    </field>
+</record>
+
+</odoo>
