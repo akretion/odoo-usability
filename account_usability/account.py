@@ -179,15 +179,14 @@ class AccountInvoice(models.Model):
             returned string: "sale1 (date1), sale2 (date2) ..."
         """
         for inv in self:
-            sale_ids = [x.sale_line_ids.mapped('order_id')[0].id
-                        for x in inv.invoice_line_ids]
-            sales = self.env["sale.order"].browse(set(sale_ids))
+            sales = inv.invoice_line_ids.mapped(
+                'sale_line_ids').mapped('order_id')
             lang = inv.partner_id.commercial_partner_id.lang
             date_format = self.env["res.lang"]._lang_get(
                 lang or "").date_format
-            dates = ["%s%s" % (
-                     x.name, x.confirmation_date and
-                     " (%s)" % x.confirmation_date.strftime(date_format) or "")
+            dates = ["%s%s" % (x.name, x.confirmation_date and
+                               " (%s)" %
+                               x.confirmation_date.strftime(date_format) or "")
                      for x in sales]
             inv.sale_dates = ", ".join(dates)
 
