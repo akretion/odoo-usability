@@ -39,7 +39,8 @@ class AccountInvoice(models.Model):
         search='_search_has_attachment', readonly=True)
     sale_dates = fields.Char(
         compute="_compute_sales_dates", readonly=True,
-        help="This information appears on invoice report")
+        help="This information appears on invoice qweb report "
+             "(you may use it for your own report)")
 
     def _compute_has_discount(self):
         prec = self.env['decimal.precision'].precision_get('Discount')
@@ -175,16 +176,19 @@ class AccountInvoice(models.Model):
 
     def _compute_sales_dates(self):
         """ French law requires to set sale order dates into invoice
+            returned string: "sale1 (date1), sale2 (date2) ..."
         """
         for inv in self:
             sale_ids = [x.sale_line_ids.mapped('order_id')[0].id
                         for x in inv.invoice_line_ids]
-            sales = self.env["sale.order"].browse(sale_ids)
+            sales = self.env["sale.order"].browse(set(sale_ids))
             lang = inv.partner_id.commercial_partner_id.lang
             date_format = self.env["res.lang"]._lang_get(
                 lang or "").date_format
-            dates = [x.confirmation_date.strftime(date_format)
-                     for x in sales if x.confirmation_date]
+            dates = ["%s%s" % (
+                     x.name, x.confirmation_date and
+                     " (%s)" % x.confirmation_date.strftime(date_format) or "")
+                     for x in sales]
             inv.sale_dates = ", ".join(dates)
 
 
