@@ -184,9 +184,11 @@ class AccountInvoice(models.Model):
             lang = inv.partner_id.commercial_partner_id.lang
             date_format = self.env["res.lang"]._lang_get(
                 lang or "").date_format
-            dates = ["%s%s" % (x.name, x.confirmation_date and
-                               " (%s)" %
-                               x.confirmation_date.strftime(date_format) or "")
+            dates = ["%s%s" % (
+                     x.name,
+                     x.confirmation_date and " (%s)" %
+                     # only when confirmation_date display it
+                     x.confirmation_date.strftime(date_format) or "")
                      for x in sales]
             inv.sale_dates = ", ".join(dates)
 

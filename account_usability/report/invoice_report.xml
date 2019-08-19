@@ -2,11 +2,8 @@
 <odoo>
 
 <template id="report_invoice_document" inherit_id="account.report_invoice_document">
-    <xpath expr="//div[@name='origin']" position="replace">
-        <div class="col-auto mw-100 mb-2" t-if="o.sale_dates" name="origin">
-            <strong>Source:</strong>
-            <p class="m-0" t-field="o.sale_dates"/>
-        </div>
+    <xpath expr="//div[@name='origin']/p" position="replace">
+        <p class="m-0" t-field="o.sale_dates"/>
     </xpath>
 </template>
 
