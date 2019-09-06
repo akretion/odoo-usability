@@ -438,6 +438,31 @@ module -->
     </field>
 </record>
 
+<record id="view_account_journal_form" model="ir.ui.view">
+    <field name="name">usability.account.journal.form</field>
+    <field name="model">account.journal</field>
+    <field name="inherit_id" ref="account.view_account_journal_form"/>
+    <field name="arch" type="xml">
+        <field name="bank_statements_source" position="after">
+            <field name="hide_bank_statement_balance"/>
+        </field>
+    </field>
+</record>
+
+<record id="account_journal_dashboard_kanban_view" model="ir.ui.view">
+    <field name="name">usability.account.journal.dashboard</field>
+    <field name="model">account.journal</field>
+    <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+    <field name="arch"  type="xml">
+        <field name="show_on_dashboard" position="after">
+            <field name="hide_bank_statement_balance"/>
+        </field>
+        <xpath expr="//div[@name='latest_statement']/.." position="attributes">
+            <attribute name="t-if">dashboard.last_balance != dashboard.account_balance &amp;&amp; !record.hide_bank_statement_balance.raw_value</attribute>
+        </xpath>
+    </field>
+</record>
+
 <record id="view_account_journal_tree" model="ir.ui.view">
     <field name="name">usability.account.journal.tree</field>
     <field name="model">account.journal</field>
@@ -479,10 +504,26 @@ module -->
         <field name="date" position="after">
             <field name="start_date"/>
             <field name="end_date"/>
+            <field name="hide_bank_statement_balance" invisible="1"/>
         </field>
         <field name="date" position="attributes">
             <attribute name="invisible">1</attribute>
         </field>
+        <label for="balance_start" position="attributes">
+            <attribute name="attrs">{'invisible': [('hide_bank_statement_balance', '=', True)]}</attribute>
+        </label>
+        <label for="balance_end_real" position="attributes">
+            <attribute name="attrs">{'invisible': [('hide_bank_statement_balance', '=', True)]}</attribute>
+        </label>
+        <xpath expr="//field[@name='balance_start']/.." position="attributes">
+            <attribute name="attrs">{'invisible': [('hide_bank_statement_balance', '=', True)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='balance_end_real']/.." position="attributes">
+            <attribute name="attrs">{'invisible': [('hide_bank_statement_balance', '=', True)]}</attribute>
+        </xpath>
+        <group name="sale_total" position="attributes">
+            <attribute name="attrs">{'invisible': [('hide_bank_statement_balance', '=', True)]}</attribute>
+        </group>
     </field>
 </record>
 

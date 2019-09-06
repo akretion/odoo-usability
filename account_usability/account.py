@@ -170,6 +170,15 @@ class AccountInvoiceLine(models.Model):
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
+    hide_bank_statement_balance = fields.Boolean(
+        string='Hide Bank Statement Balance',
+        help="You may want to enable this option when your bank "
+        "journal is generated from a bank statement file that "
+        "doesn't handle start/end balance (QIF for instance) and "
+        "you don't want to enter the start/end balance manually: it "
+        "will prevent the display of wrong information in the accounting "
+        "dashboard and on bank statements.")
+
     @api.multi
     @api.depends(
         'name', 'currency_id', 'company_id', 'company_id.currency_id', 'code')
@@ -517,6 +526,8 @@ class AccountBankStatement(models.Model):
     end_date = fields.Date(
         compute='_compute_dates', string='End Date', readonly=True,
         store=True)
+    hide_bank_statement_balance = fields.Boolean(
+        related='journal_id.hide_bank_statement_balance', readonly=True)
 
     @api.multi
     @api.depends('line_ids.date')
