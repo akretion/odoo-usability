@@ -12,8 +12,8 @@ class SaleOrder(models.Model):
     incoterm = fields.Many2one(track_visibility='onchange')
     picking_status = fields.Selection([
         ('deliverd', 'Fully deliverd'),
-        ('partialy delivered', 'Partialy Delivered'),
-        ('to deliver', 'To Deliver'),
+        ('partialy_delivered', 'Partialy Delivered'),
+        ('to_deliver', 'To Deliver'),
         ('no', 'Nothing to Deliver')
         ], string='Picking Status', compute='_get_delivered', store=True, readonly=True)
 
@@ -35,9 +35,9 @@ class SaleOrder(models.Model):
             elif all(picking.state == 'done' for picking in order.picking_ids):
                 picking_status = 'deliverd'
             elif any(picking.state == 'done' for picking in order.picking_ids):
-                picking_status = 'partialy delivered'
+                picking_status = 'partialy_delivered'
             elif all(picking.state in ('confirmed', 'assigned', 'waiting') for picking in order.picking_ids):
-                picking_status = 'to deliver'
+                picking_status = 'to_deliver'
             else:
                 picking_status = 'no'
 

@@ -59,7 +59,7 @@
     <field name="arch" type="xml">
         <filter name="order_month" position="after">
             <filter string="To Deliver" name="to_deliver"
-                domain="['|', ('picking_status','=','to deliver'), ('picking_status','=','partialy delivered')]"/>
+                domain="['|', ('picking_status','=','to_deliver'), ('picking_status','=','partialy_delivered')]"/>
             <filter string="Fully deliverd" name="fully_deliverd" domain="[('picking_status','=','deliverd')]"/>
         </filter>
     </field>
