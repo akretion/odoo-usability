@@ -11,7 +11,7 @@ class SaleOrder(models.Model):
     warehouse_id = fields.Many2one(track_visibility='onchange')
     incoterm = fields.Many2one(track_visibility='onchange')
     picking_status = fields.Selection([
-        ('deliverd', 'Fully deliverd'),
+        ('deliverd', 'Fully Deliverd'),
         ('partialy_delivered', 'Partialy Delivered'),
         ('to_deliver', 'To Deliver'),
         ('no', 'Nothing to Deliver')
