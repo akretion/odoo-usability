@@ -57,10 +57,12 @@
     <field name="model">sale.order</field>
     <field name="inherit_id" ref="sale.view_sales_order_filter"/>
     <field name="arch" type="xml">
-        <filter name="order_month" position="after">
-            <filter string="To Deliver" name="to_deliver"
-                domain="['|', ('picking_status','=','to_deliver'), ('picking_status','=','partialy_delivered')]"/>
-            <filter string="Fully deliverd" name="fully_deliverd" domain="[('picking_status','=','deliverd')]"/>
+        <filter name="my_sale_orders_filter" position="after">
+            <separator/>
+            <filter string="Not Fully Delivered" name="not_fully_delivered"
+                    domain="[('picking_status', 'in', ('to_deliver', 'partially_delivered'))]"/>
+            <filter string="Fully Delivered" name="fully_delivered"
+                    domain="[('picking_status', '=', 'delivered')]"/>
         </filter>
     </field>
 </record>
