@@ -30,4 +30,41 @@
     </field>
 </record>
 
+<record id="view_order_form" model="ir.ui.view">
+    <field name="name">sale_stock_usability.order.form</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+        <field name="pricelist_id" position="after">
+            <field name="picking_status"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_order_tree" model="ir.ui.view">
+    <field name="name">sale_stock_usability.order.tree</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_tree"/>
+    <field name="arch" type="xml">
+        <field name="invoice_status" position="after">
+            <field name="picking_status"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_sales_order_filter" model="ir.ui.view">
+    <field name="name">sale_stock_usability.order.search</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+    <field name="arch" type="xml">
+        <filter name="my_sale_orders_filter" position="after">
+            <separator/>
+            <filter string="Not Fully Delivered" name="not_fully_delivered"
+                    domain="[('picking_status', 'in', ('to_deliver', 'partially_delivered'))]"/>
+            <filter string="Fully Delivered" name="fully_delivered"
+                    domain="[('picking_status', '=', 'delivered')]"/>
+        </filter>
+    </field>
+</record>
+
 </odoo>
