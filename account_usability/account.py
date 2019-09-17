@@ -6,6 +6,7 @@ from odoo import models, fields, api, _
 from odoo.tools import float_compare, float_is_zero
 from odoo.tools.misc import formatLang
 from odoo.exceptions import UserError, ValidationError
+from odoo.osv import expression
 from odoo import SUPERUSER_ID
 import logging
 
@@ -659,3 +660,17 @@ class AccountIncoterms(models.Model):
         for rec in self:
             res.append((rec.id, '[%s] %s' % (rec.code, rec.name)))
         return res
+
+
+class AccountReconciliation(models.AbstractModel):
+    _inherit = 'account.reconciliation.widget'
+
+    # Add ability to filter by account code in the work interface of the
+    # bank statement
+    @api.model
+    def _domain_move_lines(self, search_str):
+        str_domain = super(AccountReconciliation, self)._domain_move_lines(
+            search_str)
+        account_code_domain = [('account_id.code', '=ilike', search_str + '%')]
+        str_domain = expression.OR([str_domain, account_code_domain])
+        return str_domain
