@@ -30,6 +30,7 @@ This module has been written by Alexis de Lattre from Akretion
         'sale_view.xml',
         'sale_report_view.xml',
         'product_view.xml',
+        'account_invoice_view.xml',
         ],
     'installable': True,
 }

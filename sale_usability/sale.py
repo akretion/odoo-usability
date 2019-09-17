@@ -4,7 +4,6 @@
 
 from odoo import models, fields, api
 from odoo.tools import float_is_zero
-from collections import OrderedDict
 
 
 class SaleOrder(models.Model):

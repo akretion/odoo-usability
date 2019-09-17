@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2019 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="account_invoice_form" model="ir.ui.view">
+    <field name="name">sale_usability.customer.invoice.form</field>
+    <field name="model">account.invoice</field>
+    <field name="inherit_id" ref="sale.account_invoice_form"/>
+    <field name="arch" type="xml">
+        <div name="button_box" position="inside">
+            <button name="show_sale_orders"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-pencil-square-o"
+                    attrs="{'invisible': [('sale_count', '=', 0)]}">
+                <field name="sale_count" widget="statinfo" string="Sale Orders"/>
+            </button>
+        </div>
+    </field>
+</record>
+
+<record id="account_invoice_line_form" model="ir.ui.view">
+    <field name="name">sale_usability.invoice.line.form</field>
+    <field name="model">account.invoice.line</field>
+    <field name="inherit_id" ref="sale.account_invoice_line_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@groups='analytic.group_analytic_tags']" position="after">
+            <field name="sale_line_ids" widget="many2many_tags" attrs="{'invisible': [('invoice_type', 'in', ('in_invoice', 'in_refund'))]}"/>
+        </xpath>
+    </field>
+</record>
+
+</odoo>
