@@ -2,19 +2,25 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields
+from odoo import api, fields, models
 
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     ref = fields.Char(copy=False)  # To avoid blocking duplicate
+    invalidate_display_name = fields.Boolean()
 
     _sql_constraints = [(
         'ref_unique',
         'unique(ref)',
         'A partner already exists with this internal reference!'
         )]
+
+    # add 'ref' in depends
+    @api.depends('is_company', 'name', 'parent_id.name', 'type', 'company_name', 'ref', 'invalidate_display_name')
+    def _compute_display_name(self):
+        super(ResPartner, self)._compute_display_name()
 
     def _get_name(self):
         partner = self
