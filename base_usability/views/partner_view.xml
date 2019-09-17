@@ -61,6 +61,9 @@
             <!-- for 'ref', change '=' to 'start with' -->
             <attribute name="filter_domain">['|','|',('display_name','ilike',self),('ref','=ilike',self + '%'),('email','ilike',self)]</attribute>
         </field>
+        <filter name="inactive" position="before">
+            <separator/>
+        </filter>
     </field>
 </record>
 
