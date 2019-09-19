@@ -91,21 +91,42 @@ class StockMove(models.Model):
             res.append((line.id, name))
         return res
 
-#    def button_do_unreserve(self):
-#        for move in self:
-#            move.do_unreserve()
-#            if move.picking_id:
-#                product = move.product_id
-#                self.picking_id.message_post(_(
-#                    "Product <a href=# data-oe-model=product.product "
-#                    "data-oe-id=%d>%s</a> qty %s %s <b>unreserved</b>")
-#                    % (product.id, product.display_name,
-#                       move.product_qty, move.product_id.uom_id.name))
-#            ops = self.env['stock.pack.operation']
-#            for smol in move.linked_move_operation_ids:
-#                if smol.operation_id:
-#                    ops += smol.operation_id
-#            ops.unlink()
+    def button_do_unreserve(self):
+        for move in self:
+            move._do_unreserve()
+            picking = move.picking_id
+            if picking:
+                product = move.product_id
+                picking.message_post(_(
+                    "Product <a href=# data-oe-model=product.product "
+                    "data-oe-id=%d>%s</a> qty %s %s <b>unreserved</b>")
+                    % (product.id, product.display_name,
+                       move.product_qty, product.uom_id.name))
+                # Copied from do_unreserved of stock.picking
+                picking.package_level_ids.filtered(lambda p: not p.move_ids).unlink()
+
+
+class StockMoveLine(models.Model):
+    _inherit = 'stock.move.line'
+
+    def button_do_unreserve(self):
+        for moveline in self:
+            if moveline.state == 'cancel':
+                continue
+            elif moveline.state == 'done':
+                raise UserError(_(
+                    "You cannot unreserve a move line in done state."))
+            picking = moveline.move_id.picking_id
+            if picking:
+                product = moveline.product_id
+                picking.message_post(_(
+                    "Product <a href=# data-oe-model=product.product "
+                    "data-oe-id=%d>%s</a> qty %s %s <b>unreserved</b>")
+                    % (product.id, product.display_name,
+                       moveline.product_qty, product.uom_id.name))
+                # Copied from do_unreserved of stock.picking
+                picking.package_level_ids.filtered(lambda p: not p.move_ids).unlink()
+            moveline.unlink()
 
 
 class ProcurementGroup(models.Model):

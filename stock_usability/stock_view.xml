@@ -23,6 +23,7 @@
         <button name="action_cancel" type="object" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this picking?</attribute>
         </button>
+        <!-- STOCK MOVE -->
         <!-- This sum is useful to check the 'number of items' to transfer... -->
         <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_uom_qty']" position="attributes">
             <attribute name="sum">1</attribute>
@@ -33,6 +34,13 @@
             <field name="location_id" groups="stock.group_stock_multi_locations"/>
             <field name="location_dest_id" groups="stock.group_stock_multi_locations"/>
         </xpath>
+        <xpath expr="//field[@name='move_ids_without_package']/tree/button[@name='action_show_details']" position="after">
+            <button type="object" name="button_do_unreserve" string="Unreserve"
+                groups="stock.group_stock_user"
+                states="partially_available,assigned"
+                icon="fa-ban"/>
+        </xpath>
+        <!-- STOCK MOVE LINE -->
         <xpath expr="//field[@name='move_line_ids_without_package']/tree/field[@name='location_id']" position="attributes">
             <attribute name="attrs">{}</attribute>
         </xpath>
@@ -174,12 +182,12 @@
     <field name="model">stock.move</field>
     <field name="inherit_id" ref="stock.view_move_picking_form" />
     <field name="arch" type="xml">
-        <!--
         <field name="state" position="before">
             <button type="object" name="button_do_unreserve" string="Unreserve"
                 groups="stock.group_stock_user"
-                attrs="{'invisible': [('reserved_quant_ids', '=', [])]}"/>
+                states="partially_available,assigned"/>
         </field>
+        <!--
         <field name="group_id" position="replace"/>
         <group name="moved_quants_grp" position="after">
             <notebook colspan="2">
@@ -208,6 +216,7 @@
     </field>
 </record>
 
+<!--
 <record id="view_move_picking_tree" model="ir.ui.view">
     <field name="name">stock_usability.src_location.in.picking.form</field>
     <field name="model">stock.move</field>
@@ -219,16 +228,16 @@
         <field name="location_dest_id" position="attributes">
             <attribute name="invisible">0</attribute>
         </field>
-        <!--
         <field name="state" position="after">
             <button type="object" name="button_do_unreserve" string="Unreserve"
                 groups="stock.group_stock_user"
-                attrs="{'invisible': [('reserved_quant_ids', '=', [])]}"
+                states="partially_available,assigned"
                 icon="fa-ban"/>
-            <field name="reserved_quant_ids" invisible="1"/>
-        </field>  -->
+        </field>
     </field>
 </record>
+-->
+
 
 <!-- By default, stock.move have:
      _order = 'picking_id, sequence, id'
@@ -244,6 +253,12 @@
         <tree position="attributes">
             <attribute name="default_order">date desc, picking_id, sequence</attribute>
         </tree>
+        <field name="state" position="after">
+            <button type="object" name="button_do_unreserve" string="Unreserve"
+                groups="stock.group_stock_user"
+                states="partially_available,assigned"
+                icon="fa-ban"/>
+        </field>
     </field>
 </record>
 
@@ -257,6 +272,12 @@
         </field>
         <field name="qty_done" position="attributes">
             <attribute name="sum">1</attribute>
+        </field>
+        <field name="state" position="after">
+            <button type="object" name="button_do_unreserve" string="Unreserve"
+                groups="stock.group_stock_user"
+                states="partially_available,assigned"
+                icon="fa-ban"/>
         </field>
     </field>
 </record>
