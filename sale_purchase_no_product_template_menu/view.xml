@@ -21,11 +21,6 @@
     <field name="action" ref="product_product_action_purchased"/>
 </record>
 
-<!-- STOCK -->
-<record id="stock.menu_product_variant_config_stock" model="ir.ui.menu">
-    <field name="action" ref="product.product_normal_action"/>
-</record>
-
 <!-- SALE -->
 <!-- I'd prefer to inherit product.product_normal_action_sell and
 change the "name" field, but it doesn't work with translation,
