@@ -12,4 +12,14 @@
     </field>
 </record>
 
+<record id="view_sequence_search" model="ir.ui.view">
+    <field name="model">ir.sequence</field>
+    <field name="inherit_id" ref="base.view_sequence_search"/>
+    <field name="arch" type="xml">
+        <field name="name" position="after">
+            <field name="prefix"/>
+        </field>
+    </field>
+</record>
+
 </odoo>

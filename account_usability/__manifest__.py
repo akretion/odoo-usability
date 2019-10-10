@@ -13,6 +13,7 @@ Account Usability
 =================
 
 The usability enhancements include:
+
 * show the supplier invoice number in the tree view of supplier invoices
 * add an *Overdue* filter on invoice search view (this feature was previously 
   located in te module *account_invoice_overdue_filter*)
@@ -23,6 +24,7 @@ The usability enhancements include:
   https://www.service-public.fr/professionnels-entreprises/vosdroits/F31808
 
 Together with this module, I recommend the use of the following modules:
+
 * account_invoice_supplier_ref_unique (OCA project account-invoicing)
 * account_move_line_no_default_search (OCA project account-financial-tools)
 * invoice_fiscal_position_update (OCA project account-invoicing)

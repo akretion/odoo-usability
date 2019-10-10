@@ -12,7 +12,7 @@
     <field name="model">ir.module.module</field>
     <field name="inherit_id" ref="base.module_view_kanban"/>
     <field name="arch" type="xml">
-        <xpath expr="//h4[@class='o_kanban_record_title']/code[@groups='base.group_no_one']" position="before">
+        <xpath expr="//h4[hasclass('o_kanban_record_title')]/code[@groups='base.group_no_one']" position="before">
             <br/>
         </xpath>
     </field>
