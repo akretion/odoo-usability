@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+<template id="report_saledetails" inherit_id="point_of_sale.report_saledetails">
+
+    <xpath expr="//table[3]/thead/tr/th[3]" position="after">
+        <th>Amount</th>
+    </xpath>
+    <xpath expr="//table[3]/tbody/tr" position="inside">
+        <td><t t-esc="tax['tax_amount'] + tax['base_amount']"
+               t-options="{'widget': 'float', 'precision': currency_precision}" /></td>
+    </xpath>
+
+</template>
+
+</odoo>
