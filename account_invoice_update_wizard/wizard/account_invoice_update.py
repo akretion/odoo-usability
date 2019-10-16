@@ -295,7 +295,8 @@ class AccountInvoiceLineUpdate(models.TransientModel):
     parent_id = fields.Many2one(
         'account.invoice.update', string='Wizard', ondelete='cascade')
     invoice_line_id = fields.Many2one(
-        'account.invoice.line', string='Invoice Line', readonly=True)
+        'account.invoice.line', string='Invoice Line',
+    )
     name = fields.Text(string='Description', required=True)
     quantity = fields.Float(
         string='Quantity', digits=dp.get_precision('Product Unit of Measure'),
