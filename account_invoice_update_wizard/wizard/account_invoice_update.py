@@ -66,8 +66,9 @@ class AccountInvoiceUpdate(models.TransientModel):
         assert self._context.get('active_model') == 'account.invoice',\
             'active_model should be account.invoice'
         inv = self.env['account.invoice'].browse(self._context['active_id'])
-        res = self._prepare_default_get(inv)
-        return res
+        res.update(self._prepare_default_get(inv))
+        return {k: v for k, v in res.items() if k in fields_list}
+
 
     @api.onchange('type')
     def type_on_change(self):
