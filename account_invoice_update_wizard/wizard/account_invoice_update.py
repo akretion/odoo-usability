@@ -49,15 +49,18 @@ class AccountInvoiceUpdate(models.TransientModel):
             res[m2ofield] = invoice[m2ofield].id or False
         for line in invoice.invoice_line_ids:
             aa_tags = line.analytic_tag_ids
-            aa_tags = [(6, 0, aa_tags.ids)] if aa_tags else False
-            res['line_ids'].append([0, 0, {
+            line_vals = {
                 'invoice_line_id': line.id,
                 'name': line.name,
                 'quantity': line.quantity,
                 'price_subtotal': line.price_subtotal,
                 'account_analytic_id': line.account_analytic_id.id,
-                'analytic_tag_ids': aa_tags,
-            }])
+            }
+            if aa_tags:
+                line_vals['analytic_tag_ids'] = [(6, 0, aa_tags.ids)]
+            else:
+                line_vals['analytic_tag_ids'] = [(5, 0, 0)]
+            res['line_ids'].append([0, 0, line_vals])
         return res
 
     @api.model
