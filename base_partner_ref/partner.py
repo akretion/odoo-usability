@@ -2,7 +2,7 @@
 # © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api
 
 
 class ResPartner(models.Model):
@@ -15,6 +15,15 @@ class ResPartner(models.Model):
         'unique(ref)',
         'A partner already exists with this internal reference!'
         )]
+
+    # in v10, display_name is store=True by default
+    # so, when we inherit name_get() and use additionnal fields, we
+    # have to inherit @api.depends of _compute_display_name() too
+    @api.depends(
+        'is_company', 'name', 'parent_id.name', 'type', 'company_name',
+        'ref', 'parent_id.ref')
+    def _compute_display_name(self):
+        super(ResPartner, self)._compute_display_name()
 
     @api.multi
     def name_get(self):
