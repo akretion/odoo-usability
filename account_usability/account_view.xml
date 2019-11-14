@@ -440,7 +440,7 @@ module -->
         <xpath expr="//field[@name='line_ids']/tree/field[@name='bank_account_id']" position="after">
             <!-- The cancel button is provided by the account_cancel module, but we don't want to depend on it -->
             <button name="show_account_move" type="object"
-                string="View Account Move" icon="fa fa-arrow-right"
+                string="View Account Move" icon="fa-arrow-right"
                 attrs="{'invisible': [('journal_entry_ids', '=', [])]}"/>
         </xpath>
         <field name="date" position="after">
