@@ -18,6 +18,12 @@
                 <field name="payment_line_ids" nolabel="1"/>
             </page>
         </notebook>
+        <field name="amount_total" position="after">
+            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                <label for="amount_down_payment" />
+            </div>
+            <field name="amount_down_payment" nolabel="1" class="oe_subtotal_footer_separator"/>
+        </field>
     </field>
 </record>
 

@@ -3,16 +3,18 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Sale Advance Payment Management',
+    'name': 'Sale Down Payment',
     'version': '12.0.1.0.0',
     'category': 'Sales',
     'license': 'AGPL-3',
     'summary': 'Link payment to sale orders',
     'description': """
-Sale Advance Payment Management
-===============================
+Sale Down Payment
+=================
 
 This module adds a link between payment and sale orders. It allows to see advanced payment directly on the sale order form view.
+
+After processing a bank statement, you can start a wizard to link unreconciled incoming payments to a sale order.
 
 This module targets B2B companies that don't want to generate a down payment invoice for an advanced payment.
 
