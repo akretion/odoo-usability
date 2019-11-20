@@ -1,33 +1,33 @@
 diff --git a/addons/account/models/account_payment.py b/addons/account/models/account_payment.py
-index b1d8012329d..b8a8e2a673d 100644
+index f38f459c533..a475d6a82c7 100644
 --- a/addons/account/models/account_payment.py
 +++ b/addons/account/models/account_payment.py
-@@ -210,6 +210,7 @@ class account_payment(models.Model):
+@@ -62,6 +62,7 @@ class account_abstract_payment(models.AbstractModel):
      payment_difference = fields.Monetary(compute='_compute_payment_difference', readonly=True)
-     payment_difference_handling = fields.Selection([('open', 'Keep open'), ('reconcile', 'Mark invoice as fully paid')], default='open', string="Payment Difference", copy=False)
+     payment_difference_handling = fields.Selection([('open', 'Keep open'), ('reconcile', 'Mark invoice as fully paid')], default='open', string="Payment Difference Handling", copy=False)
      writeoff_account_id = fields.Many2one('account.account', string="Difference Account", domain=[('deprecated', '=', False)], copy=False)
 +    writeoff_analytic_account_id = fields.Many2one('account.analytic.account', string="Difference Analytic Account", copy=False)
- 
-     # FIXME: ondelete='restrict' not working (eg. cancel a bank statement reconciliation with a payment)
-     move_line_ids = fields.One2many('account.move.line', 'payment_id', readonly=True, copy=False, ondelete='restrict')
-@@ -431,6 +432,7 @@ class account_payment(models.Model):
-                 amount_currency_wo = -abs(amount_currency_wo)
-             writeoff_line['name'] = _('Counterpart')
+     writeoff_label = fields.Char(
+         string='Journal Item Label',
+         help='Change label of the counterpart that will hold the payment difference',
+@@ -717,6 +718,7 @@ class account_payment(models.Model):
+             debit_wo, credit_wo, amount_currency_wo, currency_id = aml_obj.with_context(date=self.payment_date)._compute_amount_fields(self.payment_difference, self.currency_id, self.company_id.currency_id)
+             writeoff_line['name'] = self.writeoff_label
              writeoff_line['account_id'] = self.writeoff_account_id.id
 +            writeoff_line['analytic_account_id'] = self.writeoff_analytic_account_id.id or False
              writeoff_line['debit'] = debit_wo
              writeoff_line['credit'] = credit_wo
              writeoff_line['amount_currency'] = amount_currency_wo
 diff --git a/addons/account/views/account_payment_view.xml b/addons/account/views/account_payment_view.xml
-index 2460458fbaa..4065d8f9952 100644
+index 07230902ee8..1359009bf23 100644
 --- a/addons/account/views/account_payment_view.xml
 +++ b/addons/account/views/account_payment_view.xml
-@@ -206,6 +206,8 @@
-                                 </div>
-                                 <field name="writeoff_account_id" string="Post Difference In"
-                                     attrs="{'invisible': [('payment_difference_handling','=','open')], 'required': [('payment_difference_handling', '=', 'reconcile')]}"/>
-+                                <field name="writeoff_analytic_account_id" string="Post Difference In Analytic Account"
-+                                    attrs="{'invisible': [('payment_difference_handling','=','open')]}"/>
-                             </group>
-                         </group>
-                     </sheet>
+@@ -277,6 +277,8 @@
+                                     <div attrs="{'invisible': [('payment_difference_handling','=','open')]}">
+                                         <label for="writeoff_account_id" class="oe_edit_only" string="Post Difference In"/>
+                                         <field name="writeoff_account_id" string="Post Difference In" attrs="{'required': [('payment_difference_handling', '=', 'reconcile')]}"/>
++                                        <label for="writeoff_analytic_account_id" class="oe_edit_only" string="Analytic Account" groups="analytic.group_analytic_accounting"/>
++                                        <field name="writeoff_analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                                         <label for="journal_id" string="Journal" attrs="{'invisible': [('amount', '!=', 0)]}"/>
+                                         <field name="journal_id" string="Journal" widget="selection" attrs="{'invisible': [('amount', '!=', 0)]}"/>
+                                         <label for="writeoff_label" class="oe_edit_only" string="Label"/>
