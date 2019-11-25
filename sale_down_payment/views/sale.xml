@@ -8,6 +8,14 @@
 <odoo>
 
 
+<record id="sale_account_payment_action" model="ir.actions.act_window">
+    <field name="name">Register Payment</field>
+    <field name="res_model">account.payment</field>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="account.view_account_payment_invoice_form"/>
+    <field name="target">new</field>
+</record>
+
 <record id="view_order_form" model="ir.ui.view">
     <field name="name">advance_payment.sale.order.form</field>
     <field name="model">sale.order</field>
@@ -16,6 +24,7 @@
         <notebook position="inside">
             <page name="advance_payment" string="Advance Payments">
                 <field name="payment_line_ids" nolabel="1"/>
+                <field name="amount_residual" invisible="1"/>
             </page>
         </notebook>
         <field name="amount_total" position="after">
@@ -24,6 +33,9 @@
             </div>
             <field name="amount_down_payment" nolabel="1" class="oe_subtotal_footer_separator"/>
         </field>
+        <button name="action_cancel" position="before">
+            <button type="action" name="%(sale_account_payment_action)d" string="Register Payment" attrs="{'invisible': ['|', ('amount_residual', '&lt;=', 0), ('invoice_status', '=', 'invoiced')]}"/>
+        </button>
     </field>
 </record>
 

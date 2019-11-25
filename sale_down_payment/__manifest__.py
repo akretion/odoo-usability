@@ -12,9 +12,9 @@
 Sale Down Payment
 =================
 
-This module adds a link between payment and sale orders. It allows to see advanced payment directly on the sale order form view.
+This module adds a link between payments and sale orders. It allows to see down payments directly on the sale order form view.
 
-After processing a bank statement, you can start a wizard to link unreconciled incoming payments to a sale order.
+After processing a bank statement, you can start a wizard to link unreconciled incoming payments to a sale order. There is also a button *Register Payment* on the sale order.
 
 This module targets B2B companies that don't want to generate a down payment invoice for an advanced payment.
 
@@ -29,6 +29,7 @@ This module has been written by Alexis de Lattre from Akretion
         'views/account_bank_statement.xml',
         'views/sale.xml',
         'views/account_move_line.xml',
+        'views/account_payment.xml',
         ],
     'installable': True,
 }

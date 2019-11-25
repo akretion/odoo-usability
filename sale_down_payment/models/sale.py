@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+from odoo.tools import float_round
 
 
 class SaleOrder(models.Model):
@@ -13,6 +14,9 @@ class SaleOrder(models.Model):
         readonly=True)
     amount_down_payment = fields.Monetary(
         compute='_compute_amount_down_payment', string='Down Payment Amount')
+    # amount_residual : only used to hide 'Register Payment' button
+    amount_residual = fields.Monetary(
+        compute='_compute_amount_down_payment', string='Residual')
 
     @api.depends(
         'payment_line_ids.credit', 'payment_line_ids.debit',
@@ -36,4 +40,9 @@ class SaleOrder(models.Model):
                         down_payment -= sale.company_id.currency_id._convert(
                             pl.balance, sale_currency, sale.company_id,
                             pl.date)
+            down_payment = float_round(
+                down_payment, precision_rounding=sale.currency_id.rounding)
             sale.amount_down_payment = down_payment
+            sale.amount_residual = float_round(
+                sale.amount_total - down_payment,
+                precision_rounding=sale.currency_id.rounding)

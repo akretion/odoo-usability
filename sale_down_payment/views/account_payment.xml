@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2018 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_account_payment_sale_form" model="ir.ui.view">
+    <field name="name">account.payment.sale.form</field>
+    <field name="model">account.payment</field>
+    <field name="inherit_id" ref="account.view_account_payment_invoice_form"/>
+    <field name="arch" type="xml">
+        <field name="invoice_ids" position="after">
+            <field name="sale_id" invisible="1"/>
+        </field>
+    </field>
+</record>
+
+
+</odoo>
