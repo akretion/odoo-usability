@@ -674,3 +674,15 @@ class AccountReconciliation(models.AbstractModel):
         account_code_domain = [('account_id.code', '=ilike', search_str + '%')]
         str_domain = expression.OR([str_domain, account_code_domain])
         return str_domain
+
+    @api.model
+    def _domain_move_lines_for_reconciliation(
+            self, st_line, aml_accounts, partner_id,
+            excluded_ids=None, search_str=False):
+        domain = super()._domain_move_lines_for_reconciliation(
+            st_line, aml_accounts, partner_id,
+            excluded_ids=excluded_ids, search_str=search_str)
+        # We want to replace a domain item by another one
+        position = domain.index(('payment_id', '<>', False))
+        domain[position] = ['journal_id', '=', st_line.journal_id.id]
+        return domain
