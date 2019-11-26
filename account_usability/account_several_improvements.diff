@@ -1,26 +1,3 @@
-diff --git a/addons/account/models/reconciliation_widget.py b/addons/account/models/reconciliation_widget.py
-index f32e4c9b474..4c32df1800e 100644
---- a/addons/account/models/reconciliation_widget.py
-+++ b/addons/account/models/reconciliation_widget.py
-@@ -482,12 +482,16 @@ class AccountReconciliation(models.AbstractModel):
-             :param excluded_ids:
-             :param search_str:
-         """
--
-+        # Remove ('payment_id','<>', False) in order to allow to select move lines
-+        # generated from payment orders or check deposit
-+        # but I add ('journal_id', '=', self.journal_id.id) to exclude the
-+        # opening entry of the first fiscal year and other unrelated moves
-         domain_reconciliation = [
-             '&', '&',
-             ('statement_line_id', '=', False),
-             ('account_id', 'in', aml_accounts),
--            ('payment_id', '<>', False)
-+            ('journal_id', '=', st_line.journal_id.id),
-+            # ('payment_id', '<>', False)
-         ]
- 
-         # default domain matching
 diff --git a/addons/account/static/src/js/reconciliation/reconciliation_renderer.js b/addons/account/static/src/js/reconciliation/reconciliation_renderer.js
 index 53f28e0c620..1721d01edf9 100644
 --- a/addons/account/static/src/js/reconciliation/reconciliation_renderer.js
