@@ -582,13 +582,13 @@ class AccountBankStatementLine(models.Model):
     def show_account_move(self):
         self.ensure_one()
         action = self.env['ir.actions.act_window'].for_xml_id(
-            'account', 'action_move_journal_line')
+            'account', 'action_move_line_form')
         if self.journal_entry_ids:
             action.update({
                 'views': False,
                 'view_id': False,
                 'view_mode': 'form,tree',
-                'res_id': self.journal_entry_ids[0].id,
+                'res_id': self.journal_entry_ids[0].move_id.id,
                 })
             return action
         else:
