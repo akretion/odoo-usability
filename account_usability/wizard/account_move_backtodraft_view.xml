@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+<record id="account_move_backtodraft_form" model="ir.ui.view">
+    <field name="name">Unpost Journal Entries</field>
+    <field name="model">account.move.backtodraft</field>
+    <field name="arch" type="xml">
+        <form string="Unpost Journal Entries">
+            <label string="All selected journal entries will be unposted (if allowed by the journal configuration)."/>
+            <footer>
+                <button string="Unpost Journal Entries" name="backtodraft" type="object" class="btn-primary"/>
+                <button string="Cancel" class="btn-default" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<act_window id="account_move_backtodraft_action"
+            multi="True"
+            key2="client_action_multi"
+            name="Unpost Journal Entries"
+            res_model="account.move.backtodraft"
+            src_model="account.move"
+            view_mode="form"
+            target="new" />
+
+
+</odoo>

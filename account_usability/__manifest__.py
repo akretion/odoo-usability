@@ -42,6 +42,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'partner_view.xml',
         'product_view.xml',
         'wizard/account_invoice_mark_sent_view.xml',
+        'wizard/account_move_backtodraft_view.xml',
         ],
     'installable': True,
 }
