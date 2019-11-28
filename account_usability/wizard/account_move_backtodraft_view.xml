@@ -22,6 +22,7 @@
             name="Unpost Journal Entries"
             res_model="account.move.backtodraft"
             src_model="account.move"
+            groups="account.group_account_user"
             view_mode="form"
             target="new" />
 
