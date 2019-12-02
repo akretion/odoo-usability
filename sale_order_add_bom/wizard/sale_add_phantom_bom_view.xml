@@ -13,7 +13,7 @@
     <field name="arch"  type="xml">
         <form string="Add Phantom BOM to the Quotation">
             <group name="main">
-                <field name="bom_id"/>
+                <field name="bom_id" default_focus="1"/>
                 <field name="qty"/>
             </group>
             <footer>
