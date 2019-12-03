@@ -19,6 +19,7 @@ The usability enhancements include:
 * add a group by Partner in the picking search view (particularly usefull for receptions)
 * add graph view for pickings
 * remove ability to translate stock.location, stock.location.route and stock.picking.type
+* unactive view "stock.view_production_lot_form_simple" because it doesn't include smart buttons Locate and Traceability Report ; then we only use the main view "stock.view_production_lot_form" like in previous odoo versions
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,

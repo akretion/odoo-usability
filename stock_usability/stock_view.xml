@@ -438,5 +438,12 @@ So I create another "regular" Quants" menu entry -->
     <field name="context">{}</field> <!-- remove group by product -->
 </record>
 
+<record id="stock.view_production_lot_form_simple" model="ir.ui.view">
+    <!-- This view doesn't include smart buttons: 
+        - Locate
+        - Traceability Report
+    -->
+    <field name="active" eval="0"/>
+</record>
 
 </odoo>
