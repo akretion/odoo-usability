@@ -115,6 +115,6 @@ class CommissionResult(models.Model):
 
     _sql_constraints = [(
         'salesman_period_company_unique',
-        'unique(company_id, commission_partner_id, date_range_id)',
+        'unique(company_id, user_id, date_range_id)',
         'A commission result already exists for this salesman for '
         'the same period')]
