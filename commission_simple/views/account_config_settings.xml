@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2019 Akretion France
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_account_config_settings" model="ir.ui.view">
+    <field name="name">commission.account.config.settings.form</field>
+    <field name="model">account.config.settings</field>
+    <field name="inherit_id" ref="account.view_account_config_settings" />
+    <field name="arch" type="xml">
+        <xpath expr="//div[@name='invoice_taxes']/.." position="after">
+            <group name="commission">
+                <label for="id" string="Commission"/>
+                <div name="commission">
+                    <div name="commission_date_range_type">
+                        <label for="commission_date_range_type_id"/>
+                        <field name="commission_date_range_type_id" class="oe_inline"/>
+                    </div>
+                </div>
+            </group>
+        </xpath>
+    </field>
+</record>
+
+
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_commission_profile_read,Read access on commission.profile for employees,model_commission_profile,base.group_user,1,0,0,0
+access_commission_profile_full,Full access on commission.profile for financial manager,model_commission_profile,account.group_account_manager,1,1,1,1
+access_commission_rule_full,Full access on commission.rule for financial manager,model_commission_rule,account.group_account_manager,1,1,1,1
+access_commission_rule_read,Read access on commission.rule for invoicing group,model_commission_rule,account.group_account_invoice,1,0,0,0
+access_commission_result_full,Full access on commission.result to accountant,model_commission_result,account.group_account_user,1,1,1,1
+access_commission_result_read,Read access on commission.result to invoicing grp,model_commission_result,account.group_account_invoice,1,0,0,0

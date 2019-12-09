@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2019 Akretion France (http://www.akretion.com)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
+-->
+
+<odoo>
+
+
+<record id="view_users_form" model="ir.ui.view">
+    <field name="name">commission.res.users.form</field>
+    <field name="model">res.users</field>
+    <field name="inherit_id" ref="base.view_users_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='action_id']/.." position="after">
+            <group name="commission" string="Commission">
+                <field name="commission_profile_id"/>
+            </group>
+        </xpath>
+    </field>
+</record>
+
+
+</odoo>

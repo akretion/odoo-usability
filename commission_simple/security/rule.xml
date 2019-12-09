@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2019 Akretion France (http://www.akretion.com)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
+-->
+
+<odoo noupdate="1">
+
+
+<record id="commission_profile_rule" model="ir.rule">
+    <field name="name">Commission Profile multi-company</field>
+    <field name="model_id" ref="model_commission_profile"/>
+    <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+</record>
+
+<record id="commission_rule_rule" model="ir.rule">
+    <field name="name">Commission Rule multi-company</field>
+    <field name="model_id" ref="model_commission_rule"/>
+    <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+</record>
+
+<record id="commission_result_rule" model="ir.rule">
+    <field name="name">Commission Result multi-company</field>
+    <field name="model_id" ref="model_commission_result"/>
+    <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+</record>
+
+
+</odoo>

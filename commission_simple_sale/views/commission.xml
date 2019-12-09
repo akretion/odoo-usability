@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2019 Akretion France (http://www.akretion.com)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
+-->
+
+<odoo>
+
+<menuitem id="commission_sale_root" name="Commissions" parent="sales_team.menu_base_partner" sequence="50"/>
+
+<menuitem id="commission_result_sale_menu" action="commission_simple.commission_result_action" parent="commission_sale_root" sequence="10" groups="sales_team.group_sale_salesman"/>
+
+
+</odoo>
