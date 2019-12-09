@@ -78,7 +78,10 @@
                     <field name="date_end"/>
                 </group>
                 <group name="compute" string="Compute">
-                    <field name="rate"/>
+                    <label for="rate"/>
+                    <div name="rate">
+                        <field name="rate" class="oe_inline"/> %
+                    </div>
                 </group>
             </sheet>
         </form>
@@ -94,7 +97,7 @@
             <field name="applied_on"/>
             <field name="date_start"/>
             <field name="date_end"/>
-            <field name="rate"/>
+            <field name="rate" string="Rate (%)"/>
         </tree>
     </field>
 </record>
