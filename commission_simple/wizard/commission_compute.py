@@ -22,7 +22,8 @@ class CommissionCompute(models.TransientModel):
         today = fields.Date.from_string(fields.Date.context_today(self))
         first_day_last_month = today + relativedelta(months=-1, day=1)
         dranges = self.env['date.range'].search([
-            ('company_id', '=', self.env.user.company_id.id),
+            '|', ('company_id', '=', self.env.user.company_id.id),
+            ('company_id', '=', False),
             ('type_id', '=', drange_type.id),
             ('date_start', '=', fields.Date.to_string(first_day_last_month))
             ])

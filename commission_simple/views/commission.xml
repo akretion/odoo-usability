@@ -89,7 +89,7 @@
     <field name="name">commission.rule.tree</field>
     <field name="model">commission.rule</field>
     <field name="arch" type="xml">
-        <tree string="Règles de commission">
+        <tree string="Commission Rules">
             <field name="profile_id" invisible="not context.get('commission_rule_main_view')"/>
             <field name="applied_on"/>
             <field name="date_start"/>

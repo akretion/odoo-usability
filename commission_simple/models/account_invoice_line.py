@@ -14,7 +14,7 @@ class AccountInvoiceLine(models.Model):
     user_id = fields.Many2one(
         related='invoice_id.user_id', store=True, readonly=True)
     product_categ_id = fields.Many2one(
-        related='product_id.categ_id', store=True, readonly=True)
+        related='product_id.product_tmpl_id.categ_id', store=True, readonly=True)
     commission_result_id = fields.Many2one(
         'commission.result', string='Commission Result')
     commission_rule_id = fields.Many2one(
@@ -26,17 +26,20 @@ class AccountInvoiceLine(models.Model):
         readonly=True, compute='_compute_commission_amount', store=True)
 
     @api.depends('commission_rate', 'commission_base')
-    def _compute_amount(self):
+    def _compute_commission_amount(self):
         for line in self:
-            line.commission_amount = line.commission_rate * line.commission_base / 100.0
+            line.commission_amount = line.company_currency_id.round(
+                line.commission_rate * line.commission_base / 100.0)
 
     def compute_commission_for_one_user(self, user, date_range, rules):
         profile = user.commission_profile_id
+        company = profile.company_id
+        company_currency = company.currency_id
         assert profile
         domain = [
             ('invoice_type', 'in', ('out_invoice', 'out_refund')),
             ('date_invoice', '<=', date_range.date_end),
-            ('company_id', '=', self.env.user.company_id.id),
+            ('company_id', '=', company.id),
             ('user_id', '=', user.id),
             ('commission_result_id', '=', False),
             ]
@@ -61,7 +64,9 @@ class AccountInvoiceLine(models.Model):
                 lvals = iline._prepare_commission_data(rule, com_result)
                 if lvals:
                     iline.write(lvals)
-                    total += lvals['commission_amount']
+                    total += company_currency.round(
+                        lvals['commission_rate'] * lvals['commission_base']
+                        / 100.0)
         com_result.amount_total = total
         return com_result
 
@@ -103,6 +108,5 @@ class AccountInvoiceLine(models.Model):
             # company currency
             'commission_base': self.price_subtotal_signed,
             'commission_rate': rule['rate'],
-            'commission_amount': rule['rate'] * self.price_subtotal_signed,
             }
         return lvals
