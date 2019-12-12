@@ -111,5 +111,10 @@ https://github.com/odoo/odoo/commit/c1e5ab9b1331c3cb7dc2232bf78952bdb40ad939 -->
     </field>
 </record>
 
+<!-- Add a 'Product Category' menu entry under Sales > Configuration > Products,
+     similar to what we have in Stock > Configuration > Products
+     because we need this menu entry even if the 'stock' module is not installed  -->
+<menuitem id="product_category_sale_menu" action="product.product_category_action_form"
+        parent="sale.prod_config_main" sequence="10"/>
 
 </odoo>
