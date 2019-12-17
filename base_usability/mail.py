@@ -12,7 +12,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def decode(email_header):
+def _decode(email_header):
+    """Defensively decode given email header: return it unmodified
+    in case it cannot be decoded, otherwise return a unicode."""
+
     result = []
     try:
         for value, encoding in decode_header(email_header):
@@ -40,14 +43,14 @@ class IrMailServer(models.Model):
         smtp_from = from_rfc2822[-1]
         # End copy from native method
         attachment_names = [
-            decode(part.get_filename())
+            _decode(part.get_filename())
             for part in message.walk()
             if part.get_content_maintype() not in ('multipart', 'text')]
         logger.info(
             "Sending email from '%s' to '%s' Cc '%s' Bcc '%s' "
             "with subject '%s' and attachments %s",
-            smtp_from, decode(message.get('To')), decode(message.get('Cc')),
-            decode(message.get('Bcc')), decode(message.get('Subject')),
+            smtp_from, _decode(message.get('To')), _decode(message.get('Cc')),
+            _decode(message.get('Bcc')), _decode(message.get('Subject')),
             u', '.join([u"'%s'" % n for n in attachment_names])
         )
         return super(IrMailServer, self).send_email(
