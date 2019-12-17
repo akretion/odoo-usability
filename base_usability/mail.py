@@ -2,11 +2,27 @@
 # © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from email.header import decode_header
+from email.errors import HeaderParseError
+
 from odoo import models, api
 from odoo.addons.base.ir.ir_mail_server import extract_rfc2822_addresses
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+def decode(email_header):
+    result = []
+    try:
+        for value, encoding in decode_header(email_header):
+            if encoding is not None:
+                result.append(value.decode(encoding))
+            else:
+                result.append(unicode(value))
+    except HeaderParseError:
+        return email_header
+    return u' '.join(result)
 
 
 class IrMailServer(models.Model):
@@ -26,8 +42,8 @@ class IrMailServer(models.Model):
         logger.info(
             "Sending email from '%s' to '%s' Cc '%s' Bcc '%s' "
             "with subject '%s'",
-            smtp_from, message.get('To'), message.get('Cc'),
-            message.get('Bcc'), message.get('Subject'))
+            smtp_from, decode(message.get('To')), decode(message.get('Cc')),
+            decode(message.get('Bcc')), decode(message.get('Subject')))
         return super(IrMailServer, self).send_email(
             message, mail_server_id=mail_server_id,
             smtp_server=smtp_server, smtp_port=smtp_port,
