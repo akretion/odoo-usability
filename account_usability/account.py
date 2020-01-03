@@ -686,3 +686,10 @@ class AccountReconciliation(models.AbstractModel):
         position = domain.index(('payment_id', '<>', False))
         domain[position] = ['journal_id', '=', st_line.journal_id.id]
         return domain
+
+
+class ResConfigSettings(models.TransientModel):
+    _inherit = 'res.config.settings'
+
+    transfer_account_id = fields.Many2one(
+        related='company_id.transfer_account_id', readonly=False)
