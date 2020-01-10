@@ -24,6 +24,22 @@
     </field>
 </record>
 
+<record id="res_partner_phone_form" model="ir.ui.view">
+    <field name="name">res.partner.phone.form</field>
+    <field name="model">res.partner.phone</field>
+    <field name="arch"  type="xml">
+        <form string="Phone and E-mail">
+            <group name="main">
+                <field name="partner_id" invisible="not context.get('partner_phone_main_view')"/>
+                <field name="type"/>
+                <field name="phone" widget="phone" attrs="{'required': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'invisible': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
+                <field name="email" widget="email" attrs="{'invisible': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'required': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
+                <field name="note"/>
+            </group>
+        </form>
+    </field>
+</record>
+
 <record id="res_partner_phone_search" model="ir.ui.view">
     <field name="name">res.partner.phone.search</field>
     <field name="model">res.partner.phone</field>
