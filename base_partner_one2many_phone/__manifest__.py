@@ -7,20 +7,20 @@
 
 {
     'name': 'Base Partner One2many Phone',
-    'version': '10.0.1.0.0',
+    'version': '10.0.2.0.0',
     'category': 'Phone',
     'license': 'AGPL-3',
-    'summary': 'One2many link between partners and phone numbers',
+    'summary': 'One2many link between partners and phone numbers/emails',
     'description': """
 Base Partner One2many Phone
 ===========================
 
-With this module, one partner can have N phone numbers. It adds a new table dedicated to phone numbers and a one2many link between partners and phone numbers.
+With this module, one partner can have several phone numbers and several emails. It adds a new table dedicated to phone numbers and emails and a one2many link between partners and phone numbers. This module keeps compatibility with the native behavior of Odoo on phone numbers and emails.
 
 It has been developped by brother Bernard from Barroux Abbey and Alexis de Lattre from Akretion.
     """,
-    'author': 'Barroux',
-    'website': 'http://www.barroux.org',
+    'author': 'Akretion',
+    'website': 'https://akretion.com/',
     'depends': ['base_phone', 'sales_team'],
     'data': [
         'partner_phone_view.xml',
