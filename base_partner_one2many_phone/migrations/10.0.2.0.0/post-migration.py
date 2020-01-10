@@ -35,25 +35,29 @@ def migrate(cr, version):
             mig_phone_entries(cr, xdict, '3_phone_primary', '4_phone_secondary', ['1_home', '6_phone_fax_home', '3_office', '7_other'])
             mig_phone_entries(cr, xdict, '5_mobile_primary', '6_mobile_secondary', ['2_mobile'])
             mig_phone_entries(cr, xdict, '7_fax_primary', '8_fax_secondary', ['4_home_fax', '5_office_fax'])
-        cr.execute('select id, email from res_partner where email is not null')
+        cr.execute('select id, email from res_partner where email is not null order by id')
         for partner in cr.dictfetchall():
-            email = partner['email'].strip()
-            if email:
-                email_split = email.split(',')
+            print('partner_id=', partner['id'])
+            old_email = partner['email'].strip()
+            if old_email:
+                email_split = old_email.split(',')
+                clean_email_split = [x.strip() for x in email_split if x.strip()]
                 # primary:
-                email_primary = email_split.pop(0).strip()
+                email_primary = clean_email_split.pop(0)
                 rppo.create({
                     'type': '1_email_primary',
                     'partner_id': partner['id'],
                     'email': email_primary,
                     })
                 cr.execute('UPDATE res_partner set email=%s where id=%s', (email_primary, partner['id']))
-                for email_sec in email_split:
-                    rppo.create({
-                        'type': '2_email_secondary',
-                        'partner_id': partner['id'],
-                        'email': email_sec.strip(),
-                        })
+                for email_sec in clean_email_split:
+                    email_sec = email_sec.strip()
+                    if email_sec:
+                        rppo.create({
+                            'type': '2_email_secondary',
+                            'partner_id': partner['id'],
+                            'email': email_sec.strip(),
+                            })
 
 
 def mig_phone_entries(cr, xdict, new_type_primary, new_type_secondary, old_type_list):
