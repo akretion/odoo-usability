@@ -14,10 +14,11 @@
     <field name="name">res.partner.phone.tree</field>
     <field name="model">res.partner.phone</field>
     <field name="arch"  type="xml">
-        <tree string="Phones" editable="bottom">
+        <tree string="Phones and E-mail" editable="bottom">
             <field name="partner_id" invisible="not context.get('partner_phone_main_view')"/>
             <field name="type"/>
-            <field name="phone" widget="phone"/>
+            <field name="phone" widget="phone" attrs="{'required': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'readonly': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
+            <field name="email" widget="email" attrs="{'readonly': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'required': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
             <field name="note"/>
         </tree>
     </field>
@@ -27,14 +28,18 @@
     <field name="name">res.partner.phone.search</field>
     <field name="model">res.partner.phone</field>
     <field name="arch"  type="xml">
-        <search string="Search Phones">
+            <search string="Search Phones/E-mail">
             <field name="phone" />
+            <field name="email" />
+            <group name="groupby">
+                <filter name="type_groupby" string="Type" context="{'group_by': 'type'}"/>
+            </group>
         </search>
     </field>
 </record>
 
 <record id="res_partner_phone_action" model="ir.actions.act_window">
-    <field name="name">Phones</field>
+    <field name="name">Phones/E-mails</field>
     <field name="res_model">res.partner.phone</field>
     <field name="view_mode">tree</field>
     <field name="context">{'partner_phone_main_view': True}</field>
@@ -43,6 +48,7 @@
 <menuitem id="res_partner_phone_menu" action="res_partner_phone_action"
     parent="sales_team.menu_sales" sequence="10"/>
 
+<!-- PARTNER views -->
 <record id="view_partner_form" model="ir.ui.view">
     <field name="name">add.phone_ids.on.partner.form</field>
     <field name="model">res.partner</field>
@@ -58,6 +64,9 @@
             <attribute name="invisible">1</attribute>
         </field>
         <field name="fax" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+        <field name="email" position="attributes">
             <attribute name="invisible">1</attribute>
         </field>
         <xpath expr="//field[@name='child_ids']/form//field[@name='phone']" position="after">
@@ -86,8 +95,21 @@
         <field name="mobile" position="attributes">
             <attribute name="invisible">1</attribute>
         </field>
+        <field name="email" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
     </field>
 </record>
 
+<record id="view_res_partner_filter" model="ir.ui.view">
+    <field name="name">phone.one2many.res.partner.search</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_res_partner_filter"/>
+    <field name="arch" type="xml">
+        <field name="name" position="attributes">
+            <attribute name="filter_domain">['|', '|', ('display_name', 'ilike', self), ('ref', '=', self), ('phone_ids.email', 'ilike', self)]</attribute>
+        </field>
+    </field>
+</record>
 
 </odoo>
