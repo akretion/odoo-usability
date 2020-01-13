@@ -45,6 +45,11 @@
         <field name="country_id" position="attributes">
             <attribute name="invisible">0</attribute>
         </field>
+        <!-- There aren't many fields in this tree view, so there is room
+             to add a few more -->
+        <field name="phone" position="after">
+            <field name="mobile"/>
+        </field>
         <field name="country_id" position="before">
             <field name="city"/>
         </field>
