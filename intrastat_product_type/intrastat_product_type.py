@@ -60,14 +60,14 @@ class ProductTemplate(models.Model):
         return super(ProductTemplate, self).create(vals)
 
 
-#class L10nFrIntrastatServiceDeclaration(models.Model):
-#    _inherit = "l10n.fr.intrastat.service.declaration"
+class L10nFrIntrastatServiceDeclaration(models.Model):
+    _inherit = "l10n.fr.intrastat.service.declaration"
 
-#    def _is_service(self, invoice_line):
-#        if invoice_line.product_id.intrastat_type == 'service':
-#            return True
-#        else:
-#            return False
+    def _is_service(self, invoice_line):
+        if invoice_line.product_id.intrastat_type == 'service':
+            return True
+        else:
+            return False
 
 
 class IntrastatProductDeclaration(models.Model):
