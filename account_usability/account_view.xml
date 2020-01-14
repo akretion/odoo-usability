@@ -538,6 +538,28 @@ module -->
 
 <menuitem id="account_tax_group_menu" action="account_tax_group_action" parent="account.account_account_menu" sequence="2"/>
 
+<!-- Account config page -->
+<record id="res_config_settings_view_form" model="ir.ui.view">
+    <field name="name">account_usability account config page</field>
+    <field name="model">res.config.settings</field>
+    <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='account_bank_reconciliation_start']/../.." position="after">
+            <div class="col-xs-12 col-md-6 o_setting_box">
+                <div class="o_setting_left_pane"/>
+                <div class="o_setting_right_pane">
+                    <label for="transfer_account_id"/>
+                    <div class="text-muted">
+                    Transit account when you transfer money from a bank account of your company to another bank account of your company.
+                    </div>
+                    <field name="transfer_account_id"/>
+                </div>
+            </div>
+        </xpath>
+    </field>
+</record>
+
+
 <!-- Remove menu entry "Accounting > Configuration > Accounting > Bank Accounts"
 (account.journal filtered on type = 'bank' with special tree and form view)
 because it is useless and confusing -->
