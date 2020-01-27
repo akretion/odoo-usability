@@ -1,13 +1,13 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 #	* base_partner_one2many_phone
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 8.0alpha1\n"
+"Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-02 13:35+0000\n"
-"PO-Revision-Date: 2014-07-02 13:35+0000\n"
+"POT-Creation-Date: 2020-01-27 18:03+0000\n"
+"PO-Revision-Date: 2020-01-27 18:03+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,38 +16,60 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: base_partner_one2many_phone
-#: selection:res.partner.phone,type:0
-msgid "Home"
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone_create_uid
+msgid "Created by"
 msgstr ""
 
 #. module: base_partner_one2many_phone
-#: selection:res.partner.phone,type:0
-msgid "Home Fax"
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone_create_date
+msgid "Created on"
 msgstr ""
 
 #. module: base_partner_one2many_phone
-#: selection:res.partner.phone,type:0
-msgid "Mobile"
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone_display_name
+msgid "Display Name"
 msgstr ""
 
 #. module: base_partner_one2many_phone
-#: field:res.partner.phone,note:0
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone_email
+msgid "E-Mail"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: code:addons/base_partner_one2many_phone/partner_phone.py:61
+#, python-format
+msgid "E-mail field must be empty when type is Primary/Secondary Phone, Primary/Secondary Mobile or Primary/Secondary Fax."
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: code:addons/base_partner_one2many_phone/partner_phone.py:51
+#, python-format
+msgid "E-mail field must have a value when type is Primary E-mail or Secondary E-mail."
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone_id
+msgid "ID"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone_note
 msgid "Note"
-msgstr ""
-
-#. module: base_partner_one2many_phone
-#: selection:res.partner.phone,type:0
-msgid "Office"
-msgstr ""
-
-#. module: base_partner_one2many_phone
-#: selection:res.partner.phone,type:0
-msgid "Office Fax"
-msgstr ""
-
-#. module: base_partner_one2many_phone
-#: selection:res.partner.phone,type:0
-msgid "Other"
 msgstr ""
 
 #. module: base_partner_one2many_phone
@@ -56,31 +78,93 @@ msgid "Partner"
 msgstr ""
 
 #. module: base_partner_one2many_phone
-#: field:res.partner.phone,phone:0
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone_phone
 msgid "Phone"
 msgstr ""
 
 #. module: base_partner_one2many_phone
-#: field:res.partner.phone,type:0
-msgid "Phone Type"
+#: code:addons/base_partner_one2many_phone/partner_phone.py:54
+#, python-format
+msgid "Phone field must be empty when type is Primary E-mail or Secondary E-mail."
 msgstr ""
 
 #. module: base_partner_one2many_phone
-#: selection:res.partner.phone,type:0
-msgid "Phone/fax Home"
+#: code:addons/base_partner_one2many_phone/partner_phone.py:58
+#, python-format
+msgid "Phone field must have a value when type is Primary/Secondary Phone, Primary/Secondary Mobile or Primary/Secondary Fax."
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone_ids
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_users_phone_ids
+msgid "Phones"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: model:ir.ui.view,arch_db:base_partner_one2many_phone.res_partner_phone_tree
+msgid "Phones and E-mail"
 msgstr ""
 
 #. module: base_partner_one2many_phone
 #: model:ir.actions.act_window,name:base_partner_one2many_phone.res_partner_phone_action
 #: model:ir.ui.menu,name:base_partner_one2many_phone.res_partner_phone_menu
-#: field:res.partner,phone_ids:0
-#: view:res.partner.phone:0
-msgid "Phones"
+msgid "Phones/E-mails"
 msgstr ""
 
 #. module: base_partner_one2many_phone
-#: field:res.partner.phone,partner_id:0
+#: selection:res.partner.phone,type:0
+msgid "Primary E-mail"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Primary Fax"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Primary Mobile"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Primary Phone"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone_partner_id
 msgid "Related Partner"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: model:ir.ui.view,arch_db:base_partner_one2many_phone.res_partner_phone_search
+msgid "Search Phones/E-mail"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Secondary E-mail"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Secondary Fax"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Secondary Mobile"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: selection:res.partner.phone,type:0
+msgid "Secondary Phone"
+msgstr ""
+
+#. module: base_partner_one2many_phone
+#: model:ir.model.fields,field_description:base_partner_one2many_phone.field_res_partner_phone_type
+#: model:ir.ui.view,arch_db:base_partner_one2many_phone.res_partner_phone_search
+msgid "Type"
 msgstr ""
 
 #. module: base_partner_one2many_phone
