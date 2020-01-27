@@ -21,7 +21,7 @@ It has been developped by brother Bernard from Barroux Abbey and Alexis de Lattr
     """,
     'author': 'Akretion',
     'website': 'https://akretion.com/',
-    'depends': ['base_phone', 'sales_team'],
+    'depends': ['base_phone', 'sales_team', 'base_usability'],
     'data': [
         'partner_phone_view.xml',
         'security/ir.model.access.csv',
