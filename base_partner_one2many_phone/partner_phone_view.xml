@@ -120,10 +120,10 @@
 <record id="view_res_partner_filter" model="ir.ui.view">
     <field name="name">phone.one2many.res.partner.search</field>
     <field name="model">res.partner</field>
-    <field name="inherit_id" ref="base.view_res_partner_filter"/>
+    <field name="inherit_id" ref="base_usability.view_res_partner_filter"/>
     <field name="arch" type="xml">
         <field name="name" position="attributes">
-            <attribute name="filter_domain">['|', '|', ('display_name', 'ilike', self), ('ref', '=', self), ('phone_ids.email', 'ilike', self)]</attribute>
+            <attribute name="filter_domain">['|', '|', ('display_name', 'ilike', self), ('ref', '=ilike', self + '%'), ('phone_ids.email', 'ilike', self)]</attribute>
         </field>
     </field>
 </record>
