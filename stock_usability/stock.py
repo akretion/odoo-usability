@@ -22,15 +22,17 @@ class StockInventoryLine(models.Model):
         related='inventory_id.date', readonly=True)
     partner_id = fields.Many2one(states={'done': [('readonly', True)]})
     product_id = fields.Many2one(states={'done': [('readonly', True)]})
-    product_code = fields.Char(readonly=True)
+    product_code = fields.Char(readonly=True, compute_sudo=True)
     product_uom_id = fields.Many2one(states={'done': [('readonly', True)]})
     product_qty = fields.Float(states={'done': [('readonly', True)]})
     location_id = fields.Many2one(states={'done': [('readonly', True)]})
-    location_name = fields.Char(readonly=True)
+    location_name = fields.Char(readonly=True, compute_sudo=True)
     package_id = fields.Many2one(states={'done': [('readonly', True)]})
     prod_lot_id = fields.Many2one(states={'done': [('readonly', True)]})
     state = fields.Selection(store=True)
     inventory_location_id = fields.Many2one(readonly=True)
+    product_name = fields.Char(compute_sudo=True)
+    prodlot_name = fields.Char(compute_sudo=True)
 
 
 class StockPicking(models.Model):
