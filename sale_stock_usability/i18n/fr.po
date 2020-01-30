@@ -50,6 +50,57 @@ msgid "Sales Order Line"
 msgstr "Ligne de commandes de vente"
 
 #. module: sale_stock_usability
-#: view:stock.picking:sale_stock_usability.view_picking_internal_search_inherit
-msgid "[('invoice_state', '=', '2binvoiced'), ('state', '=', 'done')]"
-msgstr "[('invoice_state', '=', '2binvoiced'), ('state', '=', 'done')]"
+#: selection:sale.order,picking_status:0
+msgid "Delivery Cancelled"
+msgstr "Livraison annulée"
+
+#. module: sale_stock_usability
+#: model_terms:ir.ui.view,arch_db:sale_stock_usability.view_sales_order_filter
+#: selection:sale.order,picking_status:0
+msgid "Fully Delivered"
+msgstr "Entierement Livré "
+
+#. module: sale_stock_usability
+#: model:ir.model.fields,field_description:sale_stock_usability.field_sale_order__incoterm
+msgid "Incoterms"
+msgstr "Incoterms"
+
+#. module: sale_stock_usability
+#: model:ir.model.fields,help:sale_stock_usability.field_sale_order__incoterm
+msgid "International Commercial Terms are a series of predefined commercial terms used in international transactions."
+msgstr "Les Incoterms sont une série de termes commerciaux prédéfinie utilisés dans les transactions internationales."
+
+#. module: sale_stock_usability
+#: model_terms:ir.ui.view,arch_db:sale_stock_usability.view_sales_order_filter
+msgid "Not Fully Delivered"
+msgstr "Livraison à faire"
+
+#. module: sale_stock_usability
+#: selection:sale.order,picking_status:0
+msgid "Nothing to Deliver"
+msgstr "Rien à livrer"
+
+#. module: sale_stock_usability
+#: selection:sale.order,picking_status:0
+msgid "Partially Delivered"
+msgstr "Livré partielement"
+
+#. module: sale_stock_usability
+#: model:ir.model.fields,field_description:sale_stock_usability.field_sale_order__picking_status
+msgid "Picking Status"
+msgstr "Status de BL"
+
+#. module: sale_stock_usability
+#: model:ir.model,name:sale_stock_usability.model_sale_order
+msgid "Sale Order"
+msgstr "Bon de commande"
+
+#. module: sale_stock_usability
+#: selection:sale.order,picking_status:0
+msgid "To Deliver"
+msgstr "Prêt à livrer"
+
+#. module: sale_stock_usability
+#: model:ir.model.fields,field_description:sale_stock_usability.field_sale_order__warehouse_id
+msgid "Warehouse"
+msgstr "Entrepôt"
