@@ -18,4 +18,8 @@
     </field>
 </record>
 
+<!-- In most companies, Incoterms are managed by sales people, not by stock guys
+     So I give access to Incoterms to Sales Manager : update ACL and add menu -->
+<menuitem id="stock_incoterms_sale_config_menu" action="stock.action_incoterms_tree" parent="delivery.sale_menu_delivery" sequence="100"/>
+
 </odoo>

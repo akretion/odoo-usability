@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_incoterms_sale_manager,Full access on incoterms to sale manager,stock.model_stock_incoterms,sales_team.group_sale_manager,1,1,1,1
