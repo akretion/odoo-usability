@@ -41,6 +41,10 @@
         <xpath expr="//field[@name='tax_line_ids']/tree/field[@name='amount']" position="before">
             <field name="base" readonly="1"/>
         </xpath>
+        <!-- Don't allow to force tax amount on CUSTOMER invoices -->
+        <xpath expr="//field[@name='tax_line_ids']/tree/field[@name='amount']" position="attributes">
+            <attribute name="readonly">1</attribute>
+        </xpath>
         <!-- Warning: there are 2 invoice_print buttons in the native view... probably a bug -->
         <xpath expr="//button[@name='invoice_print']" position="attributes">
             <attribute name="attrs">{'invisible': [('state', 'not in', ('open', 'paid'))]}</attribute>

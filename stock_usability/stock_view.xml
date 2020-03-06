@@ -169,6 +169,7 @@
                 </page>
                 <page string="Advanced Parameters" name="advanced-params" groups="stock.group_stock_manager">
                     <group name="advanced">
+                        <field name="date" attrs="{'invisible': [('state', '!=', 'done')]}"/>
                         <field name="partner_id"/>
                         <field name="procurement_id"/>
                         <field name="group_id"/>
