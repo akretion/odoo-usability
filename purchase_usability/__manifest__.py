@@ -8,14 +8,6 @@
     'category': 'Purchases',
     'license': 'AGPL-3',
     'summary': 'Usability improvements on purchase module',
-    'description': """
-Purchase Usability
-==================
-
-Several usability improvements on the official purchase module:
-
-Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for any help or question about this module.
-    """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['purchase'],

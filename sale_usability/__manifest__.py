@@ -8,18 +8,6 @@
     'category': 'Sales',
     'license': 'AGPL-3',
     'summary': 'Usability improvements on sale module',
-    'description': """
-Sale Usability
-==============
-
-This module provides several small usability improvements on the official *sale* module:
-
-* Display amount untaxed in tree view
-* TODO: update this list
-
-This module has been written by Alexis de Lattre from Akretion
-<alexis.delattre@akretion.com>.
-    """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': [
