@@ -9,16 +9,6 @@
     'category': 'Partner',
     'license': 'AGPL-3',
     'summary': 'Adds capital and title on company',
-    'description': """
-Base Company Extension
-======================
-
-This module adds 2 fields on the Company :
-
-* *Capital Amount*
-
-* *Legal Form*
-    """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     # I depend on base_usability only for _report_company_legal_name()
