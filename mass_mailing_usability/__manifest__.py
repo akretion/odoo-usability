@@ -22,7 +22,7 @@ This module has been written by Alexis de Lattre from Akretion
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['mass_mailing'],
+    'depends': ['mass_mailing', 'link_tracker_usability'],
     'data': [
         'link_tracker_view.xml',
         ],
