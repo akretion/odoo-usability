@@ -31,6 +31,7 @@ This modules adds the following functions:
 * don't attach PDF upon invoice report generation on supplier invoices/refunds
 * Add filter on debit and credit amount for Move Lines
 * Add supplier invoice number in invoice tree view
+* Change type from current_assets to  liquidity for transfert account template.
 
 Together with this module, I recommend the use of the following modules:
 
