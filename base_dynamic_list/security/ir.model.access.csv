@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dynamic_list_read,Read access on dynamic.list to employees,model_dynamic_list,base.group_user,1,0,0,0
+access_dynamic_list_full,Full access to dynamic.list to System group,model_dynamic_list,base.group_system,1,1,1,1
+access_dynamic_list_translate_read,Read access on dynamic.list.translate to employees,model_dynamic_list_translate,base.group_user,1,0,0,0
+access_dynamic_list_translate_full,Full access to dynamic.list.translate to System group,model_dynamic_list_translate,base.group_system,1,1,1,1
+access_dynamic_list_code_read,Read access on dynamic.list.code to employees,model_dynamic_list_code,base.group_user,1,0,0,0
+access_dynamic_list_code_full,Full access to dynamic.list.code to System group,model_dynamic_list_code,base.group_system,1,1,1,1
+access_dynamic_list_code_translate_read,Read access on dynamic.list.code.translate to employees,model_dynamic_list_code_translate,base.group_user,1,0,0,0
+access_dynamic_list_code_translate_full,Full access to dynamic.list.code.translate to System group,model_dynamic_list_code_translate,base.group_system,1,1,1,1
