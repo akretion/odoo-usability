@@ -47,6 +47,8 @@
     <field name="arch" type="xml">
         <search>
             <field name="name"/>
+            <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
             <group string="Group By" name="groupby">
                 <filter name="domain_groupby" string="Domain" context="{'group_by': 'domain'}"/>
             </group>
@@ -100,6 +102,8 @@
     <field name="arch" type="xml">
         <search>
             <field name="name"/>
+            <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
             <group string="Group By" name="groupby">
                 <filter name="domain_groupby" string="Domain" context="{'group_by': 'domain'}"/>
             </group>
@@ -155,6 +159,8 @@
     <field name="arch" type="xml">
         <search>
             <field name="name" string="Name or Code" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
+            <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
             <field name="code"/>
             <group string="Group By" name="groupby">
                 <filter name="domain_groupby" string="Domain" context="{'group_by': 'domain'}"/>
@@ -212,6 +218,8 @@
         <search>
             <field name="name" string="Name or Code" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
             <field name="code"/>
+            <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
             <group string="Group By" name="groupby">
                 <filter name="domain_groupby" string="Domain" context="{'group_by': 'domain'}"/>
             </group>
