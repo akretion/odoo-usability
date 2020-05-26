@@ -14,7 +14,7 @@ class DynamicList(models.Model):
     name = fields.Char(required=True)
     sequence = fields.Integer()
     active = fields.Boolean(default=True)
-    domain = fields.Selection([], string='Domain', required=True)
+    domain = fields.Selection([], string='Domain', required=True, index=True)
 
     _sql_constraint = [(
         'domain_name_uniq',
@@ -31,7 +31,7 @@ class DynamicListTranslate(models.Model):
     name = fields.Char(translate=True, required=True)
     sequence = fields.Integer()
     active = fields.Boolean(default=True)
-    domain = fields.Selection([], string='Domain', required=True)
+    domain = fields.Selection([], string='Domain', required=True, index=True)
 
     _sql_constraint = [(
         'domain_name_uniq',
@@ -49,7 +49,7 @@ class DynamicListCode(models.Model):
     name = fields.Char(translate=True, required=True)
     sequence = fields.Integer()
     active = fields.Boolean(default=True)
-    domain = fields.Selection([], string='Domain', required=True)
+    domain = fields.Selection([], string='Domain', required=True, index=True)
 
     _sql_constraint = [(
         'domain_code_uniq',
@@ -87,7 +87,7 @@ class DynamicListCodeTranslate(models.Model):
     name = fields.Char(translate=True, required=True)
     sequence = fields.Integer()
     active = fields.Boolean(default=True)
-    domain = fields.Selection([], string='Domain', required=True)
+    domain = fields.Selection([], string='Domain', required=True, index=True)
 
     _sql_constraint = [(
         'domain_code_uniq',
