@@ -14,7 +14,7 @@
     <field name="inherit_id" ref="purchase.purchase_order_form"/>
     <field name="arch" type="xml">
         <button name="action_view_invoice" position="after">
-            <button name="%(service_line_qty_update_base.service_qty_update_action)d" type="action" string="Update Service Qty" attrs="{'invisible': ['|', ('state', 'not in', ('purchase', 'done')), ('has_service', '=', False)]}"/>
+            <button name="%(service_line_qty_update_base.service_qty_update_action)d" type="action" string="Update Service Qty" attrs="{'invisible': ['|', '|', ('state', 'not in', ('purchase', 'done')), ('has_service', '=', False), ('reception_status', '=', 'received')]}" groups="purchase.group_purchase_user"/>
             <field name="has_service" invisible="1"/>
         </button>
         <xpath expr="//field[@name='order_line']/tree/field[@name='qty_received']" position="attributes">

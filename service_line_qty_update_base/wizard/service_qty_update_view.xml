@@ -13,12 +13,15 @@
     <field name="arch" type="xml">
         <form>
             <group name="main">
-                <field name="line_ids" editable="bottom" nolabel="1" options="{'no_create': True}">
-                    <tree>
+                <field name="line_ids" nolabel="1">
+                    <tree editable="bottom">
                         <field name="product_id"/>
-                        <field name="name"/>
-                        <field name="order_qty"/>
-                        <field name="pre_delivered_qty"/>
+                        <field name="name" invisible="0"/>
+                        <field name="name_readonly"/>
+                        <field name="order_qty" invisible="1"/>
+                        <field name="order_qty_readonly"/>
+                        <field name="pre_delivered_qty" invisible="1"/>
+                        <field name="pre_delivered_qty_readonly"/>
                         <field name="added_delivered_qty"/>
                         <field name="post_delivered_qty"/>
                         <field name="uom_id" groups="uom.group_uom"/>

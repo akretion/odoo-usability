@@ -18,7 +18,7 @@ class ServiceQtyUpdate(models.TransientModel):
     def run(self):
         self.ensure_one()
         prec = self.env['decimal.precision'].precision_get('Product Unit of Measure')
-        for line in self:
+        for line in self.line_ids:
             if float_compare(line.post_delivered_qty, line.order_qty, precision_digits=prec) > 0:
                 raise UserError(_(
                     "On line '%s', the total delivered qty (%s) is superior to the ordered qty (%s).") % (line.name, line.post_delivered_qty, line.order_qty))
@@ -38,15 +38,15 @@ class ServiceQtyUpdateLine(models.TransientModel):
     parent_id = fields.Many2one(
         'service.qty.update', string='Wizard', ondelete='cascade')
     product_id = fields.Many2one('product.product', string='Product', readonly=True)
-    name = fields.Char(string='Description', readonly=True)
+    name = fields.Char()
+    name_readonly = fields.Char(related='name', string='Description')
     order_qty = fields.Float(
         string='Order Qty',
-        digits=dp.get_precision('Product Unit of Measure'),
-        readonly=True)
+        digits=dp.get_precision('Product Unit of Measure'))
+    order_qty_readonly = fields.Float(related='order_qty', string='Product Unit of Measure')
     pre_delivered_qty = fields.Float(
-        string='Current Delivered Qty',
-        digits=dp.get_precision('Product Unit of Measure'),
-        readonly=True)
+        digits=dp.get_precision('Product Unit of Measure'))
+    pre_delivered_qty_readonly = fields.Float(related='pre_delivered_qty', string='Current Delivered Qty')
     added_delivered_qty = fields.Float(
         string='Added Delivered Qty',
         digits=dp.get_precision('Product Unit of Measure'))

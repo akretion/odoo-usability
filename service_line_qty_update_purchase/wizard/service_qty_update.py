@@ -24,8 +24,11 @@ class ServiceQtyUpdate(models.TransientModel):
                         'purchase_line_id': l.id,
                         'product_id': l.product_id.id,
                         'name': l.name,
+                        'name_readonly': l.name,
                         'order_qty': l.product_qty,
+                        'order_qty_readonly': l.product_qty,
                         'pre_delivered_qty': l.qty_received,
+                        'pre_delivered_qty_readonly': l.qty_received,
                         'uom_id': l.product_uom.id,
                         }))
             if lines:
@@ -44,14 +47,15 @@ class ServiceQtyUpdateLine(models.TransientModel):
     def process_line(self):
         po_line = self.purchase_line_id
         if po_line:
-            po_line.write({'qty_received': self.post_delivered_qty})
+            new_qty = po_line.qty_received + self.added_delivered_qty
+            po_line.write({'qty_received': new_qty})
             body = """
-            <p>Received qty updated on service line <em>%s</em>:
+            <p>Received qty updated on service line <b>%s</b>:
             <ul>
-            <li>Added received qty: %s</li>
+            <li>Added received qty: <b>%s</b></li>
             <li>Total received qty: %s</li>
             </ul></p>
-            """ % (self.added_delivered_qty, self.post_delivered_qty)
+            """ % (self.name, self.added_delivered_qty, new_qty)
             if self.comment:
                 body += '<p>Comment: %s</p>' % self.comment
             po_line.order_id.message_post(body=body)

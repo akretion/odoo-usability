@@ -10,7 +10,11 @@
     'summary': 'Update delivery qty on service lines - Purchase module',
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['purchase'],
+    'depends': [
+        'purchase',
+        'service_line_qty_update_base',
+        'purchase_reception_status',
+        ],
     'data': [
         'views/purchase_order.xml',
         ],
