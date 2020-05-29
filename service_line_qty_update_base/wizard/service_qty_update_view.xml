@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2020 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="service_qty_update_form" model="ir.ui.view">
+    <field name="model">service.qty.update</field>
+    <field name="arch" type="xml">
+        <form>
+            <group name="main">
+                <field name="line_ids" editable="bottom" nolabel="1" options="{'no_create': True}">
+                    <tree>
+                        <field name="product_id"/>
+                        <field name="name"/>
+                        <field name="order_qty"/>
+                        <field name="pre_delivered_qty"/>
+                        <field name="added_delivered_qty"/>
+                        <field name="post_delivered_qty"/>
+                        <field name="uom_id" groups="uom.group_uom"/>
+                        <field name="comment"/>
+                    </tree>
+                </field>
+            </group>
+            <footer>
+                <button name="run" type="object" string="Validate" class="btn-primary"/>
+                <button special="cancel" string="Cancel" class="btn-default"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="service_qty_update_action" model="ir.actions.act_window">
+    <field name="name">Service Order Lines - Update Delivered Qty</field>
+    <field name="res_model">service.qty.update</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+
+</odoo>
