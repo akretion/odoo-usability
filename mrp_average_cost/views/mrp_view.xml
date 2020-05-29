@@ -37,7 +37,7 @@
                 </group>
             </page>
         </notebook>
-        <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_uom_id']" position="after">
+        <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='operation_id']" position="after">
             <field name="standard_price"/>
         </xpath>
     </field>
