@@ -5,8 +5,8 @@
 from odoo import api, fields, models
 
 
-class PurchaseOrder(models.Model):
-    _inherit = 'purchase.order'
+class SaleOrder(models.Model):
+    _inherit = 'sale.order'
 
     has_service = fields.Boolean(compute='_compute_has_service')
 
