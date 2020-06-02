@@ -10,7 +10,7 @@ class StockChangeProductQty(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(StockChangeProductQty, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         if self.env.user.context_default_warehouse_id:
             res['location_id'] = self.env.user.context_default_warehouse_id.\
                 lot_stock_id.id
