@@ -8,13 +8,6 @@
     'category': 'Manufacturing',
     'license': 'AGPL-3',
     'summary': "Use the users's default warehouse on manufacturing orders",
-    'description': """
-Default Warehouse on User (MRP)
-================================
-The default warehouse configured in the preferences of the user will be used by default on manufacturing orders.
-This module has been written by Alexis de Lattre from Akretion
-<alexis.delattre@akretion.com>.
-    """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['mrp', 'stock_user_default_warehouse_base'],
