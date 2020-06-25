@@ -83,7 +83,7 @@ class AccountInvoice(models.Model):
     # top of the screen
     # That's why we have to cut the name_get() when it's too long
     def name_get(self):
-        old_res = super(AccountInvoice, self).name_get()
+        old_res = super().name_get()
         res = []
         for old_re in old_res:
             name = old_re[1]
@@ -103,9 +103,8 @@ class AccountInvoice(models.Model):
     # 2) the 'name' field of the account.move.line is used in the overdue
     # letter, and '/' is not meaningful for our customer !
 # TODO mig to v12
-#    @api.multi
 #    def action_move_create(self):
-#        res = super(AccountInvoice, self).action_move_create()
+#        res = super().action_move_create()
 #        for inv in self:
 #            self._cr.execute(
 #                "UPDATE account_move_line SET name= "
@@ -216,7 +215,15 @@ class AccountInvoiceLine(models.Model):
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
-    @api.multi
+    hide_bank_statement_balance = fields.Boolean(
+        string='Hide Bank Statement Balance',
+        help="You may want to enable this option when your bank "
+        "journal is generated from a bank statement file that "
+        "doesn't handle start/end balance (QIF for instance) and "
+        "you don't want to enter the start/end balance manually: it "
+        "will prevent the display of wrong information in the accounting "
+        "dashboard and on bank statements.")
+
     @api.depends(
         'name', 'currency_id', 'company_id', 'company_id.currency_id', 'code')
     def name_get(self):
@@ -262,7 +269,6 @@ class AccountJournal(models.Model):
 class AccountAccount(models.Model):
     _inherit = 'account.account'
 
-    @api.multi
     @api.depends('name', 'code')
     def name_get(self):
         if self._context.get('account_account_show_code_only'):
@@ -271,7 +277,7 @@ class AccountAccount(models.Model):
                 res.append((record.id, record.code))
             return res
         else:
-            return super(AccountAccount, self).name_get()
+            return super().name_get()
 
     # https://github.com/odoo/odoo/issues/23040
     # TODO mig to v12
@@ -354,7 +360,6 @@ class AccountAccount(models.Model):
 class AccountAnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
 
-    @api.multi
     def name_get(self):
         if self._context.get('analytic_account_show_code_only'):
             res = []
@@ -362,7 +367,7 @@ class AccountAnalyticAccount(models.Model):
                 res.append((record.id, record.code or record.name))
             return res
         else:
-            return super(AccountAnalyticAccount, self).name_get()
+            return super().name_get()
 
     _sql_constraints = [(
         'code_company_unique',
@@ -509,8 +514,9 @@ class AccountBankStatement(models.Model):
     end_date = fields.Date(
         compute='_compute_dates', string='End Date', readonly=True,
         store=True)
+    hide_bank_statement_balance = fields.Boolean(
+        related='journal_id.hide_bank_statement_balance', readonly=True)
 
-    @api.multi
     @api.depends('line_ids.date')
     def _compute_dates(self):
         for st in self:
@@ -518,7 +524,14 @@ class AccountBankStatement(models.Model):
             st.start_date = dates and min(dates) or False
             st.end_date = dates and max(dates) or False
 
-    @api.multi
+    def _balance_check(self):
+        for stmt in self:
+            if stmt.hide_bank_statement_balance:
+                continue
+            else:
+                super(AccountBankStatement, stmt)._balance_check()
+        return True
+
     @api.depends('name', 'start_date', 'end_date')
     def name_get(self):
         res = []
@@ -556,15 +569,14 @@ class AccountBankStatementLine(models.Model):
     #        search_reconciliation_proposition=False, context=None):
     #    # Make variable name shorted for PEP8 !
     #    search_rec_prop = search_reconciliation_proposition
-    #    return super(AccountBankStatementLine, self).\
+    #    return super().\
     #        get_data_for_reconciliations(
     #            cr, uid, ids, excluded_ids=excluded_ids,
     #            search_reconciliation_proposition=search_rec_prop,
     #            context=context)
 
     def _prepare_reconciliation_move(self, move_ref):
-        vals = super(AccountBankStatementLine, self).\
-            _prepare_reconciliation_move(move_ref)
+        vals = super()._prepare_reconciliation_move(move_ref)
         # By default, ref contains the name of the statement + name of the
         # statement line. It causes 2 problems:
         # 1) The 'ref' field is too big
@@ -669,8 +681,7 @@ class AccountReconciliation(models.AbstractModel):
     # bank statement
     @api.model
     def _domain_move_lines(self, search_str):
-        str_domain = super(AccountReconciliation, self)._domain_move_lines(
-            search_str)
+        str_domain = super()._domain_move_lines(search_str)
         account_code_domain = [('account_id.code', '=ilike', search_str + '%')]
         str_domain = expression.OR([str_domain, account_code_domain])
         return str_domain
