@@ -30,6 +30,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'stock_view.xml',
         'procurement_view.xml',
         'security/ir.model.access.csv',
+        'wizard/stock_picking_return_view.xml',
         ],
     'installable': True,
 }
