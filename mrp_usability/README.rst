@@ -17,7 +17,7 @@ MRP Usability
     :target: https://github.com/akretion/odoo-usability/tree/12.0/mrp_usability
     :alt: akretion/odoo-usability
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| |badge3|
 
 Small usability improvements on MRP:
 
@@ -30,6 +30,8 @@ Small usability improvements on MRP:
 * show bom type in tree view + add group by
 
 * complete Manufacturing Order report with unvailable products
+
+* improve smart button from products to BoMs (display BoM form if only one instead of displaying a list of one)
 
 **Table of contents**
 

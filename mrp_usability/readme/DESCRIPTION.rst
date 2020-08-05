@@ -9,3 +9,5 @@ Small usability improvements on MRP:
 * show bom type in tree view + add group by
 
 * complete Manufacturing Order report with unvailable products
+
+* improve smart button from products to BoMs (display BoM form if only one instead of displaying a list of one)

@@ -13,7 +13,8 @@
     'website': 'http://www.akretion.com',
     'depends': ['mrp'],
     'data': [
-        'mrp_view.xml',
+        'views/mrp_views.xml',
+        'views/product_views.xml',
         'report/mrp_report.xml'
     ],
     'installable': True,
