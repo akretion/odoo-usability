@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from odoo import models, fields
 
 
 class ProductTemplate(models.Model):
@@ -50,19 +50,13 @@ class ProductAttributeValue(models.Model):
     name = fields.Char(translate=False)
 
 
-class ProductUomCateg(models.Model):
-    _inherit = 'product.uom.categ'
+class UomCategory(models.Model):
+    _inherit = 'uom.category'
 
     name = fields.Char(translate=False)
 
 
-class ProductUom(models.Model):
-    _inherit = 'product.uom'
-
-    name = fields.Char(translate=False)
-
-
-class ProductUl(models.Model):
-    _inherit = 'product.ul'
+class UomUom(models.Model):
+    _inherit = 'uom.uom'
 
     name = fields.Char(translate=False)

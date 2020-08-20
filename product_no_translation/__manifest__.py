@@ -23,7 +23,7 @@
 
 {
     'name': 'Product no Translation',
-    'version': '0.1',
+    'version': '12.0.0.0.1',
     'category': 'Sales Management',
     'license': 'AGPL-3',
     'summary': 'For companies that work with only one language',
