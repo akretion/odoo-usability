@@ -696,6 +696,15 @@ class AccountReconciliation(models.AbstractModel):
         # We want to replace a domain item by another one
         position = domain.index(('payment_id', '<>', False))
         domain[position] = ['journal_id', '=', st_line.journal_id.id]
+        if ('payment_id', '<>', False) in domain:
+            # True on official v12:
+            # https://github.com/odoo/odoo/blob/12.0/addons/account/models/reconciliation_widget.py#L490
+            position = domain.index(('payment_id', '<>', False))
+            domain[position] = ['journal_id', '=', st_line.journal_id.id]
+        else:
+            # OCB which has backport fixes from v13
+            # https://github.com/OCA/OCB/blob/12.0/addons/account/models/reconciliation_widget.py#L486
+            domain = expression.AND([domain, [('journal_id', '=', st_line.journal_id.id)]])
         return domain
 
 
