@@ -252,9 +252,9 @@ class MrpProduction(models.Model):
         for order in self:
             if order.product_id.cost_method == 'average':
                 unit_cost = order.compute_order_unit_cost()
-                order.unit_cost = unit_cost
+                order.write({'unit_cost': unit_cost})
                 logger.info('MO %s: unit_cost=%s', order.name, unit_cost)
-                for finished_move in order.move_finished_ids.filtered(
-                        lambda x: x.product_id == order.product_id):
-                    finished_move.price_unit = unit_cost
+                order.move_finished_ids.filtered(
+                    lambda x: x.product_id == order.product_id).write({
+                        'price_unit': unit_cost})
         return super(MrpProduction, self).post_inventory()
