@@ -93,23 +93,20 @@ class StockValuationXlsx(models.TransientModel):
             domain += [('categ_id', 'child_of', self.categ_ids.ids)]
         return domain
 
-    def _prepare_product_fields(self):
-        return ['default_code', 'name', 'categ_id', 'uom_id']
-
     def compute_product_data(self, company_id, past_date=False):
         self.ensure_one()
         ppo = self.env['product.product']
         domain = self._prepare_product_domain()
-        products = ppo.with_context(active_test=False).search_read(domain, self._prepare_product_fields())
+        products = ppo.with_context(active_test=False).search(domain)
         product_ids = [x['id'] for x in products]
         product_id2data = {}
         for p in products:
-            standard_price = ppo.get_history_price(company_id, date=past_date)
+            standard_price = p.get_history_price(company_id, date=past_date)
             product_id2data[p['id']] = {
-                'default_code': p['default_code'],
-                'name': p['name'],
-                'categ_id': p['categ_id'][0],
-                'uom_id': p['uom_id'][0],
+                'default_code': p.default_code,
+                'name': p.name,
+                'categ_id': p.categ_id.id,
+                'uom_id': p.uom_id.id,
                 'standard_price': standard_price,
                 }
         return product_id2data, product_ids
@@ -390,8 +387,8 @@ class StockValuationXlsx(models.TransientModel):
                     sheet.write(crow, x + 1, '', categ_title)
             for l in filter(lambda x: x['categ_id'] == categ_id, res):
                 i += 1
-                total += l['qty']
-                ctotal += l['qty']
+                total += l['subtotal']
+                ctotal += l['subtotal']
                 categ_has_line = True
                 subtotal_formula = '=%s%d*%s%d' % (letter_qty, i + 1, letter_price, i + 1)
                 sheet.write_formula(i, cols['subtotal']['pos'], subtotal_formula, regular_currency, l['subtotal'])
