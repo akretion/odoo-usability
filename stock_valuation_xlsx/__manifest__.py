@@ -27,6 +27,11 @@ It has several options:
 * split by stock location,
 * display subtotals per category.
 
+You can access this XLSX stock valuation report either:
+
+* from the menu *Inventory > Reports > Stock Valuation XLSX* (it replaces the native menu *Inventory at Date*)
+* from the form view of *validated* inventories (menu *Inventory > Inventory Control > Inventory Adjustments*) via the button *XLSX Valuation Report*.
+
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': "Akretion",
