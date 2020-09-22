@@ -39,7 +39,7 @@
                 <button name="generate" type="object" states="setup"
                     class="btn-primary" string="Generate"/>
                 <button special="cancel" string="Cancel" class="btn-default" states="setup"/>
-                <button special="cancel" string="Close" class="btn-primary" states="done"/>
+                <button special="cancel" string="Close" class="btn-default" states="done"/>
             </footer>
         </form>
     </field>
