@@ -32,6 +32,9 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'author': "Akretion",
     'website': 'http://www.akretion.com',
     'depends': ['stock_account'],
-    'data': ['wizard/stock_valuation_xlsx_view.xml'],
+    'data': [
+        'wizard/stock_valuation_xlsx_view.xml',
+        'views/stock_inventory.xml',
+        ],
     'installable': True,
 }

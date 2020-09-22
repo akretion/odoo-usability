@@ -9,7 +9,8 @@ from odoo.tools import float_compare, float_is_zero, float_round
 from cStringIO import StringIO
 from datetime import datetime
 import xlsxwriter
-from pprint import pprint
+import logging
+logger = logging.getLogger(__name__)
 
 
 class StockValuationXlsx(models.TransientModel):
@@ -95,25 +96,38 @@ class StockValuationXlsx(models.TransientModel):
 
     def compute_product_data(self, company_id, past_date=False):
         self.ensure_one()
+        logger.debug('Start compute_product_data')
         ppo = self.env['product.product']
+        ppho = self.env['product.price.history']
         domain = self._prepare_product_domain()
-        products = ppo.with_context(active_test=False).search(domain)
-        product_ids = [x['id'] for x in products]
+        products = ppo.search_read(
+            domain, ['uom_id', 'name', 'default_code', 'categ_id'])
         product_id2data = {}
+        now = fields.Datetime.now()
         for p in products:
-            standard_price = p.get_history_price(company_id, date=past_date)
+            logger.debug('p=%d', p['id'])
+            # I don't call the native method get_history_price()
+            # because it requires a browse record and it is too slow
+            history = ppho.search_read([
+                ('company_id', '=', company_id),
+                ('product_id', '=', p['id']),
+                ('datetime', '<=', past_date or now)],
+                ['cost'], order='datetime desc, id desc', limit=1)
+            standard_price = history and history[0]['cost'] or 0.0
             product_id2data[p['id']] = {
-                'default_code': p.default_code,
-                'name': p.name,
-                'categ_id': p.categ_id.id,
-                'uom_id': p.uom_id.id,
+                'default_code': p['default_code'],
+                'name': p['name'],
+                'categ_id': p['categ_id'][0],
+                'uom_id': p['uom_id'][0],
                 'standard_price': standard_price,
                 }
-        return product_id2data, product_ids
+        logger.debug('End compute_product_data')
+        return product_id2data, product_id2data.keys()
 
     def id2name(self, product_ids):
-        pco = self.env['product.category'].with_context(active_test=False)
-        splo = self.env['stock.production.lot'].with_context(active_test=False)
+        logger.debug('Start id2name')
+        pco = self.env['product.category']
+        splo = self.env['stock.production.lot']
         slo = self.env['stock.location'].with_context(active_test=False)
         puo = self.env['product.uom'].with_context(active_test=False)
         categ_id2name = {}
@@ -138,11 +152,12 @@ class StockValuationXlsx(models.TransientModel):
         locs = slo.search_read([('id', 'child_of', self.location_id.id)], ['display_name'])
         for loc in locs:
             loc_id2name[loc['id']] = loc['display_name']
-
+        logger.debug('End id2name')
         return categ_id2name, uom_id2name, lot_id2data, loc_id2name
 
     def compute_data_from_inventory(self, product_ids, prec_qty):
         self.ensure_one()
+        logger.debug('Start compute_data_from_inventory')
         # Can he modify UoM ?
         inv_lines = self.env['stock.inventory.line'].search_read([
             ('inventory_id', '=', self.inventory_id.id),
@@ -159,10 +174,12 @@ class StockValuationXlsx(models.TransientModel):
                     'qty': l['product_qty'],
                     'location_id': l['location_id'][0],
                     })
+        logger.debug('End compute_data_from_inventory')
         return res
 
     def compute_data_from_present_stock(self, company_id, product_ids, prec_qty):
         self.ensure_one()
+        logger.debug('Start compute_data_from_present_stock')
         quants = self.env['stock.quant'].search_read([
             ('product_id', 'in', product_ids),
             ('location_id', 'child_of', self.location_id.id),
@@ -177,10 +194,12 @@ class StockValuationXlsx(models.TransientModel):
                     'location_id': quant['location_id'][0],
                     'qty': quant['qty'],
                     })
+        logger.debug('End compute_data_from_present_stock')
         return res
 
     def compute_data_from_past_stock(self, product_ids, prec_qty, past_date):
         self.ensure_one()
+        logger.debug('Start compute_data_from_past_stock past_date=', past_date)
         ppo = self.env['product.product']
         products = ppo.with_context(to_date=past_date, location_id=self.location_id.id).browse(product_ids)
         res = []
@@ -193,9 +212,13 @@ class StockValuationXlsx(models.TransientModel):
                     'lot_id': False,
                     'location_id': False,
                     })
+        logger.debug('End compute_data_from_past_stock')
         return res
 
     def group_result(self, data, split_by_lot, split_by_location):
+        logger.debug(
+            'Start group_result split_by_lot=%s, split_by_location=%s',
+            split_by_lot, split_by_location)
         wdict = {}
         for l in data:
             key_list = [l['product_id']]
@@ -206,37 +229,53 @@ class StockValuationXlsx(models.TransientModel):
             key = tuple(key_list)
             wdict.setdefault(key, dict(product_id=l['product_id'], lot_id=l['lot_id'], location_id=l['location_id'], qty=0.0))
             wdict[key]['qty'] += l['qty']
+        logger.debug('End group_result')
         return wdict.values()
 
-    def stringify_and_sort_result(self, product_ids, product_id2data, data, prec_qty, prec_cur_rounding, categ_id2name, uom_id2name, lot_id2data, loc_id2name):
+    def stringify_and_sort_result(
+            self, product_ids, product_id2data, data,
+            prec_qty, prec_price, prec_cur_rounding, categ_id2name,
+            uom_id2name, lot_id2data, loc_id2name):
+        logger.debug('Start stringify_and_sort_result')
         res = []
         categ_subtotal = self.categ_subtotal
         for l in data:
             product_id = l['product_id']
             qty = float_round(l['qty'], precision_digits=prec_qty)
-            standard_price = product_id2data[product_id]['standard_price']
+            standard_price = float_round(
+                product_id2data[product_id]['standard_price'],
+                precision_digits=prec_price)
+            subtotal = float_round(
+                standard_price * qty, precision_rounding=prec_cur_rounding)
+            expiry_date_dt = ''
+            if l['lot_id'] and lot_id2data[l['lot_id']]['expiry_date']:
+                expiry_date_dt = fields.Date.from_string(
+                    lot_id2data[l['lot_id']]['expiry_date'])
             res.append({
                 'product_code': product_id2data[product_id]['default_code'],
                 'product_name': product_id2data[product_id]['name'],
                 'loc_name': l['location_id'] and loc_id2name[l['location_id']] or '',
                 'lot_name': l['lot_id'] and lot_id2data[l['lot_id']]['name'] or '',
-                'expiry_date': l['lot_id'] and lot_id2data[l['lot_id']]['expiry_date'] or '',
+                'expiry_date': expiry_date_dt,
                 'qty': qty,
                 'uom_name': uom_id2name[product_id2data[product_id]['uom_id']],
                 'standard_price': standard_price,
-                'subtotal': float_round(standard_price * qty, precision_rounding=prec_cur_rounding),
+                'subtotal': subtotal,
                 'categ_name': categ_id2name[product_id2data[product_id]['categ_id']],
                 'categ_id': categ_subtotal and product_id2data[product_id]['categ_id'] or 0,
                 })
         sort_res = sorted(res, key=lambda x: x['product_name'])
+        logger.debug('End stringify_and_sort_result')
         return sort_res
 
     def generate(self):
         self.ensure_one()
+        logger.debug('Start generate XLSX stock valuation report')
         splo = self.env['stock.production.lot'].with_context(active_test=False)
         pco = self.env['product.category'].with_context(active_test=False)
         self._check_config()
         prec_qty = self.env['decimal.precision'].precision_get('Product Unit of Measure')
+        prec_price = self.env['decimal.precision'].precision_get('Product Price')
         company = self.env.user.company_id
         company_id = company.id
         prec_cur_rounding = company.currency_id.rounding
@@ -262,10 +301,11 @@ class StockValuationXlsx(models.TransientModel):
         data_res = self.group_result(data, split_by_lot, split_by_location)
         categ_id2name, uom_id2name, lot_id2data, loc_id2name = self.id2name(product_ids)
         res = self.stringify_and_sort_result(
-            product_ids, product_id2data, data_res, prec_qty, prec_cur_rounding,
+            product_ids, product_id2data, data_res, prec_qty, prec_price, prec_cur_rounding,
             categ_id2name, uom_id2name, lot_id2data, loc_id2name)
 
 
+        logger.debug('Start create XLSX workbook')
         file_data = StringIO()
         workbook = xlsxwriter.Workbook(file_data)
         sheet = workbook.add_worksheet('Stock')
@@ -274,6 +314,8 @@ class StockValuationXlsx(models.TransientModel):
         categ_bg_color = '#e1daf5'
         col_title_bg_color = '#fff9b4'
         regular_font_size = 10
+        currency_num_format = u'# ### ##0.00 %s' % company.currency_id.symbol
+        price_currency_num_format = u'# ### ##0.%s %s' % ('0' * prec_price, company.currency_id.symbol)
         doc_title = workbook.add_format({
             'bold': True, 'font_size': regular_font_size + 10,
             'font_color': '#003b6f'})
@@ -285,34 +327,36 @@ class StockValuationXlsx(models.TransientModel):
             'align': 'center',
             })
         total_title = workbook.add_format({
-            'bold': True, 'text_wrap': True, 'font_size': regular_font_size + 2, 'align': 'right',
-            'bg_color': total_bg_color})
-        total_currency = workbook.add_format({'num_format': u'# ### ##0.00 €', 'bg_color': total_bg_color})
+            'bold': True, 'text_wrap': True, 'font_size': regular_font_size + 2,
+            'align': 'right', 'bg_color': total_bg_color})
+        total_currency = workbook.add_format({
+            'num_format': currency_num_format, 'bg_color': total_bg_color})
         regular_date = workbook.add_format({'num_format': 'dd/mm/yyyy'})
-        regular_currency = workbook.add_format({'num_format': u'# ### ##0.00 €'})
+        regular_currency = workbook.add_format({'num_format': currency_num_format})
+        regular_price_currency = workbook.add_format({'num_format': price_currency_num_format})
         regular = workbook.add_format({})
         regular_small = workbook.add_format({'font_size': regular_font_size - 2})
         categ_title = workbook.add_format({
             'bold': True, 'bg_color': categ_bg_color, 'font_size': regular_font_size})
         categ_currency = workbook.add_format({
-            'num_format': u'# ### ##0.00 €', 'bg_color': categ_bg_color})
+            'num_format': currency_num_format, 'bg_color': categ_bg_color})
         date_title = workbook.add_format({
             'bold': True, 'font_size': regular_font_size, 'align': 'right'})
         date_title_val = workbook.add_format({
             'bold': True, 'font_size': regular_font_size})
 
         cols = {
-            'product_code': {'width': 16, 'style': regular, 'pos': -1, 'title': _('Product Code')},
-            'product_name': {'width': 30, 'style': regular, 'pos': -1, 'title': _('Product Name')},
-            'loc_name': {'width': 30, 'style': regular_small, 'pos': -1, 'title': _('Location Name')},
+            'product_code': {'width': 18, 'style': regular, 'pos': -1, 'title': _('Product Code')},
+            'product_name': {'width': 40, 'style': regular, 'pos': -1, 'title': _('Product Name')},
+            'loc_name': {'width': 25, 'style': regular_small, 'pos': -1, 'title': _('Location Name')},
             'lot_name': {'width': 18, 'style': regular, 'pos': -1, 'title': _('Lot')},
-            'expiry_date': {'width': 14, 'style': regular_date, 'pos': -1, 'title': _('Expiry Date')},
-            'qty': {'width': 10, 'style': regular, 'pos': -1, 'title': _('Qty')},
-            'uom_name': {'width': 6, 'style': regular_small, 'pos': -1, 'title': _('UoM')},
-            'standard_price': {'width': 18, 'style': regular_currency, 'pos': -1, 'title': _('Price')},
-            'subtotal': {'width': 18, 'style': regular_currency, 'pos': -1, 'title': _('Sub-total'), 'formula': True},
-            'categ_subtotal': {'width': 18, 'style': regular_currency, 'pos': -1, 'title': _('Categ Sub-total'), 'formula': True},
-            'categ_name': {'width': 30, 'style': regular_small, 'pos': -1, 'title': _('Product Category')},
+            'expiry_date': {'width': 11, 'style': regular_date, 'pos': -1, 'title': _('Expiry Date')},
+            'qty': {'width': 8, 'style': regular, 'pos': -1, 'title': _('Qty')},
+            'uom_name': {'width': 5, 'style': regular_small, 'pos': -1, 'title': _('UoM')},
+            'standard_price': {'width': 10, 'style': regular_price_currency, 'pos': -1, 'title': _('Price')},
+            'subtotal': {'width': 16, 'style': regular_currency, 'pos': -1, 'title': _('Sub-total'), 'formula': True},
+            'categ_subtotal': {'width': 16, 'style': regular_currency, 'pos': -1, 'title': _('Categ Sub-total'), 'formula': True},
+            'categ_name': {'width': 35, 'style': regular_small, 'pos': -1, 'title': _('Product Category')},
             }
         categ_subtotal = self.categ_subtotal
         col_order = [
@@ -350,7 +394,7 @@ class StockValuationXlsx(models.TransientModel):
         sheet.write(i, 0, 'Valuation Date: %s' % stock_time_str, doc_subtitle)
 #        sheet.write(i, 3, stock_time_str, date_title_val)
         i += 1
-        sheet.write(i, 0, 'Stock location (children included): %s' % self.location_id.display_name, doc_subtitle)
+        sheet.write(i, 0, 'Stock location (children included): %s' % self.location_id.complete_name, doc_subtitle)
         if self.categ_ids:
             i += 1
             sheet.write(i, 0, 'Product Categories: %s' % ', '.join([categ.display_name for categ in self.categ_ids]), doc_subtitle)
@@ -409,6 +453,7 @@ class StockValuationXlsx(models.TransientModel):
         sheet.write_formula(total_row, cols['subtotal']['pos'], total_formula, total_currency, float_round(total, precision_rounding=prec_cur_rounding))
 
         workbook.close()
+        logger.debug('End create XLSX workbook')
         file_data.seek(0)
         filename = 'Odoo_stock_%s.xlsx' % stock_time_str.replace(' ', '-').replace(':', '_')
         export_file_b64 = file_data.read().encode('base64')
