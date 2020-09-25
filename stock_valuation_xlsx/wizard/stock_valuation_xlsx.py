@@ -5,7 +5,7 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-from odoo.tools import float_compare, float_is_zero, float_round
+from odoo.tools import float_is_zero, float_round
 from cStringIO import StringIO
 from datetime import datetime
 import xlsxwriter
@@ -105,19 +105,25 @@ class StockValuationXlsx(models.TransientModel):
             domain += [('categ_id', 'child_of', self.categ_ids.ids)]
         return domain
 
+    def get_product_ids(self):
+        self.ensure_one()
+        domain = self._prepare_product_domain()
+        products = self.env['product.product'].search(domain)
+        return products.ids
+
     def _prepare_product_fields(self):
         return ['uom_id', 'name', 'default_code', 'categ_id']
 
-    def compute_product_data(self, company_id, past_date=False):
+    def compute_product_data(
+            self, company_id, in_stock_product_ids, past_date=False):
         self.ensure_one()
         logger.debug('Start compute_product_data')
         ppo = self.env['product.product']
         ppho = self.env['product.price.history']
-        domain = self._prepare_product_domain()
         fields_list = self._prepare_product_fields()
         if not past_date:
             fields_list.append('standard_price')
-        products = ppo.search_read(domain, fields_list)
+        products = ppo.search_read([('id', 'in', in_stock_product_ids)], fields_list)
         product_id2data = {}
         now = fields.Datetime.now()
         for p in products:
@@ -186,6 +192,7 @@ class StockValuationXlsx(models.TransientModel):
             ('product_qty', '>', 0),
             ], ['product_id', 'location_id', 'prod_lot_id', 'product_qty'])
         res = []
+        in_stock_products = {}
         for l in inv_lines:
             if not float_is_zero(l['product_qty'], precision_digits=prec_qty):
                 res.append({
@@ -194,8 +201,9 @@ class StockValuationXlsx(models.TransientModel):
                     'qty': l['product_qty'],
                     'location_id': l['location_id'][0],
                     })
+                in_stock_products[l['product_id'][0]] = True
         logger.debug('End compute_data_from_inventory')
-        return res
+        return res, in_stock_products
 
     def compute_data_from_present_stock(self, company_id, product_ids, prec_qty):
         self.ensure_one()
@@ -206,6 +214,7 @@ class StockValuationXlsx(models.TransientModel):
             ('company_id', '=', company_id),
             ], ['product_id', 'lot_id', 'location_id', 'qty'])
         res = []
+        in_stock_products = {}
         for quant in quants:
             if not float_is_zero(quant['qty'], precision_digits=prec_qty):
                 res.append({
@@ -214,8 +223,9 @@ class StockValuationXlsx(models.TransientModel):
                     'location_id': quant['location_id'][0],
                     'qty': quant['qty'],
                     })
+                in_stock_products[quant['product_id'][0]] = True
         logger.debug('End compute_data_from_present_stock')
-        return res
+        return res, in_stock_products
 
     def compute_data_from_past_stock(self, product_ids, prec_qty, past_date):
         self.ensure_one()
@@ -223,17 +233,19 @@ class StockValuationXlsx(models.TransientModel):
         ppo = self.env['product.product']
         products = ppo.with_context(to_date=past_date, location_id=self.location_id.id).browse(product_ids)
         res = []
-        for p in products:
-            qty = p.qty_available
+        in_stock_products = {}
+        for product in products:
+            qty = product.qty_available
             if not float_is_zero(qty, precision_digits=prec_qty):
                 res.append({
-                    'product_id': p.id,
+                    'product_id': product.id,
                     'qty': qty,
                     'lot_id': False,
                     'location_id': False,
                     })
+                in_stock_products[product.id] = True
         logger.debug('End compute_data_from_past_stock')
-        return res
+        return res, in_stock_products
 
     def group_result(self, data, split_by_lot, split_by_location):
         logger.debug(
@@ -258,7 +270,6 @@ class StockValuationXlsx(models.TransientModel):
             uom_id2name, lot_id2data, loc_id2name):
         logger.debug('Start stringify_and_sort_result')
         res = []
-        categ_subtotal = self.categ_subtotal
         for l in data:
             product_id = l['product_id']
             qty = float_round(l['qty'], precision_digits=prec_qty)
@@ -287,7 +298,6 @@ class StockValuationXlsx(models.TransientModel):
         self.ensure_one()
         logger.debug('Start generate XLSX stock valuation report')
         splo = self.env['stock.production.lot'].with_context(active_test=False)
-        pco = self.env['product.category'].with_context(active_test=False)
         prec_qty = self.env['decimal.precision'].precision_get('Product Unit of Measure')
         prec_price = self.env['decimal.precision'].precision_get('Product Price')
         company = self.env.user.company_id
@@ -304,18 +314,21 @@ class StockValuationXlsx(models.TransientModel):
             past_date = self.past_date
         elif self.source == 'inventory':
             past_date = self.inventory_id.date
-        product_id2data = self.compute_product_data(
-            company_id, past_date=past_date)
-        product_ids = product_id2data.keys()
+        product_ids = self.get_product_ids()
+        if not product_ids:
+            raise UserError(_("There are no products to analyse."))
         if self.source == 'stock':
             if self.stock_date_type == 'present':
-                data = self.compute_data_from_present_stock(
+                data, in_stock_products = self.compute_data_from_present_stock(
                     company_id, product_ids, prec_qty)
             elif self.stock_date_type == 'past':
-                data = self.compute_data_from_past_stock(
+                data, in_stock_products = self.compute_data_from_past_stock(
                     product_ids, prec_qty, past_date)
         elif self.source == 'inventory':
-            data = self.compute_data_from_inventory(product_ids, prec_qty)
+            data, in_stock_products = self.compute_data_from_inventory(product_ids, prec_qty)
+        in_stock_product_ids = in_stock_products.keys()
+        product_id2data = self.compute_product_data(
+            company_id, in_stock_product_ids, past_date=past_date)
         data_res = self.group_result(data, split_by_lot, split_by_location)
         categ_id2name, uom_id2name, lot_id2data, loc_id2name = self.id2name(product_ids)
         res = self.stringify_and_sort_result(
@@ -339,8 +352,6 @@ class StockValuationXlsx(models.TransientModel):
             cols.pop('loc_name', None)
         if not categ_subtotal:
             cols.pop('categ_subtotal', None)
-        tmp_list = sorted(cols.items(), key=lambda x: x[1]['sequence'])
-        col_sorted = [x[0] for x in tmp_list]
 
         j = 0
         for col, col_vals in sorted(cols.items(), key=lambda x: x[1]['sequence']):
