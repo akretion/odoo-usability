@@ -16,10 +16,8 @@
             <div name="help">
                 <p>The generated XLSX report has the valuation of stockable products located on the selected stock locations (and their childrens).</p>
             </div>
-            <group name="invisible">
+            <group name="setup">
                 <field name="state" invisible="1"/>
-            </group>
-            <group name="setup" states="setup">
                 <field name="categ_ids" widget="many2many_tags"/>
                 <field name="warehouse_id"/>
                 <field name="location_id"/>
@@ -27,11 +25,12 @@
                 <field name="inventory_id" attrs="{'invisible': [('source', '!=', 'inventory')], 'required': [('source', '=', 'inventory')]}"/>
                 <field name="stock_date_type" attrs="{'invisible': [('source', '!=', 'stock')], 'required': [('source', '=', 'stock')]}" widget="radio"/>
                 <field name="past_date" attrs="{'invisible': ['|', ('source', '!=', 'stock'), ('stock_date_type', '!=', 'past')], 'required': [('source', '=', 'stock'), ('stock_date_type', '=', 'past')]}"/>
+                <field name="standard_price_date" attrs="{'invisible': [('source', '=', 'stock'), ('stock_date_type', '=', 'present')]}" widget="radio"/>
                 <field name="categ_subtotal" />
                 <field name="split_by_lot" attrs="{'invisible': [('source', '=', 'stock'), ('stock_date_type', '=', 'past')]}" groups="stock.group_production_lot"/>
                 <field name="split_by_location" attrs="{'invisible': [('source', '=', 'stock'), ('stock_date_type', '=', 'past')]}"/>
             </group>
-            <group name="done" states="done">
+            <group name="done" states="done" string="Result">
                 <field name="export_file" filename="export_filename"/>
                 <field name="export_filename" invisible="1"/>
             </group>
