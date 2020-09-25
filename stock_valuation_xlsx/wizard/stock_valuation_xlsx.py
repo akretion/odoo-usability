@@ -418,6 +418,7 @@ class StockValuationXlsx(models.TransientModel):
         letter_price = cols['standard_price']['pos_letter']
         letter_subtotal = cols['subtotal']['pos_letter']
         crow = 0
+        lines = res
         for categ_id in categ_ids:
             ctotal = 0.0
             categ_has_line = False
@@ -425,7 +426,8 @@ class StockValuationXlsx(models.TransientModel):
                 # skip a line and save it's position as crow
                 i += 1
                 crow = i
-            for l in filter(lambda x: x['categ_id'] == categ_id, res):
+                lines = filter(lambda x: x['categ_id'] == categ_id, res)
+            for l in lines:
                 i += 1
                 total += l['subtotal']
                 ctotal += l['subtotal']
