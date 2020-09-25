@@ -47,7 +47,7 @@
 </record>
 
 <!-- Replace native menu, to avoid user confusion -->
-<record id="stock.menu_valuation" model="ir.ui.menu">
+<record id="stock_account.menu_valuation" model="ir.ui.menu">
     <field name="action" ref="stock_valuation_xlsx.stock_valuation_xlsx_action"/>
     <field name="name">Stock Valuation XLSX</field>
 </record>
