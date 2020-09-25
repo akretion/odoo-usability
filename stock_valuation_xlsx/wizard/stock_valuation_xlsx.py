@@ -20,34 +20,55 @@ class StockValuationXlsx(models.TransientModel):
 
     export_file = fields.Binary(string='XLSX Report', readonly=True)
     export_filename = fields.Char(readonly=True)
+    # I don't use ir.actions.url on v12, because it renders
+    # the wizard unusable after the first report generation, which creates
+    # a lot of confusion for users
+    state = fields.Selection([
+        ('setup', 'Setup'),
+        ('done', 'Done'),
+        ], string='State', default='setup', readonly=True)
     warehouse_id = fields.Many2one(
-        'stock.warehouse', string='Warehouse')
+        'stock.warehouse', string='Warehouse',
+        states={'done': [('readonly', True)]})
     location_id = fields.Many2one(
         'stock.location', string='Root Stock Location', required=True,
         domain=[('usage', 'in', ('view', 'internal'))],
         default=lambda self: self._default_location(),
+        states={'done': [('readonly', True)]},
         help="The childen locations of the selected locations will "
         u"be taken in the valuation.")
     categ_ids = fields.Many2many(
-        'product.category', string='Product Categories')
+        'product.category', string='Product Categories',
+        states={'done': [('readonly', True)]})
     source = fields.Selection([
         ('inventory', 'Physical Inventory'),
         ('stock', 'Stock Levels'),
-        ], string='Source data', default='stock', required=True)
+        ], string='Source data', default='stock', required=True,
+        states={'done': [('readonly', True)]})
     inventory_id = fields.Many2one(
-        'stock.inventory', string='Inventory', domain=[('state', '=', 'done')])
+        'stock.inventory', string='Inventory', domain=[('state', '=', 'done')],
+        states={'done': [('readonly', True)]})
     stock_date_type = fields.Selection([
         ('present', 'Present'),
         ('past', 'Past'),
-        ], string='Present or Past', default='present')
+        ], string='Present or Past', default='present',
+        states={'done': [('readonly', True)]})
     past_date = fields.Datetime(
-        string='Past Date',
+        string='Past Date', states={'done': [('readonly', True)]},
         default=fields.Datetime.now)
     categ_subtotal = fields.Boolean(
         string='Subtotals per Categories', default=True,
+        states={'done': [('readonly', True)]},
         help="Show a subtotal per product category")
-    split_by_lot = fields.Boolean(string='Display Lots')
-    split_by_location = fields.Boolean(string='Display Stock Locations')
+    standard_price_date = fields.Selection([
+        ('past', 'Past Date or Inventory Date'),
+        ('present', 'Current'),
+        ], default='past', string='Cost Price Date',
+        states={'done': [('readonly', True)]})
+    split_by_lot = fields.Boolean(
+        string='Display Lots', states={'done': [('readonly', True)]})
+    split_by_location = fields.Boolean(
+        string='Display Stock Locations', states={'done': [('readonly', True)]})
 
     @api.model
     def _default_location(self):
@@ -103,26 +124,25 @@ class StockValuationXlsx(models.TransientModel):
         return ['uom_id', 'name', 'default_code', 'categ_id']
 
     def compute_product_data(
-            self, company_id, in_stock_product_ids, past_date=False):
+            self, company_id, in_stock_product_ids, standard_price_past_date=False):
         self.ensure_one()
         logger.debug('Start compute_product_data')
         ppo = self.env['product.product']
         ppho = self.env['product.price.history']
         fields_list = self._prepare_product_fields()
-        if not past_date:
+        if not standard_price_past_date:
             fields_list.append('standard_price')
         products = ppo.search_read([('id', 'in', in_stock_product_ids)], fields_list)
         product_id2data = {}
-        now = fields.Datetime.now()
         for p in products:
             logger.debug('p=%d', p['id'])
             # I don't call the native method get_history_price()
             # because it requires a browse record and it is too slow
-            if past_date:
+            if standard_price_past_date:
                 history = ppho.search_read([
                     ('company_id', '=', company_id),
                     ('product_id', '=', p['id']),
-                    ('datetime', '<=', past_date or now)],
+                    ('datetime', '<=', standard_price_past_date)],
                     ['cost'], order='datetime desc, id desc', limit=1)
                 standard_price = history and history[0]['cost'] or 0.0
             else:
@@ -293,30 +313,32 @@ class StockValuationXlsx(models.TransientModel):
         prec_cur_rounding = company.currency_id.rounding
         self._check_config(company_id)
 
-        split_by_lot = self.split_by_lot
-        split_by_location = self.split_by_location
-        past_date = False
-        if self.source == 'stock' and self.stock_date_type == 'past':
-            split_by_lot = False
-            split_by_location = False
-            past_date = self.past_date
-        elif self.source == 'inventory':
-            past_date = self.inventory_id.date
         product_ids = self.get_product_ids()
         if not product_ids:
             raise UserError(_("There are no products to analyse."))
+        split_by_lot = self.split_by_lot
+        split_by_location = self.split_by_location
         if self.source == 'stock':
             if self.stock_date_type == 'present':
+                past_date = False
                 data, in_stock_products = self.compute_data_from_present_stock(
                     company_id, product_ids, prec_qty)
             elif self.stock_date_type == 'past':
+                split_by_lot = False
+                split_by_location = False
+                past_date = self.past_date
                 data, in_stock_products = self.compute_data_from_past_stock(
                     product_ids, prec_qty, past_date)
         elif self.source == 'inventory':
+            past_date = self.inventory_id.date
             data, in_stock_products = self.compute_data_from_inventory(product_ids, prec_qty)
+        standard_price_past_date = past_date
+        if not (self.source == 'stock' and self.stock_date_type == 'present') and self.standard_price_date == 'present':
+            standard_price_past_date = False
         in_stock_product_ids = list(in_stock_products.keys())
         product_id2data = self.compute_product_data(
-            company_id, in_stock_product_ids, past_date=past_date)
+            company_id, in_stock_product_ids,
+            standard_price_past_date=standard_price_past_date)
         data_res = self.group_result(data, split_by_lot, split_by_location)
         categ_id2name, uom_id2name, lot_id2data, loc_id2name = self.id2name(product_ids)
         res = self.stringify_and_sort_result(
@@ -349,22 +371,32 @@ class StockValuationXlsx(models.TransientModel):
             j += 1
 
         # HEADER
+        now_dt = fields.Datetime.context_timestamp(self, datetime.now())
+        now_str = fields.Datetime.to_string(now_dt)
         if past_date:
-            # TODO take TZ into account
-            stock_time_dt = self.past_date
+            stock_time_utc_dt = past_date
+            stock_time_dt = fields.Datetime.context_timestamp(self, stock_time_utc_dt)
+            stock_time_str = fields.Datetime.to_string(stock_time_dt)
         else:
-            stock_time_dt = fields.Datetime.context_timestamp(self, datetime.now())
-        stock_time_str = fields.Datetime.to_string(stock_time_dt)
+            stock_time_str = now_str
+        if standard_price_past_date:
+            standard_price_date_str = stock_time_str
+        else:
+            standard_price_date_str = now_str
         i = 0
         sheet.write(i, 0, 'Odoo - Stock Valuation', styles['doc_title'])
         sheet.set_row(0, 26)
         i += 1
-        sheet.write(i, 0, 'Valuation Date: %s' % stock_time_str, styles['doc_subtitle'])
+        sheet.write(i, 0, 'Inventory Date: %s' % stock_time_str, styles['doc_subtitle'])
+        i += 1
+        sheet.write(i, 0, 'Cost Price Date: %s' % standard_price_date_str, styles['doc_subtitle'])
         i += 1
         sheet.write(i, 0, 'Stock location (children included): %s' % self.location_id.complete_name, styles['doc_subtitle'])
         if self.categ_ids:
             i += 1
             sheet.write(i, 0, 'Product Categories: %s' % ', '.join([categ.display_name for categ in self.categ_ids]), styles['doc_subtitle'])
+        i += 1
+        sheet.write(i, 0, 'Generated on %s by %s' % (now_str, self.env.user.name), styles['regular_small'])
 
         # TITLE of COLS
         i += 2
@@ -426,17 +458,21 @@ class StockValuationXlsx(models.TransientModel):
         filename = 'Odoo_stock_%s.xlsx' % stock_time_str.replace(' ', '-').replace(':', '_')
         export_file_b64 = base64.b64encode(file_data.read())
         self.write({
+            'state': 'done',
             'export_filename': filename,
             'export_file': export_file_b64,
             })
-        action = {
-            'name': _('Stock Valuation XLSX'),
-            'type': 'ir.actions.act_url',
-            'url': "web/content/?model=%s&id=%d&filename_field=export_filename&"
-                   "field=export_file&download=true&filename=%s" % (
-                       self._name, self.id, self.export_filename),
-            'target': 'self',
-            }
+        # action = {
+        #    'name': _('Stock Valuation XLSX'),
+        #    'type': 'ir.actions.act_url',
+        #    'url': "web/content/?model=%s&id=%d&filename_field=export_filename&"
+        #           "field=export_file&download=true&filename=%s" % (
+        #               self._name, self.id, self.export_filename),
+        #    'target': 'self',
+        #    }
+        action = self.env['ir.actions.act_window'].for_xml_id(
+            'stock_valuation_xlsx', 'stock_valuation_xlsx_action')
+        action['res_id'] = self.id
         return action
 
     def _prepare_styles(self, workbook, company, prec_price):
@@ -488,7 +524,7 @@ class StockValuationXlsx(models.TransientModel):
             'expiry_date': {'width': 11, 'style': 'regular_date', 'sequence': 50, 'title': _('Expiry Date'), 'type': 'date'},
             'qty': {'width': 8, 'style': 'regular', 'sequence': 60, 'title': _('Qty')},
             'uom_name': {'width': 5, 'style': 'regular_small', 'sequence': 70, 'title': _('UoM')},
-            'standard_price': {'width': 12, 'style': 'regular_price_currency', 'sequence': 80, 'title': _('Price')},
+            'standard_price': {'width': 14, 'style': 'regular_price_currency', 'sequence': 80, 'title': _('Cost Price')},
             'subtotal': {'width': 16, 'style': 'regular_currency', 'sequence': 90, 'title': _('Sub-total'), 'formula': True},
             'categ_subtotal': {'width': 16, 'style': 'regular_currency', 'sequence': 100, 'title': _('Categ Sub-total'), 'formula': True},
             'categ_name': {'width': 40, 'style': 'regular_small', 'sequence': 110, 'title': _('Product Category')},
