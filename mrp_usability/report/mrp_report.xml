@@ -13,7 +13,7 @@
 
     <xpath expr="//table[1]//tbody//td[3]" position="inside">
         <span t-if="ml.state !='done' and (ml.move_id.product_qty - ml.product_uom_qty > 0.0)"> => rupture </span>
-        <span t-esc="ml.move_id.product_qty - ml.product_uom_qty" t-if="ml.state !='done' and (ml.move_id.product_qty - ml.product_uom_qty > 0.0)"/>
+        <span t-esc="round(ml.move_id.product_qty - ml.product_uom_qty, 3)" t-if="ml.state !='done' and (ml.move_id.product_qty - ml.product_uom_qty > 0.0)"/>
     </xpath>
 
     <xpath expr="//div[hasclass('oe_structure')][2]" position="after">
