@@ -20,6 +20,7 @@ class MailMail(models.Model):
 
     @api.multi
     def send_get_mail_to(self, partner=None):
+        super(MailMail, self).send_get_mail_to(partner=partner)
         self.ensure_one()
         email_to = []
         for partner in self.recipient_ids:
