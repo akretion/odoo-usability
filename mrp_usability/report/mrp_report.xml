@@ -11,6 +11,11 @@
         <td t-if="has_serial_number"><span t-field="ml.lot_id"/></td>
     </xpath>
 
+    <xpath expr="//table[1]//tbody//td[3]" position="inside">
+        <span t-if="ml.state !='done' and (ml.move_id.product_qty - ml.product_uom_qty > 0.0)"> => rupture </span>
+        <span t-esc="ml.move_id.product_qty - ml.product_uom_qty" t-if="ml.state !='done' and (ml.move_id.product_qty - ml.product_uom_qty > 0.0)"/>
+    </xpath>
+
     <xpath expr="//div[hasclass('oe_structure')][2]" position="after">
         <t t-set="has_product_unavailable"
            t-value="any(o.move_raw_ids.filtered(lambda x: x.product_uom_qty &gt; x.reserved_availability))"/>
