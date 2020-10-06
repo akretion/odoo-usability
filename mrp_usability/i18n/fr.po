@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-16 13:56+0000\n"
-"PO-Revision-Date: 2019-07-16 16:01+0200\n"
+"POT-Creation-Date: 2020-10-06 13:37+0000\n"
+"PO-Revision-Date: 2020-10-06 15:38+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: fr\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.3\n"
 
 #. module: mrp_usability
 #: model_terms:ir.ui.view,arch_db:mrp_usability.mrp_production_form_view
@@ -23,33 +23,44 @@ msgid "Are you sure you want to cancel this manufacturing order?"
 msgstr "Etes vous sur de vouloir annuler cet ordre de production"
 
 #. module: mrp_usability
+#: model_terms:ir.ui.view,arch_db:mrp_usability.product_template_form_view_bom_button
+msgid "Bill of Materials"
+msgstr "Nomenclature"
+
+#. module: mrp_usability
 #: model_terms:ir.ui.view,arch_db:mrp_usability.report_mrporder
 msgid "Lot"
 msgstr ""
 
 #. module: mrp_usability
+#: model:ir.model,name:mrp_usability.model_product_product
 #: model_terms:ir.ui.view,arch_db:mrp_usability.report_mrporder
 msgid "Product"
 msgstr "Article"
 
 #. module: mrp_usability
+#: model:ir.model,name:mrp_usability.model_product_template
+msgid "Product Template"
+msgstr "Modèle d'article"
+
+#. module: mrp_usability
 #: model:ir.model,name:mrp_usability.model_mrp_production
 msgid "Production Order"
-msgstr "Ordre de production"
+msgstr ""
 
 #. module: mrp_usability
 #: model_terms:ir.ui.view,arch_db:mrp_usability.report_mrporder
-msgid "Quantity"
-msgstr "Quantité"
+msgid "Sold Out Quantity"
+msgstr "Quantité en Rupture"
 
 #. module: mrp_usability
 #: model_terms:ir.ui.view,arch_db:mrp_usability.report_mrporder
 msgid ""
 "These products were unavailable (or partially) while edition of this Manufacturing Order.\n"
-"            Here is complete quantities for these."
+"            Here is missing quantities."
 msgstr ""
 "Les produits ci-dessous étaient indisponibles (complètement ou partiellement) lors de l'édition de l'OF.<br/>\n"
-"Voici les quantités totales de ceux-ci."
+"Voici les quantités manquantes."
 
 #. module: mrp_usability
 #: model_terms:ir.ui.view,arch_db:mrp_usability.view_mrp_bom_filter

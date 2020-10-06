@@ -11,37 +11,31 @@
         <td t-if="has_serial_number"><span t-field="ml.lot_id"/></td>
     </xpath>
 
-    <xpath expr="//table[1]//tbody//td[3]" position="inside">
-        <span t-if="ml.state !='done' and (ml.move_id.product_qty - ml.product_uom_qty > 0.0)"> => rupture </span>
-        <span t-esc="round(ml.move_id.product_qty - ml.product_uom_qty, 3)" t-if="ml.state !='done' and (ml.move_id.product_qty - ml.product_uom_qty > 0.0)"/>
-    </xpath>
-
     <xpath expr="//div[hasclass('oe_structure')][2]" position="after">
         <t t-set="has_product_unavailable"
            t-value="any(o.move_raw_ids.filtered(lambda x: x.product_uom_qty &gt; x.reserved_availability))"/>
         <h4 if="has_product_unavailable">
             These products were unavailable (or partially) while edition of this Manufacturing Order.
-            Here is complete quantities for these.
+            Here is missing quantities.
         </h4>
         <table class="table table-sm" t-if="o.move_raw_ids and has_product_unavailable">
             <thead>
                 <tr>
                     <th>Product</th>
-                    <th>Quantity</th>
+                    <th>Sold Out Quantity</th>
                 </tr>
             </thead>
             <tbody>
-                <t t-set="lines" 
+                <t t-set="moves" 
                    t-value="o.move_raw_ids.filtered(lambda x: x.product_uom_qty &gt; x.reserved_availability)"/>
-                <t t-foreach="lines" t-as="ml">
+                <t t-foreach="moves" t-as="m">
                     <tr>
                         <td>
-                            <span t-field="ml.product_id"/>
+                            <span t-field="m.product_id"/>
                         </td>
                         <td>
-                            <span t-esc="ml.product_uom_qty" t-if="ml.state !='done'"/>
-                            <span t-esc="ml.qty_done" t-if="ml.state =='done'"/>
-                            <span t-field="ml.product_uom" groups="uom.group_uom"/>
+                            <span t-esc="o.get_stock_move_sold_out_report(m)" t-if="m.state !='done'"/>
+                            <span t-field="m.product_uom" groups="uom.group_uom"/>
                         </td>
                     </tr>
                 </t>
