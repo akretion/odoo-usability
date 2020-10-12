@@ -205,6 +205,9 @@ module -->
         <field name="categ_id" position="after">
             <field name="product_id"/>
         </field>
+        <filter name="thisyear" position="after">
+            <filter name="this_year_and_previous" string="This year and previous" domain="['|', ('date', '=', False), '&amp;',('date','&lt;=', (context_today() + relativedelta(day=31, month=12)).strftime('%Y-%m-%d')), ('date', '&gt;=', (context_today() + relativedelta(day=1, month=1, years=-1)).strftime('%Y-%m-%d'))]"/>
+        </filter>
     </field>
 </record>
 
