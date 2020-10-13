@@ -19,6 +19,7 @@ class StockPicking(models.Model):
     move_type = fields.Selection(track_visibility='onchange')
     # Can be used in view to hide some fields depending of pick type
     picking_type_code = fields.Selection(related='picking_type_id.code')
+    is_locked = fields.Boolean(track_visibility='onchange')
 
     @api.multi
     def do_unreserve(self):
