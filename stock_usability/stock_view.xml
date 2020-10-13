@@ -139,43 +139,35 @@
     </field>
 </record>
 
-<!-- Display route in stock moves -->
-<!-- 
+<!-- Display advanced fields in stock moves form view -->
 <record id="view_move_form" model="ir.ui.view">
     <field name="name">stock.usability.stock.move.form</field>
     <field name="model">stock.move</field>
     <field name="inherit_id" ref="stock.view_move_form" />
     <field name="arch" type="xml">
+        <!--
         <field name="state" position="before">
             <button type="object" name="button_do_unreserve" string="Unreserve"
                 groups="stock.group_stock_user"
                 attrs="{'invisible': [('reserved_quant_ids', '=', [])]}"/>
-        </field>
-        <field name="picking_id" position="after">
+        </field>  -->
+        <field name="origin" position="after">
+            <field name="picking_id" readonly="1" string="Picking"/>
             <field name="inventory_id" readonly="1"/>
         </field>
-        <group name="moved_quants_grp" position="after">
-            <notebook colspan="2">
-                <page string="Notes" name="notes">
-                    <field name="note" nolabel="1"/>
-                </page>
-                <page string="Advanced Parameters" name="advanced-params" groups="stock.group_stock_manager">
-                    <group name="advanced">
-                        <field name="procurement_id"/>
-                        <field name="route_ids" widget="many2many_tags"/>
-                        <field name="rule_id" readonly="1"/>
-                        <field name="push_rule_id" readonly="1"/>
-                        <field name="propagate" readonly="1"/>
-                        <field name="price_unit"
-                            attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="reserved_quant_ids" readonly="1"/>
-                    </group>
-                </page>
-            </notebook>
+        <group name="origin_grp" position="after">
+            <group name="advanced" string="Advanced" groups="stock.group_stock_manager">
+                <field name="warehouse_id" readonly="1"/>
+                <field name="route_ids" widget="many2many_tags" readonly="1"/>
+                <field name="rule_id" readonly="1"/>
+                <field name="propagate" readonly="1"/>
+                <field name="price_unit" readonly="1"/>
+                <field name="partner_id" readonly="1"/>
+                <field name="restrict_partner_id" readonly="1"/>
+            </group>
         </group>
     </field>
 </record>
--->
 
 <record id="view_move_picking_form" model="ir.ui.view">
     <field name="name">stock.usability.stock.move.picking.form</field>
@@ -187,32 +179,20 @@
                 groups="stock.group_stock_user"
                 states="partially_available,assigned"/>
         </field>
-        <!--
         <field name="group_id" position="replace"/>
-        <group name="moved_quants_grp" position="after">
-            <notebook colspan="2">
-                <page string="Notes" name="notes">
-                    <field name="note" nolabel="1"/>
-                </page>
-                <page string="Advanced Parameters" name="advanced-params" groups="stock.group_stock_manager">
-                    <group name="advanced">
-                        <field name="partner_id"/>
-                        <field name="procurement_id"/>
-                        <field name="group_id"/>
-                        <field name="route_ids" widget="many2many_tags"/>
-                        <field name="rule_id" readonly="1"/>
-                        <field name="push_rule_id" readonly="1"/>
-                        <field name="propagate" readonly="1"/>
-                        <field name="price_unit" readonly="1"/>
-                        <field name="reserved_quant_ids" readonly="1"/>
-                    </group>
-                </page>
-            </notebook>
+        <group name="quants_grp" position="after">
+            <group string="Advanced" name="advanced" groups="stock.group_stock_manager">
+                <field name="origin" readonly="1"/>
+                <field name="warehouse_id" readonly="1"/>
+                <field name="group_id" readonly="1"/>
+                <field name="route_ids" widget="many2many_tags" readonly="1"/>
+                <field name="rule_id" readonly="1"/>
+                <field name="propagate" readonly="1"/>
+                <field name="price_unit" readonly="1"/>
+                <field name="partner_id" readonly="1"/>
+                <field name="restrict_partner_id" readonly="1"/>
+            </group>
         </group>
-        -->
-        <field name="move_dest_ids" position="before">
-            <field name="rule_id" readonly="1"/>
-        </field>
     </field>
 </record>
 
