@@ -124,12 +124,6 @@ class ResPartner(models.Model):
         return res
 
 
-class ResPartnerCategory(models.Model):
-    _inherit = 'res.partner.category'
-
-    name = fields.Char(translate=False)
-
-
 class ResPartnerBank(models.Model):
     _inherit = 'res.partner.bank'
 
