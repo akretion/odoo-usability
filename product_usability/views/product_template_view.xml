@@ -16,11 +16,6 @@
             <field name="standard_price" class="oe_inline" position="after">
                 <button name="show_product_price_history" class="oe_inline oe_link" type="object" string="Show History" context="{'active_id': active_id}"/>
             </field>
-            <!-- Don't make it too big, othesize computers with small resolutions
-            will see the product name + image under the block of buttons -->
-            <div class="oe_title" position="attributes">
-                <attribute name="style">width: 650px;</attribute>
-            </div>
         </field>
     </record>
 
