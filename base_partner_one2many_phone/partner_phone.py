@@ -113,13 +113,17 @@ class ResPartner(models.Model):
     phone_ids = fields.One2many(
         'res.partner.phone', 'partner_id', string='Phones')
     phone = Phone(
-        compute='_compute_partner_phone', store=True, readonly=True)
+        compute='_compute_partner_phone',
+        store=True, readonly=True, compute_sudo=True)
     mobile = Phone(
-        compute='_compute_partner_phone', store=True, readonly=True)
+        compute='_compute_partner_phone',
+        store=True, readonly=True, compute_sudo=True)
     fax = Fax(
-        compute='_compute_partner_phone', store=True, readonly=True)
+        compute='_compute_partner_phone',
+        store=True, readonly=True, compute_sudo=True)
     email = fields.Char(
-        compute='_compute_partner_phone', store=True, readonly=True)
+        compute='_compute_partner_phone',
+        store=True, readonly=True, compute_sudo=True)
 
     @api.depends('phone_ids.phone', 'phone_ids.type', 'phone_ids.email')
     def _compute_partner_phone(self):
