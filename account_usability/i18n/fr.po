@@ -1,0 +1,561 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* account_usability
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-23 16:16+0000\n"
+"PO-Revision-Date: 2020-10-23 16:16+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_invoice_line_state
+msgid " * The 'Draft' status is used when a user is encoding a new and unconfirmed Invoice.\n"
+" * The 'Pro-forma' status is used when the invoice does not have an invoice number.\n"
+" * The 'Open' status is used when user creates invoice, an invoice number is generated. It stays in the open status till the user pays the invoice.\n"
+" * The 'Paid' status is set automatically when the invoice is paid. Its related journal entries may or may not be reconciled.\n"
+" * The 'Cancelled' status is used when user cancel invoice."
+msgstr "* L'état \"Brouillon\" est utilisé lorsqu'un utilisateur est en train de saisir ou de modifier une nouvelle facture non confirmée.\n"
+"* L'état \"Pro-forma\" est utilisé lorsque la facture n'a pas de numéro de facture.\n"
+"* L'état 'Ouvert' est utilisé lorsque l'utilisateur crée une facture, celle-ci a alors un numéro de facture. La facture reste dans l'état \"Ouvert\" tant qu'elle n'est pas payée.\n"
+"* L'état 'Payé' est affecté automatiquement lorsque la facture est payée. Les écritures correspondantes dans les journaux peuvent ou non être lettrées.\n"
+"* L'état \"Annulé\" est utilisé lorsque l'utilisateur annule la facture."
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_move_line_form
+msgid "-> View partially reconciled entries"
+msgstr "-> Voir les écritures partiellement lettrées"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_move_line_form
+msgid "<span colspan=\"2\" attrs=\"{'invisible': ['|', '|', ('full_reconcile_id', '!=', False), ('matched_debit_ids', '!=', []), ('matched_credit_ids', '!=', [])]}\" class=\"o_form_field\">No Partial Reconcile</span>"
+msgstr "<span colspan=\"2\" attrs=\"{'invisible': ['|', '|', ('full_reconcile_id', '!=', False), ('matched_debit_ids', '!=', []), ('matched_credit_ids', '!=', [])]}\" class=\"o_form_field\">No Partial Reconcile</span>"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_account
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+msgid "Account"
+msgstr "Compte"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_move
+msgid "Account Entry"
+msgstr "Pièce comptable"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_move_backtodraft
+msgid "Account Move Unpost"
+msgstr "Account Move Unpost"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_move_reversal
+msgid "Account move reversal"
+msgstr "Extourne de la pièce comptable"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_move_backtodraft_form
+msgid "All selected journal entries will be unposted (if allowed by the journal configuration)."
+msgstr "All selected journal entries will be unposted (if allowed by the journal configuration)."
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_line_account_reconcile
+msgid "Allow Reconciliation"
+msgstr "Autoriser le lettrage"
+
+#. module: account_usability
+#: sql_constraint:account.analytic.account:0
+msgid "An analytic account with the same code already exists in the same company!"
+msgstr "Un compte analytique avec le même code existe déjà pour la même société !"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_analytic_account
+msgid "Analytic Account"
+msgstr "Compte analytique"
+
+#. module: account_usability
+#: model:ir.ui.menu,name:account_usability.bank_account_account_config_menu
+#: model:ir.ui.menu,name:account_usability.res_partner_bank_account_config_menu
+msgid "Bank Accounts"
+msgstr "Comptes bancaires"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_bank_statement
+msgid "Bank Statement"
+msgstr "Relevé bancaire"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Ligne de relevé bancaire"
+
+#. module: account_usability
+#: model:ir.ui.menu,name:account_usability.res_bank_account_config_menu
+msgid "Banks"
+msgstr "Banques"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_mark_sent_form
+#: model:ir.ui.view,arch_db:account_usability.account_move_backtodraft_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_move_line_account_reconcile
+msgid "Check this box if this account allows invoices & payments matching of journal items."
+msgstr "Cochez cette case si ce compte permet de faire du rapprochement entre factures et paiements."
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_account_search
+msgid "Code"
+msgstr "Code"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_line_commercial_partner_id
+msgid "Commercial Entity"
+msgstr "Entité commerciale"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent_create_uid
+#: model:ir.model.fields,field_description:account_usability.field_account_move_backtodraft_create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent_create_date
+#: model:ir.model.fields,field_description:account_usability.field_account_move_backtodraft_create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
+msgid "Current Year"
+msgstr "Année en cours"
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.out_invoice_line_action
+#: model:ir.actions.act_window,name:account_usability.out_invoice_refund_line_action
+msgid "Customer Invoice Lines"
+msgstr "Lignes de facture client"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+msgid "Customer Invoices"
+msgstr "Factures clients"
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.out_refund_line_action
+msgid "Customer Refund Lines"
+msgstr "Lignes d'avoir client"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+msgid "Customer Refunds"
+msgstr "Avoirs client"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
+msgid "Debit or Credit"
+msgstr "Débit ou crédit"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_default_account_id
+msgid "Default Debit Account"
+msgstr "Compte de débit par défaut"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_default_move_line_name
+msgid "Default Label"
+msgstr "Libellé par défaut"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_default_credit
+msgid "Default credit"
+msgstr "Default credit"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_default_debit
+msgid "Default debit"
+msgstr "Default debit"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent_display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_move_backtodraft_display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_end_date
+#: model:ir.ui.view,arch_db:account_usability.view_bank_statement_search
+msgid "End Date"
+msgstr "Date de fin"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_fiscal_position
+msgid "Fiscal Position"
+msgstr "Position fiscale"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
+msgid "Fully Reconciled"
+msgstr "Lettré totalement"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+#: model:ir.ui.view,arch_db:account_usability.view_account_journal_search
+msgid "Group By"
+msgstr "Regrouper par"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_has_attachment
+msgid "Has attachment"
+msgstr "Pièce(s) jointe(s) présente(s)"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_has_discount
+msgid "Has discount"
+msgstr "A une remise"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_hide_bank_statement_balance
+#: model:ir.model.fields,field_description:account_usability.field_account_journal_hide_bank_statement_balance
+msgid "Hide Bank Statement Balance"
+msgstr "Masquer le solde du relevé"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent_id
+#: model:ir.model.fields,field_description:account_usability.field_account_move_backtodraft_id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_product_supplierinfo
+msgid "Information about a product vendor"
+msgstr "Information sur le vendeur de l'article"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_invoice
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_line_date_invoice
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+msgid "Invoice Date"
+msgstr "Date de facturation"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Ligne de facture"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_line_invoice_number
+msgid "Invoice Number"
+msgstr "Numéro de facture"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_line_state
+msgid "Invoice State"
+msgstr "État de la facture"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_report_tree
+msgid "Invoices Analysis"
+msgstr "Analyse des factures"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr "Statistiques des factures"
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_move_default_account_id
+msgid "It acts as a default account for debit amount"
+msgstr "Ça sert de compte par défaut pour les montants en débit"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_journal
+msgid "Journal"
+msgstr "Journal"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_move_line
+msgid "Journal Item"
+msgstr "Écriture comptable"
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_invoice_line_date_invoice
+msgid "Keep empty to use the current date"
+msgstr "Laissez vide pour utiliser la date courante"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent___last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_move_backtodraft___last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent_write_uid
+#: model:ir.model.fields,field_description:account_usability.field_account_move_backtodraft_write_uid
+msgid "Last Updated by"
+msgstr "Mis à jour par"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent_write_date
+#: model:ir.model.fields,field_description:account_usability.field_account_move_backtodraft_write_date
+msgid "Last Updated on"
+msgstr "Mis à jour le"
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.account_invoice_mark_sent_action
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_mark_sent_form
+msgid "Mark as Sent"
+msgstr "Marquer comme envoyé"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_invoice_mark_sent
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_mark_sent_form
+msgid "Mark invoices as sent"
+msgstr "Marquer les factures comme envoyées"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_account_invoice_filter
+msgid "Missing Attachment"
+msgstr "Missing Attachment"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
+msgid "Name or Reference"
+msgstr "Name or Reference"
+
+#. module: account_usability
+#: code:addons/account_usability/account.py:615
+#, python-format
+msgid "No journal entry linked to this bank statement line."
+msgstr "No journal entry linked to this bank statement line."
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+msgid "Not Paid"
+msgstr "Non payées"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_report_number
+msgid "Number"
+msgstr "Numéro"
+
+#. module: account_usability
+#: code:addons/account_usability/account.py:218
+#, python-format
+msgid "On journal '%s', the default credit account '%s' should be configured with Type = 'Bank and Cash'."
+msgstr "On journal '%s', the default credit account '%s' should be configured with Type = 'Bank and Cash'."
+
+#. module: account_usability
+#: code:addons/account_usability/account.py:209
+#, python-format
+msgid "On journal '%s', the default debit account '%s' should be configured with Type = 'Bank and Cash'."
+msgstr "On journal '%s', the default debit account '%s' should be configured with Type = 'Bank and Cash'."
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+msgid "Paid"
+msgstr "Payé"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_partial_reconcile
+msgid "Partial Reconcile"
+msgstr "Lettrage partiel"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_res_partner
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_reconcile_model
+msgid "Preset to create journal entries during a invoices and payments matching"
+msgstr "Préconfigurer pour créer une écriture pendant la correspondance entre des factures et des paiements"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
+msgid "Previous Year"
+msgstr "Année précédente"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+msgid "Product"
+msgstr "Article"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_product_template
+msgid "Product Template"
+msgstr "Modèle d'article"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_product_product_purchase_price_type
+#: model:ir.model.fields,field_description:account_usability.field_product_supplierinfo_purchase_price_type
+#: model:ir.model.fields,field_description:account_usability.field_product_template_purchase_price_type
+msgid "Purchase Price Type"
+msgstr "Type de prix d'achat"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_line_reconcile_string
+msgid "Reconcile"
+msgstr "Reconcile"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_product_product_sale_price_type
+#: model:ir.model.fields,field_description:account_usability.field_product_template_sale_price_type
+msgid "Sale Price Type"
+msgstr "Type de prix de vente"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+msgid "Search Invoice Lines"
+msgstr "Search Invoice Lines"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_account_invoice_filter
+msgid "Sent"
+msgstr "Envoyé"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_move_line_tree
+msgid "Show Journal Entry"
+msgstr "Show Journal Entry"
+
+#. module: account_usability
+#: code:addons/account_usability/account.py:291
+#, python-format
+msgid "Some account groups already exists"
+msgstr "Some account groups already exists"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_start_date
+#: model:ir.ui.view,arch_db:account_usability.view_bank_statement_search
+msgid "Start Date"
+msgstr "Date de début"
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.in_invoice_line_action
+#: model:ir.actions.act_window,name:account_usability.in_invoice_refund_line_action
+msgid "Supplier Invoice Lines"
+msgstr "Supplier Invoice Lines"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+msgid "Supplier Invoices"
+msgstr "Supplier Invoices"
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.in_refund_line_action
+msgid "Supplier Refund Lines"
+msgstr "Supplier Refund Lines"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_line_search
+msgid "Supplier Refunds"
+msgstr "Supplier Refunds"
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_tax
+#: model:ir.ui.view,arch_db:account_usability.product_supplierinfo_tree_view
+msgid "Tax"
+msgstr "Taxe"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_tax_group_form
+msgid "Tax Group"
+msgstr "Tax Group"
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.account_tax_group_action
+#: model:ir.ui.menu,name:account_usability.account_tax_group_menu
+#: model:ir.ui.view,arch_db:account_usability.account_tax_group_tree
+msgid "Tax Groups"
+msgstr "Tax Groups"
+
+#. module: account_usability
+#: code:addons/account_usability/product.py:22
+#, python-format
+msgid "Tax excl."
+msgstr "HT"
+
+#. module: account_usability
+#: code:addons/account_usability/product.py:22
+#, python-format
+msgid "Tax incl."
+msgstr "TTC"
+
+#. module: account_usability
+#: code:addons/account_usability/wizard/account_move_backtodraft.py:20
+#, python-format
+msgid "There is no journal items in posted state to unpost."
+msgstr "There is no journal items in posted state to unpost."
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.account_invoice_mark_sent_form
+msgid "This wizard will mark as <i>sent</i> all the selected invoices in open or paid state."
+msgstr "This wizard will mark as <i>sent</i> all the selected invoices in open or paid state."
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_account_invoice_report_search
+msgid "This year and previous"
+msgstr "Cette année et la précédente"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_account_invoice_filter
+msgid "To Send"
+msgstr "A envoyer"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_move_line_tree
+msgid "Total Balance"
+msgstr "Total Balance"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_line_invoice_type
+#: model:ir.ui.view,arch_db:account_usability.view_account_journal_search
+msgid "Type"
+msgstr "Type"
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.account_move_backtodraft_action
+#: model:ir.ui.view,arch_db:account_usability.account_move_backtodraft_form
+msgid "Unpost Journal Entries"
+msgstr "Unpost Journal Entries"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
+msgid "Unreconciled or Partially Reconciled"
+msgstr "Non lettré ou partiellement lettré"
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.view_bank_statement_form
+msgid "View Account Move"
+msgstr "View Account Move"
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_bank_statement_hide_bank_statement_balance
+#: model:ir.model.fields,help:account_usability.field_account_journal_hide_bank_statement_balance
+msgid "You may want to enable this option when your bank journal is generated from a bank statement file that doesn't handle start/end balance (QIF for instance) and you don't want to enter the start/end balance manually: it will prevent the display of wrong information in the accounting dashboard and on bank statements."
+msgstr "You may want to enable this option when your bank journal is generated from a bank statement file that doesn't handle start/end balance (QIF for instance) and you don't want to enter the start/end balance manually: it will prevent the display of wrong information in the accounting dashboard and on bank statements."
+
+#. module: account_usability
+#: model:ir.ui.view,arch_db:account_usability.invoice_supplier_form
+msgid "⇒ Delete lines qty=0"
+msgstr "⇒ Supprimer les lignes qté=0"
+
