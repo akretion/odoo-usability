@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2019 Akretion (http://www.akretion.com).
+# Copyright 2019 Akretion France (http://www.akretion.com)
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -26,10 +25,10 @@ class TemplatePreview(models.TransientModel):
             model = self.env['ir.model'].browse(result['model_id'])
             return [(model.model, model.name)]
         else:
-            models = self.env['ir.model'].search([('state', '!=', 'manual')])
-            return [(model.model, model.name)
-                    for model in models
-                    if not model.model.startswith('ir.')]
+            ir_models = self.env['ir.model'].search([('state', '!=', 'manual')])
+            return [(ir_model.model, ir_model.name)
+                    for ir_model in ir_models
+                    if not ir_model.model.startswith('ir.')]
 
     @api.depends('object_id')
     def _compute_res_id(self):
