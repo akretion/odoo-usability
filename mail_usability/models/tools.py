@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2018 Akretion (http://www.akretion.com).
+# Copyright 2018 Akretion France (http://www.akretion.com)
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -41,5 +40,4 @@ if os.getenv('LOG_STYLE_SANITIZE'):
 			for (key, val) in valid_styles.iteritems())
             else:
                 del el.attrib['style']
-    import pdb; pdb.set_trace()
     _Cleaner.parse_style = parse_style
