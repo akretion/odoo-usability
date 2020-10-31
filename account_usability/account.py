@@ -318,7 +318,6 @@ class AccountAccount(models.Model):
         logger.info("END of the script 'fix bank and cash account types'")
         return True
 
-    # TODO mig to v12
     @api.model
     def create_account_groups(self, level=2, name_prefix=u'Comptes '):
         '''Should be launched by a script. Make sure the account_group module is installed
