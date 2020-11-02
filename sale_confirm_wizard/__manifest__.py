@@ -19,6 +19,8 @@ When you confirm a quotation, Odoo will open a small wizard where you will be ab
 * invoicing address,
 * payment terms.
 
+It will also display the sale warning if the customer's company has one. And it is a blocker warning, the user won't be able to confirm the quotation.
+
 This module has been developped because the experience has shown, when a sales assistant confirms a quotation in Odoo, it overlooks the important information written in the customer PO that may be different from the information of the quotation in Odoo, which causes many errors in delivery and invoicing.
 
 This module has been written by Alexis de Lattre from Akretion
