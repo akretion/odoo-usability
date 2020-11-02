@@ -16,7 +16,7 @@
                 <field name="sale_warn" nolabel="1"/>
                 <field name="sale_warn_msg" nolabel="1" colspan="3"/>
             </group>
-            <group name="main">
+            <group name="main" attrs="{'invisible': [('sale_warn', '=', 'block')]}">
                 <field name="sale_id" invisible="1"/>
                 <field name="client_order_ref"/>
                 <field name="partner_invoice_id" context="{'default_type': 'invoice'}"
