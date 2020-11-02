@@ -12,8 +12,12 @@
     <field name="arch" type="xml">
         <form string="Confirm Order">
             <div><p>At this stage, you have received the Purchase Order from the customer and you are about to convert the related quotation to an order.</p></div>
+            <group name="warn" groups="sale.group_warning_sale" attrs="{'invisible': ['|', ('sale_warn', '=', False), ('sale_warn', '=', 'no-message')]}" string="Warning" col="4">
+                <field name="sale_warn" nolabel="1"/>
+                <field name="sale_warn_msg" nolabel="1" colspan="3"/>
+            </group>
             <group name="main">
-                <field name="sale_id"/>
+                <field name="sale_id" invisible="1"/>
                 <field name="client_order_ref"/>
                 <field name="partner_invoice_id" context="{'default_type': 'invoice'}"
                     groups="sale.group_delivery_invoice_address"/>
@@ -32,8 +36,7 @@
             </group>
             <footer>
                 <button type="object" name="confirm"
-                    string="Confirm Sale" class="btn-primary"/>
-                or 
+                        string="Confirm Sale" class="btn-primary" attrs="{'invisible': [('sale_warn', '=', 'block')]}"/>
                 <button special="cancel" string="Annuler" class="btn-default"/>
             </footer>
         </form>
