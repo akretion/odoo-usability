@@ -5,11 +5,17 @@ from odoo import models, fields
 
 
 class AccountFiscalPosition(models.Model):
-    _inherit = 'account.fiscal.position'
+    _inherit = "account.fiscal.position"
 
     receivable_account_id = fields.Many2one(
-        'account.account', string='Partner Receivable Account',
-        company_dependent=True, domain=[('internal_type', '=', 'receivable')])
+        "account.account",
+        string="Partner Receivable Account",
+        company_dependent=True,
+        domain=[("internal_type", "=", "receivable")],
+    )
     payable_account_id = fields.Many2one(
-        'account.account', string='Partner Payable Account',
-        company_dependent=True, domain=[('internal_type', '=', 'payable')])
+        "account.account",
+        string="Partner Payable Account",
+        company_dependent=True,
+        domain=[("internal_type", "=", "payable")],
+    )

@@ -2,12 +2,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Account Fiscal Position Payable Receivable',
-    'version': '12.0.1.0.0',
-    'category': 'Accounting & Finance',
-    'license': 'AGPL-3',
-    'summary': 'Configure payable/receivable accounts on fiscal positions',
-    'description': """
+    "name": "Account Fiscal Position Payable Receivable",
+    "version": "12.0.1.0.0",
+    "category": "Accounting & Finance",
+    "license": "AGPL-3",
+    "summary": "Configure payable/receivable accounts on fiscal positions",
+    "description": """
 Account Fiscal Position Payable Receivable
 ==========================================
 
@@ -15,11 +15,9 @@ This module allows to configure a special *Partner Receivable Account* and a spe
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
-    'author': "Akretion",
-    'website': 'http://www.akretion.com',
-    'depends': ['account'],
-    'data': [
-        'views/account_fiscal_position_view.xml',
-    ],
-    'installable': True,
+    "author": "Akretion",
+    "website": "http://www.akretion.com",
+    "depends": ["account"],
+    "data": ["views/account_fiscal_position_view.xml"],
+    "installable": True,
 }
