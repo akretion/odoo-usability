@@ -2,9 +2,11 @@
 #    Copyright (C) 2015 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.tools import float_is_zero
 from collections import OrderedDict
+from odoo.tools import float_compare
+from odoo.tools.misc import formatLang
 
 
 class SaleOrder(models.Model):
@@ -88,6 +90,37 @@ class SaleOrder(models.Model):
         #    {'subtotal': 8932.23},
         # ]
         return res2
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    @api.onchange('product_uom', 'product_uom_qty')
+    def product_uom_change(self):
+        # When the user has manually set a custom price
+        # he is often upset when Odoo changes it when he changes the qty
+        # So we add a warning in which we recall the old price.
+        res = {}
+        old_price = self.price_unit
+        super(SaleOrderLine, self).product_uom_change()
+        new_price = self.price_unit
+        prec = self.env['decimal.precision'].precision_get('Product Price')
+        if float_compare(old_price, new_price, precision_digits=prec):
+            pricelist = self.order_id.pricelist_id
+            cur_symbol = pricelist.currency_id.symbol
+            res['warning'] = {
+                'title': _('Price updated'),
+                'message': _(
+                    "Due to the update of the ordered quantity on line '%s', "
+                    "the price has been updated according to pricelist %s.\n"
+                    "Old price: %s\n"
+                    "New price: %s") % (
+                        self.name,
+                        pricelist.display_name,
+                        formatLang(self.env, old_price, currency_obj=pricelist.currency_id),
+                        formatLang(self.env, new_price, currency_obj=pricelist.currency_id))
+                }
+        return res
 
 
 class ProcurementGroup(models.Model):
