@@ -146,6 +146,13 @@ class AccountInvoice(models.Model):
                     attach.id, attach.name)
         logger.info('END fix customer invoice attachment filename')
 
+    @api.multi
+    def invoice_print(self):
+        # Inherit a native method without calling super()
+        # Don't mark invoice as 'sent' when you just click on 'Print Invoice'
+        self.ensure_one()
+        return self.env['report'].get_action(self, 'account.report_invoice')
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
