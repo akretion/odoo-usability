@@ -12,12 +12,10 @@
     <field name="inherit_id" ref="sale.view_order_form"/>
     <field name="arch" type="xml">
         <button name="action_confirm" type="object" states="draft" position="attributes">
-            <attribute name="type">action</attribute>
-            <attribute name="name">%(sale_confirm_action)d</attribute>
+            <attribute name="name">sale_confirm_wizard_button</attribute>
         </button>
         <button name="action_confirm" type="object" states="sent" position="attributes">
-            <attribute name="type">action</attribute>
-            <attribute name="name">%(sale_confirm_action)d</attribute>
+            <attribute name="name">sale_confirm_wizard_button</attribute>
         </button>
     </field>
 </record>
