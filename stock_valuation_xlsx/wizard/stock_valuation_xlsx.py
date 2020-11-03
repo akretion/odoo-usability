@@ -239,7 +239,7 @@ class StockValuationXlsx(models.TransientModel):
         self.ensure_one()
         logger.debug('Start compute_data_from_past_stock past_date=%s', past_date)
         ppo = self.env['product.product']
-        products = ppo.with_context(to_date=past_date, location_id=self.location_id.id).browse(product_ids)
+        products = ppo.with_context(to_date=past_date, location=self.location_id.id).browse(product_ids)
         res = []
         in_stock_products = {}
         for product in products:
