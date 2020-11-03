@@ -598,6 +598,15 @@ class AccountBankStatementLine(models.Model):
         vals['ref'] = False
         return vals
 
+    def get_statement_line_for_reconciliation_widget(self):
+        # In the work interface of the bank statement, when a partner_id
+        # is selected, Odoo displays its 'name' => we prefer that it
+        # displays its 'display_name'.
+        data = super(AccountBankStatementLine, self).get_statement_line_for_reconciliation_widget()
+        if self.partner_id:
+            data['partner_name'] = self.partner_id.display_name
+        return data
+
     @api.multi
     def show_account_move(self):
         self.ensure_one()

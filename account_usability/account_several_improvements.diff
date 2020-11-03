@@ -1,8 +1,8 @@
 diff --git a/addons/account/models/account_bank_statement.py b/addons/account/models/account_bank_statement.py
-index 8ed1e48..615da43 100644
+index dc3247154be..077e004b53c 100644
 --- a/addons/account/models/account_bank_statement.py
 +++ b/addons/account/models/account_bank_statement.py
-@@ -563,7 +563,13 @@ class AccountBankStatementLine(models.Model):
+@@ -566,7 +566,13 @@ class AccountBankStatementLine(models.Model):
          """
          # Blue lines = payment on bank account not assigned to a statement yet
          reconciliation_aml_accounts = [self.journal_id.default_credit_account_id.id, self.journal_id.default_debit_account_id.id]
@@ -18,10 +18,10 @@ index 8ed1e48..615da43 100644
          # Black lines = unreconciled & (not linked to a payment or open balance created by statement
          domain_matching = [('reconciled', '=', False)]
 diff --git a/addons/account/models/account_move.py b/addons/account/models/account_move.py
-index b60ffbe..6c27c57 100644
+index 6a0fed7d143..ecc2ed67936 100644
 --- a/addons/account/models/account_move.py
 +++ b/addons/account/models/account_move.py
-@@ -599,6 +599,7 @@ class AccountMoveLine(models.Model):
+@@ -633,6 +633,7 @@ class AccountMoveLine(models.Model):
              domain = expression.AND([domain, [('id', 'not in', excluded_ids)]])
          if str:
              str_domain = [
@@ -30,7 +30,7 @@ index b60ffbe..6c27c57 100644
                  '|', ('move_id.ref', 'ilike', str),
                  '|', ('date_maturity', 'like', str),
 diff --git a/addons/account/static/src/js/account_reconciliation_widgets.js b/addons/account/static/src/js/account_reconciliation_widgets.js
-index 453bd41..48c396e 100644
+index 5d00984157c..836fe37fc2f 100644
 --- a/addons/account/static/src/js/account_reconciliation_widgets.js
 +++ b/addons/account/static/src/js/account_reconciliation_widgets.js
 @@ -76,7 +76,7 @@ var abstractReconciliation = Widget.extend(ControlPanelMixin, {
@@ -42,7 +42,7 @@ index 453bd41..48c396e 100644
          // Number of reconciliations loaded initially and by clicking 'show more'
          this.num_reconciliations_fetched_in_batch = 10;
          this.animation_speed = 100; // "Blocking" animations
-@@ -1755,7 +1755,7 @@ var bankStatementReconciliationLine = abstractReconciliationLine.extend({
+@@ -1757,7 +1757,7 @@ var bankStatementReconciliationLine = abstractReconciliationLine.extend({
              relation: "res.partner",
              string: _t("Partner"),
              type: "many2one",
