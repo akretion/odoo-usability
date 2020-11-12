@@ -196,6 +196,7 @@ class MrpProduction(models.Model):
         mo_total_price = 0.0  # In the UoM of the M0
         labor_cost_per_unit = 0.0  # In the UoM of the product
         extra_cost_per_unit = 0.0  # In the UoM of the product
+        subcontract_cost_per_unit = 0.0
         # I read the raw materials MO, not on BOM, in order to make
         # it work with the "dynamic" BOMs (few raw material are auto-added
         # on the fly on MO)
@@ -231,6 +232,13 @@ class MrpProduction(models.Model):
             assert bom_qty_product_uom > 0, 'BoM qty should be positive'
             labor_cost_per_unit = bom.total_labour_cost / bom_qty_product_uom
             extra_cost_per_unit = bom.extra_cost / bom_qty_product_uom
+            if bom.type == 'subcontract':
+                one_finished_move = self.env['stock.move'].search([
+                    ('production_id', '=', self.id),
+                    ('product_id', '=', self.product_id.id),
+                    ('move_dest_ids', '!=', False)], limit=1)
+                if one_finished_move:
+                    subcontract_cost_per_unit = one_finished_move.move_dest_ids[0].price_unit
         # mo_standard_price and labor_cost_per_unit are
         # in the UoM of the product (not of the MO/BOM)
         mo_qty_product_uom = self.product_uom_id._compute_quantity(
@@ -238,10 +246,13 @@ class MrpProduction(models.Model):
         assert mo_qty_product_uom > 0, 'MO qty should be positive'
         mo_standard_price = mo_total_price / mo_qty_product_uom
         logger.info(
-            'MO %s: labor_cost_per_unit=%s extra_cost_per_unit=%s',
-            self.name, labor_cost_per_unit, extra_cost_per_unit)
+            'MO %s: labor_cost_per_unit=%s extra_cost_per_unit=%s '
+            'subcontract_cost_per_unit=%s',
+            self.name, labor_cost_per_unit, extra_cost_per_unit,
+            subcontract_cost_per_unit)
         mo_standard_price += labor_cost_per_unit
         mo_standard_price += extra_cost_per_unit
+        mo_standard_price += subcontract_cost_per_unit
         return mo_standard_price
 
     def post_inventory(self):
