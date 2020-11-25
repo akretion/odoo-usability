@@ -693,8 +693,9 @@ class AccountReconciliation(models.AbstractModel):
             st_line, aml_accounts, partner_id,
             excluded_ids=excluded_ids, search_str=search_str)
         # We want to replace a domain item by another one
-        position = domain.index(('payment_id', '<>', False))
-        domain[position] = ['journal_id', '=', st_line.journal_id.id]
+        if ('payment_id', '<>', False) in domain:
+            position = domain.index(('payment_id', '<>', False))
+            domain[position] = ['journal_id', '=', st_line.journal_id.id]
         return domain
 
 
