@@ -172,5 +172,40 @@
 
 <!-- The menu entry should be added in customer-specific module -->
 
+<record id="purchase.action_purchase_order_report_all" model="ir.actions.act_window">
+    <field name="view_mode">pivot,graph,tree</field>  <!--- native order is graph,pivot. Switch order and add tree -->
+</record>
+
+<record id="view_purchase_order_pivot" model="ir.ui.view">
+    <field name="model">purchase.report</field>
+    <field name="inherit_id" ref="purchase.view_purchase_order_pivot"/>
+    <field name="arch" type="xml">
+        <pivot position="attributes">
+            <attribute name="disable_linking"></attribute>
+        </pivot>
+        <field name="unit_quantity" position="replace"/>  <!-- it's stupid to display a unit_quantity by default... it will sum qty of different products, which doesn't make a lot of sense -->
+        <field name="price_average" position="replace"/>  <!-- it's stupid to display a price_average by default... it will average between different products, which is a non-sense -->
+    </field>
+</record>
+
+<record id="view_purchase_order_tree" model="ir.ui.view">
+    <field name="name">purchase.report.tree</field>
+    <field name="model">purchase.report</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="commercial_partner_id"/>
+            <field name="date_order"/>
+            <field name="date_approve"/>
+            <field name="product_id"/>
+            <field name="unit_quantity" sum="1"/>
+            <field name="product_uom"/>
+            <field name="price_total" sum="1"/>
+            <field name="account_analytic_id"/>
+            <field name="currency_id" invisible="1"/>
+            <field name="user_id"/>
+            <field name="state"/>
+        </tree>
+    </field>
+</record>
 
 </odoo>
