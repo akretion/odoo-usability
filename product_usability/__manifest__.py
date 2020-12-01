@@ -1,11 +1,11 @@
-# © 2015-2016 Akretion (http://www.akretion.com)
+# Copyright 2015-2020 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
 {
     'name': 'Product Usability',
-    'version': '12.0.1.0.0',
+    'version': '14.0.1.0.0',
     'category': 'Product',
     'license': 'AGPL-3',
     'summary': 'Small usability enhancements to the product module',
@@ -27,12 +27,11 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['product'],
     'data': [
-        'security/product_security.xml',
         'views/product_supplierinfo_view.xml',
-        'views/product_price_history_view.xml',
         'views/product_pricelist_view.xml',
+        'views/product_pricelist_item.xml',
         'views/product_template_view.xml',
-        'views/product_view.xml',
+        'views/product_product.xml',
     ],
-    'installable': False,
+    'installable': True,
 }
