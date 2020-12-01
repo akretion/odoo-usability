@@ -32,5 +32,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'wizard/stock_quantity_history_view.xml',
         'security/ir.model.access.csv',
         ],
-    'installable': True,
+    'installable': False,
 }

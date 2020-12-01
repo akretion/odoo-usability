@@ -25,5 +25,5 @@ Akretion:
     "website": "http://www.akretion.com",
     "depends": ["point_of_sale"],
     "data": ["report/pos.xml"],
-    "installable": True,
+    "installable": False,
 }

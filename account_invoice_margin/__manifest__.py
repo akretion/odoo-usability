@@ -20,5 +20,5 @@ This module has been written by Alexis de Lattre from Akretion
     'data': [
         'account_invoice_view.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

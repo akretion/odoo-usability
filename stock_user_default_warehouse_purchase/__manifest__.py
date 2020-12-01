@@ -11,5 +11,5 @@
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['purchase', 'stock_user_default_warehouse_base'],
-    'installable': True,
+    'installable': False,
 }

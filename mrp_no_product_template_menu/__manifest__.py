@@ -26,5 +26,5 @@ from Akretion <alexis.delattre@akretion.com>.
     'depends': ['mrp', 'sale_purchase_no_product_template_menu'],
     'auto_install': True,
     'data': ['mrp_view.xml'],
-    'installable': True,
+    'installable': False,
 }

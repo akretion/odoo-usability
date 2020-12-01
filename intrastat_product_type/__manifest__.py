@@ -23,5 +23,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'depends': ['intrastat_product', 'l10n_fr_intrastat_service'],
     'data': ['product_view.xml'],
     'post_init_hook': 'set_intrastat_type_on_products',
-    'installable': True,
+    'installable': False,
 }

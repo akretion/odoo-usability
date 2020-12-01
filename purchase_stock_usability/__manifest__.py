@@ -25,5 +25,5 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
     'data': [
         'stock_view.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

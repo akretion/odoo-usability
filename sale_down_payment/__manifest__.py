@@ -31,5 +31,5 @@ This module has been written by Alexis de Lattre from Akretion
         'views/account_move_line.xml',
         'views/account_payment.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

@@ -14,5 +14,5 @@
     'data': [
         'wizard/service_qty_update_view.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

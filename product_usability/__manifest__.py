@@ -34,5 +34,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'views/product_template_view.xml',
         'views/product_view.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

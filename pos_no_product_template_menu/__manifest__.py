@@ -24,5 +24,5 @@ from Akretion <david.beal@akretion.com>.
     'depends': ['point_of_sale', 'sale_purchase_no_product_template_menu'],
     'auto_install': True,
     'data': ['pos_view.xml'],
-    'installable': True,
+    'installable': False,
 }

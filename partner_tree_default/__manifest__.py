@@ -22,5 +22,5 @@ This module has been written by Alexis de Lattre <alexis.delattre@akretion.com> 
     'website': 'http://www.akretion.com',
     'depends': ['base'],
     'data': ['views/partner_view.xml'],
-    'installable': True,
+    'installable': False,
 }

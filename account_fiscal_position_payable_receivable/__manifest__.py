@@ -19,5 +19,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     "website": "http://www.akretion.com",
     "depends": ["account"],
     "data": ["views/account_fiscal_position_view.xml"],
-    "installable": True,
+    "installable": False,
 }

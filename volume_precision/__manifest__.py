@@ -16,5 +16,5 @@
     'data': [
         'data/precision.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

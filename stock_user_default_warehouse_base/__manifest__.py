@@ -14,5 +14,5 @@
     'data': [
         'views/users_view.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

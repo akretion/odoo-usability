@@ -17,5 +17,5 @@
         'views/product_views.xml',
         'report/mrp_report.xml'
     ],
-    'installable': True,
+    'installable': False,
 }

@@ -24,5 +24,5 @@
         'wizard/account_invoice_mark_sent_view.xml',
         'report/invoice_report.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

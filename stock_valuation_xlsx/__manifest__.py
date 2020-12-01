@@ -40,5 +40,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'wizard/stock_valuation_xlsx_view.xml',
         'views/stock_inventory.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

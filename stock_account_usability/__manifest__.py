@@ -32,5 +32,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'product_view.xml',
         'wizard/stock_quantity_history_view.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

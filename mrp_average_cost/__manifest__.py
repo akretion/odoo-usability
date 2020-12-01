@@ -4,7 +4,7 @@
 
 {
     'name': 'MRP Average Cost',
-    'version': '12.0.1.0.0',
+    'version': '12.0.1.0.0',  # WARNING: we'll probably not port this module to v14, because part of its feature is now provided by the module mrp_account
     'category': 'Manufactuing',
     'license': 'AGPL-3',
     'summary': 'Update standard_price upon validation of a manufacturing order',
@@ -29,5 +29,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'data/mrp_data.xml',
         'views/mrp_view.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

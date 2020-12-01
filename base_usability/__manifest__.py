@@ -20,5 +20,5 @@
         'views/module_view.xml',
         'views/base_view.xml',
         ],
-    'installable': True,
+    'installable': False,
 }
