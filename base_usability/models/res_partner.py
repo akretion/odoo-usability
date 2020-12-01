@@ -1,4 +1,5 @@
-# © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2015-2020 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api, _
@@ -10,30 +11,27 @@ class ResPartner(models.Model):
     # track_visibility is handled in the 'mail' module, and base_usability
     # doesn't depend on 'mail', but that doesn't hurt, it will just be
     # ignored if mail is not installed
-    name = fields.Char(track_visibility='onchange')
-    parent_id = fields.Many2one(track_visibility='onchange')
-    ref = fields.Char(track_visibility='onchange', copy=False)
-    lang = fields.Selection(track_visibility='onchange')
-    user_id = fields.Many2one(track_visibility='onchange')
-    vat = fields.Char(track_visibility='onchange')
-    customer = fields.Boolean(track_visibility='onchange')
-    supplier = fields.Boolean(track_visibility='onchange')
-    type = fields.Selection(track_visibility='onchange')
-    street = fields.Char(track_visibility='onchange')
-    street2 = fields.Char(track_visibility='onchange')
-    zip = fields.Char(track_visibility='onchange')
-    city = fields.Char(track_visibility='onchange')
-    state_id = fields.Many2one(track_visibility='onchange')
-    country_id = fields.Many2one(track_visibility='onchange')
-    email = fields.Char(track_visibility='onchange')
-    is_company = fields.Boolean(track_visibility='onchange')
-    active = fields.Boolean(track_visibility='onchange')
-    company_id = fields.Many2one(track_visibility='onchange')
+# TODO move to mail module
+#    name = fields.Char(tracking=True)
+#    parent_id = fields.Many2one(tracking=True)
+#    ref = fields.Char(tracking=True)
+#    lang = fields.Selection(tracking=True)
+#    user_id = fields.Many2one(tracking=True)
+#    vat = fields.Char(tracking=True)
+#    street = fields.Char(tracking=True)
+#    street2 = fields.Char(tracking=True)
+#    zip = fields.Char(tracking=True)
+#    city = fields.Char(tracking=True)
+#    state_id = fields.Many2one(tracking=True)
+#    country_id = fields.Many2one(tracking=True)
+#    is_company = fields.Boolean(tracking=True)
+#    active = fields.Boolean(tracking=True)
+#    company_id = fields.Many2one(tracking=True)
+    ref = fields.Char(copy=False)
     # For reports
     name_title = fields.Char(
         compute='_compute_name_title', string='Name with Title')
 
-    @api.multi
     @api.depends('name', 'title')
     def _compute_name_title(self):
         for partner in self:
@@ -49,17 +47,14 @@ class ResPartner(models.Model):
                 name_title = ' '.join([title, name_title])
             partner.name_title = name_title
 
-    @api.multi
     def _display_address(self, without_company=False):
         '''Remove empty lines'''
-        res = super(ResPartner, self)._display_address(
-            without_company=without_company)
+        res = super()._display_address(without_company=without_company)
         while "\n\n" in res:
             res = res.replace('\n\n', '\n')
         return res
 
     # for reports
-    @api.multi
     def _display_full_address(
             self, details=[
                 'company', 'name', 'address', 'phone',
@@ -72,16 +67,31 @@ class ResPartner(models.Model):
         if self.is_company:
             company = self.name
             name = False
+            name_no_title = False
+            title = False
+            title_short = False
         else:
-            name = self.name_title
             company = self.parent_id and self.parent_id.is_company and\
                 self.parent_id.name or False
+            name = self.name_title
+            name_no_title = self.name
+            title = self.title.name
+            title_short = self.title.shortcut
         options = {
             'name': {
                 'value': name,
                 },
             'company': {
                 'value': company,
+                },
+            'title': {
+                'value': title,
+                },
+            'title_short': {
+                'value': title_short,
+                },
+            'name_no_title': {
+                'value': name_no_title,
                 },
             'phone': {
                 'value': self.phone,
@@ -122,18 +132,3 @@ class ResPartner(models.Model):
                     res.append('%s' % entry['value'])
         res = '\n'.join(res)
         return res
-
-
-class ResPartnerCategory(models.Model):
-    _inherit = 'res.partner.category'
-
-    name = fields.Char(translate=False)
-
-
-class ResPartnerBank(models.Model):
-    _inherit = 'res.partner.bank'
-
-    # In the 'base' module, they didn't put any string, so the bank name is
-    # displayed as 'Name', which the string of the related field it
-    # points to
-    bank_name = fields.Char(string='Bank Name')

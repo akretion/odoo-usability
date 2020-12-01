@@ -1,7 +1,8 @@
-# © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2015-2020 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, api, _
+from odoo import api, models, _
 
 
 class ResCompany(models.Model):
@@ -31,7 +32,6 @@ class ResCompany(models.Model):
         line = separator.join(content)
         return line
 
-    @api.multi
     def _prepare_header_options(self):
         self.ensure_one()
         options = {
@@ -61,7 +61,6 @@ class ResCompany(models.Model):
         return self.name
 
     # for reports
-    @api.multi
     def _display_report_header(
             self, line_details=[['phone', 'website'], ['vat']],
             icon=True, line_separator=' - '):

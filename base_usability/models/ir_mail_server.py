@@ -1,7 +1,8 @@
-# © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2015-2020 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, api
+from odoo import api, models
 from odoo.addons.base.models.ir_mail_server import extract_rfc2822_addresses
 import logging
 
@@ -27,7 +28,7 @@ class IrMailServer(models.Model):
             "with subject '%s'",
             smtp_from, message.get('To'), message.get('Cc'),
             message.get('Bcc'), message.get('Subject'))
-        return super(IrMailServer, self).send_email(
+        return super().send_email(
             message, mail_server_id=mail_server_id,
             smtp_server=smtp_server, smtp_port=smtp_port,
             smtp_user=smtp_user, smtp_password=smtp_password,

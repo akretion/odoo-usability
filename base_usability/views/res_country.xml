@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2015-2016 Akretion (http://www.akretion.com/)
+  Copyright 2015-2020 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
 <odoo>
 
-<record id="res_country_state_search" model="ir.ui.view">
+<record id="view_country_state_search" model="ir.ui.view">
     <field name="name">base_usability.res.country.state.search</field>
     <field name="model">res.country.state</field>
+    <field name="inherit_id" ref="base.view_country_state_search"/>
     <field name="arch" type="xml">
-        <search string="Search States">
-            <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', '=', self)]" string="Name or Code"/>
+        <field name="name" position="attributes">
+            <attribute name="filter_domain">['|', ('name', 'ilike', self), ('code', '=', self)]</attribute>
+        </field>
+        <field name="name" position="after">
             <field name="code"/>
-            <field name="country_id"/>
-            <group string="Group By" name="groupby">
-                <filter name="country_groupby" string="Country" context="{'group_by': 'country_id'}"/>
-            </group>
-        </search>
+        </field>
     </field>
 </record>
 

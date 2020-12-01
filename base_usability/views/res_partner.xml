@@ -12,9 +12,6 @@
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="base.view_partner_form"/>
     <field name="arch" type="xml">
-        <xpath expr="//field[@name='child_ids']/form//field[@name='email']" position="attributes">
-            <attribute name="widget">email</attribute>
-        </xpath>
         <!-- Show title not only on Contacts -->
         <xpath expr="//field[@name='child_ids']/form//field[@name='title']" position="attributes">
             <attribute name="attrs"></attribute>
@@ -38,11 +35,8 @@
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="base.view_partner_tree"/>
     <field name="arch" type="xml">
-        <field name="country_id" position="attributes">
-            <attribute name="invisible">0</attribute>
-        </field>
-        <field name="country_id" position="before">
-            <field name="city"/>
+        <field name="phone" position="after">
+            <field name="mobile" optional="show" widget="phone" class="o_force_ltr"/>
         </field>
     </field>
 </record>
@@ -57,9 +51,6 @@
             <!-- for 'ref', change '=' to 'start with' -->
             <attribute name="filter_domain">['|','|',('display_name','ilike',self),('ref','=ilike',self + '%'),('email','ilike',self)]</attribute>
         </field>
-        <filter name="inactive" position="before">
-            <separator/>
-        </filter>
     </field>
 </record>
 
