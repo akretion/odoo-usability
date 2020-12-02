@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2015-2020 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<!-- Add a 'Product Category' menu entry under Sales > Configuration > Products,
+     similar to what we have in Stock > Configuration > Products
+     because we need this menu entry even if the 'stock' module is not installed  -->
+<menuitem id="product_category_sale_menu" action="product.product_category_action_form"
+        parent="sale.prod_config_main" sequence="10"/>
+
+</odoo>

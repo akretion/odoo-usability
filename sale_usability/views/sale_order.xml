@@ -23,7 +23,7 @@
         </button>
         <!-- client_order_ref is an important field, so we should put it in the top like in v8, not hidden in the second tab -->
         <field name="client_order_ref" position="replace"/>
-        <field name="confirmation_date" position="after">
+        <field name="date_order" position="after">
             <field name="client_order_ref"/>
         </field>
     </field>
@@ -34,8 +34,8 @@
     <field name="model">sale.order</field>
     <field name="inherit_id" ref="sale.view_quotation_tree"/>
     <field name="arch" type="xml">
-        <field name="amount_total" position="before">
-            <field name="amount_untaxed" sum="Total Untaxed"/>
+        <field name="amount_untaxed" position="attributes">
+            <attribute name="optional">show</attribute>
         </field>
     </field>
 </record>
@@ -45,8 +45,8 @@
     <field name="model">sale.order</field>
     <field name="inherit_id" ref="sale.view_order_tree"/>
     <field name="arch" type="xml">
-        <field name="amount_total" position="before">
-            <field name="amount_untaxed" sum="Total Untaxed"/>
+        <field name="amount_untaxed" position="attributes">
+            <attribute name="optional">show</attribute>
         </field>
         <field name="state" position="attributes">
             <attribute name="invisible">0</attribute>
@@ -60,7 +60,6 @@
     <field name="inherit_id" ref="sale.view_sales_order_filter"/>
     <field name="arch" type="xml">
         <filter name="order_month" position="after">
-            <filter string="Order Confirmation Month" name="confirmation_date_groupby" context="{'group_by': 'confirmation_date'}"/>
             <filter string="State" name="state_groupby" context="{'group_by': 'state'}"/>
         </filter>
     </field>
@@ -110,11 +109,5 @@ https://github.com/odoo/odoo/commit/c1e5ab9b1331c3cb7dc2232bf78952bdb40ad939 -->
         </field>
     </field>
 </record>
-
-<!-- Add a 'Product Category' menu entry under Sales > Configuration > Products,
-     similar to what we have in Stock > Configuration > Products
-     because we need this menu entry even if the 'stock' module is not installed  -->
-<menuitem id="product_category_sale_menu" action="product.product_category_action_form"
-        parent="sale.prod_config_main" sequence="10"/>
 
 </odoo>

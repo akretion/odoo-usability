@@ -6,20 +6,19 @@ from odoo import api, fields, models
 from collections import OrderedDict
 
 
-class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
+class AccountMove(models.Model):
+    _inherit = 'account.move'
 
     # sale_ids is kind of the symetric field of invoice_ids on sale.order
     sale_ids = fields.Many2many(
-        'sale.order', string='Sale Orders', compute="_compute_sale_ids",
-        readonly=True, copy=False)
+        'sale.order', string='Sale Orders', compute="_compute_sale_ids")
     sale_count = fields.Integer(
-        string='Sale Order Count', compute='_compute_sale_ids', readonly=True)
+        string='Sale Order Count', compute='_compute_sale_ids')
 
     @api.depends('invoice_line_ids.sale_line_ids')
     def _compute_sale_ids(self):
         for invoice in self:
-            if invoice.type == 'out_invoice':
+            if invoice.move_type == 'out_invoice':
                 sales = invoice.invoice_line_ids.mapped('sale_line_ids').\
                     mapped('order_id')
                 invoice.sale_ids = sales.ids
@@ -51,8 +50,8 @@ class AccountInvoice(models.Model):
         # {categ(1): {'lines': [l1, l2], 'subtotal': 23.32}}
         soo = self.env['sale.order']
         for line in self.invoice_line_ids:
-            order = line.sale_line_ids and line.sale_line_ids[0].order_id\
-                or soo
+            order = not line.display_type and line.sale_line_ids and\
+                line.sale_line_ids[0].order_id or soo
             if order in res1:
                 res1[order]['lines'].append(line)
                 res1[order]['subtotal'] += line.price_subtotal
