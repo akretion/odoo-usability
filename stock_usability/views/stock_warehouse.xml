@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2014-2020 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_warehouse" model="ir.ui.view">
+    <field name="name">stock.usability.warehouse.form</field>
+    <field name="model">stock.warehouse</field>
+    <field name="inherit_id" ref="stock.view_warehouse" />
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='out_type_id']/.." position="after">
+            <group name="routes" string="Routes">
+                <field name="route_ids" widget="many2many_tags"/>
+                <field name="crossdock_route_id"/>
+                <field name="reception_route_id"/>
+                <field name="delivery_route_id"/>
+                <field name="resupply_route_ids"/>
+            </group>
+        </xpath>
+    </field>
+</record>
+
+
+</odoo>

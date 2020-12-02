@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2014-2020 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_stock_quant_tree" model="ir.ui.view">
+    <field name="name">stock.usability.quant.tree</field>
+    <field name="model">stock.quant</field>
+    <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
+    <field name="arch" type="xml">
+        <field name="quantity" position="attributes">
+            <attribute name="sum">1</attribute>
+        </field>
+        <field name="available_quantity" position="attributes">
+            <attribute name="sum">1</attribute>
+        </field>
+    </field>
+</record>
+
+<!--
+<record id="view_stock_quant_form" model="ir.ui.view">
+    <field name="name">stock.usability.quant.form</field>
+    <field name="model">stock.quant</field>
+    <field name="inherit_id" ref="stock.view_stock_quant_form"/>
+    <field name="arch" type="xml">
+        <div name="button_box" position="inside">
+            <button class="oe_stat_button" icon="fa-arrows-v" type="object" name="action_stock_move_lines_reserved" string="Reservations"/>
+        </div>
+    </field>
+</record>
+-->
+
+<!-- more detailed stock.move tree view when using the button from product form -->
+<!-- TODO TEST
+<record id="stock.act_product_stock_move_open" model="ir.actions.act_window">
+    <field name="view_id" ref="stock.view_move_tree"/>
+</record>  -->
+
+<!-- The native menu entry of quants is called "Inventory Valuation"
+but it forces a group by on products that you can't remove
+So I create another "regular" Quants" menu entry -->
+<record id="stock_quant_action" model="ir.actions.act_window">
+    <field name="name">Quants</field>
+    <field name="res_model">stock.quant</field>
+    <field name="view_mode">tree,form,pivot</field>
+    <field name="context">{'search_default_internal_loc': 1}</field>
+</record>
+
+<menuitem id="stock_quant_menu" action="stock_quant_action"
+    parent="stock.menu_warehouse_report"
+    sequence="160"/>
+
+<!--
+<record id="stock.action_production_lot_form" model="ir.actions.act_window">
+    <field name="context">{}</field>
+</record>
+-->
+
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2015-2020 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="procurement_group_form_view" model="ir.ui.view">
+    <field name="name">stock_usability.procurement.group.form</field>
+    <field name="model">procurement.group</field>
+    <field name="inherit_id" ref="stock.procurement_group_form_view"/>
+    <field name="arch" type="xml">
+        <field name="move_type" position="after">
+            <field name="partner_id" readonly="1"/>
+        </field>
+    </field>
+</record>
+
+</odoo>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2014-2020 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_picking_form" model="ir.ui.view">
+    <field name="name">stock_usability.view_picking_form</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form" />
+    <field name="arch" type="xml">
+        <field name="backorder_id" position="attributes">
+            <attribute name="attrs">{}</attribute>
+        </field>
+        <field name="partner_id" position="attributes">
+            <attribute name="context">{'show_address': 1}</attribute>
+            <attribute name="options">{'always_reload': True}</attribute>
+        </field>
+        <button name="action_cancel" type="object" position="attributes">
+            <attribute name="confirm">Are you sure you want to cancel this picking?</attribute>
+        </button>
+        <!-- STOCK MOVE -->
+        <!-- This sum is useful to check the 'number of items' to transfer... -->
+        <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_uom_qty']" position="attributes">
+            <attribute name="sum">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='location_id']" position="replace"/>
+        <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='location_dest_id']" position="replace"/>
+        <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="after">
+            <field name="location_id" groups="stock.group_stock_multi_locations"/>
+            <field name="location_dest_id" groups="stock.group_stock_multi_locations"/>
+        </xpath>
+        <xpath expr="//field[@name='move_ids_without_package']/tree/button[@name='action_assign_serial']" position="after">
+            <button type="object" name="button_do_unreserve" string="Unreserve"
+                groups="stock.group_stock_user"
+                states="partially_available,assigned"
+                icon="fa-ban"/>
+        </xpath>
+        <!-- STOCK MOVE LINE -->
+        <!--
+        <xpath expr="//field[@name='move_line_ids_without_package']/tree/field[@name='location_id']" position="attributes">
+            <attribute name="attrs">{}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='move_line_ids_without_package']/tree/field[@name='location_dest_id']" position="attributes">
+            <attribute name="attrs">{}</attribute>
+        </xpath>
+        -->
+    </field>
+</record>
+
+<record id="vpicktree" model="ir.ui.view">
+    <field name="name">stock_usability.view_picking_tree</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.vpicktree" />
+    <field name="arch" type="xml">
+        <field name="date_deadline" position="after">
+            <field name="date_done" optional="show"/>
+        </field>
+    </field>
+</record>
+ 
+<record id="view_picking_internal_search" model="ir.ui.view">
+    <field name="name">stock_usability.view_picking_search</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_internal_search" />
+    <field name="arch" type="xml">
+        <filter name="picking_type" position="after">
+            <filter string="Partner" name="partner_groupby" context="{'group_by': 'partner_id'}"/>
+        </filter>
+        <filter name="origin" position="replace"/>
+        <filter name="expected_date" position="after">
+            <filter name="date_done_groupby" string="Date Done"
+                context="{'group_by': 'date_done:day'}"/>
+        </filter>
+        <filter name="expected_date" position="attributes">
+            <!-- group per day -->
+            <attribute name="context">{'group_by': 'scheduled_date:day'}</attribute>
+        </filter>
+    </field>
+</record>
+
+<record id="stock_picking_pivot" model="ir.ui.view">
+    <field name="name">stock_usability.picking_pivot</field>
+    <field name="model">stock.picking</field>
+    <field name="arch" type="xml">
+        <pivot string="Transfers">
+            <field name="date_done" type="row" interval="month"/>
+        </pivot>
+    </field>
+</record>
+
+<record id="stock.action_picking_tree_all" model="ir.actions.act_window">
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
+</record>
+
+<record id="stock.stock_picking_action_picking_type" model="ir.actions.act_window">
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
+</record>
+
+<record id="stock.action_picking_tree_ready" model="ir.actions.act_window">
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
+</record>
+
+<record id="stock.action_picking_tree_waiting" model="ir.actions.act_window">
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
+</record>
+
+<record id="stock.action_picking_tree_late" model="ir.actions.act_window">
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
+</record>
+
+<record id="stock.action_picking_tree_backorder" model="ir.actions.act_window">
+    <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
+</record>
+
+<record id="view_picking_type_tree" model="ir.ui.view">
+    <field name="name">usability.stock.picking.type.tree</field>
+    <field name="model">stock.picking.type</field>
+    <field name="inherit_id" ref="stock.view_picking_type_tree"/>
+    <field name="arch" type="xml">
+        <field name="warehouse_id" position="after">
+            <field name="default_location_src_id"/>
+            <field name="default_location_dest_id"/>
+        </field>
+    </field>
+</record>
+
+
+</odoo>
