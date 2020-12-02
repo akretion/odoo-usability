@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2014-2020 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="purchase.action_purchase_order_report_all" model="ir.actions.act_window">
+    <field name="view_mode">pivot,graph,tree</field>  <!--- native order is graph,pivot. Switch order and add tree -->
+</record>
+
+<record id="view_purchase_order_pivot" model="ir.ui.view">
+    <field name="model">purchase.report</field>
+    <field name="inherit_id" ref="purchase.view_purchase_order_pivot"/>
+    <field name="arch" type="xml">
+        <pivot position="attributes">
+            <attribute name="disable_linking"></attribute>
+        </pivot>
+    </field>
+</record>
+
+<record id="view_purchase_order_tree" model="ir.ui.view">
+    <field name="name">purchase.report.tree</field>
+    <field name="model">purchase.report</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="commercial_partner_id"/>
+            <field name="date_order"/>
+            <field name="date_approve"/>
+            <field name="product_id"/>
+            <field name="qty_ordered" sum="1"/>
+            <field name="qty_received" sum="1"/>
+            <field name="qty_billed" sum="1"/>
+            <field name="product_uom"/>
+            <field name="price_total" sum="1"/>
+            <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+            <field name="currency_id" invisible="1"/>
+            <field name="user_id"/>
+            <field name="state"/>
+        </tree>
+    </field>
+</record>
+
+</odoo>
