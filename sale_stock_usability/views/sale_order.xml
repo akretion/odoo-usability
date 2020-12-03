@@ -1,41 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
-  Copyright 2015-2019 Akretion France (http://www.akretion.com/)
+  Copyright 2015-2020 Akretion France (http://www.akretion.com/)
   @author Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
 <odoo>
 
-<record id="view_picking_form" model="ir.ui.view">
-    <field name="name">sale_stock_usability.stock.picking.form</field>
-    <field name="model">stock.picking</field>
-    <field name="inherit_id" ref="stock.view_picking_form"/>
-    <field name="arch" type="xml">
-        <field name="group_id" position="before">
-            <field name="sale_id" readonly="1"/>
-        </field>
-    </field>
-</record>
-
-<record id="view_move_form" model="ir.ui.view">
-    <field name="name">sale_stock_usability.stock_move.form</field>
-    <field name="model">stock.move</field>
-    <field name="inherit_id" ref="stock.view_move_form"/>
-    <field name="arch" type="xml">
-        <field name="origin" position="after">
-            <field name="sale_line_id" readonly="1"/>
-        </field>
-    </field>
-</record>
-
 <record id="view_order_form" model="ir.ui.view">
     <field name="name">sale_stock_usability.order.form</field>
     <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
     <field name="arch" type="xml">
-        <field name="pricelist_id" position="after">
+        <field name="picking_policy" position="after">
             <field name="picking_status"/>
         </field>
     </field>
@@ -47,7 +24,7 @@
     <field name="inherit_id" ref="sale.view_order_tree"/>
     <field name="arch" type="xml">
         <field name="invoice_status" position="before">
-            <field name="picking_status"/>
+            <field name="picking_status" decoration-success="picking_status == 'delivered'" decoration-info="picking_status == 'to_deliver'" decoration-warning="picking_status == 'partially_delivered'" decoration-danger="picking_status == 'cancel'" widget="badge" optional="show"/>
         </field>
     </field>
 </record>
@@ -63,20 +40,9 @@
                     domain="[('picking_status', 'in', ('to_deliver', 'partially_delivered'))]"/>
             <filter string="Fully Delivered" name="fully_delivered"
                     domain="[('picking_status', '=', 'delivered')]"/>
+            <separator/>
         </filter>
     </field>
 </record>
-
-<record id="procurement_group_form_view" model="ir.ui.view">
-    <field name="name">sale_stock_usability.procurement.group.form</field>
-    <field name="model">procurement.group</field>
-    <field name="inherit_id" ref="stock.procurement_group_form_view"/>
-    <field name="arch" type="xml">
-        <field name="move_type" position="after">
-            <field name="sale_id"/>
-        </field>
-    </field>
-</record>
- 
 
 </odoo>

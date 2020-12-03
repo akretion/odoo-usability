@@ -4,71 +4,56 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-13 12:36+0000\n"
-"PO-Revision-Date: 2016-07-13 14:37+0200\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2020-12-03 21:31+0000\n"
+"PO-Revision-Date: 2020-12-03 21:31+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: fr\n"
-"X-Generator: Poedit 1.8.7.1\n"
 
 #. module: sale_stock_usability
-#: view:sale.order:sale_stock_usability.view_order_form_inherit
-msgid "Delivery Orders"
-msgstr "Livraisons"
-
-#. module: sale_stock_usability
-#: view:procurement.group:sale_stock_usability.procurement_group_form_view
-#: field:procurement.group,picking_ids:0
-msgid "Pickings"
-msgstr "Préparations"
-
-#. module: sale_stock_usability
-#: model:ir.model,name:sale_stock_usability.model_procurement_group
-msgid "Procurement Requisition"
-msgstr "Demande d'approvisionnement"
-
-#. module: sale_stock_usability
-#: view:procurement.group:sale_stock_usability.procurement_group_form_view
-#: field:procurement.group,sale_ids:0
-msgid "Sale Orders"
-msgstr "Sale Orders"
-
-#. module: sale_stock_usability
-#: model:ir.model,name:sale_stock_usability.model_sale_order
-msgid "Sales Order"
-msgstr "Bon de commande"
-
-#. module: sale_stock_usability
-#: model:ir.model,name:sale_stock_usability.model_sale_order_line
-msgid "Sales Order Line"
-msgstr "Ligne de commandes de vente"
-
-#. module: sale_stock_usability
-#: selection:sale.order,picking_status:0
+#: model:ir.model.fields.selection,name:sale_stock_usability.selection__sale_order__picking_status__cancel
 msgid "Delivery Cancelled"
 msgstr "Livraison annulée"
 
 #. module: sale_stock_usability
+#: model:ir.model.fields,field_description:sale_stock_usability.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: sale_stock_usability
+#: model:ir.model.fields.selection,name:sale_stock_usability.selection__sale_order__picking_status__delivered
 #: model_terms:ir.ui.view,arch_db:sale_stock_usability.view_sales_order_filter
-#: selection:sale.order,picking_status:0
 msgid "Fully Delivered"
 msgstr "Entierement Livré "
 
 #. module: sale_stock_usability
+#: model:ir.model.fields,field_description:sale_stock_usability.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: sale_stock_usability
 #: model:ir.model.fields,field_description:sale_stock_usability.field_sale_order__incoterm
-msgid "Incoterms"
-msgstr "Incoterms"
+msgid "Incoterm"
+msgstr ""
 
 #. module: sale_stock_usability
 #: model:ir.model.fields,help:sale_stock_usability.field_sale_order__incoterm
-msgid "International Commercial Terms are a series of predefined commercial terms used in international transactions."
-msgstr "Les Incoterms sont une série de termes commerciaux prédéfinie utilisés dans les transactions internationales."
+msgid ""
+"International Commercial Terms are a series of predefined commercial terms "
+"used in international transactions."
+msgstr ""
+"Les Incoterms sont une série de termes commerciaux prédéfinie utilisés dans "
+"les transactions internationales."
+
+#. module: sale_stock_usability
+#: model:ir.model.fields,field_description:sale_stock_usability.field_sale_order____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
 
 #. module: sale_stock_usability
 #: model_terms:ir.ui.view,arch_db:sale_stock_usability.view_sales_order_filter
@@ -76,29 +61,29 @@ msgid "Not Fully Delivered"
 msgstr "Livraison à faire"
 
 #. module: sale_stock_usability
-#: selection:sale.order,picking_status:0
+#: model:ir.model.fields.selection,name:sale_stock_usability.selection__sale_order__picking_status__no
 msgid "Nothing to Deliver"
 msgstr "Rien à livrer"
 
 #. module: sale_stock_usability
-#: selection:sale.order,picking_status:0
+#: model:ir.model.fields.selection,name:sale_stock_usability.selection__sale_order__picking_status__partially_delivered
 msgid "Partially Delivered"
-msgstr "Livré partielement"
+msgstr "Partiellement livré"
 
 #. module: sale_stock_usability
 #: model:ir.model.fields,field_description:sale_stock_usability.field_sale_order__picking_status
 msgid "Picking Status"
-msgstr "Status de BL"
+msgstr "Statut de la livraison"
 
 #. module: sale_stock_usability
 #: model:ir.model,name:sale_stock_usability.model_sale_order
-msgid "Sale Order"
+msgid "Sales Order"
 msgstr "Bon de commande"
 
 #. module: sale_stock_usability
-#: selection:sale.order,picking_status:0
+#: model:ir.model.fields.selection,name:sale_stock_usability.selection__sale_order__picking_status__to_deliver
 msgid "To Deliver"
-msgstr "Prêt à livrer"
+msgstr "À livrer"
 
 #. module: sale_stock_usability
 #: model:ir.model.fields,field_description:sale_stock_usability.field_sale_order__warehouse_id
