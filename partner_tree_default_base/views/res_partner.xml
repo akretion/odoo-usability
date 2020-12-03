@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2016 Akretion (http://www.akretion.com/)
+  Copyright 2016-2020 Akretion (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -10,15 +10,27 @@
 <record id="base.action_partner_form" model="ir.actions.act_window">
     <field name="view_mode">tree,form,kanban</field>
 </record>
+
+<record id="base.action_partner_tree_view1" model="ir.actions.act_window.view">
+    <field name="sequence" eval="-1"/>
+</record>
+
+
 <record id="base.action_partner_customer_form" model="ir.actions.act_window">
     <field name="view_mode">tree,form,kanban</field>
 </record>
+
+<record id="base.action_partner_customer_form_view2" model="ir.actions.act_window.view">  <!-- Stupid XMLID, it's a tree -->
+    <field name="sequence" eval="-1"/>
+</record>
+
 <record id="base.action_partner_supplier_form" model="ir.actions.act_window">
     <field name="view_mode">tree,form,kanban</field>
 </record>
 
-<record id="base.action_partner_form_view1" model="ir.actions.act_window.view">
-    <field eval="3" name="sequence"/>
+<record id="base.action_partner_vendor_form_view2" model="ir.actions.act_window.view">  <!-- Stupid XMLID, it's a tree -->
+    <field name="sequence" eval="0"/>
 </record>
+
 
 </odoo>
