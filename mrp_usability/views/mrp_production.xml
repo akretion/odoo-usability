@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2016 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="mrp_production_form_view" model="ir.ui.view">
+    <field name="name">usability.mrp.production.form</field>
+    <field name="model">mrp.production</field>
+    <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//page[@name='miscellaneous']/group/group/field[@name='location_src_id']" position="replace"/>
+        <xpath expr="//page[@name='miscellaneous']/group/group/field[@name='location_dest_id']" position="replace"/>
+        <field name="bom_id" position="after">
+            <field name="location_src_id" groups="stock.group_stock_multi_locations" options="{'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+            <field name="location_dest_id" groups="stock.group_stock_multi_locations" options="{'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+        </field>
+        <xpath expr="//page[@name='miscellaneous']/group/group/field[@name='date_deadline']" position="after">
+            <field name="date_start"/>
+            <field name="date_finished"/>
+        </xpath>
+        <button name="action_cancel" type="object" attrs="{'invisible': ['|', '|', ('id', '=', False), ('state', 'in', ('done', 'cancel')), ('confirm_cancel', '=', True)]}" position="attributes">
+            <attribute name="confirm">Are you sure you want to cancel this manufacturing order?</attribute>
+        </button>
+    </field>
+</record>
+
+</odoo>

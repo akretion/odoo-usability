@@ -11,34 +11,30 @@ class ProductTemplate(models.Model):
         """Replace native action `template_open_bom` to distinguish if we will display
         only one BoM form or a list of BoMs."""
         self.ensure_one()
-
-        act_window_xml_id = "mrp.mrp_bom_form_action"
-        act_window = self.env.ref(act_window_xml_id).read()[0]
-        if self.bom_count > 1:
-            act_window["context"] = {
-                "default_product_tmpl_id": self.id,
-                "search_default_product_tmpl_id": self.id,
-            }
+        if self.bom_count == 1:
+            action = self.env.ref("mrp.mrp_bom_form_action").read()[0]
+            bom = self.env["mrp.bom"].search([("product_tmpl_id", "=", self.id)])
+            action.update({
+                "context": {"default_product_tmpl_id": self.id},
+                "views": False,
+                "view_mode": "form,tree",
+                "res_id": bom.id,
+                })
         else:
-            act_window["context"] = {"default_product_tmpl_id": self.id}
-            act_window["views"] = [(self.env.ref("mrp.mrp_bom_form_view").id, "form")]
-            act_window["res_id"] = (
-                self.env["mrp.bom"].search([("product_tmpl_id", "=", self.id)]).id
-            )
-
-        return act_window
+            action = self.env.ref("mrp.template_open_bom").read()[0]
+        return action
 
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
     def action_view_bom(self):
-        res = super().action_view_bom()
-
-        bom_target_ids = self.env["mrp.bom"].search(res["domain"])
-
+        action = super().action_view_bom()
+        bom_target_ids = self.env["mrp.bom"].search(action["domain"])
         if len(bom_target_ids) == 1:
-            res["views"] = [(self.env.ref("mrp.mrp_bom_form_view").id, "form")]
-            res["res_id"] = bom_target_ids[0].id
-
-        return res
+            action.update({
+                "views": False,
+                "view_mode": "form,tree",
+                "res_id": bom_target_ids[0].id,
+                })
+        return action
