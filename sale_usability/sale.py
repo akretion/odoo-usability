@@ -2,8 +2,9 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api
-from odoo.tools import float_is_zero
+from odoo import models, fields, api, _
+from odoo.tools import float_is_zero, float_compare
+from odoo.tools.misc import formatLang
 
 
 class SaleOrder(models.Model):
@@ -62,4 +63,36 @@ class SaleOrder(models.Model):
         #    {'line': sale_order_line(4) with display_type=='line_note'},
         #    {'subtotal': 8932.23},
         # ]
+        return res
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    @api.onchange('product_uom', 'product_uom_qty')
+    def product_uom_change(self):
+        # When the user has manually set a custom price
+        # he is often upset when Odoo changes it when he changes the qty
+        # So we add a warning in which we recall the old price.
+        res = {}
+        old_price = self.price_unit
+        super().product_uom_change()
+        new_price = self.price_unit
+        prec = self.env['decimal.precision'].precision_get('Product Price')
+        if float_compare(old_price, new_price, precision_digits=prec):
+            pricelist = self.order_id.pricelist_id
+            res['warning'] = {
+                'title': _('Price updated'),
+                'message': _(
+                    "Due to the update of the ordered quantity on line '%s', "
+                    "the price has been updated according to pricelist '%s'.\n"
+                    "Old price: %s\n"
+                    "New price: %s") % (
+                        self.name,
+                        pricelist.display_name,
+                        formatLang(
+                            self.env, old_price, currency_obj=pricelist.currency_id),
+                        formatLang(
+                            self.env, new_price, currency_obj=pricelist.currency_id))
+                }
         return res
