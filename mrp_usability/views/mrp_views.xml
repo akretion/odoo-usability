@@ -26,6 +26,11 @@
         <button name="action_cancel" type="object" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this manufacturing order?</attribute>
         </button>
+        <xpath expr="//field[@name='finished_move_line_ids']/tree/field[@name='product_uom_id']" position="replace"/>
+        <xpath expr="//field[@name='finished_move_line_ids']/tree/field[@name='qty_done']" position="after">
+            <field name="product_uom_id" groups="uom.group_uom"/> <!-- Move after qty -->
+            <field name="location_dest_id" groups="stock.group_stock_multi_locations"/>
+        </xpath>
     </field>
 </record>
 
