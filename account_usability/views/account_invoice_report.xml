@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2018 Akretion (http://www.akretion.com/)
+  Copyright 2018-2020 Akretion (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -13,27 +13,27 @@
     <field name="model">account.invoice.report</field>
     <field name="arch" type="xml">
         <tree string="Invoices Analysis">
-            <field name="number"/>
-            <field name="date"/>
-            <field name="date_due"/>
-            <field name="type"/>
+            <field name="move_id"/>
+            <field name="invoice_date"/>
+            <field name="invoice_date_due"/>
+            <field name="move_type"/>
             <field name="commercial_partner_id"/>
-            <field name="user_id"/>
+            <field name="invoice_user_id"/>
             <field name="product_id"/>
-            <field name="product_qty" sum="1"/>
-            <field name="uom_name" groups="uom.group_uom"/>
-            <field name="price_total" sum="1"/>
+            <field name="quantity" sum="1"/>
+            <field name="product_uom_id" groups="uom.group_uom"/>
+            <field name="price_subtotal" sum="1"/>
             <field name="state"/>
         </tree>
     </field>
 </record>
 
 <record id="account.action_account_invoice_report_all_supp" model="ir.actions.act_window">
-    <field name="context">{'search_default_current': 1, 'search_default_supplier': 1, 'search_default_year': 1}</field>  <!-- Remove group_by_no_leaf, which breaks tree view -->
+    <field name="context">{'search_default_current': 1, 'search_default_supplier': 1, 'group_by': ['invoice_date']}</field>  <!-- Remove group_by_no_leaf, which breaks tree view -->
 </record>
 
 <record id="account.action_account_invoice_report_all" model="ir.actions.act_window">
-    <field name="context">{'search_default_current': 1, 'search_default_customer': 1, 'search_default_year': 1}</field>  <!-- Remove group_by_no_leaf, which breaks tree view -->
+    <field name="context">{'search_default_current': 1, 'search_default_customer': 1, 'group_by': ['invoice_date']}</field>  <!-- Remove group_by_no_leaf, which breaks tree view -->
 </record>
 
 <record id="view_account_invoice_report_pivot" model="ir.ui.view">

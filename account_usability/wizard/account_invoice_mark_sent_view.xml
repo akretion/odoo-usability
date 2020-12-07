@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2017-2019 Akretion France
+  Copyright 2017-2020 Akretion France
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -23,14 +23,13 @@
     </field>
 </record>
 
-<act_window id="account_invoice_mark_sent_action"
-            multi="True"
-            key2="client_action_multi"
-            name="Mark as Sent"
-            res_model="account.invoice.mark.sent"
-            src_model="account.invoice"
-            view_mode="form"
-            target="new"
-            groups="account.group_account_invoice" />
+<record id="account_invoice_mark_sent_action" model="ir.actions.act_window">
+    <field name="name">Mark as Sent</field>
+    <field name="res_model">account.invoice.mark.sent</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+    <field name="binding_model_id" ref="account.model_account_move" />
+    <field name="binding_view_types">list</field>
+</record>
 
 </odoo>

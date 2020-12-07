@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2015-2020 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_bank_statement_form" model="ir.ui.view">
+    <field name="name">usability.account.bank.statement.form</field>
+    <field name="model">account.bank.statement</field>
+    <field name="inherit_id" ref="account.view_bank_statement_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='line_ids']/tree/button[@name='button_undo_reconciliation']" position="after">
+            <field name="move_id" invisible="1"/>
+            <button name="show_account_move" type="object"
+                string="View Account Move" icon="fa-arrow-right"
+                attrs="{'invisible': [('move_id', '=', False)]}"/>
+        </xpath>
+        <field name="date" position="after">
+            <field name="start_date"/>
+            <field name="end_date"/>
+            <field name="hide_bank_statement_balance" invisible="1"/>
+        </field>
+        <field name="date" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+        <label for="balance_start" position="attributes">
+            <attribute name="attrs">{'invisible': [('hide_bank_statement_balance', '=', True)]}</attribute>
+        </label>
+        <label for="balance_end_real" position="attributes">
+            <attribute name="attrs">{'invisible': [('hide_bank_statement_balance', '=', True)]}</attribute>
+        </label>
+        <xpath expr="//field[@name='balance_start']/.." position="attributes">
+            <attribute name="attrs">{'invisible': [('hide_bank_statement_balance', '=', True)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='balance_end_real']/.." position="attributes">
+            <attribute name="attrs">{'invisible': [('hide_bank_statement_balance', '=', True)]}</attribute>
+        </xpath>
+        <group name="sale_total" position="attributes">
+            <attribute name="attrs">{'invisible': [('hide_bank_statement_balance', '=', True)]}</attribute>
+        </group>
+    </field>
+</record>
+
+<record id="view_bank_statement_tree" model="ir.ui.view">
+    <field name="name">usability.account.bank.statement.tree</field>
+    <field name="model">account.bank.statement</field>
+    <field name="inherit_id" ref="account.view_bank_statement_tree"/>
+    <field name="arch" type="xml">
+        <field name="date" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+        <field name="journal_id" position="after">
+            <field name="start_date"/>
+            <field name="end_date"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_bank_statement_search" model="ir.ui.view">
+    <field name="name">usability.account.bank.statement.search</field>
+    <field name="model">account.bank.statement</field>
+    <field name="inherit_id" ref="account.view_bank_statement_search"/>
+    <field name="arch" type="xml">
+        <field name="date" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+        <filter name="filter_date" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </filter>
+        <filter name="date" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </filter>
+        <field name="date" position="after">
+            <field name="start_date"/>
+            <field name="end_date"/>
+        </field>
+        <filter name="date" position="after">
+            <filter name="start_date_groupby" string="Start Date"
+                context="{'group_by': 'start_date'}"/>
+            <filter name="end_date_groupby" string="End Date"
+                context="{'group_by': 'end_date'}"/>
+        </filter>
+    </field>
+</record>
+
+
+</odoo>

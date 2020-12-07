@@ -83,7 +83,7 @@ class SaleOrderLine(models.Model):
                 'title': _('Price updated'),
                 'message': _(
                     "Due to the update of the ordered quantity on line '%s', "
-                    "the price has been updated according to pricelist %s.\n"
+                    "the price has been updated according to pricelist '%s'.\n"
                     "Old price: %s\n"
                     "New price: %s") % (
                         self.name,

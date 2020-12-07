@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2020 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="account_group_generate_form" model="ir.ui.view">
+    <field name="name">account.group.generate.form</field>
+    <field name="model">account.group.generate</field>
+    <field name="arch"  type="xml">
+        <form string="Generate account groups">
+            <p>
+                This wizard is designed to auto-generate account groups from the chart of account.
+            </p>
+            <group name="main">
+                <field name="name_prefix"/>
+                <field name="level"/>
+            <footer>
+                <button type="object" name="run" string="Generate" class="btn-primary"/>
+                <button special="cancel" string="Cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="account_group_generate_action" model="ir.actions.act_window">
+    <field name="name">Generate Account Groups</field>
+    <field name="res_model">account.group.generate</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+<menuitem id="account_group_generate_menu"
+        action="account_group_generate_action"
+        parent="account.account_account_menu"
+        sequence="52"/>
+
+</odoo>

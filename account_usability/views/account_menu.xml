@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2015-2020 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<!-- Duplicate the menu "Sales > Configuration > Contacts > Bank Accounts"
+under "Accounting > Configuration", because most users will try to find it there -->
+<menuitem id="bank_account_account_config_menu" name="Bank Accounts" parent="account.menu_finance_configuration" sequence="9"/>
+
+<menuitem id="res_bank_account_config_menu" action="base.action_res_bank_form" parent="bank_account_account_config_menu" sequence="10"/>
+
+<menuitem id="res_partner_bank_account_config_menu" action="base.action_res_partner_bank_account_form" parent="bank_account_account_config_menu" sequence="20"/>
+
+</odoo>

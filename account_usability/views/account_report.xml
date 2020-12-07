@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2018-2020 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="account.account_invoices" model="ir.actions.report">
+    <!-- Attach only on customer invoices/refunds -->
+    <field name="attachment">(object.move_type in ('out_invoice', 'out_refund')) and (object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')</field>
+</record>
+
+<record id="account.account_invoices_without_payment" model="ir.actions.report">
+    <!-- Attach only on customer invoices/refunds -->
+    <field name="attachment">(object.move_type in ('out_invoice', 'out_refund')) and (object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')</field>
+</record>
+
+
+</odoo>

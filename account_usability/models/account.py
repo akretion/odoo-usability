@@ -1,8 +1,8 @@
-# Copyright 2015-2019 Akretion (http://www.akretion.com)
+# Copyright 2015-2020 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
+from odoo import api, fields, models, _
 from odoo.tools import float_compare, float_is_zero
 from odoo.tools.misc import formatLang
 from odoo.exceptions import UserError, ValidationError
@@ -574,8 +574,8 @@ class AccountBankStatementLine(models.Model):
     #            search_reconciliation_proposition=search_rec_prop,
     #            context=context)
 
-    def _prepare_reconciliation_move(self, move_ref):
-        vals = super()._prepare_reconciliation_move(move_ref)
+#    def _prepare_reconciliation_move(self, move_ref):
+#        vals = super()._prepare_reconciliation_move(move_ref)
         # By default, ref contains the name of the statement + name of the
         # statement line. It causes 2 problems:
         # 1) The 'ref' field is too big
@@ -587,19 +587,19 @@ class AccountBankStatementLine(models.Model):
         # The only "good" thing to do would be to have a sequence per
         # statement line and write it in this 'ref' field
         # But that would required an additionnal field on statement lines
-        vals['ref'] = False
-        return vals
+#        vals['ref'] = False
+#        return vals
 
     def show_account_move(self):
         self.ensure_one()
-        action = self.env['ir.actions.act_window'].for_xml_id(
-            'account', 'action_move_line_form')
+        action = self.env.ref('account.action_move_line_form').read()[0]
+        # Note: this action is on account.move, not account.move.line !
         if self.journal_entry_ids:
             action.update({
                 'views': False,
                 'view_id': False,
                 'view_mode': 'form,tree',
-                'res_id': self.journal_entry_ids[0].move_id.id,
+                'res_id': self.move_id.id,
                 })
             return action
         else:
@@ -607,100 +607,57 @@ class AccountBankStatementLine(models.Model):
                 'No journal entry linked to this bank statement line.'))
 
 
-class AccountFiscalPosition(models.Model):
-    _inherit = 'account.fiscal.position'
+#class AccountFiscalPosition(models.Model):
+#    _inherit = 'account.fiscal.position'
 
-    # TODO mig to v12 ?
-    @api.model
-    def get_fiscal_position_no_partner(
-            self, company_id=None, vat_subjected=False, country_id=None):
-        '''This method is inspired by the method get_fiscal_position()
-        in odoo/addons/account/partner.py : it uses the same algo
-        but without a real partner.
-        Returns a recordset of fiscal position, or False'''
-        domains = [[
-            ('auto_apply', '=', True),
-            ('vat_required', '=', vat_subjected),
-            ('company_id', '=', company_id)]]
-        if vat_subjected:
-            domains += [[
-                ('auto_apply', '=', True),
-                ('vat_required', '=', False),
-                ('company_id', '=', company_id)]]
+    # TODO mig to v14 ?
+#    @api.model
+#    def get_fiscal_position_no_partner(
+#            self, company_id=None, vat_subjected=False, country_id=None):
+#        '''This method is inspired by the method get_fiscal_position()
+#        in odoo/addons/account/partner.py : it uses the same algo
+#        but without a real partner.
+#        Returns a recordset of fiscal position, or False'''
+#        domains = [[
+#            ('auto_apply', '=', True),
+#            ('vat_required', '=', vat_subjected),
+#            ('company_id', '=', company_id)]]
+#        if vat_subjected:
+#            domains += [[
+#                ('auto_apply', '=', True),
+#                ('vat_required', '=', False),
+#                ('company_id', '=', company_id)]]
 
-        for domain in domains:
-            if country_id:
-                fps = self.search(
-                    domain + [('country_id', '=', country_id)], limit=1)
-                if fps:
-                    return fps[0]
+#        for domain in domains:
+#            if country_id:
+#                fps = self.search(
+#                    domain + [('country_id', '=', country_id)], limit=1)
+#                if fps:
+#                    return fps[0]
 
-                fps = self.search(
-                    domain +
-                    [('country_group_id.country_ids', '=', country_id)],
-                    limit=1)
-                if fps:
-                    return fps[0]
+#                fps = self.search(
+#                    domain +
+#                    [('country_group_id.country_ids', '=', country_id)],
+#                    limit=1)
+#                if fps:
+#                    return fps[0]
 
-            fps = self.search(
-                domain +
-                [('country_id', '=', None), ('country_group_id', '=', None)],
-                limit=1)
-            if fps:
-                return fps[0]
-        return False
+#            fps = self.search(
+#                domain +
+#                [('country_id', '=', None), ('country_group_id', '=', None)],
+#                limit=1)
+#            if fps:
+#                return fps[0]
+#        return False
 
 
-class AccountReconcileModel(models.Model):
-    _inherit = 'account.reconcile.model'
+#class AccountReconcileModel(models.Model):
+#    _inherit = 'account.reconcile.model'
 
-    @api.onchange('name')
-    def onchange_name(self):
+#    @api.onchange('name')
+#    def onchange_name(self):
         # Do NOT copy by default name on label
         # Because it's much better to have the bank statement line label as
         # label of the counter-part move line, then the label of the button
-        assert True  # Stupid line of code just to have something...
+#        assert True  # Stupid line of code just to have something...
 
-
-class AccountIncoterms(models.Model):
-    _inherit = 'account.incoterms'
-
-    @api.depends('code', 'name')
-    def name_get(self):
-        res = []
-        for rec in self:
-            res.append((rec.id, '[%s] %s' % (rec.code, rec.name)))
-        return res
-
-
-class AccountReconciliation(models.AbstractModel):
-    _inherit = 'account.reconciliation.widget'
-
-    # Add ability to filter by account code in the work interface of the
-    # bank statement
-    @api.model
-    def _domain_move_lines(self, search_str):
-        str_domain = super()._domain_move_lines(search_str)
-        account_code_domain = [('account_id.code', '=ilike', search_str + '%')]
-        str_domain = expression.OR([str_domain, account_code_domain])
-        return str_domain
-
-    @api.model
-    def _domain_move_lines_for_reconciliation(
-            self, st_line, aml_accounts, partner_id,
-            excluded_ids=None, search_str=False):
-        domain = super()._domain_move_lines_for_reconciliation(
-            st_line, aml_accounts, partner_id,
-            excluded_ids=excluded_ids, search_str=search_str)
-        # We want to replace a domain item by another one
-        if ('payment_id', '<>', False) in domain:
-            position = domain.index(('payment_id', '<>', False))
-            domain[position] = ['journal_id', '=', st_line.journal_id.id]
-        return domain
-
-
-class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
-
-    transfer_account_id = fields.Many2one(
-        related='company_id.transfer_account_id', readonly=False)
