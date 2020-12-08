@@ -13,7 +13,7 @@
     <field name="inherit_id" ref="account.view_account_type_tree" />
     <field name="arch"  type="xml">
         <field name="type" position="after">
-            <field name="include_initial_balance" />
+            <field name="include_initial_balance" optional="show"/>
         </field>
     </field>
 </record>

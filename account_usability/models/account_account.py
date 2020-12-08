@@ -2,11 +2,10 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
-from odoo.tools import float_compare, float_is_zero
-from odoo.tools.misc import formatLang
-from odoo.exceptions import UserError, ValidationError
-from odoo.osv import expression
+from odoo import api, models
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class AccountAccount(models.Model):
@@ -27,10 +26,8 @@ class AccountAccount(models.Model):
     def fix_bank_account_types(self):
         aao = self.env['account.account']
         companies = self.env['res.company'].search([])
-        if len(companies) > 1 and self.env.user.id != SUPERUSER_ID:
-            raise UserError(
-                "In multi-company setups, you should run this "
-                "script as admin user")
+        if len(companies) > 1:
+            self = self.sudo()
         logger.info("START the script 'fix bank and cash account types'")
         bank_type = self.env.ref('account.data_account_type_liquidity')
         asset_type = self.env.ref('account.data_account_type_current_assets')

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2015-2020 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="view_move_form" model="ir.ui.view">
+    <field name="name">account_usability.account.move.form</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_move_form"/>
+    <field name="arch" type="xml">
+        <field name="fiscal_position_id" position="attributes">
+            <attribute name="widget">selection</attribute>
+        </field>
+        <field name="invoice_incoterm_id" position="attributes">
+            <attribute name="widget">selection</attribute>
+        </field>
+        <!-- move sent field and make it visible -->
+        <field name="is_move_sent" position="replace"/>
+        <field name="invoice_origin" position="after">
+            <field name="is_move_sent" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"/>
+        </field>
+        <xpath expr="//field[@name='line_ids']/tree/field[@name='analytic_account_id']" position="attributes">
+            <attribute name="optional">show</attribute>
+        </xpath>
+        <xpath expr="//field[@name='line_ids']/tree/field[@name='tax_tag_ids']" position="after">
+            <field name="matching_number" optional="hide"/>
+            <field name="reconcile_string" optional="show"/>
+        </xpath>
+    </field>
+</record>
+
+<record id="view_account_invoice_filter" model="ir.ui.view">
+    <field name="name">account_usability.account.move.search</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+    <field name="arch" type="xml">
+        <filter name="due_date" position="after">
+            <separator/>
+             <filter name="to_send" string="To Send" domain="[('is_move_sent', '=', False), ('state', '=', 'posted'), ('move_type', 'in', ('out_invoice', 'out_refund'))]"/>
+             <filter name="sent" string="Sent" domain="[('is_move_sent', '=', True), ('move_type', 'in', ('out_invoice', 'out_refund'))]"/>
+            <separator/>
+            <filter name="no_attachment" string="Missing Attachment" domain="[('has_attachment', '=', False)]"/>
+         </filter>
+    </field>
+</record>
+
+<record id="view_move_line_tree" model="ir.ui.view">
+    <field name="model">account.move.line</field>
+    <field name="inherit_id" ref="account.view_move_line_tree"/>
+    <field name="arch" type="xml">
+        <field name="matching_number" position="after">
+            <button title="View Journal Entry Form" type="object" name="show_account_move_form" icon="fa-arrow-right"/>
+        </field>
+    </field>
+</record>
+
+<record id="account.action_move_journal_line" model="ir.actions.act_window">
+    <field name="context">{'default_move_type': 'entry', 'view_no_maturity': True}</field>
+    <!-- Remove 'search_default_misc_filter': 1 -->
+</record>
+
+</odoo>

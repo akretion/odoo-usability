@@ -2,12 +2,9 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
-from odoo.tools import float_compare, float_is_zero
-from odoo.tools.misc import formatLang
+from odoo import api, fields, models
+from odoo.tools import float_is_zero
 from odoo.tools.misc import format_date
-from odoo.exceptions import UserError, ValidationError
-from odoo.osv import expression
 
 
 class AccountMove(models.Model):
@@ -57,9 +54,9 @@ class AccountMove(models.Model):
                     ('res_id', '=', move.id),
                     ('type', '=', 'binary'),
                     ('company_id', '=', move.company_id.id)], limit=1):
-                inv.has_attachment = True
+                move.has_attachment = True
             else:
-                inv.has_attachment = False
+                move.has_attachment = False
 
     def _search_has_attachment(self, operator, value):
         att_inv_ids = {}
@@ -155,7 +152,6 @@ class AccountMove(models.Model):
         for inv in self:
             sales = inv.invoice_line_ids.mapped(
                 'sale_line_ids').mapped('order_id')
-            lang = inv.partner_id.commercial_partner_id.lang
             dates = ["%s (%s)" % (
                      x.name, format_date(inv.env, self.date_order))
                      for x in sales]

@@ -11,7 +11,7 @@ class AccountMoveReversal(models.TransientModel):
 
     @api.model
     def _default_date(self):
-        date = None
+        date_dt = None
         if (
                 self._context.get('active_model') == 'account.move' and
                 self._context.get('active_id')):

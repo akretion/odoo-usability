@@ -2,7 +2,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import fields, models, _
 from odoo.exceptions import UserError
 
 
@@ -16,8 +16,8 @@ class AccountGroupGenerate(models.TransientModel):
     def run(self):
         if self.level < 1:
             raise UserError(_("The level must be >= 1."))
-        assert isinstance(level, int)
         ago = self.env['account.group']
+        aao = self.env['account.account']
         company = self.env.company
         groups = ago.search([('company_id', '=', company.id)])
         if groups:
@@ -25,7 +25,7 @@ class AccountGroupGenerate(models.TransientModel):
                 "%d account groups already exists in company '%s'. This wizard is "
                 "designed to generate account groups from scratch.")
                 % (len(groups), company.display_name))
-        accounts = self.search([('company_id', '=', company.id)])
+        accounts = aao.search([('company_id', '=', company.id)])
         struct = {'childs': {}}
         for account in accounts:
             if len(account.code) <= self.level:
@@ -36,11 +36,11 @@ class AccountGroupGenerate(models.TransientModel):
             n = 1
             parent = struct
             gparent = False
-            while n <= level:
+            while n <= self.level:
                 group_code = account.code[:n]
                 if group_code not in parent['childs']:
                     new_group = ago.create({
-                        'name': '%s %s' % (name_prefix or '', group_code),
+                        'name': '%s %s' % (self.name_prefix or '', group_code),
                         'code_prefix_start': group_code,
                         'parent_id': gparent and gparent.id or False,
                         'company_id': company.id,
@@ -57,4 +57,3 @@ class AccountGroupGenerate(models.TransientModel):
             'res_model': 'account.group',
             }
         return action
-

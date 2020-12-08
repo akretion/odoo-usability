@@ -16,8 +16,7 @@
         <xpath expr="//field[@name='line_ids']/tree/button[@name='button_undo_reconciliation']" position="after">
             <field name="move_id" invisible="1"/>
             <button name="show_account_move" type="object"
-                string="View Account Move" icon="fa-arrow-right"
-                attrs="{'invisible': [('move_id', '=', False)]}"/>
+                title="View Journal Entry" icon="fa-arrow-right"/>
         </xpath>
         <field name="date" position="after">
             <field name="start_date"/>

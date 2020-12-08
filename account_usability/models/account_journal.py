@@ -2,10 +2,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
-from odoo.tools import float_compare, float_is_zero
-from odoo.tools.misc import formatLang
-from odoo.exceptions import UserError, ValidationError
+from odoo import api, fields, models
 
 
 class AccountJournal(models.Model):

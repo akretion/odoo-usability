@@ -18,6 +18,7 @@
             <group name="main">
                 <field name="name_prefix"/>
                 <field name="level"/>
+            </group>
             <footer>
                 <button type="object" name="run" string="Generate" class="btn-primary"/>
                 <button special="cancel" string="Cancel"/>
@@ -36,6 +37,6 @@
 <menuitem id="account_group_generate_menu"
         action="account_group_generate_action"
         parent="account.account_account_menu"
-        sequence="52"/>
+        sequence="51"/>
 
 </odoo>
