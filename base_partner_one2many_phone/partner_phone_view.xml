@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2014-2016 Abbaye du Barroux (http://www.barroux.org)
-  © 2016 Akretion (http://www.akretion.com>)
+  Copyright 2014-2020 Abbaye du Barroux (http://www.barroux.org)
+  Copyright 2016-2020 Akretion (http://www.akretion.com>)
   @author: Frère Bernard <informatique@barroux.org>
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -17,7 +17,7 @@
         <tree string="Phones and E-mail" editable="bottom">
             <field name="partner_id" invisible="not context.get('partner_phone_main_view')"/>
             <field name="type"/>
-            <field name="phone" widget="phone" attrs="{'required': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'readonly': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
+            <field name="phone" widget="phone" options="{'enable_sms': false}" attrs="{'required': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'readonly': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
             <field name="email" widget="email" attrs="{'readonly': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'required': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
             <field name="note"/>
         </tree>
@@ -32,7 +32,7 @@
             <group name="main">
                 <field name="partner_id" invisible="not context.get('partner_phone_main_view')"/>
                 <field name="type"/>
-                <field name="phone" widget="phone" attrs="{'required': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'invisible': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
+                <field name="phone" widget="phone" options="{'enable_sms': false}" attrs="{'required': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'invisible': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
                 <field name="email" widget="email" attrs="{'invisible': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'required': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
                 <field name="note"/>
             </group>
@@ -62,7 +62,11 @@
 </record>
 
 <menuitem id="res_partner_phone_menu" action="res_partner_phone_action"
-    parent="sales_team.menu_sales" sequence="10"/>
+        parent="contacts.menu_contacts" sequence="10"/>
+
+<record id="contacts.res_partner_menu_config" model="ir.ui.menu">
+    <field name="sequence">20</field>
+</record>
 
 <!-- PARTNER views -->
 <record id="view_partner_form" model="ir.ui.view">
@@ -77,9 +81,6 @@
             <attribute name="invisible">1</attribute>
         </field>
         <field name="mobile" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </field>
-        <field name="fax" position="attributes">
             <attribute name="invisible">1</attribute>
         </field>
         <field name="email" position="attributes">
@@ -111,6 +112,26 @@
     <field name="name">add.phone_ids.on.res.partner.simplified.form</field>
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="base.view_partner_simple_form"/>
+    <field name="arch" type="xml">
+        <field name="phone" position="after">
+            <field name="phone_ids" nolabel="1" colspan="2"/>
+        </field>
+        <field name="phone" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+        <field name="mobile" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+        <field name="email" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+    </field>
+</record>
+
+<record id="res_partner_view_form_private" model="ir.ui.view">
+    <field name="name">add.phone_ids.on.res.partner.private.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.res_partner_view_form_private"/>
     <field name="arch" type="xml">
         <field name="phone" position="after">
             <field name="phone_ids" nolabel="1" colspan="2"/>

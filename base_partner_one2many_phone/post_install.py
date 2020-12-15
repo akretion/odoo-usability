@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-# © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2017-2020 Akretion France (http://www.akretion.com/)
+# @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, SUPERUSER_ID
@@ -41,13 +41,8 @@ def migrate_to_partner_phone(cr, registry):
         to_create = []
         to_create += create_partner_phone(cr, 'phone', '3_phone_primary')
         to_create += create_partner_phone(cr, 'mobile', '5_mobile_primary')
-        to_create += create_partner_phone(cr, 'fax', '7_fax_primary')
         to_create += create_partner_email(cr)
         # I need to create all at the end for invalidation purposes
-        for vals in to_create:
-            rppo.create(vals)
-            logger.info(
-                'partner_phone type %s phone %s email %s created for partner ID %d',
-                vals['type'], vals.get('phone'), vals.get('mail'), vals['partner_id'])
+        rppo.create(to_create)
     logger.info('end data migration for one2many_phone')
     return

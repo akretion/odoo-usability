@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
-# © 2014-2016 Abbaye du Barroux (http://www.barroux.org)
-# © 2016 Akretion (http://www.akretion.com>)
+# Copyright 2014-2020 Abbaye du Barroux (http://www.barroux.org)
+# Copyright 2016-2020 Akretion (http://www.akretion.com>)
 # @author: Frère Bernard <informatique@barroux.org>
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
-from odoo.addons.base_phone.fields import Phone, Fax
 
 EMAIL_TYPES = ('1_email_primary', '2_email_secondary')
 PHONE_TYPES = ('3_phone_primary', '4_phone_secondary', '5_mobile_primary', '6_mobile_secondary', '7_fax_primary', '8_fax_secondary')
@@ -17,6 +15,8 @@ class ResPartnerPhone(models.Model):
     _name = 'res.partner.phone'
     _order = 'partner_id, type'
     _phone_name_sequence = 8
+    _inherit = ['phone.validation.mixin']
+    _description = 'Multiple emails and phones for partners'
 
     partner_id = fields.Many2one(
         'res.partner', string='Related Partner', index=True, ondelete='cascade')
@@ -31,7 +31,7 @@ class ResPartnerPhone(models.Model):
         ('8_fax_secondary', 'Secondary Fax'),
         ],
         string='Type', required=True, index=True)
-    phone = Phone('Phone', required=False, partner_field='partner_id')
+    phone = fields.Char(string='Phone')
     email = fields.Char(string='E-Mail')
     note = fields.Char('Note')
 
@@ -42,6 +42,11 @@ class ResPartnerPhone(models.Model):
                 self.phone = False
             elif self.type in PHONE_TYPES:
                 self.email = False
+
+    @api.onchange('phone', 'partner_id')
+    def _onchange_phone_validation(self):
+        if self.phone:
+            self.phone = self.phone_format(self.phone)
 
     @api.constrains('type', 'phone', 'email')
     def _check_partner_phone(self):
@@ -74,7 +79,6 @@ class ResPartnerPhone(models.Model):
             res.append((pphone.id, name))
         return res
 
-    @api.model_cr
     def init(self):
         self._cr.execute('''
             CREATE UNIQUE INDEX IF NOT EXISTS single_email_primary
@@ -111,14 +115,11 @@ class ResPartner(models.Model):
     # for the future :)
 
     phone_ids = fields.One2many(
-        'res.partner.phone', 'partner_id', string='Phones')
-    phone = Phone(
+        'res.partner.phone', 'partner_id', string='Phones/Emails')
+    phone = fields.Char(
         compute='_compute_partner_phone',
         store=True, readonly=True, compute_sudo=True)
-    mobile = Phone(
-        compute='_compute_partner_phone',
-        store=True, readonly=True, compute_sudo=True)
-    fax = Fax(
+    mobile = fields.Char(
         compute='_compute_partner_phone',
         store=True, readonly=True, compute_sudo=True)
     email = fields.Char(
@@ -128,20 +129,17 @@ class ResPartner(models.Model):
     @api.depends('phone_ids.phone', 'phone_ids.type', 'phone_ids.email')
     def _compute_partner_phone(self):
         for partner in self:
-            phone = mobile = fax = email = False
+            phone = mobile = email = False
             for pphone in partner.phone_ids:
                 if pphone.type == '1_email_primary' and pphone.email:
                     email = pphone.email
                 elif pphone.phone:
                     if pphone.type == '5_mobile_primary':
                         mobile = pphone.phone
-                    elif pphone.type == '7_fax_primary':
-                        fax = pphone.phone
                     elif pphone.type == '3_phone_primary':
                         phone = pphone.phone
             partner.phone = phone
             partner.mobile = mobile
-            partner.fax = fax
             partner.email = email
 
     def _update_create_vals(
@@ -157,8 +155,8 @@ class ResPartner(models.Model):
             self._update_create_vals(vals, '1_email_primary', 'email', 'email')
             self._update_create_vals(vals, '3_phone_primary', 'phone', 'phone')
             self._update_create_vals(vals, '5_mobile_primary', 'mobile', 'phone')
-            self._update_create_vals(vals, '7_fax_primary', 'fax', 'phone')
-        return super(ResPartner, self).create(vals)
+            # self._update_create_vals(vals, '7_fax_primary', 'fax', 'phone')
+        return super().create(vals)
 
     def _update_write_vals(
             self, vals, type, partner_field, partner_phone_field):
@@ -192,4 +190,4 @@ class ResPartner(models.Model):
                 super(ResPartner, rec).write(vals)
             return True
         else:
-            return super(ResPartner, self).write(vals)
+            return super().write(vals)
