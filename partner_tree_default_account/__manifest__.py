@@ -19,7 +19,7 @@ This module has been written by Alexis de Lattre <alexis.delattre@akretion.com> 
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['base'],
+    'depends': ['account'],
     'data': ['views/res_partner.xml'],
     'installable': True,
 }

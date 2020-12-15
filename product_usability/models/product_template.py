@@ -9,6 +9,13 @@ from odoo import models, fields
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
+    # restore v8 native field
+    # https://github.com/odoo/odoo/blob/8.0/addons/product/product.py#L592
+    # in v10, that field was defined in procurement_suggest, but we will
+    # probably not port procurement_suggest because it is native in v14
+    seller_id = fields.Many2one(
+        'res.partner', related='seller_ids.name', string='Main Supplier')
+
 #    name = fields.Char(
 #        track_visibility='onchange')
 

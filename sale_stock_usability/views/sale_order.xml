@@ -15,6 +15,10 @@
         <field name="picking_policy" position="after">
             <field name="picking_status"/>
         </field>
+        <!-- move warehouse_id to the top, not hidden in the 2nd tab -->
+        <group name="order_details" position="inside">
+            <field name="warehouse_id" options="{'no_create': True}" groups="stock.group_stock_multi_warehouses" force_save="1" position="move"/>
+        </group>
     </field>
 </record>
 

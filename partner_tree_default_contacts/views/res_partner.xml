@@ -8,7 +8,7 @@
 <odoo>
 
 <record id="contacts.action_contacts" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,kanban</field>
+    <field name="view_mode">tree,form,kanban,activity</field>
 </record>
 
 <record id="contacts.action_contacts_view_tree" model="ir.actions.act_window.view">

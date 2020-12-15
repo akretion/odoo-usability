@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+base.access_res_partner_title_group_user,Full access on res.partner.title to Settings group (instead of partner manager by default),base.model_res_partner_title,base.group_system,1,1,1,1

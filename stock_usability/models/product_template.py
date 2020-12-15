@@ -10,3 +10,6 @@ class ProductTemplate(models.Model):
 
     tracking = fields.Selection(tracking=True)
     sale_delay = fields.Float(tracking=True)
+    # the 'stock' module adds 'product' in type...
+    # but forgets to make it the default
+    type = fields.Selection(default='product')

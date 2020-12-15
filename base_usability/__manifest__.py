@@ -13,6 +13,7 @@
     'depends': ['base'],
     'data': [
         'security/group.xml',
+        'security/ir.model.access.csv',
         'views/res_partner.xml',
         'views/res_partner_bank.xml',
         'views/res_country.xml',

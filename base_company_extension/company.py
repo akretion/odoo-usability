@@ -1,4 +1,4 @@
-# Copyright 2014-2019 Akretion (http://www.akretion.com)
+# Copyright 2014-2020 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -16,7 +16,7 @@ class ResCompany(models.Model):
     def _report_company_legal_name(self):
         self.ensure_one()
         if self.legal_type:
-            name = u'%s %s' % (self.name, self.legal_type)
+            name = '%s %s' % (self.name, self.legal_type)
         else:
             name = self.name
         return name
