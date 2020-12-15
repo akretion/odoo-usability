@@ -275,7 +275,7 @@ class ProductPrintZplBarcode(models.TransientModel):
             raise UserError(_(
                 "You must select a ZPL Printer."))
         self.zpl_printer_id.print_document(
-            self.zpl_filename, base64.decodestring(self.zpl_file), format='raw')
+            self.zpl_filename, base64.decodebytes(self.zpl_file), format='raw')
         action = True
         if self._context.get('print_and_new'):
             action = self.env.ref('product_print_zpl_barcode.product_print_zpl_barcode_action').read()[0]
