@@ -1,14 +1,14 @@
-# -*- coding: utf-8 -*-
-# © 2015-2016 Akretion (http://www.akretion.com)
+# Copyright 2015-2020 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
 class ProductCategTaxMixin(models.AbstractModel):
     _name = 'product.categ.tax.mixin'
+    _description = 'Common code for taxes on product categories'
 
     @api.onchange('categ_id')
     def onchange_categ_id(self):
@@ -37,38 +37,37 @@ class ProductCategTaxMixin(models.AbstractModel):
     @api.model
     def create(self, vals):
         self.write_or_create(vals)
-        return super(ProductCategTaxMixin, self).create(vals)
+        return super().create(vals)
 
-    @api.multi
     def write(self, vals):
         self.write_or_create(vals)
-        return super(ProductCategTaxMixin, self).write(vals)
+        return super().write(vals)
 
 
 class ProductTemplate(models.Model):
     _inherit = ['product.template', 'product.categ.tax.mixin']
     _name = 'product.template'
 
-    @api.one
     @api.constrains('taxes_id', 'supplier_taxes_id')
     def _check_tax_categ(self):
         # self.name != 'Pay Debt' is a stupid hack to avoid blocking the
         # installation of the module 'pos_debt_notebook'
-        if self.categ_id:   # and self.name != 'Pay Debt':
-            if self.categ_id.sale_tax_ids.ids != self.taxes_id.ids:
-                raise ValidationError(_(
-                    "The sale taxes configured on the product '%s' "
-                    "are not the same as the sale taxes configured "
-                    "on it's related internal category '%s'.")
-                    % (self.name, self.categ_id.name_get()[0][1]))
-            if (
-                    self.categ_id.purchase_tax_ids.ids !=
-                    self.supplier_taxes_id.ids):
-                raise ValidationError(_(
-                    "The purchase taxes configured on the product '%s' "
-                    "are not the same as the purchase taxes configured "
-                    "on it's related internal category '%s'.")
-                    % (self.name, self.categ_id.name_get()[0][1]))
+        for pt in self:
+            if pt.categ_id:   # and self.name != 'Pay Debt':
+                if pt.categ_id.sale_tax_ids.ids != pt.taxes_id.ids:
+                    raise ValidationError(_(
+                        "The sale taxes configured on the product '%s' "
+                        "are not the same as the sale taxes configured "
+                        "on it's related internal category '%s'.")
+                        % (pt.display_name, pt.categ_id.display_name))
+                if (
+                        pt.categ_id.purchase_tax_ids.ids !=
+                        pt.supplier_taxes_id.ids):
+                    raise ValidationError(_(
+                        "The purchase taxes configured on the product '%s' "
+                        "are not the same as the purchase taxes configured "
+                        "on it's related internal category '%s'.")
+                        % (pt.display_name, pt.categ_id.display_name))
 
 
 class ProductProduct(models.Model):

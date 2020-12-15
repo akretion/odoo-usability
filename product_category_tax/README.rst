@@ -11,7 +11,7 @@ This module will allow you to configure sale and purchase taxes on product categ
 Configuration
 =============
 
-Set the taxes on the product categories via the menu *Sales > Configuration > Products > Product Categories*.
+Set the taxes on the product categories via the menu *Inventory > Configuration > Products > Product Categories*.
 
 Credits
 =======
