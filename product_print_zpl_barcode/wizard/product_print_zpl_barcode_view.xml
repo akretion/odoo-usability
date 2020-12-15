@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2016 Akretion (http://www.akretion.com/)
+  Copyright 2016-2020 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -33,17 +33,17 @@
                 </div>
             </group>
             <group name="step2" states="step2" string="Label">
-                <field name="price"/>
+                <field name="price" attrs="{'invisible': [('barcode_type', 'not in', ('price', 'weight'))]}"/>
                 <field name="zpl_file" filename="zpl_filename" />
                 <field name="zpl_filename" invisible="1"/>
                 <field name="zpl_printer_id" required="1"/>
             </group>
             <footer>
                 <button name="generate" type="object" string="Generate Label" class="btn-primary" states="step1"/>
-                <button special="cancel" string="Cancel" class="oe_link" states="step1"/>
+                <button special="cancel" string="Cancel" class="btn-default" states="step1"/>
                 <button name="print_zpl" type="object" string="Print" class="btn-primary" states="step2"/>
                 <button name="print_zpl" type="object" string="Print and New" class="btn-primary" context="{'print_and_new': True}" attrs="{'invisible': ['|', ('state', '!=', 'step2'), ('barcode_type', '=', 'product')]}"/>
-                <button special="cancel" string="Close" class="oe_link" states="step2"/>
+                <button special="cancel" string="Close" class="btn-default" states="step2"/>
             </footer>
         </form>
     </field>

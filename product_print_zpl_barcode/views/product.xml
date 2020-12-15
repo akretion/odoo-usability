@@ -14,7 +14,7 @@
     <field name="inherit_id" ref="product.product_normal_form_view" />
     <field name="arch" type="xml">
         <header position="inside">
-            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcode"/>
+            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcode" groups="base_report_to_printer.printing_group_user"/>
         </header>
     </field>
 </record>
