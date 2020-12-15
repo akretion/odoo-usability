@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
-# © 2014-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2014-2020 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
-from openerp.exceptions import UserError
+from odoo import fields, models, _
+from odoo.exceptions import UserError
 
 
 class PosConfig(models.Model):
@@ -14,14 +14,13 @@ class PosConfig(models.Model):
         help="If you select a user, only this user will be allowed to start "
         "sessions for this POS", ondelete='restrict')
 
-    @api.multi
-    def open_session_cb(self):
+    def open_session_cb(self, check_coa=True):
         self.ensure_one()
         if (
                 self.allowed_user_id and
                 self.allowed_user_id != self.env.user):
             raise UserError(_(
                 "The POS '%s' can be used only by user '%s'.") % (
-                    self.name,
-                    self.allowed_user_id.name))
-        return super(PosConfig, self).open_session_cb()
+                    self.display_name,
+                    self.allowed_user_id.display_name))
+        return super().open_session_cb(check_coa=check_coa)

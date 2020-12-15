@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  Copyright 2016-2020 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
 <odoo>
 
 
-<record id="view_pos_config_form" model="ir.ui.view">
+<record id="pos_config_view_form" model="ir.ui.view">
     <field name="name">pos_config_single_user.pos.config</field>
     <field name="model">pos.config</field>
-    <field name="inherit_id" ref="point_of_sale.view_pos_config_form"/>
+    <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
     <field name="arch"  type="xml">
-        <field name="sequence_id" position="after">
-            <field name="allowed_user_id"/>
-        </field>
+        <xpath expr="//field[@name='start_category']/../.." position="after">
+            <div class="col-12 col-lg-6 o_setting_box" id="allowed_user">
+                <div class="o_setting_right_pane">
+                    <label for="allowed_user_id"/>
+                    <div class="text-muted">
+                        If set, only this user will be able to start a session
+                     </div>
+                    <div class="content-group mt16">
+                        <field name="allowed_user_id" options="{'no_create': True}"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
     </field>
 </record>
 
