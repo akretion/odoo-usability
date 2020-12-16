@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 def create_partner_phone(cr, phone_field, phone_type):
     cr.execute(
         'SELECT id, ' + phone_field + ' FROM res_partner WHERE ' +
-        phone_field + ' IS NOT null')
+        phone_field + ' IS NOT null AND ' + phone_field + "!= ''")
     to_create = []
     for partner in cr.fetchall():
         to_create.append({
@@ -22,7 +22,8 @@ def create_partner_phone(cr, phone_field, phone_type):
 
 
 def create_partner_email(cr):
-    cr.execute('SELECT id, email FROM res_partner WHERE email IS NOT null')
+    cr.execute(
+        "SELECT id, email FROM res_partner WHERE email IS NOT null AND email != ''")
     to_create = []
     for partner in cr.fetchall():
         to_create.append({

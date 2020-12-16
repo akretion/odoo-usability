@@ -5,3 +5,7 @@ access_product_manager_product_category,Full access on product.category for Prod
 access_product_manager_product_supplierinfo,Full access on product.supplierinfo for Product Manager,product.model_product_supplierinfo,group_product_manager,1,1,1,1
 access_product_manager_product_attribute,Full access on product.attribute for Product Manager,product.model_product_attribute,group_product_manager,1,1,1,1
 access_product_manager_product_attribute_value,Full access on product.attribute.value for Product Manager,product.model_product_attribute_value,group_product_manager,1,1,1,1
+access_product_manager_product_template_attribute_line,Full access on product.template.attribute.line for Product Manager,product.model_product_template_attribute_line,group_product_manager,1,1,1,1
+access_product_manager_product_template_attribute_value,Full access on product.template.attribute.value for Product Manager,product.model_product_template_attribute_value,group_product_manager,1,1,1,1
+access_product_manager_product_template_attribute_exclusion,Full access on product.template.attribute.exclusion for Product Manager,product.model_product_template_attribute_exclusion,group_product_manager,1,1,1,1
+access_product_manager_product_attribute_custom_value,Full access on product.attribute.custom.value for Product Manager,product.model_product_attribute_custom_value,group_product_manager,1,1,1,1
