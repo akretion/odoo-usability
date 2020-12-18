@@ -36,7 +36,7 @@
                 <field name="price" attrs="{'invisible': [('barcode_type', 'not in', ('price', 'weight'))]}"/>
                 <field name="zpl_file" filename="zpl_filename" />
                 <field name="zpl_filename" invisible="1"/>
-                <field name="zpl_printer_id" required="1"/>
+                <field name="zpl_printer_id" attrs="{'required': [('state', '=', 'step2')]}"/>
             </group>
             <footer>
                 <button name="generate" type="object" string="Generate Label" class="btn-primary" states="step1"/>
