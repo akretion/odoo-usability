@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_template_property_form" model="ir.ui.view">
+    <field name="name">stock_account.product.template.form</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="stock_account.view_template_property_form"/>
+    <field name="arch" type="xml">
+        <!--
+        I use replace instead of attributes with invisible=0
+        because I need a smooth display of property_cost_method even when
+        account_usability is installed, which replaces the field list_price
+        -->
+        <field name="property_cost_method" position="replace"/>
+        <field name="company_id" position="before">
+            <field name="property_cost_method" groups="stock_account.group_inventory_valuation"/>
+        </field>
+    </field>
+</record>
+
+
+</odoo>
