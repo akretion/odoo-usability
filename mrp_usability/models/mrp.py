@@ -1,9 +1,9 @@
-# © 2015-2016 Akretion (http://www.akretion.com)
+# Copyright 2015-2021 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class MrpProduction(models.Model):
@@ -18,3 +18,17 @@ class MrpProduction(models.Model):
         if diff == 0.0:
             return ""
         return diff
+
+
+class MrpBom(models.Model):
+    _inherit = 'mrp.bom'
+
+    code = fields.Char(track_visibility='onchange')
+    type = fields.Selection(track_visibility='onchange')
+    product_tmpl_id = fields.Many2one(track_visibility='onchange')
+    product_id = fields.Many2one(track_visibility='onchange')
+    product_qty = fields.Float(track_visibility='onchange')
+    product_uom_id = fields.Many2one(track_visibility='onchange')
+    routing_id = fields.Many2one(track_visibility='onchange')
+    ready_to_produce = fields.Selection(track_visibility='onchange')
+    picking_type_id = fields.Many2one(track_visibility='onchange')
