@@ -55,6 +55,7 @@
 <record id="stock_account.menu_action_wizard_valuation_history" model="ir.ui.menu">
     <field name="action" ref="stock_valuation_xlsx.stock_valuation_xlsx_action"/>
     <field name="name">Stock Valuation XLSX</field>
+    <field name="sequence">0</field>
 </record>
 
 </odoo>
