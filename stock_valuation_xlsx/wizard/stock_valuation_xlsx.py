@@ -35,7 +35,7 @@ class StockValuationXlsx(models.TransientModel):
         u"be taken in the valuation.")
     categ_ids = fields.Many2many(
         'product.category', string='Product Category Filter',
-        help="Leave this field empty to have a stock valuation for all your products",
+        help="Leave this field empty to have a stock valuation for all your products.",
         states={'done': [('readonly', True)]})
     source = fields.Selection([
         ('inventory', 'Physical Inventory'),
@@ -56,7 +56,7 @@ class StockValuationXlsx(models.TransientModel):
     categ_subtotal = fields.Boolean(
         string='Subtotals per Categories', default=True,
         states={'done': [('readonly', True)]},
-        help="Show a subtotal per product category")
+        help="Show a subtotal per product category.")
     standard_price_date = fields.Selection([
         ('past', 'Past Date or Inventory Date'),
         ('present', 'Current'),

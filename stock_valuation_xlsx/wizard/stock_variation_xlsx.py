@@ -35,7 +35,7 @@ class StockVariationXlsx(models.TransientModel):
         "be taken in the valuation.")
     categ_ids = fields.Many2many(
         'product.category', string='Product Category Filter',
-        help="Leave this fields empty to have a stock valuation for all your products",
+        help="Leave this fields empty to have a stock valuation for all your products.",
         states={'done': [('readonly', True)]})
     start_date = fields.Datetime(
         string='Start Date', required=True,
@@ -62,7 +62,7 @@ class StockVariationXlsx(models.TransientModel):
     categ_subtotal = fields.Boolean(
         string='Subtotals per Categories', default=True,
         states={'done': [('readonly', True)]},
-        help="Show a subtotal per product category")
+        help="Show a subtotal per product category.")
 
     @api.model
     def _default_location(self):
@@ -163,13 +163,13 @@ class StockVariationXlsx(models.TransientModel):
         logger.debug('End compute_product_data')
         return product_id2data
 
-    def compute_data_from_stock(self, product_ids, prec_qty, start_date, end_date_type, end_date):
+    def compute_data_from_stock(self, product_ids, prec_qty, start_date, end_date_type, end_date, company_id):
         self.ensure_one()
         logger.debug('Start compute_data_from_stock past_date=%s end_date_type=%s, end_date=%s', start_date, end_date_type, end_date)
         ppo = self.env['product.product']
         smo = self.env['stock.move']
         sqo = self.env['stock.quant']
-        ppo_loc = ppo.with_context(location=self.location_id.id)
+        ppo_loc = ppo.with_context(location=self.location_id.id, force_company=company_id)
         # Inspired by odoo/addons/stock/models/product.py
         # method _compute_quantities_dict()
         domain_quant_loc, domain_move_in_loc, domain_move_out_loc = ppo_loc._get_domain_locations()
@@ -212,7 +212,7 @@ class StockVariationXlsx(models.TransientModel):
                     'out_qty': out_qty,
                     'end_qty': end_qty,
                     }
-        logger.debug('End compute_data_from_past_stock')
+        logger.debug('End compute_data_from_stock')
         return product_data
 
     def stringify_and_sort_result(
@@ -272,7 +272,8 @@ class StockVariationXlsx(models.TransientModel):
             raise UserError(_("There are no products to analyse."))
 
         product_data = self.compute_data_from_stock(
-            product_ids, prec_qty, self.start_date, self.end_date_type, self.end_date)
+            product_ids, prec_qty, self.start_date, self.end_date_type, self.end_date,
+            company_id)
         standard_price_start_date = standard_price_end_date = False
         if self.standard_price_start_date_type == 'start':
             standard_price_start_date = self.start_date
@@ -448,12 +449,12 @@ class StockVariationXlsx(models.TransientModel):
             'uom_name': {'width': 5, 'style': 'regular_small', 'sequence': 30, 'title': _('UoM')},
             'start_qty': {'width': 8, 'style': 'regular', 'sequence': 40, 'title': _('Start Qty')},
             'start_standard_price': {'width': 14, 'style': 'regular_price_currency', 'sequence': 50, 'title': _('Start Cost Price')},
-            'start_subtotal': {'width': 16, 'style': 'regular_currency', 'sequence': 60, 'title': _('Start Sub-total'), 'formula': True},
+            'start_subtotal': {'width': 16, 'style': 'regular_currency', 'sequence': 60, 'title': _('Start Value'), 'formula': True},
             'in_qty': {'width': 8, 'style': 'regular', 'sequence': 70, 'title': _('In Qty')},
             'out_qty': {'width': 8, 'style': 'regular', 'sequence': 80, 'title': _('Out Qty')},
             'end_qty': {'width': 8, 'style': 'regular', 'sequence': 90, 'title': _('End Qty'), 'formula': True},
             'end_standard_price': {'width': 14, 'style': 'regular_price_currency', 'sequence': 100, 'title': _('End Cost Price')},
-            'end_subtotal': {'width': 16, 'style': 'regular_currency', 'sequence': 110, 'title': _('End Sub-total'), 'formula': True},
+            'end_subtotal': {'width': 16, 'style': 'regular_currency', 'sequence': 110, 'title': _('End Value'), 'formula': True},
             'variation': {'width': 16, 'style': 'regular_currency', 'sequence': 120, 'title': _('Variation'), 'formula': True},
             'categ_subtotal': {'width': 16, 'style': 'regular_currency', 'sequence': 130, 'title': _('Categ Sub-total'), 'formula': True},
             'categ_name': {'width': 40, 'style': 'regular_small', 'sequence': 140, 'title': _('Product Category')},
