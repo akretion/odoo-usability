@@ -225,6 +225,14 @@ class AccountInvoiceUpdate(models.TransientModel):
                     line.date_maturity = new_pterm[iamount].pop()
 
     @api.multi
+    def _get_move_lines(self, move_id):
+        self.ensure_one()
+        return move_id.line_ids.filtered(
+            # we are only interested in invoice lines, not tax lines
+            lambda rec: bool(rec.product_id)
+        )
+
+    @api.multi
     def run(self):
         self.ensure_one()
         inv = self.invoice_id
@@ -239,10 +247,8 @@ class AccountInvoiceUpdate(models.TransientModel):
             mvals = self._prepare_move()
             if mvals:
                 inv.move_id.write(mvals)
-            for ml in inv.move_id.line_ids.filtered(
-                    # we are only interested in invoice lines, not tax lines
-                    lambda rec: bool(rec.product_id)
-            ):
+            move_line_ids = self._get_move_lines(inv.move_id)
+            for ml in move_line_ids:
                 if ml.credit == 0.0:
                     continue
                 inv_line = self._get_matching_inv_line(ml)
