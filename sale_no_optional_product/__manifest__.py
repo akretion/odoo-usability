@@ -18,10 +18,8 @@
     },
     "depends": [
         "sale_management",
-        "sale_product_configurator"
     ],
     "data": [
-        "views/product_template_view.xml",
         "views/sale_order_view.xml",
     ],
     "demo": [
