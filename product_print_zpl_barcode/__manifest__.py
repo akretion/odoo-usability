@@ -17,7 +17,7 @@ This module adds a wizard on product.product form view which allows to generate 
 * regular product barcode stickers. These stickers will show:
   * product name
   * product price
-  * EAN13 barcode
+  * EAN13 or EAN8 barcode
 
 * price/weight barcode stickers. These stickers will show:
   * product name
@@ -25,6 +25,8 @@ This module adds a wizard on product.product form view which allows to generate 
   * price
   * price per kg
   * EAN13 barcode
+
+It also allows to generate a private barcode for products without barcode. For that, you must configure the sequence "private.product.barcode". This sequence must be configured to produce 12 digits (for EAN13) or 7 digits (for EAN8) ; the checksum will be added automatically.
 
 This module has been written by Alexis de Lattre from Akretion
 <alexis.delattre@akretion.com>.
