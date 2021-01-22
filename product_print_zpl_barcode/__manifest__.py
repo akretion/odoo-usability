@@ -43,6 +43,7 @@ This module has been written by Alexis de Lattre from Akretion
         'security/ir.model.access.csv',
         'wizard/product_print_zpl_barcode_view.xml',
         'views/product.xml',
+        'data/barcode_sequence.xml',
     ],
     'installable': True,
 }

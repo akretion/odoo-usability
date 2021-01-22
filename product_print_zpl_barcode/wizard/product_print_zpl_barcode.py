@@ -5,6 +5,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.tools import float_compare, float_is_zero
+from stdnum.ean import is_valid
 import base64
 import re
 
@@ -172,7 +173,8 @@ class ProductPrintZplBarcode(models.TransientModel):
             # print "barcode FINAL=", barcode
         zpl_unicode = self._price_weight_barcode_type_zpl() % {
             'product_name': self.product_name,
-            'ean13_no_checksum': barcode[:12],
+            'ean_zpl_command': len(self.barcode) == 8 and 'B8' or 'BE',
+            'ean_no_checksum': barcode[:-1],
             'price_uom': self.price_uom,
             'price': self.price,
             'currency_symbol': self.currency_id.symbol,
@@ -189,7 +191,7 @@ class ProductPrintZplBarcode(models.TransientModel):
 
     @api.model
     def _price_weight_barcode_type_zpl(self):
-        label = u"""
+        label = """
 ^XA
 ^CI28
 ^PW304
@@ -201,7 +203,7 @@ class ProductPrintZplBarcode(models.TransientModel):
 ^FO15,30^FB270,3,0,C^FD%(product_name)s^FS
 ^CF0,25
 ^FO15,75^FB270,1,0,C^FD%(quantity).3f %(uom_name)s    %(price_uom).2f %(currency_symbol)s/%(uom_name)s^FS
-^FO60,110^BEN,50^FD%(ean13_no_checksum)s^FS
+^FO60,110^%(ean_zpl_command)sN,50^FD%(ean_no_checksum)s^FS
 ^PQ%(copies)s
 ^XZ
 """
@@ -209,7 +211,7 @@ class ProductPrintZplBarcode(models.TransientModel):
 
     @api.model
     def _product_barcode_type_zpl(self):
-        label = u"""
+        label = """
 ^XA
 ^CI28
 ^PW304
@@ -219,7 +221,7 @@ class ProductPrintZplBarcode(models.TransientModel):
 ^FO15,0^FB270,1,0,C^FD%(price_uom).2f %(currency_symbol)s^FS
 ^CF0,20
 ^FO15,30^FB270,3,0,C^FD%(product_name)s^FS
-^FO60,100^BEN,60^FD%(ean13_no_checksum)s^FS
+^FO60,100^%(ean_zpl_command)sN,60^FD%(ean_no_checksum)s^FS
 ^PQ%(copies)s
 ^XZ
 """
@@ -228,7 +230,8 @@ class ProductPrintZplBarcode(models.TransientModel):
     def _prepare_product_barcode_type(self):
         zpl_unicode = self._product_barcode_type_zpl() % {
             'product_name': self.product_name,
-            'ean13_no_checksum': self.barcode[:12],
+            'ean_zpl_command': len(self.barcode) == 8 and 'B8' or 'BE',
+            'ean_no_checksum': self.barcode[:-1],
             'price_uom': self.price_uom,
             'currency_symbol': self.currency_id.symbol,  # symbol is a required field
             'copies': self.copies,
@@ -242,12 +245,16 @@ class ProductPrintZplBarcode(models.TransientModel):
 
     def generate(self):
         assert self.barcode
-        if len(self.barcode) != 13:
+        if len(self.barcode) not in (8, 13):
             raise UserError(_(
-                "This wizard only supports EAN13 for the moment. Barcode '%s' "
-                "has %d digits instead of 13") % (
+                "This wizard only supports EAN8 and EAN13 for the moment. "
+                "Barcode '%s' has %d digits.") % (
                 self.barcode,
                 len(self.barcode)))
+        if not is_valid(self.barcode):
+            raise UserError(_(
+                "The barcode '%s' is not a valid EAN barcode "
+                "(wrong checksum).") % self.barcode)
         if not self.copies:
             raise UserError(_("The number of copies cannot be 0"))
         if self.barcode_type in ('price', 'weight'):
