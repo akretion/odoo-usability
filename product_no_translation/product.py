@@ -31,13 +31,6 @@ class ProductTemplate(models.Model):
     description = fields.Text(translate=False)
     name = fields.Char(translate=False)
 
-
-class ProductCategory(models.Model):
-    _inherit = "product.category"
-
-    name = fields.Char(translate=False)
-
-
 class ProductAttribute(models.Model):
     _inherit = "product.attribute"
 
