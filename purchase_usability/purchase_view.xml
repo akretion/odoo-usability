@@ -30,6 +30,9 @@
         <field name="date_approve" position="after">
             <field name="origin"/>
         </field>
+        <xpath expr="//field[@name='order_line']/tree/field[@name='company_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
     </field>
 </record>
 
