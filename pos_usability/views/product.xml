@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright 2015-2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<!-- put option "available in POS" at the top of product form view -->
+<record id="product_template_form_view" model="ir.ui.view">
+    <field name="name">usability.pos.product.template</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="point_of_sale.product_template_form_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//group[@name='pos']//field[@name='available_in_pos']" position="replace"/>
+        <xpath expr="//div[@name='options']//field[@name='sale_ok']/.." position="after">
+            <div name="available_in_pos">
+                <field name="available_in_pos"/>
+                <label for="available_in_pos"/>
+            </div>
+        </xpath>
+    </field>
+</record>
+
+<record id="product_template_search_view" model="ir.ui.view">
+    <field name="name">pos_usability.product.template.search</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_search_view"/>
+    <field name="arch" type="xml">
+        <field name="categ_id" position="after">
+            <field name="pos_categ_id" filter_domain="[('pos_categ_id', 'child_of', raw_value)]"/>
+        </field>
+        <filter name="categ_id" position="after">
+            <filter name="pos_categ_groupby" string="Point of Sale Category" context="{'group_by': 'pos_categ_id'}"/>
+        </filter>
+    </field>
+</record>
+
+
+</odoo>

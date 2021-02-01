@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright 2015-2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="product_pos_category_form_view" model="ir.ui.view">
+    <field name="name">pos_usability.pos.category.form</field>
+    <field name="model">pos.category</field>
+    <field name="inherit_id" ref="point_of_sale.product_pos_category_form_view"/>
+    <field name="arch" type="xml">
+        <div class="oe_title" position="before">
+            <div class="oe_button_box" name="button_box">
+                <button class="oe_stat_button"
+                        name="%(product.product_template_action_all)d"
+                        icon="fa-th-list"
+                        type="action"
+                        context="{'search_default_pos_categ_id': active_id}">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value"><field name="product_count"/></span>
+                        <span class="o_stat_text"> Products</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </field>
+</record>
+
+
+</odoo>
