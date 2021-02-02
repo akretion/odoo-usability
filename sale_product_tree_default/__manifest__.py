@@ -4,7 +4,7 @@
 
 {
     'name': 'Sale Product Tree Default',
-    'version': '12.0.1.0.0',
+    'version': '14.0.1.0.0',
     'category': 'Product',
     'license': 'AGPL-3',
     'summary': 'Tree view by default instead of kanban for Products',
@@ -18,5 +18,5 @@
     'data': [
         'views/product_template.xml'
     ],
-    'installable': False,
+    'installable': True,
 }
