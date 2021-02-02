@@ -14,25 +14,16 @@ class ProductTemplate(models.Model):
     # in v10, that field was defined in procurement_suggest, but we will
     # probably not port procurement_suggest because it is native in v14
     seller_id = fields.Many2one(
-        'res.partner', related='seller_ids.name', string='Main Supplier')
+        'res.partner', related='seller_ids.name', store=True,
+        string='Main Supplier')
 
-#    name = fields.Char(
-#        track_visibility='onchange')
-
-#    type = fields.Selection(
-#        track_visibility='onchange')
-
-#    categ_id = fields.Many2one(
-#        track_visibility='onchange')
-
-#    list_price = fields.Float(
-#        track_visibility='onchange')
-
-#    sale_ok = fields.Boolean(
-#        track_visibility='onchange')
-
-#    purchase_ok = fields.Boolean(
-#        track_visibility='onchange')
-
-#    active = fields.Boolean(
-#        track_visibility='onchange')
+    # in v14, I noticed that the tracking of the fields of product.template
+    # are only shown in the form view of product.template, not in the form
+    # view of product.product
+    name = fields.Char(tracking=10)
+    categ_id = fields.Many2one(tracking=20)
+    type = fields.Selection(tracking=30)
+    list_price = fields.Float(tracking=40)
+    sale_ok = fields.Boolean(tracking=50)
+    purchase_ok = fields.Boolean(tracking=60)
+    active = fields.Boolean(tracking=70)
