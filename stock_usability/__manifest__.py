@@ -33,6 +33,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'views/stock_picking.xml',
         'views/stock_warehouse.xml',
         'views/stock_warehouse_orderpoint.xml',
+        'views/product.xml',
         'views/procurement_group.xml',
         'views/procurement_scheduler_log.xml',
         'security/ir.model.access.csv',
