@@ -35,7 +35,7 @@ class ProductTemplate(models.Model):
                 "because it has %d variants and not just one.")
                 % (self.display_name, self.product_variant_count))
         action = self.env.ref(
-            'product_print_zpl_barcode.product_print_zpl_barcode_action').read()[0]
+            'product_print_zpl_barcode.product_print_zpl_barcode_action').sudo().read()[0]
         action['context'] = {
             'active_id': self.product_variant_ids[0].id,
             'active_model': 'product.product',
