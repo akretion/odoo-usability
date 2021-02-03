@@ -2,9 +2,8 @@
 
 <odoo>
 
-<record id="sale.product_template_action" model="ir.actions.act_window">
+<record id="point_of_sale.product_template_action_pos_product" model="ir.actions.act_window">
     <field name="view_mode">tree,form,kanban,activity</field>
-    <field name="view_id" eval="False"/>
 </record>
 
 </odoo>

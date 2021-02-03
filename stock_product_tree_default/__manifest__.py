@@ -1,10 +1,10 @@
-# © 2019 Akretion (http://www.akretion.com)
+# Copyright 2019-2021 Akretion (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
 {
     'name': 'Stock Product Tree Default',
-    'version': '12.0.1.0.0',
+    'version': '14.0.1.0.0',
     'category': 'Product',
     'license': 'AGPL-3',
     'summary': 'Tree view by default instead of kanban for Products',
@@ -18,5 +18,5 @@
     'data': [
         'views/product_template.xml'
     ],
-    'installable': False,
+    'installable': True,
 }
