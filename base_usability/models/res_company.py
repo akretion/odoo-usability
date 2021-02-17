@@ -51,7 +51,7 @@ class ResCompany(models.Model):
                 'label': _('Website:')},
             'vat': {
                 'value': self.vat,
-                'label': _('TVA :')},  # TODO translate
+                'label': _('VAT:')},
             }
         return options
 

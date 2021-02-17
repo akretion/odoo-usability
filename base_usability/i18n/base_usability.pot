@@ -1,0 +1,187 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* base_usability
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-17 16:46+0000\n"
+"PO-Revision-Date: 2021-02-17 16:46+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base_usability
+#: model:ir.model,name:base_usability.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model.fields,field_description:base_usability.field_res_partner_bank__bank_name
+msgid "Bank Name"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model,name:base_usability.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model,name:base_usability.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: base_usability
+#: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
+msgid "Currency"
+msgstr ""
+
+#. module: base_usability
+#: code:addons/base_usability/models/res_partner.py:0
+#: code:addons/base_usability/models/res_partner.py:0
+#, python-format
+msgid "Customer Number:"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model.fields,field_description:base_usability.field_ir_mail_server__display_name
+#: model:ir.model.fields,field_description:base_usability.field_ir_model__display_name
+#: model:ir.model.fields,field_description:base_usability.field_res_company__display_name
+#: model:ir.model.fields,field_description:base_usability.field_res_partner__display_name
+#: model:ir.model.fields,field_description:base_usability.field_res_partner_bank__display_name
+#: model:ir.model.fields,field_description:base_usability.field_res_partner_category__display_name
+#: model:ir.model.fields,field_description:base_usability.field_res_users__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: base_usability
+#: code:addons/base_usability/models/res_company.py:0
+#: code:addons/base_usability/models/res_partner.py:0
+#, python-format
+msgid "E-mail:"
+msgstr ""
+
+#. module: base_usability
+#: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
+msgid "Group By"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model.fields,field_description:base_usability.field_ir_mail_server__id
+#: model:ir.model.fields,field_description:base_usability.field_ir_model__id
+#: model:ir.model.fields,field_description:base_usability.field_res_company__id
+#: model:ir.model.fields,field_description:base_usability.field_res_partner__id
+#: model:ir.model.fields,field_description:base_usability.field_res_partner_bank__id
+#: model:ir.model.fields,field_description:base_usability.field_res_partner_category__id
+#: model:ir.model.fields,field_description:base_usability.field_res_users__id
+msgid "ID"
+msgstr ""
+
+#. module: base_usability
+#: model_terms:ir.ui.view,arch_db:base_usability.view_module_filter
+msgid "Installable"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model.fields,field_description:base_usability.field_ir_mail_server____last_update
+#: model:ir.model.fields,field_description:base_usability.field_ir_model____last_update
+#: model:ir.model.fields,field_description:base_usability.field_res_company____last_update
+#: model:ir.model.fields,field_description:base_usability.field_res_partner____last_update
+#: model:ir.model.fields,field_description:base_usability.field_res_partner_bank____last_update
+#: model:ir.model.fields,field_description:base_usability.field_res_partner_category____last_update
+#: model:ir.model.fields,field_description:base_usability.field_res_users____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model,name:base_usability.model_ir_mail_server
+msgid "Mail Server"
+msgstr ""
+
+#. module: base_usability
+#: code:addons/base_usability/models/res_partner.py:0
+#, python-format
+msgid "Mobile:"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model,name:base_usability.model_ir_model
+msgid "Models"
+msgstr ""
+
+#. module: base_usability
+#: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
+msgid "Name or Code"
+msgstr ""
+
+#. module: base_usability
+#: model_terms:ir.ui.view,arch_db:base_usability.view_res_partner_filter
+msgid "Name or Email or Reference"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model.fields,field_description:base_usability.field_res_partner__name_title
+#: model:ir.model.fields,field_description:base_usability.field_res_users__name_title
+msgid "Name with Title"
+msgstr ""
+
+#. module: base_usability
+#: model:res.groups,name:base_usability.group_nobody
+msgid "Nobody (used to hide native menus)"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model,name:base_usability.model_res_partner_category
+msgid "Partner Tags"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model.fields,field_description:base_usability.field_res_partner__ref
+#: model:ir.model.fields,field_description:base_usability.field_res_users__ref
+msgid "Reference"
+msgstr ""
+
+#. module: base_usability
+#: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
+msgid "Search Countries"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model.fields,field_description:base_usability.field_res_partner_category__name
+msgid "Tag Name"
+msgstr ""
+
+#. module: base_usability
+#: code:addons/base_usability/models/res_company.py:0
+#: code:addons/base_usability/models/res_partner.py:0
+#, python-format
+msgid "Tel:"
+msgstr ""
+
+#. module: base_usability
+#: model:ir.model,name:base_usability.model_res_users
+msgid "Users"
+msgstr ""
+
+#. module: base_usability
+#: code:addons/base_usability/models/res_partner.py:0
+#, python-format
+msgid "VAT Number:"
+msgstr ""
+
+#. module: base_usability
+#: code:addons/base_usability/models/res_company.py:0
+#, python-format
+msgid "VAT:"
+msgstr ""
+
+#. module: base_usability
+#: code:addons/base_usability/models/res_company.py:0
+#: code:addons/base_usability/models/res_partner.py:0
+#, python-format
+msgid "Website:"
+msgstr ""

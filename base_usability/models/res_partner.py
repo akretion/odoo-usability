@@ -56,9 +56,8 @@ class ResPartner(models.Model):
 
     # for reports
     def _display_full_address(
-            self, details=[
-                'company', 'name', 'address', 'phone',
-                'mobile', 'email'],
+            self,
+            details=['company', 'name', 'address', 'phone', 'mobile', 'email'],
             icon=True):
         self.ensure_one()
         # To make the icons work with py3o with PDF export, on the py3o server:
@@ -119,7 +118,19 @@ class ResPartner(models.Model):
                 },
             'address': {
                 'value': self._display_address(without_company=True),
-                }
+                },
+            'vat': {
+                'value': self.commercial_partner_id.vat,
+                'label': _('VAT Number:'),
+                },
+            'commercial_ref': {
+                'value': self.commercial_partner_id.ref,
+                'label': _('Customer Number:'),
+                },
+            'ref': {
+                'value': self.ref,
+                'label': _('Customer Number:'),
+                },
             }
         res = []
         for detail in details:
