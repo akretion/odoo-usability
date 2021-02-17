@@ -121,7 +121,7 @@ class AccountMove(models.Model):
         res = []
         has_sections = False
         subtotal = 0.0
-        sign = self.type == 'out_refund' and -1 or 1
+        sign = self.move_type == 'out_refund' and -1 or 1
         for line in self.invoice_line_ids:
             if line.display_type == 'line_section':
                 # insert line
