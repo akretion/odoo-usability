@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-17 16:47+0000\n"
-"PO-Revision-Date: 2021-02-17 16:47+0000\n"
+"POT-Creation-Date: 2021-02-17 16:55+0000\n"
+"PO-Revision-Date: 2021-02-17 16:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "Nom affiché"
 #: code:addons/base_usability/models/res_partner.py:0
 #, python-format
 msgid "E-mail:"
-msgstr ""
+msgstr "E-mail :"
 
 #. module: base_usability
 #: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
@@ -106,7 +106,7 @@ msgstr "Serveur d'email"
 #: code:addons/base_usability/models/res_partner.py:0
 #, python-format
 msgid "Mobile:"
-msgstr "Portable:"
+msgstr "Portable :"
 
 #. module: base_usability
 #: model:ir.model,name:base_usability.model_ir_model
@@ -149,6 +149,13 @@ msgstr "Référence"
 #: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
 msgid "Search Countries"
 msgstr ""
+
+#. module: base_usability
+#: code:addons/base_usability/models/res_partner.py:0
+#: code:addons/base_usability/models/res_partner.py:0
+#, python-format
+msgid "Supplier Number:"
+msgstr "N° fournisseur :"
 
 #. module: base_usability
 #: model:ir.model.fields,field_description:base_usability.field_res_partner_category__name

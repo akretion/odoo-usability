@@ -131,6 +131,15 @@ class ResPartner(models.Model):
                 'value': self.ref,
                 'label': _('Customer Number:'),
                 },
+            # Same with 'supplier_' prefix, to change the label
+            'supplier_commercial_ref': {
+                'value': self.commercial_partner_id.ref,
+                'label': _('Supplier Number:'),
+                },
+            'supplier_ref': {
+                'value': self.ref,
+                'label': _('Supplier Number:'),
+                },
             }
         res = []
         for detail in details:
