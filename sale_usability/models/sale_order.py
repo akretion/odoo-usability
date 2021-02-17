@@ -47,9 +47,8 @@ class SaleOrder(models.Model):
                     res.append({'subtotal': subtotal})
                 subtotal = 0.0  # reset counter
                 has_sections = True
-            else:
-                if not line.display_type:
-                    subtotal += line.price_subtotal
+            elif not line.display_type:
+                subtotal += line.price_subtotal
             res.append({'line': line})
         if has_sections:  # insert last subtotal line
             res.append({'subtotal': subtotal})
