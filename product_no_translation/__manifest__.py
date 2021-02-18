@@ -23,7 +23,7 @@
 
 {
     'name': 'Product no Translation',
-    'version': '12.0.0.0.1',
+    'version': '14.0.1.0.0',
     'category': 'Sales Management',
     'license': 'AGPL-3',
     'summary': 'For companies that work with only one language',
@@ -37,5 +37,5 @@ And it reduces the start time of the Point of Sale !
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['product'],
-    'installable': False,
+    'installable': True,
 }
