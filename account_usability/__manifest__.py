@@ -25,6 +25,7 @@
         'views/account_move.xml',
         'views/account_menu.xml',
         'views/account_tax.xml',
+        'views/product.xml',
         'views/res_config_settings.xml',
         'views/res_partner.xml',
         'views/account_report.xml',
