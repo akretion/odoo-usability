@@ -26,7 +26,6 @@ Here, we set all those fields on account.group_account_invoice
             <attribute name="groups">account.group_account_invoice</attribute>
         </field>
         <field name="list_price" position="replace">
-            <label for="list_price"/>
             <div name="list_price">
                 <field name="list_price" widget='monetary' options="{'currency_field': 'currency_id'}" class="oe_inline"/>
                 <label for="sale_price_type" string=" "/>
