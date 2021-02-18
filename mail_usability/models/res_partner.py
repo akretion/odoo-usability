@@ -13,16 +13,15 @@ class ResPartner(models.Model):
 
     @api.model
     def _notify(self, message, rdata, record, force_send=False,
-		send_after_commit=True, model_description=False,
-		mail_auto_delete=True):
-	# use an empty layout for notification by default
-        if not self._context.get('custom_layout'):
-           self = self.with_context(
-		custom_layout='mail_usability.mail_template_notification')
+                send_after_commit=True, model_description=False,
+                mail_auto_delete=True):
+        # use an empty layout for notification by default
+        if not message.layout:
+            message.layout = 'mail_usability.message_notification_email_usability'
         # Never auto delete notification email
         # fucking to hard to debug when message have been delete
         mail_auto_delete = False
         return super(ResPartner, self)._notify(
-	    message=message, rdata=rdata, record=record,
-	    force_send=force_send, send_after_commit=send_after_commit,
-	    model_description=model_description, mail_auto_delete=mail_auto_delete)
+            message=message, rdata=rdata, record=record,
+            force_send=force_send, send_after_commit=send_after_commit,
+            model_description=model_description, mail_auto_delete=mail_auto_delete)

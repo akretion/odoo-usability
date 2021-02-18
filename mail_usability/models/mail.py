@@ -15,10 +15,10 @@ class MailThread(models.AbstractModel):
         _logger.debug('Skip automatic subscribe notification')
         return False
 
-    def _message_auto_subscribe_notify(self, partner_ids):
+    def _message_auto_subscribe_notify(self, partner_ids, template):
         if self._active_message_auto_subscribe_notify():
             return super(MailThread, self)._message_auto_subscribe_notify(
-                partner_ids)
+                partner_ids, template)
         else:
             return True
 
