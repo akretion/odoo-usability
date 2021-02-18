@@ -10,4 +10,9 @@
         <field name="body_html">${object.body | safe}</field>
     </record>
 
+        <template id="message_notification_email_usability">
+<div t-raw="message.body"/>
+        </template>
+
+
 </odoo>
