@@ -18,7 +18,7 @@ class StockValuationXlsx(models.TransientModel):
     _name = 'stock.valuation.xlsx'
     _description = 'Generate XLSX report for stock valuation'
 
-    export_file = fields.Binary(string='XLSX Report', readonly=True)
+    export_file = fields.Binary(string='XLSX Report', readonly=True, attachment=True)
     export_filename = fields.Char(readonly=True)
     # I don't use ir.actions.url on v12, because it renders
     # the wizard unusable after the first report generation, which creates
@@ -38,8 +38,10 @@ class StockValuationXlsx(models.TransientModel):
         help="The childen locations of the selected locations will "
         u"be taken in the valuation.")
     categ_ids = fields.Many2many(
-        'product.category', string='Product Categories',
-        states={'done': [('readonly', True)]})
+        'product.category', string='Product Category Filter',
+        help="Leave this field empty to have a stock valuation for all your products.",
+        states={'done': [('readonly', True)]},
+        )
     source = fields.Selection([
         ('inventory', 'Physical Inventory'),
         ('stock', 'Stock Levels'),
@@ -59,7 +61,7 @@ class StockValuationXlsx(models.TransientModel):
     categ_subtotal = fields.Boolean(
         string='Subtotals per Categories', default=True,
         states={'done': [('readonly', True)]},
-        help="Show a subtotal per product category")
+        help="Show a subtotal per product category.")
     standard_price_date = fields.Selection([
         ('past', 'Past Date or Inventory Date'),
         ('present', 'Current'),
@@ -156,22 +158,29 @@ class StockValuationXlsx(models.TransientModel):
         logger.debug('End compute_product_data')
         return product_id2data
 
-    def id2name(self, product_ids):
-        logger.debug('Start id2name')
+    @api.model
+    def product_categ_id2name(self, categories):
         pco = self.env['product.category']
-        splo = self.env['stock.production.lot']
-        slo = self.env['stock.location'].with_context(active_test=False)
-        puo = self.env['uom.uom'].with_context(active_test=False)
         categ_id2name = {}
         categ_domain = []
-        if self.categ_ids:
-            categ_domain = [('id', 'child_of', self.categ_ids.ids)]
+        if categories:
+            categ_domain = [('id', 'child_of', categories.ids)]
         for categ in pco.search_read(categ_domain, ['display_name']):
             categ_id2name[categ['id']] = categ['display_name']
+        return categ_id2name
+
+    @api.model
+    def uom_id2name(self):
+        puo = self.env['uom.uom'].with_context(active_test=False)
         uom_id2name = {}
         uoms = puo.search_read([], ['name'])
         for uom in uoms:
             uom_id2name[uom['id']] = uom['name']
+        return uom_id2name
+
+    @api.model
+    def prodlot_id2name(self, product_ids):
+        splo = self.env['stock.production.lot']
         lot_id2data = {}
         lot_fields = ['name']
         if hasattr(splo, 'expiry_date'):
@@ -181,13 +190,17 @@ class StockValuationXlsx(models.TransientModel):
             [('product_id', 'in', product_ids)], lot_fields)
         for lot in lots:
             lot_id2data[lot['id']] = lot
+        return lot_id2data
+
+    @api.model
+    def stock_location_id2name(self, location):
+        slo = self.env['stock.location'].with_context(active_test=False)
         loc_id2name = {}
         locs = slo.search_read(
             [('id', 'child_of', self.location_id.id)], ['display_name'])
         for loc in locs:
             loc_id2name[loc['id']] = loc['display_name']
-        logger.debug('End id2name')
-        return categ_id2name, uom_id2name, lot_id2data, loc_id2name
+        return loc_id2name
 
     def compute_data_from_inventory(self, product_ids, prec_qty):
         self.ensure_one()
@@ -340,7 +353,10 @@ class StockValuationXlsx(models.TransientModel):
             company_id, in_stock_product_ids,
             standard_price_past_date=standard_price_past_date)
         data_res = self.group_result(data, split_by_lot, split_by_location)
-        categ_id2name, uom_id2name, lot_id2data, loc_id2name = self.id2name(product_ids)
+        categ_id2name = self.product_categ_id2name(self.categ_ids)
+        uom_id2name = self.uom_id2name()
+        lot_id2data = self.prodlot_id2name(in_stock_product_ids)
+        loc_id2name = self.stock_location_id2name(self.location_id)
         res = self.stringify_and_sort_result(
             product_ids, product_id2data, data_res, prec_qty, prec_price, prec_cur_rounding,
             categ_id2name, uom_id2name, lot_id2data, loc_id2name)
