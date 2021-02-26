@@ -124,7 +124,7 @@ class StockVariationXlsx(models.TransientModel):
         ppo = self.env['product.product']
         ppho = self.env['product.price.history']
         fields_list = self._prepare_product_fields()
-        if not standard_price_end_date:
+        if not standard_price_start_date or not standard_price_end_date:
             fields_list.append('standard_price')
         products = ppo.search_read([('id', 'in', filter_product_ids)], fields_list)
         product_id2data = {}
