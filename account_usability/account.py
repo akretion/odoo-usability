@@ -98,20 +98,18 @@ class AccountInvoice(models.Model):
         return res
 
     # I really hate to see a "/" in the 'name' field of the account.move.line
-    # generated from customer invoices linked to the partners' account because:
-    # 1) the label of an account move line is an important field, we can't
-    #    write a rubbish '/' in it !
-    # 2) the 'name' field of the account.move.line is used in the overdue
-    # letter, and '/' is not meaningful for our customer !
+    # generated from customer invoices linked to the partners' account because
+    # the label of an account move line is an important field, we can't
+    # write a rubbish '/' in it !
+    # On a related topic, you should also consider to use this PR:
+    # https://github.com/OCA/account-invoicing/pull/882
     @api.multi
     def action_move_create(self):
         res = super(AccountInvoice, self).action_move_create()
         for inv in self:
             self._cr.execute(
-                "UPDATE account_move_line SET name= "
-                "CASE WHEN name='/' THEN %s "
-                "ELSE %s||' - '||name END "
-                "WHERE move_id=%s", (inv.number, inv.number, inv.move_id.id))
+                "UPDATE account_move_line SET name=%s "
+                "WHERE move_id=%s AND name='/'", (inv.number, inv.move_id.id))
             self.invalidate_cache()
         return res
 
