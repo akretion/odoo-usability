@@ -10,6 +10,9 @@ class MrpProduction(models.Model):
     _inherit = 'mrp.production'
     _order = 'id desc'
 
+    date_planned_start = fields.Datetime(track_visibility='onchange')
+    date_planned_finished = fields.Datetime(track_visibility='onchange')
+
     @api.model
     def get_stock_move_sold_out_report(self, move):
         lines = move.active_move_line_ids
