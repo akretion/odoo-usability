@@ -49,7 +49,7 @@ class AccountAbstractPayment(models.AbstractModel):
     def _compute_payment_amount(self, invoices=None, currency=None):
         amount = super(AccountAbstractPayment, self)._compute_payment_amount(
             invoices=invoices, currency=currency)
-        if self.sale_id:
+        if hasattr(self, 'sale_id') and self.sale_id:
             payment_currency = currency
             if not payment_currency:
                 payment_currency = self.sale_id.currency_id
