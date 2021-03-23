@@ -71,12 +71,20 @@ class SaleOrderLine(models.Model):
         # When the user has manually set a custom price
         # he is often upset when Odoo changes it when he changes the qty
         # So we add a warning in which we recall the old price.
+        PricelistItem = self.env['product.pricelist.item']
         res = {}
         old_price = self.price_unit
         super().product_uom_change()
+        product_context = dict(self.env.context,
+                               partner_id=self.order_id.partner_id.id,
+                               date=self.order_id.date_order,
+                               uom=self.product_uom.id)
+        price, rule_id = self.order_id.pricelist_id.with_context(
+            product_context).get_product_price_rule(self.product_id, self.product_uom_qty or 1.0, self.order_id.partner_id)
+        pricelist_item = PricelistItem.browse(rule_id)
         new_price = self.price_unit
         prec = self.env['decimal.precision'].precision_get('Product Price')
-        if float_compare(old_price, new_price, precision_digits=prec):
+        if pricelist_item.base != 'supplierinfo' and float_compare(old_price, new_price, precision_digits=prec):
             pricelist = self.order_id.pricelist_id
             res['warning'] = {
                 'title': _('Price updated'),
