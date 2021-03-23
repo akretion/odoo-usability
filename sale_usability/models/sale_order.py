@@ -75,14 +75,16 @@ class SaleOrderLine(models.Model):
         res = {}
         old_price = self.price_unit
         super().product_uom_change()
-        product_context = dict(self.env.context,
-                               partner_id=self.order_id.partner_id.id,
-                               date=self.order_id.date_order,
-                               uom=self.product_uom.id)
-        price, rule_id = self.order_id.pricelist_id.with_context(
-            product_context).get_product_price_rule(self.product_id, self.product_uom_qty or 1.0, self.order_id.partner_id)
-        pricelist_item = PricelistItem.browse(rule_id)
         new_price = self.price_unit
+        pricelist_item = PricelistItem.browse(False)
+        if self.product_id:
+            product_context = dict(self.env.context,
+                                   partner_id=self.order_id.partner_id.id,
+                                   date=self.order_id.date_order,
+                                   uom=self.product_uom.id)
+            price, rule_id = self.order_id.pricelist_id.with_context(
+                product_context).get_product_price_rule(self.product_id, self.product_uom_qty or 1.0, self.order_id.partner_id)
+            pricelist_item = PricelistItem.browse(rule_id)
         prec = self.env['decimal.precision'].precision_get('Product Price')
         if pricelist_item.base != 'supplierinfo' and float_compare(old_price, new_price, precision_digits=prec):
             pricelist = self.order_id.pricelist_id
