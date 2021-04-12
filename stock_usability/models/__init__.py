@@ -5,5 +5,5 @@ from . import stock_warehouse_orderpoint
 from . import stock_quant
 from . import procurement_group
 from . import procurement_scheduler_log
-from . import product_template
+from . import product
 from . import res_partner

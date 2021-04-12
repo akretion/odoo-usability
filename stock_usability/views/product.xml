@@ -19,5 +19,38 @@
     </field>
 </record>
 
+<record id="product_template_form_view_procurement_button" model="ir.ui.view">
+    <field name="name">stock_usability.product.template.form</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="stock.product_template_form_view_procurement_button"/>
+    <field name="arch" type="xml">
+        <button name="action_view_stock_move_lines" position="before">
+            <button string="Stock Moves"
+                type="object"
+                name= "action_view_stock_move"
+                attrs="{'invisible': [('type', 'not in', ('product', 'consu'))]}"
+                groups="stock.group_stock_user"
+                class="oe_stat_button" icon="fa-exchange"
+                />
+        </button>
+    </field>
+</record>
+
+<record id="product_form_view_procurement_button" model="ir.ui.view">
+    <field name="name">stock_usability.product.product.form</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="stock.product_form_view_procurement_button"/>
+    <field name="arch" type="xml">
+        <button name="action_view_stock_move_lines" position="before">
+            <button string="Stock Moves"
+                type="object"
+                name= "action_view_stock_move"
+                attrs="{'invisible': [('type', 'not in', ('product', 'consu'))]}"
+                groups="stock.group_stock_user"
+                class="oe_stat_button" icon="fa-exchange"
+                />
+        </button>
+    </field>
+</record>
 
 </odoo>
