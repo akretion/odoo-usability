@@ -15,7 +15,7 @@ class ProductTemplate(models.Model):
     type = fields.Selection(default='product')
 
     def action_view_stock_move(self):
-        action = self.env.ref('stock.stock_move_action').read()[0]
+        action = self.env.ref('stock.stock_move_action').sudo().read()[0]
         action['domain'] = [('product_id.product_tmpl_id', 'in', self.ids)]
         action['context'] = {'search_default_done': True}
         return action
@@ -25,7 +25,7 @@ class ProductProduct(models.Model):
     _inherit = 'product.product'
 
     def action_view_stock_move(self):
-        action = self.env.ref('stock.stock_move_action').read()[0]
+        action = self.env.ref('stock.stock_move_action').sudo().read()[0]
         action['domain'] = [('product_id', 'in', self.ids)]
         action['context'] = {'search_default_done': True}
         return action
