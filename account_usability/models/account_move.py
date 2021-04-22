@@ -5,6 +5,7 @@
 from odoo import api, fields, models
 from odoo.tools import float_is_zero
 from odoo.tools.misc import format_date
+from odoo.osv import expression
 
 
 class AccountMove(models.Model):
@@ -156,6 +157,24 @@ class AccountMove(models.Model):
                      x.name, format_date(inv.env, self.date_order))
                      for x in sales]
             inv.sale_dates = ", ".join(dates)
+
+    # allow to manually create moves not only in general journals,
+    # but also in cash journal and check journals (= bank journals not linked to a bank account)
+    @api.depends('company_id', 'invoice_filter_type_domain')
+    def _compute_suitable_journal_ids(self):
+        for move in self:
+            if move.invoice_filter_type_domain:
+                super(AccountMove, move)._compute_suitable_journal_ids()
+            else:
+                company_id = move.company_id.id or self.env.company.id
+                domain = expression.AND([
+                        [('company_id', '=', company_id)],
+                        expression.OR([
+                            [('type', 'in', ('general', 'cash'))],
+                            [('type', '=', 'bank'), ('bank_account_id', '=', False)]
+                            ])
+                        ])
+                move.suitable_journal_ids = self.env['account.journal'].search(domain)
 
 
 class AccountMoveLine(models.Model):
