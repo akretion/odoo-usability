@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="procurement_mass_cancel_form" model="ir.ui.view">
+    <field name="model">procurement.mass.cancel</field>
+    <field name="arch" type="xml">
+        <form>
+            <group name="main">
+                <div>This wizard will cancel the selected procurements which are not already in <i>Done</i> state.</div>
+            </group>
+            <footer>
+               <button type="object" name="run" string="Cancel Procurements" class="btn-primary"/>
+                <button special="cancel" string="Close" class="btn-default"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<act_window
+    id="procurement_mass_cancel_action"
+    name="Cancel Procurements"
+    res_model="procurement.mass.cancel"
+    src_model="procurement.order"
+    view_mode="form"
+    target="new"
+    multi="True"
+    key2="client_action_multi"
+    />
+
+</odoo>

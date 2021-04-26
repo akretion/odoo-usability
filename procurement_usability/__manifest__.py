@@ -23,6 +23,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'depends': ['procurement'],
     'data': [
         'procurement_view.xml',
+        'wizard/procurement_mass_cancel_view.xml',
         ],
     'installable': True,
 }
