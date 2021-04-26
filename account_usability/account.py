@@ -704,3 +704,22 @@ class ResConfigSettings(models.TransientModel):
 
     transfer_account_id = fields.Many2one(
         related='company_id.transfer_account_id', readonly=False)
+
+
+class AccountChartTemplate(models.Model):
+    _inherit = "account.chart.template"
+
+    @api.model
+    def _prepare_transfer_account_template(self):
+        """Change the type of default account in order to be
+        compliant with _check_account_type_on_bank_journal
+        Used at installation of payment modules like stripe
+        See https://github.com/akretion/odoo-usability/issues/115
+        """
+        vals = super()._prepare_transfer_account_template()
+        current_assets_type = self.env.ref(
+            'account.data_account_type_liquidity', raise_if_not_found=False)
+        vals.update({
+            'user_type_id': current_assets_type and current_assets_type.id or False,
+        })
+        return vals
