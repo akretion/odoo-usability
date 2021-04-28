@@ -21,6 +21,9 @@
             <attribute name="decoration-info">product_qty &gt; theoretical_qty</attribute>
             <attribute name="decoration-danger">product_qty &lt; theoretical_qty</attribute>
         </tree>
+        <field name="location_id" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
     </field>
 </record>
 
