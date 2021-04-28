@@ -195,6 +195,8 @@ class AccountMoveLine(models.Model):
     matched_credit_ids = fields.One2many(string='Partial Reconcile Credit')
     reconcile_string = fields.Char(
         compute='_compute_reconcile_string', string='Reconcile', store=True)
+    # for optional display in tree view
+    product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
 
     def show_account_move_form(self):
         self.ensure_one()

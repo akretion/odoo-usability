@@ -26,6 +26,9 @@
         <field name="date_order" position="after">
             <field name="client_order_ref"/>
         </field>
+        <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
+            <field name="product_barcode" optional="hide"/>
+        </xpath>
     </field>
 </record>
 

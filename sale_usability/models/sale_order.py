@@ -66,6 +66,9 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
+    # for optional display in tree view
+    product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
+
     @api.onchange('product_uom', 'product_uom_qty')
     def product_uom_change(self):
         # When the user has manually set a custom price

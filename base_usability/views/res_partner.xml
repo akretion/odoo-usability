@@ -16,6 +16,10 @@
         <xpath expr="//field[@name='child_ids']/form//field[@name='title']" position="attributes">
             <attribute name="attrs"></attribute>
         </xpath>
+        <!-- Show double VAT partner even when not in editable mode -->
+        <div attrs="{'invisible': [('same_vat_partner_id', '=', False)]}" position="attributes">
+            <attribute name="class">alert alert-warning</attribute>
+        </div>
     </field>
 </record>
 

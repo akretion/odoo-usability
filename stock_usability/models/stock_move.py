@@ -2,7 +2,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, _
+from odoo import fields, models, _
 from odoo.exceptions import UserError
 import logging
 
@@ -11,6 +11,9 @@ logger = logging.getLogger(__name__)
 
 class StockMove(models.Model):
     _inherit = 'stock.move'
+
+    # for optional display in tree view
+    product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
 
 #    def name_get(self):
 #        '''name_get of stock_move is important for the reservation of the
@@ -48,6 +51,9 @@ class StockMove(models.Model):
 
 class StockMoveLine(models.Model):
     _inherit = 'stock.move.line'
+
+    # for optional display in tree view
+    product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
 
     # TODO: I think it's not complete
     def button_do_unreserve(self):

@@ -31,8 +31,9 @@
         <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='location_id']" position="replace"/>
         <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='location_dest_id']" position="replace"/>
         <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="after">
-            <field name="location_id" groups="stock.group_stock_multi_locations"/>
-            <field name="location_dest_id" groups="stock.group_stock_multi_locations"/>
+            <field name="product_barcode" optional="hide"/>
+            <field name="location_id" groups="stock.group_stock_multi_locations" optional="show"/>
+            <field name="location_dest_id" groups="stock.group_stock_multi_locations" optional="show"/>
         </xpath>
         <xpath expr="//field[@name='move_ids_without_package']/tree/button[@name='action_assign_serial']" position="after">
             <button type="object" name="button_do_unreserve" string="Unreserve"
@@ -40,15 +41,6 @@
                 states="partially_available,assigned"
                 icon="fa-ban"/>
         </xpath>
-        <!-- STOCK MOVE LINE -->
-        <!--
-        <xpath expr="//field[@name='move_line_ids_without_package']/tree/field[@name='location_id']" position="attributes">
-            <attribute name="attrs">{}</attribute>
-        </xpath>
-        <xpath expr="//field[@name='move_line_ids_without_package']/tree/field[@name='location_dest_id']" position="attributes">
-            <attribute name="attrs">{}</attribute>
-        </xpath>
-        -->
     </field>
 </record>
 

@@ -58,6 +58,9 @@
                 states="partially_available,assigned"
                 icon="fa-ban"/>
         </field>
+        <field name="product_id" position="after">
+            <field name="product_barcode" optional="hide"/>
+        </field>
     </field>
 </record>
 
@@ -77,6 +80,20 @@
                 groups="stock.group_stock_user"
                 states="partially_available,assigned"
                 icon="fa-ban"/>
+        </field>
+        <field name="product_id" position="after">
+            <field name="product_barcode" optional="hide"/>
+        </field>
+    </field>
+</record>
+
+<!-- View embedded in picking -->
+<record id="view_stock_move_line_detailed_operation_tree" model="ir.ui.view">
+    <field name="model">stock.move.line</field>
+    <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree" />
+    <field name="arch" type="xml">
+        <field name="product_id" position="after">
+            <field name="product_barcode" optional="hide"/>
         </field>
     </field>
 </record>

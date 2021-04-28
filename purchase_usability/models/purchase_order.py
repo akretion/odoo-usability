@@ -71,3 +71,10 @@ class PurchaseOrder(models.Model):
         #    {'subtotal': 8932.23},
         # ]
         return res
+
+
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
+
+    # for optional display in tree view
+    product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
