@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 import logging
 
 logger = logging.getLogger(__name__)
@@ -98,7 +99,7 @@ class StockMove(models.Model):
             picking = move.picking_id
             if picking:
                 product = move.product_id
-                picking.message_post(_(
+                picking.message_post(body=_(
                     "Product <a href=# data-oe-model=product.product "
                     "data-oe-id=%d>%s</a> qty %s %s <b>unreserved</b>")
                     % (product.id, product.display_name,
@@ -120,7 +121,7 @@ class StockMoveLine(models.Model):
             picking = moveline.move_id.picking_id
             if picking:
                 product = moveline.product_id
-                picking.message_post(_(
+                picking.message_post(body=_(
                     "Product <a href=# data-oe-model=product.product "
                     "data-oe-id=%d>%s</a> qty %s %s <b>unreserved</b>")
                     % (product.id, product.display_name,
