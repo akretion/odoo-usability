@@ -50,11 +50,11 @@ class AccountMove(models.Model):
     def _compute_has_attachment(self):
         iao = self.env['ir.attachment']
         for move in self:
-            if iao.search([
+            if iao.search_count([
                     ('res_model', '=', 'account.move'),
                     ('res_id', '=', move.id),
                     ('type', '=', 'binary'),
-                    ('company_id', '=', move.company_id.id)], limit=1):
+                    ('company_id', '=', move.company_id.id)]):
                 move.has_attachment = True
             else:
                 move.has_attachment = False

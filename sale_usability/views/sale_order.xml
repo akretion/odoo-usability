@@ -65,6 +65,10 @@
         <filter name="order_month" position="after">
             <filter string="State" name="state_groupby" context="{'group_by': 'state'}"/>
         </filter>
+        <filter name="activities_upcoming_all" position="after">
+            <separator/>
+            <filter name="no_attachment" string="Missing Attachment" domain="[('has_attachment', '=', False)]"/>
+        </filter>
     </field>
 </record>
 

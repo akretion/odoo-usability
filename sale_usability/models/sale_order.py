@@ -21,6 +21,9 @@ class SaleOrder(models.Model):
     fiscal_position_id = fields.Many2one(tracking=True)
     # for reports
     has_discount = fields.Boolean(compute='_compute_has_discount')
+    has_attachment = fields.Boolean(
+        compute='_compute_has_attachment',
+        search='_search_has_attachment')
 
     @api.depends('order_line.discount')
     def _compute_has_discount(self):
@@ -33,6 +36,30 @@ class SaleOrder(models.Model):
                     has_discount = True
                     break
             order.has_discount = has_discount
+
+    def _compute_has_attachment(self):
+        iao = self.env['ir.attachment']
+        for order in self:
+            if iao.search_count([
+                    ('res_model', '=', 'sale.order'),
+                    ('res_id', '=', order.id),
+                    ('type', '=', 'binary'),
+                    ('company_id', '=', order.company_id.id)]):
+                order.has_attachment = True
+            else:
+                order.has_attachment = False
+
+    def _search_has_attachment(self, operator, value):
+        att_order_ids = {}
+        if operator == '=':
+            search_res = self.env['ir.attachment'].search_read([
+                ('res_model', '=', 'sale.order'),
+                ('type', '=', 'binary'),
+                ('res_id', '!=', False)], ['res_id'])
+            for att in search_res:
+                att_order_ids[att['res_id']] = True
+        res = [('id', value and 'in' or 'not in', list(att_order_ids))]
+        return res
 
     # for report
     def py3o_lines_layout(self):
@@ -67,7 +94,8 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     # for optional display in tree view
-    product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
+    product_barcode = fields.Char(
+        related='product_id.barcode', string="Product Barcode")
 
     @api.onchange('product_uom', 'product_uom_qty')
     def product_uom_change(self):
