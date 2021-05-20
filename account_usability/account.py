@@ -57,11 +57,11 @@ class AccountInvoice(models.Model):
     def _compute_has_attachment(self):
         iao = self.env['ir.attachment']
         for inv in self:
-            if iao.search([
+            if iao.search_count([
                     ('res_model', '=', 'account.invoice'),
                     ('res_id', '=', inv.id),
                     ('type', '=', 'binary'),
-                    ('company_id', '=', inv.company_id.id)], limit=1):
+                    ('company_id', '=', inv.company_id.id)]):
                 inv.has_attachment = True
             else:
                 inv.has_attachment = False

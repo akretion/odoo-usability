@@ -27,6 +27,9 @@ class SaleOrder(models.Model):
     # for reports
     has_discount = fields.Boolean(
         compute='_compute_has_discount', readonly=True)
+    has_attachment = fields.Boolean(
+        compute='_compute_has_attachment',
+        search='_search_has_attachment', readonly=True)
 
     @api.multi
     def _compute_has_discount(self):
@@ -38,6 +41,30 @@ class SaleOrder(models.Model):
                     has_discount = True
                     break
             order.has_discount = has_discount
+
+    def _compute_has_attachment(self):
+        iao = self.env['ir.attachment']
+        for order in self:
+            if iao.search_count([
+                    ('res_model', '=', 'sale.order'),
+                    ('res_id', '=', order.id),
+                    ('type', '=', 'binary'),
+                    ('company_id', '=', order.company_id.id)]):
+                order.has_attachment = True
+            else:
+                order.has_attachment = False
+
+    def _search_has_attachment(self, operator, value):
+        att_order_ids = {}
+        if operator == '=':
+            search_res = self.env['ir.attachment'].search_read([
+                ('res_model', '=', 'sale.order'),
+                ('type', '=', 'binary'),
+                ('res_id', '!=', False)], ['res_id'])
+            for att in search_res:
+                att_order_ids[att['res_id']] = True
+        res = [('id', value and 'in' or 'not in', att_order_ids.keys())]
+        return res
 
     @api.multi
     def action_confirm(self):

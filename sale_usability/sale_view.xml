@@ -75,6 +75,10 @@
         <field name="project_id" position="attributes">
             <attribute name="groups">analytic.group_analytic_accounting</attribute>
         </field>
+        <filter name="message_needaction" position="before">
+            <filter name="no_attachment" string="Missing Attachment" domain="[('has_attachment', '=', False)]"/>
+            <separator/>
+        </filter>
     </field>
 </record>
 
