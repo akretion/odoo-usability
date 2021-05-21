@@ -18,12 +18,13 @@ The usability enhancements include:
 
 * *To invoice* filter on pickings filters on invoice_state = 2binvoiced AND state = done
 * Add a tab with the list of related pickings in sale order form
+* Show field *To refund in SO* on stock.move form view
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['sale_stock'],
+    'depends': ['sale_stock', 'stock_usability'],
     'data': ['sale_stock_view.xml'],
     'installable': True,
 }
