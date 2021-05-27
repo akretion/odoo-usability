@@ -64,7 +64,9 @@ class AccountBankStatementSale(models.TransientModel):
         self.ensure_one()
         for line in self.line_ids:
             if line.move_line_id.sale_id != line.sale_id:
-                line.move_line_id.sale_id = line.sale_id.id
+                line.move_line_id.write({'sale_id': line.sale_id.id or False})
+                if line.sale_id:
+                    line.move_line_id._sale_down_payment_hook()
 
 
 class AccountBankStatementSaleLine(models.TransientModel):

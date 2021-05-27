@@ -25,6 +25,14 @@ class AccountPayment(models.Model):
             res['sale_id'] = self.sale_id.id
         return res
 
+    def _create_payment_entry(self, amount):
+        move = super()._create_payment_entry(amount)
+        if hasattr(self, 'sale_id') and self.sale_id:
+            for line in move.line_ids:
+                if line.sale_id and line.account_id.internal_type == 'receivable':
+                    line._sale_down_payment_hook()
+        return move
+
 
 class AccountAbstractPayment(models.AbstractModel):
     _inherit = "account.abstract.payment"

@@ -30,3 +30,8 @@ class AccountMoveLine(models.Model):
     def sale_advance_payement_account_id_change(self):
         if self.sale_id and self.account_id.user_type_id.type != 'receivable':
             self.sale_id = False
+
+    def _sale_down_payment_hook(self):
+        # can be used for notifications
+        self.ensure_one()
+
