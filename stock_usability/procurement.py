@@ -12,6 +12,9 @@ logger = logging.getLogger(__name__)
 class ProcurementGroup(models.Model):
     _inherit = 'procurement.group'
 
+    # this field stock_move_ids is native in v14
+    stock_move_ids = fields.One2many('stock.move', 'group_id', string="Related Stock Moves")
+
     @api.model
     def _procure_orderpoint_confirm(
             self, use_new_cursor=False, company_id=False):
