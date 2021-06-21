@@ -139,7 +139,7 @@ class MrpBom(models.Model):
         if float_compare(
                 pt.standard_price, self.total_cost,
                 precision_digits=precision):
-            pt.standard_price = self.total_cost
+            pt.write({'standard_price': self.total_cost})
             logger.info(
                 'Cost price updated to %s on product %s',
                 self.total_cost, pt.display_name)
@@ -161,11 +161,17 @@ class MrpBom(models.Model):
 class MrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'
 
+    # In v10, don't put a property field as related field
+    # because it won't have the right value in multi-company context
     standard_price = fields.Float(
-        related='product_id.standard_price', readonly=True)
+        compute='_compute_standard_price', readonly=True)
     company_currency_id = fields.Many2one(
         related='bom_id.company_id.currency_id', readonly=True,
         string='Company Currency')
+
+    def _compute_standard_price(self):
+        for line in self:
+            line.standard_price = line.product_id.standard_price
 
 
 class MrpProduction(models.Model):
@@ -193,10 +199,10 @@ class MrpProduction(models.Model):
             unit_cost_bom_uom =\
                 self.bom_id.total_cost / self.bom_id.product_qty
             unit_cost_mo_uom = self.bom_id.product_uom_id._compute_quantity(
-                unit_cost_bom_uom, self.product_uom_id)
+                unit_cost_bom_uom, self.product_uom_id, round=False)
             # MO and finished move are in the same UoM
-            move.price_unit = unit_cost_mo_uom
-            self.unit_cost = unit_cost_mo_uom
+            move.write({'price_unit': unit_cost_mo_uom})
+            self.write({'unit_cost': unit_cost_mo_uom})
         return move
 
     # No need to write directly on standard_price of product
