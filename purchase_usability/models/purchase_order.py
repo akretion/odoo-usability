@@ -14,15 +14,6 @@ class PurchaseOrder(models.Model):
     payment_term_id = fields.Many2one(tracking=True)
     fiscal_position_id = fields.Many2one(tracking=True)
     partner_ref = fields.Char(tracking=True)
-    # the field 'delivery_partner_id' is used in report
-    # the compute method of that field is inherited in purchase_stock_usability
-    delivery_partner_id = fields.Many2one(
-        'res.partner', compute='_compute_delivery_partner_id')
-
-    @api.depends('dest_address_id')
-    def _compute_delivery_partner_id(self):
-        for order in self:
-            order.delivery_partner_id = order.dest_address_id
 
     def print_order(self):
         report = self.env.ref('purchase.action_report_purchase_order')
