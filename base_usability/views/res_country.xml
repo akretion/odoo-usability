@@ -25,7 +25,7 @@
     <field name="name">base_usability.res.country.search</field>
     <field name="model">res.country</field>
     <field name="arch" type="xml">
-        <search string="Search Countries">
+        <search>
             <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', '=', self)]" string="Name or Code"/>
             <field name="code"/>
             <field name="currency_id"/>

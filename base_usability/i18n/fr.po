@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-17 16:55+0000\n"
-"PO-Revision-Date: 2021-02-17 16:55+0000\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2021-07-01 10:02+0000\n"
+"PO-Revision-Date: 2021-07-01 12:15+0200\n"
+"Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,15 +33,14 @@ msgstr "Sociétés"
 #. module: base_usability
 #: model:ir.model,name:base_usability.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #. module: base_usability
 #: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
 msgid "Currency"
-msgstr "Monnaie"
+msgstr "Devise"
 
 #. module: base_usability
-#: code:addons/base_usability/models/res_partner.py:0
 #: code:addons/base_usability/models/res_partner.py:0
 #, python-format
 msgid "Customer Number:"
@@ -68,7 +67,7 @@ msgstr "E-mail :"
 #. module: base_usability
 #: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
 msgid "Group By"
-msgstr ""
+msgstr "Grouper par"
 
 #. module: base_usability
 #: model:ir.model.fields,field_description:base_usability.field_ir_mail_server__id
@@ -79,12 +78,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:base_usability.field_res_partner_category__id
 #: model:ir.model.fields,field_description:base_usability.field_res_users__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: base_usability
 #: model_terms:ir.ui.view,arch_db:base_usability.view_module_filter
 msgid "Installable"
-msgstr ""
+msgstr "Installable"
 
 #. module: base_usability
 #: model:ir.model.fields,field_description:base_usability.field_ir_mail_server____last_update
@@ -100,7 +99,7 @@ msgstr "Dernière modification le"
 #. module: base_usability
 #: model:ir.model,name:base_usability.model_ir_mail_server
 msgid "Mail Server"
-msgstr "Serveur d'email"
+msgstr "Serveur mail"
 
 #. module: base_usability
 #: code:addons/base_usability/models/res_partner.py:0
@@ -132,7 +131,7 @@ msgstr "Nom avec titre"
 #. module: base_usability
 #: model:res.groups,name:base_usability.group_nobody
 msgid "Nobody (used to hide native menus)"
-msgstr ""
+msgstr "Personne (utilisé pour cacher des entrées de menu natifs)"
 
 #. module: base_usability
 #: model:ir.model,name:base_usability.model_res_partner_category
@@ -151,7 +150,6 @@ msgid "Search Countries"
 msgstr ""
 
 #. module: base_usability
-#: code:addons/base_usability/models/res_partner.py:0
 #: code:addons/base_usability/models/res_partner.py:0
 #, python-format
 msgid "Supplier Number:"
