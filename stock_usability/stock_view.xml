@@ -361,6 +361,7 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
     <field name="arch" type="xml">
         <field name="date" position="after">
             <field name="location_id" groups="stock.group_stock_multi_locations"/>
+            <field name="filter"/>
         </field>
         <tree position="attributes">
             <attribute name="decoration-info">state == 'draft'</attribute>
