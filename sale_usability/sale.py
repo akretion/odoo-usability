@@ -12,6 +12,7 @@ class SaleOrder(models.Model):
 
     date_order = fields.Datetime(track_visibility='onchange')
     confirmation_date = fields.Datetime(track_visibility='onchange')
+    commitment_date = fields.Datetime(track_visibility='onchange')
     client_order_ref = fields.Char(track_visibility='onchange')
     # for partner_id, the 'sale' module sets track_visibility='always'
     partner_id = fields.Many2one(track_visibility='onchange')

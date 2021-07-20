@@ -75,7 +75,7 @@ class MrpBom(models.Model):
     total_labour_cost = fields.Float(
         compute='_compute_total_labour_cost', readonly=True,
         digits=dp.get_precision('Product Price'),
-        string="Total Labour Cost", store=True)
+        string="Total Labour Cost", store=True, track_visibility='onchange')
     extra_cost = fields.Float(
         string='Extra Cost', track_visibility='onchange',
         digits=dp.get_precision('Product Price'),
