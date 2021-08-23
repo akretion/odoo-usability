@@ -46,7 +46,7 @@ class ResPartnerPhone(models.Model):
     @api.onchange('phone', 'partner_id')
     def _onchange_phone_validation(self):
         if self.phone:
-            self.phone = self.phone_format(self.phone)
+            self.phone = self.phone_format(self.phone, country=self.partner_id.country_id)
 
     @api.constrains('type', 'phone', 'email')
     def _check_partner_phone(self):
