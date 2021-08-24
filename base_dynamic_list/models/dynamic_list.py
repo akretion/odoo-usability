@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2020 Akretion France (http://www.akretion.com)
+# Copyright 2020-2021 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -12,7 +11,7 @@ class DynamicList(models.Model):
     _order = 'sequence, id'
 
     name = fields.Char(required=True)
-    sequence = fields.Integer()
+    sequence = fields.Integer(default=10)
     active = fields.Boolean(default=True)
     domain = fields.Selection([], string='Domain', required=True, index=True)
 
@@ -29,7 +28,7 @@ class DynamicListTranslate(models.Model):
     _order = 'sequence, id'
 
     name = fields.Char(translate=True, required=True)
-    sequence = fields.Integer()
+    sequence = fields.Integer(default=10)
     active = fields.Boolean(default=True)
     domain = fields.Selection([], string='Domain', required=True, index=True)
 
@@ -47,7 +46,7 @@ class DynamicListCode(models.Model):
 
     code = fields.Char(required=True)
     name = fields.Char(translate=True, required=True)
-    sequence = fields.Integer()
+    sequence = fields.Integer(default=10)
     active = fields.Boolean(default=True)
     domain = fields.Selection([], string='Domain', required=True, index=True)
 
@@ -61,7 +60,7 @@ class DynamicListCode(models.Model):
     def name_get(self):
         res = []
         for rec in self:
-            res.append((rec.id, u'[%s] %s' % (rec.code, rec.name)))
+            res.append((rec.id, '[%s] %s' % (rec.code, rec.name)))
         return res
 
     @api.model
@@ -74,7 +73,7 @@ class DynamicListCode(models.Model):
                 [('code', '=', name)] + args, limit=limit)
             if recs:
                 return recs.name_get()
-        return super(DynamicListCode, self).name_search(
+        return super().name_search(
             name=name, args=args, operator=operator, limit=limit)
 
 
@@ -85,7 +84,7 @@ class DynamicListCodeTranslate(models.Model):
 
     code = fields.Char(required=True)
     name = fields.Char(translate=True, required=True)
-    sequence = fields.Integer()
+    sequence = fields.Integer(default=10)
     active = fields.Boolean(default=True)
     domain = fields.Selection([], string='Domain', required=True, index=True)
 
@@ -99,7 +98,7 @@ class DynamicListCodeTranslate(models.Model):
     def name_get(self):
         res = []
         for rec in self:
-            res.append((rec.id, u'[%s] %s' % (rec.code, rec.name)))
+            res.append((rec.id, '[%s] %s' % (rec.code, rec.name)))
         return res
 
     @api.model
@@ -112,5 +111,5 @@ class DynamicListCodeTranslate(models.Model):
                 [('code', '=', name)] + args, limit=limit)
             if recs:
                 return recs.name_get()
-        return super(DynamicListCodeTranslate, self).name_search(
+        return super().name_search(
             name=name, args=args, operator=operator, limit=limit)

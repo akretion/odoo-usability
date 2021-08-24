@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
-# Copyright 2020 Akretion France (http://www.akretion.com)
+# Copyright 2020-2021 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
     'name': 'Base Dynamic List',
-    'version': '10.0.1.0.0',
+    'version': '14.0.1.0.0',
     'category': 'Tools',
     'license': 'AGPL-3',
     'summary': 'Dynamic lists',
@@ -28,7 +27,7 @@ To use it, you need to do 2 or 3 things :
 
 1) Add an entry in the domain field and the object you selected:
 
-domain = fields.Selection(selection_add=[('risk.type', "Risk Type")])
+domain = fields.Selection(selection_add=[('risk.type', "Risk Type")], ondelete={"risk.type": "set null"})
 
 2) Add the many2one field on your object:
 
