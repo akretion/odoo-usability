@@ -27,7 +27,7 @@ To use it, you need to do 2 or 3 things :
 
 1) Add an entry in the domain field and the object you selected:
 
-domain = fields.Selection(selection_add=[('risk.type', "Risk Type")], ondelete={"risk.type": "set null"})
+domain = fields.Selection(selection_add=[('risk.type', "Risk Type")], ondelete={"risk.type": "cascade"})
 
 2) Add the many2one field on your object:
 
