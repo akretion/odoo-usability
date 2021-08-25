@@ -3,6 +3,7 @@ from . import stock_picking
 from . import stock_location_route
 from . import stock_warehouse_orderpoint
 from . import stock_quant
+from . import stock_inventory
 from . import procurement_group
 from . import procurement_scheduler_log
 from . import product
