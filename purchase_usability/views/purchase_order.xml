@@ -14,7 +14,7 @@
     <field name="inherit_id" ref="purchase.purchase_order_form"/>
     <field name="arch" type="xml">
         <button name="action_rfq_send" states="purchase" position="after">
-            <button name="print_order" states="purchase" string="Print Order" type="object"/>
+            <button name="%(purchase.action_report_purchase_order)d" states="purchase,done" string="Print" type="action"/>
         </button>
         <field name="fiscal_position_id" position="attributes">
             <attribute name="widget">selection</attribute>

@@ -24,11 +24,6 @@ class PurchaseOrder(models.Model):
         for order in self:
             order.delivery_partner_id = order.dest_address_id
 
-    def print_order(self):
-        report = self.env.ref('purchase.action_report_purchase_order')
-        action = report.report_action(self)
-        return action
-
     # Re-write native name_get() to use amount_untaxed instead of amount_total
     @api.depends('name', 'partner_ref')
     def name_get(self):

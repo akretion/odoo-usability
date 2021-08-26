@@ -26,6 +26,9 @@
         <field name="date_order" position="after">
             <field name="client_order_ref"/>
         </field>
+        <button name="action_quotation_send" states="sent,sale" position="after">
+            <button name="%(sale.action_report_saleorder)d" type="action" string="Print" states="draft,sent,sale,done"/>
+        </button>
         <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
             <field name="product_barcode" optional="hide"/>
         </xpath>
