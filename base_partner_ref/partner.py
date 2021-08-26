@@ -28,7 +28,7 @@ class ResPartner(models.Model):
 
         # START modif of native method
         if partner.ref:
-            name = u"[%s] %s" % (partner.ref, name)
+            name = "[%s] %s" % (partner.ref, name)
         # END modif of native method
         if partner.company_name or partner.parent_id:
             if not name and partner.type in ['invoice', 'delivery', 'other']:
@@ -55,3 +55,13 @@ class ResPartner(models.Model):
         if self._context.get('show_vat') and partner.vat:
             name = "%s ‒ %s" % (name, partner.vat)
         return name
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        if args is None:
+            args = []
+        if name and operator == 'ilike':
+            recs = self.search([('ref', '=', name)] + args, limit=limit)
+            if recs:
+                return recs.name_get()
+        return super().name_search(name=name, args=args, operator=operator, limit=limit)
