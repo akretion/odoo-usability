@@ -123,7 +123,11 @@ class AccountMove(models.Model):
         has_sections = False
         subtotal = 0.0
         sign = self.move_type == 'out_refund' and -1 or 1
-        for line in self.invoice_line_ids:
+        # Warning: the order of invoice line is forced in the view
+        # <tree editable="bottom" default_order="sequence, date desc, move_name desc, id"
+        # it's not the same as the _order in the class AccountMoveLine
+        lines = self.env['account.move.line'].search([('exclude_from_invoice_tab', '=', False), ('move_id', '=', self.id)], order="sequence, date desc, move_name desc, id")
+        for line in lines:
             if line.display_type == 'line_section':
                 # insert line
                 if has_sections:
