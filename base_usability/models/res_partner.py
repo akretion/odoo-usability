@@ -8,25 +8,9 @@ from odoo import models, fields, api, _
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    # track_visibility is handled in the 'mail' module, and base_usability
-    # doesn't depend on 'mail', but that doesn't hurt, it will just be
-    # ignored if mail is not installed
-# TODO move to mail module
-#    name = fields.Char(tracking=True)
-#    parent_id = fields.Many2one(tracking=True)
-#    ref = fields.Char(tracking=True)
-#    lang = fields.Selection(tracking=True)
-#    user_id = fields.Many2one(tracking=True)
-#    vat = fields.Char(tracking=True)
-#    street = fields.Char(tracking=True)
-#    street2 = fields.Char(tracking=True)
-#    zip = fields.Char(tracking=True)
-#    city = fields.Char(tracking=True)
-#    state_id = fields.Many2one(tracking=True)
-#    country_id = fields.Many2one(tracking=True)
-#    is_company = fields.Boolean(tracking=True)
-#    active = fields.Boolean(tracking=True)
-#    company_id = fields.Many2one(tracking=True)
+    # tracking=True is handled in the 'mail' module, and base_usability
+    # doesn't depend on 'mail', so adding tracking on res.partner fields
+    # has been moved to mail_usability
     ref = fields.Char(copy=False)
     # For reports
     name_title = fields.Char(
