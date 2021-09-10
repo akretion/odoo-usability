@@ -1,0 +1,105 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* purchase_stock_usability
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-10 09:06+0000\n"
+"PO-Revision-Date: 2021-09-10 09:06+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields,field_description:purchase_stock_usability.field_purchase_order__picking_type_id
+msgid "Deliver To"
+msgstr "Livrer à"
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields,field_description:purchase_stock_usability.field_purchase_order__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields.selection,name:purchase_stock_usability.selection__purchase_order__picking_status__received
+msgid "Fully Received"
+msgstr "Entièrement reçue"
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields,field_description:purchase_stock_usability.field_purchase_order__id
+msgid "ID"
+msgstr ""
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields,field_description:purchase_stock_usability.field_purchase_order__incoterm_id
+msgid "Incoterm"
+msgstr ""
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields,help:purchase_stock_usability.field_purchase_order__incoterm_id
+msgid ""
+"International Commercial Terms are a series of predefined commercial terms "
+"used in international transactions."
+msgstr ""
+"Les Incoterms sont une série prédéfinie de termes commerciaux utilisés dans "
+"les transactions internationales."
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields,field_description:purchase_stock_usability.field_purchase_order____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields.selection,name:purchase_stock_usability.selection__purchase_order__picking_status__no
+msgid "Nothing to Receive"
+msgstr "Rien à recevoir"
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields.selection,name:purchase_stock_usability.selection__purchase_order__picking_status__partially_received
+msgid "Partially Received"
+msgstr "Partiellement reçue"
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields,field_description:purchase_stock_usability.field_purchase_order__picking_status
+msgid "Picking Status"
+msgstr "Statut de la réception"
+
+#. module: purchase_stock_usability
+#: model_terms:ir.ui.view,arch_db:purchase_stock_usability.purchase_order_view_search
+msgid "Pickings fully received"
+msgstr "Entièrement reçues"
+
+#. module: purchase_stock_usability
+#: model_terms:ir.ui.view,arch_db:purchase_stock_usability.purchase_order_view_search
+msgid "Pickings partially received"
+msgstr "Partiellement reçues"
+
+#. module: purchase_stock_usability
+#: model_terms:ir.ui.view,arch_db:purchase_stock_usability.purchase_order_view_search
+msgid "Pickings to receive"
+msgstr "À recevoir"
+
+#. module: purchase_stock_usability
+#: model:ir.model,name:purchase_stock_usability.model_purchase_order
+msgid "Purchase Order"
+msgstr "Commande fournisseur"
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields.selection,name:purchase_stock_usability.selection__purchase_order__picking_status__cancel
+msgid "Receipt Cancelled"
+msgstr "Réception annulée"
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields,help:purchase_stock_usability.field_purchase_order__picking_type_id
+msgid "This will determine operation type of incoming shipment"
+msgstr "Cela déterminera le type d'opération des réceptions"
+
+#. module: purchase_stock_usability
+#: model:ir.model.fields.selection,name:purchase_stock_usability.selection__purchase_order__picking_status__to_receive
+msgid "To Receive"
+msgstr "À recevoir"
