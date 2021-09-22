@@ -26,6 +26,9 @@
         </button>
         <!-- move sent field and make it visible -->
         <field name="is_move_sent" position="replace"/>
+        <field name="invoice_origin" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
         <field name="invoice_origin" position="after">
             <field name="is_move_sent" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"/>
         </field>
