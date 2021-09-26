@@ -6,6 +6,13 @@ from odoo import api, fields, models, _
 from odoo.tools import float_compare, float_is_zero
 
 
+class StockInventory(models.Model):
+    _inherit = 'stock.inventory'
+
+    prefill_counted_quantity = fields.Selection(
+        readonly=True, states={'draft': [('readonly', False)]})
+
+
 class StockInventoryLine(models.Model):
     _inherit = 'stock.inventory.line'
 

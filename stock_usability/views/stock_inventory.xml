@@ -6,7 +6,7 @@
 -->
 
 <odoo>
-        
+
 <record id="view_inventory_form" model="ir.ui.view">
     <field name="name">usability.stock.inventory.form</field>
     <field name="model">stock.inventory</field>
@@ -15,6 +15,9 @@
         <button name="action_open_inventory_lines" states="confirm" position="after">
             <button name="action_open_inventory_lines" states="done" string="Show Inventory Lines" type="object"/>
         </button>
+        <field name="prefill_counted_quantity" position="attributes">
+            <attribute name="attrs">{}</attribute>
+        </field>
     </field>
 </record>
  
@@ -46,6 +49,9 @@
     <field name="model">stock.inventory.line</field>
     <field name="inherit_id" ref="stock.stock_inventory_line_search"/>
     <field name="arch" type="xml">
+        <field name="product_id" position="after">
+            <field name="categ_id"/>
+        </field>
         <filter name="difference" position="after">
             <filter string="Difference = 0"
                     name="counted_equal" domain="[('difference_qty', '=', 0)]"/>
@@ -53,6 +59,8 @@
                     name="counted_lower" domain="[('difference_qty', '&lt;', 0)]"/>
             <filter string="Counted higher than Theoretical"
                     name="counted_higher" domain="[('difference_qty', '&gt;', 0)]"/>
+            <separator/>
+            <filter string="Counted" name="counted" domain="[('product_qty', '>', 0)]"/>
         </filter>
     </field>
 </record>
