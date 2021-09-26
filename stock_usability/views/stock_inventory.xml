@@ -6,7 +6,18 @@
 -->
 
 <odoo>
-
+        
+<record id="view_inventory_form" model="ir.ui.view">
+    <field name="name">usability.stock.inventory.form</field>
+    <field name="model">stock.inventory</field>
+    <field name="inherit_id" ref="stock.view_inventory_form"/>
+    <field name="arch" type="xml">
+        <button name="action_open_inventory_lines" states="confirm" position="after">
+            <button name="action_open_inventory_lines" states="done" string="Show Inventory Lines" type="object"/>
+        </button>
+    </field>
+</record>
+ 
 <record id="stock_inventory_line_tree" model="ir.ui.view">
     <field name="name">usability.stock.inventory.line.tree</field>
     <field name="model">stock.inventory.line</field>
@@ -30,4 +41,20 @@
     </field>
 </record>
 
+<record id="stock_inventory_line_search" model="ir.ui.view">
+    <field name="name">usability.stock.inventory.line.search</field>
+    <field name="model">stock.inventory.line</field>
+    <field name="inherit_id" ref="stock.stock_inventory_line_search"/>
+    <field name="arch" type="xml">
+        <filter name="difference" position="after">
+            <filter string="Difference = 0"
+                    name="counted_equal" domain="[('difference_qty', '=', 0)]"/>
+            <filter string="Counted lower than Theoretical"
+                    name="counted_lower" domain="[('difference_qty', '&lt;', 0)]"/>
+            <filter string="Counted higher than Theoretical"
+                    name="counted_higher" domain="[('difference_qty', '&gt;', 0)]"/>
+        </filter>
+    </field>
+</record>
+ 
 </odoo>
