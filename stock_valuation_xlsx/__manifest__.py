@@ -37,9 +37,11 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['stock_account'],
     'data': [
+        'security/ir.model.access.csv',
         'wizard/stock_valuation_xlsx_view.xml',
         'wizard/stock_variation_xlsx_view.xml',
         'views/stock_inventory.xml',
+        'views/stock_expiry_depreciation_rule.xml',
         ],
     'installable': True,
 }

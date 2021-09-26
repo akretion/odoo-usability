@@ -4,6 +4,7 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+from dateutil.relativedelta import relativedelta
 from odoo.tools import float_is_zero, float_round
 from io import BytesIO
 from datetime import datetime
@@ -67,10 +68,26 @@ class StockValuationXlsx(models.TransientModel):
         ('present', 'Current'),
         ], default='past', string='Cost Price Date',
         states={'done': [('readonly', True)]})
+    # I can't put a compute field for has_expiry_date
+    # because I want to have the value when the wizard is started,
+    # and not wait until run
+    has_expiry_date = fields.Boolean(
+        default=lambda self: self._default_has_expiry_date(), readonly=True)
+    apply_depreciation = fields.Boolean(
+        string='Apply Depreciation Rules', default=True,
+        states={'done': [('readonly', True)]})
     split_by_lot = fields.Boolean(
         string='Display Lots', states={'done': [('readonly', True)]})
     split_by_location = fields.Boolean(
         string='Display Stock Locations', states={'done': [('readonly', True)]})
+
+    @api.model
+    def _default_has_expiry_date(self):
+        splo = self.env['stock.production.lot']
+        has_expiry_date = False
+        if hasattr(splo, 'expiry_date'):
+            has_expiry_date = True
+        return has_expiry_date
 
     @api.model
     def _default_location(self):
@@ -124,6 +141,17 @@ class StockValuationXlsx(models.TransientModel):
 
     def _prepare_product_fields(self):
         return ['uom_id', 'name', 'default_code', 'categ_id']
+
+    def _prepare_expiry_depreciation_rules(self, company_id, past_date):
+        rules = self.env['stock.expiry.depreciation.rule'].search_read([('company_id', '=', company_id)], ['start_limit_days', 'ratio'], order='start_limit_days desc')
+        if past_date:
+            date_dt = past_date
+        else:
+            date_dt = fields.Date.context_today(self)
+        for rule in rules:
+            rule['start_date'] = date_dt - relativedelta(days=rule['start_limit_days'])
+        logger.debug('depreciation_rules=%s', rules)
+        return rules
 
     def compute_product_data(
             self, company_id, in_stock_product_ids, standard_price_past_date=False):
@@ -179,17 +207,24 @@ class StockValuationXlsx(models.TransientModel):
         return uom_id2name
 
     @api.model
-    def prodlot_id2name(self, product_ids):
+    def prodlot_id2data(self, product_ids, has_expiry_date, depreciation_rules):
         splo = self.env['stock.production.lot']
         lot_id2data = {}
         lot_fields = ['name']
-        if hasattr(splo, 'expiry_date'):
+        if has_expiry_date:
             lot_fields.append('expiry_date')
 
         lots = splo.search_read(
             [('product_id', 'in', product_ids)], lot_fields)
         for lot in lots:
             lot_id2data[lot['id']] = lot
+            lot_id2data[lot['id']]['depreciation_ratio'] = 0
+            if depreciation_rules and lot.get('expiry_date'):
+                expiry_date = lot['expiry_date']
+                for rule in depreciation_rules:
+                    if expiry_date <= rule['start_date']:
+                        lot_id2data[lot['id']]['depreciation_ratio'] = rule['ratio'] / 100.0
+                        break
         return lot_id2data
 
     @api.model
@@ -288,7 +323,7 @@ class StockValuationXlsx(models.TransientModel):
     def stringify_and_sort_result(
             self, product_ids, product_id2data, data,
             prec_qty, prec_price, prec_cur_rounding, categ_id2name,
-            uom_id2name, lot_id2data, loc_id2name):
+            uom_id2name, lot_id2data, loc_id2name, apply_depreciation):
         logger.debug('Start stringify_and_sort_result')
         res = []
         for l in data:
@@ -297,17 +332,27 @@ class StockValuationXlsx(models.TransientModel):
             standard_price = float_round(
                 product_id2data[product_id]['standard_price'],
                 precision_digits=prec_price)
-            subtotal = float_round(
+            subtotal_before_depreciation = float_round(
                 standard_price * qty, precision_rounding=prec_cur_rounding)
+            depreciation_ratio = 0
+            if apply_depreciation and l['lot_id']:
+                depreciation_ratio = lot_id2data[l['lot_id']].get('depreciation_ratio', 0)
+                subtotal = float_round(
+                    subtotal_before_depreciation * (1 - depreciation_ratio),
+                    precision_rounding=prec_cur_rounding)
+            else:
+                subtotal = subtotal_before_depreciation
             res.append(dict(
                 product_id2data[product_id],
                 product_name=product_id2data[product_id]['name'],
                 loc_name=l['location_id'] and loc_id2name[l['location_id']] or '',
                 lot_name=l['lot_id'] and lot_id2data[l['lot_id']]['name'] or '',
                 expiry_date=l['lot_id'] and lot_id2data[l['lot_id']].get('expiry_date'),
+                depreciation_ratio=depreciation_ratio,
                 qty=qty,
                 uom_name=uom_id2name[product_id2data[product_id]['uom_id']],
                 standard_price=standard_price,
+                subtotal_before_depreciation=subtotal_before_depreciation,
                 subtotal=subtotal,
                 categ_name=categ_id2name[product_id2data[product_id]['categ_id']],
                 ))
@@ -326,6 +371,12 @@ class StockValuationXlsx(models.TransientModel):
         prec_cur_rounding = company.currency_id.rounding
         self._check_config(company_id)
 
+        apply_depreciation = self.apply_depreciation
+        if (
+                (self.source == 'stock' and self.stock_date_type == 'past') or
+                not self.split_by_lot or
+                not self.has_expiry_date):
+            apply_depreciation = False
         product_ids = self.get_product_ids()
         if not product_ids:
             raise UserError(_("There are no products to analyse."))
@@ -348,6 +399,13 @@ class StockValuationXlsx(models.TransientModel):
         standard_price_past_date = past_date
         if not (self.source == 'stock' and self.stock_date_type == 'present') and self.standard_price_date == 'present':
             standard_price_past_date = False
+        depreciation_rules = []
+        if apply_depreciation:
+            depreciation_rules = self._prepare_expiry_depreciation_rules(company_id, past_date)
+            if not depreciation_rules:
+                raise UserError(_(
+                    "The are not stock depreciation rule for company '%s'.")
+                    % company.display_name)
         in_stock_product_ids = list(in_stock_products.keys())
         product_id2data = self.compute_product_data(
             company_id, in_stock_product_ids,
@@ -355,11 +413,11 @@ class StockValuationXlsx(models.TransientModel):
         data_res = self.group_result(data, split_by_lot, split_by_location)
         categ_id2name = self.product_categ_id2name(self.categ_ids)
         uom_id2name = self.uom_id2name()
-        lot_id2data = self.prodlot_id2name(in_stock_product_ids)
+        lot_id2data = self.prodlot_id2data(in_stock_product_ids, self.has_expiry_date, depreciation_rules)
         loc_id2name = self.stock_location_id2name(self.location_id)
         res = self.stringify_and_sort_result(
             product_ids, product_id2data, data_res, prec_qty, prec_price, prec_cur_rounding,
-            categ_id2name, uom_id2name, lot_id2data, loc_id2name)
+            categ_id2name, uom_id2name, lot_id2data, loc_id2name, apply_depreciation)
 
         logger.debug('Start create XLSX workbook')
         file_data = BytesIO()
@@ -372,12 +430,15 @@ class StockValuationXlsx(models.TransientModel):
         if not split_by_lot:
             cols.pop('lot_name', None)
             cols.pop('expiry_date', None)
-        if not hasattr(splo, 'expiry_date'):
+        if not self.has_expiry_date:
             cols.pop('expiry_date', None)
         if not split_by_location:
             cols.pop('loc_name', None)
         if not categ_subtotal:
             cols.pop('categ_subtotal', None)
+        if not apply_depreciation:
+            cols.pop('depreciation_ratio', None)
+            cols.pop('subtotal_before_depreciation', None)
 
         j = 0
         for col, col_vals in sorted(cols.items(), key=lambda x: x[1]['sequence']):
@@ -433,6 +494,9 @@ class StockValuationXlsx(models.TransientModel):
         letter_qty = cols['qty']['pos_letter']
         letter_price = cols['standard_price']['pos_letter']
         letter_subtotal = cols['subtotal']['pos_letter']
+        if apply_depreciation:
+            letter_subtotal_before_depreciation = cols['subtotal_before_depreciation']['pos_letter']
+            letter_depreciation_ratio = cols['depreciation_ratio']['pos_letter']
         crow = 0
         lines = res
         for categ_id in categ_ids:
@@ -448,12 +512,20 @@ class StockValuationXlsx(models.TransientModel):
                 total += l['subtotal']
                 ctotal += l['subtotal']
                 categ_has_line = True
-                subtotal_formula = '=%s%d*%s%d' % (letter_qty, i + 1, letter_price, i + 1)
+                qty_by_price_formula = '=%s%d*%s%d' % (letter_qty, i + 1, letter_price, i + 1)
+                if apply_depreciation:
+                    sheet.write_formula(i, cols['subtotal_before_depreciation']['pos'], qty_by_price_formula, styles['regular_currency'], l['subtotal_before_depreciation'])
+                    subtotal_formula = '=%s%d*(1 - %s%d)' % (letter_subtotal_before_depreciation, i + 1, letter_depreciation_ratio, i + 1)
+                else:
+                    subtotal_formula = qty_by_price_formula
                 sheet.write_formula(i, cols['subtotal']['pos'], subtotal_formula, styles['regular_currency'], l['subtotal'])
                 for col_name, col in cols.items():
                     if not col.get('formula'):
-                        if col.get('type') == 'date' and l[col_name]:
-                            l[col_name] = fields.Date.from_string(l[col_name])
+                        if col.get('type') == 'date':
+                            if l[col_name]:
+                                l[col_name] = fields.Date.from_string(l[col_name])
+                            else:
+                                l[col_name] = ''  # to avoid display of 31/12/1899
                         sheet.write(i, col['pos'], l[col_name], styles[col['style']])
             if categ_subtotal:
                 if categ_has_line:
@@ -519,6 +591,7 @@ class StockValuationXlsx(models.TransientModel):
             'regular_date': workbook.add_format({'num_format': 'dd/mm/yyyy'}),
             'regular_currency': workbook.add_format({'num_format': currency_num_format}),
             'regular_price_currency': workbook.add_format({'num_format': price_currency_num_format}),
+            'regular_int_percent': workbook.add_format({'num_format': u'0.%'}),
             'regular': workbook.add_format({}),
             'regular_small': workbook.add_format({'font_size': regular_font_size - 2}),
             'categ_title': workbook.add_format({
@@ -543,8 +616,10 @@ class StockValuationXlsx(models.TransientModel):
             'qty': {'width': 8, 'style': 'regular', 'sequence': 60, 'title': _('Qty')},
             'uom_name': {'width': 5, 'style': 'regular_small', 'sequence': 70, 'title': _('UoM')},
             'standard_price': {'width': 14, 'style': 'regular_price_currency', 'sequence': 80, 'title': _('Cost Price')},
-            'subtotal': {'width': 16, 'style': 'regular_currency', 'sequence': 90, 'title': _('Sub-total'), 'formula': True},
-            'categ_subtotal': {'width': 16, 'style': 'regular_currency', 'sequence': 100, 'title': _('Categ Sub-total'), 'formula': True},
-            'categ_name': {'width': 40, 'style': 'regular_small', 'sequence': 110, 'title': _('Product Category')},
+            'subtotal_before_depreciation': {'width': 16, 'style': 'regular_currency', 'sequence': 90, 'title': _('Sub-total'), 'formula': True},
+            'depreciation_ratio': {'width': 10, 'style': 'regular_int_percent', 'sequence': 100, 'title': _('Depreciation')},
+            'subtotal': {'width': 16, 'style': 'regular_currency', 'sequence': 110, 'title': _('Sub-total'), 'formula': True},
+            'categ_subtotal': {'width': 16, 'style': 'regular_currency', 'sequence': 120, 'title': _('Categ Sub-total'), 'formula': True},
+            'categ_name': {'width': 40, 'style': 'regular_small', 'sequence': 130, 'title': _('Product Category')},
             }
         return cols
