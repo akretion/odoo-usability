@@ -18,6 +18,9 @@
         <field name="invoice_incoterm_id" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
+        <button name="action_register_payment" position="attributes">
+            <attribute name="class">btn-default</attribute>
+        </button>
         <button name="action_register_payment" position="before">
             <button name="%(account.account_invoices)d" type="action" string="Print" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"/>
         </button>
