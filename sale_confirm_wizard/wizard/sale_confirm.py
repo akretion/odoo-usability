@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
-# © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2017-2021 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-from odoo.addons.base.res.res_partner import WARNING_MESSAGE
+from odoo.addons.base.models.res_partner import WARNING_MESSAGE
 
 
 class SaleConfirm(models.TransientModel):
@@ -19,12 +19,12 @@ class SaleConfirm(models.TransientModel):
     partner_invoice_id = fields.Many2one(
         'res.partner', 'Invoice Address', required=True)
     show_partner_invoice_id = fields.Many2one(
-        related='partner_invoice_id', readonly=True,
+        related='partner_invoice_id',
         string='Detailed Invoice Address')
     partner_shipping_id = fields.Many2one(
         'res.partner', 'Delivery Address', required=True)
     show_partner_shipping_id = fields.Many2one(
-        related='partner_shipping_id', readonly=True,
+        related='partner_shipping_id',
         string='Detailed Delivery Address')
     sale_warn = fields.Selection(
         WARNING_MESSAGE, 'Sale Warning Type', readonly=True)
@@ -46,7 +46,7 @@ class SaleConfirm(models.TransientModel):
 
     @api.model
     def default_get(self, fields):
-        res = super(SaleConfirm, self).default_get(fields)
+        res = super().default_get(fields)
         assert self._context.get('active_model') == 'sale.order',\
             'active_model should be sale.order'
         order = self.env['sale.order'].browse(self._context.get('active_id'))
@@ -54,7 +54,6 @@ class SaleConfirm(models.TransientModel):
         res.update(default)
         return res
 
-    @api.multi
     def _prepare_update_so(self):
         self.ensure_one()
         return {
@@ -64,7 +63,6 @@ class SaleConfirm(models.TransientModel):
             'partner_shipping_id': self.partner_shipping_id.id,
             }
 
-    @api.multi
     def confirm(self):
         self.ensure_one()
         partner = self.sale_id.partner_id.commercial_partner_id
