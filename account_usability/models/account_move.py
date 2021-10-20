@@ -11,8 +11,6 @@ from odoo.osv import expression
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    default_move_line_name = fields.Char(
-        string='Default Label', states={'posted': [('readonly', True)]})
     # By default, we can still modify "ref" when account move is posted
     # which seems a bit lazy for me...
     ref = fields.Char(states={'posted': [('readonly', True)]})
