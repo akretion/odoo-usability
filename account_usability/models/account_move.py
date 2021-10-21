@@ -178,6 +178,35 @@ class AccountMove(models.Model):
                         ])
                 move.suitable_journal_ids = self.env['account.journal'].search(domain)
 
+    def button_draft(self):
+        super().button_draft()
+        # Delete attached pdf invoice
+        try:
+            report_invoice = self.env['ir.actions.report']._get_report_from_name('account.report_invoice')
+        except IndexError:
+            report_invoice = False
+        if report_invoice and report_invoice.attachment:
+            for move in self.filtered(lambda x: x.move_type in ('out_invoice', 'out_refund')):
+                # The pb is that the filename is dynamic and related to move.state
+                # in v12, the feature was native and they used that kind of code:
+                # with invoice.env.do_in_draft():
+                #    invoice.number, invoice.state = invoice.move_name, 'open'
+                #    attachment = self.env.ref('account.account_invoices').retrieve_attachment(invoice)
+                # But do_in_draft() doesn't exists in v14
+                # If you know how we could do that, please update the code below
+                attachment = self.env['ir.attachment'].search([
+                    ('name', '=', self._get_invoice_attachment_name()),
+                    ('res_id', '=', move.id),
+                    ('res_model', '=', self._name),
+                    ('type', '=', 'binary'),
+                    ], limit=1)
+                if attachment:
+                    attachment.unlink()
+
+    def _get_invoice_attachment_name(self):
+        self.ensure_one()
+        return '%s.pdf' % (self.name and self.name.replace('/', '_') or 'INV')
+
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
