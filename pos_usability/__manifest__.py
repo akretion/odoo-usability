@@ -28,7 +28,9 @@ Akretion:
     "depends": ["point_of_sale"],
     "data": [
         "report/pos.xml",
+        "views/report_pos_order.xml",
         "views/pos_category.xml",
+        "views/pos_session.xml",
         "views/product.xml",
         ],
     "installable": True,

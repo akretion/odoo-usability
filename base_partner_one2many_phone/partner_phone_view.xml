@@ -14,7 +14,7 @@
     <field name="name">res.partner.phone.tree</field>
     <field name="model">res.partner.phone</field>
     <field name="arch"  type="xml">
-        <tree string="Phones and E-mail" editable="bottom">
+        <tree editable="bottom">
             <field name="partner_id" invisible="not context.get('partner_phone_main_view')"/>
             <field name="type"/>
             <field name="phone" widget="phone" options="{'enable_sms': false}" attrs="{'required': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'readonly': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
@@ -28,7 +28,7 @@
     <field name="name">res.partner.phone.form</field>
     <field name="model">res.partner.phone</field>
     <field name="arch"  type="xml">
-        <form string="Phone and E-mail">
+        <form>
             <group name="main">
                 <field name="partner_id" invisible="not context.get('partner_phone_main_view')"/>
                 <field name="type"/>
@@ -44,7 +44,7 @@
     <field name="name">res.partner.phone.search</field>
     <field name="model">res.partner.phone</field>
     <field name="arch"  type="xml">
-            <search string="Search Phones/E-mail">
+            <search>
             <field name="phone" />
             <field name="email" />
             <group name="groupby">
