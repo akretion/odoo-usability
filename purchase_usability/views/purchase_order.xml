@@ -131,7 +131,10 @@
             <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
         </field>
         <field name="date_planned" position="after">
-            <field name="state"/>
+            <field name="state" decoration-success="state == 'purchase' or state == 'done'" decoration-warning="state == 'to approve'"
+                decoration-info="state == 'draft' or state == 'sent'" optional="show" widget="badge" />
+            <field name="invoice_status" decoration-success="invoice_status == 'invoiced'" decoration-info="invoice_status == 'to invoice'"
+                optional="show" widget="badge" />
         </field>
     </field>
 </record>
@@ -144,7 +147,13 @@
         <field name="partner_id" position="after">
             <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
         </field>
+        <xpath expr="//filter[@name='hide_cancelled']" position="after">
+            <separator/>
+            <filter name="not_invoiced" string="Waiting Bills" domain="[('invoice_status', '=', 'to invoice')]" />
+            <filter name="invoiced" string="Bills Received" domain="[('invoice_status', '=', 'invoiced')]" />
+        </xpath>
         <group expand="0" position="inside">
+            <filter string="Billing Status" name="invoice_status" context="{'group_by' : 'invoice_status'}" />
             <filter string="Analytic Account" name="account_analytic_groupby" context="{'group_by': 'account_analytic_id'}" groups="analytic.group_analytic_accounting"/>
         </group>
     </field>

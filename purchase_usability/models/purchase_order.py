@@ -4,6 +4,7 @@
 
 from odoo import api, fields, models
 from odoo.tools.misc import formatLang
+from odoo.tools import float_is_zero
 
 
 class PurchaseOrder(models.Model):
@@ -73,3 +74,33 @@ class PurchaseOrderLine(models.Model):
 
     # for optional display in tree view
     product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
+    invoice_status = fields.Selection(
+        [
+            ("no", "Nothing to Bill"),
+            ("to invoice", "Waiting Bills"),
+            ("invoiced", "Fully Billed"),
+        ],
+        string="Billing Status",
+        compute="_compute_invoice_status",
+        store=True,
+        readonly=True,
+        default="no",
+    )
+
+    @api.depends("state", "qty_to_invoice", "qty_invoiced")
+    def _compute_invoice_status(self):
+        """Mimic PO '_get_invoiced' method to compute PO line invoice status"""
+        prec = self.env["decimal.precision"].precision_get("Product Unit of Measure")
+        for line in self:
+            if line.state not in ("purchase", "done") or line.display_type:
+                line.invoice_status = "no"
+                continue
+
+            if not float_is_zero(line.qty_to_invoice, precision_digits=prec):
+                line.invoice_status = "to invoice"
+            elif float_is_zero(
+                line.qty_to_invoice, precision_digits=prec
+            ) and not float_is_zero(line.qty_invoiced, precision_digits=prec):
+                line.invoice_status = "invoiced"
+            else:
+                line.invoice_status = "no"
