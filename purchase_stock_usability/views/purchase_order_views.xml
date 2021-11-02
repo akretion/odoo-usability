@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_view_tree" model="ir.ui.view">
+      <field name="name">purchase.order.view.tree (in purchase_stock_usability)</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+      <field name="arch" type="xml">
+          <xpath expr="//field[@name='invoice_status']" position="after">
+              <field name="picking_status" decoration-success="picking_status == 'received'" decoration-info="picking_status == 'to_receive'" decoration-warning="picking_status == 'partially_received'" decoration-danger="picking_status == 'cancel'" widget="badge" optional="show"/>
+          </xpath>
+      </field>
+    </record>
+
+    <record id="purchase_order_view_search" model="ir.ui.view">
+      <field name="name">purchase.order.select (in purchase_stock_usability)</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="purchase.purchase_order_view_search"/>
+      <field name="arch" type="xml">
+          <xpath expr="//filter[@name='order_date']" position="before">
+              <filter name="received" string="Pickings fully received" domain="[('picking_status', '=', 'received')]"/>
+              <filter name="partially_received" string="Pickings partially received" domain="[('picking_status', '=', 'partially_received')]"/>
+              <filter name="to_receive" string="Pickings to receive" domain="[('picking_status', '=', 'to_receive')]"/>
+              <separator/>
+          </xpath>
+      </field>
+    </record>
+
+    <record id="purchase_order_line_tree" model="ir.ui.view">
+      <field name="name">purchase.order.line.view.tree (in purchase_stock_usability)</field>
+      <field name="model">purchase.order.line</field>
+      <field name="inherit_id" ref="purchase.purchase_order_line_tree"/>
+      <field name="arch" type="xml">
+          <xpath expr="//tree" position="inside">
+              <field name="move_status" decoration-success="move_status == 'received'" decoration-info="move_status == 'to_receive'" decoration-warning="move_status == 'partially_received'" decoration-danger="move_status == 'cancel'" widget="badge" optional="show"/>
+          </xpath>
+      </field>
+    </record>
+
+</odoo>

@@ -18,42 +18,17 @@ class PurchaseOrder(models.Model):
             ("cancel", "Receipt Cancelled"),
             ("no", "Nothing to Receive"),
         ],
-        string="Picking Status",
+        string="Reception Status",
         compute="_compute_picking_status",
         store=True,
+        default="no",
     )
 
     @api.depends("state", "picking_ids.state")
     def _compute_picking_status(self):
-        """
-        Compute the picking status for the PO. Possible statuses:
-        - no: if the PO is not in status 'purchase' nor 'done', we consider that
-          there is nothing to receive. This is also the default value if the
-          conditions of no other status is met.
-        - cancel: all pickings are cancelled
-        - received: if all  pickings are done or cancel.
-        - partially_received: If at least one picking is done.
-        - to_receive: if all pickings are in confirmed, assigned, waiting or
-          cancel state.
-        """
         for order in self:
-            picking_status = "no"
-            if order.state in ("purchase", "done") and order.picking_ids:
-                pstates = [picking.state for picking in order.picking_ids]
-                if all([state == "cancel" for state in pstates]):
-                    picking_status = "cancel"
-                elif all([state in ("done", "cancel") for state in pstates]):
-                    picking_status = "received"
-                elif any([state == "done" for state in pstates]):
-                    picking_status = "partially_received"
-                elif all(
-                    [
-                        state in ("confirmed", "assigned", "waiting", "cancel")
-                        for state in pstates
-                    ]
-                ):
-                    picking_status = "to_receive"
-            order.picking_status = picking_status
+            line_ids = order.order_line
+            order.picking_status = line_ids.get_move_status()
 
     # inherit compute method of the field delivery_partner_id
     # defined in purchase_usability
@@ -69,3 +44,57 @@ class PurchaseOrder(models.Model):
             ):
                 delivery_partner_id = o.picking_type_id.warehouse_id.partner_id
             o.delivery_partner_id = delivery_partner_id
+
+
+class PurchaseOrderLine(models.Model):
+    _inherit = "purchase.order.line"
+
+    move_status = fields.Selection(
+        [
+            ("received", "Fully Received"),
+            ("partially_received", "Partially Received"),
+            ("to_receive", "To Receive"),
+            ("cancel", "Receipt Cancelled"),
+            ("no", "Nothing to Receive"),
+        ],
+        string="Reception Status",
+        compute="_compute_move_status",
+        store=True,
+        default="no",
+    )
+
+    def get_move_status(self):
+        """
+        Returns the reception status of the related lines stock moves.
+        Possible statuses:
+            - no: if the PO is not in status 'purchase' nor 'done', we consider that
+              there is nothing to receive. This is also the default value if the
+              conditions of no other status is met.
+            - cancel: all stock moves are cancelled
+            - received: if all stock moves are done or cancel.
+            - partially_received: If at least one stock move is done.
+            - to_receive: if all stock moves are in confirmed, assigned, waiting or
+              cancel state.
+        """
+        move_status = "no"
+        mstates = self.move_ids.mapped("state")
+
+        if all([state == "cancel" for state in mstates]):
+            move_status = "cancel"
+        elif all([state in ("done", "cancel") for state in mstates]):
+            move_status = "received"
+        elif any([state == "done" for state in mstates]):
+            move_status = "partially_received"
+        elif all(
+            [
+                state in ("confirmed", "assigned", "waiting", "cancel")
+                for state in mstates
+            ]
+        ):
+            move_status = "to_receive"
+        return move_status
+
+    @api.depends("state", "move_ids.state")
+    def _compute_move_status(self):
+        for line in self:
+            line.move_status = line.get_move_status()
