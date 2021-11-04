@@ -16,7 +16,7 @@
         <button name="action_validate" position="after">
             <button name="%(stock_valuation_xlsx_action)d" type="action"
                 states="done" string="XLSX Valuation Report"
-                context="{'default_source': 'inventory', 'default_inventory_id': active_id, 'default_location_id': location_id}"/>
+                context="{'default_source': 'inventory', 'default_inventory_id': active_id}"/>
         </button>
     </field>
 </record>
