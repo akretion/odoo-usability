@@ -27,7 +27,7 @@ Here, we set all those fields on account.group_account_invoice
         </field>
         <field name="list_price" position="replace">
             <div name="list_price">
-                <field name="list_price" widget='monetary' options="{'currency_field': 'currency_id'}" class="oe_inline"/>
+                <field name="list_price" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}" class="oe_inline"/>
                 <label for="sale_price_type" string=" "/>
                 <field name="sale_price_type"/>
             </div>
