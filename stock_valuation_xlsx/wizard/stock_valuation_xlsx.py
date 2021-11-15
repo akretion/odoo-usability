@@ -145,7 +145,7 @@ class StockValuationXlsx(models.TransientModel):
     def _prepare_expiry_depreciation_rules(self, company_id, past_date):
         rules = self.env['stock.expiry.depreciation.rule'].search_read([('company_id', '=', company_id)], ['start_limit_days', 'ratio'], order='start_limit_days desc')
         if past_date:
-            date_dt = past_date
+            date_dt = fields.Date.to_date(past_date)  # convert datetime to date
         else:
             date_dt = fields.Date.context_today(self)
         for rule in rules:
