@@ -39,6 +39,9 @@
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="base.view_partner_tree"/>
     <field name="arch" type="xml">
+        <field name="display_name" position="after">
+            <field name="ref" optional="hide"/>
+        </field>
         <field name="phone" position="after">
             <field name="mobile" optional="show" widget="phone" class="o_force_ltr"/>
         </field>
