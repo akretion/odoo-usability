@@ -11,29 +11,34 @@
     <field name="name">Move ref in partner form to make it more visible</field>
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="priority">1000</field>  <!-- inherit after l10n_fr -->
     <field name="arch" type="xml">
         <field name="type" position="after">
             <field name="ref"/>
         </field>
-        <xpath expr="//page[@name='sales_purchases']//field[@name='ref']" position="replace"/>
+        <xpath expr="//page[@name='sales_purchases']//field[@name='ref']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
     </field>
 </record>
 
+<!-- show name and ref in separate columns -->
+<!--  ref is added in tree view by base_usability with optional="hide"
 <record id="view_partner_tree" model="ir.ui.view">
     <field name="name">Add ref in partner tree view</field>
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="base.view_partner_tree"/>
     <field name="arch" type="xml">
-        <!-- show name and ref in separate columns -->
         <field name="display_name" position="after">
             <field name="name"/>
-            <field name="ref"/>
+            <field name="ref" optional="hide"/>
         </field>
         <field name="display_name" position="attributes">
             <attribute name="invisible">1</attribute>
         </field>
     </field>
 </record>
+-->
 
 <record id="res_partner_kanban_view" model="ir.ui.view">
     <field name="name">Add ref in partner kanban view</field>

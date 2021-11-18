@@ -1,4 +1,4 @@
-# Copyright 2017-2019 Akretion
+# Copyright 2017-2021 Akretion
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -18,9 +18,9 @@ class ResPartner(models.Model):
         )]
 
     # add 'ref' in depends
-    @api.depends('is_company', 'name', 'parent_id.name', 'type', 'company_name', 'ref', 'invalidate_display_name')
+    @api.depends('ref', 'invalidate_display_name')
     def _compute_display_name(self):
-        super(ResPartner, self)._compute_display_name()
+        super()._compute_display_name()
 
     def _get_name(self):
         partner = self
@@ -32,12 +32,13 @@ class ResPartner(models.Model):
         # END modif of native method
         if partner.company_name or partner.parent_id:
             if not name and partner.type in ['invoice', 'delivery', 'other']:
-                name = dict(self.fields_get(['type'])['type']['selection'])[partner.type]
+                name = dict(self.fields_get(
+                    ['type'])['type']['selection'])[partner.type]
             if not partner.is_company:
                 # START modif of native name_get() method
                 company_name = partner.commercial_company_name or partner.parent_id.name
                 if partner.parent_id.ref:
-                    company_name = u"[%s] %s" % (partner.parent_id.ref, company_name)
+                    company_name = "[%s] %s" % (partner.parent_id.ref, company_name)
                 name = "%s, %s" % (company_name, name)
                 # END modif of native name_get() method
         if self._context.get('show_address_only'):
@@ -47,7 +48,8 @@ class ResPartner(models.Model):
         name = name.replace('\n\n', '\n')
         name = name.replace('\n\n', '\n')
         if self._context.get('address_inline'):
-            name = name.replace('\n', ', ')
+            splitted_names = name.split("\n")
+            name = ", ".join([n for n in splitted_names if n.strip()])
         if self._context.get('show_email') and partner.email:
             name = "%s <%s>" % (name, partner.email)
         if self._context.get('html_format'):
@@ -63,5 +65,6 @@ class ResPartner(models.Model):
         if name and operator == 'ilike':
             recs = self.search([('ref', '=', name)] + args, limit=limit)
             if recs:
-                return recs.name_get()
+                rec_childs = self.search([('id', 'child_of', recs.ids)])
+                return rec_childs.name_get()
         return super().name_search(name=name, args=args, operator=operator, limit=limit)
