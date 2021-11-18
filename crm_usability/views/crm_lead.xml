@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2017-2021 Akretion (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<!-- SEARCH OPPOR -->
+<record id="view_crm_case_opportunities_filter" model="ir.ui.view">
+    <field name="name">usability.crm.lead.opportunity.search</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+    <field name="arch" type="xml">
+        <filter name="saleschannel" position="after">
+            <filter name="partner_groupby" string="Customer" context="{'group_by': 'partner_id'}"/>
+        </filter>
+    </field>
+</record>
+
+</odoo>
