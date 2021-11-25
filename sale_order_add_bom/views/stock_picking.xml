@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+<data>
+
+<record id="view_picking_form" model="ir.ui.view">
+    <field name="name">add.bom.stock.picking.form</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">
+        <button name="action_confirm" position="after">
+            <button name="%(sale_add_phantom_bom_action)d" type="action"
+                string="Add Kit" states="draft" groups="stock.group_stock_user"/>
+        </button>
+    </field>
+</record>
+
+</data>
+</odoo>

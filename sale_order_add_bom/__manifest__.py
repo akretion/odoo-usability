@@ -11,6 +11,8 @@
     'description': """
 This module adds a wizard *Add Kit* on the form view of a quotation that allows the user to select a 'kit' BOM: Odoo will automatically add the components of the kit as sale order lines.
 
+The wizard *Add Kit* is also available on a draft picking.
+
 This module has been written by Alexis de Lattre from Akretion
 <alexis.delattre@akretion.com>.
     """,
@@ -19,7 +21,8 @@ This module has been written by Alexis de Lattre from Akretion
     'depends': ['sale', 'mrp'],
     'data': [
         'wizard/sale_add_phantom_bom_view.xml',
-        'sale_view.xml',
+        'views/sale_order.xml',
+        'views/stock_picking.xml',
     ],
     'installable': True,
 }
