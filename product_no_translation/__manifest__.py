@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Product No Translation module for Odoo
@@ -22,20 +21,20 @@
 
 
 {
-    'name': 'Product no Translation',
-    'version': '14.0.1.0.0',
-    'category': 'Sales Management',
-    'license': 'AGPL-3',
-    'summary': 'For companies that work with only one language',
-    'description': """
+    "name": "Product no Translation",
+    "version": "14.0.1.0.0",
+    "category": "Sales Management",
+    "license": "AGPL-3",
+    "summary": "For companies that work with only one language",
+    "description": """
 This module sets the translatable fields of the product object (name,
 descriptions) to non-translatable fields.
 
 This change is usefull for companies that work with only one language.
 And it reduces the start time of the Point of Sale !
     """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['product'],
-    'installable': True,
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["product"],
+    "installable": True,
 }

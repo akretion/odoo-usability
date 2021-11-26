@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
 <record id="view_sequence_search" model="ir.ui.view">
     <field name="model">ir.sequence</field>
-    <field name="inherit_id" ref="base.view_sequence_search"/>
+    <field name="inherit_id" ref="base.view_sequence_search" />
     <field name="arch" type="xml">
         <field name="name" position="after">
-            <field name="prefix"/>
+            <field name="prefix" />
         </field>
     </field>
 </record>

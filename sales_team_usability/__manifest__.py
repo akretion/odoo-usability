@@ -3,12 +3,12 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
 {
-    'name': 'Sales Teams Usability',
-    'version': '14.0.1.0.0',
-    'category': 'Sales/Sales',
-    'license': 'AGPL-3',
-    'summary': 'Sales Teams usability enhancements',
-    'description': """
+    "name": "Sales Teams Usability",
+    "version": "14.0.1.0.0",
+    "category": "Sales/Sales",
+    "license": "AGPL-3",
+    "summary": "Sales Teams usability enhancements",
+    "description": """
 Sales Teams Usability
 =====================
 
@@ -19,9 +19,9 @@ The usability improvements include:
 This module has been written by Alexis de Lattre from Akretion
 <alexis.delattre@akretion.com>.
     """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['sales_team'],
-    'data': [],
-    'installable': True,
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["sales_team"],
+    "data": [],
+    "installable": True,
 }

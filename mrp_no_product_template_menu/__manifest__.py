@@ -3,12 +3,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'MRP No Product Template Menu',
-    'version': '12.0.1.0.0',
-    'category': 'Manufacturing',
-    'license': 'AGPL-3',
-    'summary': "Replace product.template menu entries by product.product menu",
-    'description': """
+    "name": "MRP No Product Template Menu",
+    "version": "12.0.1.0.0",
+    "category": "Manufacturing",
+    "license": "AGPL-3",
+    "summary": "Replace product.template menu entries by product.product menu",
+    "description": """
 MRP No Product Template
 =======================
 
@@ -21,10 +21,10 @@ for Product menu entries, instead of the kanban view.
 This module has been written by Alexis de Lattre
 from Akretion <alexis.delattre@akretion.com>.
     """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['mrp', 'sale_purchase_no_product_template_menu'],
-    'auto_install': True,
-    'data': ['mrp_view.xml'],
-    'installable': False,
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["mrp", "sale_purchase_no_product_template_menu"],
+    "auto_install": True,
+    "data": ["mrp_view.xml"],
+    "installable": False,
 }

@@ -6,7 +6,7 @@ from odoo import fields, models
 
 
 class CrmLead(models.Model):
-    _inherit = 'crm.lead'
+    _inherit = "crm.lead"
 
     probability = fields.Float(tracking=100)
     date_deadline = fields.Date(tracking=110)

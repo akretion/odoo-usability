@@ -1,36 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   Copyright (C) 2015-2019 Akretion (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-
 <odoo>
 
 
 <record id="view_order_form" model="ir.ui.view">
     <field name="name">margin.sale.order.form</field>
     <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="inherit_id" ref="sale.view_order_form" />
     <field name="arch" type="xml">
         <group name="technical" position="inside">
-            <field name="margin_sale_currency" string="Margin"
-                groups="account.group_account_user"/>
-            <field name="margin_company_currency"
-                groups="account.group_account_user"/>
-            <field name="company_currency_id" invisible="1"/>
+            <field
+                    name="margin_sale_currency"
+                    string="Margin"
+                    groups="account.group_account_user"
+                />
+            <field name="margin_company_currency" groups="account.group_account_user" />
+            <field name="company_currency_id" invisible="1" />
         </group>
-        <xpath expr="//field[@name='order_line']/form//field[@name='analytic_tag_ids']/.." position="after">
-            <field name="standard_price_sale_currency" groups="base.group_no_one"/>
-            <field name="standard_price_company_currency" groups="base.group_no_one"/>
-            <field name="margin_sale_currency" groups="base.group_no_one"/>
-            <field name="margin_company_currency" groups="base.group_no_one"/>
-            <label for="margin_rate"/>
+        <xpath
+                expr="//field[@name='order_line']/form//field[@name='analytic_tag_ids']/.."
+                position="after"
+            >
+            <field name="standard_price_sale_currency" groups="base.group_no_one" />
+            <field name="standard_price_company_currency" groups="base.group_no_one" />
+            <field name="margin_sale_currency" groups="base.group_no_one" />
+            <field name="margin_company_currency" groups="base.group_no_one" />
+            <label for="margin_rate" />
             <div name="margin_rate">
-                <field name="margin_rate" groups="base.group_no_one" class="oe_inline"/> %
+                <field
+                        name="margin_rate"
+                        groups="base.group_no_one"
+                        class="oe_inline"
+                    /> %
             </div>
-            <field name="company_currency_id" invisible="1"/>
-            <field name="currency_id" invisible="1"/>
+            <field name="company_currency_id" invisible="1" />
+            <field name="currency_id" invisible="1" />
         </xpath>
     </field>
 </record>
@@ -41,10 +49,13 @@
     <field name="inherit_id" ref="sale.view_order_line_tree" />
     <field name="arch" type="xml">
         <field name="price_subtotal" position="after">
-            <field name="standard_price_company_currency" groups="account.group_account_user"/>
-            <field name="margin_company_currency" groups="account.group_account_user"/>
-            <field name="margin_rate" groups="account.group_account_user"/>
-            <field name="company_currency_id" invisible="1"/>
+            <field
+                    name="standard_price_company_currency"
+                    groups="account.group_account_user"
+                />
+            <field name="margin_company_currency" groups="account.group_account_user" />
+            <field name="margin_rate" groups="account.group_account_user" />
+            <field name="company_currency_id" invisible="1" />
         </field>
     </field>
 </record>

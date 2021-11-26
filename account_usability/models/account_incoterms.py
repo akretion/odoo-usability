@@ -6,11 +6,11 @@ from odoo import api, models
 
 
 class AccountIncoterms(models.Model):
-    _inherit = 'account.incoterms'
+    _inherit = "account.incoterms"
 
-    @api.depends('code', 'name')
+    @api.depends("code", "name")
     def name_get(self):
         res = []
         for rec in self:
-            res.append((rec.id, '[%s] %s' % (rec.code, rec.name)))
+            res.append((rec.id, "[%s] %s" % (rec.code, rec.name)))
         return res

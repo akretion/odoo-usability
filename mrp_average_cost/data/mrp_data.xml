@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
 
 <record forcecreate="True" id="labour_hours" model="decimal.precision">
@@ -9,13 +9,13 @@
 
 <record id="phantom_update_product_standard_price" model="ir.cron">
     <field name="name">Update Cost Price of products with Phantom BOM</field>
-    <field name="active" eval="False"/>
-    <field name="user_id" ref="base.user_root"/>
+    <field name="active" eval="False" />
+    <field name="user_id" ref="base.user_root" />
     <field name="interval_number">1</field>
     <field name="interval_type">days</field>
     <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
-    <field name="doall" eval="False"/>
-    <field name="model_id" ref="mrp.model_mrp_bom"/>
+    <field name="doall" eval="False" />
+    <field name="model_id" ref="mrp.model_mrp_bom" />
     <field name="state">code</field>
     <field name="code">model._phantom_update_product_standard_price()</field>
 </record>

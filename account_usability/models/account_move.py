@@ -3,17 +3,17 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+from odoo.osv import expression
 from odoo.tools import float_is_zero
 from odoo.tools.misc import format_date
-from odoo.osv import expression
 
 
 class AccountMove(models.Model):
-    _inherit = 'account.move'
+    _inherit = "account.move"
 
     # By default, we can still modify "ref" when account move is posted
     # which seems a bit lazy for me...
-    ref = fields.Char(states={'posted': [('readonly', True)]})
+    ref = fields.Char(states={"posted": [("readonly", True)]})
     date = fields.Date(tracking=True)
     invoice_date_due = fields.Date(tracking=True)
     invoice_payment_term_id = fields.Many2one(tracking=True)
@@ -22,51 +22,63 @@ class AccountMove(models.Model):
     fiscal_position_id = fields.Many2one(tracking=True)
     amount_total = fields.Monetary(tracking=True)
     # for invoice report
-    has_discount = fields.Boolean(
-        compute='_compute_has_discount', readonly=True)
+    has_discount = fields.Boolean(compute="_compute_has_discount", readonly=True)
     # has_attachment is useful for those who use attachment to archive
     # supplier invoices. It allows them to find supplier invoices
     # that don't have any attachment
     has_attachment = fields.Boolean(
-        compute='_compute_has_attachment',
-        search='_search_has_attachment', readonly=True)
+        compute="_compute_has_attachment",
+        search="_search_has_attachment",
+        readonly=True,
+    )
     sale_dates = fields.Char(
-        compute="_compute_sales_dates", readonly=True,
+        compute="_compute_sales_dates",
+        readonly=True,
         help="This information appears on invoice qweb report "
-             "(you may use it for your own report)")
+        "(you may use it for your own report)",
+    )
 
     def _compute_has_discount(self):
-        prec = self.env['decimal.precision'].precision_get('Discount')
+        prec = self.env["decimal.precision"].precision_get("Discount")
         for inv in self:
             has_discount = False
             for line in inv.invoice_line_ids:
-                if not line.display_type and not float_is_zero(line.discount, precision_digits=prec):
+                if not line.display_type and not float_is_zero(
+                    line.discount, precision_digits=prec
+                ):
                     has_discount = True
                     break
             inv.has_discount = has_discount
 
     def _compute_has_attachment(self):
-        iao = self.env['ir.attachment']
+        iao = self.env["ir.attachment"]
         for move in self:
-            if iao.search_count([
-                    ('res_model', '=', 'account.move'),
-                    ('res_id', '=', move.id),
-                    ('type', '=', 'binary'),
-                    ('company_id', '=', move.company_id.id)]):
+            if iao.search_count(
+                [
+                    ("res_model", "=", "account.move"),
+                    ("res_id", "=", move.id),
+                    ("type", "=", "binary"),
+                    ("company_id", "=", move.company_id.id),
+                ]
+            ):
                 move.has_attachment = True
             else:
                 move.has_attachment = False
 
     def _search_has_attachment(self, operator, value):
         att_inv_ids = {}
-        if operator == '=':
-            search_res = self.env['ir.attachment'].search_read([
-                ('res_model', '=', 'account.move'),
-                ('type', '=', 'binary'),
-                ('res_id', '!=', False)], ['res_id'])
+        if operator == "=":
+            search_res = self.env["ir.attachment"].search_read(
+                [
+                    ("res_model", "=", "account.move"),
+                    ("type", "=", "binary"),
+                    ("res_id", "!=", False),
+                ],
+                ["res_id"],
+            )
             for att in search_res:
-                att_inv_ids[att['res_id']] = True
-        res = [('id', value and 'in' or 'not in', list(att_inv_ids))]
+                att_inv_ids[att["res_id"]] = True
+        res = [("id", value and "in" or "not in", list(att_inv_ids))]
         return res
 
     # when you have an invoice created from a lot of sale orders, the 'name'
@@ -81,10 +93,10 @@ class AccountMove(models.Model):
             name = old_re[1]
             if name and len(name) > 100:
                 # nice cut
-                name = '%s ...' % ', '.join(name.split(', ')[:3])
+                name = "%s ..." % ", ".join(name.split(", ")[:3])
                 # if not enough, hard cut
                 if len(name) > 120:
-                    name = '%s ...' % old_re[1][:120]
+                    name = "%s ..." % old_re[1][:120]
             res.append((old_re[0], name))
         return res
 
@@ -94,23 +106,26 @@ class AccountMove(models.Model):
     #    write a rubbish '/' in it !
     # 2) the 'name' field of the account.move.line is used in the overdue
     # letter, and '/' is not meaningful for our customer !
-# TODO mig to v12
-#    def action_move_create(self):
-#        res = super().action_move_create()
-#        for inv in self:
-#            self._cr.execute(
-#                "UPDATE account_move_line SET name= "
-#                "CASE WHEN name='/' THEN %s "
-#                "ELSE %s||' - '||name END "
-#                "WHERE move_id=%s", (inv.number, inv.number, inv.move_id.id))
-#            self.invalidate_cache()
-#        return res
+    # TODO mig to v12
+    #    def action_move_create(self):
+    #        res = super().action_move_create()
+    #        for inv in self:
+    #            self._cr.execute(
+    #                "UPDATE account_move_line SET name= "
+    #                "CASE WHEN name='/' THEN %s "
+    #                "ELSE %s||' - '||name END "
+    #                "WHERE move_id=%s", (inv.number, inv.number, inv.move_id.id))
+    #            self.invalidate_cache()
+    #        return res
 
     def delete_lines_qty_zero(self):
-        lines = self.env['account.move.line'].search([
-            ('display_type', '=', False),
-            ('move_id', 'in', self.ids),
-            ('quantity', '=', 0)])
+        lines = self.env["account.move.line"].search(
+            [
+                ("display_type", "=", False),
+                ("move_id", "in", self.ids),
+                ("quantity", "=", 0),
+            ]
+        )
         lines.unlink()
         return True
 
@@ -120,24 +135,27 @@ class AccountMove(models.Model):
         res = []
         has_sections = False
         subtotal = 0.0
-        sign = self.move_type == 'out_refund' and -1 or 1
+        sign = self.move_type == "out_refund" and -1 or 1
         # Warning: the order of invoice line is forced in the view
         # <tree editable="bottom" default_order="sequence, date desc, move_name desc, id"
         # it's not the same as the _order in the class AccountMoveLine
-        lines = self.env['account.move.line'].search([('exclude_from_invoice_tab', '=', False), ('move_id', '=', self.id)], order="sequence, date desc, move_name desc, id")
+        lines = self.env["account.move.line"].search(
+            [("exclude_from_invoice_tab", "=", False), ("move_id", "=", self.id)],
+            order="sequence, date desc, move_name desc, id",
+        )
         for line in lines:
-            if line.display_type == 'line_section':
+            if line.display_type == "line_section":
                 # insert line
                 if has_sections:
-                    res.append({'subtotal': subtotal})
+                    res.append({"subtotal": subtotal})
                 subtotal = 0.0  # reset counter
                 has_sections = True
             else:
                 if not line.display_type:
                     subtotal += line.price_subtotal * sign
-            res.append({'line': line})
+            res.append({"line": line})
         if has_sections:  # insert last subtotal line
-            res.append({'subtotal': subtotal})
+            res.append({"subtotal": subtotal})
         # res:
         # [
         #    {'line': account_invoice_line(1) with display_type=='line_section'},
@@ -149,44 +167,55 @@ class AccountMove(models.Model):
         return res
 
     def _compute_sales_dates(self):
-        """ French law requires to set sale order dates into invoice
-            returned string: "sale1 (date1), sale2 (date2) ..."
+        """French law requires to set sale order dates into invoice
+        returned string: "sale1 (date1), sale2 (date2) ..."
         """
         for inv in self:
-            sales = inv.invoice_line_ids.mapped(
-                'sale_line_ids').mapped('order_id')
-            dates = ["%s (%s)" % (
-                     x.name, format_date(inv.env, self.date_order))
-                     for x in sales]
+            sales = inv.invoice_line_ids.mapped("sale_line_ids").mapped("order_id")
+            dates = [
+                "%s (%s)" % (x.name, format_date(inv.env, self.date_order))
+                for x in sales
+            ]
             inv.sale_dates = ", ".join(dates)
 
     # allow to manually create moves not only in general journals,
     # but also in cash journal and check journals (= bank journals not linked to a bank account)
-    @api.depends('company_id', 'invoice_filter_type_domain')
+    @api.depends("company_id", "invoice_filter_type_domain")
     def _compute_suitable_journal_ids(self):
         for move in self:
             if move.invoice_filter_type_domain:
                 super(AccountMove, move)._compute_suitable_journal_ids()
             else:
                 company_id = move.company_id.id or self.env.company.id
-                domain = expression.AND([
-                        [('company_id', '=', company_id)],
-                        expression.OR([
-                            [('type', 'in', ('general', 'cash'))],
-                            [('type', '=', 'bank'), ('bank_account_id', '=', False)]
-                            ])
-                        ])
-                move.suitable_journal_ids = self.env['account.journal'].search(domain)
+                domain = expression.AND(
+                    [
+                        [("company_id", "=", company_id)],
+                        expression.OR(
+                            [
+                                [("type", "in", ("general", "cash"))],
+                                [
+                                    ("type", "=", "bank"),
+                                    ("bank_account_id", "=", False),
+                                ],
+                            ]
+                        ),
+                    ]
+                )
+                move.suitable_journal_ids = self.env["account.journal"].search(domain)
 
     def button_draft(self):
         super().button_draft()
         # Delete attached pdf invoice
         try:
-            report_invoice = self.env['ir.actions.report']._get_report_from_name('account.report_invoice')
+            report_invoice = self.env["ir.actions.report"]._get_report_from_name(
+                "account.report_invoice"
+            )
         except IndexError:
             report_invoice = False
         if report_invoice and report_invoice.attachment:
-            for move in self.filtered(lambda x: x.move_type in ('out_invoice', 'out_refund')):
+            for move in self.filtered(
+                lambda x: x.move_type in ("out_invoice", "out_refund")
+            ):
                 # The pb is that the filename is dynamic and related to move.state
                 # in v12, the feature was native and they used that kind of code:
                 # with invoice.env.do_in_draft():
@@ -194,22 +223,25 @@ class AccountMove(models.Model):
                 #    attachment = self.env.ref('account.account_invoices').retrieve_attachment(invoice)
                 # But do_in_draft() doesn't exists in v14
                 # If you know how we could do that, please update the code below
-                attachment = self.env['ir.attachment'].search([
-                    ('name', '=', self._get_invoice_attachment_name()),
-                    ('res_id', '=', move.id),
-                    ('res_model', '=', self._name),
-                    ('type', '=', 'binary'),
-                    ], limit=1)
+                attachment = self.env["ir.attachment"].search(
+                    [
+                        ("name", "=", self._get_invoice_attachment_name()),
+                        ("res_id", "=", move.id),
+                        ("res_model", "=", self._name),
+                        ("type", "=", "binary"),
+                    ],
+                    limit=1,
+                )
                 if attachment:
                     attachment.unlink()
 
     def _get_invoice_attachment_name(self):
         self.ensure_one()
-        return '%s.pdf' % (self.name and self.name.replace('/', '_') or 'INV')
+        return "%s.pdf" % (self.name and self.name.replace("/", "_") or "INV")
 
 
 class AccountMoveLine(models.Model):
-    _inherit = 'account.move.line'
+    _inherit = "account.move.line"
     # Native order:
     # _order = "date desc, move_name desc, id"
     # Problem: when you manually create a journal entry, the
@@ -220,34 +252,42 @@ class AccountMoveLine(models.Model):
     # In the 'account' module, we have related stored field for:
     # name (move_name), date, ref, state (parent_state),
     # journal_id, company_id, payment_id, statement_line_id,
-    account_reconcile = fields.Boolean(related='account_id.reconcile')
-    full_reconcile_id = fields.Many2one(string='Full Reconcile')
-    matched_debit_ids = fields.One2many(string='Partial Reconcile Debit')
-    matched_credit_ids = fields.One2many(string='Partial Reconcile Credit')
+    account_reconcile = fields.Boolean(related="account_id.reconcile")
+    full_reconcile_id = fields.Many2one(string="Full Reconcile")
+    matched_debit_ids = fields.One2many(string="Partial Reconcile Debit")
+    matched_credit_ids = fields.One2many(string="Partial Reconcile Credit")
     reconcile_string = fields.Char(
-        compute='_compute_reconcile_string', string='Reconcile', store=True)
+        compute="_compute_reconcile_string", string="Reconcile", store=True
+    )
     # for optional display in tree view
-    product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
+    product_barcode = fields.Char(
+        related="product_id.barcode", string="Product Barcode"
+    )
 
     def show_account_move_form(self):
         self.ensure_one()
-        action = self.env.ref('account.action_move_line_form').read()[0]
-        action.update({
-            'res_id': self.move_id.id,
-            'view_id': False,
-            'views': False,
-            'view_mode': 'form,tree',
-        })
+        action = self.env.ref("account.action_move_line_form").read()[0]
+        action.update(
+            {
+                "res_id": self.move_id.id,
+                "view_id": False,
+                "views": False,
+                "view_mode": "form,tree",
+            }
+        )
         return action
 
-    @api.depends(
-            'full_reconcile_id', 'matched_debit_ids', 'matched_credit_ids')
+    @api.depends("full_reconcile_id", "matched_debit_ids", "matched_credit_ids")
     def _compute_reconcile_string(self):
         for line in self:
             rec_str = False
             if line.full_reconcile_id:
                 rec_str = line.full_reconcile_id.name
             else:
-                rec_str = ', '.join([
-                    'a%d' % pr.id for pr in line.matched_debit_ids + line.matched_credit_ids])
+                rec_str = ", ".join(
+                    [
+                        "a%d" % pr.id
+                        for pr in line.matched_debit_ids + line.matched_credit_ids
+                    ]
+                )
             line.reconcile_string = rec_str

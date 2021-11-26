@@ -7,21 +7,27 @@ from odoo.tools import float_round
 
 
 class SaleOrder(models.Model):
-    _inherit = 'sale.order'
+    _inherit = "sale.order"
 
     payment_line_ids = fields.One2many(
-        'account.move.line', 'sale_id', string='Advance Payments',
-        readonly=True)
+        "account.move.line", "sale_id", string="Advance Payments", readonly=True
+    )
     amount_down_payment = fields.Monetary(
-        compute='_compute_amount_down_payment', string='Down Payment Amount')
+        compute="_compute_amount_down_payment", string="Down Payment Amount"
+    )
     # amount_residual : only used to hide 'Register Payment' button
     amount_residual = fields.Monetary(
-        compute='_compute_amount_down_payment', string='Residual')
+        compute="_compute_amount_down_payment", string="Residual"
+    )
 
     @api.depends(
-        'payment_line_ids.credit', 'payment_line_ids.debit',
-        'payment_line_ids.amount_currency', 'payment_line_ids.currency_id',
-        'payment_line_ids.date', 'currency_id')
+        "payment_line_ids.credit",
+        "payment_line_ids.debit",
+        "payment_line_ids.amount_currency",
+        "payment_line_ids.currency_id",
+        "payment_line_ids.date",
+        "currency_id",
+    )
     def _compute_amount_down_payment(self):
         for sale in self:
             down_payment = 0.0
@@ -32,17 +38,20 @@ class SaleOrder(models.Model):
             else:
                 for pl in sale.payment_line_ids:
                     if (
-                            pl.currency_id and
-                            pl.currency_id == sale_currency and
-                            pl.amount_currency):
+                        pl.currency_id
+                        and pl.currency_id == sale_currency
+                        and pl.amount_currency
+                    ):
                         down_payment -= pl.amount_currency
                     else:
                         down_payment -= sale.company_id.currency_id._convert(
-                            pl.balance, sale_currency, sale.company_id,
-                            pl.date)
+                            pl.balance, sale_currency, sale.company_id, pl.date
+                        )
             down_payment = float_round(
-                down_payment, precision_rounding=sale.currency_id.rounding)
+                down_payment, precision_rounding=sale.currency_id.rounding
+            )
             sale.amount_down_payment = down_payment
             sale.amount_residual = float_round(
                 sale.amount_total - down_payment,
-                precision_rounding=sale.currency_id.rounding)
+                precision_rounding=sale.currency_id.rounding,
+            )

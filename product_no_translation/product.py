@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Product No Translation module for Odoo
@@ -20,7 +19,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class ProductTemplate(models.Model):
@@ -30,6 +29,7 @@ class ProductTemplate(models.Model):
     description_purchase = fields.Text(translate=False)
     description = fields.Text(translate=False)
     name = fields.Char(translate=False)
+
 
 class ProductAttribute(models.Model):
     _inherit = "product.attribute"
@@ -44,12 +44,12 @@ class ProductAttributeValue(models.Model):
 
 
 class UomCategory(models.Model):
-    _inherit = 'uom.category'
+    _inherit = "uom.category"
 
     name = fields.Char(translate=False)
 
 
 class UomUom(models.Model):
-    _inherit = 'uom.uom'
+    _inherit = "uom.uom"
 
     name = fields.Char(translate=False)

@@ -7,7 +7,7 @@ from odoo import api, models
 
 
 class MrpProduction(models.Model):
-    _inherit = 'mrp.production'
+    _inherit = "mrp.production"
 
     # Method used by the report, inherited in this module
     @api.model

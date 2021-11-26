@@ -6,7 +6,7 @@ from odoo import fields, models
 
 
 class StockPicking(models.Model):
-    _inherit = 'stock.picking'
+    _inherit = "stock.picking"
 
     carrier_id = fields.Many2one(tracking=True)
     carrier_tracking_ref = fields.Char(tracking=True)

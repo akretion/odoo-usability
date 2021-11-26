@@ -4,12 +4,12 @@
 
 
 {
-    'name': 'Stock Picking Type Default Partner',
-    'version': '14.0.1.0.0',
-    'category': 'Inventory, Logistics, Warehousing',
-    'license': 'AGPL-3',
-    'summary': 'Adds a default partner on types of operation',
-    'description': """
+    "name": "Stock Picking Type Default Partner",
+    "version": "14.0.1.0.0",
+    "category": "Inventory, Logistics, Warehousing",
+    "license": "AGPL-3",
+    "summary": "Adds a default partner on types of operation",
+    "description": """
 Stock Picking Type Default Partner
 ==================================
 
@@ -17,9 +17,9 @@ This module adds a new field on the Types of Operation (stock.picking.type) : *D
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['stock'],
-    'data': ['views/stock_picking_type.xml'],
-    'installable': True,
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["stock"],
+    "data": ["views/stock_picking_type.xml"],
+    "installable": True,
 }

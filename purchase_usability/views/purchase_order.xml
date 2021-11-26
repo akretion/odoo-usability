@@ -1,41 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   Copyright 2014-2020 Akretion (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-
 <odoo>
 
 
 <record id="purchase_order_form" model="ir.ui.view">
     <field name="name">usability.purchase.order.form</field>
     <field name="model">purchase.order</field>
-    <field name="inherit_id" ref="purchase.purchase_order_form"/>
+    <field name="inherit_id" ref="purchase.purchase_order_form" />
     <field name="arch" type="xml">
         <button name="action_rfq_send" states="purchase" position="after">
-            <button name="%(purchase.action_report_purchase_order)d" states="purchase,done" string="Print" type="action"/>
+            <button
+                    name="%(purchase.action_report_purchase_order)d"
+                    states="purchase,done"
+                    string="Print"
+                    type="action"
+                />
         </button>
         <field name="fiscal_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
         <button name="button_cancel" type="object" position="attributes">
-            <attribute name="confirm">Are you sure you want to cancel this purchase order?</attribute>
+            <attribute
+                    name="confirm"
+                >Are you sure you want to cancel this purchase order?</attribute>
         </button>
         <!-- the 'origin' field can be very long ; it can list a lot of MO or OP!
         I think limiting the size of the field would not be the best option,
         because the info it carries can be interesting. So we just move it
         from the top of the view to the second tab -->
-        <field name="origin" position="replace"/>
+        <field name="origin" position="replace" />
         <field name="date_approve" position="after">
-            <field name="origin"/>
+            <field name="origin" />
         </field>
         <!-- Remove once this PR is merged https://github.com/odoo/odoo/pull/35073 -->
-        <xpath expr="//field[@name='order_line']/form//field[@name='analytic_tag_ids']" position="attributes">
+        <xpath
+                expr="//field[@name='order_line']/form//field[@name='analytic_tag_ids']"
+                position="attributes"
+            >
             <attribute name="groups">analytic.group_analytic_tags</attribute>
         </xpath>
-        <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="after">
-            <field name="product_barcode" optional="hide"/>
+        <xpath
+                expr="//field[@name='order_line']/tree//field[@name='product_id']"
+                position="after"
+            >
+            <field name="product_barcode" optional="hide" />
         </xpath>
     </field>
 </record>
@@ -43,7 +55,7 @@
 <record id="purchase_order_tree" model="ir.ui.view">
     <field name="name">usability.purchase.order.tree</field>
     <field name="model">purchase.order</field>
-    <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+    <field name="inherit_id" ref="purchase.purchase_order_tree" />
     <field name="arch" type="xml">
         <!-- the 'origin' field can be very long ; it can list a lot of MO or OP!
         I think limiting the size of the field would not be the best option,
@@ -57,14 +69,20 @@
 <record id="view_purchase_order_filter" model="ir.ui.view">
     <field name="name">usability.purchase.order.tree</field>
     <field name="model">purchase.order</field>
-    <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+    <field name="inherit_id" ref="purchase.view_purchase_order_filter" />
     <field name="arch" type="xml">
         <group expand="0" position="inside">
-            <filter string="Billing Status" name="invoice_status_groupby" context="{'group_by': 'invoice_status'}"/>
+            <filter
+                    string="Billing Status"
+                    name="invoice_status_groupby"
+                    context="{'group_by': 'invoice_status'}"
+                />
         </group>
         <field name="name" position="attributes">
             <attribute name="string">Reference, Origin or Vendor Reference</attribute>
-            <attribute name="filter_domain">['|', '|', ('name', 'ilike', self), ('origin', 'ilike', self), ('partner_ref', 'ilike', self)]</attribute>
+            <attribute
+                    name="filter_domain"
+                >['|', '|', ('name', 'ilike', self), ('origin', 'ilike', self), ('partner_ref', 'ilike', self)]</attribute>
         </field>
     </field>
 </record>
@@ -73,10 +91,10 @@
 <record id="purchase_order_pivot" model="ir.ui.view">
     <field name="name">usability.purchase.order.pivot</field>
     <field name="model">purchase.order</field>
-    <field name="inherit_id" ref="purchase.purchase_order_pivot"/>
+    <field name="inherit_id" ref="purchase.purchase_order_pivot" />
     <field name="arch" type="xml">
         <field name="amount_total" type="measure" position="replace">
-            <field name="amount_untaxed" type="measure"/>
+            <field name="amount_untaxed" type="measure" />
         </field>
     </field>
 </record>
@@ -84,10 +102,10 @@
 <record id="purchase_order_graph" model="ir.ui.view">
     <field name="name">usability.purchase.order.graph</field>
     <field name="model">purchase.order</field>
-    <field name="inherit_id" ref="purchase.purchase_order_graph"/>
+    <field name="inherit_id" ref="purchase.purchase_order_graph" />
     <field name="arch" type="xml">
         <field name="amount_total" type="measure" position="replace">
-            <field name="amount_untaxed" type="measure"/>
+            <field name="amount_untaxed" type="measure" />
         </field>
     </field>
 </record>
@@ -95,10 +113,10 @@
 <record id="purchase_order_calendar" model="ir.ui.view">
     <field name="name">usability.purchase.order.calendar</field>
     <field name="model">purchase.order</field>
-    <field name="inherit_id" ref="purchase.purchase_order_calendar"/>
+    <field name="inherit_id" ref="purchase.purchase_order_calendar" />
     <field name="arch" type="xml">
         <field name="amount_total" position="replace">
-            <field name="amount_untaxed" widget="monetary"/>
+            <field name="amount_untaxed" widget="monetary" />
         </field>
     </field>
 </record>
@@ -113,25 +131,28 @@
 <record id="purchase_order_line_tree" model="ir.ui.view">
     <field name="name">usability.purchase.order.line.tree</field>
     <field name="model">purchase.order.line</field>
-    <field name="inherit_id" ref="purchase.purchase_order_line_tree"/>
+    <field name="inherit_id" ref="purchase.purchase_order_line_tree" />
     <field name="arch" type="xml">
-        <field name="name" position="replace"/>
+        <field name="name" position="replace" />
         <field name="product_id" position="after">
-            <field name="name"/>
+            <field name="name" />
         </field>
         <field name="product_qty" position="after">
-            <field name="qty_received"/>
-            <field name="qty_invoiced"/>
+            <field name="qty_received" />
+            <field name="qty_invoiced" />
         </field>
-        <field name="price_unit" position="replace"/>
+        <field name="price_unit" position="replace" />
         <field name="product_uom" position="after">
-            <field name="price_unit"/>
+            <field name="price_unit" />
         </field>
         <field name="product_qty" position="before">
-            <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+            <field
+                    name="account_analytic_id"
+                    groups="analytic.group_analytic_accounting"
+                />
         </field>
         <field name="date_planned" position="after">
-            <field name="state"/>
+            <field name="state" />
         </field>
     </field>
 </record>
@@ -139,13 +160,21 @@
 <record id="purchase_order_line_search" model="ir.ui.view">
     <field name="name">usability.purchase.order.line.search</field>
     <field name="model">purchase.order.line</field>
-    <field name="inherit_id" ref="purchase.purchase_order_line_search"/>
+    <field name="inherit_id" ref="purchase.purchase_order_line_search" />
     <field name="arch" type="xml">
         <field name="partner_id" position="after">
-            <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+            <field
+                    name="account_analytic_id"
+                    groups="analytic.group_analytic_accounting"
+                />
         </field>
         <group expand="0" position="inside">
-            <filter string="Analytic Account" name="account_analytic_groupby" context="{'group_by': 'account_analytic_id'}" groups="analytic.group_analytic_accounting"/>
+            <filter
+                    string="Analytic Account"
+                    name="account_analytic_groupby"
+                    context="{'group_by': 'account_analytic_id'}"
+                    groups="analytic.group_analytic_accounting"
+                />
         </group>
     </field>
 </record>

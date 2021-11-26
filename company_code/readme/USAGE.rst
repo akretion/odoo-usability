@@ -1,4 +1,4 @@
-To display your company code with `name_get()` just 
+To display your company code with `name_get()` just
 write this in your custom code according to your model
 
 

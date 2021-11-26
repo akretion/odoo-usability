@@ -11,7 +11,7 @@ This module adds the following functions:
 * Better search and form view for country and state
 * Display technical name of modules in kanban view
 * Change module filter to `installable`
-* Add widget=handle on sequence of res.partner.bank 
+* Add widget=handle on sequence of res.partner.bank
 * Add city and country in partner tree view
 * Add widget="email" on email of contacts
 * Add script to fix partners related to users in multi-company setup

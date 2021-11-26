@@ -4,12 +4,12 @@
 
 
 {
-    'name': 'Stock Valuation XLSX',
-    'version': '14.0.1.0.0',
-    'category': 'Tools',
-    'license': 'AGPL-3',
-    'summary': 'Generate XLSX reports for past or present stock levels',
-    'description': """
+    "name": "Stock Valuation XLSX",
+    "version": "14.0.1.0.0",
+    "category": "Tools",
+    "license": "AGPL-3",
+    "summary": "Generate XLSX reports for past or present stock levels",
+    "description": """
 Stock Valuation XLSX
 ====================
 
@@ -33,15 +33,15 @@ You can access this XLSX stock valuation report either:
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
-    'author': "Akretion",
-    'website': 'http://www.akretion.com',
-    'depends': ['stock_account'],
-    'data': [
-        'security/ir.model.access.csv',
-        'wizard/stock_valuation_xlsx_view.xml',
-        'wizard/stock_variation_xlsx_view.xml',
-        'views/stock_inventory.xml',
-        'views/stock_expiry_depreciation_rule.xml',
-        ],
-    'installable': True,
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["stock_account"],
+    "data": [
+        "security/ir.model.access.csv",
+        "wizard/stock_valuation_xlsx_view.xml",
+        "wizard/stock_variation_xlsx_view.xml",
+        "views/stock_inventory.xml",
+        "views/stock_expiry_depreciation_rule.xml",
+    ],
+    "installable": True,
 }

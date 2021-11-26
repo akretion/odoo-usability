@@ -2,20 +2,21 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
 from dateutil.relativedelta import relativedelta
+
+from odoo import api, fields, models
 
 
 class AccountMoveReversal(models.TransientModel):
-    _inherit = 'account.move.reversal'
+    _inherit = "account.move.reversal"
 
     @api.model
     def _default_date(self):
         date_dt = None
-        if (
-                self._context.get('active_model') == 'account.move' and
-                self._context.get('active_id')):
-            move = self.env['account.move'].browse(self._context['active_id'])
+        if self._context.get("active_model") == "account.move" and self._context.get(
+            "active_id"
+        ):
+            move = self.env["account.move"].browse(self._context["active_id"])
             date_dt = move.date + relativedelta(days=1)
         return date_dt
 

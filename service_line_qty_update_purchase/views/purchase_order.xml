@@ -1,23 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   Copyright 2020 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-
 <odoo>
 
 
 <record id="purchase_order_form" model="ir.ui.view">
     <field name="name">purchase.order.form</field>
     <field name="model">purchase.order</field>
-    <field name="inherit_id" ref="purchase.purchase_order_form"/>
+    <field name="inherit_id" ref="purchase.purchase_order_form" />
     <field name="arch" type="xml">
         <button name="action_view_invoice" position="after">
-            <button name="%(service_line_qty_update_base.service_qty_update_action)d" type="action" string="Update Service Qty" attrs="{'invisible': ['|', '|', ('state', 'not in', ('purchase', 'done')), ('has_service', '=', False), ('reception_status', '=', 'received')]}" groups="purchase.group_purchase_user"/>
-            <field name="has_service" invisible="1"/>
+            <button
+                    name="%(service_line_qty_update_base.service_qty_update_action)d"
+                    type="action"
+                    string="Update Service Qty"
+                    attrs="{'invisible': ['|', '|', ('state', 'not in', ('purchase', 'done')), ('has_service', '=', False), ('reception_status', '=', 'received')]}"
+                    groups="purchase.group_purchase_user"
+                />
+            <field name="has_service" invisible="1" />
         </button>
-        <xpath expr="//field[@name='order_line']/tree/field[@name='qty_received']" position="attributes">
+        <xpath
+                expr="//field[@name='order_line']/tree/field[@name='qty_received']"
+                position="attributes"
+            >
             <attribute name="readonly">1</attribute>
         </xpath>
     </field>

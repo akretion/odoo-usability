@@ -16,7 +16,7 @@ This module allows to configure a special *Partner Receivable Account* and a spe
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     "author": "Akretion",
-    "website": "http://www.akretion.com",
+    "website": "https://github.com/OCA/odoo-usability",
     "depends": ["account"],
     "data": ["views/account_fiscal_position_view.xml"],
     "installable": False,

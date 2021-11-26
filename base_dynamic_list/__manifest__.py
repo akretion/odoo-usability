@@ -3,12 +3,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Base Dynamic List',
-    'version': '14.0.1.0.0',
-    'category': 'Tools',
-    'license': 'AGPL-3',
-    'summary': 'Dynamic lists',
-    'description': """
+    "name": "Base Dynamic List",
+    "version": "14.0.1.0.0",
+    "category": "Tools",
+    "license": "AGPL-3",
+    "summary": "Dynamic lists",
+    "description": """
 Base Dynamic List
 =================
 
@@ -51,12 +51,12 @@ parent="parent_menu_xmlid"/>
 
 Limitation: when you want to have different access rights on these lists depending on the source object, you should prefer to use dedicated objects.
 """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['base'],
-    'data': [
-        'security/ir.model.access.csv',
-        'views/dynamic_list.xml',
-        ],
-    'installable': True,
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["base"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/dynamic_list.xml",
+    ],
+    "installable": True,
 }

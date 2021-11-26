@@ -6,12 +6,13 @@ from odoo import models
 
 
 class SaleOrder(models.Model):
-    _inherit = 'sale.order'
+    _inherit = "sale.order"
 
     def sale_confirm_wizard_button(self):
         """This method is designed to be inherited.
         For example, inherit it if you don't want to start the wizard in
         some scenarios"""
-        action = self.sudo().env.ref(
-            'sale_confirm_wizard.sale_confirm_action').read()[0]
+        action = (
+            self.sudo().env.ref("sale_confirm_wizard.sale_confirm_action").read()[0]
+        )
         return action

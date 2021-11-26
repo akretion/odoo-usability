@@ -7,7 +7,7 @@
     "summary": "Hide 'configure a product' from sale line",
     "version": "12.0.1.0.0",
     "category": "Usabability",
-    "website": "www.akretion.com",
+    "website": "https://github.com/OCA/odoo-usability",
     "author": " Akretion",
     "license": "AGPL-3",
     "application": False,
@@ -22,10 +22,6 @@
     "data": [
         "views/sale_view.xml",
     ],
-    "demo": [
-    ],
-    "qweb": [
-    ]
+    "demo": [],
+    "qweb": [],
 }
-
-

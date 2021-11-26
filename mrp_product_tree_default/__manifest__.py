@@ -3,20 +3,18 @@
 
 
 {
-    'name': 'MRP Product Tree Default',
-    'version': '12.0.1.0.0',
-    'category': 'Product',
-    'license': 'AGPL-3',
-    'summary': 'Tree view by default instead of kanban for Products',
-    'description': """
+    "name": "MRP Product Tree Default",
+    "version": "12.0.1.0.0",
+    "category": "Product",
+    "license": "AGPL-3",
+    "summary": "Tree view by default instead of kanban for Products",
+    "description": """
         Replace default kanban view by tree view for product menu in MRP
         main menu
     """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['mrp'],
-    'data': [
-        'views/product_template.xml'
-    ],
-    'installable': False,
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["mrp"],
+    "data": ["views/product_template.xml"],
+    "installable": False,
 }

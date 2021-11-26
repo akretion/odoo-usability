@@ -17,7 +17,8 @@ class AccountPartialReconcile(models.Model):
             # Prefix for full rec: 'A' (upper case)
             # Prefix for partial rec: 'a' (lower case)
             amount_fmt = formatLang(
-                self.env, rec.amount, currency_obj=rec.company_currency_id)
-            name = 'a%d (%s)' % (rec.id, amount_fmt)
+                self.env, rec.amount, currency_obj=rec.company_currency_id
+            )
+            name = "a%d (%s)" % (rec.id, amount_fmt)
             res.append((rec.id, name))
         return res

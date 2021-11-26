@@ -6,7 +6,7 @@ from odoo import fields, models
 
 
 class ProductTemplate(models.Model):
-    _inherit = 'product.template'
+    _inherit = "product.template"
 
     available_in_pos = fields.Boolean(tracking=True)
     pos_categ_id = fields.Many2one(tracking=True)

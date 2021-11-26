@@ -6,11 +6,11 @@ from odoo import api, models
 
 
 class IrModel(models.Model):
-    _inherit = 'ir.model'
+    _inherit = "ir.model"
 
-    @api.depends('name', 'model')
+    @api.depends("name", "model")
     def name_get(self):
         res = []
         for rec in self:
-            res.append((rec.id, '%s (%s)' % (rec.name, rec.model)))
+            res.append((rec.id, "%s (%s)" % (rec.name, rec.model)))
         return res

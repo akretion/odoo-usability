@@ -16,4 +16,3 @@ index a3baf47c615..e546d450107 100644
 +                user.partner_id.write({'company_id': False})
              user.partner_id.active = user.active
          return users
- 

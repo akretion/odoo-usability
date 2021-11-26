@@ -6,6 +6,6 @@ from odoo import fields, models
 
 
 class MailTemplate(models.Model):
-    _inherit = 'mail.template'
+    _inherit = "mail.template"
 
     auto_delete = fields.Boolean(default=False)

@@ -1,36 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   Copyright 2015-2019 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-
 <odoo>
 
 <record id="view_order_form" model="ir.ui.view">
     <field name="name">usability.sale.order.form</field>
     <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="inherit_id" ref="sale.view_order_form" />
     <field name="arch" type="xml">
         <field name="fiscal_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
         <field name="partner_shipping_id" position="attributes">
-            <attribute name="context" operation="python_dict" key="show_address">1</attribute>
+            <attribute
+                    name="context"
+                    operation="python_dict"
+                    key="show_address"
+                >1</attribute>
         </field>
         <button name="action_cancel" type="object" position="attributes">
-            <attribute name="confirm">Are you sure you want to cancel this sale order?</attribute>
+            <attribute
+                    name="confirm"
+                >Are you sure you want to cancel this sale order?</attribute>
         </button>
         <!-- client_order_ref is an important field, so we should put it in the top like in v8, not hidden in the second tab -->
-        <field name="client_order_ref" position="replace"/>
+        <field name="client_order_ref" position="replace" />
         <field name="date_order" position="after">
-            <field name="client_order_ref"/>
+            <field name="client_order_ref" />
         </field>
         <button name="action_quotation_send" states="sent,sale" position="after">
-            <button name="%(sale.action_report_saleorder)d" type="action" string="Print" states="draft,sent,sale,done"/>
+            <button
+                    name="%(sale.action_report_saleorder)d"
+                    type="action"
+                    string="Print"
+                    states="draft,sent,sale,done"
+                />
         </button>
-        <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
-            <field name="product_barcode" optional="hide"/>
+        <xpath
+                expr="//field[@name='order_line']/tree/field[@name='product_template_id']"
+                position="after"
+            >
+            <field name="product_barcode" optional="hide" />
         </xpath>
     </field>
 </record>
@@ -38,7 +51,7 @@
 <record id="view_quotation_tree" model="ir.ui.view">
     <field name="name">usability.sale.quotation.tree</field>
     <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_quotation_tree"/>
+    <field name="inherit_id" ref="sale.view_quotation_tree" />
     <field name="arch" type="xml">
         <field name="amount_untaxed" position="attributes">
             <attribute name="optional">show</attribute>
@@ -49,7 +62,7 @@
 <record id="view_order_tree" model="ir.ui.view">
     <field name="name">usability.sale.order.tree</field>
     <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_tree"/>
+    <field name="inherit_id" ref="sale.view_order_tree" />
     <field name="arch" type="xml">
         <field name="amount_untaxed" position="attributes">
             <attribute name="optional">show</attribute>
@@ -63,14 +76,22 @@
 <record id="view_sales_order_filter" model="ir.ui.view">
     <field name="name">usability.sale.order.search</field>
     <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+    <field name="inherit_id" ref="sale.view_sales_order_filter" />
     <field name="arch" type="xml">
         <filter name="order_month" position="after">
-            <filter string="State" name="state_groupby" context="{'group_by': 'state'}"/>
+            <filter
+                    string="State"
+                    name="state_groupby"
+                    context="{'group_by': 'state'}"
+                />
         </filter>
         <filter name="activities_upcoming_all" position="after">
-            <separator/>
-            <filter name="no_attachment" string="Missing Attachment" domain="[('has_attachment', '=', False)]"/>
+            <separator />
+            <filter
+                    name="no_attachment"
+                    string="Missing Attachment"
+                    domain="[('has_attachment', '=', False)]"
+                />
         </filter>
     </field>
 </record>
@@ -92,10 +113,14 @@ https://github.com/odoo/odoo/commit/c1e5ab9b1331c3cb7dc2232bf78952bdb40ad939 -->
 <record id="view_sales_order_line_filter" model="ir.ui.view">
     <field name="name">usability.sale.order.line.search</field>
     <field name="model">sale.order.line</field>
-    <field name="inherit_id" ref="sale.view_sales_order_line_filter"/>
+    <field name="inherit_id" ref="sale.view_sales_order_line_filter" />
     <field name="arch" type="xml">
         <filter name="product" position="before">
-            <filter string="Customer" name="partner_groupby" context="{'group_by': 'order_partner_id'}"/>
+            <filter
+                    string="Customer"
+                    name="partner_groupby"
+                    context="{'group_by': 'order_partner_id'}"
+                />
         </filter>
     </field>
 </record>
@@ -103,7 +128,7 @@ https://github.com/odoo/odoo/commit/c1e5ab9b1331c3cb7dc2232bf78952bdb40ad939 -->
 <record id="view_order_line_tree" model="ir.ui.view">
     <field name="name">usability.sale.order.line.tree</field>
     <field name="model">sale.order.line</field>
-    <field name="inherit_id" ref="sale.view_order_line_tree"/>
+    <field name="inherit_id" ref="sale.view_order_line_tree" />
     <field name="arch" type="xml">
         <field name="product_uom_qty" position="attributes">
             <attribute name="sum">1</attribute>

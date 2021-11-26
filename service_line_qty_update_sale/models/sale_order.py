@@ -6,16 +6,16 @@ from odoo import api, fields, models
 
 
 class SaleOrder(models.Model):
-    _inherit = 'sale.order'
+    _inherit = "sale.order"
 
-    has_service = fields.Boolean(compute='_compute_has_service')
+    has_service = fields.Boolean(compute="_compute_has_service")
 
-    @api.depends('order_line.product_id.type')
+    @api.depends("order_line.product_id.type")
     def _compute_has_service(self):
         for order in self:
             has_service = False
             for l in order.order_line:
-                if l.product_id.type == 'service':
+                if l.product_id.type == "service":
                     has_service = True
                     break
             order.has_service = has_service

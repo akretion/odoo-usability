@@ -2,15 +2,16 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models, _
 import logging
+
+from odoo import _, fields, models
 
 logger = logging.getLogger(__name__)
 
 
 class StockPicking(models.Model):
-    _inherit = 'stock.picking'
-#    _order = 'id desc'
+    _inherit = "stock.picking"
+    #    _order = 'id desc'
     # In the stock module: _order = "priority desc, scheduled_date asc, id desc"
     # The problem is date asc
 
@@ -27,6 +28,6 @@ class StockPicking(models.Model):
 
 
 class StockPickingType(models.Model):
-    _inherit = 'stock.picking.type'
+    _inherit = "stock.picking.type"
 
     name = fields.Char(translate=False)

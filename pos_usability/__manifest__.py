@@ -24,7 +24,7 @@ Akretion:
 
     """,
     "author": "Akretion",
-    "website": "http://www.akretion.com",
+    "website": "https://github.com/OCA/odoo-usability",
     "depends": ["point_of_sale"],
     "data": [
         "report/pos.xml",
@@ -32,6 +32,6 @@ Akretion:
         "views/pos_category.xml",
         "views/pos_session.xml",
         "views/product.xml",
-        ],
+    ],
     "installable": True,
 }

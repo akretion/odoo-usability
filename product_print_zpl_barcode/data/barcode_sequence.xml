@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 <data noupdate="1">
 
@@ -18,7 +17,7 @@ for example 623 : Brunei
     <field name="prefix">298</field>
     <field name="padding">9</field>
     <field name="number_next">1</field>
-    <field name="company_id" eval="False"/>
+    <field name="company_id" eval="False" />
 </record>
 
 

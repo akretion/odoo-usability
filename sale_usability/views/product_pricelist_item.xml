@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   Copyright 2017-2020 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-
 <odoo>
 
 <!-- This is in the sale_usability module instead of the product_usability module
@@ -17,11 +16,13 @@ because the parent menu entry is in the sale module -->
 </record>
 
 <!-- This menu entry is very useful for mass export/import of prices -->
-<menuitem id="product_pricelist_item_menu"
-  parent="sale.product_menu_catalog"
-  action="product_pricelist_item_action"
-  groups="product.group_sale_pricelist"
-  sequence="50"/>
+<menuitem
+        id="product_pricelist_item_menu"
+        parent="sale.product_menu_catalog"
+        action="product_pricelist_item_action"
+        groups="product.group_sale_pricelist"
+        sequence="50"
+    />
 
 
 </odoo>

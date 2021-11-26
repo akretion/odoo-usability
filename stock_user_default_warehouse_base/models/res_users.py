@@ -2,19 +2,19 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class ResUsers(models.Model):
-    _inherit = 'res.users'
+    _inherit = "res.users"
 
     context_default_warehouse_id = fields.Many2one(
-        'stock.warehouse',
-        string='Default Warehouse',
+        "stock.warehouse",
+        string="Default Warehouse",
         company_dependent=True,
         help="Default warehouse for sale orders (if the module "
         "stock_user_default_warehouse_sale is installed), purchase orders "
         "(if the module stock_user_default_warehouse_purchase is installed) "
         "and production orders "
-        "(if the module stock_user_default_warehouse_mrp is installed)."
+        "(if the module stock_user_default_warehouse_mrp is installed).",
     )

@@ -3,19 +3,19 @@
 # @author Raphaël Valyi <rvalyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class ProductTemplate(models.Model):
-    _inherit = 'product.template'
+    _inherit = "product.template"
 
     # restore v8 native field
     # https://github.com/odoo/odoo/blob/8.0/addons/product/product.py#L592
     # in v10, that field was defined in procurement_suggest, but we will
     # probably not port procurement_suggest because it is native in v14
     seller_id = fields.Many2one(
-        'res.partner', related='seller_ids.name', store=True,
-        string='Main Supplier')
+        "res.partner", related="seller_ids.name", store=True, string="Main Supplier"
+    )
 
     # in v14, I noticed that the tracking of the fields of product.template
     # are only shown in the form view of product.template, not in the form

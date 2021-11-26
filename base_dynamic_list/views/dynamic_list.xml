@@ -1,25 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   Copyright 2020-2021 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-
 <odoo>
 
 
-<menuitem id="dynamic_list_root_menu" name="Dynamic Lists" parent="base.menu_custom" sequence="100"/>
+<menuitem
+        id="dynamic_list_root_menu"
+        name="Dynamic Lists"
+        parent="base.menu_custom"
+        sequence="100"
+    />
 
 <record id="dynamic_list_form" model="ir.ui.view">
     <field name="model">dynamic.list</field>
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
                 <group name="main">
-                    <field name="name"/>
-                    <field name="domain" invisible="not context.get('dynamic_list_main_view')"/>
-                    <field name="active" invisible="1"/>
+                    <field name="name" />
+                    <field
+                            name="domain"
+                            invisible="not context.get('dynamic_list_main_view')"
+                        />
+                    <field name="active" invisible="1" />
                 </group>
             </sheet>
         </form>
@@ -30,9 +42,12 @@
     <field name="model">dynamic.list</field>
     <field name="arch" type="xml">
         <tree>
-            <field name="sequence" widget="handle"/>
-            <field name="name"/>
-            <field name="domain" invisible="not context.get('dynamic_list_main_view')"/>
+            <field name="sequence" widget="handle" />
+            <field name="name" />
+            <field
+                    name="domain"
+                    invisible="not context.get('dynamic_list_main_view')"
+                />
         </tree>
     </field>
 </record>
@@ -41,11 +56,19 @@
     <field name="model">dynamic.list</field>
     <field name="arch" type="xml">
         <search>
-            <field name="name"/>
-            <separator/>
-            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            <field name="name" />
+            <separator />
+            <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
             <group string="Group By" name="groupby">
-                <filter name="domain_groupby" string="Domain" context="{'group_by': 'domain'}"/>
+                <filter
+                        name="domain_groupby"
+                        string="Domain"
+                        context="{'group_by': 'domain'}"
+                    />
             </group>
         </search>
     </field>
@@ -55,21 +78,36 @@
     <field name="name">Simple List</field>
     <field name="res_model">dynamic.list</field>
     <field name="view_mode">tree,form</field>
-    <field name="context">{'dynamic_list_main_view': True, 'search_default_domain_groupby': True}</field>
+    <field
+            name="context"
+        >{'dynamic_list_main_view': True, 'search_default_domain_groupby': True}</field>
 </record>
 
-<menuitem id="dynamic_list_menu" action="dynamic_list_action" parent="dynamic_list_root_menu" sequence="10"/>
+<menuitem
+        id="dynamic_list_menu"
+        action="dynamic_list_action"
+        parent="dynamic_list_root_menu"
+        sequence="10"
+    />
 
 <record id="dynamic_list_translate_form" model="ir.ui.view">
     <field name="model">dynamic.list.translate</field>
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
                 <group name="main">
-                    <field name="name"/>
-                    <field name="domain" invisible="not context.get('dynamic_list_translate_main_view')"/>
-                    <field name="active" invisible="1"/>
+                    <field name="name" />
+                    <field
+                            name="domain"
+                            invisible="not context.get('dynamic_list_translate_main_view')"
+                        />
+                    <field name="active" invisible="1" />
                 </group>
             </sheet>
         </form>
@@ -80,9 +118,12 @@
     <field name="model">dynamic.list.translate</field>
     <field name="arch" type="xml">
         <tree>
-            <field name="sequence" widget="handle"/>
-            <field name="name"/>
-            <field name="domain" invisible="not context.get('dynamic_list_translate_main_view')"/>
+            <field name="sequence" widget="handle" />
+            <field name="name" />
+            <field
+                    name="domain"
+                    invisible="not context.get('dynamic_list_translate_main_view')"
+                />
         </tree>
     </field>
 </record>
@@ -91,11 +132,19 @@
     <field name="model">dynamic.list.translate</field>
     <field name="arch" type="xml">
         <search>
-            <field name="name"/>
-            <separator/>
-            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            <field name="name" />
+            <separator />
+            <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
             <group string="Group By" name="groupby">
-                <filter name="domain_groupby" string="Domain" context="{'group_by': 'domain'}"/>
+                <filter
+                        name="domain_groupby"
+                        string="Domain"
+                        context="{'group_by': 'domain'}"
+                    />
             </group>
         </search>
     </field>
@@ -105,22 +154,37 @@
     <field name="name">Translatable Simple List</field>
     <field name="res_model">dynamic.list.translate</field>
     <field name="view_mode">tree,form</field>
-    <field name="context">{'dynamic_list_translate_main_view': True, 'search_default_domain_groupby': True}</field>
+    <field
+            name="context"
+        >{'dynamic_list_translate_main_view': True, 'search_default_domain_groupby': True}</field>
 </record>
 
-<menuitem id="dynamic_list_translate_menu" action="dynamic_list_translate_action" parent="dynamic_list_root_menu" sequence="20"/>
+<menuitem
+        id="dynamic_list_translate_menu"
+        action="dynamic_list_translate_action"
+        parent="dynamic_list_root_menu"
+        sequence="20"
+    />
 
 <record id="dynamic_list_code_form" model="ir.ui.view">
     <field name="model">dynamic.list.code</field>
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
                 <group name="main">
-                    <field name="code"/>
-                    <field name="name"/>
-                    <field name="domain" invisible="not context.get('dynamic_list_code_main_view')"/>
-                    <field name="active" invisible="1"/>
+                    <field name="code" />
+                    <field name="name" />
+                    <field
+                            name="domain"
+                            invisible="not context.get('dynamic_list_code_main_view')"
+                        />
+                    <field name="active" invisible="1" />
                 </group>
             </sheet>
         </form>
@@ -131,10 +195,13 @@
     <field name="model">dynamic.list.code</field>
     <field name="arch" type="xml">
         <tree>
-            <field name="sequence" widget="handle"/>
-            <field name="code"/>
-            <field name="name"/>
-            <field name="domain" invisible="not context.get('dynamic_list_code_main_view')"/>
+            <field name="sequence" widget="handle" />
+            <field name="code" />
+            <field name="name" />
+            <field
+                    name="domain"
+                    invisible="not context.get('dynamic_list_code_main_view')"
+                />
         </tree>
     </field>
 </record>
@@ -143,12 +210,24 @@
     <field name="model">dynamic.list.code</field>
     <field name="arch" type="xml">
         <search>
-            <field name="name" string="Name or Code" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
-            <separator/>
-            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
-            <field name="code"/>
+            <field
+                    name="name"
+                    string="Name or Code"
+                    filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"
+                />
+            <separator />
+            <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
+            <field name="code" />
             <group string="Group By" name="groupby">
-                <filter name="domain_groupby" string="Domain" context="{'group_by': 'domain'}"/>
+                <filter
+                        name="domain_groupby"
+                        string="Domain"
+                        context="{'group_by': 'domain'}"
+                    />
             </group>
         </search>
     </field>
@@ -158,22 +237,37 @@
     <field name="name">Code List</field>
     <field name="res_model">dynamic.list.code</field>
     <field name="view_mode">tree,form</field>
-    <field name="context">{'dynamic_list_code_main_view': True, 'search_default_domain_groupby': True}</field>
+    <field
+            name="context"
+        >{'dynamic_list_code_main_view': True, 'search_default_domain_groupby': True}</field>
 </record>
 
-<menuitem id="dynamic_list_code_menu" action="dynamic_list_code_action" parent="dynamic_list_root_menu" sequence="30"/>
+<menuitem
+        id="dynamic_list_code_menu"
+        action="dynamic_list_code_action"
+        parent="dynamic_list_root_menu"
+        sequence="30"
+    />
 
 <record id="dynamic_list_code_translate_form" model="ir.ui.view">
     <field name="model">dynamic.list.code.translate</field>
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}"
+                    />
                 <group name="main">
-                    <field name="code"/>
-                    <field name="name"/>
-                    <field name="domain" invisible="not context.get('dynamic_list_code_translate_main_view')"/>
-                    <field name="active" invisible="1"/>
+                    <field name="code" />
+                    <field name="name" />
+                    <field
+                            name="domain"
+                            invisible="not context.get('dynamic_list_code_translate_main_view')"
+                        />
+                    <field name="active" invisible="1" />
                 </group>
             </sheet>
         </form>
@@ -184,10 +278,13 @@
     <field name="model">dynamic.list.code.translate</field>
     <field name="arch" type="xml">
         <tree>
-            <field name="sequence" widget="handle"/>
-            <field name="code"/>
-            <field name="name"/>
-            <field name="domain" invisible="not context.get('dynamic_list_code_translate_main_view')"/>
+            <field name="sequence" widget="handle" />
+            <field name="code" />
+            <field name="name" />
+            <field
+                    name="domain"
+                    invisible="not context.get('dynamic_list_code_translate_main_view')"
+                />
         </tree>
     </field>
 </record>
@@ -196,12 +293,24 @@
     <field name="model">dynamic.list.code.translate</field>
     <field name="arch" type="xml">
         <search>
-            <field name="name" string="Name or Code" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
-            <field name="code"/>
-            <separator/>
-            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            <field
+                    name="name"
+                    string="Name or Code"
+                    filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"
+                />
+            <field name="code" />
+            <separator />
+            <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
             <group string="Group By" name="groupby">
-                <filter name="domain_groupby" string="Domain" context="{'group_by': 'domain'}"/>
+                <filter
+                        name="domain_groupby"
+                        string="Domain"
+                        context="{'group_by': 'domain'}"
+                    />
             </group>
         </search>
     </field>
@@ -211,10 +320,17 @@
     <field name="name">Translatable Code List</field>
     <field name="res_model">dynamic.list.code.translate</field>
     <field name="view_mode">tree,form</field>
-    <field name="context">{'dynamic_list_code_translate_main_view': True, 'search_default_domain_groupby': True}</field>
+    <field
+            name="context"
+        >{'dynamic_list_code_translate_main_view': True, 'search_default_domain_groupby': True}</field>
 </record>
 
-<menuitem id="dynamic_list_code_translate_menu" action="dynamic_list_code_translate_action" parent="dynamic_list_root_menu" sequence="40"/>
+<menuitem
+        id="dynamic_list_code_translate_menu"
+        action="dynamic_list_code_translate_action"
+        parent="dynamic_list_root_menu"
+        sequence="40"
+    />
 
 
 </odoo>

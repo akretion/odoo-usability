@@ -3,15 +3,15 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Product Category Tax',
-    'version': '14.0.1.0.0',
-    'category': 'Accounting & Finance',
-    'license': 'AGPL-3',
-    'summary': 'Adds sale and purchase taxes on product category',
-    'description': "",
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['account'],
-    'data': ['product_view.xml'],
-    'installable': True,
+    "name": "Product Category Tax",
+    "version": "14.0.1.0.0",
+    "category": "Accounting & Finance",
+    "license": "AGPL-3",
+    "summary": "Adds sale and purchase taxes on product category",
+    "description": "",
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["account"],
+    "data": ["product_view.xml"],
+    "installable": True,
 }

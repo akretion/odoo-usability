@@ -27,7 +27,7 @@ index bbb6f301834..48d016010dc 100644
              product.virtual_available = res[product.id]['virtual_available']
 +            product.reserved_qty = res[product.id]['reserved_qty']
 +            product.free_qty = res[product.id]['free_qty']
- 
+
      def _product_available(self, field_names=None, arg=False):
          """ Compatibility method """
 @@ -124,7 +138,7 @@ class Product(models.Model):
@@ -58,7 +58,7 @@ index bbb6f301834..48d016010dc 100644
 @@ -261,10 +278,16 @@ class Product(models.Model):
          # TDE FIXME: should probably clean the search methods
          return self._search_product_quantity(operator, value, 'outgoing_qty')
- 
+
 +    def _search_reserved_qty(self, operator, value):
 +        return self._search_product_quantity(operator, value, 'reserved_qty')
 +
@@ -76,7 +76,7 @@ index bbb6f301834..48d016010dc 100644
 @@ -387,6 +410,12 @@ class Product(models.Model):
          action['context'] = {'search_default_internal_loc': 1}
          return action
- 
+
 +    def action_open_move_lines(self):
 +        action = self.env.ref('stock.stock_move_line_action').read()[0]
 +        action['domain'] = [('product_id', '=', self.id), ('state', 'not in', ('done', 'cancel'))]
@@ -140,7 +140,7 @@ index bbb6f301834..48d016010dc 100644
 @@ -524,6 +573,16 @@ class ProductTemplate(models.Model):
          product_variant_ids = self.env['product.product'].search(domain)
          return [('product_variant_ids', 'in', product_variant_ids.ids)]
- 
+
 +    def _search_reserved_qty(self, operator, value):
 +        domain = [('reserved_qty', operator, value)]
 +        product_variant_ids = self.env['product.product'].search(domain)
@@ -157,7 +157,7 @@ index bbb6f301834..48d016010dc 100644
 @@ -609,6 +668,13 @@ class ProductTemplate(models.Model):
          action['context'] = {'search_default_internal_loc': 1}
          return action
- 
+
 +    def action_open_move_lines(self):
 +        products = self.mapped('product_variant_ids')
 +        action = self.env.ref('stock.stock_move_line_action').read()[0]

@@ -4,12 +4,12 @@
 
 
 {
-    'name': 'Stock Usability',
-    'version': '14.0.1.0.0',
-    'category': 'Inventory, Logistic, Storage',
-    'license': 'AGPL-3',
-    'summary': 'Several usability enhancements in Warehouse management',
-    'description': """
+    "name": "Stock Usability",
+    "version": "14.0.1.0.0",
+    "category": "Inventory, Logistic, Storage",
+    "license": "AGPL-3",
+    "summary": "Several usability enhancements in Warehouse management",
+    "description": """
 Stock Usability
 ===============
 
@@ -22,22 +22,22 @@ The usability enhancements include:
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['stock'],
-    'data': [
-        'views/stock_quant.xml',
-        'views/stock_inventory.xml',
-        'views/stock_location.xml',
-        'views/stock_move.xml',
-        'views/stock_picking.xml',
-        'views/stock_warehouse.xml',
-        'views/stock_warehouse_orderpoint.xml',
-        'views/product.xml',
-        'views/procurement_group.xml',
-        'views/procurement_scheduler_log.xml',
-        'security/ir.model.access.csv',
-        ],
-    'post_init_hook': 'create_config_parameter_immediate_tranfer',
-    'installable': True,
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["stock"],
+    "data": [
+        "views/stock_quant.xml",
+        "views/stock_inventory.xml",
+        "views/stock_location.xml",
+        "views/stock_move.xml",
+        "views/stock_picking.xml",
+        "views/stock_warehouse.xml",
+        "views/stock_warehouse_orderpoint.xml",
+        "views/product.xml",
+        "views/procurement_group.xml",
+        "views/procurement_scheduler_log.xml",
+        "security/ir.model.access.csv",
+    ],
+    "post_init_hook": "create_config_parameter_immediate_tranfer",
+    "installable": True,
 }

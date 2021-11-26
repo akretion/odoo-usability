@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-
 <odoo>
 
 
@@ -13,8 +12,8 @@
     <field name="inherit_id" ref="account.view_account_position_form" />
     <field name="arch" type="xml">
         <field name="company_id" position="after">
-            <field name="receivable_account_id"/>
-            <field name="payable_account_id"/>
+            <field name="receivable_account_id" />
+            <field name="payable_account_id" />
         </field>
     </field>
 </record>

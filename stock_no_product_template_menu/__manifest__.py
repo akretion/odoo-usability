@@ -3,12 +3,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Stock No Product Template Menu',
-    'version': '12.0.1.0.0',
-    'category': 'Stock',
-    'license': 'AGPL-3',
-    'summary': "Replace product.template menu entries by product.product menu entries",
-    'description': """
+    "name": "Stock No Product Template Menu",
+    "version": "12.0.1.0.0",
+    "category": "Stock",
+    "license": "AGPL-3",
+    "summary": "Replace product.template menu entries by product.product menu entries",
+    "description": """
 Stock No Product Template
 =========================
 
@@ -18,9 +18,9 @@ This module also switches to the tree view by default for Product menu entries, 
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['stock'],
-    'data': ['view.xml'],
-    'installable': False,
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["stock"],
+    "data": ["view.xml"],
+    "installable": False,
 }

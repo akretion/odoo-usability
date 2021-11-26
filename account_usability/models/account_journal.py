@@ -6,22 +6,22 @@ from odoo import api, fields, models
 
 
 class AccountJournal(models.Model):
-    _inherit = 'account.journal'
+    _inherit = "account.journal"
 
     hide_bank_statement_balance = fields.Boolean(
-        string='Hide Bank Statement Balance',
+        string="Hide Bank Statement Balance",
         help="You may want to enable this option when your bank "
         "journal is generated from a bank statement file that "
         "doesn't handle start/end balance (QIF for instance) and "
         "you don't want to enter the start/end balance manually: it "
         "will prevent the display of wrong information in the accounting "
-        "dashboard and on bank statements.")
+        "dashboard and on bank statements.",
+    )
 
-    @api.depends(
-        'name', 'currency_id', 'company_id', 'company_id.currency_id', 'code')
+    @api.depends("name", "currency_id", "company_id", "company_id.currency_id", "code")
     def name_get(self):
         res = []
-        if self._context.get('journal_show_code_only'):
+        if self._context.get("journal_show_code_only"):
             for journal in self:
                 res.append((journal.id, journal.code))
             return res
@@ -29,11 +29,13 @@ class AccountJournal(models.Model):
             for journal in self:
                 name = "[%s] %s" % (journal.code, journal.name)
                 if (
-                        journal.currency_id and
-                        journal.currency_id != journal.company_id.currency_id):
+                    journal.currency_id
+                    and journal.currency_id != journal.company_id.currency_id
+                ):
                     name = "%s (%s)" % (name, journal.currency_id.name)
                 res.append((journal.id, name))
             return res
+
 
 #    @api.constrains('default_credit_account_id', 'default_debit_account_id')
 #    def _check_account_type_on_bank_journal(self):

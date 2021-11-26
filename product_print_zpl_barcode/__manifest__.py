@@ -3,12 +3,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Product Generate Price Weight Barcode',
-    'version': '14.0.1.0.0',
-    'category': 'Extra Tools',
-    'license': 'AGPL-3',
-    'summary': 'Add a wizard to print product barcode stickers on ZPL printer',
-    'description': """
+    "name": "Product Generate Price Weight Barcode",
+    "version": "14.0.1.0.0",
+    "category": "Extra Tools",
+    "license": "AGPL-3",
+    "summary": "Add a wizard to print product barcode stickers on ZPL printer",
+    "description": """
 Print product barcode stickers on ZPL printer
 =============================================
 
@@ -31,21 +31,21 @@ It also allows to generate a private barcode for products without barcode. For t
 This module has been written by Alexis de Lattre from Akretion
 <alexis.delattre@akretion.com>.
     """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
     # We depend on point_of_sale and not only 'product'
     # because the price barcode rule is added by the point_of_sale module
     # (the weight barcode rule is added by the stock module)
-    'depends': [
-        'point_of_sale',
-        'barcodes',
-        'base_report_to_printer',
-        ],
-    'data': [
-        'security/ir.model.access.csv',
-        'wizard/product_print_zpl_barcode_view.xml',
-        'views/product.xml',
-        'data/barcode_sequence.xml',
+    "depends": [
+        "point_of_sale",
+        "barcodes",
+        "base_report_to_printer",
     ],
-    'installable': True,
+    "data": [
+        "security/ir.model.access.csv",
+        "wizard/product_print_zpl_barcode_view.xml",
+        "views/product.xml",
+        "data/barcode_sequence.xml",
+    ],
+    "installable": True,
 }

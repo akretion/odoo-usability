@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-<record id="point_of_sale.product_template_action_pos_product" model="ir.actions.act_window">
+<record
+        id="point_of_sale.product_template_action_pos_product"
+        model="ir.actions.act_window"
+    >
     <field name="view_mode">tree,form,kanban,activity</field>
 </record>
 

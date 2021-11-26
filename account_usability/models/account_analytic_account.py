@@ -6,10 +6,10 @@ from odoo import models
 
 
 class AccountAnalyticAccount(models.Model):
-    _inherit = 'account.analytic.account'
+    _inherit = "account.analytic.account"
 
     def name_get(self):
-        if self._context.get('analytic_account_show_code_only'):
+        if self._context.get("analytic_account_show_code_only"):
             res = []
             for record in self:
                 res.append((record.id, record.code or record.name))
@@ -17,8 +17,11 @@ class AccountAnalyticAccount(models.Model):
         else:
             return super().name_get()
 
-    _sql_constraints = [(
-        'code_company_unique',
-        'unique(code, company_id)',
-        'An analytic account with the same code already '
-        'exists in the same company!')]
+    _sql_constraints = [
+        (
+            "code_company_unique",
+            "unique(code, company_id)",
+            "An analytic account with the same code already "
+            "exists in the same company!",
+        )
+    ]

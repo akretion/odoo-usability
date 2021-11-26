@@ -7,7 +7,7 @@
     "summary": "Hide optional product",
     "version": "14.0.1.0.0",
     "category": "Usability",
-    "website": "www.akretion.com",
+    "website": "https://github.com/OCA/odoo-usability",
     "author": " Akretion",
     "license": "AGPL-3",
     "application": False,
@@ -22,8 +22,6 @@
     "data": [
         "views/sale_order_view.xml",
     ],
-    "demo": [
-    ],
-    "qweb": [
-    ]
+    "demo": [],
+    "qweb": [],
 }

@@ -4,12 +4,12 @@
 
 
 {
-    'name': 'Product Usability',
-    'version': '14.0.1.0.0',
-    'category': 'Product',
-    'license': 'AGPL-3',
-    'summary': 'Small usability enhancements to the product module',
-    'description': """
+    "name": "Product Usability",
+    "version": "14.0.1.0.0",
+    "category": "Product",
+    "license": "AGPL-3",
+    "summary": "Small usability enhancements to the product module",
+    "description": """
 Product Usability
 =================
 
@@ -23,15 +23,15 @@ The usability enhancements include:
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['product'],
-    'data': [
-        'views/product_supplierinfo_view.xml',
-        'views/product_pricelist_view.xml',
-        'views/product_pricelist_item.xml',
-        'views/product_template_view.xml',
-        'views/product_product.xml',
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["product"],
+    "data": [
+        "views/product_supplierinfo_view.xml",
+        "views/product_pricelist_view.xml",
+        "views/product_pricelist_item.xml",
+        "views/product_template_view.xml",
+        "views/product_product.xml",
     ],
-    'installable': True,
+    "installable": True,
 }

@@ -7,18 +7,19 @@ from odoo.tools.misc import format_date
 
 
 class AccountBankStatement(models.Model):
-    _inherit = 'account.bank.statement'
+    _inherit = "account.bank.statement"
 
     start_date = fields.Date(
-        compute='_compute_dates', string='Start Date', readonly=True,
-        store=True)
+        compute="_compute_dates", string="Start Date", readonly=True, store=True
+    )
     end_date = fields.Date(
-        compute='_compute_dates', string='End Date', readonly=True,
-        store=True)
+        compute="_compute_dates", string="End Date", readonly=True, store=True
+    )
     hide_bank_statement_balance = fields.Boolean(
-        related='journal_id.hide_bank_statement_balance', readonly=True)
+        related="journal_id.hide_bank_statement_balance", readonly=True
+    )
 
-    @api.depends('line_ids.date')
+    @api.depends("line_ids.date")
     def _compute_dates(self):
         for st in self:
             dates = [line.date for line in st.line_ids]
@@ -30,26 +31,31 @@ class AccountBankStatement(models.Model):
             if stmt.hide_bank_statement_balance:
                 continue
             else:
-                super(AccountBankStatement, stmt)._check_balance_end_real_same_as_computed()
+                super(
+                    AccountBankStatement, stmt
+                )._check_balance_end_real_same_as_computed()
         return True
 
-    @api.depends('name', 'start_date', 'end_date')
+    @api.depends("name", "start_date", "end_date")
     def name_get(self):
         res = []
         for statement in self:
             name = "%s (%s => %s)" % (
                 statement.name,
-                statement.start_date and format_date(self.env, statement.start_date) or '',
-                statement.end_date and format_date(self.env, statement.end_date) or '')
+                statement.start_date
+                and format_date(self.env, statement.start_date)
+                or "",
+                statement.end_date and format_date(self.env, statement.end_date) or "",
+            )
             res.append((statement.id, name))
         return res
 
 
 class AccountBankStatementLine(models.Model):
-    _inherit = 'account.bank.statement.line'
+    _inherit = "account.bank.statement.line"
     # Native order is:
     # _order = 'statement_id desc, sequence, id desc'
-    _order = 'statement_id desc, date desc, sequence, id desc'
+    _order = "statement_id desc, date desc, sequence, id desc"
 
     # Disable guessing for reconciliation
     # because my experience with several customers shows that it is a problem
@@ -80,12 +86,14 @@ class AccountBankStatementLine(models.Model):
 
     def show_account_move(self):
         self.ensure_one()
-        action = self.env.ref('account.action_move_line_form').read()[0]
+        action = self.env.ref("account.action_move_line_form").read()[0]
         # Note: this action is on account.move, not account.move.line !
-        action.update({
-            'views': False,
-            'view_id': False,
-            'view_mode': 'form,tree',
-            'res_id': self.move_id.id,
-            })
+        action.update(
+            {
+                "views": False,
+                "view_id": False,
+                "view_mode": "form,tree",
+                "res_id": self.move_id.id,
+            }
+        )
         return action

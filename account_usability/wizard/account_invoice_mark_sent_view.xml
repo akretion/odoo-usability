@@ -1,23 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   Copyright 2017-2020 Akretion France
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-
 <odoo>
 
 <record id="account_invoice_mark_sent_form" model="ir.ui.view">
     <field name="name">account.invoice.mark.sent.form</field>
     <field name="model">account.invoice.mark.sent</field>
-    <field name="arch"  type="xml">
+    <field name="arch" type="xml">
         <form string="Mark invoices as sent">
             <p>
-                This wizard will mark as <i>sent</i> all the selected invoices in open or paid state.
+                This wizard will mark as <i
+                    >sent</i> all the selected invoices in open or paid state.
             </p>
             <footer>
-                <button type="object" name="run" string="Mark as Sent" class="btn-primary"/>
-                <button special="cancel" string="Cancel"/>
+                <button
+                        type="object"
+                        name="run"
+                        string="Mark as Sent"
+                        class="btn-primary"
+                    />
+                <button special="cancel" string="Cancel" />
             </footer>
         </form>
     </field>

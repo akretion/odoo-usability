@@ -1,16 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
   Copyright 2018-2021 Akretion France
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-
 <odoo>
 
 <record id="view_picking_withcarrier_out_form" model="ir.ui.view">
     <field name="name">delivery_usability.stock.picking.form</field>
     <field name="model">stock.picking</field>
-    <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
+    <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form" />
     <field name="arch" type="xml">
         <field name="carrier_id" position="attributes">
             <!-- Sometimes we have to modify carrier_id when state is done

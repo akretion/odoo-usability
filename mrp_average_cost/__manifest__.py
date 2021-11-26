@@ -3,12 +3,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'MRP Average Cost',
-    'version': '12.0.1.0.0',  # WARNING: we'll probably not port this module to v14, because part of its feature is now provided by the module mrp_account
-    'category': 'Manufactuing',
-    'license': 'AGPL-3',
-    'summary': 'Update standard_price upon validation of a manufacturing order',
-    'description': """
+    "name": "MRP Average Cost",
+    "version": "12.0.1.0.0",  # WARNING: we'll probably not port this module to v14, because part of its feature is now provided by the module mrp_account
+    "category": "Manufactuing",
+    "license": "AGPL-3",
+    "summary": "Update standard_price upon validation of a manufacturing order",
+    "description": """
 MRP Average Cost
 ================
 
@@ -20,14 +20,14 @@ Together with this module, I recommend the use of my module product_usability, a
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['mrp'],
-    'data': [
-        'security/mrp_average_cost_security.xml',
-        'security/ir.model.access.csv',
-        'data/mrp_data.xml',
-        'views/mrp_view.xml',
-        ],
-    'installable': False,
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["mrp"],
+    "data": [
+        "security/mrp_average_cost_security.xml",
+        "security/ir.model.access.csv",
+        "data/mrp_data.xml",
+        "views/mrp_view.xml",
+    ],
+    "installable": False,
 }

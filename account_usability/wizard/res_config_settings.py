@@ -6,7 +6,8 @@ from odoo import fields, models
 
 
 class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
+    _inherit = "res.config.settings"
 
     transfer_account_id = fields.Many2one(
-        related='company_id.transfer_account_id', readonly=False)
+        related="company_id.transfer_account_id", readonly=False
+    )

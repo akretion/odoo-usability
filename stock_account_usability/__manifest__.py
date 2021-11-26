@@ -4,12 +4,12 @@
 
 
 {
-    'name': 'Stock Account Usability',
-    'version': '14.0.1.0.0',
-    'category': 'Hidden',
-    'license': 'AGPL-3',
-    'summary': 'Several usability enhancements on stock_account',
-    'description': """
+    "name": "Stock Account Usability",
+    "version": "14.0.1.0.0",
+    "category": "Hidden",
+    "license": "AGPL-3",
+    "summary": "Several usability enhancements on stock_account",
+    "description": """
 Stock Account Usability
 =======================
 
@@ -19,9 +19,9 @@ The usability enhancements include:
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['stock_account', 'stock_usability'],
-    'data': ['views/stock_move.xml'],
-    'installable': True,
+    "author": "Akretion",
+    "website": "https://github.com/OCA/odoo-usability",
+    "depends": ["stock_account", "stock_usability"],
+    "data": ["views/stock_move.xml"],
+    "installable": True,
 }

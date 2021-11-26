@@ -6,9 +6,9 @@ from odoo import fields, models
 
 
 class ResPartnerBank(models.Model):
-    _inherit = 'res.partner.bank'
+    _inherit = "res.partner.bank"
 
     # In the 'base' module, they didn't put any string, so the bank name is
     # displayed as 'Name', which the string of the related field it
     # points to
-    bank_name = fields.Char(string='Bank Name')
+    bank_name = fields.Char(string="Bank Name")

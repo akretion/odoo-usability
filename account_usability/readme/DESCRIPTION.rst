@@ -1,6 +1,6 @@
 This modules adds the following functions:
 
-* Add an *Overdue* filter on invoice search view (this feature was previously 
+* Add an *Overdue* filter on invoice search view (this feature was previously
   located in te module *account_invoice_overdue_filter*)
 * Increase the default limit of 80 lines in account move and account move line view.
 * disable reconciliation "guessing"

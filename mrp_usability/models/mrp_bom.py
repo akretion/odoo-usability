@@ -7,7 +7,7 @@ from odoo import fields, models
 
 
 class MrpBom(models.Model):
-    _inherit = 'mrp.bom'
+    _inherit = "mrp.bom"
 
     code = fields.Char(tracking=50)
     type = fields.Selection(tracking=20)
