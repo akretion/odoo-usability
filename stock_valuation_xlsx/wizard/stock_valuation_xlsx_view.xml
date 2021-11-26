@@ -17,7 +17,7 @@
                 <p>The generated XLSX report has the valuation of stockable products located on the selected stock locations (and their childrens).</p>
             </div>
             <group name="setup">
-                <field name="state" invisible="1"/>
+                <field name="company_id" groups="base.group_multi_company"/>
                 <field name="categ_ids" widget="many2many_tags"/>
                 <field name="warehouse_id"/>
                 <field name="location_id"/>
@@ -32,15 +32,9 @@
                 <field name="split_by_location" attrs="{'invisible': [('source', '=', 'stock'), ('stock_date_type', '=', 'past')]}"/>
                 <field name="apply_depreciation" groups="stock.group_production_lot" attrs="{'invisible': ['|', '|', ('split_by_lot', '=', False), ('has_expiry_date', '=', False), '&amp;', ('source', '=', 'stock'), ('stock_date_type', '=', 'past')]}"/>
             </group>
-            <group name="done" states="done" string="Result">
-                <field name="export_file" filename="export_filename"/>
-                <field name="export_filename" invisible="1"/>
-            </group>
             <footer>
-                <button name="generate" type="object" states="setup"
-                    class="btn-primary" string="Generate"/>
-                <button special="cancel" string="Cancel" class="btn-default" states="setup"/>
-                <button special="cancel" string="Close" class="btn-default" states="done"/>
+                <button name="generate" type="object" class="btn-primary" string="Generate"/>
+                <button special="cancel" string="Close" class="btn-default"/>
             </footer>
         </form>
     </field>

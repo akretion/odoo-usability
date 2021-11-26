@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_expiry_depreciation_rule_full,Full access on stock.expiry.depreciation.rule to account manager,model_stock_expiry_depreciation_rule,account.group_account_manager,1,1,1,1
+access_stock_expiry_depreciation_rule_read,Read access on stock.expiry.depreciation.rule to stock manager,model_stock_expiry_depreciation_rule,stock.group_stock_manager,1,0,0,0
+access_stock_valuation_xlsx,stock.valuation.xlsx wizard,model_stock_valuation_xlsx,stock.group_stock_user,1,1,1,0
+access_stock_variation_xlsx,stock.variation.xlsx wizard,model_stock_variation_xlsx,stock.group_stock_user,1,1,1,0
