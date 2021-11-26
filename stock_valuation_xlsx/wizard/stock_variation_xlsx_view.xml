@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2021 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="stock_variation_xlsx_form" model="ir.ui.view">
+    <field name="name">stock.variation.xlsx.form</field>
+    <field name="model">stock.variation.xlsx</field>
+    <field name="arch"  type="xml">
+        <form string="Stock variation XLSX">
+            <div name="help">
+                <p>The generated XLSX report has the valuation of stockable products located on the selected stock locations (and their childrens).</p>
+            </div>
+            <group name="setup">
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="categ_ids" widget="many2many_tags"/>
+                <field name="warehouse_id"/>
+                <field name="location_id"/>
+                <field name="categ_subtotal" />
+            </group>
+            <group name="start_end">
+                <group name="start" string="Start">
+                    <field name="start_date"/>
+                    <field name="standard_price_start_date_type"/>
+                </group>
+                <group name="end" string="End">
+                    <field name="end_date_type"/>
+                    <field name="end_date" attrs="{'invisible': [('end_date_type', '!=', 'past')], 'required': [('end_date_type', '=', 'past')]}"/>
+                    <field name="standard_price_end_date_type"/>
+                </group>
+            </group>
+            <footer>
+                <button name="generate" type="object" class="btn-primary" string="Generate"/>
+                <button special="cancel" string="Close" class="btn-default"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="stock_variation_xlsx_action" model="ir.actions.act_window">
+    <field name="name">Stock Variation XLSX</field>
+    <field name="res_model">stock.variation.xlsx</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+<!-- Replace native menu, to avoid user confusion -->
+<menuitem id="stock_variation_xlsx_menu" action="stock_variation_xlsx_action" parent="stock.menu_warehouse_report" sequence="1"/>
+
+</odoo>

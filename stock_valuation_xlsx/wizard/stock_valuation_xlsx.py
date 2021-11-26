@@ -17,69 +17,53 @@ logger = logging.getLogger(__name__)
 
 class StockValuationXlsx(models.TransientModel):
     _name = 'stock.valuation.xlsx'
+    _check_company_auto = True
     _description = 'Generate XLSX report for stock valuation'
 
     export_file = fields.Binary(string='XLSX Report', readonly=True, attachment=True)
     export_filename = fields.Char(readonly=True)
-    # I don't use ir.actions.url on v12, because it renders
-    # the wizard unusable after the first report generation, which creates
-    # a lot of confusion for users
-    state = fields.Selection([
-        ('setup', 'Setup'),
-        ('done', 'Done'),
-        ], string='State', default='setup', readonly=True)
+    company_id = fields.Many2one(
+        'res.company', string='Company', default=lambda self: self.env.company,
+        required=True)
     warehouse_id = fields.Many2one(
-        'stock.warehouse', string='Warehouse',
-        states={'done': [('readonly', True)]})
+        'stock.warehouse', string='Warehouse', check_company=True,
+        domain="[('company_id', '=', company_id)]")
     location_id = fields.Many2one(
         'stock.location', string='Root Stock Location', required=True,
-        domain=[('usage', 'in', ('view', 'internal'))],
-        default=lambda self: self._default_location(),
-        states={'done': [('readonly', True)]},
+        domain="[('usage', 'in', ('view', 'internal')), ('company_id', '=', company_id)]",
+        default=lambda self: self._default_location(), check_company=True,
         help="The childen locations of the selected locations will "
-        u"be taken in the valuation.")
+        "be taken in the valuation.")
     categ_ids = fields.Many2many(
         'product.category', string='Product Category Filter',
         help="Leave this field empty to have a stock valuation for all your products.",
-        states={'done': [('readonly', True)]},
         )
     source = fields.Selection([
         ('inventory', 'Physical Inventory'),
         ('stock', 'Stock Levels'),
-        ], string='Source data', default='stock', required=True,
-        states={'done': [('readonly', True)]})
+        ], string='Source data', default='stock', required=True)
     inventory_id = fields.Many2one(
-        'stock.inventory', string='Inventory', domain=[('state', '=', 'done')],
-        states={'done': [('readonly', True)]})
+        'stock.inventory', string='Inventory', check_company=True,
+        domain="[('state', '=', 'done'), ('company_id', '=', company_id)]")
     stock_date_type = fields.Selection([
         ('present', 'Present'),
         ('past', 'Past'),
-        ], string='Present or Past', default='present',
-        states={'done': [('readonly', True)]})
+        ], string='Present or Past', default='present')
     past_date = fields.Datetime(
-        string='Past Date', states={'done': [('readonly', True)]},
-        default=fields.Datetime.now)
+        string='Past Date', default=fields.Datetime.now)
     categ_subtotal = fields.Boolean(
         string='Subtotals per Categories', default=True,
-        states={'done': [('readonly', True)]},
         help="Show a subtotal per product category.")
     standard_price_date = fields.Selection([
         ('past', 'Past Date or Inventory Date'),
         ('present', 'Current'),
-        ], default='past', string='Cost Price Date',
-        states={'done': [('readonly', True)]})
-    # I can't put a compute field for has_expiry_date
-    # because I want to have the value when the wizard is started,
-    # and not wait until run
+        ], default='past', string='Cost Price Date')
     has_expiry_date = fields.Boolean(
         default=lambda self: self._default_has_expiry_date(), readonly=True)
     apply_depreciation = fields.Boolean(
-        string='Apply Depreciation Rules', default=True,
-        states={'done': [('readonly', True)]})
-    split_by_lot = fields.Boolean(
-        string='Display Lots', states={'done': [('readonly', True)]})
-    split_by_location = fields.Boolean(
-        string='Display Stock Locations', states={'done': [('readonly', True)]})
+        string='Apply Depreciation Rules', default=True)
+    split_by_lot = fields.Boolean(string='Display Lots')
+    split_by_location = fields.Boolean(string='Display Stock Locations')
 
     @api.model
     def _default_has_expiry_date(self):
@@ -145,7 +129,7 @@ class StockValuationXlsx(models.TransientModel):
     def _prepare_expiry_depreciation_rules(self, company_id, past_date):
         rules = self.env['stock.expiry.depreciation.rule'].search_read([('company_id', '=', company_id)], ['start_limit_days', 'ratio'], order='start_limit_days desc')
         if past_date:
-            date_dt = past_date
+            date_dt = fields.Date.to_date(past_date)  # convert datetime to date
         else:
             date_dt = fields.Date.context_today(self)
         for rule in rules:
@@ -158,23 +142,25 @@ class StockValuationXlsx(models.TransientModel):
         self.ensure_one()
         logger.debug('Start compute_product_data')
         ppo = self.env['product.product']
-        ppho = self.env['product.price.history']
         fields_list = self._prepare_product_fields()
-        if not standard_price_past_date:
+        # if not standard_price_past_date:  # TODO
+        if True:
             fields_list.append('standard_price')
         products = ppo.search_read([('id', 'in', in_stock_product_ids)], fields_list)
         product_id2data = {}
         for p in products:
             logger.debug('p=%d', p['id'])
-            # I don't call the native method get_history_price()
-            # because it requires a browse record and it is too slow
             if standard_price_past_date:
-                history = ppho.search_read([
-                    ('company_id', '=', company_id),
-                    ('product_id', '=', p['id']),
-                    ('datetime', '<=', standard_price_past_date)],
-                    ['cost'], order='datetime desc, id desc', limit=1)
-                standard_price = history and history[0]['cost'] or 0.0
+                # No more product.price.history on v14
+                # We are supposed to use stock.valuation.layer.revaluation
+                # TODO migrate to stock.valuation.layer.revaluation
+                #history = ppho.search_read([
+                #    ('company_id', '=', company_id),
+                #    ('product_id', '=', p['id']),
+                #    ('datetime', '<=', standard_price_past_date)],
+                #    ['cost'], order='datetime desc, id desc', limit=1)
+                #standard_price = history and history[0]['cost'] or 0.0
+                standard_price = p['standard_price']  # TODO remove this tmp stuff
             else:
                 standard_price = p['standard_price']
             product_id2data[p['id']] = {'standard_price': standard_price}
@@ -363,10 +349,9 @@ class StockValuationXlsx(models.TransientModel):
     def generate(self):
         self.ensure_one()
         logger.debug('Start generate XLSX stock valuation report')
-        splo = self.env['stock.production.lot'].with_context(active_test=False)
         prec_qty = self.env['decimal.precision'].precision_get('Product Unit of Measure')
         prec_price = self.env['decimal.precision'].precision_get('Product Price')
-        company = self.env.user.company_id
+        company = self.company_id
         company_id = company.id
         prec_cur_rounding = company.currency_id.rounding
         self._check_config(company_id)
@@ -548,21 +533,17 @@ class StockValuationXlsx(models.TransientModel):
         filename = 'Odoo_stock_%s.xlsx' % stock_time_str.replace(' ', '-').replace(':', '_')
         export_file_b64 = base64.b64encode(file_data.read())
         self.write({
-            'state': 'done',
             'export_filename': filename,
             'export_file': export_file_b64,
             })
-        # action = {
-        #    'name': _('Stock Valuation XLSX'),
-        #    'type': 'ir.actions.act_url',
-        #    'url': "web/content/?model=%s&id=%d&filename_field=export_filename&"
-        #           "field=export_file&download=true&filename=%s" % (
-        #               self._name, self.id, self.export_filename),
-        #    'target': 'self',
-        #    }
-        action = self.env['ir.actions.act_window'].for_xml_id(
-            'stock_valuation_xlsx', 'stock_valuation_xlsx_action')
-        action['res_id'] = self.id
+        action = {
+            'name': _('Stock Valuation XLSX'),
+            'type': 'ir.actions.act_url',
+            'url': "web/content/?model=%s&id=%d&filename_field=export_filename&"
+                   "field=export_file&download=true&filename=%s" % (
+                       self._name, self.id, self.export_filename),
+            'target': 'new',
+            }
         return action
 
     def _prepare_styles(self, workbook, company, prec_price):
@@ -570,8 +551,8 @@ class StockValuationXlsx(models.TransientModel):
         categ_bg_color = '#e1daf5'
         col_title_bg_color = '#fff9b4'
         regular_font_size = 10
-        currency_num_format = u'# ### ##0.00 %s' % company.currency_id.symbol
-        price_currency_num_format = u'# ### ##0.%s %s' % ('0' * prec_price, company.currency_id.symbol)
+        currency_num_format = '# ### ##0.00 %s' % company.currency_id.symbol
+        price_currency_num_format = '# ### ##0.%s %s' % ('0' * prec_price, company.currency_id.symbol)
         styles = {
             'doc_title': workbook.add_format({
                 'bold': True, 'font_size': regular_font_size + 10,
@@ -591,7 +572,7 @@ class StockValuationXlsx(models.TransientModel):
             'regular_date': workbook.add_format({'num_format': 'dd/mm/yyyy'}),
             'regular_currency': workbook.add_format({'num_format': currency_num_format}),
             'regular_price_currency': workbook.add_format({'num_format': price_currency_num_format}),
-            'regular_int_percent': workbook.add_format({'num_format': u'0.%'}),
+            'regular_int_percent': workbook.add_format({'num_format': '0.%'}),
             'regular': workbook.add_format({}),
             'regular_small': workbook.add_format({'font_size': regular_font_size - 2}),
             'categ_title': workbook.add_format({
