@@ -12,16 +12,6 @@
                     name="attrs"
                 >{'column_invisible': [('parent.state', '=', 'done')]}</attribute>
                 </xpath>
-
-        <xpath expr="//field[@name='move_ids_without_package']" position="before">
-            <button
-                name="action_fill_quantity_done"
-                type="object"
-                string="Fill Done Quantity"
-                class="btn btn-primary"
-            >
-            </button>
-        </xpath>
         </field>
     </record>
 </odoo>
