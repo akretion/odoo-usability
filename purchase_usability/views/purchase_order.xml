@@ -35,6 +35,7 @@
             <attribute name="groups">analytic.group_analytic_tags</attribute>
         </xpath>
         <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="after">
+            <field name="product_supplier_code" optional="hide"/>
             <field name="product_barcode" optional="hide"/>
         </xpath>
     </field>

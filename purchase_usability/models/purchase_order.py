@@ -73,3 +73,17 @@ class PurchaseOrderLine(models.Model):
 
     # for optional display in tree view
     product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
+    product_supplier_code = fields.Char(
+        compute='_compute_product_supplier_code', string='Vendor Product Code')
+
+    def _compute_product_supplier_code(self):
+        for line in self:
+            code = False
+            if not line.display_type and line.product_id and line.order_id:
+                partner_id = line.order_id.partner_id.commercial_partner_id.id
+                if partner_id:
+                    for supplier_info in line.product_id.seller_ids:
+                        if supplier_info.name.id == partner_id:
+                            code = supplier_info.product_code
+                            break
+            line.product_supplier_code = code

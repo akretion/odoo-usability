@@ -12,6 +12,7 @@
     'website': 'http://www.akretion.com',
     'depends': [
         'sale',
+        'account_usability',  # for company view
         'base_view_inheritance_extension',
         ],
     'data': [
@@ -20,6 +21,7 @@
         'views/sale_report.xml',
         'views/product_pricelist_item.xml',
         'views/account_move.xml',
+        'views/res_company.xml',
         ],
     'installable': True,
 }
