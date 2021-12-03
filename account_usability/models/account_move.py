@@ -251,3 +251,14 @@ class AccountMoveLine(models.Model):
                 rec_str = ', '.join([
                     'a%d' % pr.id for pr in line.matched_debit_ids + line.matched_credit_ids])
             line.reconcile_string = rec_str
+
+    def _get_computed_name(self):
+        # This is useful when you want to have the product code in a dedicated
+        # column in your customer invoice report
+        # The same ir.config_parameter is used in sale_usability,
+        # purchase_usability and account_usability
+        no_product_code_param = self.env['ir.config_parameter'].sudo().get_param(
+            'usability.line_name_no_product_code')
+        if no_product_code_param and no_product_code_param == 'True':
+            self = self.with_context(display_default_code=False)
+        return super()._get_computed_name()

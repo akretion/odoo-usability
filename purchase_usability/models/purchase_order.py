@@ -87,3 +87,14 @@ class PurchaseOrderLine(models.Model):
                             code = supplier_info.product_code
                             break
             line.product_supplier_code = code
+
+    def _get_product_purchase_description(self, product_lang):
+        # This is useful when you want to have the product code in a dedicated
+        # column in your purchase order report
+        # The same ir.config_parameter is used in sale_usability,
+        # purchase_usability and account_usability
+        no_product_code_param = self.env['ir.config_parameter'].sudo().get_param(
+            'usability.line_name_no_product_code')
+        if no_product_code_param and no_product_code_param == 'True':
+            product_lang = product_lang.with_context(display_default_code=False)
+        return super()._get_product_purchase_description(product_lang)
