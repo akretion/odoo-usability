@@ -80,7 +80,8 @@ class AccountBankStatementLine(models.Model):
 
     def show_account_move(self):
         self.ensure_one()
-        action = self.env.ref('account.action_move_line_form').read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            'account.action_move_line_form')
         # Note: this action is on account.move, not account.move.line !
         action.update({
             'views': False,

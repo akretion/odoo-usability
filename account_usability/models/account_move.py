@@ -231,7 +231,8 @@ class AccountMoveLine(models.Model):
 
     def show_account_move_form(self):
         self.ensure_one()
-        action = self.env.ref('account.action_move_line_form').read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            'account.action_move_line_form')
         action.update({
             'res_id': self.move_id.id,
             'view_id': False,
