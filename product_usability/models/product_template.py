@@ -1,4 +1,4 @@
-# Copyright 2015-2020 Akretion (http://www.akretion.com)
+# Copyright 2015-2021 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # @author Raphaël Valyi <rvalyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -21,9 +21,12 @@ class ProductTemplate(models.Model):
     # are only shown in the form view of product.template, not in the form
     # view of product.product
     name = fields.Char(tracking=10)
-    categ_id = fields.Many2one(tracking=20)
-    type = fields.Selection(tracking=30)
-    list_price = fields.Float(tracking=40)
-    sale_ok = fields.Boolean(tracking=50)
-    purchase_ok = fields.Boolean(tracking=60)
-    active = fields.Boolean(tracking=70)
+    barcode = fields.Char(tracking=20)
+    default_code = fields.Char(tracking=30)
+    categ_id = fields.Many2one(tracking=40)
+    type = fields.Selection(tracking=50)
+    list_price = fields.Float(tracking=60)
+    weight = fields.Float(tracking=70)
+    sale_ok = fields.Boolean(tracking=80)
+    purchase_ok = fields.Boolean(tracking=90)
+    active = fields.Boolean(tracking=100)
