@@ -16,6 +16,13 @@ class AccountJournal(models.Model):
         "you don't want to enter the start/end balance manually: it "
         "will prevent the display of wrong information in the accounting "
         "dashboard and on bank statements.")
+    # Used to set default user_type_id on account fields
+    account_type_current_liabilities_id = fields.Many2one(
+        'account.account.type',
+        default=lambda self: self.env.ref('account.data_account_type_current_liabilities').id)
+    account_type_current_assets_id = fields.Many2one(
+        'account.account.type',
+        default=lambda self: self.env.ref('account.data_account_type_current_assets').id)
 
     @api.depends(
         'name', 'currency_id', 'company_id', 'company_id.currency_id', 'code')

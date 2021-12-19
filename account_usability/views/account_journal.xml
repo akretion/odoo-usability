@@ -14,6 +14,17 @@
     <field name="arch" type="xml">
         <field name="bank_statements_source" position="after">
             <field name="hide_bank_statement_balance" groups="account.group_account_readonly"/>
+            <field name="account_type_current_liabilities_id" invisible="1"/>
+            <field name="account_type_current_assets_id" invisible="1"/>
+        </field>
+        <field name="suspense_account_id" position="attributes">
+            <attribute name="context">{'default_user_type_id': account_type_current_liabilities_id, 'default_reconcile': True}</attribute>
+        </field>
+        <field name="payment_debit_account_id" position="attributes">
+            <attribute name="context">{'default_user_type_id': account_type_current_assets_id, 'default_reconcile': True}</attribute>
+        </field>
+        <field name="payment_credit_account_id" position="attributes">
+            <attribute name="context">{'default_user_type_id': account_type_current_assets_id, 'default_reconcile': True}</attribute>
         </field>
     </field>
 </record>
