@@ -31,6 +31,9 @@
         <field name="name" position="after">
             <field name="code" filter_domain="[('code', '=like', str(self)+'%')]" string="Code"/>
         </field>
+        <filter name="accounttype" position="after">
+            <filter name="group_groupby" string="Group" context="{'group_by': 'group_id'}"/>
+        </filter>
     </field>
 </record>
 

@@ -19,6 +19,7 @@
     'data': [
         'views/account_account_type.xml',
         'views/account_account.xml',
+        'views/account_group.xml',
         'views/account_bank_statement.xml',
         'views/account_invoice_report.xml',
         'views/account_journal.xml',
