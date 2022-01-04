@@ -32,6 +32,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'views/product_pricelist_item.xml',
         'views/product_template_view.xml',
         'views/product_product.xml',
+        'views/product_category_view.xml',
     ],
     'installable': True,
 }
