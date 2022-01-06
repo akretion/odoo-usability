@@ -27,9 +27,7 @@ class AccountBankStatement(models.Model):
 
     def _check_balance_end_real_same_as_computed(self):
         for stmt in self:
-            if stmt.hide_bank_statement_balance:
-                continue
-            else:
+            if not stmt.hide_bank_statement_balance:
                 super(AccountBankStatement, stmt)._check_balance_end_real_same_as_computed()
         return True
 
