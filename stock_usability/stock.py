@@ -146,3 +146,16 @@ class StockQuant(models.Model):
         action = self.action_view_stock_moves()
         action['context'] = {'search_default_todo': True}
         return action
+
+
+class StockInventoryLine(models.Model):
+    _inherit = 'stock.inventory.line'
+
+    state = fields.Selection(store=True)
+    partner_id = fields.Many2one(states={'done': [('readonly', True)]})
+    product_id = fields.Many2one(states={'done': [('readonly', True)]})
+    product_uom_id = fields.Many2one(states={'done': [('readonly', True)]})
+    product_qty = fields.Float(states={'done': [('readonly', True)]})
+    location_id = fields.Many2one(states={'done': [('readonly', True)]})
+    package_id = fields.Many2one(states={'done': [('readonly', True)]})
+    prod_lot_id = fields.Many2one(states={'done': [('readonly', True)]})

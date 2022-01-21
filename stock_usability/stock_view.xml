@@ -23,6 +23,11 @@
         <button name="action_cancel" type="object" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this picking?</attribute>
         </button>
+        <!-- picking_type_id updates location_id and location_dest_id, we it's
+             better to put it BEFORE in the view, not AFTER ! -->
+        <field name="location_id" position="before">
+            <field name="picking_type_id" position="move"/>
+        </field>
         <!-- STOCK MOVE -->
         <!-- This sum is useful to check the 'number of items' to transfer... -->
         <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_uom_qty']" position="attributes">
@@ -350,7 +355,9 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
         <button name="action_reset_product_qty" type="object" position="attributes">
             <attribute name="confirm">Are you sure you want to reset all quantities to 0 ?</attribute>
         </button>
-
+        <button name="action_inventory_line_tree" position="attributes">
+            <attribute name="states">confirm,done</attribute>
+        </button>
     </field>
 </record>
 
@@ -367,6 +374,16 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
             <attribute name="decoration-info">state == 'draft'</attribute>
             <attribute name="decoration-warning">state == 'confirm'</attribute>
         </tree>
+    </field>
+</record>
+
+<record id="stock_inventory_line_tree2" model="ir.ui.view">
+    <field name="model">stock.inventory.line</field>
+    <field name="inherit_id" ref="stock.stock_inventory_line_tree2"/>
+    <field name="arch" type="xml">
+        <field name="prod_lot_id" position="attributes">
+            <attribute name="attrs">{'readonly': ['|', ('product_tracking', '=', 'none'), ('state', '=', 'done')]}</attribute>
+        </field>
     </field>
 </record>
 
