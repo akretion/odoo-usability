@@ -2,11 +2,12 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.tools import float_is_zero
 from odoo.tools.misc import format_date
 from odoo.osv import expression
 from datetime import timedelta
+from odoo.exceptions import UserError
 
 
 class AccountMove(models.Model):
@@ -276,3 +277,14 @@ class AccountMoveLine(models.Model):
         if no_product_code_param and no_product_code_param == 'True':
             self = self.with_context(display_default_code=False)
         return super()._get_computed_name()
+
+    def reconcile(self):
+        """Explicit error message if unposted lines"""
+        unposted_ids = self.filtered(lambda l: l.move_id.state != "posted")
+        if unposted_ids:
+            m = _("Please post the following entries before reconciliation :")
+            sep = "\n - "
+            unpost = sep.join([am.display_name for am in unposted_ids.move_id])
+            raise UserError(m + sep + unpost)
+
+        return super().reconcile()
