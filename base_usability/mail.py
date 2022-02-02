@@ -2,11 +2,30 @@
 # © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from email.header import decode_header
+from email.errors import HeaderParseError
+
 from odoo import models, api
 from odoo.addons.base.ir.ir_mail_server import extract_rfc2822_addresses
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+def _decode(email_header):
+    """Defensively decode given email header: return it unmodified
+    in case it cannot be decoded, otherwise return a unicode."""
+
+    result = []
+    try:
+        for value, encoding in decode_header(email_header):
+            if encoding is not None:
+                result.append(value.decode(encoding))
+            else:
+                result.append(unicode(value))
+    except HeaderParseError:
+        return email_header
+    return u' '.join(result)
 
 
 class IrMailServer(models.Model):
@@ -23,11 +42,17 @@ class IrMailServer(models.Model):
         from_rfc2822 = extract_rfc2822_addresses(smtp_from)
         smtp_from = from_rfc2822[-1]
         # End copy from native method
+        attachment_names = [
+            _decode(part.get_filename())
+            for part in message.walk()
+            if part.get_content_maintype() not in ('multipart', 'text')]
         logger.info(
             "Sending email from '%s' to '%s' Cc '%s' Bcc '%s' "
-            "with subject '%s'",
-            smtp_from, message.get('To'), message.get('Cc'),
-            message.get('Bcc'), message.get('Subject'))
+            "with subject '%s' and attachments %s",
+            smtp_from, _decode(message.get('To')), _decode(message.get('Cc')),
+            _decode(message.get('Bcc')), _decode(message.get('Subject')),
+            u', '.join([u"'%s'" % n for n in attachment_names])
+        )
         return super(IrMailServer, self).send_email(
             message, mail_server_id=mail_server_id,
             smtp_server=smtp_server, smtp_port=smtp_port,
