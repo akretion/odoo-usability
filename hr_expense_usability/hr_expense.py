@@ -273,6 +273,7 @@ class HrExpense(models.Model):
             'product_id': self.product_id.id,
             'product_uom_id': self.product_uom_id.id,
             'quantity': self.quantity,
+            'tax_ids': [(6, 0, self.tax_ids.ids)],
         }
 
     @api.multi
@@ -297,6 +298,7 @@ class HrExpense(models.Model):
                 'analytic_account_id': analytic_account_id,
                 'amount': self.tax_amount_company_currency,
                 'name': self.name.split('\n')[0][:64],
+                'tax_line_id': tax.id,
             }
         return vals
 
@@ -440,6 +442,8 @@ class HrExpenseSheet(models.Model):
             'product_uom_id': gmlines.get('product_uom_id', False),
             'quantity': gmlines.get('quantity', 1),
             'name': gmlines['name'],
+            'tax_ids': gmlines.get('tax_ids'),
+            'tax_line_id': gmlines.get('tax_line_id'),
             'debit': debit,
             'credit': credit,
         }
