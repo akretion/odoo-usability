@@ -52,6 +52,7 @@ This modules adds the following functions:
 * don't attach PDF upon invoice report generation on supplier invoices/refunds
 * Add filter on debit and credit amount for Move Lines
 * Add supplier invoice number in invoice tree view
+* Add date in outstanding payment widget on invoice form view (requires `odoo PR 84180 <https://github.com/odoo/odoo/pull/84180>`_)
 
 Together with this module, I recommend the use of the following modules:
 

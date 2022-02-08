@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<templates id="template" xml:space="preserve">
+
+    <!-- Requires https://github.com/odoo/odoo/pull/84180 -->
+    <t t-extend="ShowPaymentInfo" >
+        <t t-jquery="td:first" t-operation="after">
+            <td style="max-width: 25em;" id="outstanding-date">
+                <div class="oe_form_field" style="margin-right: 5px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><t t-esc="line.date"></t></div>
+            </td>
+        </t>
+    </t>
+
+</templates>

@@ -38,5 +38,6 @@
         'wizard/account_payment_register_views.xml',
         'security/ir.model.access.csv',
         ],
+    'qweb': ['static/src/xml/account_payment.xml'],
     'installable': True,
 }
