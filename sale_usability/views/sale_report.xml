@@ -54,4 +54,9 @@
     </field>
 </record>
 
+<record id="sale.action_order_report_all" model="ir.actions.act_window">
+    <!-- native order is graph,pivot -->
+    <field name="view_mode">pivot,graph</field>
+</record>
+
 </odoo>
