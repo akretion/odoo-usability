@@ -15,6 +15,12 @@ class ResPartner(models.Model):
             ('all_except_notification', 'All Messages Except Notifications')],
         default='all_except_notification')
     opt_out = fields.Boolean(track_visibility='onchange')
+    # This field is designed to be included in mail templates
+    display_address_mail_template = fields.Text(compute='_compute_display_address_mail_template', string='Display Address in Mail Template')
+
+    def _compute_display_address_mail_template(self):
+        for partner in self:
+            partner.display_address_mail_template = partner._display_address(without_company=True)
 
     def _should_be_notify_by_email(self, message):
         if message.message_type == 'notification':
