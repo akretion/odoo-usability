@@ -14,4 +14,5 @@ class StockReturnPicking(models.TransientModel):
         self.product_return_moves.write({'quantity': 0})
         action = self.env.ref('stock.act_stock_return_picking').read()[0]
         action['res_id'] = self.id
+        action['context'] = self._context
         return action
