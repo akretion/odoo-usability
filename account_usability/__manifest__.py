@@ -37,6 +37,7 @@
         'wizard/account_group_generate_view.xml',
         'wizard/account_payment_register_views.xml',
         'security/ir.model.access.csv',
+        'report/invoice_report.xml',
         ],
     'qweb': ['static/src/xml/account_payment.xml'],
     'installable': True,

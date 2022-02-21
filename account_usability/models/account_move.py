@@ -152,13 +152,13 @@ class AccountMove(models.Model):
         """ French law requires to set sale order dates into invoice
             returned string: "sale1 (date1), sale2 (date2) ..."
         """
-        for inv in self:
-            sales = inv.invoice_line_ids.mapped(
+        for move in self:
+            sales = move.invoice_line_ids.mapped(
                 'sale_line_ids').mapped('order_id')
             dates = ["%s (%s)" % (
-                     x.name, format_date(inv.env, self.date_order))
+                     x.name, format_date(move.env, x.date_order))
                      for x in sales]
-            inv.sale_dates = ", ".join(dates)
+            move.sale_dates = ", ".join(dates)
 
     # allow to manually create moves not only in general journals,
     # but also in cash journal and check journals (= bank journals not linked to a bank account)
