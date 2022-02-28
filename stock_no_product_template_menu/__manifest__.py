@@ -22,5 +22,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['stock'],
     'data': ['view.xml'],
-    'installable': False,
+    'installable': True,
 }
