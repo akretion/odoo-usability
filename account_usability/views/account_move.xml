@@ -88,10 +88,11 @@
             <field name="debit" filter_domain="['|', ('debit', '=', self), ('credit', '=', self)]" string="Debit or Credit"/>
         </field>
         <filter name="unreconciled" position="before">
-            <filter name="reconciled" string="Fully Reconciled" domain="[('full_reconcile_id', '!=', False)]"/>
+            <filter name="reconciled" string="Fully Reconciled" domain="[('reconciled', '=', True)]"/>
         </filter>
         <filter name="unreconciled" position="attributes">
             <attribute name="string">Unreconciled or Partially Reconciled</attribute>
+            <attribute name="domain">[('reconciled', '=', False), ('balance', '!=', 0), ('account_id.reconcile', '=', True)]</attribute>
         </filter>
         <!--
         <field name="name" position="attributes">
