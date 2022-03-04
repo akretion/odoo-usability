@@ -724,6 +724,16 @@ class AccountIncoterms(models.Model):
             res.append((rec.id, '[%s] %s' % (rec.code, rec.name)))
         return res
 
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=80):
+        if args is None:
+            args = []
+        if name and operator == 'ilike':
+            recs = self.search([('code', '=', name)] + args, limit=limit)
+            if recs:
+                return recs.name_get()
+        return super().name_search(name=name, args=args, operator=operator, limit=limit)
+
 
 class AccountReconciliation(models.AbstractModel):
     _inherit = 'account.reconciliation.widget'
