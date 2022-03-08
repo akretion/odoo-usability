@@ -6,6 +6,7 @@ from odoo import api, fields, models
 from odoo.tools import float_is_zero
 from odoo.tools.misc import format_date
 from odoo.osv import expression
+from datetime import timedelta
 
 
 class AccountMove(models.Model):
@@ -206,6 +207,18 @@ class AccountMove(models.Model):
     def _get_invoice_attachment_name(self):
         self.ensure_one()
         return '%s.pdf' % (self.name and self.name.replace('/', '_') or 'INV')
+
+    def _get_accounting_date(self, invoice_date, has_tax):
+        # On vendor bills/refunds, we want date = invoice_date unless
+        # we have a company tax_lock_date and the invoice has taxes
+        # and invoice_date <= tax_lock_date
+        date = super()._get_accounting_date(invoice_date, has_tax)
+        if self.is_purchase_document(include_receipts=True):
+            tax_lock_date = self.company_id.tax_lock_date
+            if invoice_date and tax_lock_date and has_tax and invoice_date <= tax_lock_date:
+               invoice_date = tax_lock_date + timedelta(days=1)
+            date = invoice_date
+        return date
 
 
 class AccountMoveLine(models.Model):
