@@ -1,1 +1,1 @@
-from . import account_invoice_update
+from . import account_move_update
