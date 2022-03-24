@@ -175,7 +175,8 @@ class AccountMove(models.Model):
                         [('company_id', '=', company_id)],
                         expression.OR([
                             [('type', 'in', ('general', 'cash'))],
-                            [('type', '=', 'bank'), ('bank_account_id', '=', False)]
+                            [('type', '=', 'bank'), ('bank_account_id', '=', False)],
+                            [('type', '=', 'bank'), ('bank_statements_source', '=', 'undefined')],
                             ])
                         ])
                 move.suitable_journal_ids = self.env['account.journal'].search(domain)
