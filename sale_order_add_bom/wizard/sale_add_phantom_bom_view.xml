@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+  Copyright 2016-2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
 <odoo>
-<data>
 
 <record id="sale_add_phantom_bom_form" model="ir.ui.view">
     <field name="name">sale.add.phantom.bom.form</field>
     <field name="model">sale.add.phantom.bom</field>
     <field name="arch"  type="xml">
-        <form string="Add Phantom BOM to the Quotation">
+        <form>
             <group name="main">
+                <field name="sale_id" invisible="1"/>
+                <field name="picking_id" invisible="1"/>
+                <field name="company_id" invisible="1"/>
                 <field name="bom_id" default_focus="1"/>
                 <field name="qty"/>
             </group>
             <footer>
                 <button name="add" type="object"
-                    class="oe_highlight" string="Add"/>
-                <button special="cancel" string="Cancel" class="oe_link"/>
+                    class="btn-primary" string="Add"/>
+                <button special="cancel" string="Cancel"/>
             </footer>
         </form>
     </field>
@@ -32,5 +35,4 @@
     <field name="target">new</field>
 </record>
 
-</data>
 </odoo>

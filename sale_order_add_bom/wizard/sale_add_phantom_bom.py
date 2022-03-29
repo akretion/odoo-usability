@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
-# © 2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# Copyright 2016-2022 Akretion France (http://www.akretion.com/)
+# @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, _
-from openerp.exceptions import UserError
-from openerp.tools import float_is_zero
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
+from odoo.tools import float_is_zero
 
 
 class SaleAddPhantomBom(models.TransientModel):
@@ -13,11 +13,15 @@ class SaleAddPhantomBom(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(SaleAddPhantomBom, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         if self._context.get('active_model') == 'sale.order':
             res['sale_id'] = self._context['active_id']
+            sale = self.env['sale.order'].browse(res['sale_id'])
+            res['company_id'] = sale.company_id.id
         elif self._context.get('active_model') == 'stock.picking':
             res['picking_id'] = self._context['active_id']
+            picking = self.env['stock.picking'].browse(res['picking_id'])
+            res['company_id'] = picking.company_id.id
         else:
             raise UserError(_(
                 "The wizard can only be started from a sale order or a picking."))
@@ -25,7 +29,8 @@ class SaleAddPhantomBom(models.TransientModel):
 
     bom_id = fields.Many2one(
         'mrp.bom', 'Kit', required=True,
-        domain=[('type', '=', 'phantom'), ('sale_ok', '=', True)])
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id), ('type', '=', 'phantom'), ('sale_ok', '=', True)]")
+    company_id = fields.Many2one('res.company', string='Company', required=True)
     qty = fields.Integer(
         string='Number of Kits to Add', default=1, required=True)
     sale_id = fields.Many2one(
@@ -63,7 +68,6 @@ class SaleAddPhantomBom(models.TransientModel):
             }
         return vals
 
-    @api.multi
     def add(self):
         self.ensure_one()
         assert self.sale_id or self.picking_id, 'No related sale_id or picking_id'
@@ -90,4 +94,3 @@ class SaleAddPhantomBom(models.TransientModel):
             elif self.picking_id:
                 vals = self._prepare_stock_move(line, self.picking_id, self.qty)
                 smo.create(vals)
-        return True
