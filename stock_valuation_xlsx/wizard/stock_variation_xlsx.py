@@ -79,7 +79,7 @@ class StockVariationXlsx(models.TransientModel):
         else:
             if self.start_date >= present:
                 raise UserError(_("The start date must be in the past."))
-        cost_method_real_count = self.env['ir.property'].search([
+        cost_method_real_count = self.env['ir.property'].sudo().search([
             ('company_id', '=', company_id),
             ('name', '=', 'property_cost_method'),
             ('value_text', '=', 'real'),

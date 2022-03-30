@@ -97,7 +97,7 @@ class StockValuationXlsx(models.TransientModel):
                 raise UserError(_(
                     "The selected inventory (%s) is not in done state.")
                     % self.inventory_id.display_name)
-        cost_method_real_count = self.env['ir.property'].search([
+        cost_method_real_count = self.env['ir.property'].sudo().search([
             ('company_id', '=', company_id),
             ('name', '=', 'property_cost_method'),
             ('value_text', '=', 'real'),
