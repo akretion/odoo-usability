@@ -18,4 +18,25 @@
     </field>
 </record>
 
+<record id="view_quotation_tree" model="ir.ui.view">
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale_stock.view_quotation_tree"/>
+    <field name="arch" type="xml">
+        <field name="warehouse_id" position="after">
+            <field name="route_id" optional="hide"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_order_tree" model="ir.ui.view">
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale_stock.view_order_tree"/>
+    <field name="arch" type="xml">
+        <field name="warehouse_id" position="after">
+            <field name="route_id" optional="hide"/>
+        </field>
+    </field>
+</record>
+
+
 </odoo>

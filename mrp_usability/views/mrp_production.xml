@@ -29,4 +29,15 @@
     </field>
 </record>
 
+<record id="mrp_production_tree_view" model="ir.ui.view">
+    <field name="model">mrp.production</field>
+    <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+    <field name="arch" type="xml">
+        <field name="reservation_state" position="after">
+            <field name="location_src_id" optional="hide" groups="stock.group_stock_multi_locations"/>
+            <field name="location_dest_id" optional="hide" groups="stock.group_stock_multi_locations"/>
+        </field>
+    </field>
+</record>
+
 </odoo>
