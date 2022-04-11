@@ -30,3 +30,4 @@ class ProductTemplate(models.Model):
     sale_ok = fields.Boolean(tracking=80)
     purchase_ok = fields.Boolean(tracking=90)
     active = fields.Boolean(tracking=100)
+    company_id = fields.Many2one(tracking=110)
