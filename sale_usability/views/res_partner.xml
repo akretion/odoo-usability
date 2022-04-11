@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="res_partner_view_team" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="sales_team.res_partner_view_team" />
+        <field name="arch" type="xml">
+            <!-- team_id should be visible in no developper mode -->
+            <field name="team_id" position="attributes">
+                <attribute name="groups"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

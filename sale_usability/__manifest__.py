@@ -22,6 +22,7 @@
         'views/product_pricelist_item.xml',
         'views/account_move.xml',
         'views/res_company.xml',
+        "views/res_partner.xml",
         ],
     'installable': True,
 }
