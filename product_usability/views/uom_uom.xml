@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<!-- When the module stock and sale are not installed,
+    there is no menu entry for UoM ! These menu entry fixes this -->
+
+    <menuitem id="uom_config_menu" parent="base.menu_custom"
+        name="Units of Measure" sequence="150"/>
+
+    <menuitem id="uom_categ_config_menu" parent="uom_config_menu"
+        action="uom.product_uom_categ_form_action" sequence="10" />
+
+    <menuitem id="uom_uom_config_menu" parent="uom_config_menu"
+        action="uom.product_uom_form_action" sequence="20" />
+
+</odoo>
