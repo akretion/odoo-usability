@@ -1,0 +1,696 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_usability
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_usability
+#: code:addons/account_usability/wizard/account_group_generate.py:0
+#, python-format
+msgid ""
+"%d account groups already exists in company '%s'. This wizard is designed to"
+" generate account groups from scratch."
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_account
+msgid "Account"
+msgstr ""
+
+#. module: account_usability
+#: code:addons/account_usability/wizard/account_group_generate.py:0
+#, python-format
+msgid "Account Groups"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_move_reversal
+msgid "Account Move Reversal"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_reconciliation_widget
+msgid "Account Reconciliation widget"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_journal__account_type_current_assets_id
+msgid "Account Type Current Assets"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_journal__account_type_current_liabilities_id
+msgid "Account Type Current Liabilities"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_line__account_reconcile
+msgid "Allow Reconciliation"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.constraint,message:account_usability.constraint_account_analytic_account_code_company_unique
+msgid ""
+"An analytic account with the same code already exists in the same company!"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_analytic_account
+msgid "Analytic Account"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_bank_statement_form
+msgid "Are you sure to unreconcile all the entrie of the bank statement?"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_bank_statement_line__partner_bank_id
+#: model:ir.model.fields,help:account_usability.field_account_move__partner_bank_id
+msgid ""
+"Bank Account Number to which the invoice will be paid. A Company bank "
+"account if this is a Customer Invoice or Vendor Credit Note, otherwise a "
+"Partner bank account number."
+msgstr ""
+
+#. module: account_usability
+#: model:ir.ui.menu,name:account_usability.res_partner_bank_account_config_menu
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_bank_statement
+msgid "Bank Statement"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.ui.menu,name:account_usability.res_bank_account_config_menu
+msgid "Banks"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.account_group_generate_form
+#: model_terms:ir.ui.view,arch_db:account_usability.account_invoice_mark_sent_form
+msgid "Cancel"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_move_line__account_reconcile
+msgid ""
+"Check this box if this account allows invoices & payments matching of "
+"journal items."
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_search
+msgid "Code"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_group_generate__create_uid
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_group_generate__create_date
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_move_line__matched_credit_ids
+msgid "Credit journal items that are matched with this journal item."
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
+msgid "Current Year"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__date
+#: model:ir.model.fields,field_description:account_usability.field_account_move__date
+#: model:ir.model.fields,field_description:account_usability.field_account_payment__date
+msgid "Date"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_move_line__matched_debit_ids
+msgid "Debit journal items that are matched with this journal item."
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
+msgid "Debit or Credit"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_account__display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_analytic_account__display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement__display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_group_generate__display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_incoterms__display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent__display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_report__display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_journal__display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_move__display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_move_reversal__display_name
+#: model:ir.model.fields,field_description:account_usability.field_account_partial_reconcile__display_name
+#: model:ir.model.fields,field_description:account_usability.field_product_supplierinfo__display_name
+#: model:ir.model.fields,field_description:account_usability.field_product_template__display_name
+#: model:ir.model.fields,field_description:account_usability.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_usability.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:account_usability.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__invoice_date_due
+#: model:ir.model.fields,field_description:account_usability.field_account_move__invoice_date_due
+#: model:ir.model.fields,field_description:account_usability.field_account_payment__invoice_date_due
+msgid "Due Date"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement__end_date
+#: model_terms:ir.ui.view,arch_db:account_usability.view_bank_statement_search
+msgid "End Date"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_fiscal_position
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__fiscal_position_id
+#: model:ir.model.fields,field_description:account_usability.field_account_move__fiscal_position_id
+#: model:ir.model.fields,field_description:account_usability.field_account_payment__fiscal_position_id
+#: model:ir.model.fields,field_description:account_usability.field_res_partner__property_account_position_id
+#: model:ir.model.fields,field_description:account_usability.field_res_users__property_account_position_id
+msgid "Fiscal Position"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_fiscalyear
+msgid "Fiscal Year"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_bank_statement_line__fiscal_position_id
+#: model:ir.model.fields,help:account_usability.field_account_move__fiscal_position_id
+#: model:ir.model.fields,help:account_usability.field_account_payment__fiscal_position_id
+msgid ""
+"Fiscal positions are used to adapt taxes and accounts for particular "
+"customers or sales orders/invoices. The default value comes from the "
+"customer."
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_line__full_reconcile_id
+msgid "Full Reconcile"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
+msgid "Fully Reconciled"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.account_group_generate_form
+msgid "Generate"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.account_group_generate_action
+#: model:ir.model,name:account_usability.model_account_group_generate
+#: model:ir.ui.menu,name:account_usability.account_group_generate_menu
+msgid "Generate Account Groups"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.account_group_generate_form
+msgid "Generate account groups"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_analytic_account_search
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_search
+msgid "Group"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_journal_search
+msgid "Group By"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__has_attachment
+#: model:ir.model.fields,field_description:account_usability.field_account_move__has_attachment
+#: model:ir.model.fields,field_description:account_usability.field_account_payment__has_attachment
+msgid "Has Attachment"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__has_discount
+#: model:ir.model.fields,field_description:account_usability.field_account_move__has_discount
+#: model:ir.model.fields,field_description:account_usability.field_account_payment__has_discount
+msgid "Has Discount"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement__hide_bank_statement_balance
+#: model:ir.model.fields,field_description:account_usability.field_account_journal__hide_bank_statement_balance
+msgid "Hide Bank Statement Balance"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_account__id
+#: model:ir.model.fields,field_description:account_usability.field_account_analytic_account__id
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement__id
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:account_usability.field_account_group_generate__id
+#: model:ir.model.fields,field_description:account_usability.field_account_incoterms__id
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent__id
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_report__id
+#: model:ir.model.fields,field_description:account_usability.field_account_journal__id
+#: model:ir.model.fields,field_description:account_usability.field_account_move__id
+#: model:ir.model.fields,field_description:account_usability.field_account_move_line__id
+#: model:ir.model.fields,field_description:account_usability.field_account_move_reversal__id
+#: model:ir.model.fields,field_description:account_usability.field_account_partial_reconcile__id
+#: model:ir.model.fields,field_description:account_usability.field_product_supplierinfo__id
+#: model:ir.model.fields,field_description:account_usability.field_product_template__id
+#: model:ir.model.fields,field_description:account_usability.field_res_company__id
+#: model:ir.model.fields,field_description:account_usability.field_res_config_settings__id
+#: model:ir.model.fields,field_description:account_usability.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_incoterms
+msgid "Incoterms"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_res_config_settings__transfer_account_id
+msgid "Inter-Banks Transfer Account"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_res_config_settings__transfer_account_id
+msgid ""
+"Intermediary account used when moving money from a liquidity account to "
+"another"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_move_line__product_barcode
+msgid "International Article Number used for product identification."
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_invoice
+#: model:ir.model.fields,field_description:account_usability.field_res_partner__invoice_warn
+#: model:ir.model.fields,field_description:account_usability.field_res_users__invoice_warn
+msgid "Invoice"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_company_form
+msgid "Invoice Legal Terms"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_invoice_line
+msgid "Invoice Line"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.account_invoice_report_tree
+msgid "Invoices Analysis"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_journal
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__journal_id
+#: model:ir.model.fields,field_description:account_usability.field_account_move__journal_id
+#: model:ir.model.fields,field_description:account_usability.field_account_payment__journal_id
+msgid "Journal"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_account____last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_analytic_account____last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement____last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line____last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_group_generate____last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_incoterms____last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent____last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_report____last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_journal____last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_move____last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_move_reversal____last_update
+#: model:ir.model.fields,field_description:account_usability.field_account_partial_reconcile____last_update
+#: model:ir.model.fields,field_description:account_usability.field_product_supplierinfo____last_update
+#: model:ir.model.fields,field_description:account_usability.field_product_template____last_update
+#: model:ir.model.fields,field_description:account_usability.field_res_company____last_update
+#: model:ir.model.fields,field_description:account_usability.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:account_usability.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_group_generate__write_uid
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_group_generate__write_date
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_mark_sent__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_company_form
+msgid "Legal Terms"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_res_company__static_invoice_terms
+msgid "Legal Terms on Invoice"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_group_generate__level
+msgid "Level"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.actions.act_window,name:account_usability.account_invoice_mark_sent_action
+#: model_terms:ir.ui.view,arch_db:account_usability.account_invoice_mark_sent_form
+msgid "Mark as Sent"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_invoice_mark_sent
+#: model_terms:ir.ui.view,arch_db:account_usability.account_invoice_mark_sent_form
+msgid "Mark invoices as sent"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_invoice_filter
+msgid "Missing Attachment"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_partial_reconcile
+msgid "Partial Reconcile"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_line__matched_credit_ids
+msgid "Partial Reconcile Credit"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_line__matched_debit_ids
+msgid "Partial Reconcile Debit"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_invoice_report__industry_id
+msgid "Partner Industry"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__invoice_payment_term_id
+#: model:ir.model.fields,field_description:account_usability.field_account_move__invoice_payment_term_id
+#: model:ir.model.fields,field_description:account_usability.field_account_payment__invoice_payment_term_id
+msgid "Payment Terms"
+msgstr ""
+
+#. module: account_usability
+#: code:addons/account_usability/models/account_move.py:0
+#, python-format
+msgid "Please post the following entries before reconciliation :"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_group_generate__name_prefix
+msgid "Prefix"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_account_reconcile_model
+msgid ""
+"Preset to create journal entries during a invoices and payments matching"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
+msgid "Previous Year"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_move_form
+msgid "Print"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_line__product_barcode
+msgid "Product Barcode"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_product_product__purchase_price_type
+#: model:ir.model.fields,field_description:account_usability.field_product_supplierinfo__purchase_price_type
+#: model:ir.model.fields,field_description:account_usability.field_product_template__purchase_price_type
+msgid "Purchase Price Type"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__partner_bank_id
+#: model:ir.model.fields,field_description:account_usability.field_account_move__partner_bank_id
+msgid "Recipient Bank"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_line__reconcile_string
+msgid "Reconcile"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__ref
+#: model:ir.model.fields,field_description:account_usability.field_account_move__ref
+#: model:ir.model.fields,field_description:account_usability.field_account_payment__ref
+msgid "Reference"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move_reversal__date
+msgid "Reversal date"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__sale_dates
+#: model:ir.model.fields,field_description:account_usability.field_account_move__sale_dates
+#: model:ir.model.fields,field_description:account_usability.field_account_payment__sale_dates
+msgid "Sale Dates"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_product_product__sale_price_type
+#: model:ir.model.fields,field_description:account_usability.field_product_template__sale_price_type
+msgid "Sale Price Type"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_res_partner__invoice_warn
+#: model:ir.model.fields,help:account_usability.field_res_users__invoice_warn
+msgid ""
+"Selecting the \"Warning\" option will notify user with the message, "
+"Selecting \"Blocking Message\" will throw an exception with the message and "
+"block the flow. The Message has to be written in the next field."
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_invoice_filter
+msgid "Sent"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement__start_date
+#: model_terms:ir.ui.view,arch_db:account_usability.view_bank_statement_search
+msgid "Start Date"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model,name:account_usability.model_product_supplierinfo
+msgid "Supplier Pricelist"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.product_supplierinfo_tree_view
+msgid "Tax"
+msgstr ""
+
+#. module: account_usability
+#: code:addons/account_usability/models/product.py:0
+#, python-format
+msgid "Tax excl."
+msgstr ""
+
+#. module: account_usability
+#: code:addons/account_usability/models/product.py:0
+#, python-format
+msgid "Tax incl."
+msgstr ""
+
+#. module: account_usability
+#: code:addons/account_usability/wizard/account_group_generate.py:0
+#, python-format
+msgid ""
+"The code of account '%s' is %d caracters. It cannot be inferior to level "
+"(%d)."
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_res_partner__property_account_position_id
+#: model:ir.model.fields,help:account_usability.field_res_users__property_account_position_id
+msgid ""
+"The fiscal position determines the taxes/accounts used for this contact."
+msgstr ""
+
+#. module: account_usability
+#: code:addons/account_usability/wizard/account_group_generate.py:0
+#, python-format
+msgid "The level must be >= 1."
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_bank_statement_line__sale_dates
+#: model:ir.model.fields,help:account_usability.field_account_move__sale_dates
+#: model:ir.model.fields,help:account_usability.field_account_payment__sale_dates
+msgid ""
+"This information appears on invoice qweb report (you may use it for your own"
+" report)"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.account_group_generate_form
+msgid ""
+"This wizard is designed to auto-generate account groups from the chart of "
+"account."
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.account_invoice_mark_sent_form
+msgid ""
+"This wizard will mark as <i>sent</i> all the selected invoices in open or "
+"paid state."
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_invoice_filter
+msgid "To Send"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__amount_total
+#: model:ir.model.fields,field_description:account_usability.field_account_move__amount_total
+#: model:ir.model.fields,field_description:account_usability.field_account_payment__amount_total
+msgid "Total"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.res_config_settings_view_form
+msgid ""
+"Transit account when you transfer money from a bank account of your company "
+"to another bank account of your company."
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_journal_search
+msgid "Type"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_bank_statement_form
+msgid "Unreconcile All"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
+msgid "Unreconciled or Partially Reconciled"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_bank_statement_form
+msgid "View Journal Entry"
+msgstr ""
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_move_line_tree
+msgid "View Journal Entry Form"
+msgstr ""
+
+#. module: account_usability
+#: model:ir.model.fields,help:account_usability.field_account_bank_statement__hide_bank_statement_balance
+#: model:ir.model.fields,help:account_usability.field_account_journal__hide_bank_statement_balance
+msgid ""
+"You may want to enable this option when your bank journal is generated from "
+"a bank statement file that doesn't handle start/end balance (QIF for "
+"instance) and you don't want to enter the start/end balance manually: it "
+"will prevent the display of wrong information in the accounting dashboard "
+"and on bank statements."
+msgstr ""
