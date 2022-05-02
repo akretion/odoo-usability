@@ -242,6 +242,17 @@ class AccountMoveLine(models.Model):
         compute='_compute_reconcile_string', string='Reconcile', store=True)
     # for optional display in tree view
     product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
+    balance = fields.Monetary(
+        string='Balance',
+        default=0.0,
+        currency_field='company_currency_id',
+        compute="_compute_balance",
+        store=True)
+
+    @api.depends("credit", "debit")
+    def _compute_balance(self):
+        for line in self:
+            line.balance = line.debit - line.credit
 
     def show_account_move_form(self):
         self.ensure_one()

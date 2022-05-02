@@ -70,6 +70,9 @@
         <field name="matching_number" position="after">
             <button title="View Journal Entry Form" type="object" name="show_account_move_form" icon="fa-arrow-right"/>
         </field>
+        <field name="credit" position="after">
+            <field name="balance" sum="Balance" />
+        </field>
     </field>
 </record>
 
