@@ -29,7 +29,7 @@ class AccountMove(models.Model):
 
     def show_sale_orders(self):
         self.ensure_one()
-        action = self.env.ref('sale.action_orders').read()[0]
+        action = self.env.ref('sale.action_orders').sudo().read()[0]
         sales = self.sale_ids
         if len(sales) > 1:
             action['domain'] = [('id', 'in', sales.ids)]
