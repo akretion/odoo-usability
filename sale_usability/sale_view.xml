@@ -26,6 +26,9 @@
         <field name="confirmation_date" position="after">
             <field name="client_order_ref"/>
         </field>
+        <button name="preview_sale_order" position="after">
+            <button name="action_quotation_send" type="object" string="Send Order Acknowledgement" attrs="{'invisible': ['|', ('state', 'not in', ('sale', 'done')), ('invoice_count','&gt;=',1)]}"/>
+        </button>
     </field>
 </record>
 
