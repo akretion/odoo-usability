@@ -4,20 +4,119 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-11 13:11+0000\n"
-"PO-Revision-Date: 2019-10-11 15:11+0200\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2022-05-09 16:56+0000\n"
+"PO-Revision-Date: 2022-05-09 18:57+0200\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: fr\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#. module: pos_usability
+#: model:ir.model.fields,field_description:pos_usability.field_pos_category__product_count
+msgid "# Products"
+msgstr ""
+
+#. module: pos_usability
+#: model_terms:ir.ui.view,arch_db:pos_usability.product_pos_category_form_view
+msgid "<span class=\"o_stat_text\"> Products</span>"
+msgstr ""
 
 #. module: pos_usability
 #: model_terms:ir.ui.view,arch_db:pos_usability.report_saledetails
 msgid "Amount"
 msgstr "Montant"
+
+#. module: pos_usability
+#: model:ir.model.fields,field_description:pos_usability.field_product_product__available_in_pos
+#: model:ir.model.fields,field_description:pos_usability.field_product_template__available_in_pos
+msgid "Available in POS"
+msgstr "Disponible dans le PdV"
+
+#. module: pos_usability
+#: model:ir.model.fields,field_description:pos_usability.field_pos_payment_method__cash_journal_id
+msgid "Cash Journal"
+msgstr "Journal de caisse"
+
+#. module: pos_usability
+#: model:ir.model.fields,help:pos_usability.field_product_product__pos_categ_id
+#: model:ir.model.fields,help:pos_usability.field_product_template__pos_categ_id
+msgid "Category used in the Point of Sale."
+msgstr "Catégorie utilisé dans le point de vente"
+
+#. module: pos_usability
+#: model:ir.model.fields,help:pos_usability.field_product_product__available_in_pos
+#: model:ir.model.fields,help:pos_usability.field_product_template__available_in_pos
+msgid "Check if you want this product to appear in the Point of Sale."
+msgstr ""
+"Cochez si vous souhaitez faire apparaître ce produit dans le Point de Vente"
+
+#. module: pos_usability
+#: model:ir.model.fields,field_description:pos_usability.field_pos_category__display_name
+#: model:ir.model.fields,field_description:pos_usability.field_pos_payment_method__display_name
+#: model:ir.model.fields,field_description:pos_usability.field_product_template__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: pos_usability
+#: model:ir.model.fields,field_description:pos_usability.field_pos_category__id
+#: model:ir.model.fields,field_description:pos_usability.field_pos_payment_method__id
+#: model:ir.model.fields,field_description:pos_usability.field_product_template__id
+msgid "ID"
+msgstr ""
+
+#. module: pos_usability
+#: model:ir.model.fields,field_description:pos_usability.field_pos_category____last_update
+#: model:ir.model.fields,field_description:pos_usability.field_pos_payment_method____last_update
+#: model:ir.model.fields,field_description:pos_usability.field_product_template____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: pos_usability
+#: model:ir.model,name:pos_usability.model_pos_category
+#: model:ir.model.fields,field_description:pos_usability.field_product_product__pos_categ_id
+#: model:ir.model.fields,field_description:pos_usability.field_product_template__pos_categ_id
+#: model_terms:ir.ui.view,arch_db:pos_usability.product_template_search_view
+msgid "Point of Sale Category"
+msgstr "Catégorie du point de vente"
+
+#. module: pos_usability
+#: model:ir.model,name:pos_usability.model_pos_payment_method
+msgid "Point of Sale Payment Methods"
+msgstr "Modes de paiement au point de vente"
+
+#. module: pos_usability
+#: model:ir.model,name:pos_usability.model_product_template
+msgid "Product Template"
+msgstr "Modèle d'article"
+
+#. module: pos_usability
+#: model_terms:ir.ui.view,arch_db:pos_usability.view_pos_session_form
+msgid "Starting Balance"
+msgstr "Montant à l'ouverture"
+
+#. module: pos_usability
+#: model_terms:ir.ui.view,arch_db:pos_usability.view_pos_session_form
+msgid "Stats"
+msgstr ""
+
+#. module: pos_usability
+#: model:ir.model.fields,help:pos_usability.field_pos_category__product_count
+msgid ""
+"The number of products under this point of sale category (does not consider "
+"the children categories)"
+msgstr ""
+
+#. module: pos_usability
+#: model:ir.model.fields,help:pos_usability.field_pos_payment_method__cash_journal_id
+msgid ""
+"The payment method is of type cash. A cash statement will be automatically "
+"generated."
+msgstr ""
+"Cette méthode de paiement est de type cash. Un relevé sera automatiquement "
+"généré. "
