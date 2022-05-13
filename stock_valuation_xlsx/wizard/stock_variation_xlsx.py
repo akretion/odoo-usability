@@ -106,59 +106,6 @@ class StockVariationXlsx(models.TransientModel):
         products = self.env['product.product'].search(domain)
         return products.ids
 
-    def _prepare_product_fields(self):
-        return ['uom_id', 'name', 'default_code', 'categ_id']
-
-    def compute_product_data(
-            self, company_id, filter_product_ids,
-            standard_price_start_date=False, standard_price_end_date=False):
-        self.ensure_one()
-        logger.debug('Start compute_product_data')
-        ppo = self.env['product.product']
-        fields_list = self._prepare_product_fields()
-        # if not standard_price_start_date or not standard_price_end_date:  # TODO
-        if True:
-            fields_list.append('standard_price')
-        products = ppo.search_read([('id', 'in', filter_product_ids)], fields_list)
-        product_id2data = {}
-        for p in products:
-            logger.debug('p=%d', p['id'])
-            if standard_price_start_date:
-                # No more product.price.history on v14
-                # We are supposed to use stock.valuation.layer.revaluation
-                # TODO migrate to stock.valuation.layer.revaluation
-                #history = ppho.search_read([
-                #    ('company_id', '=', company_id),
-                #    ('product_id', '=', p['id']),
-                #    ('datetime', '<=', standard_price_start_date)],
-                #    ['cost'], order='datetime desc, id desc', limit=1)
-                #start_standard_price = history and history[0]['cost'] or 0.0
-                start_standard_price = p['standard_price']  # TODO remove this tmp stuff
-            else:
-                start_standard_price = p['standard_price']
-            if standard_price_end_date:
-                #history = ppho.search_read([
-                #    ('company_id', '=', company_id),
-                #    ('product_id', '=', p['id']),
-                #    ('datetime', '<=', standard_price_end_date)],
-                #    ['cost'], order='datetime desc, id desc', limit=1)
-                #end_standard_price = history and history[0]['cost'] or 0.0
-                end_standard_price = p['standard_price']  # TODO remove this tmp stuff
-            else:
-                end_standard_price = p['standard_price']
-
-            product_id2data[p['id']] = {
-                'start_standard_price': start_standard_price,
-                'end_standard_price': end_standard_price,
-                }
-            for pfield in fields_list:
-                if pfield.endswith('_id'):
-                    product_id2data[p['id']][pfield] = p[pfield][0]
-                else:
-                    product_id2data[p['id']][pfield] = p[pfield]
-        logger.debug('End compute_product_data')
-        return product_id2data
-
     def compute_data_from_stock(self, product_ids, prec_qty, start_date, end_date_type, end_date, company_id):
         self.ensure_one()
         logger.debug('Start compute_data_from_stock past_date=%s end_date_type=%s, end_date=%s', start_date, end_date_type, end_date)
@@ -273,12 +220,13 @@ class StockVariationXlsx(models.TransientModel):
         standard_price_start_date = standard_price_end_date = False
         if self.standard_price_start_date_type == 'start':
             standard_price_start_date = self.start_date
-        if self.standard_price_end_date_type == 'end':
+        if self.standard_price_end_date_type == 'end' and self.end_date_type == 'past':
             standard_price_end_date = self.end_date
 
-        product_id2data = self.compute_product_data(
-            company_id, list(product_data.keys()),
-            standard_price_start_date, standard_price_end_date)
+        product_id2data = svxo.compute_product_data(
+            company_id, list(product_data.keys()), {
+                'start_standard_price': standard_price_start_date,
+                'end_standard_price': standard_price_end_date})
         categ_id2name = svxo.product_categ_id2name(self.categ_ids)
         uom_id2name = svxo.uom_id2name()
         res = self.stringify_and_sort_result(

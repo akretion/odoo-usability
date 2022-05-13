@@ -43,13 +43,13 @@
 </record>
 
 <record id="stock_variation_xlsx_action" model="ir.actions.act_window">
-    <field name="name">Stock Variation XLSX</field>
+    <field name="name">Inventory Variation XLSX</field>
     <field name="res_model">stock.variation.xlsx</field>
     <field name="view_mode">form</field>
     <field name="target">new</field>
 </record>
 
 <!-- Replace native menu, to avoid user confusion -->
-<menuitem id="stock_variation_xlsx_menu" action="stock_variation_xlsx_action" parent="stock.menu_warehouse_report" sequence="1"/>
+<menuitem id="stock_variation_xlsx_menu" action="stock_variation_xlsx_action" parent="stock.menu_warehouse_report" sequence="119"/>
 
 </odoo>

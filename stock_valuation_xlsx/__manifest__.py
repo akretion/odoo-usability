@@ -13,6 +13,8 @@
 Stock Valuation XLSX
 ====================
 
+This module is designed to work with *Cost Method* = **Average Cost (AVCO)**.
+
 This module generate nice XLSX stock valuation reports either:
 
 * from a physical inventory,

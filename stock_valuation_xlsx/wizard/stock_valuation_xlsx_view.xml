@@ -41,17 +41,14 @@
 </record>
 
 <record id="stock_valuation_xlsx_action" model="ir.actions.act_window">
-    <field name="name">Stock Valuation XLSX</field>
+    <field name="name">Inventory Valuation XLSX</field>
     <field name="res_model">stock.valuation.xlsx</field>
     <field name="view_mode">form</field>
     <field name="target">new</field>
 </record>
 
-<!-- Replace native menu, to avoid user confusion -->
-<record id="stock_account.menu_valuation" model="ir.ui.menu">
-    <field name="action" ref="stock_valuation_xlsx.stock_valuation_xlsx_action"/>
-    <field name="name">Stock Valuation XLSX</field>
-    <field name="sequence">0</field>
-</record>
+<!-- in v14, I don't replace the native menu any more, because the native menu shows valuation layers,
+which can be useful -->
+<menuitem id="stock_valuation_xlsx_menu" action="stock_valuation_xlsx_action" sequence="115" parent="stock.menu_warehouse_report"/>
 
 </odoo>

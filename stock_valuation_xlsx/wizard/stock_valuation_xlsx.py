@@ -137,33 +137,40 @@ class StockValuationXlsx(models.TransientModel):
         logger.debug('depreciation_rules=%s', rules)
         return rules
 
-    def compute_product_data(
-            self, company_id, in_stock_product_ids, standard_price_past_date=False):
-        self.ensure_one()
-        logger.debug('Start compute_product_data')
-        ppo = self.env['product.product']
+    @api.model
+    def compute_product_data(self, company_id, filter_product_ids, standard_price_dict):
+        # standard_price_dict is a dictionnary with:
+        # keys = the keys that we expect in the result dict
+        # values : a datetime object (for past date) or False (False means PRESENT)
+        logger.debug(
+            'Start compute_product_data standard_price_dict=%s', standard_price_dict)
+        ppo = self.env['product.product'].with_company(company_id)
+        svlo = self.env['stock.valuation.layer']
         fields_list = self._prepare_product_fields()
-        # if not standard_price_past_date:  # TODO
-        if True:
+        # Do we need the present date?
+        if not all(standard_price_dict.values()):
             fields_list.append('standard_price')
-        products = ppo.search_read([('id', 'in', in_stock_product_ids)], fields_list)
+        products = ppo.search_read([('id', 'in', filter_product_ids)], fields_list)
         product_id2data = {}
         for p in products:
             logger.debug('p=%d', p['id'])
-            if standard_price_past_date:
-                # No more product.price.history on v14
-                # We are supposed to use stock.valuation.layer.revaluation
-                # TODO migrate to stock.valuation.layer.revaluation
-                #history = ppho.search_read([
-                #    ('company_id', '=', company_id),
-                #    ('product_id', '=', p['id']),
-                #    ('datetime', '<=', standard_price_past_date)],
-                #    ['cost'], order='datetime desc, id desc', limit=1)
-                #standard_price = history and history[0]['cost'] or 0.0
-                standard_price = p['standard_price']  # TODO remove this tmp stuff
-            else:
-                standard_price = p['standard_price']
-            product_id2data[p['id']] = {'standard_price': standard_price}
+            product_id2data[p['id']] = {}
+            for std_price_field_name, std_price_date in standard_price_dict.items():
+                if not std_price_date:  # present
+                    product_id2data[p['id']][std_price_field_name] = p['standard_price']
+                else:
+                    layer_rg = svlo.read_group(
+                        [
+                            ('product_id', '=', p['id']),
+                            ('company_id', '=', company_id),
+                            ('create_date', '<=', std_price_date),
+                        ],
+                        ['value', 'quantity'],
+                        [])
+                    standard_price = 0
+                    if layer_rg and layer_rg[0]['quantity']:
+                        standard_price = layer_rg[0]['value'] / layer_rg[0]['quantity']
+                    product_id2data[p['id']][std_price_field_name] = standard_price
             for pfield in fields_list:
                 if pfield.endswith('_id'):
                     product_id2data[p['id']][pfield] = p[pfield][0]
@@ -381,9 +388,13 @@ class StockValuationXlsx(models.TransientModel):
         elif self.source == 'inventory':
             past_date = self.inventory_id.date
             data, in_stock_products = self.compute_data_from_inventory(product_ids, prec_qty)
-        standard_price_past_date = past_date
-        if not (self.source == 'stock' and self.stock_date_type == 'present') and self.standard_price_date == 'present':
+        if self.source == 'stock' and self.stock_date_type == 'present':
             standard_price_past_date = False
+        else:  # field standard_price_date is shown on screen
+            if self.standard_price_date == 'present':
+                standard_price_past_date = False
+            else:
+                standard_price_past_date = past_date
         depreciation_rules = []
         if apply_depreciation:
             depreciation_rules = self._prepare_expiry_depreciation_rules(company_id, past_date)
@@ -394,7 +405,7 @@ class StockValuationXlsx(models.TransientModel):
         in_stock_product_ids = list(in_stock_products.keys())
         product_id2data = self.compute_product_data(
             company_id, in_stock_product_ids,
-            standard_price_past_date=standard_price_past_date)
+            {'standard_price': standard_price_past_date})
         data_res = self.group_result(data, split_by_lot, split_by_location)
         categ_id2name = self.product_categ_id2name(self.categ_ids)
         uom_id2name = self.uom_id2name()
