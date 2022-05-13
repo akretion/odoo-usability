@@ -157,7 +157,7 @@ class StockValuationXlsx(models.TransientModel):
             self, company_id, in_stock_product_ids, standard_price_past_date=False):
         self.ensure_one()
         logger.debug('Start compute_product_data')
-        ppo = self.env['product.product']
+        ppo = self.env['product.product'].with_context(force_company=company_id)
         ppho = self.env['product.price.history']
         fields_list = self._prepare_product_fields()
         if not standard_price_past_date:
@@ -396,9 +396,13 @@ class StockValuationXlsx(models.TransientModel):
         elif self.source == 'inventory':
             past_date = self.inventory_id.date
             data, in_stock_products = self.compute_data_from_inventory(product_ids, prec_qty)
-        standard_price_past_date = past_date
-        if not (self.source == 'stock' and self.stock_date_type == 'present') and self.standard_price_date == 'present':
+        if self.source == 'stock' and self.stock_date_type == 'present':
             standard_price_past_date = False
+        else:  # field standard_price_date is shown on screen
+            if self.standard_price_date == 'present':
+                standard_price_past_date = False
+            else:
+                standard_price_past_date = past_date
         depreciation_rules = []
         if apply_depreciation:
             depreciation_rules = self._prepare_expiry_depreciation_rules(company_id, past_date)
