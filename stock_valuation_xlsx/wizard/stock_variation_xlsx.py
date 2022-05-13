@@ -121,7 +121,7 @@ class StockVariationXlsx(models.TransientModel):
             self, company_id, filter_product_ids, standard_price_start_date=False, standard_price_end_date=False):
         self.ensure_one()
         logger.debug('Start compute_product_data')
-        ppo = self.env['product.product']
+        ppo = self.env['product.product'].with_context(force_company=company_id)
         ppho = self.env['product.price.history']
         fields_list = self._prepare_product_fields()
         if not standard_price_start_date or not standard_price_end_date:
@@ -277,7 +277,7 @@ class StockVariationXlsx(models.TransientModel):
         standard_price_start_date = standard_price_end_date = False
         if self.standard_price_start_date_type == 'start':
             standard_price_start_date = self.start_date
-        if self.standard_price_end_date_type == 'end':
+        if self.standard_price_end_date_type == 'end' and self.end_date_type == 'past':
             standard_price_end_date = self.end_date
 
         product_id2data = self.compute_product_data(
