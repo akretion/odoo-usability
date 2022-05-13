@@ -22,6 +22,9 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['stock_account', 'stock_usability'],
-    'data': ['views/stock_move.xml'],
+    'data': [
+        'views/stock_move.xml',
+        'views/product.xml',
+        ],
     'installable': True,
 }

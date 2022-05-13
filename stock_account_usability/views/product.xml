@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+        <!--
+<record id="product_product_to_inventory_valuation" model="ir.actions.act_window">
+    <field name="name">Inventory Valuation</field>
+    <field name="res_model">stock.valuation.layer</field>
+    <field name="view_mode">tree,form</field>
+    <field name="groups_id" eval="[(4, ref('stock.group_stock_manager'))]"/>
+    <field name="context">{'search_default_group_by_product_id': 1, 'search_default_product_id': active_id}</field>
+    <field name="binding_model_id" ref="product.model_product_product" />
+    <field name="binding_view_types">form</field>
+</record>
+
+        -->
+<!-- product template only form view -->
+<record id="product_template_form_view_procurement_button" model="ir.ui.view">
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="stock.product_template_form_view_procurement_button"/>
+    <field name="arch" type="xml">
+        <div name="button_box" position="inside">
+            <button class="oe_stat_button"
+                name="action_open_stock_valuation_layer"
+                string="Inventory Valuation"
+                icon="fa-usd"
+                type="object" attrs="{'invisible': [('type', '!=', 'product')]}">
+            </button>
+        </div>
+    </field>
+</record>
+
+<!-- product.product only form view -->
+<record id="product_form_view_procurement_button" model="ir.ui.view">
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="stock.product_form_view_procurement_button"/>
+    <field name="arch" type="xml">
+        <div name="button_box" position="inside">
+            <button class="oe_stat_button"
+                name="action_open_stock_valuation_layer"
+                string="Inventory Valuation"
+                icon="fa-usd"
+                type="object" attrs="{'invisible': [('type', '!=', 'product')]}">
+            </button>
+        </div>
+    </field>
+</record>
+
+</odoo>
