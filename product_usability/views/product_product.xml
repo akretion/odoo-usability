@@ -21,4 +21,16 @@
         </field>
     </record>
 
+    <record id="product_normal_form_view" model="ir.ui.view">
+        <field name="name">usability.product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <field name="barcode" position="after">
+                <field name="barcode_type" attrs="{'invisible': [('barcode', '=', False)]}"/>
+            </field>
+        </field>
+    </record>
+
+
 </odoo>

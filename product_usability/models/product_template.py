@@ -3,7 +3,7 @@
 # @author Raphaël Valyi <rvalyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields
+from odoo import api, models, fields
 
 
 class ProductTemplate(models.Model):
@@ -31,3 +31,14 @@ class ProductTemplate(models.Model):
     purchase_ok = fields.Boolean(tracking=90)
     active = fields.Boolean(tracking=100)
     company_id = fields.Many2one(tracking=110)
+    barcode_type = fields.Char(compute='_compute_template_barcode_type')
+
+    @api.depends('product_variant_ids.barcode')
+    def _compute_template_barcode_type(self):
+        ppo = self.env['product.product']
+        for template in self:
+            barcode_type = False
+            if len(template.product_variant_ids) == 1:
+                barcode = template.product_variant_ids.barcode
+                barcode_type = ppo._get_barcode_type(barcode)
+            template.barcode_type = barcode_type

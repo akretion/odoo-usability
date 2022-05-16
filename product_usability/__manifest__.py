@@ -21,11 +21,14 @@ The usability enhancements include:
 
 * hide description field on product (description_sale must be use instead of description)
 
+* add a field barcode_type in product form view
+
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['product'],
+    "external_dependencies": {"python": ["stdnum"]},
     'data': [
         'views/product_supplierinfo_view.xml',
         'views/product_pricelist_view.xml',
