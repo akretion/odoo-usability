@@ -124,7 +124,7 @@ class StockValuationXlsx(models.TransientModel):
         return products.ids
 
     def _prepare_product_fields(self):
-        return ['uom_id', 'name', 'default_code', 'categ_id']
+        return ['uom_id', 'name', 'default_code', 'barcode', 'categ_id']
 
     def _prepare_expiry_depreciation_rules(self, company_id, past_date):
         rules = self.env['stock.expiry.depreciation.rule'].search_read([('company_id', '=', company_id)], ['start_limit_days', 'ratio'], order='start_limit_days desc')
@@ -517,11 +517,10 @@ class StockValuationXlsx(models.TransientModel):
                 sheet.write_formula(i, cols['subtotal']['pos'], subtotal_formula, styles['regular_currency'], l['subtotal'])
                 for col_name, col in cols.items():
                     if not col.get('formula'):
-                        if col.get('type') == 'date':
-                            if l[col_name]:
-                                l[col_name] = fields.Date.from_string(l[col_name])
-                            else:
-                                l[col_name] = ''  # to avoid display of 31/12/1899
+                        if not l[col_name]:
+                            l[col_name] = ''  # to avoid display of 31/12/1899 (dates) or '0' (char)
+                        if col.get('type') == 'date' and l[col_name]:
+                            l[col_name] = fields.Date.from_string(l[col_name])
                         sheet.write(i, col['pos'], l[col_name], styles[col['style']])
             if categ_subtotal:
                 if categ_has_line:
@@ -601,6 +600,7 @@ class StockValuationXlsx(models.TransientModel):
     def _prepare_cols(self):
         cols = {
             'default_code': {'width': 18, 'style': 'regular', 'sequence': 10, 'title': _('Product Code')},
+            'barcode': {'width': 18, 'style': 'regular', 'sequence': 10, 'title': _('Product Barcode')},
             'product_name': {'width': 40, 'style': 'regular', 'sequence': 20, 'title': _('Product Name')},
             'loc_name': {'width': 25, 'style': 'regular_small', 'sequence': 30, 'title': _('Location Name')},
             'lot_name': {'width': 18, 'style': 'regular', 'sequence': 40, 'title': _('Lot')},
