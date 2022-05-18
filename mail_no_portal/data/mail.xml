@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+    <template id="mail_notification_paynow" inherit_id="mail.mail_notification_paynow">
+        <xpath expr="//t[@t-set='is_online']" position="attributes">
+            <attribute name="t-value">False</attribute>
+        </xpath>
+    </template>
+
+
+</odoo>
