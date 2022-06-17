@@ -33,6 +33,7 @@
                 <field name="show_partner_shipping_id" options="{'always_reload': True}"
                     context="{'show_address': 1}"
                     groups="sale.group_delivery_invoice_address"/>
+                <field name="commitment_date"/>
                 <field name="payment_term_id"/>
             </group>
             <footer>

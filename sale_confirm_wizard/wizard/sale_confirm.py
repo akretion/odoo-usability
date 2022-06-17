@@ -29,6 +29,7 @@ class SaleConfirm(models.TransientModel):
     sale_warn = fields.Selection(
         WARNING_MESSAGE, 'Sale Warning Type', readonly=True)
     sale_warn_msg = fields.Text(string='Sale Warning Message', readonly=True)
+    commitment_date = fields.Datetime(string='Delivery Date')
 
     @api.model
     def _prepare_default_get(self, order):
@@ -41,6 +42,7 @@ class SaleConfirm(models.TransientModel):
             'partner_shipping_id': order.partner_shipping_id.id,
             'sale_warn_msg': partner.sale_warn_msg,
             'sale_warn': partner.sale_warn,
+            'commitment_date': order.commitment_date,
         }
         return default
 
@@ -61,6 +63,7 @@ class SaleConfirm(models.TransientModel):
             'payment_term_id': self.payment_term_id.id or False,
             'partner_invoice_id': self.partner_invoice_id.id,
             'partner_shipping_id': self.partner_shipping_id.id,
+            'commitment_date': self.commitment_date,
             }
 
     def confirm(self):
