@@ -13,9 +13,6 @@
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="account.view_partner_property_form"/>
     <field name="arch" type="xml">
-        <field name="property_account_position_id" position="attributes">
-            <attribute name="widget">selection</attribute>
-        </field>
         <xpath expr="//field[@name='bank_ids']/tree/field[@name='acc_number']" position="after">
             <field name="acc_type"/>
         </xpath>

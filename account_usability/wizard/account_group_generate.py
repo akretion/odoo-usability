@@ -10,6 +10,9 @@ class AccountGroupGenerate(models.TransientModel):
     _name = 'account.group.generate'
     _description = 'Generate Account Groups'
 
+    company_id = fields.Many2one(
+        'res.company', string='Company', required=True,
+        default=lambda self: self.env.company)
     name_prefix = fields.Char(string='Prefix', required=True, default='Comptes')
     level = fields.Integer(default=2, required=True)
 
@@ -18,7 +21,7 @@ class AccountGroupGenerate(models.TransientModel):
             raise UserError(_("The level must be >= 1."))
         ago = self.env['account.group']
         aao = self.env['account.account']
-        company = self.env.company
+        company = self.company_id
         groups = ago.search([('company_id', '=', company.id)])
         if groups:
             raise UserError(_(

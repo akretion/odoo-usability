@@ -16,6 +16,7 @@
                 This wizard is designed to auto-generate account groups from the chart of account.
             </p>
             <group name="main">
+                <field name="company_id" groups="base.group_multi_company"/>
                 <field name="name_prefix"/>
                 <field name="level"/>
             </group>
