@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<!--
+  When the module stock and sale are not installed,
+  there is no menu entry for UoM nor Product Categories !
+  This set of menu entries entre Configuration > Technical fixes this
+-->
+
+    <menuitem id="product_config_menu" parent="base.menu_custom"
+        name="Products" sequence="150"/>
+
+    <menuitem id="product_template_config_menu" parent="product_config_menu"
+        action="product.product_template_action_all" sequence="10"/>
+
+    <menuitem id="product_product_config_menu" parent="product_config_menu"
+        action="product.product_normal_action" sequence="20"/>
+
+    <menuitem id="product_categ_config_menu" parent="product_config_menu"
+        action="product.product_category_action_form" sequence="30"/>
+
+    <menuitem id="uom_uom_config_menu" parent="product_config_menu"
+        action="uom.product_uom_form_action" sequence="40" />
+
+    <menuitem id="uom_categ_config_menu" parent="product_config_menu"
+        action="uom.product_uom_categ_form_action" sequence="50" />
+
+</odoo>
