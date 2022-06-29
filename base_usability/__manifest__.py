@@ -19,6 +19,7 @@
         'views/res_country.xml',
         'views/ir_module.xml',
         'views/ir_sequence.xml',
+        'views/ir_property.xml',
         ],
     'installable': True,
 }

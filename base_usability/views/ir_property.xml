@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="ir_property_view_tree" model="ir.ui.view">
+    <field name="model">ir.property</field>
+    <field name="inherit_id" ref="base.ir_property_view_tree"/>
+    <field name="arch" type="xml">
+        <field name="type" position="after">
+            <field name="value_reference" optional="show"/>
+            <field name="value_integer" optional="hide"/>
+            <field name="value_float" optional="hide"/>
+            <field name="value_datetime" optional="hide"/>
+            <field name="value_text" optional="hide"/>
+        </field>
+        <field name="type" position="attributes">
+            <attribute name="optional">hide</attribute>
+        </field>
+    </field>
+</record>
+
+<record id="ir_property_view_search" model="ir.ui.view">
+    <field name="model">ir.property</field>
+    <field name="inherit_id" ref="base.ir_property_view_search"/>
+    <field name="arch" type="xml">
+        <search position="inside">
+            <group name="groupby">
+                <filter name="field_groupby" string="Field" context="{'group_by': 'fields_id'}"/>
+                <filter name="company_groupby" string="Company" context="{'group_by': 'company_id'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+</odoo>
