@@ -17,7 +17,7 @@
             <field name="account_type_current_assets_id" invisible="1"/>
         </field>
         <field name="suspense_account_id" position="attributes">
-            <attribute name="context">{'default_user_type_id': account_type_current_assets_id, 'default_reconcile': True}</attribute>
+            <attribute name="context">{'default_user_type_id': account_type_current_assets_id, 'default_reconcile': False}</attribute>
         </field>
         <field name="payment_debit_account_id" position="attributes">
             <attribute name="context">{'default_user_type_id': account_type_current_assets_id, 'default_reconcile': True}</attribute>

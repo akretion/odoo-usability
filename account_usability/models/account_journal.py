@@ -21,6 +21,11 @@ class AccountJournal(models.Model):
         'account.account.type',
         default=lambda self: self.env.ref('account.data_account_type_current_assets').id)
 
+    # SQL constraint in the 'account' module: unique(code, name, company_id) !!!
+    _sql_constraints = [(
+        'code_unique', 'unique(code, company_id)',
+        'Another journal already has this code in this company!')]
+
     @api.depends(
         'name', 'currency_id', 'company_id', 'company_id.currency_id', 'code')
     def name_get(self):
