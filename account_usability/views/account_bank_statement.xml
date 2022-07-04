@@ -13,6 +13,14 @@
     <field name="model">account.bank.statement</field>
     <field name="inherit_id" ref="account.view_bank_statement_form"/>
     <field name="arch" type="xml">
+        <button name="button_reopen" position="after">
+            <button
+                name="button_undo_reconciliation"
+                type="object"
+                confirm="Are you sure to unreconcile all the entrie of the bank statement?"
+                states="open"
+                string="Unreconcile All"/>
+        </button>
         <xpath expr="//field[@name='line_ids']/tree/button[@name='button_undo_reconciliation']" position="after">
             <field name="move_id" invisible="1"/>
             <button name="show_account_move" type="object"
