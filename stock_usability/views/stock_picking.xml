@@ -43,6 +43,10 @@
                 states="partially_available,assigned"
                 icon="fa-ban"/>
         </xpath>
+        <xpath expr="//field[@name='move_ids_without_package']/form//field[@name='product_uom']" position="after">
+            <field name="location_id" groups="stock.group_stock_multi_locations" domain="[('id', 'child_of', 'parent.location_id')]"  options="{'no_create': True}"/>
+            <field name="location_dest_id" groups="stock.group_stock_multi_locations" domain="[('id', 'child_of', 'parent.location_dest_id')]"  options="{'no_create': True}"/>
+        </xpath>
     </field>
 </record>
 
