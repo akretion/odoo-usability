@@ -2,8 +2,10 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models, SUPERUSER_ID
+from odoo import api, fields, models, SUPERUSER_ID
 import logging
+from odoo.tools.misc import format_datetime
+
 logger = logging.getLogger(__name__)
 
 
@@ -25,3 +27,8 @@ class ResUsers(models.Model):
                     user.login, user.id)
         logger.info(
             'END setting company_id=False on partners related to users')
+
+    def _report_print_datetime(self, lang_code):
+        # Used to print current datetime in a report in the user's timezone
+        res = format_datetime(self.env, fields.Datetime.now(), lang_code=lang_code)
+        return res
