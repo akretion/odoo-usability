@@ -23,6 +23,8 @@
         'views/account_move.xml',
         'views/res_company.xml',
         "views/res_partner.xml",
+        'wizards/sale_invoice_discount_all_lines_view.xml',
+        'security/ir.model.access.csv',
         ],
     'installable': True,
 }
