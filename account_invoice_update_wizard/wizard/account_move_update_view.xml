@@ -23,7 +23,7 @@
                     <field name="user_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
                 </group>
                 <group name="lines">
-                    <field name="line_ids" nolabel="1">
+                    <field name="line_ids" nolabel="1" widget="section_and_note_one2many">
                         <tree editable="bottom" create="false" delete="false" edit="true">
                             <field name="invoice_line_id" invisible="1"/>
                             <field name="display_type" invisible="1"/>

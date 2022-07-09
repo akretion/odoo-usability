@@ -48,6 +48,7 @@ class AccountMoveUpdate(models.TransientModel):
             aa_tags = [(6, 0, aa_tags.ids)] if aa_tags else False
             res['line_ids'].append([0, 0, {
                 'invoice_line_id': line.id,
+                'sequence': line.sequence,
                 'name': line.name,
                 'quantity': line.quantity,
                 'price_subtotal': line.price_subtotal,
@@ -231,7 +232,9 @@ class AccountMoveUpdate(models.TransientModel):
 class AccountMoveLineUpdate(models.TransientModel):
     _name = 'account.move.line.update'
     _description = 'Update non-legal fields of invoice lines'
+    _order = "sequence, name"
 
+    sequence = fields.Integer()
     parent_id = fields.Many2one(
         'account.move.update', string='Wizard', ondelete='cascade')
     invoice_line_id = fields.Many2one(
