@@ -18,7 +18,8 @@
                     <field string="Bill Reference" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" name="ref"/>
                     <field string="Customer Reference" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}" name="ref"/>
                     <field name="invoice_origin"/>
-                    <field name="invoice_payment_term_id" widget="selection"/>
+                    <!-- update of payment term is broken -->
+                    <!-- <field name="invoice_payment_term_id" widget="selection"/>-->
                     <field name="partner_bank_id"/>
                     <field name="user_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
                 </group>
