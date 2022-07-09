@@ -7,7 +7,7 @@
 <odoo>
 
     <record id="account_invoice_update_form" model="ir.ui.view">
-        <field name="model">account.invoice.update</field>
+        <field name="model">account.move.update</field>
         <field name="arch" type="xml">
             <form string="Update Invoice Wizard">
                 <group name="main">
@@ -15,13 +15,12 @@
                     <field name="type" invisible="1"/>
                     <field name="company_id" invisible="1"/>
                     <field name="partner_id" invisible="1"/>
-                    <field name="reference" attrs="{'invisible': [('type', 'not in', ('in_invoice', 'in_refund'))]}"/>
-                    <field name="origin"/>
+                    <field name="ref" attrs="{'invisible': [('type', 'not in', ('in_invoice', 'in_refund'))]}"/>
+                    <field name="invoice_origin"/>
                     <field name="name"/>
-                    <field name="payment_term_id" widget="selection"/>
+                    <field name="invoice_payment_term_id" widget="selection"/>
                     <field name="partner_bank_id"/>
                     <field name="user_id"/>
-                    <field name="comment"/>
                 </group>
                 <group name="lines">
                     <field name="line_ids" nolabel="1">
@@ -31,7 +30,7 @@
                             <field name="name"/>
                             <field name="quantity" attrs="{'invisible': [('display_type', '!=', False)]}"/>
                             <field name="price_subtotal" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-                            <field name="account_analytic_id" attrs="{'invisible': [('display_type', '!=', False)]}" groups="analytic.group_analytic_accounting"/>
+                            <field name="analytic_account_id" attrs="{'invisible': [('display_type', '!=', False)]}" groups="analytic.group_analytic_accounting"/>
                             <field name="analytic_tag_ids" attrs="{'invisible': [('display_type', '!=', False)]}" groups="analytic.group_analytic_accounting" widget="many2many_tags"/>
                     </tree>
                     </field>
@@ -46,7 +45,7 @@
 
     <record id="account_invoice_update_action" model="ir.actions.act_window">
         <field name="name">Invoice Update Wizard</field>
-        <field name="res_model">account.invoice.update</field>
+        <field name="res_model">account.move.update</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
