@@ -47,6 +47,12 @@
             <field name="location_id" groups="stock.group_stock_multi_locations" domain="[('id', 'child_of', 'parent.location_id')]"  options="{'no_create': True}"/>
             <field name="location_dest_id" groups="stock.group_stock_multi_locations" domain="[('id', 'child_of', 'parent.location_dest_id')]"  options="{'no_create': True}"/>
         </xpath>
+        <xpath expr="//sheet/group/group/field[@name='location_id']" position="attributes">
+            <attribute name="attrs">{}</attribute>
+        </xpath>
+        <xpath expr="//sheet/group/group/field[@name='location_dest_id']" position="attributes">
+            <attribute name="attrs">{}</attribute>
+        </xpath>
     </field>
 </record>
 
