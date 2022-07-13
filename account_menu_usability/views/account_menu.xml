@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<!-- Accounting Templates are useful only when creating a new company/loading
+a chart of accounts, so we put it under 'Settings > Technical' and not
+under 'Invoicing > Configuration' which already has a lot of menu entries -->
+<record id="account_menu.menu_account_coa_settings" model="ir.ui.menu">
+    <field name="name">Accounting Templates</field>
+    <field name="parent_id" ref="base.menu_custom"/>
+</record>
+
+
+</odoo>
