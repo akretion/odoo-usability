@@ -1,0 +1,32 @@
+diff --git a/addons/account/models/account_journal_dashboard.py b/addons/account/models/account_journal_dashboard.py
+index 49e166e5823..5e352c03d7a 100644
+--- a/addons/account/models/account_journal_dashboard.py
++++ b/addons/account/models/account_journal_dashboard.py
+@@ -309,6 +309,7 @@ class account_journal(models.Model):
+             'has_at_least_one_statement': has_at_least_one_statement,
+             'nb_lines_bank_account_balance': nb_lines_bank_account_balance,
+             'outstanding_pay_account_balance': formatLang(self.env, currency.round(outstanding_pay_account_balance), currency_obj=currency),
++            'account_balance_plus_outstanding': formatLang(self.env, currency.round(bank_account_balance + outstanding_pay_account_balance), currency_obj=currency),
+             'nb_lines_outstanding_pay_account_balance': nb_lines_outstanding_pay_account_balance,
+             'last_balance': formatLang(self.env, currency.round(last_balance) + 0.0, currency_obj=currency),
+             'number_draft': number_draft,
+diff --git a/addons/account/views/account_journal_dashboard_view.xml b/addons/account/views/account_journal_dashboard_view.xml
+index 347a36c265e..fd7fb7b67ca 100644
+--- a/addons/account/views/account_journal_dashboard_view.xml
++++ b/addons/account/views/account_journal_dashboard_view.xml
+@@ -278,6 +278,15 @@
+                                     <span><t t-esc="dashboard.outstanding_pay_account_balance"/></span>
+                                 </div>
+                             </div>
++                            <div class="row" t-if="dashboard.nb_lines_outstanding_pay_account_balance > 0">
++                                <div id="dashboard_account_balance_plus_outstanding" class="col overflow-hidden text-left">
++                                    <span title="Balance + Outstanding">Balance + Outstanding</span>
++                                </div>
++                                <div class="col-auto text-right">
++                                    <span><t t-esc="dashboard.account_balance_plus_outstanding"/></span>
++                                </div>
++                            </div>
++
+                             <t t-if="dashboard.has_at_least_one_statement and dashboard.account_balance != dashboard.last_balance">
+                                 <div class="row" name="latest_statement">
+                                     <div class="col overflow-hidden text-left">
