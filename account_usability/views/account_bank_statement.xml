@@ -64,6 +64,12 @@
             <field name="start_date"/>
             <field name="end_date"/>
         </field>
+        <field name="balance_start" position="attributes">
+            <attribute name="optional">show</attribute>
+        </field>
+        <field name="balance_end_real" position="attributes">
+            <attribute name="optional">show</attribute>
+        </field>
     </field>
 </record>
 

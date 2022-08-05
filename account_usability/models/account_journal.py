@@ -9,13 +9,15 @@ class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
     hide_bank_statement_balance = fields.Boolean(
-        string='Hide Bank Statement Balance',
-        help="You may want to enable this option when your bank "
-        "journal is generated from a bank statement file that "
-        "doesn't handle start/end balance (QIF for instance) and "
-        "you don't want to enter the start/end balance manually: it "
-        "will prevent the display of wrong information in the accounting "
-        "dashboard and on bank statements.")
+        string='Hide and Disable Bank Statement Balance',
+        help="When this option is enabled, the start and end balance is "
+        "not displayed on the bank statement form view, and the check of "
+        "the end balance vs the real end balance is disabled. When you enable "
+        "this option, you process the statement lines without considering "
+        "the start/end balance and you regularly check the accounting balance "
+        "of the bank account vs the amount of your bank account "
+        "(the 2 processes are managed separately)."
+        )
     # Used to set default user_type_id on account fields via context
     account_type_current_assets_id = fields.Many2one(
         'account.account.type',
