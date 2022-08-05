@@ -12,7 +12,6 @@
     'website': 'http://www.akretion.com',
     'depends': [
         'account',
-        'base_view_inheritance_extension',
         'base_usability',  # needed only to access base_usability.group_nobody
                            # in v12, I may create a module only for group_nobody
         ],
