@@ -34,6 +34,9 @@
         <field name="date" position="attributes">
             <attribute name="invisible">1</attribute>
         </field>
+        <field name="journal_id" position="attributes">
+            <attribute name="widget"></attribute>
+        </field>
         <label for="balance_start" position="attributes">
             <attribute name="attrs">{'invisible': [('hide_bank_statement_balance', '=', True)]}</attribute>
         </label>
@@ -49,6 +52,9 @@
         <group name="sale_total" position="attributes">
             <attribute name="attrs">{'invisible': [('hide_bank_statement_balance', '=', True)]}</attribute>
         </group>
+        <div role="alert" position="attributes">
+            <attribute name="attrs">{'invisible': ['|', '|', ('hide_bank_statement_balance', '=', True), ('previous_statement_id', '=', False), ('is_valid_balance_start', '=', True)]}</attribute>
+        </div>
     </field>
 </record>
 
