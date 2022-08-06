@@ -38,6 +38,9 @@
         <xpath expr="//field[@name='line_ids']/tree/field[@name='analytic_account_id']" position="attributes">
             <attribute name="optional">show</attribute>
         </xpath>
+        <xpath expr="//field[@name='line_ids']/tree/field[@name='currency_id']" position="attributes">
+            <attribute name="optional">show</attribute>
+        </xpath>
         <xpath expr="//field[@name='line_ids']/tree/field[@name='tax_tag_ids']" position="after">
             <field name="matching_number" optional="hide"/>
             <field name="reconcile_string" optional="show"/>
