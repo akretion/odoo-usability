@@ -32,6 +32,7 @@
         'views/res_partner.xml',
         'views/res_company.xml',
         'views/account_report.xml',
+        'views/account_reconcile_model.xml',
         'wizard/account_invoice_mark_sent_view.xml',
         'wizard/account_group_generate_view.xml',
         'wizard/account_payment_register_views.xml',
