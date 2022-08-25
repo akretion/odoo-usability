@@ -4,7 +4,7 @@
 
 {
     'name': 'Account Usability',
-    'version': '14.0.1.0.0',
+    'version': '14.0.1.1.0',
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'summary': 'Small usability enhancements in account module',
@@ -41,4 +41,5 @@
         ],
     'qweb': ['static/src/xml/account_payment.xml'],
     'installable': True,
+    "post_init_hook": "post_init_hook",
 }

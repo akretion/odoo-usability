@@ -525,11 +525,6 @@ msgid "Recipient Bank"
 msgstr ""
 
 #. module: account_usability
-#: model:ir.model.fields,field_description:account_usability.field_account_move_line__reconcile_string
-msgid "Reconcile"
-msgstr ""
-
-#. module: account_usability
 #: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__ref
 #: model:ir.model.fields,field_description:account_usability.field_account_move__ref
 #: model:ir.model.fields,field_description:account_usability.field_account_payment__ref
