@@ -42,8 +42,7 @@
             <attribute name="optional">show</attribute>
         </xpath>
         <xpath expr="//field[@name='line_ids']/tree/field[@name='tax_tag_ids']" position="after">
-            <field name="matching_number" optional="hide"/>
-            <field name="reconcile_string" optional="show"/>
+            <field name="matching_number" optional="show"/>
         </xpath>
         <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="after">
             <field name="product_barcode" optional="hide"/>
@@ -106,7 +105,7 @@
             <separator/>
         </filter>
         <field name="partner_id" position="after">
-            <field name="reconcile_string" />
+            <field name="matching_number" />
             <field name="debit" filter_domain="['|', ('debit', '=', self), ('credit', '=', self)]" string="Debit or Credit"/>
         </field>
         <filter name="unreconciled" position="before">

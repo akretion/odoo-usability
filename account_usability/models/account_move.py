@@ -2,12 +2,15 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
 from odoo import api, fields, models, _
 from odoo.tools import float_is_zero
 from odoo.tools.misc import format_date
 from odoo.osv import expression
 from datetime import timedelta
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountMove(models.Model):
@@ -238,8 +241,6 @@ class AccountMoveLine(models.Model):
     full_reconcile_id = fields.Many2one(string='Full Reconcile')
     matched_debit_ids = fields.One2many(string='Partial Reconcile Debit')
     matched_credit_ids = fields.One2many(string='Partial Reconcile Credit')
-    reconcile_string = fields.Char(
-        compute='_compute_reconcile_string', string='Reconcile', store=True)
     # for optional display in tree view
     product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
 
@@ -255,17 +256,21 @@ class AccountMoveLine(models.Model):
         })
         return action
 
-    @api.depends(
-            'full_reconcile_id', 'matched_debit_ids', 'matched_credit_ids')
-    def _compute_reconcile_string(self):
-        for line in self:
-            rec_str = False
-            if line.full_reconcile_id:
-                rec_str = line.full_reconcile_id.name
-            else:
-                rec_str = ', '.join([
-                    'a%d' % pr.id for pr in line.matched_debit_ids + line.matched_credit_ids])
-            line.reconcile_string = rec_str
+    def update_matching_number(self):
+        records = self.search([("matching_number", "=", "P")])
+        _logger.info(f"Update partial reconcile number for {len(records)} lines")
+        records._compute_matching_number()
+
+    def _compute_matching_number(self):
+        # TODO maybe it will be better to have the same maching_number for
+        # all partial so it will be easier to group by
+        super()._compute_matching_number()
+        for record in self:
+            if record.matching_number == "P":
+                record.matching_number = ", ".join([
+                    "a%d" % pr.id
+                    for pr in record.matched_debit_ids + record.matched_credit_ids
+                ])
 
     def _get_computed_name(self):
         # This is useful when you want to have the product code in a dedicated
