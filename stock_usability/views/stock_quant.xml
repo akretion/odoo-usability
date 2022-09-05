@@ -16,6 +16,29 @@
         <field name="product_id" position="after">
             <field name="product_barcode" optional="hide"/>
         </field>
+        <!-- Move available_quantity AFTER quantity -->
+        <field name="quantity" position="after">
+            <field name="reserved_quantity" sum="1" optional="show"/>
+            <field name="available_quantity" position="move"/>
+        </field>
+        <field name="quantity" position="attributes">
+            <attribute name="sum">1</attribute>
+        </field>
+        <field name="available_quantity" position="attributes">
+            <attribute name="sum">1</attribute>
+            <attribute name="optional">show</attribute>
+        </field>
+    </field>
+</record>
+
+<record id="view_stock_quant_tree_editable" model="ir.ui.view">
+    <field name="model">stock.quant</field>
+    <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
+    <field name="arch" type="xml">
+        <field name="available_quantity" position="before">
+            <field name="reserved_quantity" sum="1" optional="show"/>
+            <button type="object" name="action_stock_move_lines_reserved" string="Reservations" attrs="{'invisible': [('reserved_quantity', '=', 0)]}"/>
+        </field>
         <field name="quantity" position="attributes">
             <attribute name="sum">1</attribute>
         </field>
@@ -25,7 +48,7 @@
     </field>
 </record>
 
-<!--
+
 <record id="view_stock_quant_form" model="ir.ui.view">
     <field name="name">stock.usability.quant.form</field>
     <field name="model">stock.quant</field>
@@ -34,9 +57,15 @@
         <div name="button_box" position="inside">
             <button class="oe_stat_button" icon="fa-arrows-v" type="object" name="action_stock_move_lines_reserved" string="Reservations"/>
         </div>
+        <xpath expr="//field[@name='reserved_quantity']/.." position="after">
+            <label for="available_quantity" />
+            <div class="o_row">
+                <field name="available_quantity"/>
+                <field name="product_uom_id" groups="uom.group_uom"/>
+            </div>
+        </xpath>
     </field>
 </record>
--->
 
 <!-- more detailed stock.move tree view when using the button from product form -->
 <!-- TODO TEST
@@ -57,11 +86,5 @@ So I create another "regular" Quants" menu entry -->
 <menuitem id="stock_quant_menu" action="stock_quant_action"
     parent="stock.menu_warehouse_report"
     sequence="160"/>
-
-<!--
-<record id="stock.action_production_lot_form" model="ir.actions.act_window">
-    <field name="context">{}</field>
-</record>
--->
 
 </odoo>

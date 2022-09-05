@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="stock.action_production_lot_form" model="ir.actions.act_window">
+    <!-- remove from context 'search_default_group_by_product': 1-->
+    <field name="context">{'display_complete': True, 'default_company_id': allowed_company_ids[0]}</field>
+</record>
+
+<record id="stock_move_line_from_lot_action" model="ir.actions.act_window">
+    <field name="name">Product Moves</field>
+    <field name="res_model">stock.move.line</field>
+    <field name="view_mode">tree,kanban,pivot,form</field>
+    <field name="domain">[('lot_id', '=', active_id)]</field>
+    <field name="context">{'search_default_done': 1, 'create': 0}</field>
+</record>
+
+<record id="view_production_lot_form" model="ir.ui.view">
+    <field name="model">stock.production.lot</field>
+    <field name="inherit_id" ref="stock.view_production_lot_form"/>
+    <field name="arch" type="xml">
+        <button name="action_lot_open_quants" position="after">
+            <button name="%(stock_move_line_from_lot_action)d" string="Product Moves" type="action" icon="fa-exchange"/>
+        </button>
+    </field>
+</record>
+
+
+</odoo>

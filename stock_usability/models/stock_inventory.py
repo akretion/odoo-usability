@@ -1,8 +1,8 @@
-# Copyright 2021 Akretion France (http://www.akretion.com/)
+# Copyright 2021-2022 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import fields, models, _
 from odoo.tools import float_compare, float_is_zero
 
 
