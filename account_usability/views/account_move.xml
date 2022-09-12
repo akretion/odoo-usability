@@ -72,7 +72,13 @@
              <filter name="sent" string="Sent" domain="[('is_move_sent', '=', True), ('move_type', 'in', ('out_invoice', 'out_refund'))]"/>
             <separator/>
             <filter name="no_attachment" string="Missing Attachment" domain="[('has_attachment', '=', False)]"/>
-         </filter>
+        </filter>
+        <filter name="salesperson" position="before">
+            <filter name="commercial_partner_groupby" string="Commercial Partner" context="{'group_by': 'commercial_partner_id'}"/>
+        </filter>
+        <filter name="status" position="after">
+            <filter name="payment_state_groupby" string="Payment Status" context="{'group_by': 'payment_state'}"/>
+        </filter>
     </field>
 </record>
 
