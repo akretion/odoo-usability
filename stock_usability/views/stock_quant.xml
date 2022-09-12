@@ -42,6 +42,9 @@
         <field name="quantity" position="attributes">
             <attribute name="sum">1</attribute>
         </field>
+        <field name="inventory_quantity" position="attributes">
+            <attribute name="sum">1</attribute>
+        </field>
         <field name="available_quantity" position="attributes">
             <attribute name="sum">1</attribute>
         </field>
