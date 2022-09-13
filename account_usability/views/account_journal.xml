@@ -39,6 +39,9 @@
         <xpath expr="//div[@name='latest_statement']/.." position="attributes">
             <attribute name="t-if">dashboard.has_at_least_one_statement and dashboard.account_balance != dashboard.last_balance and !record.hide_bank_statement_balance.raw_value</attribute>
         </xpath>
+        <t t-esc="dashboard.outstanding_pay_account_balance" position="replace">
+            <a name="open_outstanding_payments" type="object" title="Outstanding Payments/Receipts"><t t-esc="dashboard.outstanding_pay_account_balance"/></a>
+        </t>
     </field>
 </record>
 

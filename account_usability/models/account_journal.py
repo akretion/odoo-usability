@@ -46,6 +46,22 @@ class AccountJournal(models.Model):
                 res.append((journal.id, name))
             return res
 
+    def open_outstanding_payments(self):
+        self.ensure_one()
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "account.action_account_moves_all")
+        action['domain'] = [
+            ('account_id', 'in', (self.payment_debit_account_id.id, self.payment_credit_account_id.id)),
+            ('journal_id', '=', self.id),
+            ('display_type', 'not in', ('line_section', 'line_note')),
+            ('parent_state', '!=', 'cancel'),
+            ]
+        action['context'] = {
+            'search_default_unreconciled': True,
+            'search_default_posted': True,
+            }
+        return action
+
 #    @api.constrains('default_credit_account_id', 'default_debit_account_id')
 #    def _check_account_type_on_bank_journal(self):
 #        bank_acc_type = self.env.ref('account.data_account_type_liquidity')
