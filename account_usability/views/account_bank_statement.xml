@@ -63,6 +63,11 @@
     <field name="model">account.bank.statement</field>
     <field name="inherit_id" ref="account.view_bank_statement_tree"/>
     <field name="arch" type="xml">
+        <tree position="attributes">
+            <!-- Remove is_difference_zero condition for colors -->
+            <attribute name="decoration-danger"></attribute>
+            <attribute name="decoration-info">state == 'open'</attribute>
+        </tree>
         <field name="date" position="attributes">
             <attribute name="invisible">1</attribute>
         </field>
@@ -75,6 +80,12 @@
         </field>
         <field name="balance_end_real" position="attributes">
             <attribute name="optional">show</attribute>
+        </field>
+        <field name="state" position="attributes">
+            <attribute name="widget">badge</attribute>
+            <attribute name="decoration-info">state == 'open'</attribute>
+            <attribute name="decoration-warning">state == 'posted'</attribute>
+            <attribute name="decoration-success">state == 'confirm'</attribute>
         </field>
     </field>
 </record>
