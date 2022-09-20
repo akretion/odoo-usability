@@ -13,7 +13,7 @@
     <field name="arch"  type="xml">
         <form string="Mark invoices as sent">
             <p>
-                This wizard will mark as <i>sent</i> all the selected invoices in open or paid state.
+                This wizard will mark as <i>sent</i> all the selected posted invoices.
             </p>
             <footer>
                 <button type="object" name="run" string="Mark as Sent" class="btn-primary"/>

@@ -34,7 +34,7 @@ class AccountMove(models.Model):
         search='_search_has_attachment', readonly=True)
     sale_dates = fields.Char(
         compute="_compute_sales_dates", readonly=True,
-        help="This information appears on invoice qweb report "
+        help="This information appear on invoice qweb report "
              "(you may use it for your own report)")
 
     def _compute_has_discount(self):
@@ -242,17 +242,6 @@ class AccountMoveLine(models.Model):
         compute='_compute_reconcile_string', string='Reconcile', store=True)
     # for optional display in tree view
     product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
-    balance = fields.Monetary(
-        string='Balance',
-        default=0.0,
-        currency_field='company_currency_id',
-        compute="_compute_balance",
-        store=True)
-
-    @api.depends("credit", "debit")
-    def _compute_balance(self):
-        for line in self:
-            line.balance = line.debit - line.credit
 
     def show_account_move_form(self):
         self.ensure_one()

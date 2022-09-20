@@ -11,7 +11,7 @@
     <field name="name">account.group.generate.form</field>
     <field name="model">account.group.generate</field>
     <field name="arch"  type="xml">
-        <form string="Generate account groups">
+        <form>
             <p>
                 This wizard is designed to auto-generate account groups from the chart of account.
             </p>

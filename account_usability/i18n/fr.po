@@ -23,8 +23,8 @@ msgid ""
 "%d account groups already exists in company '%s'. This wizard is designed "
 "to generate account groups from scratch."
 msgstr ""
-"%d des comptes de regroupement existent déjà dans l'entreprise '%s'. Cet "
-"assistant est conçu pour créer des comptes de regroupement à partir de zéro."
+"%d des groupes de comptes existent déjà dans la société '%s'. Cet "
+"assistant est conçu pour créer des groupes de comptes à partir de zéro."
 
 #. module: account_usability
 #: model:ir.model,name:account_usability.model_account_account
@@ -35,12 +35,12 @@ msgstr "Compte"
 #: code:addons/account_usability/wizard/account_group_generate.py:0
 #, python-format
 msgid "Account Groups"
-msgstr "Regroupement de comptes"
+msgstr "Groupes de comptes"
 
 #. module: account_usability
 #: model:ir.model,name:account_usability.model_account_move_reversal
 msgid "Account Move Reversal"
-msgstr "Contrepassation du mouvement"
+msgstr "Extourne d'écritures"
 
 #. module: account_usability
 #: model:ir.model,name:account_usability.model_account_reconciliation_widget
@@ -50,12 +50,12 @@ msgstr "Outils de lettrage de compte"
 #. module: account_usability
 #: model:ir.model.fields,field_description:account_usability.field_account_journal__account_type_current_assets_id
 msgid "Account Type Current Assets"
-msgstr "Compte courant de Charges"
+msgstr "Type de compte actif circulant"
 
 #. module: account_usability
 #: model:ir.model.fields,field_description:account_usability.field_account_journal__account_type_current_liabilities_id
 msgid "Account Type Current Liabilities"
-msgstr "Compte courant de Produits"
+msgstr "Type de compte Dettes à court terme"
 
 #. module: account_usability
 #: model:ir.model.fields,field_description:account_usability.field_account_move_line__account_reconcile
@@ -67,7 +67,7 @@ msgstr "Autoriser le lettrage"
 msgid ""
 "An analytic account with the same code already exists in the same company!"
 msgstr ""
-"Un compte analytique avec le même code existe déjà dans la même entreprise !"
+"Un compte analytique avec le même code existe déjà dans la même société !"
 
 #. module: account_usability
 #: model:ir.model,name:account_usability.model_account_analytic_account
@@ -76,8 +76,8 @@ msgstr "Compte analytique"
 
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.view_bank_statement_form
-msgid "Are you sure to unreconcile all the entrie of the bank statement?"
-msgstr "Êtes-vous sûr de vouloir délettrer toute les écritures du relevés?"
+msgid "Are you sure to unreconcile all the entries of the bank statement?"
+msgstr "Êtes-vous sûr de vouloir délettrer toutes les écritures du relevé ?"
 
 #. module: account_usability
 #: model:ir.model.fields,field_description:account_usability.field_account_move_line__balance
@@ -94,7 +94,7 @@ msgid ""
 "Partner bank account number."
 msgstr ""
 "Numéro du compte bancaire sur lequel la facture sera payée. Un compte "
-"bancaire de la Société s'il s'agit d'une facture client ou d'un avoir du "
+"bancaire de la société s'il s'agit d'une facture client ou d'un avoir du "
 "fournisseur, sinon un numéro de compte bancaire du tiers."
 
 #. module: account_usability
@@ -105,12 +105,12 @@ msgstr "Comptes bancaires"
 #. module: account_usability
 #: model:ir.model,name:account_usability.model_account_bank_statement
 msgid "Bank Statement"
-msgstr "Relevé bancaire"
+msgstr "Relevé de compte"
 
 #. module: account_usability
 #: model:ir.model,name:account_usability.model_account_bank_statement_line
 msgid "Bank Statement Line"
-msgstr "Ligne de relevé bancaire"
+msgstr "Ligne de relevé de compte"
 
 #. module: account_usability
 #: model:ir.ui.menu,name:account_usability.res_bank_account_config_menu
@@ -167,7 +167,7 @@ msgstr "Créé le"
 #. module: account_usability
 #: model:ir.model.fields,help:account_usability.field_account_move_line__matched_credit_ids
 msgid "Credit journal items that are matched with this journal item."
-msgstr "Pièces au crédit qui correspondent à cette pièce."
+msgstr "Écritures comptables au crédit qui correspondent à cette écriture comptable."
 
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
@@ -184,7 +184,7 @@ msgstr "Date"
 #. module: account_usability
 #: model:ir.model.fields,help:account_usability.field_account_move_line__matched_debit_ids
 msgid "Debit journal items that are matched with this journal item."
-msgstr "Pièces au débit qui correspondent avec cette pièce."
+msgstr "Écritures comptables au débit qui correspondent avec cette écriture comptable."
 
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
@@ -257,12 +257,12 @@ msgstr ""
 #. module: account_usability
 #: model:ir.model.fields,field_description:account_usability.field_account_move_line__full_reconcile_id
 msgid "Full Reconcile"
-msgstr "Lettrage complet"
+msgstr "Marque de lettrage"
 
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
 msgid "Fully Reconciled"
-msgstr "Lettré en totalité"
+msgstr "Lettré totalement"
 
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.account_group_generate_form
@@ -274,12 +274,7 @@ msgstr "Générer"
 #: model:ir.model,name:account_usability.model_account_group_generate
 #: model:ir.ui.menu,name:account_usability.account_group_generate_menu
 msgid "Generate Account Groups"
-msgstr "Créer les comptes de regroupement"
-
-#. module: account_usability
-#: model_terms:ir.ui.view,arch_db:account_usability.account_group_generate_form
-msgid "Generate account groups"
-msgstr "Créer les comptes de regroupement"
+msgstr "Générer les groupes de comptes"
 
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.view_account_analytic_account_search
@@ -501,7 +496,7 @@ msgstr "Conditions de paiement"
 #: code:addons/account_usability/models/account_move.py:0
 #, python-format
 msgid "Please post the following entries before reconciliation :"
-msgstr "Veuillez enregistrer les entrées suivantes avant le lettrage :"
+msgstr "Veuillez comptabiliser les pièces suivantes avant le lettrage :"
 
 #. module: account_usability
 #: model:ir.model.fields,field_description:account_usability.field_account_group_generate__name_prefix
@@ -564,7 +559,7 @@ msgstr "Référence"
 #. module: account_usability
 #: model:ir.model.fields,field_description:account_usability.field_account_move_reversal__date
 msgid "Reversal date"
-msgstr "Date de renversement"
+msgstr "Date d'extourne"
 
 #. module: account_usability
 #: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__sale_dates
@@ -611,7 +606,7 @@ msgstr "Liste prix fournisseur"
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.product_supplierinfo_tree_view
 msgid "Tax"
-msgstr "TVA"
+msgstr "Taxe"
 
 #. module: account_usability
 #: code:addons/account_usability/models/product.py:0
@@ -641,7 +636,7 @@ msgid ""
 "The code of account '%s' is %d caracters. It cannot be inferior to level "
 "(%d)."
 msgstr ""
-"Le code de compte '%s' est %d caractères. Il ne peut pas être de niveau "
+"Le code du compte '%s' fait %d caractères. Il ne peut pas être de niveau "
 "inférieur à (%d)."
 
 #. module: account_usability
@@ -663,10 +658,10 @@ msgstr "Le niveau doit être >= 1."
 #: model:ir.model.fields,help:account_usability.field_account_move__sale_dates
 #: model:ir.model.fields,help:account_usability.field_account_payment__sale_dates
 msgid ""
-"This information appears on invoice qweb report (you may use it for your "
+"This information appear on invoice qweb report (you may use it for your "
 "own report)"
 msgstr ""
-"Ces informations apparaissent sur le rapport qweb de la facture (vous "
+"Cette information apparait sur le rapport qweb de la facture (vous "
 "pouvez les utiliser pour votre propre rapport)"
 
 #. module: account_usability
@@ -675,22 +670,21 @@ msgid ""
 "This wizard is designed to auto-generate account groups from the chart of "
 "account."
 msgstr ""
-"Cet assistant est conçu pour générer automatiquement des comptes de "
-"regroupement à partir du plan de compte."
+"Cet assistant est conçu pour générer automatiquement les groupes de comptes "
+"à partir du plan comptable."
 
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.account_invoice_mark_sent_form
 msgid ""
-"This wizard will mark as <i>sent</i> all the selected invoices in open or "
-"paid state."
+"This wizard will mark as <i>sent</i> all the selected posted invoices."
 msgstr ""
 "Cet assistant marquera comme <i>envoyées</i> toutes les factures "
-"sélectionnées à l'état ouvert ou payé."
+"sélectionnées et comptabilisées."
 
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.view_account_invoice_filter
 msgid "To Send"
-msgstr "A envoyer"
+msgstr "À envoyer"
 
 #. module: account_usability
 #: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__amount_total
@@ -716,22 +710,22 @@ msgstr "Type"
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.view_bank_statement_form
 msgid "Unreconcile All"
-msgstr "Supprimer tout le lettrage"
+msgstr "Tout délettrer"
 
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.view_account_move_line_filter
 msgid "Unreconciled or Partially Reconciled"
-msgstr "Non Lettré ou partiellement Lettré"
+msgstr "Non lettré ou partiellement lettré"
 
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.view_bank_statement_form
 msgid "View Journal Entry"
-msgstr "Voir l’écriture du journal"
+msgstr "Voir la pièce comptable"
 
 #. module: account_usability
 #: model_terms:ir.ui.view,arch_db:account_usability.view_move_line_tree
 msgid "View Journal Entry Form"
-msgstr "Voir le formulaire d'écriture de journal"
+msgstr "Voir la pièce comptable en vue formulaire"
 
 #. module: account_usability
 #: model:ir.model.fields,help:account_usability.field_account_bank_statement__hide_bank_statement_balance
