@@ -26,11 +26,12 @@
             <button name="show_account_move" type="object"
                 title="View Journal Entry" icon="fa-arrow-right"/>
         </xpath>
-        <field name="date" position="after">
+        <xpath expr="//field[@name='balance_end_real']/.." position="after">
             <field name="start_date"/>
             <field name="end_date"/>
             <field name="hide_bank_statement_balance" invisible="1"/>
-        </field>
+            <field name="line_count"/>
+        </xpath>
         <field name="date" position="attributes">
             <attribute name="invisible">1</attribute>
         </field>
@@ -74,6 +75,7 @@
         <field name="journal_id" position="after">
             <field name="start_date"/>
             <field name="end_date"/>
+            <field name="line_count" optional="show"/>
         </field>
         <field name="balance_start" position="attributes">
             <attribute name="optional">show</attribute>

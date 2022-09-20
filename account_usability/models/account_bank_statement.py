@@ -10,11 +10,11 @@ class AccountBankStatement(models.Model):
     _inherit = 'account.bank.statement'
 
     start_date = fields.Date(
-        compute='_compute_dates', string='Start Date', readonly=True,
-        store=True)
+        compute='_compute_dates', string='Start Date', store=True)
     end_date = fields.Date(
-        compute='_compute_dates', string='End Date', readonly=True,
-        store=True)
+        compute='_compute_dates', string='End Date', store=True)
+    line_count = fields.Integer(
+        compute='_compute_dates', string='# of Lines', store=True)
     hide_bank_statement_balance = fields.Boolean(
         related='journal_id.hide_bank_statement_balance', readonly=True)
 
@@ -24,6 +24,7 @@ class AccountBankStatement(models.Model):
             dates = [line.date for line in st.line_ids]
             st.start_date = dates and min(dates) or False
             st.end_date = dates and max(dates) or False
+            st.line_count = len(dates)
 
     def _check_balance_end_real_same_as_computed(self):
         for stmt in self:
