@@ -17,6 +17,7 @@
         'views/res_partner.xml',
         'views/res_partner_bank.xml',
         'views/res_country.xml',
+        'views/res_company.xml',
         'views/ir_module.xml',
         'views/ir_sequence.xml',
         'views/ir_property.xml',

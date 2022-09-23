@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="view_company_tree" model="ir.ui.view">
+    <field name="model">res.company</field>
+    <field name="inherit_id" ref="base.view_company_tree"/>
+    <field name="arch" type="xml">
+        <field name="name" position="after">
+            <field name="currency_id" optional="show" groups="base.group_multi_currency"/>
+        </field>
+    </field>
+</record>
+
+</odoo>
