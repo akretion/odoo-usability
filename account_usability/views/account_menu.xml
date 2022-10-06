@@ -13,4 +13,9 @@ under "Accounting > Configuration", because most users will try to find it there
 
 <menuitem id="res_partner_bank_account_config_menu" action="base.action_res_partner_bank_account_form" parent="account.account_banks_menu" sequence="20"/>
 
+<record id="account.menu_finance" model="ir.ui.menu">
+    <!-- Replace "Invoicing" by "Accounting" -->
+    <field name="name">Accounting</field>
+</record>
+
 </odoo>
