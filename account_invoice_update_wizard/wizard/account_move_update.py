@@ -14,16 +14,13 @@ class AccountMoveUpdate(models.TransientModel):
     invoice_id = fields.Many2one(
         'account.move', string='Invoice', required=True,
         readonly=True)
-    type = fields.Selection(related='invoice_id.move_type', readonly=True)
-    company_id = fields.Many2one(
-        related='invoice_id.company_id', readonly=True)
-    partner_id = fields.Many2one(
-        related='invoice_id.partner_id', readonly=True)
+    move_type = fields.Selection(related='invoice_id.move_type')
+    company_id = fields.Many2one(related='invoice_id.company_id')
+    partner_id = fields.Many2one(related='invoice_id.partner_id')
     user_id = fields.Many2one('res.users', string='Salesperson')
     invoice_payment_term_id = fields.Many2one(
         'account.payment.term', string='Payment Term')
-    ref = fields.Char(string='Invoice Reference')
-    name = fields.Char(string='Reference/Description')
+    ref = fields.Char(string='Reference')  # field label is customized in the view
     invoice_origin = fields.Char(string='Source Document')
     partner_bank_id = fields.Many2one(
         'res.partner.bank', string='Bank Account')
@@ -33,7 +30,7 @@ class AccountMoveUpdate(models.TransientModel):
     @api.model
     def _simple_fields2update(self):
         '''List boolean, date, datetime, char, text fields'''
-        return ['ref', 'name', 'invoice_origin']
+        return ['ref', 'invoice_origin']
 
     @api.model
     def _m2o_fields2update(self):
@@ -55,15 +52,16 @@ class AccountMoveUpdate(models.TransientModel):
                 'quantity': line.quantity,
                 'price_subtotal': line.price_subtotal,
                 'analytic_account_id': line.analytic_account_id.id,
+                'currency_id': line.currency_id.id,
                 'analytic_tag_ids': aa_tags,
                 'display_type': line.display_type,
             }])
         return res
 
-    @api.onchange('type')
-    def type_on_change(self):
+    @api.onchange('move_type')
+    def move_type_on_change(self):
         res = {'domain': {}}
-        if self.type in ('out_invoice', 'out_refund'):
+        if self.move_type in ('out_invoice', 'out_refund'):
             res['domain']['partner_bank_id'] =\
                 "[('partner_id.ref_company_ids', 'in', [company_id])]"
         else:
@@ -243,11 +241,11 @@ class AccountMoveLineUpdate(models.TransientModel):
         ('line_section', "Section"),
         ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
     quantity = fields.Float(
-        string='Quantity', digits=dp.get_precision('Product Unit of Measure'),
-        readonly=True)
-    price_subtotal = fields.Float(
-        string='Amount', readonly=True, digits=dp.get_precision('Account'))
+        string='Quantity', digits='Product Unit of Measure', readonly=True)
+    price_subtotal = fields.Monetary(
+        string='Amount', readonly=True)
     analytic_account_id = fields.Many2one(
         'account.analytic.account', string='Analytic Account')
     analytic_tag_ids = fields.Many2many(
         'account.analytic.tag', string='Analytic Tags')
+    currency_id = fields.Many2one('res.currency', readonly=True)

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="account_invoice_update_form" model="ir.ui.view">
+    <field name="model">account.move.update</field>
+    <field name="inherit_id" ref="account_invoice_update_wizard.account_invoice_update_form"/>
+    <field name="arch" type="xml">
+        <field name="invoice_payment_term_id" position="after">
+            <field name="payment_mode_filter_type_domain" invisible="1"/>
+            <field name="partner_bank_filter_type_domain" invisible="1"/>
+            <field name="bank_account_required" invisible="1"/>
+            <field name="payment_mode_id" domain="[('payment_type', '=', payment_mode_filter_type_domain), ('company_id', '=', company_id)]"/>
+        </field>
+        <field name="partner_bank_id" position="attributes">
+            <attribute name="domain">
+                [('partner_id', '=', partner_bank_filter_type_domain),
+                '|',('company_id', '=', company_id),('company_id', '=', False)]
+            </attribute>
+            <attribute name="attrs">{'required': [('bank_account_required', '=', True),('move_type', 'in', ('in_invoice', 'in_refund'))]}</attribute>
+        </field>
+    </field>
+</record>
+
+
+</odoo>
