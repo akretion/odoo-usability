@@ -54,6 +54,9 @@
         <field name="state" position="attributes">
             <attribute name="invisible">0</attribute>
         </field>
+        <field name="partner_id" position="after">
+            <field name="client_order_ref"/>
+        </field>
     </field>
 </record>
 
