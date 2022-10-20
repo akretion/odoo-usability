@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_move_form" model="ir.ui.view">
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="purchase.view_move_form_inherit_purchase"/>
+    <field name="arch" type="xml">
+        <button name="button_draft" position="after">
+            <button name="delete_lines_qty_zero" attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('move_type', '!=', 'in_invoice')]}" string="Delete Lines Qty=0" type="object"/>
+        </button>
+    </field>
+</record>
+
+
+</odoo>
