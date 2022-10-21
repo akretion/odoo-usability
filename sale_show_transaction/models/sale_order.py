@@ -10,7 +10,7 @@ class SaleOrder(models.Model):
 
     main_acquirer_id = fields.Many2one(
         'payment.acquirer',
-        'Acquirer',
+        'Online payment mode',
         compute="_compute_main_acquirer",
         store=True)
 
