@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="sale_order_view_form" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <field name="note" position="after">
+                <separator string="Transaction" colspan="4"/>
+                <field name="transaction_ids" nolabel="1" colspan="4">
+                    <tree
+                        decoration-danger="state in ('error', 'cancel')"
+                        decoration-success="state == 'done'"
+                        >
+                        <field name="reference"/>
+                        <field name="create_date"/>
+                        <field name="acquirer_id"/>
+                        <field name="amount"/>
+                        <field name="state"/>
+                    </tree>
+                </field>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_order_tree" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree" />
+        <field name="arch" type="xml">
+            <field name="state" position="after">
+                <field name="main_acquirer_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_quotation_tree" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree" />
+        <field name="arch" type="xml">
+            <field name="currency_id" position="after">
+                <field name="main_acquirer_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
