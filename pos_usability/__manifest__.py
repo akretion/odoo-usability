@@ -33,5 +33,5 @@ Akretion:
         "views/pos_session.xml",
         "views/product.xml",
         ],
-    "installable": True,
+    "installable": False,
 }

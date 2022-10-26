@@ -45,5 +45,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'views/stock_inventory.xml',
         'views/stock_expiry_depreciation_rule.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

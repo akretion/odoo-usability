@@ -25,5 +25,5 @@ I don't recommend the use of this module.
     'data': [
         'views/account_move.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

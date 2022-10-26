@@ -14,5 +14,6 @@
         "sale_usability",
     ],
     "data": ["views/sale_views.xml"],
+    "installable": False,
     "auto_install": True,
 }

@@ -13,5 +13,5 @@
     # I depend on base_usability only for _report_company_legal_name()
     'depends': ['base_usability'],
     'data': ['company_view.xml'],
-    'installable': True,
+    'installable': False,
 }

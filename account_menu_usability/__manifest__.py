@@ -14,5 +14,5 @@
     'data': [
         'views/account_menu.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

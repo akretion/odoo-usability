@@ -16,5 +16,5 @@
         'views/purchase_report.xml',
         'views/account_move.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

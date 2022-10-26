@@ -16,5 +16,5 @@
         'views/product_template.xml',
     #    'report/mrp_report.xml'  # TODO
     ],
-    'installable': True,
+    'installable': False,
 }

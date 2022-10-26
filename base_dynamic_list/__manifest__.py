@@ -58,5 +58,5 @@ Limitation: when you want to have different access rights on these lists dependi
         'security/ir.model.access.csv',
         'views/dynamic_list.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

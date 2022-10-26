@@ -28,5 +28,5 @@ Small usability improvements on mails:
         #'wizard/email_template_preview_view.xml',
         #'wizard/mail_compose_message_view.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

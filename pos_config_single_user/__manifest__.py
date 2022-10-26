@@ -20,5 +20,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['point_of_sale'],
     'data': ['pos_view.xml'],
-    'installable': True,
+    'installable': False,
 }

@@ -22,5 +22,5 @@ Base Partner Reference
     'website': 'http://www.akretion.com',
     'depends': ['base'],
     'data': ['views/res_partner.xml'],
-    'installable': True,
+    'installable': False,
 }

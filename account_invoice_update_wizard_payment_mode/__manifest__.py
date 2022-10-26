@@ -12,6 +12,6 @@
     'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['account_invoice_update_wizard', 'account_payment_partner'],
     'data': ['wizard/account_move_update_view.xml'],
-    'installable': True,
+    'installable': False,
     'auto_install': True,
 }

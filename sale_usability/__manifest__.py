@@ -26,5 +26,5 @@
         'wizards/sale_invoice_discount_all_lines_view.xml',
         'security/ir.model.access.csv',
         ],
-    'installable': True,
+    'installable': False,
 }

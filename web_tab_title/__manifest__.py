@@ -20,4 +20,5 @@
     ],
     "data": ["views/web_tab_title.xml"],
     "maintainers": ["rvalyi"],
+    "installable": False,
 }

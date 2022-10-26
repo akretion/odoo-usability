@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_labour_cost_profile_read,Read access on labour.cost.profile to MRP user,model_labour_cost_profile,mrp.group_mrp_user,1,0,0,0
-access_labour_cost_profile_read_stock,Read access on labour.cost.profile to Stock user,model_labour_cost_profile,stock.group_stock_user,1,0,0,0
-access_labour_cost_profile_full,Full access on labour.cost.profile to MRP manager,model_labour_cost_profile,mrp.group_mrp_manager,1,1,1,1
-access_mrp_bom_labour_line_read,Read access on mrp.bom.labour.line to MRP user,model_mrp_bom_labour_line,mrp.group_mrp_user,1,0,0,0
-access_mrp_bom_labour_line_read_stock,Read access on mrp.bom.labour.line to Stock user,model_mrp_bom_labour_line,stock.group_stock_user,1,0,0,0
-access_mrp_bom_labour_line_full,Full access on mrp.bom.labour.line to MRP manager,model_mrp_bom_labour_line,mrp.group_mrp_manager,1,1,1,1

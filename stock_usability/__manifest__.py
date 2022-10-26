@@ -40,5 +40,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'security/ir.model.access.csv',
         ],
     'post_init_hook': 'create_config_parameter_immediate_tranfer',
-    'installable': True,
+    'installable': False,
 }

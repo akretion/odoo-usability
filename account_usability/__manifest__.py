@@ -40,5 +40,5 @@
         'report/invoice_report.xml',
         ],
     'qweb': ['static/src/xml/account_payment.xml'],
-    'installable': True,
+    'installable': False,
 }
