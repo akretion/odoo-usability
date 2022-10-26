@@ -50,23 +50,12 @@
             <field name="location_id" groups="stock.group_stock_multi_locations" domain="[('id', 'child_of', 'parent.location_id')]"  options="{'no_create': True}"/>
             <field name="location_dest_id" groups="stock.group_stock_multi_locations" domain="[('id', 'child_of', 'parent.location_dest_id')]"  options="{'no_create': True}"/>
         </xpath>
-        <xpath expr="//sheet/group/group/field[@name='location_id']" position="attributes">
+        <xpath expr="//sheet/group/group/field[@name='location_id' and @groups='stock.group_stock_multi_locations']" position="attributes">
             <attribute name="attrs">{}</attribute>
         </xpath>
-        <xpath expr="//sheet/group/group/field[@name='location_dest_id']" position="attributes">
+        <xpath expr="//sheet/group/group/field[@name='location_dest_id' and @groups='stock.group_stock_multi_locations']" position="attributes">
             <attribute name="attrs">{}</attribute>
         </xpath>
-    </field>
-</record>
-
-<record id="vpicktree" model="ir.ui.view">
-    <field name="name">stock_usability.view_picking_tree</field>
-    <field name="model">stock.picking</field>
-    <field name="inherit_id" ref="stock.vpicktree" />
-    <field name="arch" type="xml">
-        <field name="date_deadline" position="after">
-            <field name="date_done" optional="show"/>
-        </field>
     </field>
 </record>
 
@@ -123,18 +112,5 @@
 <record id="stock.action_picking_tree_backorder" model="ir.actions.act_window">
     <field name="view_mode">tree,kanban,form,calendar,pivot</field> <!-- add pivot -->
 </record>
-
-<record id="view_picking_type_tree" model="ir.ui.view">
-    <field name="name">usability.stock.picking.type.tree</field>
-    <field name="model">stock.picking.type</field>
-    <field name="inherit_id" ref="stock.view_picking_type_tree"/>
-    <field name="arch" type="xml">
-        <field name="warehouse_id" position="after">
-            <field name="default_location_src_id"/>
-            <field name="default_location_dest_id"/>
-        </field>
-    </field>
-</record>
-
 
 </odoo>

@@ -28,6 +28,6 @@
 
 <menuitem id="procurement_scheduler_log_menu"
     action="procurement_scheduler_log_action"
-    parent="stock.menu_stock_warehouse_mgmt" sequence="140"/>
+    parent="stock.menu_warehouse_report" sequence="300"/>
 
 </odoo>

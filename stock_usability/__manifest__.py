@@ -1,11 +1,11 @@
-# Copyright 2014-2020 Akretion (http://www.akretion.com)
+# Copyright 2014-2022 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
 {
     'name': 'Stock Usability',
-    'version': '14.0.1.0.0',
+    'version': '16.0.1.0.0',
     'category': 'Inventory, Logistic, Storage',
     'license': 'AGPL-3',
     'summary': 'Several usability enhancements in Warehouse management',
@@ -27,18 +27,19 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'depends': ['stock'],
     'data': [
         'views/stock_quant.xml',
-        'views/stock_inventory.xml',
         'views/stock_location.xml',
         'views/stock_move.xml',
+        'views/stock_move_line.xml',
         'views/stock_picking.xml',
+        'views/stock_picking_type.xml',
         'views/stock_warehouse.xml',
         'views/stock_warehouse_orderpoint.xml',
         'views/product.xml',
         'views/procurement_group.xml',
-        'views/stock_production_lot.xml',
+        'views/stock_lot.xml',
         'views/procurement_scheduler_log.xml',
         'security/ir.model.access.csv',
         ],
     'post_init_hook': 'create_config_parameter_immediate_tranfer',
-    'installable': False,
+    'installable': True,
 }

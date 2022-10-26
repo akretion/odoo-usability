@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2014-2020 Akretion (http://www.akretion.com/)
+  Copyright 2014-2022 Akretion (http://www.akretion.com/)
   @author Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -52,6 +52,6 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
 <menuitem id="stock_location_menu" action="stock.action_location_form"
     parent="stock.menu_warehouse_report"
     groups="stock.group_stock_multi_locations"
-    sequence="50"/>
+    sequence="160"/>
 
 </odoo>
