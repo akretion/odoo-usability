@@ -1,10 +1,10 @@
-# Copyright 2016-2021 Akretion (http://www.akretion.com)
+# Copyright 2016-2022 Akretion (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
 {
     'name': 'CRM Usability',
-    'version': '14.0.1.0.0',
+    'version': '16.0.1.0.0',
     'category': 'Customer Relationship Management',
     'license': 'AGPL-3',
     'summary': 'CRM usability enhancements',
@@ -21,5 +21,5 @@ This module has been written by Alexis de Lattre from Akretion
     'data': [
         'views/crm_lead.xml',
         ],
-    'installable': False,
+    'installable': True,
 }

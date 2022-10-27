@@ -1,4 +1,4 @@
-# Copyright 2017-2021 Akretion (http://www.akretion.com)
+# Copyright 2017-2022 Akretion (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
