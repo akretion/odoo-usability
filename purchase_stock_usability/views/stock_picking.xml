@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2017-2021 Akretion (http://www.akretion.com/)
+  Copyright 2017-2022 Akretion (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -14,7 +14,7 @@
     <field name="inherit_id" ref="stock.view_picking_form"/>
     <field name="arch" type="xml">
         <field name="origin" position="after">
-            <field name="purchase_id" attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}"/>
+            <field name="purchase_id" attrs="{'invisible': [('purchase_id', '=', False)]}"/>
         </field>
     </field>
 </record>
