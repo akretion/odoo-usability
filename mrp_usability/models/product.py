@@ -1,4 +1,4 @@
-# Copyright (C) 2020 - Akretion
+# Copyright 2020-2022 Akretion France (http://www.akretion.com/)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models
