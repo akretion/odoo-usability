@@ -22,18 +22,6 @@
         <button name="button_cancel" type="object" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this purchase order?</attribute>
         </button>
-        <!-- the 'origin' field can be very long ; it can list a lot of MO or OP!
-        I think limiting the size of the field would not be the best option,
-        because the info it carries can be interesting. So we just move it
-        from the top of the view to the second tab -->
-        <field name="origin" position="replace"/>
-        <field name="date_approve" position="after">
-            <field name="origin"/>
-        </field>
-        <!-- Remove once this PR is merged https://github.com/odoo/odoo/pull/35073 -->
-        <xpath expr="//field[@name='order_line']/form//field[@name='analytic_tag_ids']" position="attributes">
-            <attribute name="groups">analytic.group_analytic_tags</attribute>
-        </xpath>
         <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="after">
             <field name="product_supplier_code" optional="hide"/>
             <field name="product_barcode" optional="hide"/>
@@ -65,7 +53,7 @@
         </group>
         <field name="name" position="attributes">
             <attribute name="string">Reference, Origin or Vendor Reference</attribute>
-            <attribute name="filter_domain">['|', '|', ('name', 'ilike', self), ('origin', 'ilike', self), ('partner_ref', 'ilike', self)]</attribute>
+            <attribute name="filter_domain">['|', '|', '|', ('name', 'ilike', self), ('origin', 'ilike', self), ('partner_ref', 'ilike', self), ('partner_id', 'child_of', self)]</attribute>
         </field>
     </field>
 </record>
@@ -104,7 +92,6 @@
     </field>
 </record>
 
-
 <!-- Do not show cancelled quotations by default in "Requests for Quotation" -->
 <record id="purchase.purchase_rfq" model="ir.actions.act_window">
     <field name="context">{'search_default_draft': 1, 'quotation_only': True}</field>
@@ -116,38 +103,19 @@
     <field name="model">purchase.order.line</field>
     <field name="inherit_id" ref="purchase.purchase_order_line_tree"/>
     <field name="arch" type="xml">
-        <field name="name" position="replace"/>
         <field name="product_id" position="after">
-            <field name="name"/>
+            <field name="name" position="move"/>
         </field>
         <field name="product_qty" position="after">
             <field name="qty_received"/>
             <field name="qty_invoiced"/>
         </field>
-        <field name="price_unit" position="replace"/>
         <field name="product_uom" position="after">
-            <field name="price_unit"/>
-        </field>
-        <field name="product_qty" position="before">
-            <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+            <field name="price_unit" position="move"/>
         </field>
         <field name="date_planned" position="after">
             <field name="state"/>
         </field>
-    </field>
-</record>
-
-<record id="purchase_order_line_search" model="ir.ui.view">
-    <field name="name">usability.purchase.order.line.search</field>
-    <field name="model">purchase.order.line</field>
-    <field name="inherit_id" ref="purchase.purchase_order_line_search"/>
-    <field name="arch" type="xml">
-        <field name="partner_id" position="after">
-            <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
-        </field>
-        <group expand="0" position="inside">
-            <filter string="Analytic Account" name="account_analytic_groupby" context="{'group_by': 'account_analytic_id'}" groups="analytic.group_analytic_accounting"/>
-        </group>
     </field>
 </record>
 
