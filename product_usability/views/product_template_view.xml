@@ -14,7 +14,7 @@
         <field name="inherit_id" ref="product.product_template_search_view" />
         <field name="arch" type="xml">
             <field name="categ_id" position="after">
-                <field name="seller_ids" string="Supplier" filter_domain="[('seller_ids.name', 'ilike', self)]"/>
+                <field name="seller_ids" string="Supplier" filter_domain="[('seller_ids.partner_id', 'ilike', self)]"/>
             </field>
         </field>
     </record>

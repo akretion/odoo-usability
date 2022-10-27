@@ -1,4 +1,4 @@
-# Copyright 2015-2021 Akretion (http://www.akretion.com)
+# Copyright 2015-2022 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # @author Raphaël Valyi <rvalyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -14,7 +14,7 @@ class ProductTemplate(models.Model):
     # in v10, that field was defined in procurement_suggest, but we will
     # probably not port procurement_suggest because it is native in v14
     seller_id = fields.Many2one(
-        'res.partner', related='seller_ids.name', store=True,
+        'res.partner', related='seller_ids.partner_id', store=True,
         string='Main Supplier')
 
     # in v14, I noticed that the tracking of the fields of product.template
@@ -24,7 +24,7 @@ class ProductTemplate(models.Model):
     barcode = fields.Char(tracking=20)
     default_code = fields.Char(tracking=30)
     categ_id = fields.Many2one(tracking=40)
-    type = fields.Selection(tracking=50)
+    detailed_type = fields.Selection(tracking=50)
     list_price = fields.Float(tracking=60)
     weight = fields.Float(tracking=70)
     sale_ok = fields.Boolean(tracking=80)
@@ -33,6 +33,9 @@ class ProductTemplate(models.Model):
     company_id = fields.Many2one(tracking=110)
     barcode_type = fields.Char(compute='_compute_template_barcode_type')
 
+    # precompute=True doesn't work on product.template
+    # (works fine on product.product), probably because we don't depend
+    # on 'barcode'
     @api.depends('product_variant_ids.barcode')
     def _compute_template_barcode_type(self):
         ppo = self.env['product.product']
