@@ -16,7 +16,8 @@ class StockQuant(models.Model):
         action = self.env["ir.actions.actions"]._for_xml_id(
             "stock.stock_move_line_action")
         action['domain'] = [
-            ('state', 'not in', ('draft', 'done')),
+            ('state', 'not in', ('draft', 'done', 'cancel')),
+            ('reserved_uom_qty', '!=', 0),
             ('product_id', '=', self.product_id.id),
             ('location_id', '=', self.location_id.id),
             ('lot_id', '=', self.lot_id.id or False),
