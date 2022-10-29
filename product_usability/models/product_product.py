@@ -14,7 +14,7 @@ class ProductProduct(models.Model):
     barcode = fields.Char(tracking=20)
     weight = fields.Float(tracking=30)
     active = fields.Boolean(tracking=40)
-    barcode_type = fields.Char(compute='_compute_barcode_type', precompute=True)
+    barcode_type = fields.Char(compute='_compute_barcode_type')
 
     _sql_constraints = [(
         # Maybe it could be better to have a constrain per company
