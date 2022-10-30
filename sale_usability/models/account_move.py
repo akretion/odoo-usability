@@ -1,45 +1,13 @@
-# Copyright (C) 2015-2019 Akretion (http://www.akretion.com)
+# Copyright 2015-2022 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import models
 from collections import OrderedDict
 
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
-
-    # sale_ids is kind of the symetric field of invoice_ids on sale.order
-    sale_ids = fields.Many2many(
-        'sale.order', string='Sale Orders', compute="_compute_sale_ids")
-    sale_count = fields.Integer(
-        string='Sale Order Count', compute='_compute_sale_ids')
-
-    @api.depends('invoice_line_ids.sale_line_ids')
-    def _compute_sale_ids(self):
-        for invoice in self:
-            if invoice.move_type == 'out_invoice':
-                sales = invoice.invoice_line_ids.mapped('sale_line_ids').\
-                    mapped('order_id')
-                invoice.sale_ids = sales.ids
-                invoice.sale_count = len(sales.ids)
-            else:
-                invoice.sale_ids = []
-                invoice.sale_count = 0
-
-    def show_sale_orders(self):
-        self.ensure_one()
-        action = self.env.ref('sale.action_orders').sudo().read()[0]
-        sales = self.sale_ids
-        if len(sales) > 1:
-            action['domain'] = [('id', 'in', sales.ids)]
-        else:
-            action.update({
-                'res_id': sales.id,
-                'view_mode': 'form,tree,kanban,calendar,pivot,graph,activity',
-                'views': False,
-                })
-        return action
 
     def py3o_lines_layout_groupby_order(self, subtotal=True):
         # This method is an alternative to the method py3o_lines_layout()

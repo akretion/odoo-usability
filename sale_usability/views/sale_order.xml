@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2015-2019 Akretion France (http://www.akretion.com/)
+  Copyright 2015-2022 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -15,16 +15,16 @@
         <field name="fiscal_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
+        <!-- TODO uncomment when base_extended_view is avail on v16
         <field name="partner_shipping_id" position="attributes">
             <attribute name="context" operation="python_dict" key="show_address">1</attribute>
-        </field>
+        </field>  -->
         <button name="action_cancel" type="object" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this sale order?</attribute>
         </button>
         <!-- client_order_ref is an important field, so we should put it in the top like in v8, not hidden in the second tab -->
-        <field name="client_order_ref" position="replace"/>
         <field name="date_order" position="after">
-            <field name="client_order_ref"/>
+            <field name="client_order_ref" position="move"/>
         </field>
         <button name="action_quotation_send" states="sent,sale" position="after">
             <button name="%(sale.action_report_saleorder)d" type="action" string="Print" states="draft,sent,sale,done"/>
@@ -35,6 +35,17 @@
         <button name="action_quotation_send" attrs="{'invisible': ['|', ('state', '=', 'draft'), ('invoice_count','&gt;=',1)]}" position="before">
             <button name="action_quotation_send" type="object" string="Send Order Acknowledgement" attrs="{'invisible': ['|', ('state', 'not in', ('sale', 'done')), ('invoice_count','&gt;=',1)]}"/>
         </button>
+        <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
+            <attribute name="sum">1</attribute>
+        </xpath>
+        <!-- it doesn't work... I don't know why ! -->
+        <xpath expr="//field[@name='order_line']/tree/field[@name='qty_delivered']" position="attributes">
+            <attribute name="sum">1</attribute>
+        </xpath>
+        <!-- it doesn't work... I don't know why ! -->
+        <xpath expr="//field[@name='order_line']/tree/field[@name='qty_invoiced']" position="attributes">
+            <attribute name="sum">1</attribute>
+        </xpath>
     </field>
 </record>
 
@@ -62,6 +73,7 @@
         </field>
         <field name="state" position="attributes">
             <attribute name="invisible">0</attribute>
+            <attribute name="optional">hide</attribute>
         </field>
         <field name="partner_id" position="after">
             <field name="client_order_ref" optional="show"/>
@@ -91,10 +103,6 @@ https://github.com/odoo/odoo/commit/c1e5ab9b1331c3cb7dc2232bf78952bdb40ad939 -->
 </record>
 
 <record id="sale.action_quotations_with_onboarding" model="ir.actions.act_window">
-    <field name="domain">[('state', 'in', ('draft', 'sent', 'cancel'))]</field>
-</record>
-
-<record id="sale.action_quotations_salesteams" model="ir.actions.act_window">
     <field name="domain">[('state', 'in', ('draft', 'sent', 'cancel'))]</field>
 </record>
 

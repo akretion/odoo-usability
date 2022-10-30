@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="sales_team.res_partner_view_team" />
         <field name="arch" type="xml">
             <!-- team_id should be visible in no developper mode -->
-            <field name="team_id" position="attributes">
+            <field name="team_id" groups="base.group_no_one" position="attributes">
                 <attribute name="groups"/>
             </field>
         </field>

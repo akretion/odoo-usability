@@ -2,9 +2,8 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
-from odoo.tools import float_is_zero, float_compare
-from odoo.tools.misc import formatLang
+from odoo import api, fields, models
+from odoo.tools import float_is_zero
 
 
 class SaleOrder(models.Model):
@@ -16,7 +15,6 @@ class SaleOrder(models.Model):
     amount_tax = fields.Monetary(tracking=True)
     partner_shipping_id = fields.Many2one(tracking=True)
     partner_invoice_id = fields.Many2one(tracking=True)
-    pricelist_id = fields.Many2one(tracking=True)
     payment_term_id = fields.Many2one(tracking=True)
     fiscal_position_id = fields.Many2one(tracking=True)
     # for reports
@@ -97,33 +95,33 @@ class SaleOrderLine(models.Model):
     product_barcode = fields.Char(
         related='product_id.barcode', string="Product Barcode")
 
-    @api.onchange('product_uom', 'product_uom_qty')
-    def product_uom_change(self):
+#    @api.onchange('product_uom', 'product_uom_qty')
+#    def product_uom_change(self):
         # When the user has manually set a custom price
         # he is often upset when Odoo changes it when he changes the qty
         # So we add a warning in which we recall the old price.
-        res = {}
-        old_price = self.price_unit
-        super().product_uom_change()
-        new_price = self.price_unit
-        prec = self.env['decimal.precision'].precision_get('Product Price')
-        if float_compare(old_price, new_price, precision_digits=prec):
-            pricelist = self.order_id.pricelist_id
-            res['warning'] = {
-                'title': _('Price updated'),
-                'message': _(
-                    "Due to the update of the ordered quantity on line '%s', "
-                    "the price has been updated according to pricelist '%s'.\n"
-                    "Old price: %s\n"
-                    "New price: %s") % (
-                        self.name,
-                        pricelist.display_name,
-                        formatLang(
-                            self.env, old_price, currency_obj=pricelist.currency_id),
-                        formatLang(
-                            self.env, new_price, currency_obj=pricelist.currency_id))
-                }
-        return res
+#        res = {}
+#        old_price = self.price_unit
+#        super().product_uom_change()
+#        new_price = self.price_unit
+#        prec = self.env['decimal.precision'].precision_get('Product Price')
+#        if float_compare(old_price, new_price, precision_digits=prec):
+#            pricelist = self.order_id.pricelist_id
+#            res['warning'] = {
+#                'title': _('Price updated'),
+#                'message': _(
+#                    "Due to the update of the ordered quantity on line '%s', "
+#                    "the price has been updated according to pricelist '%s'.\n"
+#                    "Old price: %s\n"
+#                    "New price: %s") % (
+#                        self.name,
+#                        pricelist.display_name,
+#                        formatLang(
+#                            self.env, old_price, currency_obj=pricelist.currency_id),
+#                        formatLang(
+#                            self.env, new_price, currency_obj=pricelist.currency_id))
+#                }
+#        return res
 
     def get_sale_order_line_multiline_description_sale(self, product):
         # This is useful when you want to have the product code in a dedicated
