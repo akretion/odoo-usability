@@ -11,6 +11,8 @@ class SaleOrder(models.Model):
 
     warehouse_id = fields.Many2one(tracking=True)
     incoterm = fields.Many2one(tracking=True)
+    incoterm_location = fields.Char(tracking=True)
+    picking_policy = fields.Selection(tracking=True)
 
     def report_qty_to_deliver(self):
         # Can be useful for delivery report

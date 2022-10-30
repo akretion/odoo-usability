@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2015-2020 Akretion France (http://www.akretion.com/)
+  Copyright 2015-2022 Akretion France (http://www.akretion.com/)
   @author Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -13,9 +13,11 @@
     <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
     <field name="arch" type="xml">
         <!-- move warehouse_id to the top, not hidden in the 2nd tab -->
+        <xpath expr="//group[@name='sale_shipping']/field[@name='warehouse_id' and @force_save='1']" position="replace"/>
         <group name="order_details" position="inside">
-            <field name="warehouse_id" options="{'no_create': True}" groups="stock.group_stock_multi_warehouses" force_save="1" position="move"/>
+            <field name="warehouse_id" options="{'no_create': True}" groups="stock.group_stock_multi_warehouses" force_save="1"/>
         </group>
     </field>
 </record>
+
 </odoo>
