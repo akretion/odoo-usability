@@ -12,7 +12,7 @@
     <field name="model">account.move.update</field>
     <field name="inherit_id" ref="account_invoice_update_wizard.account_invoice_update_form"/>
     <field name="arch" type="xml">
-        <field name="invoice_payment_term_id" position="after">
+        <field name="partner_bank_id" position="before">
             <field name="payment_mode_filter_type_domain" invisible="1"/>
             <field name="partner_bank_filter_type_domain" invisible="1"/>
             <field name="bank_account_required" invisible="1"/>
