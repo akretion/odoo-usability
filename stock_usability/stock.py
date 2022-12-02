@@ -147,6 +147,21 @@ class StockQuant(models.Model):
         action['context'] = {'search_default_todo': True}
         return action
 
+    def action_stock_move_lines_reserved(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window'].for_xml_id('stock', 'stock_move_line_action')
+        action['domain'] = [
+            ('state', 'not in', ('draft', 'done')),
+            ('product_id', '=', self.product_id.id),
+            ('location_id', '=', self.location_id.id),
+            ('lot_id', '=', self.lot_id.id or False),
+            '|',
+            ('package_id', '=', self.package_id.id or False),
+            ('result_package_id', '=', self.package_id.id or False),
+        ]
+        action['context'] = {'create': 0}
+        return action
+
 
 class StockInventoryLine(models.Model):
     _inherit = 'stock.inventory.line'

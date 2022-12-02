@@ -398,6 +398,11 @@ should be able to access it. So I add a menu entry under Inventory Control. -->
         <field name="reserved_quantity" position="attributes">
             <attribute name="sum">1</attribute>
         </field>
+        <!-- Move available_quantity AFTER quantity -->
+        <field name="quantity" position="after">
+            <field name="reserved_quantity" position="move"/>
+            <button type="object" name="action_stock_move_lines_reserved" string="Reservations" attrs="{'invisible': [('reserved_quantity', '=', 0)]}"/>
+        </field>
     </field>
 </record>
 
@@ -431,6 +436,24 @@ So I create another "regular" Quants" menu entry -->
 <menuitem id="stock_quant_menu" action="stock_quant_action"
     parent="stock.menu_stock_inventory_control"
     sequence="135"/>
+
+<record id="stock_move_line_from_lot_action" model="ir.actions.act_window">
+    <field name="name">Product Moves</field>
+    <field name="res_model">stock.move.line</field>
+    <field name="view_mode">tree,kanban,pivot,form</field>
+    <field name="domain">[('lot_id', '=', active_id)]</field>
+    <field name="context">{'search_default_done': 1, 'create': 0}</field>
+</record>
+
+<record id="view_production_lot_form" model="ir.ui.view">
+    <field name="model">stock.production.lot</field>
+    <field name="inherit_id" ref="stock.view_production_lot_form"/>
+    <field name="arch" type="xml">
+        <div name="button_box" position="inside">
+            <button name="%(stock_move_line_from_lot_action)d" string="Product Moves" type="action" icon="fa-exchange"/>
+        </div>
+    </field>
+</record>
 
 <record id="stock.action_production_lot_form" model="ir.actions.act_window">
     <field name="context">{}</field> <!-- remove group by product -->
