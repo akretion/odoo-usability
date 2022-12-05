@@ -2,13 +2,14 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from datetime import timedelta
 import logging
+
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
+from odoo.osv import expression
 from odoo.tools import float_is_zero
 from odoo.tools.misc import format_date
-from odoo.osv import expression
-from datetime import timedelta
-from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -220,7 +221,7 @@ class AccountMove(models.Model):
         if self.is_purchase_document(include_receipts=True):
             tax_lock_date = self.company_id.tax_lock_date
             if invoice_date and tax_lock_date and has_tax and invoice_date <= tax_lock_date:
-               invoice_date = tax_lock_date + timedelta(days=1)
+                invoice_date = tax_lock_date + timedelta(days=1)
             date = invoice_date
         return date
 
