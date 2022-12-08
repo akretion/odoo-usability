@@ -1,10 +1,10 @@
-# Copyright 2016-2019 Akretion (http://www.akretion.com)
+# Copyright 2016-2022 Akretion (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
 {
     'name': 'Sale Quotation Title',
-    'version': '12.0.1.0.0',
+    'version': '16.0.1.0.0',
     'category': 'Sales',
     'license': 'AGPL-3',
     'summary': 'Adds a title field on quotations',
@@ -21,5 +21,5 @@ This module has been written by Alexis de Lattre from Akretion
     'website': 'http://www.akretion.com',
     'depends': ['sale'],
     'data': ['sale_view.xml'],
-    'installable': False,
+    'installable': True,
 }

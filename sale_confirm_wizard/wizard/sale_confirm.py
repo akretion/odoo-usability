@@ -18,14 +18,8 @@ class SaleConfirm(models.TransientModel):
         'account.payment.term', string='Payment Terms')
     partner_invoice_id = fields.Many2one(
         'res.partner', 'Invoice Address', required=True)
-    show_partner_invoice_id = fields.Many2one(
-        related='partner_invoice_id',
-        string='Detailed Invoice Address')
     partner_shipping_id = fields.Many2one(
         'res.partner', 'Delivery Address', required=True)
-    show_partner_shipping_id = fields.Many2one(
-        related='partner_shipping_id',
-        string='Detailed Delivery Address')
     sale_warn = fields.Selection(
         WARNING_MESSAGE, 'Sale Warning Type', readonly=True)
     sale_warn_msg = fields.Text(string='Sale Warning Message', readonly=True)
@@ -78,4 +72,3 @@ class SaleConfirm(models.TransientModel):
         self.sale_id.write(vals)
         # confirm sale order
         self.sale_id.action_confirm()
-        return True

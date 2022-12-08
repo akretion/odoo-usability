@@ -15,10 +15,9 @@
         <field name="fiscal_position_id" position="attributes">
             <attribute name="widget">selection</attribute>
         </field>
-        <!-- TODO uncomment when base_extended_view is avail on v16
         <field name="partner_shipping_id" position="attributes">
-            <attribute name="context" operation="python_dict" key="show_address">1</attribute>
-        </field>  -->
+            <attribute name="context" operation="update">{"show_address": 1}</attribute>
+        </field>
         <button name="action_cancel" type="object" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this sale order?</attribute>
         </button>

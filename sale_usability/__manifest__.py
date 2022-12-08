@@ -13,7 +13,7 @@
     'depends': [
         'sale',
 #        'account_usability',  # for company view
-#        'base_view_inheritance_extension',
+        'base_view_inheritance_extension',
         ],
     'data': [
         'views/sale_order.xml',

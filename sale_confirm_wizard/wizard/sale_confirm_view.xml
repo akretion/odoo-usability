@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2017-2021 Akretion France (http://www.akretion.com/)
+  Copyright 2017-2022 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -13,26 +13,24 @@
     <field name="arch" type="xml">
         <form string="Confirm Order">
             <div><p>At this stage, you have received the Purchase Order from the customer and you are about to convert the related quotation to an order.</p></div>
-            <group name="warn" groups="sale.group_warning_sale" attrs="{'invisible': ['|', ('sale_warn', '=', False), ('sale_warn', '=', 'no-message')]}" string="Warning" col="4">
-                <field name="sale_warn" nolabel="1"/>
-                <field name="sale_warn_msg" nolabel="1" colspan="3"/>
-            </group>
+            <div class="alert alert-warning" role="alert" attrs="{'invisible': [('sale_warn', '!=', 'warning')]}">
+                <field name="sale_warn_msg"/>
+            </div>
+            <div class="alert alert-danger" role="alert" attrs="{'invisible': [('sale_warn', '!=', 'block')]}">
+                <field name="sale_warn_msg"/>
+            </div>
             <group name="main" attrs="{'invisible': [('sale_warn', '=', 'block')]}">
                 <field name="sale_id" invisible="1"/>
+                <field name="sale_warn" invisible="1"/>
                 <field name="client_order_ref"/>
-                <field name="partner_invoice_id" context="{'default_type': 'invoice'}"
-                    groups="sale.group_delivery_invoice_address"/>
-                <!-- partner_invoice_id can't show the full address because
-                    we are in edit mode -->
-                <field name="show_partner_invoice_id" options="{'always_reload': True}"
-                    context="{'show_address': 1}"
-                    groups="sale.group_delivery_invoice_address"/>
+                <field name="partner_invoice_id"
+                    context="{'default_type': 'invoice', 'show_address': 1}"
+                    options="{'always_reload': True}"
+                    groups="account.group_delivery_invoice_address"/>
                 <field name="partner_shipping_id"
-                    context="{'default_type': 'delivery'}"
-                    groups="sale.group_delivery_invoice_address"/>
-                <field name="show_partner_shipping_id" options="{'always_reload': True}"
-                    context="{'show_address': 1}"
-                    groups="sale.group_delivery_invoice_address"/>
+                    context="{'default_type': 'delivery', 'show_address': 1}"
+                    options="{'always_reload': True}"
+                    groups="account.group_delivery_invoice_address"/>
                 <field name="commitment_date"/>
                 <field name="payment_term_id"/>
             </group>
