@@ -25,7 +25,7 @@ class ProductTemplate(models.Model):
     default_code = fields.Char(tracking=30)
     categ_id = fields.Many2one(tracking=40)
     detailed_type = fields.Selection(tracking=50)
-    list_price = fields.Float(tracking=60)
+    list_price = fields.Float(tracking=60, default=0)  # native: default=1.0
     weight = fields.Float(tracking=70)
     sale_ok = fields.Boolean(tracking=80)
     purchase_ok = fields.Boolean(tracking=90)
