@@ -16,6 +16,9 @@
             <field name="categ_id" position="after">
                 <field name="seller_ids" string="Supplier" filter_domain="[('seller_ids.partner_id', 'ilike', self)]"/>
             </field>
+            <filter name="type" position="attributes">
+                <attribute name="context">{'group_by': 'detailed_type'}</attribute>
+            </filter>
         </field>
     </record>
 
