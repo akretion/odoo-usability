@@ -21,6 +21,8 @@ class ProductTemplate(models.Model):
     # are only shown in the form view of product.template, not in the form
     # view of product.product
     name = fields.Char(tracking=10)
+    uom_id = fields.Many2one(tracking=15)
+    uom_po_id = fields.Many2one(tracking=15)
     barcode = fields.Char(tracking=20)
     default_code = fields.Char(tracking=30)
     categ_id = fields.Many2one(tracking=40)
