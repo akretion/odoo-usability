@@ -9,4 +9,4 @@ from odoo import fields, models
 class ProductSupplierinfo(models.Model):
     _inherit = 'product.supplierinfo'
 
-    name = fields.Many2one(domain=[('parent_id', '=', False)])
+    name = fields.Many2one(domain=[('parent_id', '=', False)], ondelete='restrict')
