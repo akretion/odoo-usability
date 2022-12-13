@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2021-2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<!-- When you change the date, it resets the amount via the onchange
+So, in the view, the date should be BEFORE the amount -->
+<record id="view_account_payment_register_form" model="ir.ui.view">
+    <field name="model">account.payment.register</field>
+    <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+    <field name="arch" type="xml">
+        <label for="amount" position="before">
+            <field name="payment_date" position="move"/>
+        </label>
+    </field>
+</record>
+
+</odoo>

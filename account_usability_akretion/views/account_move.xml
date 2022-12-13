@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2015-2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="view_move_form" model="ir.ui.view">
+    <field name="name">account_usability.account.move.form</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_move_form"/>
+    <field name="arch" type="xml">
+        <!--
+        <field name="fiscal_position_id" position="attributes">
+            <attribute name="widget">selection</attribute>
+        </field>
+        <field name="invoice_incoterm_id" position="attributes">
+            <attribute name="widget">selection</attribute>
+        </field> -->
+        <button id="account_invoice_payment_btn" position="attributes">
+            <attribute name="class">btn-default</attribute>
+        </button>
+        <button name="action_register_payment" position="before">
+            <button name="%(account.account_invoices)d" type="action" string="Print" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"/>
+        </button>
+        <button name="preview_invoice" position="attributes">
+            <attribute name="attrs">{}</attribute>
+            <attribute name="invisible">1</attribute>
+        </button>
+        <!-- move sent field and make it visible -->
+        <field name="is_move_sent" position="replace"/>
+        <field name="invoice_origin" position="attributes">
+            <attribute name="invisible">0</attribute>
+        </field>
+        <field name="invoice_origin" position="after">
+            <field name="is_move_sent" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"/>
+        </field>
+        <xpath expr="//field[@name='line_ids']/tree/field[@name='tax_tag_ids']" position="after">
+            <field name="matching_number" optional="show"/>
+        </xpath>
+        <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="after">
+            <field name="product_barcode" optional="hide"/>
+        </xpath>
+    </field>
+</record>
+
+<record id="view_invoice_tree" model="ir.ui.view">
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_invoice_tree"/>
+    <field name="arch" type="xml">
+        <field name="amount_residual_signed" position="attributes">
+            <attribute name="optional">show</attribute>
+        </field>
+    </field>
+</record>
+
+<record id="view_account_invoice_filter" model="ir.ui.view">
+    <field name="name">account_usability.account.move.search</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+    <field name="arch" type="xml">
+        <filter name="due_date" position="after">
+            <separator/>
+             <filter name="to_send" string="To Send" domain="[('is_move_sent', '=', False), ('state', '=', 'posted'), ('move_type', 'in', ('out_invoice', 'out_refund'))]"/>
+             <filter name="sent" string="Sent" domain="[('is_move_sent', '=', True), ('move_type', 'in', ('out_invoice', 'out_refund'))]"/>
+            <separator/>
+            <filter name="no_attachment" string="Missing Attachment" domain="[('has_attachment', '=', False)]"/>
+        </filter>
+        <filter name="salesperson" position="before">
+            <filter name="commercial_partner_groupby" string="Commercial Partner" context="{'group_by': 'commercial_partner_id'}"/>
+        </filter>
+        <filter name="status" position="after">
+            <filter name="payment_state_groupby" string="Payment Status" context="{'group_by': 'payment_state'}"/>
+        </filter>
+    </field>
+</record>
+
+<record id="view_move_line_tree" model="ir.ui.view">
+    <field name="model">account.move.line</field>
+    <field name="inherit_id" ref="account.view_move_line_tree"/>
+    <field name="arch" type="xml">
+        <field name="analytic_distribution" position="after">
+            <button title="View Journal Entry Form" type="object" name="show_account_move_form" icon="fa-arrow-right"/>
+        </field>
+        <!-- balance is already present
+        <field name="credit" position="after">
+            <field name="balance" sum="Balance" optional="show"/>
+        </field>  -->
+    </field>
+</record>
+
+<record id="view_account_move_line_filter" model="ir.ui.view">
+    <field name="name">account_usability.account_move_line_search</field>
+    <field name="model">account.move.line</field>
+    <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+    <field name="arch" type="xml">
+        <field name="partner_id" position="after">
+            <field name="matching_number" />
+            <field name="debit" filter_domain="['|', ('debit', '=', self), ('credit', '=', self)]" string="Debit or Credit"/>
+        </field>
+        <filter name="unreconciled" position="before">
+            <filter name="reconciled" string="Fully Reconciled" domain="[('account_id.reconcile', '=', True), ('full_reconcile_id', '!=', False)]"/>
+        </filter>
+        <filter name="unreconciled" position="attributes">
+            <attribute name="string">Unreconciled or Partially Reconciled</attribute>
+        </filter>
+        <field name="name" position="attributes">
+            <attribute name="string">Label, Reference, Account or Partner</attribute>
+        </field>
+        <field name="name" position="before">
+            <field name="move_id" position="move"/>
+        </field>
+        <field name="partner_id" position="attributes">
+            <attribute name="domain">['|', ('parent_id', '=', False), ('is_company', '=', True)]</attribute>
+        </field>
+    </field>
+</record>
+
+
+</odoo>

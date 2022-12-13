@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2017-2022 Akretion France
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="account_invoice_mark_sent_form" model="ir.ui.view">
+    <field name="name">account.invoice.mark.sent.form</field>
+    <field name="model">account.invoice.mark.sent</field>
+    <field name="arch"  type="xml">
+        <form string="Mark invoices as sent">
+            <p>
+                This wizard will mark as <i>sent</i> all the selected posted invoices.
+            </p>
+            <footer>
+                <button type="object" name="run" string="Mark as Sent" class="btn-primary"/>
+                <button special="cancel" string="Cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="account_invoice_mark_sent_action" model="ir.actions.act_window">
+    <field name="name">Mark as Sent</field>
+    <field name="res_model">account.invoice.mark.sent</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+    <field name="binding_model_id" ref="account.model_account_move" />
+    <field name="binding_view_types">list</field>
+</record>
+
+</odoo>
