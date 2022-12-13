@@ -3,7 +3,11 @@
 <odoo>
 
 <record id="mrp.product_template_action" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,kanban</field>
+    <field name="view_mode">tree,form,kanban,activity</field>
+</record>
+
+<record id="mrp.mrp_product_variant_action" model="ir.actions.act_window">
+    <field name="view_mode">tree,form,kanban,activity</field>
 </record>
 
 </odoo>

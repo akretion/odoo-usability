@@ -6,4 +6,9 @@
     <field name="view_mode">tree,form,kanban,activity</field>
 </record>
 
+<record id="point_of_sale.product_product_action" model="ir.actions.act_window">
+    <field name="view_mode">tree,form,kanban,activity</field>
+</record>
+
+
 </odoo>
