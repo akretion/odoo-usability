@@ -42,7 +42,7 @@ class AccountMove(models.Model):
         for inv in self:
             has_discount = False
             for line in inv.invoice_line_ids:
-                if not line.display_type and not float_is_zero(line.discount, precision_digits=prec):
+                if line.display_type == 'product' and not float_is_zero(line.discount, precision_digits=prec):
                     has_discount = True
                     break
             inv.has_discount = has_discount
@@ -92,7 +92,7 @@ class AccountMove(models.Model):
 
     def delete_lines_qty_zero(self):
         lines = self.env['account.move.line'].search([
-            ('display_type', '=', False),
+            ('display_type', '=', 'product'),
             ('move_id', 'in', self.ids),
             ('quantity', '=', 0)])
         lines.unlink()
@@ -108,7 +108,7 @@ class AccountMove(models.Model):
         # Warning: the order of invoice line is forced in the view
         # <tree editable="bottom" default_order="sequence, date desc, move_name desc, id"
         # it's not the same as the _order in the class AccountMoveLine
-        lines = self.env['account.move.line'].search([('exclude_from_invoice_tab', '=', False), ('move_id', '=', self.id)], order="sequence, date desc, move_name desc, id")
+        lines = self.env['account.move.line'].search([('display_type', 'in', ('product', 'line_section', 'line_note')), ('move_id', '=', self.id)], order="sequence, date desc, move_name desc, id")
         for line in lines:
             if line.display_type == 'line_section':
                 # insert line
@@ -117,7 +117,7 @@ class AccountMove(models.Model):
                 subtotal = 0.0  # reset counter
                 has_sections = True
             else:
-                if not line.display_type:
+                if line.display_type == 'product':
                     subtotal += line.price_subtotal * sign
             res.append({'line': line})
         if has_sections:  # insert last subtotal line
@@ -125,8 +125,8 @@ class AccountMove(models.Model):
         # res:
         # [
         #    {'line': account_invoice_line(1) with display_type=='line_section'},
-        #    {'line': account_invoice_line(2) without display_type},
-        #    {'line': account_invoice_line(3) without display_type},
+        #    {'line': account_invoice_line(2) with display_type=='product'},
+        #    {'line': account_invoice_line(3) with display_type=='product'},
         #    {'line': account_invoice_line(4) with display_type=='line_note'},
         #    {'subtotal': 8932.23},
         # ]
