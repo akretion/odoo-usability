@@ -251,8 +251,7 @@ class AccountMoveLine(models.Model):
 #                    for pr in record.matched_debit_ids + record.matched_credit_ids
 #                ])
 
-    # TODO
-    def _get_computed_name(self):
+    def _compute_name(self):
         # This is useful when you want to have the product code in a dedicated
         # column in your customer invoice report
         # The same ir.config_parameter is used in sale_usability,
@@ -261,7 +260,7 @@ class AccountMoveLine(models.Model):
             'usability.line_name_no_product_code')
         if no_product_code_param and no_product_code_param == 'True':
             self = self.with_context(display_default_code=False)
-        return super()._get_computed_name()
+        return super()._compute_name()
 
     def reconcile(self):
         """Explicit error message if unposted lines"""

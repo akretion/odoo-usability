@@ -123,7 +123,7 @@ class SaleOrderLine(models.Model):
 #                }
 #        return res
 
-    def get_sale_order_line_multiline_description_sale(self, product):
+    def _get_sale_order_line_multiline_description_sale(self):
         # This is useful when you want to have the product code in a dedicated
         # column in your sale order report
         # The same ir.config_parameter is used in sale_usability,
@@ -131,5 +131,5 @@ class SaleOrderLine(models.Model):
         no_product_code_param = self.env['ir.config_parameter'].sudo().get_param(
             'usability.line_name_no_product_code')
         if no_product_code_param and no_product_code_param == 'True':
-            product = product.with_context(display_default_code=False)
-        return super().get_sale_order_line_multiline_description_sale(product)
+            self = self.with_context(display_default_code=False)
+        return super()._get_sale_order_line_multiline_description_sale()
