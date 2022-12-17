@@ -24,9 +24,3 @@ class StockPicking(models.Model):
         for pick in self:
             pick.message_post(body=_("Picking <b>unreserved</b>."))
         return res
-
-
-class StockPickingType(models.Model):
-    _inherit = 'stock.picking.type'
-
-    name = fields.Char(translate=False)
