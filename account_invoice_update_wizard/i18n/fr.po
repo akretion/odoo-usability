@@ -1,0 +1,235 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_invoice_update_wizard
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-12 10:25+0000\n"
+"PO-Revision-Date: 2021-02-12 11:30+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: fr\n"
+"X-Generator: Poedit 2.3.1\n"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__comment
+msgid "Additional Information"
+msgstr "Information complémentaire"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__price_subtotal
+msgid "Amount"
+msgstr "Montant"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__account_analytic_id
+msgid "Analytic Account"
+msgstr "Compte analytique"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__analytic_tag_ids
+msgid "Analytic Tags"
+msgstr "Étiquettes analytiques"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__partner_bank_id
+msgid "Bank Account"
+msgstr "Compte bancaire"
+
+#. module: account_invoice_update_wizard
+#: model_terms:ir.ui.view,arch_db:account_invoice_update_wizard.account_invoice_update_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__company_id
+msgid "Company"
+msgstr "Société"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__create_uid
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__create_date
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__name
+msgid "Description"
+msgstr "Description"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__display_name
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__display_type
+msgid "Display Type"
+msgstr "Type d'affichage"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__id
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model,name:account_invoice_update_wizard.model_account_invoice
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__invoice_id
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__invoice_line_id
+msgid "Invoice Line"
+msgstr "Ligne de facture"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__line_ids
+msgid "Invoice Lines"
+msgstr "Lignes de factures"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__reference
+msgid "Invoice Reference"
+msgstr "Référence de la facture"
+
+#. module: account_invoice_update_wizard
+#: model:ir.actions.act_window,name:account_invoice_update_wizard.account_invoice_update_action
+msgid "Invoice Update Wizard"
+msgstr "Assistant de mise à jour des factures"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update____last_update
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__write_uid
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__write_date
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: account_invoice_update_wizard
+#: code:addons/account_invoice_update_wizard/wizard/account_invoice_update.py:286
+#, python-format
+msgid "Non-legal fields of invoice updated via the Invoice Update wizard."
+msgstr "Champs non juridiques de la facture mis à jour via l'assistant de mise à jour des factures."
+
+#. module: account_invoice_update_wizard
+#: selection:account.invoice.line.update,display_type:0
+msgid "Note"
+msgstr "Note"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__partner_id
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__payment_term_id
+msgid "Payment Term"
+msgstr "Condition de règlement"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__quantity
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__name
+msgid "Reference/Description"
+msgstr "Référence/description"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__user_id
+msgid "Salesperson"
+msgstr "Vendeur"
+
+#. module: account_invoice_update_wizard
+#: selection:account.invoice.line.update,display_type:0
+msgid "Section"
+msgstr "Section"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__origin
+msgid "Source Document"
+msgstr "Document d'origine"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,help:account_invoice_update_wizard.field_account_invoice_line_update__display_type
+msgid "Technical field for UX purpose."
+msgstr "Champ technique utilisé à des fins ergonomiques"
+
+#. module: account_invoice_update_wizard
+#: code:addons/account_invoice_update_wizard/wizard/account_invoice_update.py:217
+#, python-format
+msgid "The original payment term '%s' doesn't have the same terms (number of terms and/or amount) as the new payment term '%s'. You can only switch to a payment term that has the same number of terms with the same amount."
+msgstr "La condition de paiement d'origine '%s' n'a pas les mêmes conditions (nombre de conditions et/ou montant) que la nouvelle condition de paiement '%s'. Vous ne pouvez passer qu'à une condition de paiement qui a le même nombre de conditions avec le même montant."
+
+#. module: account_invoice_update_wizard
+#: code:addons/account_invoice_update_wizard/wizard/account_invoice_update.py:193
+#, python-format
+msgid "This wizard doesn't support the update of payment terms on an invoice which is partially or fully paid."
+msgstr "Cet assistant ne prend pas en charge la mise à jour des modalités de paiement sur une facture qui est partiellement ou entièrement payée."
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_update__type
+msgid "Type"
+msgstr "Type"
+
+#. module: account_invoice_update_wizard
+#: model_terms:ir.ui.view,arch_db:account_invoice_update_wizard.account_invoice_update_form
+msgid "Update"
+msgstr "Mettre à jour"
+
+#. module: account_invoice_update_wizard
+#: model_terms:ir.ui.view,arch_db:account_invoice_update_wizard.invoice_form
+#: model_terms:ir.ui.view,arch_db:account_invoice_update_wizard.invoice_supplier_form
+msgid "Update Invoice"
+msgstr "Mettre à jour la facture"
+
+#. module: account_invoice_update_wizard
+#: model_terms:ir.ui.view,arch_db:account_invoice_update_wizard.account_invoice_update_form
+msgid "Update Invoice Wizard"
+msgstr "Assistant de mise à jour de facture"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model,name:account_invoice_update_wizard.model_account_invoice_line_update
+msgid "Update non-legal fields of invoice lines"
+msgstr "Mettre à jour les champs non juridiques des lignes de facturation"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,field_description:account_invoice_update_wizard.field_account_invoice_line_update__parent_id
+msgid "Wizard"
+msgstr "Assistant"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model,name:account_invoice_update_wizard.model_account_invoice_update
+msgid "Wizard to update non-legal fields of invoice"
+msgstr "Assistant pour mettre à jour les champs non juridiques de facture"
+
+#. module: account_invoice_update_wizard
+#: model:ir.model.fields,help:account_invoice_update_wizard.field_account_invoice_update__partner_id
+msgid "You can find a contact by its Name, TIN, Email or Internal Reference."
+msgstr "Vous pouvez trouver un fournisseur par son nom, numéro de TVA, courriel ou sa référence interne."
