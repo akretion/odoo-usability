@@ -51,6 +51,20 @@
     </field>
 </record>
 
+<record id="quant_search_view" model="ir.ui.view">
+    <field name="model">stock.quant</field>
+    <field name="inherit_id" ref="stock.quant_search_view"/>
+    <field name="arch" type="xml">
+        <!-- With the context set via the field location_id
+            odoo will set default_location_id to [self]
+            So, to make it work, we also inherit default_get
+            to convert from list of 1 ID to an ID -->
+        <field name="location_id" position="attributes">
+            <attribute name="context">{'search_location': self}</attribute>
+        </field>
+    </field>
+</record>
+
 <!--
 <record id="view_stock_quant_tree_editable" model="ir.ui.view">
     <field name="model">stock.quant</field>

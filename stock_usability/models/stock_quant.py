@@ -2,7 +2,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class StockQuant(models.Model):
@@ -27,3 +27,14 @@ class StockQuant(models.Model):
         ]
         action['context'] = {'create': 0}
         return action
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        if (
+                not res.get('location_id') and
+                self._context.get('search_location') and
+                isinstance(self._context['search_location'], list) and
+                len(self._context['search_location']) == 1):
+            res['location_id'] = self._context['search_location'][0]
+        return res
