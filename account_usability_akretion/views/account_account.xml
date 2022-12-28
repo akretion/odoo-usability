@@ -25,11 +25,8 @@
     <field name="model">account.account</field>
     <field name="inherit_id" ref="account.view_account_search"/>
     <field name="arch" type="xml">
-        <!-- The native "name" filter uses a domain ['|', ('name','ilike',self), ('code','=like',str(self)+'%')]
-        This is good because it uses '=like' on 'code', but sometimes there are digits in account names,
-        so you get additionnal unexpected accounts in the result of the search -->
         <field name="name" position="after">
-            <field name="code" filter_domain="[('code', '=like', str(self)+'%')]" string="Code"/>
+            <field name="code" filter_domain="[('code', '=like', self + '%')]" string="Code"/>
         </field>
         <filter name="accounttype" position="after">
             <filter name="group_groupby" string="Group" context="{'group_by': 'group_id'}"/>
