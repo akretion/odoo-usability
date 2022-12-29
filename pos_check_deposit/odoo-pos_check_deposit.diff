@@ -1,0 +1,79 @@
+diff --git a/addons/point_of_sale/models/pos_session.py b/addons/point_of_sale/models/pos_session.py
+index 31e39105612..fe74620369a 100644
+--- a/addons/point_of_sale/models/pos_session.py
++++ b/addons/point_of_sale/models/pos_session.py
+@@ -928,8 +928,13 @@ class PosSession(models.Model):
+         if not payment_method.journal_id:
+             return self.env['account.move.line']
+         outstanding_account = payment_method.outstanding_account_id or self.company_id.account_journal_payment_debit_account_id
+-        accounting_partner = self.env["res.partner"]._find_accounting_partner(payment.partner_id)
+-        destination_account = accounting_partner.property_account_receivable_id
++        # HACK for pos_check_deposit
++        if payment.partner_id:
++            accounting_partner = self.env["res.partner"]._find_accounting_partner(payment.partner_id)
++            destination_account = accounting_partner.property_account_receivable_id
++        else:
++            accounting_partner = False
++            destination_account = self._get_receivable_account(payment.payment_method_id)
+ 
+         if float_compare(amounts['amount'], 0, precision_rounding=self.currency_id.rounding) < 0:
+             # revert the accounts because account.payment doesn't accept negative amount.
+@@ -937,7 +942,7 @@ class PosSession(models.Model):
+ 
+         account_payment = self.env['account.payment'].create({
+             'amount': abs(amounts['amount']),
+-            'partner_id': payment.partner_id.id,
++            'partner_id': accounting_partner and accounting_partner.id or False,
+             'journal_id': payment_method.journal_id.id,
+             'force_outstanding_account_id': outstanding_account.id,
+             'destination_account_id': destination_account.id,
+@@ -1097,8 +1102,8 @@ class PosSession(models.Model):
+                 lines.filtered(lambda line: not line.reconciled).reconcile()
+ 
+         for payment, lines in payment_to_receivable_lines.items():
+-            if payment.partner_id.property_account_receivable_id.reconcile:
+-                lines.filtered(lambda line: not line.reconciled).reconcile()
++            # HACK for pos_check_deposit
++            lines.filtered(lambda line: line.account_id.reconcile and not line.reconciled).reconcile()
+ 
+         # Reconcile invoice payments' receivable lines. But we only do when the account is reconcilable.
+         # Though `account_default_pos_receivable_account_id` should be of type receivable, there is currently
+@@ -1176,15 +1181,17 @@ class PosSession(models.Model):
+                 return self._credit_amounts(partial_args, amount, amount_converted)
+ 
+     def _get_split_receivable_vals(self, payment, amount, amount_converted):
+-        accounting_partner = self.env["res.partner"]._find_accounting_partner(payment.partner_id)
+-        if not accounting_partner:
+-            raise UserError(_("You have enabled the \"Identify Customer\" option for %s payment method,"
+-                              "but the order %s does not contain a customer.") % (payment.payment_method_id.name,
+-                               payment.pos_order_id.name))
++        # HACK for pos_check_deposit
++        if payment.partner_id:
++            accounting_partner = self.env["res.partner"]._find_accounting_partner(payment.partner_id)
++            account_id = accounting_partner.property_account_receivable_id.id
++        else:
++            accounting_partner = False
++            account_id = self._get_receivable_account(payment.payment_method_id).id
+         partial_vals = {
+-            'account_id': accounting_partner.property_account_receivable_id.id,
++            'account_id': account_id,
+             'move_id': self.move_id.id,
+-            'partner_id': accounting_partner.id,
++            'partner_id': accounting_partner and accounting_partner.id or False,
+             'name': '%s - %s' % (self.name, payment.payment_method_id.name),
+         }
+         return self._debit_amounts(partial_vals, amount, amount_converted)
+diff --git a/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js b/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js
+index b9a237eb34c..62ad67e9517 100644
+--- a/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js
++++ b/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js
+@@ -288,7 +288,8 @@ odoo.define('point_of_sale.PaymentScreen', function (require) {
+                 return false;
+             }
+ 
+-            const splitPayments = this.paymentLines.filter(payment => payment.payment_method.split_transactions)
++            // HACK for pos_check_deposit
++            const splitPayments = this.paymentLines.filter(payment => payment.payment_method.identify_customer)
+             if (splitPayments.length && !this.currentOrder.get_partner()) {
+                 const paymentMethod = splitPayments[0].payment_method
+                 const { confirmed } = await this.showPopup('ConfirmPopup', {

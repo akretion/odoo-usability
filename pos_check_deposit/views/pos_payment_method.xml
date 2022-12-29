@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2022 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="pos_payment_method_view_form" model="ir.ui.view">
+    <field name="model">pos.payment.method</field>
+    <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
+    <field name="arch" type="xml">
+        <field name="split_transactions" position="after">
+            <field name="identify_customer" attrs="{'invisible': [('split_transactions', '=', False)]}"/>
+        </field>
+    </field>
+</record>
+
+<record id="pos_payment_method_view_tree" model="ir.ui.view">
+    <field name="model">pos.payment.method</field>
+    <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_tree"/>
+    <field name="arch" type="xml">
+        <field name="split_transactions" position="after">
+            <field name="identify_customer" attrs="{'invisible': [('split_transactions', '=', False)]}" optional="hide"/>
+        </field>
+    </field>
+</record>
+
+</odoo>
