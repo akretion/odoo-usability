@@ -19,4 +19,10 @@
     </field>
 </record>
 
+<!-- By default, the menu entry "CRM > Sales > My Activities" is limited to
+the sales Manager. The Sale user should be able to see it -->
+<record id="crm.crm_lead_menu_my_activities" model="ir.ui.menu">
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+</record>
+
 </odoo>
