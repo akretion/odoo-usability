@@ -23,7 +23,7 @@ Small usability improvements on mails:
     'website': 'http://www.akretion.com',
     'depends': ['mail'],
     'data': [
-        #'views/mail_view.xml',
+        'views/mail_activity.xml',
         #'data/mail_data.xml',
         #'wizard/email_template_preview_view.xml',
         #'wizard/mail_compose_message_view.xml',
