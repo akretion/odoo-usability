@@ -26,8 +26,27 @@
         <field name="summary" position="after">
             <field name="user_id" optional="show" widget="many2one_avatar_user"/>
         </field>
+        <field name="res_name" position="before">
+            <button name="jump_to_record" type="object" attrs="{'invisible': [('res_name', '=', False)]}" icon="fa-binoculars" string="Go to source" class="text-warning" invisible="not context.get('mail_activity_main_view')"/>
+        </field>
+        <field name="res_name" position="after">
+            <field name="res_model_name" invisible="not context.get('mail_activity_main_view')"/>
+        </field>
     </field>
 </record>
 
+<record id="mail_activity_view_form_popup" model="ir.ui.view">
+    <field name="model">mail.activity</field>
+    <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+    <field name="arch" type="xml">
+        <field name="activity_type_id" position="before">
+            <field name="res_name" invisible="not context.get('mail_activity_main_view')"/>
+            <field name="res_model_name" invisible="not context.get('mail_activity_main_view')"/>
+        </field>
+        <button name="action_close_dialog" position="before">
+            <button name="jump_to_record" type="object" attrs="{'invisible': [('res_id', '=', False)]}" class="btn-primary" string="Go to source" invisible="not context.get('mail_activity_main_view')"/>
+        </button>
+    </field>
+</record>
 
 </odoo>
