@@ -270,7 +270,8 @@ class ProductPrintZplBarcode(models.TransientModel):
             'zpl_filename': 'barcode_%s.zpl' % vals['barcode'],
             })
         self.write(vals)
-        action = self.env.ref('product_print_zpl_barcode.product_print_zpl_barcode_action').sudo().read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            'product_print_zpl_barcode.product_print_zpl_barcode_action')
         action.update({
             'res_id': self.id,
             'context': self._context,
@@ -285,7 +286,8 @@ class ProductPrintZplBarcode(models.TransientModel):
             self.zpl_filename, base64.decodebytes(self.zpl_file), format='raw')
         action = True
         if self._context.get('print_and_new'):
-            action = self.env.ref('product_print_zpl_barcode.product_print_zpl_barcode_action').sudo().read()[0]
+            action = self.env["ir.actions.actions"]._for_xml_id(
+                'product_print_zpl_barcode.product_print_zpl_barcode_action')
             action.update({
                 'views': False,
                 'context': self._context,
