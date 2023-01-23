@@ -13,6 +13,9 @@
     <field name="model">account.bank.statement</field>
     <field name="inherit_id" ref="account.view_bank_statement_form"/>
     <field name="arch" type="xml">
+        <button name="button_reopen" position="attributes">
+            <attribute name="confirm">Are you sure ? Don't do 'Reset to New' if you just want to modify the bank journal entry of an existing statement line.</attribute>
+        </button>
         <button name="button_reopen" position="after">
             <button
                 name="button_undo_reconciliation"
