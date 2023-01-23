@@ -6,7 +6,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from stdnum.ean import calc_check_digit, is_valid
 from barcode import EAN13, EAN8
-from barcode.writer import ImageWriter
+from barcode.writer import ImageWriter, SVGWriter
 import base64
 import io
 
@@ -50,28 +50,48 @@ class ProductProduct(models.Model):
     _inherit = 'product.product'
 
     # Not useful for ZPL, but it is often useful to have a barcode image field
-    barcode_image = fields.Binary(
-        compute='_compute_barcode_image',
+    barcode_image_png = fields.Binary(
+        compute='_compute_barcode_image_png',
+        string='Barcode Image')
+    barcode_image_svg = fields.Binary(
+        compute='_compute_barcode_image_svg',
         string='Barcode Image')
 
+    def _get_barcode_image(self, img_format):
+        self.ensure_one()
+        barcode = self.barcode
+        if not barcode:
+            return False
+        res = False
+        if isinstance(barcode, str) and len(barcode) in (8, 13) and is_valid(barcode):
+            barcode_obj = False
+            if img_format == 'svg':
+                writer = SVGWriter()
+            elif img_format == 'png':
+                writer = ImageWriter()
+            else:
+                return False
+            if len(barcode) == 13:
+                barcode_obj = EAN13(barcode, writer=writer, guardbar=True)
+            elif len(barcode) == 8:
+                barcode_obj = EAN8(barcode, writer=writer, guardbar=True)
+            if barcode_obj:
+                barcode_file = io.BytesIO()
+                barcode_obj.write(barcode_file)
+                barcode_file.seek(0)
+                barcode_img = barcode_file.read()
+                res = base64.b64encode(barcode_img)
+        return res
+
     @api.depends('barcode')
-    def _compute_barcode_image(self):
+    def _compute_barcode_image_svg(self):
         for product in self:
-            barcode = product.barcode
-            barcode_image = False
-            if barcode:
-                barcode_obj = False
-                if len(barcode) == 13 and is_valid(barcode):
-                    barcode_obj = EAN13(barcode, writer=ImageWriter(), guardbar=True)
-                elif len(barcode) == 8 and is_valid(barcode):
-                    barcode_obj = EAN8(barcode, writer=ImageWriter(), guardbar=True)
-                if barcode_obj:
-                    barcode_file = io.BytesIO()
-                    barcode_obj.write(barcode_file)  # generate PNG
-                    barcode_file.seek(0)
-                    barcode_img = barcode_file.read()
-                    barcode_image = base64.b64encode(barcode_img)
-            product.barcode_image = barcode_image
+            product.barcode_image_svg = product._get_barcode_image('svg')
+
+    @api.depends('barcode')
+    def _compute_barcode_image_png(self):
+        for product in self:
+            product.barcode_image_png = product._get_barcode_image('png')
 
     def generate_barcode_from_product_product(self):
         self.ensure_one()
