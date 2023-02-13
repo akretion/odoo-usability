@@ -48,7 +48,7 @@ class ProductTemplate(models.Model):
     _inherit = ['product.template', 'product.categ.tax.mixin']
     _name = 'product.template'
 
-    @api.constrains('taxes_id', 'supplier_taxes_id')
+    @api.constrains('taxes_id', 'supplier_taxes_id', 'categ_id')
     def _check_tax_categ(self):
         # self.name != 'Pay Debt' is a stupid hack to avoid blocking the
         # installation of the module 'pos_debt_notebook'
