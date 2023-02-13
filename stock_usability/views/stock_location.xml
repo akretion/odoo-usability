@@ -30,12 +30,22 @@
     <field name="context">{'default_location_id': active_id, 'search_default_location_id': active_id}</field>
 </record>
 
+<record id="location_open_quants_regular_tree" model="ir.actions.act_window">
+    <field name="name">Quants</field>
+    <field name="res_model">stock.quant</field>
+    <field name="domain">[('location_id', 'child_of', active_ids)]</field>
+    <field name="view_id" ref="stock_usability.stock_quant_tree_simple"/>
+</record>
+
 <record id="view_location_form" model="ir.ui.view">
     <field name="name">stock.usability.stock.location.form</field>
     <field name="model">stock.location</field>
     <field name="inherit_id" ref="stock.view_location_form"/>
     <field name="arch" type="xml">
         <div name="button_box" position="inside">
+            <button type="action" name="%(location_open_quants_regular_tree)d"
+                string="Quants"
+                class="oe_stat_button" icon="fa-cubes"/>
             <button type="action" name="%(location_open_orderpoint)d"
                 string="Reordering Rules"
                 class="oe_stat_button" icon="fa-refresh"/>
