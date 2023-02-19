@@ -64,7 +64,7 @@ class ProductTemplate(models.Model):
                     "The sale taxes configured on the product '%s' "
                     "are not the same as the sale taxes configured "
                     "on it's related internal category '%s'.")
-                    % (self.name, self.categ_id.name_get()[0][1]))
+                    % (self.name, self.categ_id.display_name))
             if (
                     self.categ_id.purchase_tax_ids.ids !=
                     self.supplier_taxes_id.ids):
@@ -72,7 +72,7 @@ class ProductTemplate(models.Model):
                     "The purchase taxes configured on the product '%s' "
                     "are not the same as the purchase taxes configured "
                     "on it's related internal category '%s'.")
-                    % (self.name, self.categ_id.name_get()[0][1]))
+                    % (self.name, self.categ_id.display_name))
 
 
 class ProductProduct(models.Model):
