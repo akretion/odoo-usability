@@ -36,11 +36,15 @@ class ProductCategTaxMixin(models.AbstractModel):
 
     @api.model
     def create(self, vals):
+        # suspend_security() is needed to read/set taxes in all companies
+        self = self.suspend_security()
         self.write_or_create(vals)
         return super(ProductCategTaxMixin, self).create(vals)
 
     @api.multi
     def write(self, vals):
+        # suspend_security() is needed to read/set taxes in all companies
+        self = self.suspend_security()
         self.write_or_create(vals)
         return super(ProductCategTaxMixin, self).write(vals)
 

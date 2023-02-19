@@ -12,7 +12,7 @@
     'description': "",
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['account'],
+    'depends': ['account', 'base_suspend_security'],
     'data': ['product_view.xml'],
     'installable': True,
 }
