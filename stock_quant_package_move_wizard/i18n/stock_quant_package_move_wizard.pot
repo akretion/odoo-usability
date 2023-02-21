@@ -1,0 +1,214 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* stock_quant_package_move_wizard
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-02-13 21:58+0000\n"
+"PO-Revision-Date: 2023-02-13 21:58+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_quant_package_move_wizard
+#: model_terms:ir.ui.view,arch_db:stock_quant_package_move_wizard.stock_quant_move_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#. odoo-python
+#: code:addons/stock_quant_package_move_wizard/models/stock_quant.py:0
+#, python-format
+msgid "Cannot move to '%s' which is a view location."
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard__company_id
+msgid "Company"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard__create_uid
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard__create_date
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__src_location_id
+msgid "Current Location"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,help:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__uom_id
+msgid "Default unit of measure used for all stock operations."
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard__location_dest_id
+msgid "Destination Location"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard__display_name
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard__id
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__id
+msgid "ID"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard____last_update
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard__write_uid
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard__write_date
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard__line_ids
+msgid "Lines"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model,name:stock_quant_package_move_wizard.model_stock_quant_move_wizard_line
+msgid "Lines of the wizard to move quants"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__lot_id
+msgid "Lot/Serial Number"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model_terms:ir.ui.view,arch_db:stock_quant_package_move_wizard.stock_quant_move_wizard_form
+msgid "Move"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.actions.act_window,name:stock_quant_package_move_wizard.stock_quant_move_wizard_action
+msgid "Move to Another Location"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__quant_quantity
+msgid "On Hand Qty"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard__picking_type_id
+msgid "Picking Type"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__product_id
+msgid "Product"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__quantity
+msgid "Qty to Move"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__quant_id
+msgid "Quant"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__wizard_id
+msgid "Quant Move"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,help:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__quant_quantity
+msgid ""
+"Quantity of products in this quant, in the default unit of measure of the "
+"product"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model,name:stock_quant_package_move_wizard.model_stock_quant
+msgid "Quants"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard__origin
+msgid "Source Document"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model_terms:ir.ui.view,arch_db:stock_quant_package_move_wizard.stock_quant_move_wizard_form
+msgid "Unit"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model.fields,field_description:stock_quant_package_move_wizard.field_stock_quant_move_wizard_line__uom_id
+msgid "Unit of Measure"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#: model:ir.model,name:stock_quant_package_move_wizard.model_stock_quant_move_wizard
+msgid "Wizard to Move Quants"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#. odoo-python
+#: code:addons/stock_quant_package_move_wizard/models/stock_quant.py:0
+#, python-format
+msgid ""
+"You are trying to move %(qty)s %(uom)s of a quant of product "
+"%(product_name)s that has a quantity of %(quant_quantity)s %(uom)s."
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#. odoo-python
+#: code:addons/stock_quant_package_move_wizard/models/stock_quant.py:0
+#, python-format
+msgid ""
+"You are trying to move %(qty)s %(uom)s of a quant of product "
+"%(product_name)s to %(dest_location)s, but it is already on that location!"
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#. odoo-python
+#: code:addons/stock_quant_package_move_wizard/models/stock_quant.py:0
+#, python-format
+msgid ""
+"You are trying to move %(qty)s %(uom)s of a quant of product "
+"%(product_name)s, but that quant has a negative quantity (%(quant_quantity)s"
+" %(uom)s)."
+msgstr ""
+
+#. module: stock_quant_package_move_wizard
+#. odoo-python
+#: code:addons/stock_quant_package_move_wizard/models/stock_quant.py:0
+#, python-format
+msgid ""
+"You are trying to move %(qty)s %(uom)s of a quant of product "
+"%(product_name)s: the quantity to move must be strictly positive."
+msgstr ""
