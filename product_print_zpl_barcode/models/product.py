@@ -52,10 +52,10 @@ class ProductProduct(models.Model):
     # Not useful for ZPL, but it is often useful to have a barcode image field
     barcode_image_png = fields.Binary(
         compute='_compute_barcode_image_png',
-        string='Barcode Image')
+        string='PNG Barcode Image')
     barcode_image_svg = fields.Binary(
         compute='_compute_barcode_image_svg',
-        string='Barcode Image')
+        string='SVG Barcode Image')
 
     def _get_barcode_image(self, img_format):
         self.ensure_one()
