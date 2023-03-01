@@ -5,7 +5,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.tools import float_compare, float_is_zero
-from stdnum.ean import is_valid
+from stdnum.ean import is_valid, calc_check_digit
 import base64
 import re
 
@@ -55,8 +55,7 @@ class ProductPrintZplBarcode(models.TransientModel):
 
     product_id = fields.Many2one(
         'product.product', string='Product', required=True, readonly=True)
-    uom_id = fields.Many2one(
-        related='product_id.uom_id', readonly=True)
+    uom_id = fields.Many2one(related='product_id.uom_id')
     # 1 line = un peu moins de 30
     product_name = fields.Char('Product Label', required=True, size=56)
     nomenclature_id = fields.Many2one(
@@ -64,15 +63,13 @@ class ProductPrintZplBarcode(models.TransientModel):
     rule_id = fields.Many2one(
         'barcode.rule', string='Barcode Rule', readonly=True,
         compute='_compute_rule_id')
-    barcode_type = fields.Selection(
-        related='rule_id.type', readonly=True, string="Barcode Type")
+    barcode_type = fields.Selection(related='rule_id.type', string="Barcode Type")
     label_size = fields.Selection([
         ('38x25', '38x25 mm'),
-        ], required=True, default='38x25', string='Label Size')
+        ], required=True, default='38x25')
     pricelist_id = fields.Many2one(
         'product.pricelist', string='Pricelist', required=True)
-    currency_id = fields.Many2one(
-        related='pricelist_id.currency_id', readonly=True)
+    currency_id = fields.Many2one(related='pricelist_id.currency_id')
     # TODO: for the moment, we only support weight, but...
     quantity = fields.Float(digits='Stock Weight')
     price_uom = fields.Monetary(
@@ -97,7 +94,7 @@ class ProductPrintZplBarcode(models.TransientModel):
         # for regular barcodes
         for wiz in self:
             if wiz.pricelist_id and wiz.product_id:
-                price_uom = wiz.pricelist_id.get_product_price(
+                price_uom = wiz.pricelist_id._get_product_price(
                     wiz.product_id, 1, False)
                 wiz.price_uom = price_uom
                 wiz.price = price_uom * wiz.quantity
@@ -140,14 +137,14 @@ class ProductPrintZplBarcode(models.TransientModel):
                 "of the barcode pattern (%s).")
                 % (pbarcode, len(pbarcode), len(prefix), prefix))
         barcode = pbarcode[0:len(prefix)]
-        # print "barcode=", barcode
-        # print "pattern=", pattern
+        # print("barcode=", barcode)
+        # print("pattern=", pattern)
         m = re.search('\{N+D+\}', pattern)
-        # print "m=", m
+        # print("m=", m)
         assert m
         pattern_val = m.group(0)
         pattern_val = pattern_val[1:-1]
-        # print "pattern_val=", pattern_val
+        # print("pattern_val=", pattern_val)
         max_value = 10**pattern_val.count('N')
         if float_compare(value, max_value, precision_digits=prec) != -1:
             raise UserError(_(
@@ -166,11 +163,15 @@ class ProductPrintZplBarcode(models.TransientModel):
         value_d_ext = value_d + '0' * pattern_val.count('D')
         # 2) cut at the right size
         barcode += value_d_ext[0:pattern_val.count('D')]
-        # print "barcode=", barcode
+        # print("barcode=", barcode)
         # Add checksum
         if self.rule_id.encoding == 'ean13':
-            barcode = bno.sanitize_ean(barcode)
-            # print "barcode FINAL=", barcode
+            # I don't call bno.sanitize_ean() due to this bug:
+            # https://github.com/odoo/odoo/pull/114112
+            barcode = barcode + calc_check_digit(barcode)
+            assert len(barcode) == 13
+            assert is_valid(barcode)
+            # print("barcode FINAL=", barcode)
         zpl_unicode = self._price_weight_barcode_type_zpl() % {
             'product_name': self.product_name,
             'ean_zpl_command': len(self.barcode) == 8 and 'B8' or 'BE',
@@ -270,7 +271,8 @@ class ProductPrintZplBarcode(models.TransientModel):
             'zpl_filename': 'barcode_%s.zpl' % vals['barcode'],
             })
         self.write(vals)
-        action = self.env.ref('product_print_zpl_barcode.product_print_zpl_barcode_action').sudo().read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            'product_print_zpl_barcode.product_print_zpl_barcode_action')
         action.update({
             'res_id': self.id,
             'context': self._context,
@@ -285,7 +287,8 @@ class ProductPrintZplBarcode(models.TransientModel):
             self.zpl_filename, base64.decodebytes(self.zpl_file), format='raw')
         action = True
         if self._context.get('print_and_new'):
-            action = self.env.ref('product_print_zpl_barcode.product_print_zpl_barcode_action').sudo().read()[0]
+            action = self.env["ir.actions.actions"]._for_xml_id(
+                'product_print_zpl_barcode.product_print_zpl_barcode_action')
             action.update({
                 'views': False,
                 'context': self._context,

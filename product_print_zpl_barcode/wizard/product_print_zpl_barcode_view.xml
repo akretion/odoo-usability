@@ -27,10 +27,10 @@
                 <field name="copies" attrs="{'readonly': [('state', '=', 'step2')]}"/>
             </group>
             <group string="Enter Quantity" attrs="{'invisible': [('barcode_type', '=', 'product')]}">
-                <div name="qty_uom">
+                <label for="quantity"/>
+                <div name="qty_uom" class="o_row">
                     <field name="quantity" attrs="{'readonly': [('state', '=', 'step2')]}" class="oe_inline"/>
-                    <field name="uom_id" class="oe_inline"/>
-                </div>
+                    <field name="uom_id" class="oe_inline" style="margin-left: 5px"/>        </div>
             </group>
             <group name="step2" states="step2" string="Label">
                 <field name="price" attrs="{'invisible': [('barcode_type', 'not in', ('price', 'weight'))]}"/>

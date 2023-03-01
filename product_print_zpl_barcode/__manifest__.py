@@ -4,7 +4,7 @@
 
 {
     'name': 'Product Generate Price Weight Barcode',
-    'version': '14.0.1.0.0',
+    'version': '16.0.1.0.0',
     'category': 'Extra Tools',
     'license': 'AGPL-3',
     'summary': 'Add a wizard to print product barcode stickers on ZPL printer',
@@ -32,7 +32,7 @@ This module has been written by Alexis de Lattre from Akretion
 <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    'website': 'https://github.com/akretion/odoo-usability',
     # We depend on point_of_sale and not only 'product'
     # because the price barcode rule is added by the point_of_sale module
     # (the weight barcode rule is added by the stock module)
@@ -41,11 +41,12 @@ This module has been written by Alexis de Lattre from Akretion
         'barcodes',
         'base_report_to_printer',
         ],
+    'external_dependencies': {'python': ['python-barcode>=0.14.0']},
     'data': [
         'security/ir.model.access.csv',
         'wizard/product_print_zpl_barcode_view.xml',
         'views/product.xml',
         'data/barcode_sequence.xml',
     ],
-    'installable': False,
+    'installable': True,
 }
