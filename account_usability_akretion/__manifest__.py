@@ -24,7 +24,6 @@
         'views/account_menu.xml',
         'views/account_tax.xml',
 #        'views/product.xml',  # TODO
-        'views/res_partner.xml',
         'views/res_company.xml',
         'views/account_report.xml',
         'wizard/account_invoice_mark_sent_view.xml',
