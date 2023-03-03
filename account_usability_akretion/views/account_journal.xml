@@ -12,10 +12,11 @@
     <field name="model">account.journal</field>
     <field name="inherit_id" ref="account.view_account_journal_form"/>
     <field name="arch" type="xml">
-        <field name="bank_statements_source" position="after">
-            <field name="hide_bank_statement_balance" groups="account.group_account_readonly"/>
-                    <!--            <field name="account_type_current_assets_id" invisible="1"/> -->
-        </field>
+        <xpath expr="//field[@name='account_control_ids']/.." position="after">
+            <group name="usability" string="Misc" attrs="{'invisible': [('type', '!=', 'bank')]}">
+                <field name="hide_bank_statement_balance" groups="account.group_account_readonly"/>
+            </group>
+        </xpath>
         <!--
         <field name="suspense_account_id" position="attributes">
             <attribute name="context">{'default_user_type_id': account_type_current_assets_id, 'default_reconcile': False}</attribute>
