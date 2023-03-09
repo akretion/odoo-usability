@@ -29,7 +29,6 @@
         'views/account_tax.xml',
         'views/product.xml',
         'views/res_config_settings.xml',
-        'views/res_partner.xml',
         'views/res_company.xml',
         'views/account_report.xml',
         'views/account_reconcile_model.xml',
