@@ -46,7 +46,7 @@ class BankReconciliationXlsx(models.AbstractModel):
             limit_datetime = limit_datetime_utc.replace(tzinfo=None)
             domain += [
                 '|', ('full_reconcile_id', '=', False),
-                ('full_reconcile_id.create_date', '<=', limit_datetime)]
+                ('full_reconcile_id.create_date', '>', limit_datetime)]
         self._domain_add_move_state(wizard, domain)
         mlines = self.env["account.move.line"].search(domain)
         res = []
