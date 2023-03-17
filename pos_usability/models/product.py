@@ -8,5 +8,6 @@ from odoo import fields, models
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    available_in_pos = fields.Boolean(tracking=True)
+    available_in_pos = fields.Boolean(tracking=True, default=True)
+    to_weight = fields.Boolean(tracking=True)
     pos_categ_id = fields.Many2one(tracking=True)

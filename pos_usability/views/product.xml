@@ -15,7 +15,9 @@
     <field name="model">product.template</field>
     <field name="inherit_id" ref="point_of_sale.product_template_form_view"/>
     <field name="arch" type="xml">
-        <xpath expr="//group[@name='pos']//field[@name='available_in_pos']" position="replace"/>
+	<xpath expr="//group[@name='pos']//field[@name='available_in_pos']" position="attributes">
+	    <attribute name="invisible">1</attribute>
+        </xpath>
         <xpath expr="//div[@name='options']//field[@name='sale_ok']/.." position="after">
             <div name="available_in_pos">
                 <field name="available_in_pos"/>
@@ -33,9 +35,6 @@
         <field name="categ_id" position="after">
             <field name="pos_categ_id" filter_domain="[('pos_categ_id', 'child_of', raw_value)]"/>
         </field>
-        <filter name="categ_id" position="after">
-            <filter name="pos_categ_groupby" string="Point of Sale Category" context="{'group_by': 'pos_categ_id'}"/>
-        </filter>
     </field>
 </record>
 

@@ -4,6 +4,7 @@
 
 <template id="report_saledetails" inherit_id="point_of_sale.report_saledetails">
 
+    <!-- In tax table, add a column for the TTC amount -->
     <xpath expr="//table[3]/thead/tr/th[3]" position="after">
         <th>Amount</th>
     </xpath>

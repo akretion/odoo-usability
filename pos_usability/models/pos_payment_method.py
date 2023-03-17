@@ -9,4 +9,6 @@ class PosPaymentMethod(models.Model):
     _inherit = 'pos.payment.method'
     _check_company_auto = True
 
-    cash_journal_id = fields.Many2one(check_company=True)
+    outstanding_account_id = fields.Many2one(check_company=True)
+    receivable_account_id = fields.Many2one(check_company=True)
+    journal_id = fields.Many2one(check_company=True)

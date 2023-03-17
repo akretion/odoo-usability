@@ -4,7 +4,7 @@
 
 {
     "name": "POS Usability",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "category": "Point of sale",
     "license": "AGPL-3",
     "summary": "Misc usability improvement for point of sale",
@@ -33,5 +33,5 @@ Akretion:
         "views/pos_session.xml",
         "views/product.xml",
         ],
-    "installable": False,
+    "installable": True,
 }

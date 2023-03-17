@@ -15,20 +15,6 @@
         <button name="show_journal_items" position="after">
             <button name="%(point_of_sale.action_report_pos_order_all)d" type="action" class="oe_stat_button" icon="fa-table" string="Stats" context="{'search_default_session_id': active_id}"/>
         </button>
-        <xpath
-            expr="//field[@name='cash_register_total_entry_encoding']/parent::group"
-            position="before"
-        >
-        <group>
-            <field
-                    style="text-align:right;margin:0;padding:0;"
-                    name="cash_register_balance_start"
-                    widget="monetary"
-                    options="{'currency_field': 'currency_id'}"
-                    string="Starting Balance"
-                />
-        </group>
-        </xpath>
     </field>
 </record>
 
