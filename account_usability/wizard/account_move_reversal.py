@@ -12,13 +12,14 @@ class AccountMoveReversal(models.TransientModel):
 
     # Set default reversal date to original move + 1 day
     # and raise error if original move has already been reversed
+    # WARNING: this wizard is also used to generate refunds
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
         assert self._context.get('active_model') == 'account.move'
         amo = self.env['account.move']
         moves = amo.browse(self._context['active_ids'])
-        if len(moves) == 1:
+        if len(moves) == 1 and moves.move_type not in ('out_invoice', 'in_invoice'):
             res['date'] = moves.date + relativedelta(days=1)
         reversed_move = amo.search([('reversed_entry_id', 'in', moves.ids)], limit=1)
         if reversed_move:
