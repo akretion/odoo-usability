@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+<record id="view_ir_config_list" model="ir.ui.view">
+    <field name="model">ir.config_parameter</field>
+    <field name="inherit_id" ref="base.view_ir_config_list"/>
+    <field name="arch" type="xml">
+        <xpath expr="//tree/field[last()]" position="after">
+            <field name="write_date"/>
+        </xpath>
+    </field>
+</record>
+
+</odoo>

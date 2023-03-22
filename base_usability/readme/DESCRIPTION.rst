@@ -23,3 +23,4 @@ This module adds the following functions:
 * Remove empty lines in address
 * Add bank Name field on res.partner.bank
 * Partners auto-created for users are Suppliers and not Customers
+* Add write_date on ir.config_parameter
