@@ -1,12 +1,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Developer Menu',
-    'version': '12.0.0.0.0',
-    'category': 'Tools',
-    'license': 'AGPL-3',
-    'summary': "Menu Shortcut for developer usage",
-    'description': """
+    "name": "Developer Menu",
+    "version": "14.0.0.0.0",
+    "category": "Tools",
+    "license": "AGPL-3",
+    "summary": "Menu Shortcut for developer usage",
+    "description": """
 Developer menu
 ==============
 
@@ -21,11 +21,13 @@ near `Technical` menu
 This module has been written by David Béal
 from Akretion <david.beal@akretion.com>.
     """,
-    'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['mail'],
-    'data': [
-        'menu_view.xml'
+    "author": "Akretion",
+    "website": "https://www.akretion.com",
+    "depends": [
+        "mail",
     ],
-    'installable': False,
+    "data": [
+        "menu_view.xml",
+    ],
+    "installable": True,
 }
