@@ -400,11 +400,6 @@ msgstr ""
 "exception avec le message et bloquera le flux. Le message doit être écrit dans le champ suivant."
 
 #. module: sale_usability
-#: model_terms:ir.ui.view,arch_db:sale_usability.view_order_form
-msgid "Send Order Acknowledgement"
-msgstr "Confirmation de commande"
-
-#. module: sale_usability
 #: model_terms:ir.ui.view,arch_db:sale_usability.view_sales_order_filter
 msgid "State"
 msgstr "État"
