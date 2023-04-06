@@ -43,6 +43,16 @@
         <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="after">
             <field name="product_barcode" optional="hide"/>
         </xpath>
+        <xpath expr="//button[@name='open_duplicated_ref_bill_view']/.." position="attributes">
+            <!-- show duplicate warning not only in draft state, but also in posted state -->
+            <attribute name="attrs">{'invisible': ['|', ('state', '=', 'cancel'), ('duplicated_ref_ids', '=', [])]}</attribute>
+        </xpath>
+        <button name="button_cancel" attrs="{'invisible' : ['|', '|', ('id', '=', False), ('state', '!=', 'draft'),('move_type', '!=', 'entry')]}" position="attributes">
+            <attribute name="confirm">Are you sure you want to cancel this journal entry?</attribute>
+        </button>
+        <button name="button_cancel" attrs="{'invisible' : ['|', '|', ('id', '=', False), ('state', '!=', 'draft'),('move_type', '==', 'entry')]}" position="attributes">
+            <attribute name="confirm">Are you sure you want to cancel this invoice?</attribute>
+        </button>
     </field>
 </record>
 
