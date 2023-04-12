@@ -32,7 +32,7 @@ This modules adds the following functions:
 * A wizard to mark several invoices as sent at once (forward from v8)
 * Default date for Account Move Reversal is now D+1 instead of today
 * Track more fields on invoice (see details in account.py)
-* Add boolean fields `has_discount` and `has_attachment` on invoice
+* Add boolean fields `has_line_discount` and `has_attachment` on invoice
 * Add button "Delete line qty = 0" on supplier invoice
 * Cut name_get() of invoice if too long
 * A script for if Odoo screws up invoice attachment filename

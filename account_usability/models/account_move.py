@@ -28,8 +28,8 @@ class AccountMove(models.Model):
     fiscal_position_id = fields.Many2one(tracking=True)
     amount_total = fields.Monetary(tracking=True)
     # for invoice report
-    has_discount = fields.Boolean(
-        compute='_compute_has_discount', readonly=True)
+    has_line_discount = fields.Boolean(
+        compute='_compute_has_line_discount', readonly=True)
     # has_attachment is useful for those who use attachment to archive
     # supplier invoices. It allows them to find supplier invoices
     # that don't have any attachment
@@ -41,15 +41,15 @@ class AccountMove(models.Model):
         help="This information appear on invoice qweb report "
              "(you may use it for your own report)")
 
-    def _compute_has_discount(self):
+    def _compute_has_line_discount(self):
         prec = self.env['decimal.precision'].precision_get('Discount')
         for inv in self:
-            has_discount = False
+            has_line_discount = False
             for line in inv.invoice_line_ids:
                 if not line.display_type and not float_is_zero(line.discount, precision_digits=prec):
-                    has_discount = True
+                    has_line_discount = True
                     break
-            inv.has_discount = has_discount
+            inv.has_line_discount = has_line_discount
 
     def _compute_has_attachment(self):
         iao = self.env['ir.attachment']
