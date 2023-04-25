@@ -26,18 +26,19 @@
     <field name="model">purchase.report</field>
     <field name="arch" type="xml">
         <tree>
+            <field name="order_id" optional="show"/>
             <field name="commercial_partner_id"/>
-            <field name="date_order"/>
-            <field name="date_approve"/>
+            <field name="date_order" optional="show"/>
+            <field name="date_approve" optional="show"/>
             <field name="product_id"/>
             <field name="qty_ordered" sum="1"/>
             <field name="qty_received" sum="1"/>
             <field name="qty_billed" sum="1"/>
-            <field name="product_uom"/>
+            <field name="product_uom" groups="uom.group_uom"/>
             <field name="price_total" sum="1"/>
-            <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+            <field name="account_analytic_id" groups="analytic.group_analytic_accounting" optional="show"/>
             <field name="currency_id" invisible="1"/>
-            <field name="user_id"/>
+            <field name="user_id" optional="hide"/>
             <field name="state"/>
         </tree>
     </field>
