@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2023 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+-->
+
+<odoo>
+
+<record id="view_picking_form" model="ir.ui.view">
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">
+        <button name="button_validate" type="object" class="oe_highlight" position="before">
+            <button name="button_stock_move_line_autofill" type="object" string="Auto-Fill" attrs="{'invisible': ['|', ('state', '!=', 'assigned'), ('autofill_done', '=', True)]}" groups="stock.group_stock_user" help="This button will copy the 'Reserved' qty on the 'Done' qty for all the operations of this picking with a null 'Done' qty."/>
+        </button>
+        <field name="origin" position="after">
+            <field name="autofill_done" invisible="1"/>
+        </field>
+    </field>
+</record>
+
+</odoo>
