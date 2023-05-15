@@ -26,7 +26,7 @@ This module has been written by Alexis de Lattre from Akretion
     'author': 'Akretion',
     'maintainers': ['alexis-via'],
     'website': 'https://github.com/akretion/odoo-usability',
-    'depends': ['sale', 'account_product_fiscal_classification'],
+    'depends': ['pos_sale', 'account_product_fiscal_classification'],
     "data": ['report/sale_report_view.xml'],
     'auto_install': True,
 }
