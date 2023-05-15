@@ -28,3 +28,8 @@ class SaleReport(models.Model):
         res = super()._fill_pos_fields(additional_fields)
         res['fiscal_classification_id'] = "t.fiscal_classification_id"
         return res
+
+    def _group_by_pos(self):
+        res = super()._group_by_pos()
+        res += ", t.fiscal_classification_id"
+        return res
