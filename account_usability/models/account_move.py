@@ -112,6 +112,16 @@ class AccountMove(models.Model):
 #            self.invalidate_cache()
 #        return res
 
+    def _reverse_moves(self, default_values_list=None, cancel=False):
+        reverse_moves = super()._reverse_moves(
+            default_values_list=default_values_list, cancel=cancel)
+        # In the simple scenario 1 invoice -> 1 refund, we add a message in the chatter
+        # of the invoice and in the chatter of the refund
+        if len(self) == 1 and len(reverse_moves) == 1:
+            self.message_post(body=_("A reverse journal entry <a href=# data-oe-model=account.move data-oe-id=%d>%s</a> has been generated.") % (reverse_moves.id, reverse_moves.display_name))
+            reverse_moves.message_post(body=_("This journal entry has been generated as the reverse of <a href=# data-oe-model=account.move data-oe-id=%d>%s</a>.") % (self.id, self.display_name))
+        return reverse_moves
+
     def delete_lines_qty_zero(self):
         lines = self.env['account.move.line'].search([
             ('display_type', '=', False),
