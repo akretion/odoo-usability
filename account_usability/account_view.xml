@@ -246,6 +246,9 @@ module -->
         <field name="name" position="attributes">
             <attribute name="string">Name or Reference</attribute>
         </field>
+        <field name="account_id" position="after">
+            <field name="analytic_account_id"/>
+        </field>
     </field>
 </record>
 

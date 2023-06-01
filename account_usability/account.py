@@ -417,6 +417,8 @@ class ResPartner(models.Model):
     payable_journal_item_count = fields.Integer(
         compute='_compute_journal_item_count',
         string="Payable Journal Items", readonly=True)
+    property_account_position = fields.Many2one(
+        track_visibility='onchange')
 
 
 class AccountFiscalPosition(models.Model):
