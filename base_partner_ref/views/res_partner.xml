@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2017-2019 Akretion (http://www.akretion.com/)
+  Copyright 2017-2023 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -13,7 +13,7 @@
     <field name="inherit_id" ref="base.view_partner_form"/>
     <field name="priority">1000</field>  <!-- inherit after l10n_fr -->
     <field name="arch" type="xml">
-        <field name="type" position="after">
+        <field name="vat" position="before">
             <field name="ref"/>
         </field>
         <xpath expr="//page[@name='sales_purchases']//field[@name='ref']" position="attributes">
@@ -40,6 +40,9 @@
 </record>
 -->
 
+<!--
+The kanban view displays the field 'display_name', which has the [ref]
+prefix, so no need to add to the view
 <record id="res_partner_kanban_view" model="ir.ui.view">
     <field name="name">Add ref in partner kanban view</field>
     <field name="model">res.partner</field>
@@ -53,5 +56,6 @@
         </li>
     </field>
 </record>
+-->
 
 </odoo>
