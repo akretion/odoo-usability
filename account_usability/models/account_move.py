@@ -270,18 +270,23 @@ class AccountMoveLine(models.Model):
     def update_matching_number(self):
         records = self.search([("matching_number", "=", "P")])
         _logger.info(f"Update partial reconcile number for {len(records)} lines")
-        records._compute_matching_number()
+        records.compute_partial_matching_number()
 
-    def _compute_matching_number(self):
+    def compute_partial_matching_number(self):
         # TODO maybe it will be better to have the same maching_number for
         # all partial so it will be easier to group by
-        super()._compute_matching_number()
         for record in self:
             if record.matching_number == "P":
-                record.matching_number = ", ".join([
+                matching_number = ", ".join([
                     "a%d" % pr.id
                     for pr in record.matched_debit_ids + record.matched_credit_ids
                 ])
+                # use sql to avoid triggering python checks
+                self.env.cr.execute(
+                    """
+                    UPDATE account_move_line SET matching_number = %s WHERE id = %s
+                    """, (matching_number, record.id)
+                )
 
     def _get_computed_name(self):
         # This is useful when you want to have the product code in a dedicated
