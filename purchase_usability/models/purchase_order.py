@@ -68,6 +68,13 @@ class PurchaseOrder(models.Model):
         # ]
         return res
 
+    def _prepare_invoice(self):
+        # Don't write self.partner_ref on 'ref' of invoice... ref is for the
+        # supplier invoice number !
+        vals = super()._prepare_invoice()
+        vals["ref"] = ''
+        return vals
+
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
