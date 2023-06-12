@@ -6,7 +6,7 @@ from datetime import timedelta
 import logging
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools import float_is_zero
 from odoo.tools.misc import format_date
@@ -234,6 +234,40 @@ class AccountMove(models.Model):
                 invoice_date = tax_lock_date + timedelta(days=1)
             date = invoice_date
         return date
+
+    # I don't use account_invoice_supplier_ref_unique because it adds
+    # a field supplier_invoice_number on account.move instead of using the native field
+    # cf https://github.com/OCA/account-invoicing/issues/1484
+    # So I take inspiration from the code of account_invoice_supplier_ref_unique
+    # but I use the native "ref" field
+    @api.constrains("ref", "partner_id")
+    def _check_in_invoice_ref_unique_insensitive(self):
+        for move in self:
+            if move.ref and move.is_purchase_document(
+                include_receipts=True
+            ):
+                in_invoice_same_ref = self.search(
+                    [
+                        ("commercial_partner_id", "=", move.commercial_partner_id.id),
+                        ("move_type", "in", ("in_invoice", "in_refund")),
+                        ("company_id", "=", move.company_id.id),
+                        ("ref", "=ilike", move.ref),
+                        ("id", "!=", move.id),
+                    ],
+                    limit=1,
+                )
+                if in_invoice_same_ref:
+                    raise ValidationError(
+                        _(
+                            "An invoice already exists in Odoo with the same "
+                            "bill reference '%s' for the same supplier '%s': %s."
+                        )
+                        % (
+                            in_invoice_same_ref.ref,
+                            in_invoice_same_ref.partner_id.display_name,
+                            in_invoice_same_ref.display_name,
+                        )
+                    )
 
 
 class AccountMoveLine(models.Model):
