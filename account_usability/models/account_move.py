@@ -40,6 +40,34 @@ class AccountMove(models.Model):
         compute="_compute_sales_dates", readonly=True,
         help="This information appear on invoice qweb report "
              "(you may use it for your own report)")
+    # There is a native "blocked" field (bool) on account.move.line
+    # We want to have that field on invoices to improve usability
+    # while keeping compatibility with the standard Odoo datamodel
+    blocked = fields.Boolean(
+        compute="_compute_blocked",
+        inverse="_inverse_blocked",
+        store=True,
+        string="Dispute",
+        tracking=True,
+    )
+
+    @api.depends("line_ids", "line_ids.blocked")
+    def _compute_blocked(self):
+        for move in self:
+            move.blocked = any(
+                [
+                    l.blocked
+                    for l in move.line_ids
+                    if l.account_id.internal_type in ("payable", "receivable")
+                ]
+            )
+
+    def _inverse_blocked(self):
+        for move in self:
+            for line in move.line_ids.filtered(
+                lambda l: l.account_id.internal_type in ("payable", "receivable")
+            ):
+                line.blocked = move.blocked
 
     def _compute_has_discount(self):
         prec = self.env['decimal.precision'].precision_get('Discount')
