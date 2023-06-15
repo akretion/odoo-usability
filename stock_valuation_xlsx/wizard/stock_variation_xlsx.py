@@ -25,10 +25,10 @@ class StockVariationXlsx(models.TransientModel):
         required=True)
     warehouse_id = fields.Many2one(
         'stock.warehouse', string='Warehouse', check_company=True,
-        domain="[('company_id', '=', company_id)]")
+        domain="[('company_id', 'in', [False, company_id])]")
     location_id = fields.Many2one(
         'stock.location', string='Root Stock Location', required=True,
-        domain="[('usage', 'in', ('view', 'internal')), ('company_id', '=', company_id)]",
+        domain="[('usage', 'in', ('view', 'internal')), ('company_id', 'in', [False, company_id])]",
         default=lambda self: self._default_location(), check_company=True,
         help="The childen locations of the selected locations will "
         "be taken in the valuation.")
@@ -58,7 +58,7 @@ class StockVariationXlsx(models.TransientModel):
 
     @api.model
     def _default_location(self):
-        wh = self.env.ref('stock.warehouse0')
+        wh = self.env["stock.warehouse"].search([], limit=1)
         return wh.lot_stock_id
 
     @api.onchange('warehouse_id')
