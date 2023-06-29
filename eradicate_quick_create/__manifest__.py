@@ -1,9 +1,9 @@
-# Copyright 2014-2021 Akretion France (http://www.akretion.com)
+# Copyright 2014-2023 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 
 {
     'name': 'Eradicate Quick Create',
-    'version': '14.0.1.0.0',
+    'version': '16.0.1.0.0',
     'category': 'Tools',
     'license': 'AGPL-3',
     'summary': 'Disable quick create on all objects',
@@ -21,5 +21,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'website': 'http://www.akretion.com',
     'depends': ['web_m2x_options'],
     'post_init_hook': 'web_m2x_options_create',
-    'installable': False,
+    'installable': True,
 }
