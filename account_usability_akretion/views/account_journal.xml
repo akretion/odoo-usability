@@ -17,6 +17,12 @@
                 <field name="hide_bank_statement_balance" groups="account.group_account_readonly"/>
             </group>
         </xpath>
+        <xpath expr="//field[@name='inbound_payment_method_line_ids']/tree/field[@name='payment_account_id']" position="attributes">
+            <attribute name="optional">show</attribute>
+        </xpath>
+        <xpath expr="//field[@name='outbound_payment_method_line_ids']/tree/field[@name='payment_account_id']" position="attributes">
+            <attribute name="optional">show</attribute>
+        </xpath>
         <!--
         <field name="suspense_account_id" position="attributes">
             <attribute name="context">{'default_user_type_id': account_type_current_assets_id, 'default_reconcile': False}</attribute>
