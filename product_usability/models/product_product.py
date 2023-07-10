@@ -16,16 +16,6 @@ class ProductProduct(models.Model):
     active = fields.Boolean(tracking=40)
     barcode_type = fields.Char(compute='_compute_barcode_type')
 
-    _sql_constraints = [(
-        # Maybe it could be better to have a constrain per company
-        # but the company_id field is on product.template,
-        # not on product.product
-        # If it's a problem, we'll create a company_id field on
-        # product.product
-        'default_code_uniq',
-        'unique(default_code)',
-        'This internal reference already exists!')]
-
     @api.model
     def _get_barcode_type(self, barcode):
         barcode_type = False
