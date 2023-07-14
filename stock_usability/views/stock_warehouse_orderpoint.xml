@@ -25,6 +25,9 @@
         <field name="trigger" position="attributes">
             <attribute name="optional">show</attribute>
         </field>
+        <field name="route_id" position="attributes">
+            <attribute name="optional">show</attribute>
+        </field>
     </field>
 </record>
 
@@ -37,7 +40,6 @@
         </field>
     </field>
 </record>
-
 
 
 </odoo>

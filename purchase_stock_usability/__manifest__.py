@@ -24,6 +24,7 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
         ],
     'data': [
         'views/stock_picking.xml',
+        'views/stock_warehouse_orderpoint.xml',
         ],
     'installable': True,
 }
