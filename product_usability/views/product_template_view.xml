@@ -14,7 +14,7 @@
         <field name="inherit_id" ref="product.product_template_search_view" />
         <field name="arch" type="xml">
             <field name="categ_id" position="after">
-                <field name="seller_ids" string="Supplier" filter_domain="[('seller_ids.name', 'ilike', self)]"/>
+                <field name="seller_id" string="Main Supplier"/>
             </field>
         </field>
     </record>
@@ -28,6 +28,16 @@
             <field name="barcode" position="after">
                 <!-- barcode is False when the template has several variants anyway -->
                 <field name="barcode_type" attrs="{'invisible': [('barcode', '=', False)]}"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="product_template_tree_view" model="ir.ui.view">
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="barcode" position="after">
+                <field name="seller_id" optional="hide"/>
             </field>
         </field>
     </record>

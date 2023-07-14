@@ -28,6 +28,11 @@
         <field name="route_id" position="attributes">
             <attribute name="optional">show</attribute>
         </field>
+        <!-- Button 'Automate Orders' is not needed because the user
+                can manually change the 'Trigger' field. And it takes a
+        lot of room in the tree view -->
+        <!-- TODO I tried many things to avoid a replace... but it didn't work -->
+        <button name="action_replenish_auto" position="replace"/>
     </field>
 </record>
 
