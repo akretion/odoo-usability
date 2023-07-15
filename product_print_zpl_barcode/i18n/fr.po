@@ -6,11 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-15 13:13+0000\n"
-"PO-Revision-Date: 2023-07-15 13:14+0000\n"
-"Last-Translator: Alexis de Lattre <alexis.delattre@akretion.com>\n"
+"POT-Creation-Date: 2023-07-15 13:39+0000\n"
+"PO-Revision-Date: 2023-07-15 13:39+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -24,7 +23,7 @@ msgstr "Nb étiquettes"
 #. module: product_print_zpl_barcode
 #: model:ir.model.fields.selection,name:product_print_zpl_barcode.selection__product_print_zpl_barcode__label_size__38x25
 msgid "38x25 mm"
-msgstr "38x25 mm"
+msgstr ""
 
 #. module: product_print_zpl_barcode
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__barcode
@@ -121,7 +120,7 @@ msgstr "Générer et imprimer des codes-barres d'articles en ZPL"
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__id
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: product_print_zpl_barcode
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__label_size
@@ -203,7 +202,8 @@ msgstr "Code-barres à imprimer"
 #: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
 #, python-format
 msgid "On line '%s', the number of copies must be strictly positive."
-msgstr "Sur la ligne '%s', le nombre d'étiquettes doit être strictement positif."
+msgstr ""
+"Sur la ligne '%s', le nombre d'étiquettes doit être strictement positif."
 
 #. module: product_print_zpl_barcode
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_product__barcode_image_png
@@ -213,7 +213,7 @@ msgstr "Image PNG du code-barres"
 #. module: product_print_zpl_barcode
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__parent_id
 msgid "Parent"
-msgstr "Parent"
+msgstr ""
 
 #. module: product_print_zpl_barcode
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__price
@@ -238,13 +238,13 @@ msgstr "Imprimer"
 #. module: product_print_zpl_barcode
 #: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_normal_form_view
 #: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_template_only_form_view
-#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.view_picking_form
 msgid "Print Barcode"
 msgstr "Imprimer le code-barres"
 
 #. module: product_print_zpl_barcode
 #: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_product_tree_view
 #: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_template_tree_view
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.view_picking_form
 msgid "Print Barcodes"
 msgstr "Imprimer les code-barres"
 
@@ -299,8 +299,8 @@ msgstr "Étape 2"
 #: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
 #, python-format
 msgid ""
-"The barcode of the product (%s) has %d characters, which is smaller than the "
-"%d characters of the prefix of the barcode pattern (%s)."
+"The barcode of the product (%s) has %d characters, which is smaller than the"
+" %d characters of the prefix of the barcode pattern (%s)."
 msgstr ""
 "Le code-barres de l'article (%s) comporte %d caractères, ce qui est plus "
 "petit que les %d caractères du préfixe du modèle de code-barres (%s)."
@@ -310,8 +310,8 @@ msgstr ""
 #: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
 #, python-format
 msgid ""
-"The barcode rule '%s' has a pattern '%s' which doesn't contain a integer and "
-"decimal part between '{}'."
+"The barcode rule '%s' has a pattern '%s' which doesn't contain a integer and"
+" decimal part between '{}'."
 msgstr ""
 "La règle de code-barres '%s' a un motif '%s' qui ne contient pas de partie "
 "entière et décimale entre '{}'."
@@ -383,11 +383,11 @@ msgstr "Mauvais active_model dans le contexte (%s)."
 #: code:addons/product_print_zpl_barcode/models/product.py:0
 #, python-format
 msgid ""
-"You cannot call the method generate_barcode_from_product_template on product "
-"'%s' because it has %d variants and not just one."
+"You cannot call the method generate_barcode_from_product_template on product"
+" '%s' because it has %d variants and not just one."
 msgstr ""
-"Vous ne pouvez pas appeler la méthode generate_barcode_from_product_template "
-"sur l'article '%s' parce qu'il a %d variantes et non une seule."
+"Vous ne pouvez pas appeler la méthode generate_barcode_from_product_template"
+" sur l'article '%s' parce qu'il a %d variantes et non une seule."
 
 #. module: product_print_zpl_barcode
 #. odoo-python

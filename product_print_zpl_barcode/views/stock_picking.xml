@@ -12,7 +12,7 @@
     <field name="inherit_id" ref="stock.view_picking_form"/>
     <field name="arch" type="xml">
         <button name="action_toggle_is_locked" position="after">
-            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcode" attrs="{'invisible': [('show_print_zpl_barcode', '=', False)]}"/>
+            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcodes" attrs="{'invisible': [('show_print_zpl_barcode', '=', False)]}"/>
             <field name="show_print_zpl_barcode" invisible="1"/>
         </button>
     </field>
