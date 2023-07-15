@@ -1,0 +1,412 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* product_print_zpl_barcode
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-07-15 13:13+0000\n"
+"PO-Revision-Date: 2023-07-15 13:14+0000\n"
+"Last-Translator: Alexis de Lattre <alexis.delattre@akretion.com>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__copies
+msgid "# Labels"
+msgstr "Nb étiquettes"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields.selection,name:product_print_zpl_barcode.selection__product_print_zpl_barcode__label_size__38x25
+msgid "38x25 mm"
+msgstr "38x25 mm"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__barcode
+msgid "Barcode"
+msgstr "Code-barres"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__nomenclature_id
+msgid "Barcode Nomenclature"
+msgstr "Nomenclature des codes-barres"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__rule_id
+msgid "Barcode Rule"
+msgstr "Règle de codes-barres"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__barcode_type
+msgid "Barcode Type"
+msgstr "Type de code-barres"
+
+#. module: product_print_zpl_barcode
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_print_zpl_barcode_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: product_print_zpl_barcode
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_print_zpl_barcode_form
+msgid "Close"
+msgstr "Fermer"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__company_id
+msgid "Company"
+msgstr "Société"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__create_uid
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__create_date
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__currency_id
+msgid "Currency"
+msgstr "Devise"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,help:product_print_zpl_barcode.field_product_print_zpl_barcode_line__uom_id
+msgid "Default unit of measure used for all stock operations."
+msgstr ""
+"Unité de mesure par défaut utilisée pour toutes les opérations de stock."
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__display_name
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,help:product_print_zpl_barcode.field_product_product__must_print_barcode
+#: model:ir.model.fields,help:product_print_zpl_barcode.field_product_template__must_print_barcode
+msgid ""
+"Enable that option for products for which you must print a barcode upon "
+"reception in stock."
+msgstr ""
+"Activez cette option sur les articles pour lesquels vous devez imprimer un "
+"code-barres dès leur réception en stock."
+
+#. module: product_print_zpl_barcode
+#: model:ir.actions.act_window,name:product_print_zpl_barcode.product_print_zpl_barcode_action
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_normal_form_view
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_template_only_form_view
+msgid "Generate Barcode"
+msgstr "Générer un code-barres"
+
+#. module: product_print_zpl_barcode
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_print_zpl_barcode_form
+msgid "Generate Labels"
+msgstr "Générer les étiquettes"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model,name:product_print_zpl_barcode.model_product_print_zpl_barcode
+msgid "Generate and print product barcodes in ZPL"
+msgstr "Générer et imprimer des codes-barres d'articles en ZPL"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__id
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__label_size
+msgid "Label Size"
+msgstr "Taille de l'étiquette"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode____last_update
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__write_uid
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__write_date
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid ""
+"Line '%s': barcode '%s' has %d digits. This wizard only supports EAN8 and "
+"EAN13 for the moment."
+msgstr ""
+"Ligne '%s' : le code-barres '%s' comporte %d chiffres. Cet assistant ne "
+"prend en charge que les EAN8 et EAN13 pour le moment."
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid "Line '%s': barcode type '%s' is not supported for the moment"
+msgstr ""
+"Ligne '%s' : le type de code-barres '%s' n'est pas supporté pour le moment"
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid ""
+"Line '%s': the barcode '%s' is not a valid EAN barcode (wrong checksum)."
+msgstr ""
+"Ligne '%s' : le code-barres '%s' n'est pas un code-barres EAN valide "
+"(mauvaise somme de contrôle)."
+
+#. module: product_print_zpl_barcode
+#: model:ir.model,name:product_print_zpl_barcode.model_product_print_zpl_barcode_line
+msgid "Line of the print ZPL barcode wizard"
+msgstr "Ligne de l'assistant d'impression du code-barres ZPL"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__line_ids
+msgid "Lines"
+msgstr "Lignes"
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid "Missing Products"
+msgstr "Produits manquants"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_product__must_print_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_template__must_print_barcode
+msgid "Must Print Barcode"
+msgstr "Code-barres à imprimer"
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid "On line '%s', the number of copies must be strictly positive."
+msgstr "Sur la ligne '%s', le nombre d'étiquettes doit être strictement positif."
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_product__barcode_image_png
+msgid "PNG Barcode Image"
+msgstr "Image PNG du code-barres"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__parent_id
+msgid "Parent"
+msgstr "Parent"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__price
+msgid "Price"
+msgstr "Prix"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__price_uom
+msgid "Price/UoM"
+msgstr "Prix/unité"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__pricelist_id
+msgid "Pricelist"
+msgstr "Liste de prix"
+
+#. module: product_print_zpl_barcode
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_print_zpl_barcode_form
+msgid "Print"
+msgstr "Imprimer"
+
+#. module: product_print_zpl_barcode
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_normal_form_view
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_template_only_form_view
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.view_picking_form
+msgid "Print Barcode"
+msgstr "Imprimer le code-barres"
+
+#. module: product_print_zpl_barcode
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_product_tree_view
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_template_tree_view
+msgid "Print Barcodes"
+msgstr "Imprimer les code-barres"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model,name:product_print_zpl_barcode.model_product_template
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__product_id
+msgid "Product"
+msgstr "Article"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__product_name
+msgid "Product Label"
+msgstr "Étiquette de l'article"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model,name:product_print_zpl_barcode.model_product_product
+msgid "Product Variant"
+msgstr "Variante d'article"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__quantity
+msgid "Qty"
+msgstr "Qté"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_product__barcode_image_svg
+msgid "SVG Barcode Image"
+msgstr "Image SVG du code-barres"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_stock_picking__show_print_zpl_barcode
+msgid "Show Print Zpl Barcode"
+msgstr "Afficher le bouton imprimer le code-barres ZPL"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__state
+msgid "State"
+msgstr "État"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields.selection,name:product_print_zpl_barcode.selection__product_print_zpl_barcode__state__step1
+msgid "Step1"
+msgstr "Étape 1"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields.selection,name:product_print_zpl_barcode.selection__product_print_zpl_barcode__state__step2
+msgid "Step2"
+msgstr "Étape 2"
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid ""
+"The barcode of the product (%s) has %d characters, which is smaller than the "
+"%d characters of the prefix of the barcode pattern (%s)."
+msgstr ""
+"Le code-barres de l'article (%s) comporte %d caractères, ce qui est plus "
+"petit que les %d caractères du préfixe du modèle de code-barres (%s)."
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid ""
+"The barcode rule '%s' has a pattern '%s' which doesn't contain a integer and "
+"decimal part between '{}'."
+msgstr ""
+"La règle de code-barres '%s' a un motif '%s' qui ne contient pas de partie "
+"entière et décimale entre '{}'."
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/models/product.py:0
+#, python-format
+msgid "The product '%s' already has a barcode."
+msgstr "L'article '%s' a déjà un code-barres."
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid "The quantity (%s) must be positive !"
+msgstr "La quantité (%s) doit être positive !"
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/models/product.py:0
+#, python-format
+msgid ""
+"The sequence 'private.product.barcode' is not properly configured. The "
+"generated sequence should have 7 digits (for EAN-8) or 12 digits (for "
+"EAN-13). It currently has %d digits."
+msgstr ""
+"La séquence 'private.product.barcode' n'est pas correctement configurée. La "
+"séquence générée devrait avoir 7 chiffres (pour EAN-8) ou 12 chiffres (pour "
+"EAN-13). Elle comporte actuellement %d chiffres."
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid ""
+"The value to encode in the barcode (%s) is superior to the maximum value "
+"allowed by the barcode pattern (%s)."
+msgstr ""
+"La valeur à encoder dans le code-barres (%s) est supérieure à la valeur "
+"maximale autorisée par le motif du code-barres (%s)."
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid "There are no pricelist in company '%s'."
+msgstr "Il n'y a pas de liste de prix dans la société '%s'."
+
+#. module: product_print_zpl_barcode
+#: model:ir.model,name:product_print_zpl_barcode.model_stock_picking
+msgid "Transfer"
+msgstr "Transfert"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__uom_id
+msgid "UoM"
+msgstr "Unité"
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid "Wrong active_model in context (%s)."
+msgstr "Mauvais active_model dans le contexte (%s)."
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/models/product.py:0
+#, python-format
+msgid ""
+"You cannot call the method generate_barcode_from_product_template on product "
+"'%s' because it has %d variants and not just one."
+msgstr ""
+"Vous ne pouvez pas appeler la méthode generate_barcode_from_product_template "
+"sur l'article '%s' parce qu'il a %d variantes et non une seule."
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid "You must select a ZPL Printer."
+msgstr "Vous devez sélectionner une imprimante ZPL."
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__zpl_file
+msgid "ZPL File"
+msgstr "Fichier ZPL"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__zpl_filename
+msgid "ZPL Filename"
+msgstr "Nom du fichier ZPL"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__zpl_printer_id
+msgid "ZPL Printer"
+msgstr "Imprimante ZPL"
