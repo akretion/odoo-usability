@@ -11,38 +11,41 @@
     <field name="name">product_print_zpl_barcode.form</field>
     <field name="model">product.print.zpl.barcode</field>
     <field name="arch" type="xml">
-        <form string="Generate and Print Product Barcode">
-            <group name="step1" string="Configuration">
+        <form>
+            <group name="step1">
                 <field name="state" invisible="1"/>
-                <field name="currency_id" invisible="1"/>
-                <field name="product_id"/>
-                <field name="product_name" attrs="{'readonly': [('state', '=', 'step2')]}"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="company_id" invisible="1"/>
                 <field name="pricelist_id" attrs="{'readonly': [('state', '=', 'step2')]}"/>
-                <field name="price_uom"/>
                 <field name="label_size" attrs="{'readonly': [('state', '=', 'step2')]}"/>
                 <field name="nomenclature_id" attrs="{'readonly': [('state', '=', 'step2')]}"/>
-                <field name="rule_id"/>
-                <field name="barcode_type"/>
-                <field name="barcode"/>
-                <field name="copies" attrs="{'readonly': [('state', '=', 'step2')]}"/>
             </group>
-            <group string="Enter Quantity" attrs="{'invisible': [('barcode_type', '=', 'product')]}">
-                <div name="qty_uom">
-                    <field name="quantity" attrs="{'readonly': [('state', '=', 'step2')]}" class="oe_inline"/>
-                    <field name="uom_id" class="oe_inline"/>
-                </div>
-            </group>
-            <group name="step2" states="step2" string="Label">
-                <field name="price" attrs="{'invisible': [('barcode_type', 'not in', ('price', 'weight'))]}"/>
+            <group name="step2" states="step2">
                 <field name="zpl_file" filename="zpl_filename" />
                 <field name="zpl_filename" invisible="1"/>
                 <field name="zpl_printer_id" attrs="{'required': [('state', '=', 'step2')]}"/>
             </group>
+            <group name="lines">
+                <field name="line_ids" colspan="2" nolabel="1">
+                    <tree editable="bottom">
+                        <field name="currency_id" invisible="1"/>
+                        <field name="product_id" optional="hide" force_save="1"/>
+                        <field name="product_name"/>
+                        <field name="price_uom"/>
+                        <field name="rule_id" optional="show"/>
+                        <field name="barcode_type" optional="hide"/>
+                        <field name="barcode" force_save="1"/>
+                        <field name="price" attrs="{'invisible': [('barcode_type', 'not in', ('price', 'weight'))]}"/>
+                        <field name="quantity" attrs="{'invisible': [('barcode_type', '=', 'product')]}" optional="show"/>
+                        <field name="uom_id" attrs="{'invisible': [('barcode_type', '=', 'product')]}" optional="show"/>
+                        <field name="copies" />
+                    </tree>
+                </field>
+            </group>
             <footer>
-                <button name="generate" type="object" string="Generate Label" class="btn-primary" states="step1"/>
+                <button name="generate" type="object" string="Generate Labels" class="btn-primary" states="step1"/>
                 <button special="cancel" string="Cancel" class="btn-default" states="step1"/>
                 <button name="print_zpl" type="object" string="Print" class="btn-primary" states="step2"/>
-                <button name="print_zpl" type="object" string="Print and New" class="btn-primary" context="{'print_and_new': True}" attrs="{'invisible': ['|', ('state', '!=', 'step2'), ('barcode_type', '=', 'product')]}"/>
                 <button special="cancel" string="Close" class="btn-default" states="step2"/>
             </footer>
         </form>

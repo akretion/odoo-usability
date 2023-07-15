@@ -1,4 +1,4 @@
-# Copyright 2016-2020 Akretion France (http://www.akretion.com/)
+# Copyright 2016-2023 Akretion France (http://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -9,23 +9,18 @@ from stdnum.ean import is_valid, calc_check_digit
 import base64
 import re
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class ProductPrintZplBarcode(models.TransientModel):
     _name = 'product.print.zpl.barcode'
     _description = 'Generate and print product barcodes in ZPL'
+    _check_company_auto = True
 
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
-        assert self._context.get('active_model') == 'product.product',\
-            'wrong active_model, should be product.product'
-        product_id = self._context.get('active_id')
-        product = self.env['product.product'].browse(product_id)
-        if not product:
-            raise UserError(_('Missing Product'))
-        if not product.barcode:
-            raise UserError(_(
-                "Product '%s' doesn't have a barcode") % product.display_name)
         nomenclature = self.env.ref('barcodes.default_barcode_nomenclature')
         company = self.env.company
         posconfig = self.env['pos.config'].sudo().search(
@@ -39,82 +34,200 @@ class ProductPrintZplBarcode(models.TransientModel):
                 ], limit=1)
         if not pricelist:
             raise UserError(_(
-                "There are no pricelist in company %s ?") % company.name)
+                "There are no pricelist in company '%s'.") % company.name)
 
         printer = self.env['printing.printer'].get_default()
+
+        line_ids = []
+        if self._context.get('active_model') == 'product.product':
+            product_ids = self._context.get('active_ids')
+            products = self.env['product.product'].browse(product_ids)
+            if not products:
+                raise UserError(_('Missing Products'))
+            for product in products:
+                self._update_line_ids(line_ids, product)
+        elif self._context.get('active_model') == 'product.template':
+            product_tmpl_ids = self._context.get('active_ids')
+            product_tmpls = self.env['product.template'].browse(product_tmpl_ids)
+            for product_tmpl in product_tmpls:
+                for product in product_tmpl.product_variant_ids:
+                    self._update_line_ids(line_ids, product)
+        elif self._context.get('active_model') == 'stock.picking':
+            prec = self.env['decimal.precision'].precision_get(
+                'Product Unit of Measure')
+            picking = self.env['stock.picking'].browse(self._context['active_id'])
+            for ml in picking.move_line_ids:
+                if (
+                        ml.product_id and
+                        ml.product_id.must_print_barcode and
+                        float_compare(ml.qty_done, 0, precision_digits=prec) > 0):
+                    self._update_line_ids(
+                        line_ids, ml.product_id, int(round(ml.qty_done)))
+        else:
+            raise UserError(_(
+                "Wrong active_model in context (%s).")
+                % self._context.get('active_model'))
         res.update({
+            'company_id': company.id,
             'nomenclature_id': nomenclature.id,
             'pricelist_id': pricelist.id,
-            'currency_id': pricelist.currency_id.id,
-            'barcode': product.barcode,
-            'product_name': product.name,
-            'product_id': product_id,
             'zpl_printer_id': printer and printer.id or False,
+            'line_ids': line_ids,
         })
         return res
 
-    product_id = fields.Many2one(
-        'product.product', string='Product', required=True, readonly=True)
-    uom_id = fields.Many2one(related='product_id.uom_id')
-    # 1 line = un peu moins de 30
-    product_name = fields.Char('Product Label', required=True, size=56)
+    @api.model
+    def _update_line_ids(self, line_ids, product, copies=1):
+        if product.barcode:
+            line_ids.append((0, 0, {
+                'barcode': product.barcode,
+                'product_name': product.name,
+                'product_id': product.id,
+                'copies': copies,
+                }))
+        else:
+            logger.warning("Product '%s' doesn't have a barcode", product.display_name)
+
+    company_id = fields.Many2one(  # default value set by default_get
+        'res.company', required=True, ondelete='cascade')
     nomenclature_id = fields.Many2one(
-        'barcode.nomenclature', 'Barcode Nomenclature', required=True)
-    rule_id = fields.Many2one(
-        'barcode.rule', string='Barcode Rule', readonly=True,
-        compute='_compute_rule_id')
-    barcode_type = fields.Selection(related='rule_id.type', string="Barcode Type")
+        'barcode.nomenclature', 'Barcode Nomenclature', required=True,
+        states={'step2': [('readonly', True)]})
+    # label_size: remove readonly=True when we will support more labels
     label_size = fields.Selection([
         ('38x25', '38x25 mm'),
-        ], required=True, default='38x25')
+        ], required=True, default='38x25', readonly=True)
     pricelist_id = fields.Many2one(
-        'product.pricelist', string='Pricelist', required=True)
-    currency_id = fields.Many2one(related='pricelist_id.currency_id')
-    # TODO: for the moment, we only support weight, but...
-    quantity = fields.Float(digits='Stock Weight')
-    price_uom = fields.Monetary(
-        readonly=True, string="Price per Unit of Measure",
-        compute='_compute_price')  # given by pricelist
-    price = fields.Monetary(compute='_compute_price', readonly=True)
-    currency_id = fields.Many2one('res.currency', string='Currency')
+        'product.pricelist', string='Pricelist', required=True,
+        states={'step2': [('readonly', True)]}, check_company=True,
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]"
+        )
     state = fields.Selection([
         ('step1', 'Step1'),
         ('step2', 'Step2'),
         ], default='step1', readonly=True)
     zpl_file = fields.Binary(string='ZPL File', readonly=True)
     zpl_filename = fields.Char('ZPL Filename')
-    barcode = fields.Char(readonly=True)
-    copies = fields.Integer(
-        string='Number of Labels', default=1, required=True)
     zpl_printer_id = fields.Many2one(
         'printing.printer', string='ZPL Printer')
+    line_ids = fields.One2many(
+        'product.print.zpl.barcode.line', 'parent_id',
+        string='Lines', states={'step2': [('readonly', True)]})
 
-    @api.depends('pricelist_id', 'quantity', 'product_id')
+    def generate(self):
+        """Called by button for the wizard, 1st step"""
+        self.ensure_one()
+        zpl_strings = []
+        for line in self.line_ids:
+            barcode = line.barcode
+            product_name = line.product_name
+            assert barcode
+            barcode_len = len(barcode)
+            if barcode_len not in (8, 13):
+                raise UserError(_(
+                    "Line '%s': barcode '%s' has %d digits. "
+                    "This wizard only supports EAN8 and EAN13 for the moment.")
+                    % (product_name, barcode, barcode_len))
+            if not is_valid(barcode):
+                raise UserError(_(
+                    "Line '%s': the barcode '%s' is not a valid EAN barcode "
+                    "(wrong checksum).") % (product_name, barcode))
+            if line.copies <= 0:
+                raise UserError(_(
+                    "On line '%s', the number of copies must be strictly positive."
+                    ) % product_name)
+            if line.barcode_type in ('price', 'weight'):
+                barcode, zpl_str = line._prepare_price_weight_barcode_type()
+            elif line.barcode_type == 'product':
+                barcode, zpl_str = line._prepare_product_barcode_type()
+            else:
+                raise UserError(_(
+                    "Line '%s': barcode type '%s' is not supported for the moment")
+                    % (product_name, line.barcode_type))
+            line.write({'barcode': barcode})
+            zpl_strings.append(zpl_str)
+
+        zpl_filename = "barcodes.zpl"
+        if len(self.line_ids) == 1:
+            zpl_filename = "barcode_%s.zpl" % self.line_ids[0].barcode
+
+        zpl_str = '\n'.join(zpl_strings)
+        zpl_bytes = zpl_str.encode('utf-8')
+        vals = {
+            'zpl_file': base64.encodebytes(zpl_bytes),
+            'state': 'step2',
+            'zpl_filename': zpl_filename,
+            }
+        self.write(vals)
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            'product_print_zpl_barcode.product_print_zpl_barcode_action')
+        action.update({
+            'res_id': self.id,
+            'context': self._context,
+            'views': False})
+        return action
+
+    def print_zpl(self):
+        if not self.zpl_printer_id:
+            raise UserError(_(
+                "You must select a ZPL Printer."))
+        self.zpl_printer_id.print_document(
+            self.zpl_filename, base64.decodebytes(self.zpl_file), format='raw')
+
+
+class ProductPrintZplBarcodeLine(models.TransientModel):
+    _name = 'product.print.zpl.barcode.line'
+    _description = 'Line of the print ZPL barcode wizard'
+
+    parent_id = fields.Many2one(
+        'product.print.zpl.barcode', ondelete='cascade')
+    product_id = fields.Many2one(
+        'product.product', string='Product', readonly=True)
+    uom_id = fields.Many2one(related='product_id.uom_id', string='UoM')
+    # 1 line = a bit less than 30
+    # I don't make product_name a stored computed field because I'm afraid
+    # that we may not take the lang of the user
+    product_name = fields.Char('Product Label', required=True, size=56)
+    rule_id = fields.Many2one(
+        'barcode.rule', string='Barcode Rule', compute='_compute_rule_id')
+    barcode_type = fields.Selection(related='rule_id.type', string="Barcode Type")
+    currency_id = fields.Many2one(related='parent_id.pricelist_id.currency_id')
+    # TODO: for the moment, we only support weight, but...
+    quantity = fields.Float(digits='Stock Weight', string='Qty')
+    price_uom = fields.Monetary(
+        string="Price/UoM", compute='_compute_price')  # given by pricelist
+    price = fields.Monetary(compute='_compute_price')
+    barcode = fields.Char(readonly=True)
+    copies = fields.Integer(string='# Labels', default=1, required=True)
+
+    @api.depends('parent_id.pricelist_id', 'quantity', 'product_id')
     def _compute_price(self):
         # for regular barcodes
-        for wiz in self:
-            if wiz.pricelist_id and wiz.product_id:
-                price_uom = wiz.pricelist_id.get_product_price(
-                    wiz.product_id, 1, False)
-                wiz.price_uom = price_uom
-                wiz.price = price_uom * wiz.quantity
+        for line in self:
+            pricelist = line.parent_id.pricelist_id
+            price_uom = price = 0.0
+            if pricelist and line.product_id:
+                price_uom = pricelist.get_product_price(line.product_id, 1, False)
+                price = price_uom * line.quantity
+            line.price_uom = price_uom
+            line.price = price
 
-    @api.depends('nomenclature_id')
+    @api.depends('parent_id.nomenclature_id')
     def _compute_rule_id(self):
-        for wiz in self:
+        for line in self:
+            nomenclature = line.parent_id.nomenclature_id
             match_rule = False
-            if wiz.nomenclature_id and wiz.barcode:
-                for rule in wiz.nomenclature_id.rule_ids:
-                    match = wiz.nomenclature_id.match_pattern(
-                        wiz.barcode, rule.pattern)
+            if nomenclature and line.barcode:
+                for rule in nomenclature.rule_ids:
+                    match = nomenclature.match_pattern(
+                        line.barcode, rule.pattern)
                     if match.get('match'):
                         match_rule = rule.id
                         break
-            wiz.rule_id = match_rule
+            line.rule_id = match_rule
 
     def _prepare_price_weight_barcode_type(self):
         dpo = self.env['decimal.precision']
-        bno = self.env['barcode.nomenclature']
         prec = dpo.precision_get('Stock Weight')
         value = self.quantity
         pbarcode = self.barcode
@@ -139,7 +252,7 @@ class ProductPrintZplBarcode(models.TransientModel):
         barcode = pbarcode[0:len(prefix)]
         # print("barcode=", barcode)
         # print("pattern=", pattern)
-        m = re.search('\{N+D+\}', pattern)
+        m = re.search(r'\{N+D+\}', pattern)
         # print("m=", m)
         assert m
         pattern_val = m.group(0)
@@ -172,7 +285,7 @@ class ProductPrintZplBarcode(models.TransientModel):
             assert len(barcode) == 13
             assert is_valid(barcode)
             # print("barcode FINAL=", barcode)
-        zpl_unicode = self._price_weight_barcode_type_zpl() % {
+        zpl_str = self._price_weight_barcode_type_zpl() % {
             'product_name': self.product_name,
             'ean_zpl_command': len(self.barcode) == 8 and 'B8' or 'BE',
             'ean_no_checksum': barcode[:-1],
@@ -183,12 +296,7 @@ class ProductPrintZplBarcode(models.TransientModel):
             'quantity': value,
             'uom_name': self.uom_id.name,
         }
-        zpl_bytes = zpl_unicode.encode('utf-8')
-        vals = {
-            'zpl_file': base64.encodebytes(zpl_bytes),
-            'barcode': barcode,
-            }
-        return vals
+        return (barcode, zpl_str)
 
     @api.model
     def _price_weight_barcode_type_zpl(self):
@@ -229,7 +337,7 @@ class ProductPrintZplBarcode(models.TransientModel):
         return label
 
     def _prepare_product_barcode_type(self):
-        zpl_unicode = self._product_barcode_type_zpl() % {
+        zpl_str = self._product_barcode_type_zpl() % {
             'product_name': self.product_name,
             'ean_zpl_command': len(self.barcode) == 8 and 'B8' or 'BE',
             'ean_no_checksum': self.barcode[:-1],
@@ -237,60 +345,4 @@ class ProductPrintZplBarcode(models.TransientModel):
             'currency_symbol': self.currency_id.symbol,  # symbol is a required field
             'copies': self.copies,
         }
-        zpl_bytes = zpl_unicode.encode('utf-8')
-        vals = {
-            'zpl_file': base64.encodebytes(zpl_bytes),
-            'barcode': self.barcode,  # unchanged
-            }
-        return vals
-
-    def generate(self):
-        assert self.barcode
-        if len(self.barcode) not in (8, 13):
-            raise UserError(_(
-                "This wizard only supports EAN8 and EAN13 for the moment. "
-                "Barcode '%s' has %d digits.") % (
-                self.barcode,
-                len(self.barcode)))
-        if not is_valid(self.barcode):
-            raise UserError(_(
-                "The barcode '%s' is not a valid EAN barcode "
-                "(wrong checksum).") % self.barcode)
-        if not self.copies:
-            raise UserError(_("The number of copies cannot be 0"))
-        if self.barcode_type in ('price', 'weight'):
-            vals = self._prepare_price_weight_barcode_type()
-        elif self.barcode_type == 'product':
-            vals = self._prepare_product_barcode_type()
-        else:
-            raise UserError(_(
-                "Barcode Type %s is not supported for the moment")
-                % self.barcode_type)
-        vals.update({
-            'state': 'step2',
-            'zpl_filename': 'barcode_%s.zpl' % vals['barcode'],
-            })
-        self.write(vals)
-        action = self.env["ir.actions.actions"]._for_xml_id(
-            'product_print_zpl_barcode.product_print_zpl_barcode_action')
-        action.update({
-            'res_id': self.id,
-            'context': self._context,
-            'views': False})
-        return action
-
-    def print_zpl(self):
-        if not self.zpl_printer_id:
-            raise UserError(_(
-                "You must select a ZPL Printer."))
-        self.zpl_printer_id.print_document(
-            self.zpl_filename, base64.decodebytes(self.zpl_file), format='raw')
-        action = True
-        if self._context.get('print_and_new'):
-            action = self.env["ir.actions.actions"]._for_xml_id(
-                'product_print_zpl_barcode.product_print_zpl_barcode_action')
-            action.update({
-                'views': False,
-                'context': self._context,
-                })
-        return action
+        return (self.barcode, zpl_str)

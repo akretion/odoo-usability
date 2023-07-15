@@ -29,22 +29,6 @@ class ProductTemplate(models.Model):
                 % (self.display_name, self.product_variant_count))
         return self.product_variant_ids[0].generate_barcode_from_product_product()
 
-    def print_zpl_barcode_from_product_template(self):
-        self.ensure_one()
-        if self.product_variant_count != 1:
-            raise UserError(_(
-                "You cannot call the method "
-                "print_zpl_barcode_from_product_template on product '%s' "
-                "because it has %d variants and not just one.")
-                % (self.display_name, self.product_variant_count))
-        action = self.env["ir.actions.actions"]._for_xml_id(
-            'product_print_zpl_barcode.product_print_zpl_barcode_action')
-        action['context'] = {
-            'active_id': self.product_variant_ids[0].id,
-            'active_model': 'product.product',
-            }
-        return action
-
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
