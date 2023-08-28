@@ -23,6 +23,7 @@ Please contact Alexis de Lattre from Akretion <alexis.delattre@akretion.com> for
         'purchase_usability',
         ],
     'data': [
+        'views/purchase_order.xml',
         'views/stock_picking.xml',
         'views/stock_warehouse_orderpoint.xml',
         ],
