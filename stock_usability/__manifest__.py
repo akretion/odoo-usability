@@ -31,6 +31,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'views/stock_location.xml',
         'views/stock_move.xml',
         'views/stock_picking.xml',
+        'views/stock_picking_type.xml',
         'views/stock_warehouse.xml',
         'views/stock_warehouse_orderpoint.xml',
         'views/product.xml',

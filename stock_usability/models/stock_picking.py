@@ -3,9 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models, _
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 class StockPicking(models.Model):
@@ -24,9 +21,3 @@ class StockPicking(models.Model):
         for pick in self:
             pick.message_post(body=_("Picking <b>unreserved</b>."))
         return res
-
-
-class StockPickingType(models.Model):
-    _inherit = 'stock.picking.type'
-
-    name = fields.Char(translate=False)
