@@ -50,6 +50,13 @@
         <field name="auto_post" position="before">
             <field name="blocked"/>
         </field>
+        <div role="alert" position="after">
+            <div id="warn_blocked" groups="account.group_account_invoice,account.group_account_readonly"
+                    class="alert alert-warning" role="alert" style="margin-bottom:0px;"
+                    attrs="{'invisible': ['|', ('move_type', 'not in', ('in_invoice', 'in_refund', 'out_invoice', 'out_refund')), ('blocked', '=', False)]}">
+                    This <field name="move_type"/> is marked as <b>disputed</b>.
+            </div>
+        </div>
     </field>
 </record>
 
@@ -74,6 +81,8 @@
              <filter name="sent" string="Sent" domain="[('is_move_sent', '=', True), ('move_type', 'in', ('out_invoice', 'out_refund'))]"/>
             <separator/>
             <filter name="no_attachment" string="Missing Attachment" domain="[('has_attachment', '=', False)]"/>
+            <separator/>
+            <filter name="dispute" string="Dispute" domain="[('blocked', '=', True)]"/>
         </filter>
         <filter name="salesperson" position="before">
             <filter name="commercial_partner_groupby" string="Commercial Partner" context="{'group_by': 'commercial_partner_id'}"/>
