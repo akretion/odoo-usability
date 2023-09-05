@@ -8,8 +8,9 @@ from odoo.tests.common import TransactionCase
 
 class TestPartnerPhone(TransactionCase):
 
-    def setUp(self):
-        super(TestPartnerPhone, self).setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
     def _check_result(self, partner, result):
         rppo = self.env['res.partner.phone']

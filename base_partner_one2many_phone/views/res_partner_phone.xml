@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2014-2020 Abbaye du Barroux (http://www.barroux.org)
+  Copyright 2016-2020 Akretion (http://www.akretion.com>)
+  @author: Frère Bernard <informatique@barroux.org>
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<!-- Partner phones -->
+<record id="res_partner_phone_tree" model="ir.ui.view">
+    <field name="name">res.partner.phone.tree</field>
+    <field name="model">res.partner.phone</field>
+    <field name="arch"  type="xml">
+        <tree editable="bottom">
+            <field name="partner_id" invisible="not context.get('partner_phone_main_view')"/>
+            <field name="type"/>
+            <field name="phone" widget="phone" options="{'enable_sms': false}" attrs="{'required': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'readonly': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
+            <field name="email" widget="email" attrs="{'readonly': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'required': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
+            <field name="note"/>
+        </tree>
+    </field>
+</record>
+
+<record id="res_partner_phone_form" model="ir.ui.view">
+    <field name="name">res.partner.phone.form</field>
+    <field name="model">res.partner.phone</field>
+    <field name="arch"  type="xml">
+        <form>
+            <group name="main">
+                <field name="partner_id" invisible="not context.get('partner_phone_main_view')"/>
+                <field name="type"/>
+                <field name="phone" widget="phone" options="{'enable_sms': false}" attrs="{'required': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'invisible': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
+                <field name="email" widget="email" attrs="{'invisible': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'required': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
+                <field name="note"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+<record id="res_partner_phone_search" model="ir.ui.view">
+    <field name="name">res.partner.phone.search</field>
+    <field name="model">res.partner.phone</field>
+    <field name="arch"  type="xml">
+            <search>
+            <field name="phone" />
+            <field name="email" />
+            <group name="groupby">
+                <filter name="type_groupby" string="Type" context="{'group_by': 'type'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+<record id="res_partner_phone_action" model="ir.actions.act_window">
+    <field name="name">Phones/E-mails</field>
+    <field name="res_model">res.partner.phone</field>
+    <field name="view_mode">tree</field>
+    <field name="context">{'partner_phone_main_view': True}</field>
+</record>
+
+<menuitem id="res_partner_phone_menu" action="res_partner_phone_action"
+        parent="contacts.menu_contacts" sequence="10"/>
+
+<record id="contacts.res_partner_menu_config" model="ir.ui.menu">
+    <field name="sequence">20</field>
+</record>
+
+</odoo>

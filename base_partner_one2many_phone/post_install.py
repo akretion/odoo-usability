@@ -1,4 +1,4 @@
-# Copyright 2017-2020 Akretion France (http://www.akretion.com/)
+# Copyright 2017-2023 Akretion France (http://www.akretion.com/)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -36,14 +36,12 @@ def create_partner_email(cr):
 
 def migrate_to_partner_phone(cr, registry):
     logger.info('start data migration for one2many_phone')
-    with api.Environment.manage():
-        env = api.Environment(cr, SUPERUSER_ID, {})
-        rppo = env['res.partner.phone']
-        to_create = []
-        to_create += create_partner_phone(cr, 'phone', '3_phone_primary')
-        to_create += create_partner_phone(cr, 'mobile', '5_mobile_primary')
-        to_create += create_partner_email(cr)
-        # I need to create all at the end for invalidation purposes
-        rppo.create(to_create)
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    rppo = env['res.partner.phone']
+    to_create = []
+    to_create += create_partner_phone(cr, 'phone', '3_phone_primary')
+    to_create += create_partner_phone(cr, 'mobile', '5_mobile_primary')
+    to_create += create_partner_email(cr)
+    # I need to create all at the end for invalidation purposes
+    rppo.create(to_create)
     logger.info('end data migration for one2many_phone')
-    return
