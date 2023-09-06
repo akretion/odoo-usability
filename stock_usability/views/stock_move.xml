@@ -56,6 +56,10 @@
         <field name="product_id" position="after">
             <field name="product_barcode" optional="hide"/>
         </field>
+        <field name="reference" position="after">
+            <field name="origin" optional="hide"/>
+            <field name="partner_id" optional="hide"/>
+        </field>
     </field>
 </record>
 
