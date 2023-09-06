@@ -147,6 +147,8 @@ class ResPartner(models.Model):
         if vals.get(partner_field):
             vals['phone_ids'].append(
                 (0, 0, {'type': type, partner_phone_field: vals[partner_field]}))
+        if partner_field in vals:
+            vals.pop(partner_field)
 
     @api.model
     def create(self, vals):
@@ -155,7 +157,6 @@ class ResPartner(models.Model):
             self._update_create_vals(vals, '1_email_primary', 'email', 'email')
             self._update_create_vals(vals, '3_phone_primary', 'phone', 'phone')
             self._update_create_vals(vals, '5_mobile_primary', 'mobile', 'phone')
-            # self._update_create_vals(vals, '7_fax_primary', 'fax', 'phone')
         return super().create(vals)
 
     def _update_write_vals(
@@ -178,16 +179,16 @@ class ResPartner(models.Model):
             else:
                 if pphone:
                     vals['phone_ids'].append((2, pphone.id))
+            vals.pop(partner_field)
 
     def write(self, vals):
         if 'phone_ids' not in vals:
             for rec in self:
-                vals['phone_ids'] = []
-                rec._update_write_vals(vals, '1_email_primary', 'email', 'email')
-                rec._update_write_vals(vals, '3_phone_primary', 'phone', 'phone')
-                rec._update_write_vals(vals, '5_mobile_primary', 'mobile', 'phone')
-                rec._update_write_vals(vals, '7_fax_primary', 'fax', 'phone')
-                super(ResPartner, rec).write(vals)
+                cvals = dict(vals, phone_ids=[])
+                rec._update_write_vals(cvals, '1_email_primary', 'email', 'email')
+                rec._update_write_vals(cvals, '3_phone_primary', 'phone', 'phone')
+                rec._update_write_vals(cvals, '5_mobile_primary', 'mobile', 'phone')
+                super(ResPartner, rec).write(cvals)
             return True
         else:
             return super().write(vals)
