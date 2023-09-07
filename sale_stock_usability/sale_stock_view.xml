@@ -36,7 +36,7 @@
     <field name="inherit_id" ref="sale.view_order_form"/>
     <field name="arch" type="xml">
         <field name="pricelist_id" position="after">
-            <field name="picking_status"/>
+            <field name="picking_status" states="sale,done"/>
         </field>
     </field>
 </record>
