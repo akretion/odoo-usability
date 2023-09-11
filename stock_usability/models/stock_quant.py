@@ -38,3 +38,14 @@ class StockQuant(models.Model):
                 len(self._context['search_location']) == 1):
             res['location_id'] = self._context['search_location'][0]
         return res
+
+    @api.model
+    def action_view_inventory(self):
+        action = super().action_view_inventory()
+        # Remove filter 'My Counts' set by default for Stock Users
+        if (
+                action.get('context') and
+                isinstance(action['context'], dict) and
+                action['context'].get('search_default_my_count')):
+            action['context'].pop('search_default_my_count')
+        return action
