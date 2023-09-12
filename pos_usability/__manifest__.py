@@ -32,6 +32,7 @@ Akretion:
         "views/pos_category.xml",
         "views/pos_session.xml",
         "views/pos_order.xml",
+        "views/pos_config.xml",
         "views/product.xml",
         ],
     "installable": True,
