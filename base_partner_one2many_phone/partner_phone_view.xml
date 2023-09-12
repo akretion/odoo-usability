@@ -161,6 +161,12 @@
         <field name="name" position="attributes">
             <attribute name="filter_domain">['|', '|', ('display_name', 'ilike', self), ('ref', '=ilike', self + '%'), ('phone_ids.email', 'ilike', self)]</attribute>
         </field>
+        <field name="email" position="attributes">
+            <attribute name="filter_domain">[('phone_ids.email', 'ilike', self)]</attribute>
+        </field>
+        <field name="phone" position="attributes">
+            <attribute name="filter_domain">[('phone_ids.phone', 'ilike', self)]</attribute>
+        </field>
     </field>
 </record>
 
