@@ -43,6 +43,16 @@
         <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="after">
             <field name="product_barcode" optional="hide"/>
         </xpath>
+        <field name="invoice_source_email" position="after">
+            <field name="blocked"/>
+        </field>
+        <div role="alert" position="after">
+            <div id="warn_blocked" groups="account.group_account_invoice,account.group_account_readonly"
+                    class="alert alert-warning" role="alert" style="margin-bottom:0px;"
+                    attrs="{'invisible': ['|', ('move_type', 'not in', ('in_invoice', 'in_refund', 'out_invoice', 'out_refund')), ('blocked', '=', False)]}">
+                    This <field name="move_type"/> is marked as <b>disputed</b>.
+            </div>
+        </div>
         <xpath expr="//button[@name='open_duplicated_ref_bill_view']/.." position="attributes">
             <!-- show duplicate warning not only in draft state, but also in posted state -->
             <attribute name="attrs">{'invisible': ['|', ('state', '=', 'cancel'), ('duplicated_ref_ids', '=', [])]}</attribute>
@@ -77,6 +87,8 @@
              <filter name="sent" string="Sent" domain="[('is_move_sent', '=', True), ('move_type', 'in', ('out_invoice', 'out_refund'))]"/>
             <separator/>
             <filter name="no_attachment" string="Missing Attachment" domain="[('has_attachment', '=', False)]"/>
+            <separator/>
+            <filter name="dispute" string="Dispute" domain="[('blocked', '=', True)]"/>
         </filter>
         <filter name="salesperson" position="before">
             <filter name="commercial_partner_groupby" string="Commercial Partner" context="{'group_by': 'commercial_partner_id'}"/>
@@ -84,6 +96,23 @@
         <filter name="status" position="after">
             <filter name="payment_state_groupby" string="Payment Status" context="{'group_by': 'payment_state'}"/>
         </filter>
+    </field>
+</record>
+
+<record id="view_move_line_form" model="ir.ui.view">
+    <field name="model">account.move.line</field>
+    <field name="inherit_id" ref="account.view_move_line_form"/>
+    <field name="arch" type="xml">
+        <!-- The field 'blocked' is alone in it's block
+        We don't want to display an empty block, so we put the attrs on the group
+        The drawback of this is that, if someone added a field in that group,
+        he won't see the field when internal_type is not payable/receivable -->
+        <xpath expr="//field[@name='blocked']/.." position="attributes">
+            <attribute name="attrs">{'invisible': [('account_type', 'not in', ('liability_payable', 'asset_receivable'))]}</attribute>
+        </xpath>
+        <field name="account_id" position="after">
+            <field name="account_type" invisible="1"/>
+        </field>
     </field>
 </record>
 
