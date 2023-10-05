@@ -81,6 +81,7 @@ class StockQuant(models.Model):
                     0,
                     0,
                     {
+                        "picking_id": picking_id,
                         "product_id": product_id,
                         "product_uom_id": uom_id,
                         "qty_done": qty,
