@@ -1,19 +1,49 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* product_category_tax
+# 	* product_category_tax
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0-20150727\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-04 17:16+0000\n"
-"PO-Revision-Date: 2015-12-04 17:16+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2023-10-16 20:34+0000\n"
+"PO-Revision-Date: 2023-10-16 20:34+0000\n"
+"Last-Translator: Alexis de Lattre <alexis.delattre@akretion.com>\n"
 "Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: product_category_tax
+#: model:ir.model,name:product_category_tax.model_product_categ_tax_mixin
+msgid "Common code for taxes on product categories"
+msgstr "Code commun pour les taxes sur les catégories d'articles"
+
+#. module: product_category_tax
+#: model:ir.model.fields,field_description:product_category_tax.field_product_categ_tax_mixin__display_name
+#: model:ir.model.fields,field_description:product_category_tax.field_product_category__display_name
+#: model:ir.model.fields,field_description:product_category_tax.field_product_product__display_name
+#: model:ir.model.fields,field_description:product_category_tax.field_product_template__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: product_category_tax
+#: model:ir.model.fields,field_description:product_category_tax.field_product_categ_tax_mixin__id
+#: model:ir.model.fields,field_description:product_category_tax.field_product_category__id
+#: model:ir.model.fields,field_description:product_category_tax.field_product_product__id
+#: model:ir.model.fields,field_description:product_category_tax.field_product_template__id
+msgid "ID"
+msgstr "ID"
+
+#. module: product_category_tax
+#: model:ir.model.fields,field_description:product_category_tax.field_product_categ_tax_mixin____last_update
+#: model:ir.model.fields,field_description:product_category_tax.field_product_category____last_update
+#: model:ir.model.fields,field_description:product_category_tax.field_product_product____last_update
+#: model:ir.model.fields,field_description:product_category_tax.field_product_template____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
 
 #. module: product_category_tax
 #: model:ir.model,name:product_category_tax.model_product_product
@@ -23,7 +53,7 @@ msgstr "Article"
 #. module: product_category_tax
 #: model:ir.model,name:product_category_tax.model_product_category
 msgid "Product Category"
-msgstr "Catégorie d'articles"
+msgstr "Catégorie d'article"
 
 #. module: product_category_tax
 #: model:ir.model,name:product_category_tax.model_product_template
@@ -31,23 +61,31 @@ msgid "Product Template"
 msgstr "Modèle d'article"
 
 #. module: product_category_tax
-#: field:product.category,purchase_tax_ids:0
+#: model:ir.model.fields,field_description:product_category_tax.field_product_category__purchase_tax_ids
 msgid "Purchase Taxes"
-msgstr "Taxes fournisseurs"
+msgstr "Taxes à l'achat"
 
 #. module: product_category_tax
-#: field:product.category,sale_tax_ids:0
+#: model:ir.model.fields,field_description:product_category_tax.field_product_category__sale_tax_ids
 msgid "Sale Taxes"
 msgstr "Taxes à la vente"
 
 #. module: product_category_tax
-#: code:addons/product_category_tax/product.py:57
+#: code:addons/product_category_tax/product.py:0
 #, python-format
-msgid "The purchase taxes configured on the product '%s' are not the same as the purchase taxes configured on it's related product category '%s'."
-msgstr "Les taxes fournisseurs paramétrées sur l'article '%s' ne sont pas les mêmes que les taxes fournisseurs paramétrées sur la catégorie interne '%s'."
+msgid ""
+"The purchase taxes configured on the product '%s' are not the same as the "
+"purchase taxes configured on it's related internal category '%s'."
+msgstr ""
+"Les taxes à l'achat configurées sur l'article '%s' ne sont pas les mêmes que "
+"les taxes à l'achat configurées sur sa catégorie interne '%s'."
 
 #. module: product_category_tax
-#: code:addons/product_category_tax/product.py:49
+#: code:addons/product_category_tax/product.py:0
 #, python-format
-msgid "The sale taxes configured on the product '%s' are not the same as the sale taxes configured on it's related product category '%s'."
-msgstr "Les taxes à la vente paramétrées sur l'article '%s' ne sont pas les mêmes que les taxes à la vente paramétrées sur la catégorie interne '%s'."
+msgid ""
+"The sale taxes configured on the product '%s' are not the same as the sale "
+"taxes configured on it's related internal category '%s'."
+msgstr ""
+"Les taxes à la vente configurées sur l'article '%s' ne sont pas les mêmes que "
+"les taxes à la vente configurées sur sa catégorie interne '%s'."
