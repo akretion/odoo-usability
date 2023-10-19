@@ -1,0 +1,35 @@
+diff --git a/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js b/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js
+index 55aa635aa10..d91ea933a71 100644
+--- a/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js
++++ b/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js
+@@ -8,6 +8,7 @@ odoo.define('point_of_sale.PaymentScreen', function (require) {
+     const { useListener } = require('web.custom_hooks');
+     const Registries = require('point_of_sale.Registries');
+     const { onChangeOrder } = require('point_of_sale.custom_hooks');
++    const utils = require('web.utils');
+ 
+     class PaymentScreen extends PosComponent {
+         constructor() {
+@@ -20,6 +21,7 @@ odoo.define('point_of_sale.PaymentScreen', function (require) {
+             useListener('send-payment-cancel', this._sendPaymentCancel);
+             useListener('send-payment-reverse', this._sendPaymentReverse);
+             useListener('send-force-done', this._sendForceDone);
++            useListener('validate-order', () => this.validateOrder(false));
+             this.lockedValidateOrder = useAsyncLockedMethod(this.validateOrder);
+             NumberBuffer.use(this._getNumberBufferConfig);
+             onChangeOrder(this._onPrevOrder, this._onNewOrder);
+@@ -333,6 +335,14 @@ odoo.define('point_of_sale.PaymentScreen', function (require) {
+             if (isPaymentSuccessful) {
+                 line.set_payment_status('done');
+                 line.can_be_reversed = payment_terminal.supports_reversals;
++                // Automatically validate the order if, after an electronic payment,
++                // the current order is fully paid (BACKPORT FROM v16)
++                if (
++                    this.currentOrder.is_paid() &&
++                    utils.float_is_zero(this.currentOrder.get_due(), this.env.pos.currency.decimals)
++                ) {
++                    this.trigger('validate-order');
++                }
+             } else {
+                 line.set_payment_status('retry');
+             }
