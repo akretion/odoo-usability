@@ -8,5 +8,7 @@ from odoo import fields, models
 class PosPaymentMethod(models.Model):
     _inherit = 'pos.payment.method'
     _check_company_auto = True
+    _order = 'sequence, id'
 
     cash_journal_id = fields.Many2one(check_company=True)
+    sequence = fields.Integer(default=10)
