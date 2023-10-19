@@ -40,6 +40,10 @@
                 string="Reordering Rules"
                 class="oe_stat_button" icon="fa-refresh"/>
         </div>
+        <button name="%(stock.location_open_quants)d" position="attributes">
+            <attribute name="type">object</attribute>
+            <attribute name="name">action_show_quants</attribute>
+        </button>
     </field>
 </record>
 

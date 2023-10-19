@@ -24,5 +24,5 @@ class StockQuant(models.Model):
             ('package_id', '=', self.package_id.id or False),
             ('result_package_id', '=', self.package_id.id or False),
         ]
-        action['context'] = {'create': 0}
+        action['context'] = {'create': 0, 'stock_move_line_main_view': True}
         return action
