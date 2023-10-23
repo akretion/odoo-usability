@@ -31,6 +31,7 @@ Akretion:
         "views/report_pos_order.xml",
         "views/pos_category.xml",
         "views/pos_session.xml",
+        "views/pos_payment_method.xml",
         "views/pos_order.xml",
         "views/product.xml",
         ],

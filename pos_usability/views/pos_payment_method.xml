@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2023 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="pos_payment_method_view_tree" model="ir.ui.view">
+    <field name="model">pos.payment.method</field>
+    <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_tree"/>
+    <field name="arch" type="xml">
+        <field name="name" position="before">
+            <field name="sequence" widget="handle"/>
+        </field>
+    </field>
+</record>
+
+<record id="pos_payment_method_view_form" model="ir.ui.view">
+    <field name="model">pos.payment.method</field>
+    <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
+    <field name="arch" type="xml">
+	<field name="company_id" position="after">
+	<!-- company_id without groups="base.group_multi_company" is missing -->
+            <field name="company_id" invisible="1"/>
+        </field>
+    </field>
+</record>
+
+
+</odoo>
