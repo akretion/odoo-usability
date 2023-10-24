@@ -10,7 +10,7 @@
     'summary': 'Better usability in base module',
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['base'],
+    'depends': ['base', 'contacts'],
     'data': [
         'security/group.xml',
         'security/ir.model.access.csv',

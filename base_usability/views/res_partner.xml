@@ -20,6 +20,15 @@
         <div attrs="{'invisible': [('same_vat_partner_id', '=', False)]}" position="attributes">
             <attribute name="class">alert alert-warning</attribute>
         </div>
+        <!-- Add a kanban button to open child partner -->
+        <xpath expr="//field[@name='child_ids']//kanban/templates/t/div" position="inside">
+            <div class="o_dropdown_kanban">
+                <a class="btn" role="button" title="Open"
+                   t-att-href="'/web#id=' + record.id.raw_value + '&amp;action=%(contacts.action_contacts)d' + '&amp;menu_id=%(contacts.menu_contacts)d' + '&amp;view_type=form&amp;cids=1&amp;model=res.partner'">
+                    <span class="fa fa-external-link" />
+                </a>
+            </div>
+        </xpath>
     </field>
 </record>
 
