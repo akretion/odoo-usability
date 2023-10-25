@@ -15,6 +15,7 @@ class ResPartnerPhone(models.Model):
     _name = 'res.partner.phone'
     _order = 'partner_id, type'
     _phone_name_sequence = 8
+    _phone_name_fields = ["phone"]
     _inherit = ['phone.validation.mixin']
     _description = 'Multiple emails and phones for partners'
 
@@ -73,7 +74,7 @@ class ResPartnerPhone(models.Model):
                 if self._context.get('callerid'):
                     name = pphone.partner_id.display_name
                 else:
-                    name = u'%s (%s)' % (pphone.phone, pphone.partner_id.name)
+                    name = '%s (%s)' % (pphone.phone, pphone.partner_id.name)
             else:
                 name = pphone.phone
             res.append((pphone.id, name))
@@ -104,6 +105,7 @@ class ResPartnerPhone(models.Model):
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
+    _phone_name_fields = []
 
     # in v10, we are supposed to have in DB E.164 format
     # with the current implementation, we have:
