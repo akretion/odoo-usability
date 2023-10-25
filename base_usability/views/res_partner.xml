@@ -20,6 +20,10 @@
         <div attrs="{'invisible': [('same_vat_partner_id', '=', False)]}" position="attributes">
             <attribute name="class">alert alert-warning</attribute>
         </div>
+        <!-- Native order: city / state_id / zip. New order: zip / city / state_id -->
+        <xpath expr="//div[hasclass('o_address_format')]/field[@name='city']" position="before">
+            <field name="zip" position="move"/>
+        </xpath>
     </field>
 </record>
 

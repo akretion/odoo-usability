@@ -21,6 +21,7 @@
         'views/ir_module.xml',
         'views/ir_sequence.xml',
         'views/ir_property.xml',
+        'views/assets.xml',
         ],
     'installable': True,
 }
