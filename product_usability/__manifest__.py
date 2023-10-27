@@ -21,6 +21,8 @@ The usability enhancements include:
 
 * allow to search a product by supplier
 
+* set a search view for product packaging
+
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
@@ -35,6 +37,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'views/product_product.xml',
         'views/product_config_menu.xml',
         'views/product_category_view.xml',
+        'views/product_packaging.xml',
     ],
     'installable': True,
 }
