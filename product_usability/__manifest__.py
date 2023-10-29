@@ -21,7 +21,7 @@ The usability enhancements include:
 
 * allow to search a product by supplier
 
-* set a search view for product packaging
+* set a search view for product packaging and add a button to dive in 📦 from product
 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,

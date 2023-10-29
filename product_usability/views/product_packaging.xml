@@ -15,4 +15,15 @@
     </field>
 </record>
 
+<record id="product_packaging_tree_view2" model="ir.ui.view">
+    <field name="model">product.packaging</field>
+    <field name="inherit_id" ref="product.product_packaging_tree_view2"/>
+    <field name="arch" type="xml">
+        <xpath expr="//tree/field[@name='qty']" position="before">
+            <button name="ui_goto_packaging_view" string="📦" type="object" 
+                help="See product's packages"/>
+        </xpath>
+    </field>
+</record>
+
 </odoo>
