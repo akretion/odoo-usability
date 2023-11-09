@@ -296,10 +296,15 @@ msgstr "Possède une pièce jointe"
 
 #. module: account_usability
 #: model:ir.model.fields,field_description:account_usability.field_account_bank_statement_line__has_discount
-#: model:ir.model.fields,field_description:account_usability.field_account_move__has_discount
 #: model:ir.model.fields,field_description:account_usability.field_account_payment__has_discount
 msgid "Has Discount"
 msgstr "A une réduction"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_account_move__has_line_discount
+
+msgid "Has Line Discount"
+msgstr "Contient une réduction"
 
 #. module: account_usability
 #: model:ir.model.fields,field_description:account_usability.field_account_bank_statement__hide_bank_statement_balance
