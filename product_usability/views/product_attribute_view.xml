@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<record id="product_attribute_values_button" model="ir.ui.view">
+    <field name="model">product.attribute</field>
+    <field name="inherit_id" ref="product.product_attribute_view_form" />
+    <field name="arch" type="xml">
+        <group name="main_fields" position='before'>
+            <div class="oe_button_box" name="button_box">
+            <button
+                name="show_values_ids"
+                type="object"
+                class="oe_stat_button"
+                icon="fa-tasks"
+            >
+            <field
+                    name="values_count"
+                    widget="statinfo"
+                    string="Attribute Values"
+                />
+            </button>
+        </div>
+        </group>
+    </field>
+</record>
+
+<record model="ir.ui.view" id="product_attribute_value_view_tree">
+    <field name="name">product.attribute.value.view.tree</field>
+    <field name="model">product.attribute.value</field>
+    <field name="arch" type="xml">
+        <tree string="Attributes Values">
+            <field name="name"/>
+            <field name="is_custom"/>
+        </tree>
+    </field>
+</record>
+
+</odoo>
