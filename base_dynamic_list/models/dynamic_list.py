@@ -1,4 +1,4 @@
-# Copyright 2020-2021 Akretion France (http://www.akretion.com)
+# Copyright 2020-2023 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -63,18 +63,15 @@ class DynamicListCode(models.Model):
             res.append((rec.id, '[%s] %s' % (rec.code, rec.name)))
         return res
 
-    @api.model
-    def name_search(
-            self, name='', args=None, operator='ilike', limit=80):
+    def _name_search(self, name='', args=None, operator='ilike', limit=100, name_get_uid=None):
         if args is None:
             args = []
+        ids = []
         if name and operator == 'ilike':
-            recs = self.search(
-                [('code', '=', name)] + args, limit=limit)
-            if recs:
-                return recs.name_get()
-        return super().name_search(
-            name=name, args=args, operator=operator, limit=limit)
+            ids = list(self._search([('code', '=', name)] + args, limit=limit))
+            if ids:
+                return ids
+        return super()._name_search(name=name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid)
 
 
 class DynamicListCodeTranslate(models.Model):
@@ -101,15 +98,12 @@ class DynamicListCodeTranslate(models.Model):
             res.append((rec.id, '[%s] %s' % (rec.code, rec.name)))
         return res
 
-    @api.model
-    def name_search(
-            self, name='', args=None, operator='ilike', limit=80):
+    def _name_search(self, name='', args=None, operator='ilike', limit=100, name_get_uid=None):
         if args is None:
             args = []
+        ids = []
         if name and operator == 'ilike':
-            recs = self.search(
-                [('code', '=', name)] + args, limit=limit)
-            if recs:
-                return recs.name_get()
-        return super().name_search(
-            name=name, args=args, operator=operator, limit=limit)
+            ids = list(self._search([('code', '=', name)] + args, limit=limit))
+            if ids:
+                return ids
+        return super()._name_search(name=name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid)
