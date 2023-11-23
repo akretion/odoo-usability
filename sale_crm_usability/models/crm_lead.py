@@ -7,6 +7,7 @@ from odoo import api, models
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
+    # not needed in v16 because it has been fixed in sale_crm
     def action_view_sale_quotation(self):
         action = super().action_view_sale_quotation()
         if 'search_default_partner_id' in action['context']:
