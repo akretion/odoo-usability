@@ -15,6 +15,8 @@ Product Priority Star
 
 This module adds a priority star on products (like on pickings and manufacturing order). If the star is yellow, the product will be displayed at the top.
 
+This feature is native in Odoo 16.0.
+
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
