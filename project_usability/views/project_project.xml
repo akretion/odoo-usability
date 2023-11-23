@@ -7,7 +7,7 @@
 
 <odoo>
 
-<!-- user_id is not displayed by default in project kanban view -->
+<!-- user_id is not displayed by default in project kanban view (it is native in v16) -->
 <record id="view_project_kanban" model="ir.ui.view">
     <field name="model">project.project</field>
     <field name="inherit_id" ref="project.view_project_kanban"/>
