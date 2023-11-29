@@ -25,6 +25,8 @@ This module has been written by Alexis de Lattre from Akretion France.
     'data': [
         'views/stock_picking.xml',
         'views/purchase_order.xml',
+        'views/stock_move.xml',
+        'views/stock_move_line.xml',
         ],
     'installable': True,
 }
