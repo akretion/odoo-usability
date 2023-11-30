@@ -20,7 +20,8 @@
                 groups="account.group_account_user"/>
             <field name="company_currency_id" invisible="1"/>
         </group>
-        <xpath expr="//field[@name='order_line']/form//field[@name='analytic_tag_ids']/.." position="after">
+        <xpath expr="//field[@name='order_line']/form/group/group//field[@name='analytic_tag_ids']/.." position="after">
+            <group>
             <field name="standard_price_sale_currency" groups="base.group_no_one"/>
             <field name="standard_price_company_currency" groups="base.group_no_one"/>
             <field name="margin_sale_currency" groups="base.group_no_one"/>
@@ -31,6 +32,7 @@
             </div>
             <field name="company_currency_id" invisible="1"/>
             <field name="currency_id" invisible="1"/>
+            </group>
         </xpath>
     </field>
 </record>
