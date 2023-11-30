@@ -4,7 +4,7 @@
 
 {
     'name': 'Sale Order Route',
-    'version': '14.0.1.0.0',
+    'version': '16.0.1.0.0',
     'category': 'Sales',
     'license': 'AGPL-3',
     'summary': 'Set route on sale order',
@@ -18,5 +18,5 @@ This module has been written by Alexis de Lattre from Akretion
     'website': 'http://www.akretion.com',
     'depends': ['sale_stock'],
     'data': ['views/sale_order.xml'],
-    'installable': False,
+    'installable': True,
 }

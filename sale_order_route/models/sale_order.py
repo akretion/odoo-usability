@@ -9,7 +9,7 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     route_id = fields.Many2one(
-        'stock.location.route', string='Route',
+        'stock.route', string='Route',
         ondelete='restrict', readonly=True, tracking=True,
         states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
         check_company=True,
