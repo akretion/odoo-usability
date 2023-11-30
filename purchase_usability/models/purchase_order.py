@@ -86,10 +86,11 @@ class PurchaseOrderLine(models.Model):
                 partner_id = line.order_id.partner_id.commercial_partner_id.id
                 if partner_id:
                     sinfo = pso.search_read([
-                        ('product_code', '!=', False),
-                        ('partner_id', '=', partner_id),
-                        ('company_id', 'in', (False, line.order_id.company_id.id)),
+                        ('product_tmpl_id', '=', line.product_id.product_tmpl_id.id),
                         ('product_id', 'in', (False, line.product_id.id)),
+                        ('partner_id', '=', partner_id),
+                        ('product_code', '!=', False),
+                        ('company_id', 'in', (False, line.order_id.company_id.id)),
                         ], ['product_code'], limit=1, order='product_id')
                     # if I order by product_id, I get the null values at the end
                     if sinfo:
