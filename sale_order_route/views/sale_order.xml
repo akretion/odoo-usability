@@ -15,6 +15,11 @@
         <field name="partner_shipping_id" position="after">
             <field name="route_id" options="{'no_create_edit': True}"/>
         </field>
+        <!-- propagate route_id to lines: it's important when you add an order line AFTER
+        order confirmation -->
+        <field name="order_line" position="attributes">
+            <attribute name="context" operation="python_dict" key="default_route_id">route_id</attribute>
+        </field>
     </field>
 </record>
 

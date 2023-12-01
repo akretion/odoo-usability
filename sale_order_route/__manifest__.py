@@ -16,7 +16,7 @@ This module has been written by Alexis de Lattre from Akretion
     """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
-    'depends': ['sale_stock'],
+    'depends': ['sale_stock', 'base_view_inheritance_extension'],
     'data': ['views/sale_order.xml'],
     'installable': True,
 }
