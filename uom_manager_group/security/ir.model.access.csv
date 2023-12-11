@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_uom_uom_manager,uom.uom.manager,uom.model_uom_uom,group_uom_manager,1,1,1,1
+access_uom_category_manager,uom.category.manager,uom.model_uom_category,group_uom_manager,1,1,1,1
+access_uom_uom_user,uom.uom.user,uom.model_uom_uom,uom.group_uom,1,0,0,0
+access_uom_uom_categ_user,uom.uom.categ.user,uom.model_uom_category,uom.group_uom,1,0,0,0
+uom.access_uom_category_manager,uom.category.manager,uom.model_uom_category,base.group_system,1,0,0,0
+uom.access_uom_uom_manager,uom.uom.manager,uom.model_uom_uom,base.group_system,1,0,0,0
+sale.access_uom_uom_sale_manager,uom.uom salemanager,uom.model_uom_uom,sales_team.group_sale_manager,1,0,0,0
+sale.access_uom_category_sale_manager,uom.category salemanager,uom.model_uom_category,sales_team.group_sale_manager,1,0,0,0
+purchase.access_uom_uom_purchase_manager,uom.uom purchase_manager,uom.model_uom_uom,purchase.group_purchase_manager,1,0,0,0
+purchase.access_uom_category_purchase_manager,uom.category purchase_manager,uom.model_uom_category,purchase.group_purchase_manager,1,0,0,0
+mrp.access_uom_uom_mrp_manager,uom.uom mrp_manager,uom.model_uom_uom,mrp.group_mrp_manager,1,0,0,0
+mrp.access_uom_category_mrp_manager,uom.category mrp_manager,uom.model_uom_category,mrp.group_mrp_manager,1,0,0,0
+stock.access_uom_uom_stock_manager,uom.uom stock_manager,uom.model_uom_uom,stock.group_stock_manager,1,0,0,0
+stock.access_uom_category_stock_manager,uom.category stock_manager,uom.model_uom_category,stock.group_stock_manager,1,0,0,0

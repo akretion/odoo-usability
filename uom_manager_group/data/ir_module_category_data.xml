@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="module_category_uom" model="ir.module.category">
+        <field name="name">Units of Measure</field>
+        <field name="description">Enable using any units of measure</field>
+        <field name="sequence">0</field>
+    </record>
+</odoo>
