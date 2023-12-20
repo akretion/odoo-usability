@@ -34,6 +34,10 @@
                 </button>
             </div>
         </div>
+        <field name="item_ids" position="attributes">
+            <attribute name="context">{'from_product_pricelist_view': True, 'default_base': 'list_price'}</attribute>
+        </field>
+
     </field>
 </record>
 
