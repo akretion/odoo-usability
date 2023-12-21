@@ -13,7 +13,7 @@
     <field name="res_model">product.pricelist.item</field>
     <field name="view_mode">tree,form</field>
     <field name="domain">[('pricelist_id', '=', active_id)]</field>
-    <field name="context">{'product_pricelist_item_main_view': True}</field>
+    <field name="context">{'product_pricelist_item_main_view': True, 'default_pricelist_id': active_id}</field>
 </record>
 
 <record id="product_pricelist_view" model="ir.ui.view">
@@ -34,6 +34,10 @@
                 </button>
             </div>
         </div>
+        <field name="item_ids" position="attributes">
+            <attribute name="context">{'from_product_pricelist_view': True, 'default_base': 'list_price'}</attribute>
+        </field>
+
     </field>
 </record>
 

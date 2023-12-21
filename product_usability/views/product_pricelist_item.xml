@@ -32,11 +32,13 @@
     <field name="model">product.pricelist.item</field>
     <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
     <field name="arch" type="xml">
+        <field name="applied_on" position="before">
+            <field name="pricelist_id" position="move"/>
+        </field>
         <field name="pricelist_id" position="attributes">
-            <attribute name="invisible">not context.get('product_pricelist_item_main_view')</attribute>
+            <attribute name="invisible">context.get('from_product_pricelist_view')</attribute>
         </field>
     </field>
 </record>
-
 
 </odoo>
