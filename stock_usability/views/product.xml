@@ -15,7 +15,19 @@
     <field name="arch" type="xml">
         <field name="responsible_id" position="attributes">
             <attribute name="optional">hide</attribute>
-        </field>
+    	</field>
+	<field name="virtual_available" position="before">
+	    <field name="incoming_qty" optional="hide" sum="1"/>
+	    <field name="outgoing_qty" optional="hide" sum="1"/>
+	    <!-- we would like to also have free_qty, as on product.product, but this field doesn't exist on product.template -->
+	</field>
+	<!-- we have sum=1 on product.product qty fields, but not on product.template...so I add it on product.template -->
+	<field name="virtual_available" position="attributes">
+		<attribute name="sum">1</attribute>
+	</field>
+	<field name="qty_available" position="attributes">
+		<attribute name="sum">1</attribute>
+	</field>
     </field>
 </record>
 
