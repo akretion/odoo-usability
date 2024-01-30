@@ -8,6 +8,8 @@ from odoo.tools import float_compare, float_is_zero
 from stdnum.ean import is_valid, calc_check_digit
 import base64
 import re
+import socket
+import ipaddress
 
 import logging
 logger = logging.getLogger(__name__)
@@ -36,7 +38,8 @@ class ProductPrintZplBarcode(models.TransientModel):
             raise UserError(_(
                 "There are no pricelist in company '%s'.") % company.name)
 
-        printer = self.env['printing.printer'].get_default()
+        printer_ip = self.env['ir.config_parameter'].sudo().get_param(
+            'product_print_zpl_barcode.printer_ip')
 
         line_ids = []
         if self._context.get('active_model') == 'product.product':
@@ -71,7 +74,7 @@ class ProductPrintZplBarcode(models.TransientModel):
             'company_id': company.id,
             'nomenclature_id': nomenclature.id,
             'pricelist_id': pricelist.id,
-            'zpl_printer_id': printer and printer.id or False,
+            'zpl_printer_ip': printer_ip,
             'line_ids': line_ids,
         })
         return res
@@ -108,8 +111,7 @@ class ProductPrintZplBarcode(models.TransientModel):
         ], default='step1', readonly=True)
     zpl_file = fields.Binary(string='ZPL File', readonly=True)
     zpl_filename = fields.Char('ZPL Filename')
-    zpl_printer_id = fields.Many2one(
-        'printing.printer', string='ZPL Printer')
+    zpl_printer_ip = fields.Char(string='ZPL Printer IP Address')
     line_ids = fields.One2many(
         'product.print.zpl.barcode.line', 'parent_id',
         string='Lines', states={'step2': [('readonly', True)]})
@@ -168,11 +170,27 @@ class ProductPrintZplBarcode(models.TransientModel):
         return action
 
     def print_zpl(self):
-        if not self.zpl_printer_id:
+        if not self.zpl_printer_ip:
             raise UserError(_(
-                "You must select a ZPL Printer."))
-        self.zpl_printer_id.print_document(
-            self.zpl_filename, base64.decodebytes(self.zpl_file), format='raw')
+                "You must configure the IP address of the ZPL Printer."))
+        try:
+            ip = ipaddress.ip_address(self.zpl_printer_ip)
+        except Exception as e:
+            raise UserError(str(e))
+        version = ip.version
+        # TODO works with DNS ?
+        if version == 6:  # IPv6
+            socket_inet = socket.AF_INET6
+        else:  # IPv4
+            socket_inet = socket.AF_INET
+        with socket.socket(socket_inet, socket.SOCK_STREAM) as s:
+            try:
+                s.connect((str(ip), 9100))
+            except Exception as e:
+                raise UserError(str(e))
+            zpl_file_bytes = base64.decodebytes(self.zpl_file)
+            s.send(zpl_file_bytes)
+            s.close()
 
 
 class ProductPrintZplBarcodeLine(models.TransientModel):

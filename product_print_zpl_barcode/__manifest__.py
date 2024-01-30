@@ -39,12 +39,12 @@ This module has been written by Alexis de Lattre from Akretion
     'depends': [
         'point_of_sale',
         'barcodes',
-        'base_report_to_printer',
         ],
     'external_dependencies': {'python': ['python-barcode>=0.14.0']},
     'data': [
         'security/ir.model.access.csv',
         'wizard/product_print_zpl_barcode_view.xml',
+        'wizard/res_config_settings_view.xml',
         'views/product.xml',
         'views/stock_picking.xml',
         'data/barcode_sequence.xml',
