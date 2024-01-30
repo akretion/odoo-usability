@@ -1,3 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_product_print_zpl_barcode,Full access to product.print.zpl.barcode wizard,model_product_print_zpl_barcode,base_report_to_printer.printing_group_user,1,1,1,1
-access_product_print_zpl_barcode_line,Full access to product.print.zpl.barcode.line wizard,model_product_print_zpl_barcode_line,base_report_to_printer.printing_group_user,1,1,1,1
+access_product_print_zpl_barcode,Full access to product.print.zpl.barcode wizard,model_product_print_zpl_barcode,base.group_user,1,1,1,1
+access_product_print_zpl_barcode_line,Full access to product.print.zpl.barcode.line wizard,model_product_print_zpl_barcode_line,base.group_user,1,1,1,1

@@ -27,7 +27,7 @@
     <field name="arch" type="xml">
         <button name="action_open_label_layout" position="after">
             <button name="generate_barcode_from_product_template" type="object" string="Generate Barcode" attrs="{'invisible': ['|', ('product_variant_count', '>', 1), ('barcode', '!=', False)]}"/>
-            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcode" groups="base_report_to_printer.printing_group_user" attrs="{'invisible': ['|', ('product_variant_count', '>', 1), ('barcode', '=', False)]}"/>
+            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcode" attrs="{'invisible': ['|', ('product_variant_count', '>', 1), ('barcode', '=', False)]}"/>
         </button>
     </field>
 </record>
@@ -37,7 +37,7 @@
     <field name="inherit_id" ref="product.product_template_tree_view"/>
     <field name="arch" type="xml">
         <button name="action_open_label_layout" position="after">
-            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcodes" groups="base_report_to_printer.printing_group_user"/>
+            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcodes"/>
         </button>
     </field>
 </record>
@@ -49,7 +49,7 @@
     <field name="arch" type="xml">
         <button name="action_open_label_layout" position="after">
             <button name="generate_barcode_from_product_product" type="object" string="Generate Barcode" attrs="{'invisible': [('barcode', '!=', False)]}"/>
-            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcode" groups="base_report_to_printer.printing_group_user" attrs="{'invisible': [('barcode', '=', False)]}"/>
+            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcode" attrs="{'invisible': [('barcode', '=', False)]}"/>
         </button>
     </field>
 </record>
@@ -59,7 +59,7 @@
     <field name="inherit_id" ref="product.product_product_tree_view"/>
     <field name="arch" type="xml">
         <button name="action_open_label_layout" position="after">
-            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcodes" groups="base_report_to_printer.printing_group_user"/>
+            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcodes"/>
         </button>
     </field>
 </record>
