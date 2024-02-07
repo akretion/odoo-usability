@@ -4,8 +4,13 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
+            <field name="picking_type_code" position="after">
+                <field name="show_src_location" invisible="1"/>
+                <field name="show_dest_location" invisible="1"/>
+            </field>
             <xpath expr="//field[@name='product_uom']" position="after">
-                <field name="location_dest_list" />
+                <field name="location_src_list" attrs="{'column_invisible': [('parent.show_src_location', '=', False)]}"/>
+                <field name="location_dest_list" attrs="{'column_invisible': [('parent.show_dest_location', '=', False)]}"/>
                 </xpath>
             <xpath expr="//field[@name='product_uom_qty']" position="attributes">
                 <attribute
