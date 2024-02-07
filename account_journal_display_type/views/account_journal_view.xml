@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_account_journal_form" model="ir.ui.view">
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form" />
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <field name="type" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+                </field>
+                <field name="type" position="after">
+                    <field name="display_type" />
+                </field>
+
+                <xpath
+          expr="//page[@name='bank_account']/group/group[1]/field[@name='default_account_id'][1]"
+          position="attributes"
+        >
+                    <attribute name="attrs">
+                        {'required': [ ('type', '=', 'bank'), ('display_type', '=', 'bank')], 'invisible': [('display_type', '!=', 'bank')]}</attribute>
+                </xpath>
+
+                <xpath
+          expr="//page[@name='bank_account']/group/group[1]/field[@name='default_account_id'][2]"
+          position="attributes"
+        >
+                    <attribute name="attrs">
+                        {'required': [('type', '=', 'cash')], 'invisible': [('type', '!=', 'cash')]}
+                    </attribute>
+                </xpath>
+
+                <xpath
+          expr="//page[@name='bank_account']/group/group[1]/field[@name='suspense_account_id'][1]"
+          position="attributes"
+        >
+                    <attribute name="attrs">
+                        {'required': [('display_type', 'in', ('bank', 'cash'))], 'invisible': [('display_type', 'not in', ('bank', 'cash'))]}</attribute>
+                </xpath>
+
+                <xpath
+          expr="//page[@name='bank_account']/group/group[2]"
+          position="attributes"
+        >
+                    <attribute name="attrs">
+                        {'invisible': ['|', ('type', '!=', 'bank'), ('display_type', '=', 'payment') ]}</attribute>
+                </xpath>
+
+                <xpath
+          expr="//page[@name='journal_entries']/group/group[1]/field[@name='payment_debit_account_id'][1]"
+          position="attributes"
+        >
+                    <attribute name="attrs">
+                        {'required': [('type', 'in', ('bank', 'cash'))], 'invisible': [('type', 'not in', ('bank', 'cash'))]}</attribute>
+                </xpath>
+
+                <xpath
+          expr="//page[@name='journal_entries']/group/group[2]/field[@name='payment_credit_account_id'][1]"
+          position="attributes"
+        >
+                    <attribute name="attrs">
+                        {'required': [('type', 'in', ('bank', 'cash'))], 'invisible': [('type', 'not in', ('bank', 'cash'))]}</attribute>
+                </xpath>
+
+                <xpath expr="//page[@name='journal_entries']" position="attributes">
+                    <attribute name="attrs">
+                        {'invisible': [('type', 'in', ['sale', 'purchase', 'general','cash'])]}</attribute>
+                </xpath>
+
+
+            </field>
+        </record>
+    </data>
+</odoo>
