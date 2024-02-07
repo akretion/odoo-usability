@@ -4,16 +4,23 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-01 10:02+0000\n"
-"PO-Revision-Date: 2021-07-01 12:15+0200\n"
-"Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
+"POT-Creation-Date: 2024-02-07 21:56+0000\n"
+"PO-Revision-Date: 2024-02-07 21:56+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: base_usability
+#. odoo-python
+#: code:addons/base_usability/models/res_company.py:0
+#, python-format
+msgid "APE:"
+msgstr "APE :"
 
 #. module: base_usability
 #: model:ir.model,name:base_usability.model_res_partner_bank
@@ -31,9 +38,14 @@ msgid "Companies"
 msgstr "Sociétés"
 
 #. module: base_usability
+#: model_terms:ir.ui.view,arch_db:base_usability.ir_property_view_search
+msgid "Company"
+msgstr "Société"
+
+#. module: base_usability
 #: model:ir.model,name:base_usability.model_res_partner
 msgid "Contact"
-msgstr "Contact"
+msgstr ""
 
 #. module: base_usability
 #: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
@@ -41,23 +53,15 @@ msgid "Currency"
 msgstr "Devise"
 
 #. module: base_usability
+#. odoo-python
+#: code:addons/base_usability/models/res_partner.py:0
 #: code:addons/base_usability/models/res_partner.py:0
 #, python-format
 msgid "Customer Number:"
 msgstr "N° client :"
 
 #. module: base_usability
-#: model:ir.model.fields,field_description:base_usability.field_ir_mail_server__display_name
-#: model:ir.model.fields,field_description:base_usability.field_ir_model__display_name
-#: model:ir.model.fields,field_description:base_usability.field_res_company__display_name
-#: model:ir.model.fields,field_description:base_usability.field_res_partner__display_name
-#: model:ir.model.fields,field_description:base_usability.field_res_partner_bank__display_name
-#: model:ir.model.fields,field_description:base_usability.field_res_partner_category__display_name
-#: model:ir.model.fields,field_description:base_usability.field_res_users__display_name
-msgid "Display Name"
-msgstr "Nom affiché"
-
-#. module: base_usability
+#. odoo-python
 #: code:addons/base_usability/models/res_company.py:0
 #: code:addons/base_usability/models/res_partner.py:0
 #, python-format
@@ -65,43 +69,34 @@ msgid "E-mail:"
 msgstr "E-mail :"
 
 #. module: base_usability
+#. odoo-python
+#: code:addons/base_usability/models/res_company.py:0
+#, python-format
+msgid "EORI:"
+msgstr "EORI :"
+
+#. module: base_usability
+#: model_terms:ir.ui.view,arch_db:base_usability.ir_property_view_search
+msgid "Field"
+msgstr ""
+
+#. module: base_usability
 #: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
 msgid "Group By"
 msgstr "Grouper par"
 
 #. module: base_usability
-#: model:ir.model.fields,field_description:base_usability.field_ir_mail_server__id
-#: model:ir.model.fields,field_description:base_usability.field_ir_model__id
-#: model:ir.model.fields,field_description:base_usability.field_res_company__id
-#: model:ir.model.fields,field_description:base_usability.field_res_partner__id
-#: model:ir.model.fields,field_description:base_usability.field_res_partner_bank__id
-#: model:ir.model.fields,field_description:base_usability.field_res_partner_category__id
-#: model:ir.model.fields,field_description:base_usability.field_res_users__id
-msgid "ID"
-msgstr "ID"
-
-#. module: base_usability
 #: model_terms:ir.ui.view,arch_db:base_usability.view_module_filter
 msgid "Installable"
-msgstr "Installable"
-
-#. module: base_usability
-#: model:ir.model.fields,field_description:base_usability.field_ir_mail_server____last_update
-#: model:ir.model.fields,field_description:base_usability.field_ir_model____last_update
-#: model:ir.model.fields,field_description:base_usability.field_res_company____last_update
-#: model:ir.model.fields,field_description:base_usability.field_res_partner____last_update
-#: model:ir.model.fields,field_description:base_usability.field_res_partner_bank____last_update
-#: model:ir.model.fields,field_description:base_usability.field_res_partner_category____last_update
-#: model:ir.model.fields,field_description:base_usability.field_res_users____last_update
-msgid "Last Modified on"
-msgstr "Dernière modification le"
+msgstr ""
 
 #. module: base_usability
 #: model:ir.model,name:base_usability.model_ir_mail_server
 msgid "Mail Server"
-msgstr "Serveur mail"
+msgstr "Serveur de messagerie"
 
 #. module: base_usability
+#. odoo-python
 #: code:addons/base_usability/models/res_partner.py:0
 #, python-format
 msgid "Mobile:"
@@ -119,8 +114,8 @@ msgstr "Nom ou code"
 
 #. module: base_usability
 #: model_terms:ir.ui.view,arch_db:base_usability.view_res_partner_filter
-msgid "Name or Email or Reference"
-msgstr "Nom ou e-mail ou référence"
+msgid "Name or Email or VAT or Reference"
+msgstr "Nom ou e-mail ou TVA ou référence"
 
 #. module: base_usability
 #: model:ir.model.fields,field_description:base_usability.field_res_partner__name_title
@@ -134,33 +129,28 @@ msgid "Nobody (used to hide native menus)"
 msgstr "Personne (utilisé pour cacher des entrées de menu natifs)"
 
 #. module: base_usability
-#: model:ir.model,name:base_usability.model_res_partner_category
-msgid "Partner Tags"
-msgstr "Étiquettes du partenaire"
-
-#. module: base_usability
 #: model:ir.model.fields,field_description:base_usability.field_res_partner__ref
 #: model:ir.model.fields,field_description:base_usability.field_res_users__ref
 msgid "Reference"
 msgstr "Référence"
 
 #. module: base_usability
-#: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
-msgid "Search Countries"
-msgstr ""
+#. odoo-python
+#: code:addons/base_usability/models/res_company.py:0
+#, python-format
+msgid "SIRET:"
+msgstr "SIRET :"
 
 #. module: base_usability
+#. odoo-python
+#: code:addons/base_usability/models/res_partner.py:0
 #: code:addons/base_usability/models/res_partner.py:0
 #, python-format
 msgid "Supplier Number:"
 msgstr "N° fournisseur :"
 
 #. module: base_usability
-#: model:ir.model.fields,field_description:base_usability.field_res_partner_category__name
-msgid "Tag Name"
-msgstr "Nom de l'étiquette"
-
-#. module: base_usability
+#. odoo-python
 #: code:addons/base_usability/models/res_company.py:0
 #: code:addons/base_usability/models/res_partner.py:0
 #, python-format
@@ -169,22 +159,25 @@ msgstr "Tél :"
 
 #. module: base_usability
 #: model:ir.model,name:base_usability.model_res_users
-msgid "Users"
-msgstr "Utilisateurs"
+msgid "User"
+msgstr "Utilisateur"
 
 #. module: base_usability
+#. odoo-python
 #: code:addons/base_usability/models/res_partner.py:0
 #, python-format
 msgid "VAT Number:"
 msgstr "N° TVA :"
 
 #. module: base_usability
+#. odoo-python
 #: code:addons/base_usability/models/res_company.py:0
 #, python-format
 msgid "VAT:"
 msgstr "TVA :"
 
 #. module: base_usability
+#. odoo-python
 #: code:addons/base_usability/models/res_company.py:0
 #: code:addons/base_usability/models/res_partner.py:0
 #, python-format

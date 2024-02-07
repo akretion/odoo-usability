@@ -53,6 +53,22 @@ class ResCompany(models.Model):
                 'value': self.vat,
                 'label': _('VAT:')},
             }
+        if hasattr(self, 'ape'):
+            options['ape'] = {
+                'value': self.ape,
+                'label': _('APE:'),
+                }
+        if hasattr(self, 'siret'):
+            options.update({
+                'siret': {
+                    'value': self.siret,
+                    'label': _('SIRET:'),
+                    },
+                'eori': {
+                    'value': ''.join([self.country_id.code, self.siret]),
+                    'label': _('EORI:'),
+                    },
+                })
         return options
 
     def _report_company_legal_name(self):
