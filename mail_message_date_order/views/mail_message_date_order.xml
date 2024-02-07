@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="assets_backend"
+        name="mail_message_date_order assets"
+        inherit_id="mail.assets_backend"
+    >
+        <xpath expr="." position="inside">
+            <script
+                type="text/javascript"
+                src="/mail_message_date_order/static/src/models/mail_message_date_order.js"
+            />
+        </xpath>
+    </template>
+</odoo>
