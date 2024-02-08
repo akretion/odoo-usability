@@ -16,14 +16,6 @@
         <button name="button_reopen" position="attributes">
             <attribute name="confirm">Are you sure ? Don't do 'Reset to New' if you just want to modify the bank journal entry of an existing statement line.</attribute>
         </button>
-        <button name="button_reopen" position="after">
-            <button
-                name="button_undo_reconciliation"
-                type="object"
-                confirm="Are you sure to unreconcile all the entries of the bank statement?"
-                states="open"
-                string="Unreconcile All"/>
-        </button>
         <xpath expr="//field[@name='line_ids']/tree/button[@name='button_undo_reconciliation']" position="after">
             <field name="move_id" invisible="1"/>
             <button name="show_account_move" type="object"
