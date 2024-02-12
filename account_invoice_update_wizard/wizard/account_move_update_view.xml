@@ -17,11 +17,12 @@
                     <field name="partner_id" invisible="1"/>
                     <field string="Bill Reference" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" name="ref"/>
                     <field string="Customer Reference" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}" name="ref"/>
-                    <field name="invoice_origin"/>
+                    <field string="Ref" attrs="{'invisible': [('move_type', '!=', 'entry')]}" name="ref"/>
+                    <field name="invoice_origin" attrs="{'invisible': [('move_type', '=', 'entry')]}"/>
                     <!-- update of payment term is broken -->
                     <!-- <field name="invoice_payment_term_id" widget="selection"/>-->
-                    <field name="partner_bank_id"/>
-                    <field name="user_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                    <field name="partner_bank_id" attrs="{'invisible': [('move_type', '=', 'entry')]}"/>
+                    <field name="user_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" attrs="{'invisible': [('move_type', '=', 'entry')]}"/>
                 </group>
                 <group name="lines">
                     <field name="line_ids" nolabel="1" widget="section_and_note_one2many">
@@ -30,8 +31,8 @@
                             <field name="display_type" invisible="1"/>
                             <field name="currency_id" invisible="1"/>
                             <field name="name"/>
-                            <field name="quantity" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-                            <field name="price_subtotal" attrs="{'invisible': [('display_type', '!=', False)]}"/>
+                            <field name="quantity" attrs="{'invisible': [('display_type', '!=', False)], 'column_invisible': [('parent.move_type', '=', 'entry')]}"/>
+                            <field name="price_subtotal" attrs="{'invisible': [('display_type', '!=', False)], 'column_invisible': [('parent.move_type', '=', 'entry')]}"/>
                             <field name="analytic_account_id" attrs="{'invisible': [('display_type', '!=', False)]}" groups="analytic.group_analytic_accounting"/>
                             <field name="analytic_tag_ids" attrs="{'invisible': [('display_type', '!=', False)]}" groups="analytic.group_analytic_tags" widget="many2many_tags"/>
                     </tree>

@@ -11,7 +11,8 @@
     <field name="inherit_id" ref="account.view_move_form"/>
     <field name="arch" type="xml">
         <button name="button_draft" position="before">
-            <button name="prepare_update_wizard" type="object" string="Update Invoice" states="posted" groups="account.group_account_invoice"/>
+            <button name="prepare_update_wizard" type="object" string="Update Invoice" groups="account.group_account_invoice" attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('move_type', '=', 'entry')]}"/>
+            <button name="prepare_update_wizard" type="object" string="Update Entry" groups="account.group_account_invoice" attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('move_type', '!=', 'entry')]}"/>
         </button>
     </field>
 </record>
