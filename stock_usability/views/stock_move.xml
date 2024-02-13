@@ -80,7 +80,6 @@
     <field name="arch" type="xml">
         <field name="reference" position="before">
             <field name="picking_id" attrs="{'invisible': [('picking_id', '=', False)]}"/>
-            <field name="production_id" attrs="{'invisible': [('production_id', '=', False)]}"/>
         </field>
     </field>
 </record>
