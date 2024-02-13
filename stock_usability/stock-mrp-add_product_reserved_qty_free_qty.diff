@@ -1,0 +1,271 @@
+diff --git a/addons/mrp/models/product.py b/addons/mrp/models/product.py
+index b0b3c8f2662..7fefa873014 100644
+--- a/addons/mrp/models/product.py
++++ b/addons/mrp/models/product.py
+@@ -195,6 +195,7 @@ class ProductProduct(models.Model):
+             ratios_qty_available = []
+             ratios_incoming_qty = []
+             ratios_outgoing_qty = []
++            ratios_reserved_qty = []
+             ratios_free_qty = []
+ 
+             for component, bom_sub_lines in bom_sub_lines_grouped.items():
+@@ -219,6 +220,7 @@ class ProductProduct(models.Model):
+                         "qty_available": float_round(component.qty_available, precision_rounding=rounding),
+                         "incoming_qty": float_round(component.incoming_qty, precision_rounding=rounding),
+                         "outgoing_qty": float_round(component.outgoing_qty, precision_rounding=rounding),
++                        "reserved_qty": float_round(component.reserved_qty, precision_rounding=rounding),
+                         "free_qty": float_round(component.free_qty, precision_rounding=rounding),
+                     }
+                 )
+@@ -226,6 +228,7 @@ class ProductProduct(models.Model):
+                 ratios_qty_available.append(component_res["qty_available"] / qty_per_kit)
+                 ratios_incoming_qty.append(component_res["incoming_qty"] / qty_per_kit)
+                 ratios_outgoing_qty.append(component_res["outgoing_qty"] / qty_per_kit)
++                ratios_reserved_qty.append(component_res["reserved_qty"] / qty_per_kit)
+                 ratios_free_qty.append(component_res["free_qty"] / qty_per_kit)
+             if bom_sub_lines and ratios_virtual_available:  # Guard against all cnsumable bom: at least one ratio should be present.
+                 res[product.id] = {
+@@ -233,6 +236,7 @@ class ProductProduct(models.Model):
+                     'qty_available': min(ratios_qty_available) * bom_kits[product].product_qty // 1,
+                     'incoming_qty': min(ratios_incoming_qty) * bom_kits[product].product_qty // 1,
+                     'outgoing_qty': min(ratios_outgoing_qty) * bom_kits[product].product_qty // 1,
++                    'reserved_qty': min(ratios_reserved_qty) * bom_kits[product].product_qty // 1,
+                     'free_qty': min(ratios_free_qty) * bom_kits[product].product_qty // 1,
+                 }
+             else:
+@@ -241,6 +245,7 @@ class ProductProduct(models.Model):
+                     'qty_available': 0,
+                     'incoming_qty': 0,
+                     'outgoing_qty': 0,
++                    'reserved_qty': 0,
+                     'free_qty': 0,
+                 }
+ 
+diff --git a/addons/stock/models/product.py b/addons/stock/models/product.py
+index e0b9b2f95d6..f50fb39eb5a 100644
+--- a/addons/stock/models/product.py
++++ b/addons/stock/models/product.py
+@@ -50,6 +50,11 @@ class Product(models.Model):
+              "of its children.\n"
+              "Otherwise, this includes goods stored in any Stock Location "
+              "with 'internal' type.")
++    reserved_qty = fields.Float(
++        compute='_compute_quantities', compute_sudo=False,
++        digits='Product Unit of Measure',
++        search='_search_reserved_qty',
++        string='Reserved Quantity')
+     free_qty = fields.Float(
+         'Free To Use Quantity ', compute='_compute_quantities', search='_search_free_qty',
+         digits='Product Unit of Measure', compute_sudo=False,
+@@ -107,6 +112,7 @@ class Product(models.Model):
+             product.incoming_qty = res[product.id]['incoming_qty']
+             product.outgoing_qty = res[product.id]['outgoing_qty']
+             product.virtual_available = res[product.id]['virtual_available']
++            product.reserved_qty = res[product.id]['reserved_qty']
+             product.free_qty = res[product.id]['free_qty']
+         # Services need to be set with 0.0 for all quantities
+         services = self - products
+@@ -114,6 +120,7 @@ class Product(models.Model):
+         services.incoming_qty = 0.0
+         services.outgoing_qty = 0.0
+         services.virtual_available = 0.0
++        services.reserved_qty = 0.0
+         services.free_qty = 0.0
+ 
+     def _product_available(self, field_names=None, arg=False):
+@@ -170,7 +177,7 @@ class Product(models.Model):
+             product_id = product.id
+             if not product_id:
+                 res[product_id] = dict.fromkeys(
+-                    ['qty_available', 'free_qty', 'incoming_qty', 'outgoing_qty', 'virtual_available'],
++                    ['qty_available', 'reserved_qty', 'free_qty', 'incoming_qty', 'outgoing_qty', 'virtual_available'],
+                     0.0,
+                 )
+                 continue
+@@ -182,6 +189,7 @@ class Product(models.Model):
+                 qty_available = quants_res.get(product_id, [0.0])[0]
+             reserved_quantity = quants_res.get(product_id, [False, 0.0])[1]
+             res[product_id]['qty_available'] = float_round(qty_available, precision_rounding=rounding)
++            res[product_id]['reserved_qty'] = float_round(reserved_quantity, precision_rounding=rounding)
+             res[product_id]['free_qty'] = float_round(qty_available - reserved_quantity, precision_rounding=rounding)
+             res[product_id]['incoming_qty'] = float_round(moves_in_res.get(product_id, 0.0), precision_rounding=rounding)
+             res[product_id]['outgoing_qty'] = float_round(moves_out_res.get(product_id, 0.0), precision_rounding=rounding)
+@@ -308,13 +316,16 @@ class Product(models.Model):
+         # TDE FIXME: should probably clean the search methods
+         return self._search_product_quantity(operator, value, 'outgoing_qty')
+ 
++    def _search_reserved_qty(self, operator, value):
++        return self._search_product_quantity(operator, value, 'reserved_qty')
++
+     def _search_free_qty(self, operator, value):
+         return self._search_product_quantity(operator, value, 'free_qty')
+ 
+     def _search_product_quantity(self, operator, value, field):
+         # TDE FIXME: should probably clean the search methods
+         # to prevent sql injections
+-        if field not in ('qty_available', 'virtual_available', 'incoming_qty', 'outgoing_qty', 'free_qty'):
++        if field not in ('qty_available', 'virtual_available', 'incoming_qty', 'outgoing_qty', 'reserved_qty', 'free_qty'):
+             raise UserError(_('Invalid domain left operand %s', field))
+         if operator not in ('<', '>', '=', '!=', '<=', '>='):
+             raise UserError(_('Invalid domain operator %s', operator))
+@@ -464,6 +475,13 @@ class Product(models.Model):
+         action['domain'] = [('product_id', '=', self.id)]
+         return action
+ 
++    def action_view_reserved_stock_move_lines(self):
++        action = self.action_view_stock_move_lines()
++        action['domain'].append(('state', 'not in', ('done', 'draft', 'cancel')))
++        # stock.stock_move_line_action sets search_default_done to 1, so we force it to 0
++        action['context'] = dict(self._context, search_default_done=0)
++        return action
++
+     def action_view_related_putaway_rules(self):
+         self.ensure_one()
+         domain = [
+@@ -616,6 +634,18 @@ class ProductTemplate(models.Model):
+     qty_available = fields.Float(
+         'Quantity On Hand', compute='_compute_quantities', search='_search_qty_available',
+         compute_sudo=False, digits='Product Unit of Measure')
++    reserved_qty = fields.Float(
++        compute='_compute_quantities', compute_sudo=False,
++        search='_search_reserved_qty',
++        digits='Product Unit of Measure',
++        string='Reserved Quantity')
++    free_qty = fields.Float(
++        compute='_compute_quantities', compute_sudo=False,
++        search='_search_free_qty',
++        digits='Product Unit of Measure',
++        string='Free To Use Quantity',
++        help="The free to use quantity corresponds to the quantity on hand "
++             "- reserved quantity")
+     virtual_available = fields.Float(
+         'Forecasted Quantity', compute='_compute_quantities', search='_search_virtual_available',
+         compute_sudo=False, digits='Product Unit of Measure')
+@@ -667,6 +697,8 @@ class ProductTemplate(models.Model):
+         res = self._compute_quantities_dict()
+         for template in self:
+             template.qty_available = res[template.id]['qty_available']
++            template.reserved_qty = res[template.id]['reserved_qty']
++            template.free_qty = res[template.id]['free_qty']
+             template.virtual_available = res[template.id]['virtual_available']
+             template.incoming_qty = res[template.id]['incoming_qty']
+             template.outgoing_qty = res[template.id]['outgoing_qty']
+@@ -680,16 +712,22 @@ class ProductTemplate(models.Model):
+         prod_available = {}
+         for template in self:
+             qty_available = 0
++            reserved_qty = 0
++            free_qty = 0
+             virtual_available = 0
+             incoming_qty = 0
+             outgoing_qty = 0
+             for p in template.product_variant_ids:
+                 qty_available += variants_available[p.id]["qty_available"]
++                reserved_qty += variants_available[p.id]["reserved_qty"]
++                free_qty += variants_available[p.id]["free_qty"]
+                 virtual_available += variants_available[p.id]["virtual_available"]
+                 incoming_qty += variants_available[p.id]["incoming_qty"]
+                 outgoing_qty += variants_available[p.id]["outgoing_qty"]
+             prod_available[template.id] = {
+                 "qty_available": qty_available,
++                "reserved_qty": reserved_qty,
++                "free_qty": free_qty,
+                 "virtual_available": virtual_available,
+                 "incoming_qty": incoming_qty,
+                 "outgoing_qty": outgoing_qty,
+@@ -717,6 +755,16 @@ class ProductTemplate(models.Model):
+         product_variant_ids = self.env['product.product'].search(domain)
+         return [('product_variant_ids', 'in', product_variant_ids.ids)]
+ 
++    def _search_reserved_qty(self, operator, value):
++        domain = [('reserved_qty', operator, value)]
++        product_variants = self.env['product.product'].search(domain)
++        return [('product_variant_ids', 'in', product_variants.ids)]
++
++    def _search_free_qty(self, operator, value):
++        domain = [('free_qty', operator, value)]
++        product_variants = self.env['product.product'].search(domain)
++        return [('product_variant_ids', 'in', product_variants.ids)]
++
+     def _search_virtual_available(self, operator, value):
+         domain = [('virtual_available', operator, value)]
+         product_variant_ids = self.env['product.product'].search(domain)
+@@ -859,6 +907,13 @@ class ProductTemplate(models.Model):
+         action['domain'] = [('product_id.product_tmpl_id', 'in', self.ids)]
+         return action
+ 
++    def action_view_reserved_stock_move_lines(self):
++        action = self.action_view_stock_move_lines()
++        action['domain'].append(('state', 'not in', ('done', 'draft', 'cancel')))
++        # stock.stock_move_line_action sets search_default_done to 1, so we force it to 0
++        action['context'] = dict(self._context, search_default_done=0)
++        return action
++
+     def action_open_product_lot(self):
+         self.ensure_one()
+         action = self.env["ir.actions.actions"]._for_xml_id("stock.action_production_lot_form")
+diff --git a/addons/stock/views/product_views.xml b/addons/stock/views/product_views.xml
+index 7655c15ac09..0897952c79d 100644
+--- a/addons/stock/views/product_views.xml
++++ b/addons/stock/views/product_views.xml
+@@ -40,7 +40,9 @@
+             <field name="arch" type="xml">
+                 <field name="price" position="after">
+                     <field name="qty_available" attrs="{'invisible':[('type', '!=', 'product')]}" optional="show" decoration-danger="virtual_available &lt; 0" decoration-warning="virtual_available == 0" decoration-bf="1"/>
+-                    <field name="virtual_available" attrs="{'invisible':[('type', '!=', 'product')]}" string="Forecasted Quantity" optional="show" decoration-danger="virtual_available &lt; 0" decoration-warning="virtual_available == 0"/>
++                    <field name="reserved_qty" attrs="{'invisible': [('type', '!=', 'product')]}" optional="show"/>
++                    <field name="free_qty" attrs="{'invisible': [('type', '!=', 'product')]}" optional="show" string="Free Qty"/>
++                    <field name="virtual_available" attrs="{'invisible':[('type', '!=', 'product')]}" string="Forecasted Quantity" optional="hide" decoration-danger="virtual_available &lt; 0" decoration-warning="virtual_available == 0"/>
+                 </field>
+             </field>
+         </record>
+@@ -53,7 +55,9 @@
+                 <field name="uom_id" position="before">
+                     <field name="show_on_hand_qty_status_button" invisible="1"/>
+                     <field name="qty_available" attrs="{'invisible':[('show_on_hand_qty_status_button', '=', False)]}" optional="show" decoration-danger="qty_available &lt; 0"/>
+-                    <field name="virtual_available" attrs="{'invisible':[('show_on_hand_qty_status_button', '=', False)]}" optional="show" decoration-danger="virtual_available &lt; 0" decoration-bf="1"/>
++                    <field name="reserved_qty" attrs="{'invisible':[('show_on_hand_qty_status_button', '=', False)]}" optional="show"/>
++                    <field name="free_qty" attrs="{'invisible':[('show_on_hand_qty_status_button', '=', False)]}" optional="show" string="Free Qty"/>
++                    <field name="virtual_available" attrs="{'invisible':[('show_on_hand_qty_status_button', '=', False)]}" optional="hide" decoration-danger="virtual_available &lt; 0" decoration-bf="1"/>
+                 </field>
+                 <field name="default_code" position="after">
+                     <field name="responsible_id" widget="many2one_avatar_user"/>
+@@ -234,6 +238,18 @@
+                                     </span>
+                                     <span class="o_stat_text">On Hand</span>
+                                </div>
++                       </button>
++                       <button class="oe_stat_button"
++                               name="action_view_reserved_stock_move_lines"
++                               icon="fa-building-o"
++                               type="object" attrs="{'invisible': [('type', '!=', 'product')]}">
++                               <div class="o_field_widget o_stat_info">
++                                    <span class="o_stat_value">
++                                        <field name="reserved_qty" widget="statinfo" nolabel="1" class="mr4"/>
++                                        <field name="uom_name"/>
++                                    </span>
++                                    <span class="o_stat_text">Reserved</span>
++                               </div>
+                         </button>
+                         <button type="object"
+                             name="action_product_forecast_report"
+@@ -324,6 +340,18 @@
+                                 <span class="o_stat_text">On Hand</span>
+                             </div>
+                         </button>
++                        <button type="object"
++                            name="action_view_reserved_stock_move_lines"
++                            attrs="{'invisible':[('show_on_hand_qty_status_button', '=', False)]}"
++                            class="oe_stat_button" icon="fa-cubes">
++                            <div class="o_field_widget o_stat_info">
++                                <span class="o_stat_value" widget="statinfo">
++                                    <field name="reserved_qty" widget="statinfo" nolabel="1" class="mr4"/>
++                                    <field name="uom_name"/>
++                                </span>
++                                <span class="o_stat_text">Reserved</span>
++                            </div>
++                        </button>
+                         <button type="object"
+                             name="action_product_tmpl_forecast_report"
+                             attrs="{'invisible':[('show_on_hand_qty_status_button', '=', False)]}"
