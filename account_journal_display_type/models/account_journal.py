@@ -14,7 +14,6 @@ class AccountJournal(models.Model):
             ("general", "Miscellaneous"),
         ],
         required=True,
-        inverse="_inverse_type",
         help="Select 'Sale' for customer invoices journals.\n"
         "Select 'Purchase' for vendor bills journals.\n"
         "Select 'Cash' or 'Bank' for journals that are used in customer or vendor payments.\n"
@@ -29,7 +28,13 @@ class AccountJournal(models.Model):
     )
     payment_debit_account_id = fields.Many2one(
         comodel_name="account.account",
-        compute="_compute_payment_debit_account_id",
+        compute="_compute_payment_account_id",
+        readonly=False,
+        store=True,
+    )
+    payment_credit_account_id = fields.Many2one(
+        comodel_name="account.account",
+        compute="_compute_payment_account_id",
         readonly=False,
         store=True,
     )
@@ -49,7 +54,7 @@ class AccountJournal(models.Model):
                 record.default_account_id = record.payment_debit_account_id
 
     @api.depends("display_type", "default_account_id")
-    def _compute_payment_debit_account_id(self):
+    def _compute_payment_account_id(self):
         for record in self:
             if record.type == "cash":
                 record.payment_debit_account_id = record.default_account_id
@@ -61,7 +66,7 @@ class AccountJournal(models.Model):
         #  this code bypass this behavior
         if vals.get("display_type") == "payment":
             vals["default_account_id"] = True
-        if vals.get("display_type") == "cash":
+        elif vals.get("display_type") == "cash":
             vals["payment_debit_account_id"] = True
             vals["payment_credit_account_id"] = True
         super()._fill_missing_values(vals)
@@ -70,6 +75,6 @@ class AccountJournal(models.Model):
         # allow journal creation if display_type not define
         if not vals.get("display_type"):
             vals["display_type"] = vals["type"]
-        if vals.get("display_type") == "cash":
+        elif vals.get("display_type") == "cash":
             vals.pop("payment_debit_account_id")
             vals.pop("payment_credit_account_id")
