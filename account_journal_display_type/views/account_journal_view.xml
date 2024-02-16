@@ -10,7 +10,7 @@
                 <attribute name="attrs">{'invisible': True}</attribute>
                 </field>
                 <field name="type" position="after">
-                    <field name="display_type" />
+                    <field name="display_type" string="Type"/>
                 </field>
 
                 <xpath
