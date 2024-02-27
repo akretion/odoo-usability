@@ -24,6 +24,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'depends': ['sale_stock'],
     'data': [
         'views/sale_order.xml',
+        'views/sale_report.xml',
         'views/procurement_group.xml',
         'views/stock_move.xml',
         'views/stock_picking.xml',

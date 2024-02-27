@@ -2,7 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class SaleOrder(models.Model):
@@ -24,3 +24,18 @@ class SaleOrder(models.Model):
                 lambda l:
                 l.product_id and l.product_id.type in ('product', 'consu')).write(vals)
         return super()._action_confirm()
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    # It's important when you add a line AFTER order confirmation
+    route_id = fields.Many2one(compute='_compute_route_id', readonly=False, store=True, precompute=True)
+
+    @api.depends('display_type', 'product_id')
+    def _compute_route_id(self):
+        for line in self:
+            if not line.display_type and line.product_id and line.product_id.type in ('product', 'consu'):
+                line.route_id = line.order_id.route_id or False
+            else:
+                line.route_id = False
