@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2024 Akretion France (http://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+
+<record id="view_account_analytic_line_tree_inherit_account" model="ir.ui.view">
+    <field name="model">account.analytic.line</field>
+    <field name="inherit_id" ref="account.view_account_analytic_line_tree_inherit_account"/>
+    <field name="arch" type="xml">
+	<field name="general_account_id" position="attributes">
+	    <attribute name="optional">show</attribute>
+        </field>
+    </field>
+</record>
+
+
+</odoo>
