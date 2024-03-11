@@ -21,6 +21,7 @@ class AccountMoveUpdate(models.TransientModel):
     invoice_payment_term_id = fields.Many2one(
         'account.payment.term', string='Payment Term')
     ref = fields.Char(string='Reference')  # field label is customized in the view
+    invoice_date = fields.Date()
     invoice_origin = fields.Char(string='Source Document')
     partner_bank_id = fields.Many2one(
         'res.partner.bank', string='Bank Account')
@@ -30,7 +31,7 @@ class AccountMoveUpdate(models.TransientModel):
     @api.model
     def _simple_fields2update(self):
         '''List boolean, date, datetime, char, text fields'''
-        return ['ref', 'invoice_origin']
+        return ['ref', 'invoice_origin', 'invoice_date']
 
     @api.model
     def _m2o_fields2update(self):
