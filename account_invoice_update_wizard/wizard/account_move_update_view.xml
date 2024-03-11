@@ -15,7 +15,8 @@
                     <field name="move_type" invisible="1"/>
                     <field name="company_id" invisible="1"/>
                     <field name="partner_id" invisible="1"/>
-                    <field string="Bill Reference" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" name="ref"/>
+                    <field string="Bill Date" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" name="invoice_date"/>
+                    <field string="Supplier Bill Reference" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" name="ref"/>
                     <field string="Customer Reference" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}" name="ref"/>
                     <field string="Ref" attrs="{'invisible': [('move_type', '!=', 'entry')]}" name="ref"/>
                     <field name="invoice_origin" attrs="{'invisible': [('move_type', '=', 'entry')]}"/>
