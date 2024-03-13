@@ -13,6 +13,8 @@ import ipaddress
 
 import logging
 logger = logging.getLogger(__name__)
+TIMEOUT = 5
+PRINTER_PORT = 9100
 
 
 class ProductPrintZplBarcode(models.TransientModel):
@@ -184,10 +186,13 @@ class ProductPrintZplBarcode(models.TransientModel):
         else:  # IPv4
             socket_inet = socket.AF_INET
         with socket.socket(socket_inet, socket.SOCK_STREAM) as s:
+            s.settimeout(TIMEOUT)
             try:
-                s.connect((str(ip), 9100))
+                s.connect((str(ip), PRINTER_PORT))
             except Exception as e:
-                raise UserError(str(e))
+                raise UserError(_(
+                    "Cannot connect to ZPL printer on %(ip)s. Error: %(error)s",
+                    ip=ip, error=e))
             zpl_file_bytes = base64.decodebytes(self.zpl_file)
             s.send(zpl_file_bytes)
             s.close()
