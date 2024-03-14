@@ -20,19 +20,19 @@ class SaleOrderLine(models.Model):
         help="Cost price in company currency in the unit of measure "
         "of the sale order line")
     standard_price_sale_currency = fields.Float(
-        string='Cost Price in Sale Currency', readonly=True,
+        string='Cost Price in Sale Currency',
         compute='_compute_margin', store=True,
         digits=dp.get_precision('Product Price'),
         help="Cost price in sale currency in the unit of measure "
         "of the sale order line")
     margin_sale_currency = fields.Monetary(
-        string='Margin in Sale Currency', readonly=True, store=True,
+        string='Margin in Sale Currency', store=True,
         compute='_compute_margin', currency_field='currency_id')
     margin_company_currency = fields.Monetary(
-        string='Margin in Company Currency', readonly=True, store=True,
+        string='Margin in Company Currency', store=True,
         compute='_compute_margin', currency_field='company_currency_id')
     margin_rate = fields.Float(
-        string="Margin Rate", readonly=True, store=True,
+        string="Margin Rate", store=True,
         compute='_compute_margin',
         digits=(16, 2), help="Margin rate in percentage of the sale price")
 
@@ -68,19 +68,20 @@ class SaleOrderLine(models.Model):
             line.margin_rate = margin_rate
 
     # We want to copy standard_price on sale order line
-    @api.model
-    def create(self, vals):
-        if vals.get('product_id'):
-            pp = self.env['product.product'].browse(vals['product_id'])
-            std_price = pp.standard_price
-            sale_uom_id = vals.get('product_uom')
-            if sale_uom_id and sale_uom_id != pp.uom_id.id:
-                sale_uom = self.env['uom.uom'].browse(sale_uom_id)
-                # convert from product UoM to sale UoM
-                std_price = pp.uom_id._compute_price(
-                    pp.standard_price, sale_uom)
-            vals['standard_price_company_currency'] = std_price
-        return super(SaleOrderLine, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('product_id'):
+                pp = self.env['product.product'].browse(vals['product_id'])
+                std_price = pp.standard_price
+                sale_uom_id = vals.get('product_uom')
+                if sale_uom_id and sale_uom_id != pp.uom_id.id:
+                    sale_uom = self.env['uom.uom'].browse(sale_uom_id)
+                    # convert from product UoM to sale UoM
+                    std_price = pp.uom_id._compute_price(
+                        pp.standard_price, sale_uom)
+                vals['standard_price_company_currency'] = std_price
+        return super().create(vals_list)
 
     def write(self, vals):
         if not vals:
@@ -101,7 +102,7 @@ class SaleOrderLine(models.Model):
                 if sale_uom != pp.uom_id:
                     std_price = pp.uom_id._compute_price(std_price, sale_uom)
                 sol.write({'standard_price_company_currency': std_price})
-        return super(SaleOrderLine, self).write(vals)
+        return super().write(vals)
 
 
 class SaleOrder(models.Model):
@@ -114,21 +115,27 @@ class SaleOrder(models.Model):
     margin_sale_currency = fields.Monetary(
         string='Margin in Sale Currency',
         currency_field='currency_id',
-        readonly=True, compute='_compute_margin', store=True)
+        compute='_compute_margin', store=True)
     margin_company_currency = fields.Monetary(
         string='Margin in Company Currency',
         currency_field='company_currency_id',
-        readonly=True, compute='_compute_margin', store=True)
+        compute='_compute_margin', store=True)
 
     @api.depends(
         'order_line.margin_sale_currency',
         'order_line.margin_company_currency')
     def _compute_margin(self):
+        rg_res = self.env['sale.order.line'].read_group(
+            [('order_id', 'in', self.ids)],
+            ['order_id', 'margin_sale_currency:sum', 'margin_company_currency:sum'],
+            ['order_id'])
+        mapped_data = dict([
+            (x['order_id'][0], {
+                'margin_sale_currency': x['margin_sale_currency'],
+                'margin_company_currency': x['margin_company_currency'],
+                }) for x in rg_res])
         for order in self:
-            margin_sale_cur = 0.0
-            margin_comp_cur = 0.0
-            for sol in order.order_line:
-                margin_sale_cur += sol.margin_sale_currency
-                margin_comp_cur += sol.margin_company_currency
-            order.margin_sale_currency = margin_sale_cur
-            order.margin_company_currency = margin_comp_cur
+            order.margin_sale_currency = mapped_data.get(
+                order.id, {}).get('margin_sale_currency')
+            order.margin_company_currency = mapped_data.get(
+                order.id, {}).get('margin_company_currency')
