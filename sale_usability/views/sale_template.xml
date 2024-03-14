@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+<template id="track_so_line_qty_delivered_template">
+    <div>
+        <strong>The delivered quantity has been updated.</strong>
+        <ul>
+            <li><t t-esc="line.name"/>:</li>
+            Delivered Quantity: <t t-esc="line.qty_delivered" /> -&gt; <t t-esc="float(qty_delivered)"/><br/>
+        </ul>
+    </div>
+</template>
+
+
+</odoo>

@@ -135,3 +135,29 @@ class SaleOrderLine(models.Model):
         if no_product_code_param and no_product_code_param == 'True':
             product = product.with_context(display_default_code=False)
         return super().get_sale_order_line_multiline_description_sale(product)
+
+    # In v12, I developped the 3 modules service_line_qty_update_base, service_line_qty_update_purchase
+    # and service_line_qty_update_sale that add a wizard to update service lines and track the changes
+    # in the chatter.
+    # In v14, you can edit the quantity of the service lines directly and the purchase module
+    # tracks changes in the chatter... but the sale module doesn't track the changes of 'qty_delivered'
+    # So I "ported" that native feature of the purchase module to sale.order.line... here it is !
+    # We can remove that code if this feature is added in the sale module (it's NOT the case in
+    # odoo v17)
+    def write(self, vals):
+        if 'qty_delivered' in vals:
+            for line in self:
+                line._track_qty_delivered(vals['qty_delivered'])
+        return super().write(vals)
+
+    def _track_qty_delivered(self, new_qty):
+        self.ensure_one()
+        prec = self.env['decimal.precision'].precision_get('Product Unit of Measure')
+        if (
+                float_compare(new_qty, self.qty_delivered, precision_digits=prec) and
+                self.order_id.state == 'sale'):
+            self.order_id.message_post_with_view(
+                'sale_usability.track_so_line_qty_delivered_template',
+                values={'line': self, 'qty_delivered': new_qty},
+                subtype_id=self.env.ref('mail.mt_note').id
+            )
