@@ -4,7 +4,6 @@
 
 
 from odoo import api, fields, models
-import odoo.addons.decimal_precision as dp
 
 
 class SaleOrderLine(models.Model):
@@ -16,13 +15,13 @@ class SaleOrderLine(models.Model):
         store=True, string='Company Currency')
     standard_price_company_currency = fields.Float(
         string='Cost Price in Company Currency', readonly=True,
-        digits=dp.get_precision('Product Price'),
+        digits="Product Price",
         help="Cost price in company currency in the unit of measure "
         "of the sale order line")
     standard_price_sale_currency = fields.Float(
         string='Cost Price in Sale Currency',
         compute='_compute_margin', store=True,
-        digits=dp.get_precision('Product Price'),
+        digits="Product Price",
         help="Cost price in sale currency in the unit of measure "
         "of the sale order line")
     margin_sale_currency = fields.Monetary(
