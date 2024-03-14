@@ -4,7 +4,7 @@
 
 {
     'name': 'Stock No Product Template Menu',
-    'version': '12.0.1.0.0',
+    'version': '14.0.1.0.0',
     'category': 'Stock',
     'license': 'AGPL-3',
     'summary': "Replace product.template menu entries by product.product menu entries",
@@ -19,7 +19,7 @@ This module also switches to the tree view by default for Product menu entries, 
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['stock'],
     'data': ['view.xml'],
     'installable': True,
