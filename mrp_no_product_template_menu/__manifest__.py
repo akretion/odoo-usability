@@ -4,7 +4,7 @@
 
 {
     'name': 'MRP No Product Template Menu',
-    'version': '12.0.1.0.0',
+    'version': '14.0.1.0.0',
     'category': 'Manufacturing',
     'license': 'AGPL-3',
     'summary': "Replace product.template menu entries by product.product menu",
@@ -22,9 +22,9 @@ This module has been written by Alexis de Lattre
 from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['mrp', 'sale_purchase_no_product_template_menu'],
     'auto_install': True,
     'data': ['mrp_view.xml'],
-    'installable': False,
+    'installable': True,
 }

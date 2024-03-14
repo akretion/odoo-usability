@@ -11,6 +11,9 @@
 <record id="stock.menu_product_variant_config_stock" model="ir.ui.menu">
     <field name="action" ref="product.product_normal_action"/>
 </record>
-
+<!-- we don't care about:
+    "search_default_consumable": 1 => not useful
+    "default_type": 'product' : stock_usability make it the default... no need to bother
+-->
 
 </odoo>
