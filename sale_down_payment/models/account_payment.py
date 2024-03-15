@@ -1,9 +1,8 @@
-# Copyright 2019 Akretion France (http://www.akretion.com)
+# Copyright 2019-2024 Akretion France (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models
-from odoo.tools import float_round
 
 
 class AccountPayment(models.Model):
@@ -11,49 +10,24 @@ class AccountPayment(models.Model):
 
     sale_id = fields.Many2one('sale.order', string='Sale Order')
 
-    def action_validate_invoice_payment(self):
-        if self.sale_id:
-            self.post()
-        else:
-            return super(AccountPayment, self).\
-                action_validate_invoice_payment()
-
-    def _get_counterpart_move_line_vals(self, invoice=False):
-        res = super(AccountPayment, self)._get_counterpart_move_line_vals(
-            invoice=invoice)
-        if self.sale_id:
-            res['sale_id'] = self.sale_id.id
-        return res
-
-
-class AccountAbstractPayment(models.AbstractModel):
-    _inherit = "account.abstract.payment"
-
-    def default_get(self, fields_list):
-        res = super(AccountAbstractPayment, self).default_get(fields_list)
+    def _prepare_move_line_default_vals(self, write_off_line_vals=None):
+        line_vals_list = super()._prepare_move_line_default_vals(
+            write_off_line_vals=write_off_line_vals)
+        # Add to the receivable/payable line
         if (
-                self._context.get('active_model') == 'sale.order' and
-                self._context.get('active_id')):
-            so = self.env['sale.order'].browse(self._context['active_id'])
-            res.update({
-                'amount': so.amount_total,
-                'currency_id': so.currency_id.id,
-                'payment_type': 'inbound',
-                'partner_id': so.partner_invoice_id.commercial_partner_id.id,
-                'partner_type': 'customer',
-                'communication': so.name,
-                'sale_id': so.id,
-                })
-        return res
+                self.sale_id and
+                len(line_vals_list) >= 2 and
+                line_vals_list[1].get('account_id') == self.destination_account_id.id):
+            line_vals_list[1]['sale_id'] = self.sale_id.id
+        return line_vals_list
 
-    def _compute_payment_amount(self, invoices=None, currency=None):
-        amount = super(AccountAbstractPayment, self)._compute_payment_amount(
-            invoices=invoices, currency=currency)
-        if self.sale_id:
-            payment_currency = currency
-            if not payment_currency:
-                payment_currency = self.sale_id.currency_id
-            amount = float_round(
-                self.sale_id.amount_total - self.sale_id.amount_down_payment,
-                precision_rounding=payment_currency.rounding)
-        return amount
+    def action_post(self):
+        super().action_post()
+        for pay in self:
+            if pay.sale_id and pay.payment_type == 'inbound':
+                pay._sale_down_payment_hook()
+
+    def _sale_down_payment_hook(self):
+        # can be used for notifications
+        # WAS on account.move.line on v12 ; is on account.payment on v14
+        self.ensure_one()
