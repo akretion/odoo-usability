@@ -4,7 +4,7 @@
 
 {
     'name': 'Account Invoice Margin',
-    'version': '12.0.1.0.0',
+    'version': '14.0.1.0.0',
     'category': 'Invoicing Management',
     'license': 'AGPL-3',
     'summary': 'Copy standard price on invoice line and compute margins',
@@ -15,10 +15,10 @@ This module has been written by Alexis de Lattre from Akretion
 <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['account'],
     'data': [
-        'account_invoice_view.xml',
+        'views/account_move.xml',
     ],
-    'installable': False,
+    'installable': True,
 }
