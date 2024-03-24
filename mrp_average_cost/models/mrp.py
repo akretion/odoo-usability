@@ -17,7 +17,7 @@ class MrpBomLabourLine(models.Model):
 
     bom_id = fields.Many2one(
         comodel_name='mrp.bom',
-        string='Labour Lines',
+        string='Bill of Material',
         ondelete='cascade')
 
     labour_time = fields.Float(
@@ -117,15 +117,18 @@ class MrpBom(models.Model):
             wproduct = bom.product_id
             if not wproduct:
                 wproduct = bom.product_tmpl_id
+            bom_cost_per_unit_in_product_uom = 0
+            qty_product_uom = bom.product_uom_id._compute_quantity(bom.product_qty, wproduct.uom_id)
+            if qty_product_uom:
+                bom_cost_per_unit_in_product_uom = bom.total_cost / qty_product_uom
             if float_compare(
-                    wproduct.standard_price, bom.total_cost,
+                    wproduct.standard_price, bom_cost_per_unit_in_product_uom,
                     precision_digits=precision):
                 wproduct.with_context().write(
-                    {'standard_price': bom.total_cost})
+                    {'standard_price': bom_cost_per_unit_in_product_uom})
                 logger.info(
                     'Cost price updated to %s on product %s',
-                    bom.total_cost, wproduct.display_name)
-        return True
+                    bom_cost_per_unit_in_product_uom, wproduct.display_name)
 
 
 class MrpBomLine(models.Model):
