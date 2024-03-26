@@ -6,14 +6,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-01 10:02+0000\n"
-"PO-Revision-Date: 2021-07-01 12:15+0200\n"
-"Last-Translator: Alexis de Lattre <alexis@via.ecp.fr>\n"
+"POT-Creation-Date: 2024-03-26 21:27+0000\n"
+"PO-Revision-Date: 2024-03-26 21:27+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: base_usability
+#: code:addons/base_usability/models/res_company.py:0
+#, python-format
+msgid "%s with a capital of"
+msgstr "%s au capital de"
+
+#. module: base_usability
+#: code:addons/base_usability/models/res_company.py:0
+#, python-format
+msgid "APE:"
+msgstr "APE :"
 
 #. module: base_usability
 #: model:ir.model,name:base_usability.model_res_partner_bank
@@ -26,9 +38,20 @@ msgid "Bank Name"
 msgstr "Nom de la banque"
 
 #. module: base_usability
+#: code:addons/base_usability/models/res_company.py:0
+#, python-format
+msgid "Capital:"
+msgstr "Capital : "
+
+#. module: base_usability
 #: model:ir.model,name:base_usability.model_res_company
 msgid "Companies"
 msgstr "Sociétés"
+
+#. module: base_usability
+#: model_terms:ir.ui.view,arch_db:base_usability.ir_property_view_search
+msgid "Company"
+msgstr "Société"
 
 #. module: base_usability
 #: model:ir.model,name:base_usability.model_res_partner
@@ -42,11 +65,13 @@ msgstr "Devise"
 
 #. module: base_usability
 #: code:addons/base_usability/models/res_partner.py:0
+#: code:addons/base_usability/models/res_partner.py:0
 #, python-format
 msgid "Customer Number:"
 msgstr "N° client :"
 
 #. module: base_usability
+#: model:ir.model.fields,field_description:base_usability.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:base_usability.field_ir_mail_server__display_name
 #: model:ir.model.fields,field_description:base_usability.field_ir_model__display_name
 #: model:ir.model.fields,field_description:base_usability.field_res_company__display_name
@@ -65,11 +90,23 @@ msgid "E-mail:"
 msgstr "E-mail :"
 
 #. module: base_usability
+#: code:addons/base_usability/models/res_company.py:0
+#, python-format
+msgid "EORI:"
+msgstr "EORI :"
+
+#. module: base_usability
+#: model_terms:ir.ui.view,arch_db:base_usability.ir_property_view_search
+msgid "Field"
+msgstr "Champ"
+
+#. module: base_usability
 #: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
 msgid "Group By"
 msgstr "Grouper par"
 
 #. module: base_usability
+#: model:ir.model.fields,field_description:base_usability.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:base_usability.field_ir_mail_server__id
 #: model:ir.model.fields,field_description:base_usability.field_ir_model__id
 #: model:ir.model.fields,field_description:base_usability.field_res_company__id
@@ -78,7 +115,7 @@ msgstr "Grouper par"
 #: model:ir.model.fields,field_description:base_usability.field_res_partner_category__id
 #: model:ir.model.fields,field_description:base_usability.field_res_users__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: base_usability
 #: model_terms:ir.ui.view,arch_db:base_usability.view_module_filter
@@ -86,6 +123,7 @@ msgid "Installable"
 msgstr "Installable"
 
 #. module: base_usability
+#: model:ir.model.fields,field_description:base_usability.field_ir_actions_report____last_update
 #: model:ir.model.fields,field_description:base_usability.field_ir_mail_server____last_update
 #: model:ir.model.fields,field_description:base_usability.field_ir_model____last_update
 #: model:ir.model.fields,field_description:base_usability.field_res_company____last_update
@@ -136,7 +174,12 @@ msgstr "Personne (utilisé pour cacher des entrées de menu natifs)"
 #. module: base_usability
 #: model:ir.model,name:base_usability.model_res_partner_category
 msgid "Partner Tags"
-msgstr "Étiquettes du partenaire"
+msgstr "Étiquettes contact"
+
+#. module: base_usability
+#: model:ir.model.fields,field_description:base_usability.field_ir_actions_report__print_report_name
+msgid "Printed Report Name"
+msgstr "Nom du rapport imprimé"
 
 #. module: base_usability
 #: model:ir.model.fields,field_description:base_usability.field_res_partner__ref
@@ -145,11 +188,18 @@ msgid "Reference"
 msgstr "Référence"
 
 #. module: base_usability
-#: model_terms:ir.ui.view,arch_db:base_usability.res_country_search
-msgid "Search Countries"
+#: model:ir.model,name:base_usability.model_ir_actions_report
+msgid "Report Action"
 msgstr ""
 
 #. module: base_usability
+#: code:addons/base_usability/models/res_company.py:0
+#, python-format
+msgid "SIRET:"
+msgstr "SIRET :"
+
+#. module: base_usability
+#: code:addons/base_usability/models/res_partner.py:0
 #: code:addons/base_usability/models/res_partner.py:0
 #, python-format
 msgid "Supplier Number:"
@@ -158,7 +208,7 @@ msgstr "N° fournisseur :"
 #. module: base_usability
 #: model:ir.model.fields,field_description:base_usability.field_res_partner_category__name
 msgid "Tag Name"
-msgstr "Nom de l'étiquette"
+msgstr "Libellé de l'étiquette"
 
 #. module: base_usability
 #: code:addons/base_usability/models/res_company.py:0
@@ -166,6 +216,14 @@ msgstr "Nom de l'étiquette"
 #, python-format
 msgid "Tel:"
 msgstr "Tél :"
+
+#. module: base_usability
+#: model:ir.model.fields,help:base_usability.field_ir_actions_report__print_report_name
+msgid ""
+"This is the filename of the report going to download. Keep empty to not "
+"change the report filename. You can use a python expression with the "
+"'object' and 'time' variables."
+msgstr ""
 
 #. module: base_usability
 #: model:ir.model,name:base_usability.model_res_users
