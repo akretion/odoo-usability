@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, models, _
+from odoo.tools.misc import format_amount
 
 
 class ResCompany(models.Model):
@@ -39,48 +40,77 @@ class ResCompany(models.Model):
                 'value': self.phone,
                 # http://www.fileformat.info/info/unicode/char/1f4de/index.htm
                 'icon': '\U0001F4DE',
-                'label': _('Tel:')},
+                'label': _('Tel:'),
+                },
             'email': {
                 'value': self.email,
                 # http://www.fileformat.info/info/unicode/char/2709/index.htm
                 'icon': '\u2709',
-                'label': _('E-mail:')},
+                'label': _('E-mail:'),
+                },
             'website': {
                 'value': self.website,
                 'icon': '\U0001f310',
-                'label': _('Website:')},
+                'label': _('Website:'),
+                },
             'vat': {
                 'value': self.vat,
-                'label': _('VAT:')},
-            }
-        if hasattr(self, 'ape'):
-            options['ape'] = {
-                'value': self.ape,
+                'label': _('VAT:'),
+                },
+            'ape': {
+                'value': hasattr(self, 'ape') and self.ape or False,
                 'label': _('APE:'),
-                }
-        if hasattr(self, 'siret'):
-            options.update({
-                'siret': {
-                    'value': self.siret,
-                    'label': _('SIRET:'),
-                    },
-                'eori': {
-                    'value': ''.join([self.country_id.code, self.siret]),
-                    'label': _('EORI:'),
-                    },
-                })
+                },
+            'siret': {
+                'value': hasattr(self, 'siret') and self.siret or False,
+                'label': _('SIRET:'),
+                },
+            'siren': {
+                'value': hasattr(self, 'siren') and self.siren or False,
+                'label': _('SIREN:'),
+                },
+            'eori': {
+                'value': self._get_eori(),
+                'label': _('EORI:'),
+                },
+            'capital': {
+                # 'capital_amount' added by base_company_extension
+                'value': hasattr(self, 'capital_amount') and self.capital_amount and format_amount(self.env, self.capital_amount, self.currency_id) or False,
+                'label': _('Capital:'),
+                },
+            }
+        # 'legal_type' added by base_company_extension
+        if hasattr(self, 'legal_type') and self.legal_type:
+            options['capital']['label'] = _('%s with a capital of') % self.legal_type
         return options
+
+    def _get_eori(self):
+        eori = False
+        if self.partner_id.country_id.code == 'FR' and hasattr(self, 'siret') and self.siret:
+            # Currently migrating from EORI-SIRET to EORI-SIREN :
+            # https://www.pwcavocats.com/fr/ealertes/ealertes-france/2023/avril/reforme-numero-eori-siren-siret.html
+            # But, for the moment, we continue to use EORI-SIRET
+            eori = f'FR{self.siret}'
+        return eori
 
     def _report_company_legal_name(self):
         '''Method inherited in the module base_company_extension'''
         self.ensure_one()
         return self.name
 
+    def _report_header_line_details(self):
+        """This method is designed to be inherited"""
+        # I decided not to put email in the default header because only a few very small
+        # companies have a generic company email address
+        line_details = [['phone', 'website', 'capital'], ['vat', 'siret', 'eori', 'ape']]
+        return line_details
+
     # for reports
     def _display_report_header(
-            self, line_details=[['phone', 'website'], ['vat']],
-            icon=True, line_separator=' - '):
+            self, line_details=None, icon=True, line_separator=' - '):
         self.ensure_one()
+        if line_details is None:
+            line_details = self._report_header_line_details()
         res = ''
         address = self.partner_id._display_address(without_company=True)
         address = address.replace('\n', ' - ')

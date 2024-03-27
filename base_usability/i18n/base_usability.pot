@@ -6,14 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-07 22:00+0000\n"
-"PO-Revision-Date: 2024-02-07 22:00+0000\n"
+"POT-Creation-Date: 2024-03-27 10:15+0000\n"
+"PO-Revision-Date: 2024-03-27 10:15+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: base_usability
+#. odoo-python
+#: code:addons/base_usability/models/res_company.py:0
+#, python-format
+msgid "%s with a capital of"
+msgstr ""
 
 #. module: base_usability
 #. odoo-python
@@ -30,6 +37,13 @@ msgstr ""
 #. module: base_usability
 #: model:ir.model.fields,field_description:base_usability.field_res_partner_bank__bank_name
 msgid "Bank Name"
+msgstr ""
+
+#. module: base_usability
+#. odoo-python
+#: code:addons/base_usability/models/res_company.py:0
+#, python-format
+msgid "Capital:"
 msgstr ""
 
 #. module: base_usability
@@ -132,6 +146,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:base_usability.field_res_partner__ref
 #: model:ir.model.fields,field_description:base_usability.field_res_users__ref
 msgid "Reference"
+msgstr ""
+
+#. module: base_usability
+#. odoo-python
+#: code:addons/base_usability/models/res_company.py:0
+#, python-format
+msgid "SIREN:"
 msgstr ""
 
 #. module: base_usability
