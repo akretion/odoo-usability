@@ -49,6 +49,14 @@ entry and link it to product product -->
     <field name="context">{}</field>
 </record>
 
+<!-- ACCOUNT -->
+<record id="account.product_product_menu_sellable" model="ir.ui.menu">
+    <field name="action" ref="product_product_action_sell"/>
+</record>
+
+<record id="account.product_product_menu_purchasable" model="ir.ui.menu">
+    <field name="action" ref="product_product_action_purchased"/>
+</record>
 
 <!-- Create a product template menu entry in configuration -->
 <menuitem id="sale_config_product_template_menu" action="product.product_template_action"
