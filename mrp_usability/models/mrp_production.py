@@ -3,11 +3,20 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
+
+    # Allow to change the destination location until 'Mark as done'.
+    # Native behavior: it is only possible to change it in draft state.
+    location_dest_id = fields.Many2one(states={
+        'draft': [('readonly', False)],      # native
+        'confirmed': [('readonly', False)],  # added
+        'progress': [('readonly', False)],   # added
+        'to_close': [('readonly', False)],   # added
+        }, tracking=True)
 
     # Method used by the report, inherited in this module
     @api.model

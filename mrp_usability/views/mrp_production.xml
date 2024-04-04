@@ -16,8 +16,9 @@
         <xpath expr="//page[@name='miscellaneous']/group/group/field[@name='location_src_id']" position="replace"/>
         <xpath expr="//page[@name='miscellaneous']/group/group/field[@name='location_dest_id']" position="replace"/>
         <field name="bom_id" position="after">
-            <field name="location_src_id" groups="stock.group_stock_multi_locations" options="{'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-            <field name="location_dest_id" groups="stock.group_stock_multi_locations" options="{'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+            <!-- no need to set readonly via attrs, the readonly status is in the field definition -->
+            <field name="location_src_id" groups="stock.group_stock_multi_locations" options="{'no_create': True}" />
+            <field name="location_dest_id" groups="stock.group_stock_multi_locations" options="{'no_create': True}"/>
         </field>
         <xpath expr="//page[@name='miscellaneous']/group/group/field[@name='date_deadline']" position="after">
             <field name="date_start"/>
