@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_account_payment_register_sale,Full access on account.payment.register.sale,model_account_payment_register_sale,account.group_account_invoice,1,1,1,1
+access_account_payment_sale_user,Full access on account.payment to sale user,account.model_account_payment,sales_team.group_sale_salesman,1,1,1,1
