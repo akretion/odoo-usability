@@ -17,6 +17,8 @@ class MrpProduction(models.Model):
         'progress': [('readonly', False)],   # added
         'to_close': [('readonly', False)],   # added
         }, tracking=True)
+    # Add field product_categ_id for reporting only
+    product_categ_id = fields.Many2one(related='product_id.categ_id', store=True)
 
     # Method used by the report, inherited in this module
     @api.model

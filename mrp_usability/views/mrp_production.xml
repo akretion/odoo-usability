@@ -41,4 +41,20 @@
     </field>
 </record>
 
+<!-- Menu Manufacturing > Reporting > Manufacturing orders -->
+<record id="mrp.mrp_production_report" model="ir.actions.act_window">
+    <!-- Change order: pivot first instead of graph -->
+    <field name="view_mode">pivot,graph,form</field>
+</record>
+
+<record id="view_production_pivot" model="ir.ui.view">
+    <field name="model">mrp.production</field>
+    <field name="inherit_id" ref="mrp.view_production_pivot"/>
+    <field name="arch" type="xml">
+        <pivot position="inside">
+            <field name="product_uom_qty" type="measure"/>
+        </pivot>
+    </field>
+</record>
+
 </odoo>
