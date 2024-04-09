@@ -73,6 +73,9 @@
         <field name="state" position="attributes">
             <attribute name="invisible">0</attribute>
             <attribute name="optional">hide</attribute>
+            <attribute name="widget">badge</attribute>
+            <attribute name="decoration-success">state == 'done'</attribute>
+            <attribute name="decoration-info">state == 'sale'</attribute>
         </field>
         <field name="partner_id" position="after">
             <field name="client_order_ref" optional="show"/>
