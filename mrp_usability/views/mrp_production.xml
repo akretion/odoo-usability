@@ -13,11 +13,17 @@
     <field name="model">mrp.production</field>
     <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
     <field name="arch" type="xml">
-            <!--
-        <label for="product_qty" position="before">
-            <field name="location_src_id" groups="stock.group_stock_multi_locations" options="{'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}" position="move"/>
-            <field name="location_dest_id" groups="stock.group_stock_multi_locations" options="{'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}" position="move"/>
-            </label> -->
+        <field name="user_id" position="before">
+            <!-- I can't use position="move" because it would match another field in an embedded tree view -->
+            <field name="location_src_id" groups="stock.group_stock_multi_locations" options="{'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+            <field name="location_dest_id" groups="stock.group_stock_multi_locations" options="{'no_create': True}" attrs="{'readonly': [('state', 'in', ('done', 'cancel'))]}"/>
+        </field>
+        <!-- It is important to remove the original field location_dest_id
+            and not just set it as invisible because it cancels the changes -->
+        <xpath expr="//page[@name='miscellaneous']/group/group/field[@name='location_dest_id']" position="replace"/>
+        <xpath expr="//page[@name='miscellaneous']/group/group/field[@name='location_src_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
         <xpath expr="//page[@name='miscellaneous']/group/group/field[@name='date_deadline']" position="after">
             <field name="date_start"/>
             <field name="date_finished"/>
