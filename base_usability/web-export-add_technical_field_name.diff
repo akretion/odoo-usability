@@ -1,0 +1,21 @@
+diff --git a/addons/web/controllers/export.py b/addons/web/controllers/export.py
+index 5a1bbcb6b02..04c70131660 100644
+--- a/addons/web/controllers/export.py
++++ b/addons/web/controllers/export.py
+@@ -308,7 +308,6 @@ class Export(http.Controller):
+     def get_fields(self, model, prefix='', parent_name='',
+                    import_compat=True, parent_field_type=None,
+                    parent_field=None, exclude=None):
+-
+         fields = self.fields_get(model)
+         if import_compat:
+             if parent_field_type in ['many2one', 'many2many']:
+@@ -347,7 +346,7 @@ class Export(http.Controller):
+                 # Add name field when expand m2o and m2m fields in import-compatible mode
+                 val = prefix
+             name = parent_name + (parent_name and '/' or '') + field['string']
+-            record = {'id': ident, 'string': name,
++            record = {'id': ident, 'string': name + f' ({field_name})',
+                       'value': val, 'children': False,
+                       'field_type': field.get('type'),
+                       'required': field.get('required'),
