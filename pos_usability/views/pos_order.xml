@@ -18,4 +18,15 @@
     </field>
 </record>
 
+
+<record id="view_pos_order_tree" model="ir.ui.view">
+    <field name="model">pos.order</field>
+    <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+    <field name="arch" type="xml">
+	<field name="amount_total" position="after">
+		<field name="payments_char" optional="show"/>
+	</field>
+    </field>
+</record>
+
 </odoo>
