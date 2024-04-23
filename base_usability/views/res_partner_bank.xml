@@ -16,6 +16,10 @@
         <field name="bank_name" position="after">
             <field name="bank_id"/>
         </field>
+        <field name="acc_holder_name" position="attributes">
+            <attribute name="invisible">0</attribute>
+            <attribute name="optional">hide</attribute>
+        </field>
     </field>
 </record>
 </odoo>

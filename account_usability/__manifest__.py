@@ -30,6 +30,7 @@
         'views/product.xml',
         'views/res_config_settings.xml',
         'views/res_company.xml',
+        'views/res_partner.xml',
         'views/account_report.xml',
         'views/account_reconcile_model.xml',
         'wizard/account_invoice_mark_sent_view.xml',
