@@ -10,4 +10,4 @@ class ProductTemplate(models.Model):
 
     detailed_type = fields.Selection(selection_add=[
         ('product', 'Storable Product')
-        ], ondelete={'product': 'set default'})
+        ], ondelete={'product': 'set default'}, default='product')
