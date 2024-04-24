@@ -35,6 +35,7 @@ Akretion:
         "views/pos_config.xml",
         "views/product.xml",
         "views/pos_payment_method.xml",
+        "views/stock_warehouse.xml",
         ],
     "installable": True,
 }
