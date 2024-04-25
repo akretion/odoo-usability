@@ -56,6 +56,10 @@
         <xpath expr="//sheet/group/group/field[@name='location_dest_id']" position="attributes">
             <attribute name="attrs">{}</attribute>
         </xpath>
+        <group name="other_infos" position="inside">
+            <!-- The field picking_type_id is displayed under partner_id but invisible when hide_picking_type = True. But I want it to be always visible... but not at such a visible place ! So I display it in other infos when hide_picking_type = False -->
+            <field name="picking_type_id" attrs="{'invisible': [('hide_picking_type', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+        </group>
     </field>
 </record>
 
