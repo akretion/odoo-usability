@@ -125,6 +125,20 @@ class ResPartner(models.Model):
                 'label': _('Supplier Number:'),
                 },
             }
+        if hasattr(self, 'siren'):
+            options['siren'] = {
+                'value': self.siren,
+                'label': _("SIREN:"),
+                }
+        if hasattr(self, 'siret'):
+            if hasattr(self, 'siren'):  # l10n_fr_siret is installed
+                siret = self.siren and self.nic and self.siret or False
+            else:
+                siret = self.siret
+            options['siret'] = {
+                'value': siret,
+                'label': _("SIRET:"),
+                }
         res = []
         for detail in details:
             if options.get(detail) and options[detail]['value']:
