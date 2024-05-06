@@ -9,3 +9,4 @@ from . import res_partner
 from . import res_company
 #from . import product
 from . import account_invoice_report
+from . import res_partner_bank
