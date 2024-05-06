@@ -32,7 +32,8 @@
         'wizard/account_payment_register_views.xml',
         'security/ir.model.access.csv',
 #        'report/invoice_report.xml',  # TODO
-        ],
+        "views/res_partner.xml",
+    ],
 #    'qweb': ['static/src/xml/account_payment.xml'],
     'installable': True,
 #    "post_init_hook": "post_init_hook",
