@@ -4,7 +4,7 @@
 
 {
     'name': 'Mail Sender Bcc',
-    'version': '14.0.1.0.0',
+    'version': '16.0.1.0.0',
     'category': 'Mail',
     'license': 'AGPL-3',
     'summary': "Always send a copy of the mail to the sender",
