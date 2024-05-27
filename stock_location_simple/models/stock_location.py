@@ -7,4 +7,4 @@ from odoo import _, api, fields, models
 class StockLocation(models.Model):
     _inherit = "stock.location"
 
-    # TODO
+    is_created_by_warehouse = fields.Boolean()

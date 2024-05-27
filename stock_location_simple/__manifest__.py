@@ -10,4 +10,5 @@
     "website": "http://akretion.com",
     "depends": ["stock"],
     "data": ["views/stock_location_views.xml"],
+    "post_init_hook": "post_init_hook",
 }
