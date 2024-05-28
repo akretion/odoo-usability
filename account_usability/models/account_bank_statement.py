@@ -43,13 +43,6 @@ class AccountBankStatement(models.Model):
             res.append((statement.id, name))
         return res
 
-    def button_reopen(self):
-        self = self.with_context(skip_undo_reconciliation=True)
-        return super().button_reopen()
-
-    def button_undo_reconciliation(self):
-        self.line_ids.button_undo_reconciliation()
-
 
 class AccountBankStatementLine(models.Model):
     _inherit = 'account.bank.statement.line'
@@ -96,9 +89,3 @@ class AccountBankStatementLine(models.Model):
             'res_id': self.move_id.id,
             })
         return action
-
-    def button_undo_reconciliation(self):
-        if self._context.get("skip_undo_reconciliation"):
-            return
-        else:
-            return super().button_undo_reconciliation()
