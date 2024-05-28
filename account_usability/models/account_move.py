@@ -10,6 +10,8 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools import float_is_zero
 from odoo.tools.misc import format_date
+from odoo.tools.safe_eval import safe_eval, time
+from collections import defaultdict
 
 _logger = logging.getLogger(__name__)
 
@@ -223,13 +225,11 @@ class AccountMove(models.Model):
                 move.suitable_journal_ids = self.env['account.journal'].search(domain)
 
     def button_draft(self):
+        # Get report name before reset to draft because name can be different.
+        report_names = self._get_invoice_attachment_name()
         super().button_draft()
         # Delete attached pdf invoice
-        try:
-            report_invoice = self.env['ir.actions.report']._get_report_from_name('account.report_invoice')
-        except IndexError:
-            report_invoice = False
-        if report_invoice and report_invoice.attachment:
+        if report_names:
             for move in self.filtered(lambda x: x.move_type in ('out_invoice', 'out_refund')):
                 # The pb is that the filename is dynamic and related to move.state
                 # in v12, the feature was native and they used that kind of code:
@@ -239,7 +239,7 @@ class AccountMove(models.Model):
                 # But do_in_draft() doesn't exists in v14
                 # If you know how we could do that, please update the code below
                 attachment = self.env['ir.attachment'].search([
-                    ('name', '=', self._get_invoice_attachment_name()),
+                    ('name', 'in', report_names[move.id]),
                     ('res_id', '=', move.id),
                     ('res_model', '=', self._name),
                     ('type', '=', 'binary'),
@@ -248,8 +248,22 @@ class AccountMove(models.Model):
                     attachment.unlink()
 
     def _get_invoice_attachment_name(self):
-        self.ensure_one()
-        return '%s.pdf' % (self.name and self.name.replace('/', '_') or 'INV')
+        report_names = defaultdict(list)
+        try:
+            report_invoice = self.env['ir.actions.report']._get_report_from_name('account.report_invoice')
+        except IndexError:
+            report_invoice = False
+        if report_invoice and report_invoice.attachment:
+            for move in self.filtered(lambda x: x.move_type in ('out_invoice', 'out_refund')):
+                report_names[move.id].append(safe_eval(report_invoice.print_report_name, {'object': self, 'time': time}))
+        try:
+            report_invoice = self.env['ir.actions.report']._get_report_from_name('account.report_invoice_with_payments')
+        except IndexError:
+            report_invoice = False
+        if report_invoice and report_invoice.attachment:
+            for move in self.filtered(lambda x: x.move_type in ('out_invoice', 'out_refund')):
+                report_names[move.id].append(safe_eval(report_invoice.print_report_name, {'object': self, 'time': time}))
+        return report_names
 
     def _get_accounting_date(self, invoice_date, has_tax):
         # On vendor bills/refunds, we want date = invoice_date unless
