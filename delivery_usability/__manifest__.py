@@ -22,6 +22,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'depends': ['delivery'],
     'data': [
         'views/stock_picking.xml',
+        'views/product_packaging.xml',
         ],
     'installable': True,
 }
