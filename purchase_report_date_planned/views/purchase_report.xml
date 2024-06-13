@@ -17,11 +17,22 @@
         <field name="inherit_id" ref="purchase.view_purchase_order_search" />
         <field name="arch" type="xml">
             <filter name="later_than_a_year_ago" position="after">
+                <separator/>
+            </filter>
+            <filter name="filter_date_order" position="after">
+                <separator/>
+            </filter>
+            <filter name="filter_date_approve" position="after">
+                <separator/>
+            </filter>
+            <filter name="orders" position="after">
+                <separator/>
                 <filter
                     name="late"
                     string="En Retard"
                     domain="[('state','=','purchase'), ('date_planned','&lt;', datetime.date.today().strftime('%Y-%m-%d'))]"
                 />
+                <separator/>
             </filter>
         </field>
     </record>
