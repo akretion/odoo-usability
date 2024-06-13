@@ -58,6 +58,9 @@
             <!-- for 'ref', change '=' to 'start with' -->
             <attribute name="filter_domain">['|', '|', '|', '|', ('display_name', 'ilike', self), ('ref', '=ilike', self + '%'), ('email', 'ilike', self), ('vat', 'ilike', self), ('company_registry', 'ilike', self)]</attribute>
         </field>
+        <group name="group_by" position="inside">
+            <filter name="group_industry" string="Industry" context="{'group_by': 'industry_id'}"/>
+        </group>
     </field>
 </record>
 
