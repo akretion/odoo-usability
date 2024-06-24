@@ -67,6 +67,14 @@
         <field name="amount_residual_signed" position="attributes">
             <attribute name="optional">show</attribute>
         </field>
+        <field name="amount_untaxed_signed" position="before">
+            <!-- No sum="1" on the invoice currency fields, because it doesn't make sense
+                to add amounts in different currencies -->
+            <field name="amount_untaxed_invoice_currency_signed" string="Tax Excluded Inv. Cur." optional="hide"/>
+            <field name="amount_tax_invoice_currency_signed" string="Tax Inv. Cur." optional="hide"/>
+            <field name="amount_total_invoice_currency_signed" string="Total Inv. Cur." optional="hide"/>
+            <field name="amount_residual_invoice_currency_signed" string="Amount Due Inv. Cur." optional="hide"/>
+        </field>
     </field>
 </record>
 

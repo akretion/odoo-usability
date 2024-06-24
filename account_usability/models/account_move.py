@@ -52,6 +52,37 @@ class AccountMove(models.Model):
         string="Dispute",
         tracking=True,
     )
+    # Having amounts in invoice currency can be useful in tree view of invoices
+    # We add those fields with optional="hide"
+    amount_untaxed_invoice_currency_signed = fields.Monetary(
+        compute="_compute_amount_invoice_currency_signed", store=True,
+        string="Untaxed Amount Invoice Currency Signed")
+    amount_tax_invoice_currency_signed = fields.Monetary(
+        compute="_compute_amount_invoice_currency_signed", store=True,
+        string="Tax Invoice Currency Signed")
+    amount_total_invoice_currency_signed = fields.Monetary(
+        compute="_compute_amount_invoice_currency_signed", store=True,
+        string="Total Invoice Currency Signed")
+    amount_residual_invoice_currency_signed = fields.Monetary(
+        compute="_compute_amount_invoice_currency_signed", store=True,
+        string="Amount Due Invoice Currency Signed")
+
+    @api.depends('amount_untaxed', 'amount_tax', 'amount_total', 'amount_residual', 'move_type')
+    def _compute_amount_invoice_currency_signed(self):
+        for move in self:
+            amount_untaxed_invoice_currency_signed = move.amount_untaxed
+            amount_tax_invoice_currency_signed = move.amount_tax
+            amount_total_invoice_currency_signed = move.amount_total
+            amount_residual_invoice_currency_signed = move.amount_residual
+            if move.move_type in ('out_refund', 'in_refund'):
+                amount_untaxed_invoice_currency_signed *= -1
+                amount_tax_invoice_currency_signed *= -1
+                amount_total_invoice_currency_signed *= -1
+                amount_residual_invoice_currency_signed *= -1
+            move.amount_untaxed_invoice_currency_signed = amount_untaxed_invoice_currency_signed
+            move.amount_tax_invoice_currency_signed = amount_tax_invoice_currency_signed
+            move.amount_total_invoice_currency_signed = amount_total_invoice_currency_signed
+            move.amount_residual_invoice_currency_signed = amount_residual_invoice_currency_signed
 
     @api.depends("line_ids", "line_ids.blocked")
     def _compute_blocked(self):
