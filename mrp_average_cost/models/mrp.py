@@ -180,7 +180,7 @@ class MrpProduction(models.Model):
     def _compute_extra_cost(self):
         for prod in self:
             bom = prod.bom_id
-            if bom and bom.type == 'normal':
+            if bom and bom.type == 'normal' and bom.product_uom_id.category_id == prod.product_uom_id.category_id:
                 extra_cost_bom_qty_uom = bom.extra_cost + bom.total_labour_cost
                 extra_cost_per_unit_in_prod_uom = 0
                 qty_prod_uom = bom.product_uom_id._compute_quantity(bom.product_qty, prod.product_uom_id)
