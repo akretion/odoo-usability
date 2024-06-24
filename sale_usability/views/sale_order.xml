@@ -27,6 +27,7 @@
             <field name="client_order_ref"/>
         </field>
         <button name="action_quotation_send" states="sent,sale" position="after">
+            <button name="action_quotation_send" type="object" string="Send Order Acknowledgement" attrs="{'invisible': ['|', ('state', 'not in', ('sale', 'done')), ('invoice_count','&gt;=',1)]}"/>
             <button name="%(sale.action_report_saleorder)d" type="action" string="Print" states="draft,sent,sale,done"/>
         </button>
         <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
