@@ -22,7 +22,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     """,
     'author': 'Akretion',
     'website': 'https://github.com/akretion/odoo-usability',
-    'depends': ['mrp'],
+    'depends': ['mrp_account'],
     'data': [
         'security/mrp_average_cost_security.xml',
         'security/ir.model.access.csv',

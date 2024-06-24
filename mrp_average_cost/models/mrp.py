@@ -165,7 +165,9 @@ class MrpProduction(models.Model):
 
     company_currency_id = fields.Many2one(
         related='company_id.currency_id', string='Company Currency')
-    # extra_cost is per unit in the UoM of the mrp.production (product_uom_id)
+    # extra_cost is a native field of mrp_account
+    # we convert it to a computed field
+    # extra_cost is per unit in the UoM of mrp.production (product_uom_id)
     extra_cost = fields.Float(
         compute='_compute_extra_cost', store=True, readonly=False,
         help="For a regular production order, it takes into account the labor cost "
