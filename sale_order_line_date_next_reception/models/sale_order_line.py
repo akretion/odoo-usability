@@ -8,11 +8,16 @@ from odoo import fields, models
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    date_next_reception = fields.Date(compute="_compute_date_next_reception")
+    date_next_reception = fields.Date(compute="_compute_date_next_reception", compute_sudo=True)
 
     def _compute_date_next_reception(self):
         for line in self:
             line.date_next_reception = False
-            if not(line.product_id.qty_available):
-                purchase_order_lines = line.product_id.purchase_order_line_ids
-                line.date_next_reception = purchase_order_lines and purchase_order_lines[0].date_planned
+            if not(line.product_id.qty_available) and line.state not in ['done', 'cancel']:
+                picking_model = self.env["stock.picking"]
+                picking_id = picking_model.search([
+                    ('product_id', '=', line.product_id.id),
+                    ("picking_type_id.code", "=", "incoming"), 
+                    ('state', 'in', ['ready', 'waiting', 'assigned'])
+                    ])
+                line.date_next_reception = picking_id and picking_id[0].scheduled_date.date()
