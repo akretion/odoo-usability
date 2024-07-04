@@ -13,7 +13,8 @@ class SaleOrderLine(models.Model):
     def _compute_date_next_reception(self):
         for line in self:
             line.date_next_reception = False
-            if not(line.product_id.qty_available) and line.state not in ['done', 'cancel']:
+            qty_available = line.product_id.with_context(warehouse=line.order_id.warehouse_id.id).qty_available
+            if qty_available <=0 and line.state not in ['done', 'cancel']:
                 picking_model = self.env["stock.picking"]
                 picking_id = picking_model.search([
                     ('product_id', '=', line.product_id.id),
