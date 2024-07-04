@@ -1,0 +1,415 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* product_usability
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-04 15:00+0000\n"
+"PO-Revision-Date: 2024-07-04 15:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_usability
+#: model_terms:ir.ui.view,arch_db:product_usability.product_pricelist_view
+msgid "<span class=\"o_stat_text\">Lines Fullscreen</span>"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_product__detailed_type
+#: model:ir.model.fields,help:product_usability.field_product_template__detailed_type
+msgid ""
+"A storable product is a product for which you manage stock. The Inventory app has to be installed.\n"
+"A consumable product is a product for which stock is not managed.\n"
+"A service is a non-material product you provide."
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_product__active
+#: model:ir.model.fields,field_description:product_usability.field_product_template__active
+msgid "Active"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: product_usability
+#: model_terms:ir.ui.view,arch_db:product_usability.product_pricelist_item_view_search
+msgid "Apply On"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_product__barcode
+#: model:ir.model.fields,field_description:product_usability.field_product_template__barcode
+msgid "Barcode"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_product__barcode_type
+#: model:ir.model.fields,field_description:product_usability.field_product_template__barcode_type
+msgid "Barcode Type"
+msgstr ""
+
+#. module: product_usability
+#: model_terms:ir.ui.view,arch_db:product_usability.product_pricelist_item_view_search
+msgid "Based On"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_product__purchase_ok
+#: model:ir.model.fields,field_description:product_usability.field_product_template__purchase_ok
+msgid "Can be Purchased"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_product__sale_ok
+#: model:ir.model.fields,field_description:product_usability.field_product_template__sale_ok
+msgid "Can be Sold"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_pricelist__company_id
+#: model:ir.model.fields,field_description:product_usability.field_product_product__company_id
+#: model:ir.model.fields,field_description:product_usability.field_product_template__company_id
+msgid "Company"
+msgstr ""
+
+#. module: product_usability
+#: model_terms:ir.ui.view,arch_db:product_usability.product_pricelist_item_view_search
+msgid "Compute Price"
+msgstr ""
+
+#. module: product_usability
+#: model_terms:ir.ui.view,arch_db:product_usability.product_pricelist_item_view_search
+msgid "Currency"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_product__uom_id
+#: model:ir.model.fields,help:product_usability.field_product_template__uom_id
+msgid "Default unit of measure used for all stock operations."
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_product__uom_po_id
+#: model:ir.model.fields,help:product_usability.field_product_template__uom_po_id
+msgid ""
+"Default unit of measure used for purchase orders. It must be in the same "
+"category as the default unit of measure."
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_category__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_category__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_category__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_category__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_product__active
+#: model:ir.model.fields,help:product_usability.field_product_template__active
+msgid ""
+"If unchecked, it will allow you to hide the product without removing it."
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_product__default_code
+#: model:ir.model.fields,field_description:product_usability.field_product_template__default_code
+msgid "Internal Reference"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_product__barcode
+msgid "International Article Number used for product identification."
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: product_usability
+#: model_terms:ir.ui.view,arch_db:product_usability.product_pricelist_view
+msgid "List view of price rules"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_product__seller_id
+#: model:ir.model.fields,field_description:product_usability.field_product_template__seller_id
+msgid "Main Supplier"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__name
+#: model:ir.model.fields,field_description:product_usability.field_product_product__name
+#: model:ir.model.fields,field_description:product_usability.field_product_template__name
+msgid "Name"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_category__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_category__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__parent_id
+msgid "Parent Category"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.actions.act_window,name:product_usability.pricelist_item_fullscreen_action
+msgid "Price Rules"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_product__list_price
+#: model:ir.model.fields,help:product_usability.field_product_template__list_price
+msgid "Price at which the product is sold to customers."
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model,name:product_usability.model_product_pricelist
+msgid "Pricelist"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model,name:product_usability.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.ui.menu,name:product_usability.product_categ_config_menu
+msgid "Product Categories"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model,name:product_usability.model_product_category
+#: model:ir.model.fields,field_description:product_usability.field_product_product__categ_id
+#: model:ir.model.fields,field_description:product_usability.field_product_template__categ_id
+msgid "Product Category"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_product__detailed_type
+#: model:ir.model.fields,field_description:product_usability.field_product_template__detailed_type
+msgid "Product Type"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model,name:product_usability.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.ui.menu,name:product_usability.product_product_config_menu
+msgid "Product Variants"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.ui.menu,name:product_usability.product_config_menu
+#: model:ir.ui.menu,name:product_usability.product_template_config_menu
+msgid "Products"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_product__uom_po_id
+#: model:ir.model.fields,field_description:product_usability.field_product_template__uom_po_id
+msgid "Purchase UoM"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_product__list_price
+#: model:ir.model.fields,field_description:product_usability.field_product_template__list_price
+msgid "Sales Price"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_category__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: product_usability
+#: model_terms:ir.ui.view,arch_db:product_usability.product_template_search_view
+msgid "Supplier"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model,name:product_usability.model_product_supplierinfo
+msgid "Supplier Pricelist"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.constraint,message:product_usability.constraint_product_product_default_code_uniq
+msgid "This internal reference already exists!"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_category__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_product__uom_id
+#: model:ir.model.fields,field_description:product_usability.field_product_template__uom_id
+msgid "Unit of Measure"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.ui.menu,name:product_usability.uom_uom_config_menu
+msgid "Units of Measure"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.ui.menu,name:product_usability.uom_categ_config_menu
+msgid "Units of Measure Categories"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_supplierinfo__partner_id
+msgid "Vendor"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_category__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,help:product_usability.field_product_category__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: product_usability
+#: model:ir.model.fields,field_description:product_usability.field_product_product__weight
+#: model:ir.model.fields,field_description:product_usability.field_product_template__weight
+msgid "Weight"
+msgstr ""

@@ -9,7 +9,7 @@
 
 
 <record id="pricelist_item_fullscreen_action" model="ir.actions.act_window">
-    <field name="name">Pricelists Items</field>
+    <field name="name">Price Rules</field>
     <field name="res_model">product.pricelist.item</field>
     <field name="view_mode">tree,form</field>
     <field name="domain">[('pricelist_id', '=', active_id)]</field>
@@ -27,7 +27,7 @@
                             class="oe_stat_button"
                             icon="fa-building-o"
                             type="action"
-                            help="List view of pricelist items">
+                            help="List view of price rules">
                     <div class="o_form_field o_stat_info">
                         <span class="o_stat_text">Lines Fullscreen</span>
                     </div>
