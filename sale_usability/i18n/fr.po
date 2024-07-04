@@ -4,63 +4,21 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-18 08:22+0000\n"
-"PO-Revision-Date: 2022-09-18 18:19+0200\n"
+"POT-Creation-Date: 2024-07-04 16:06+0000\n"
+"PO-Revision-Date: 2024-07-04 16:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"X-Generator: Poedit 2.0.4\n"
-
-#. module: sale_usability
-#: model:ir.model.fields.selection,name:sale_usability.selection__sale_invoice_discount_all_lines__line_type__all
-msgid "All Lines"
-msgstr "Toutes les lignes"
-
-#. module: sale_usability
-#: model:ir.model.fields.selection,name:sale_usability.selection__sale_invoice_discount_all_lines__line_type__products
-msgid "All Product Lines"
-msgstr "Toutes les gammes de produits"
-
-#. module: sale_usability
-#: model:ir.model.fields.selection,name:sale_usability.selection__sale_invoice_discount_all_lines__line_type__services
-msgid "All Service Lines"
-msgstr "Toutes les gammes de services"
-
-#. module: sale_usability
-#: code:addons/sale_usability/wizards/sale_invoice_discount_all_lines.py:0
-#, python-format
-msgid "Applied a {discount}% discount on {line_type}."
-msgstr "Remise de {discount} % appliquée sur {line_type}."
-
-#. module: sale_usability
-#: model_terms:ir.ui.view,arch_db:sale_usability.sale_invoice_discount_all_lines_form
-msgid "Apply"
-msgstr "Appliquer"
-
-#. module: sale_usability
-#: model:ir.model,name:sale_usability.model_sale_invoice_discount_all_lines
-msgid "Apply discount on all lines of a sale order or invoice"
-msgstr "Appliquer une remise sur toutes les lignes d'un bon de commande ou d'une facture"
-
-#. module: sale_usability
-#: model:ir.model.fields,field_description:sale_usability.field_sale_invoice_discount_all_lines__line_type
-msgid "Apply on"
-msgstr "Appliquer à"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: sale_usability
 #: model_terms:ir.ui.view,arch_db:sale_usability.view_order_form
 msgid "Are you sure you want to cancel this sale order?"
-msgstr "Êtes-vous sûr de vouloir annuler cette commande ?"
-
-#. module: sale_usability
-#: model_terms:ir.ui.view,arch_db:sale_usability.sale_invoice_discount_all_lines_form
-msgid "Cancel"
-msgstr "Annuler"
+msgstr "Êtes-vous sûr de vouloir annuler cette commande client ?"
 
 #. module: sale_usability
 #: model:ir.model,name:sale_usability.model_res_company
@@ -70,7 +28,7 @@ msgstr "Sociétés"
 #. module: sale_usability
 #: model:ir.model,name:sale_usability.model_res_partner
 msgid "Contact"
-msgstr "Contact"
+msgstr ""
 
 #. module: sale_usability
 #: model:ir.model.fields,field_description:sale_usability.field_sale_invoice_discount_all_lines__create_uid
@@ -88,8 +46,8 @@ msgid ""
 "Creation date of draft/sent orders,\n"
 "Confirmation date of confirmed orders."
 msgstr ""
-"Date de création des ordres en brouillons/envoyés,\n"
-"Date de confirmation des commandes validées."
+"Date de création des commandes à l'état brouillon/envoyés.\n"
+"Date de confirmation des commandes confirmées."
 
 #. module: sale_usability
 #: model_terms:ir.ui.view,arch_db:sale_usability.view_sales_order_line_filter
@@ -107,55 +65,21 @@ msgid "Delivery Address"
 msgstr "Adresse de livraison"
 
 #. module: sale_usability
-#: model:ir.model.fields,field_description:sale_usability.field_sale_invoice_discount_all_lines__discount
-msgid "Discount"
-msgstr "Remise"
-
-#. module: sale_usability
-#: code:addons/sale_usability/wizards/sale_invoice_discount_all_lines.py:0
-#, python-format
-msgid "Discount cannot be negative."
-msgstr "La remise ne peut être négative."
-
-#. module: sale_usability
-#: model:ir.actions.act_window,name:sale_usability.account_move_discount_all_lines_action
-#: model:ir.actions.act_window,name:sale_usability.sale_order_discount_all_lines_action
-msgid "Discount on all lines"
-msgstr "Remise sur toutes les lignes"
-
-#. module: sale_usability
-#: model:ir.model.fields,field_description:sale_usability.field_account_move__display_name
-#: model:ir.model.fields,field_description:sale_usability.field_product_template__display_name
-#: model:ir.model.fields,field_description:sale_usability.field_res_company__display_name
-#: model:ir.model.fields,field_description:sale_usability.field_res_partner__display_name
 #: model:ir.model.fields,field_description:sale_usability.field_sale_invoice_discount_all_lines__display_name
-#: model:ir.model.fields,field_description:sale_usability.field_sale_order__display_name
-#: model:ir.model.fields,field_description:sale_usability.field_sale_order_line__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
-
-#. module: sale_usability
-#: code:addons/sale_usability/models/sale_order.py:0
-#, python-format
-msgid ""
-"Due to the update of the ordered quantity on line '%s', the price has been updated according to pricelist '%s'.\n"
-"Old price: %s\n"
-"New price: %s"
-msgstr ""
-"En raison de la mise à jour de la quantité commandée sur la ligne '%s', le prix a été mis à jour selon la liste de "
-"prix '%s'.\n"
-"Ancien prix : %s\n"
-"Nouveau prix : %s"
 
 #. module: sale_usability
 #: model:ir.model.fields,help:sale_usability.field_product_product__expense_policy
 #: model:ir.model.fields,help:sale_usability.field_product_template__expense_policy
 msgid ""
-"Expenses and vendor bills can be re-invoiced to a customer.With this option, a validated expense can be re-invoice to "
-"a customer at its cost or sales price."
+"Expenses and vendor bills can be re-invoiced to a customer.With this option,"
+" a validated expense can be re-invoice to a customer at its cost or sales "
+"price."
 msgstr ""
-"Les notes de frais et les factures des fournisseurs peuvent être refacturées à un client. Avec cette option, une "
-"dépense validée peut être refacturée au client à son coût ou à son prix de vente."
+"Les notes de frais et les factures fournisseurs peuvent être refacturées à "
+"un client. Avec cette option, une dépense validée peut être refacturée au "
+"client à son coût ou à son prix de vente."
 
 #. module: sale_usability
 #: model:ir.model.fields,field_description:sale_usability.field_sale_order__fiscal_position_id
@@ -165,11 +89,13 @@ msgstr "Position fiscale"
 #. module: sale_usability
 #: model:ir.model.fields,help:sale_usability.field_sale_order__fiscal_position_id
 msgid ""
-"Fiscal positions are used to adapt taxes and accounts for particular customers or sales orders/invoices.The default "
-"value comes from the customer."
+"Fiscal positions are used to adapt taxes and accounts for particular "
+"customers or sales orders/invoices.The default value comes from the "
+"customer."
 msgstr ""
-"Les positions fiscales sont utilisées pour adapter les taxes et les comptes comptables par clients ou par bons de "
-"commande/factures. La valeur par défaut sera celle renseignée sur le client."
+"Les positions fiscales sont utilisées pour adapter les taxes et les comptes "
+"comptables pour un client spécifique ou pour une commande/facture. La valeur"
+" par défaut sera celle renseignée sur le client."
 
 #. module: sale_usability
 #: model:ir.model.fields,field_description:sale_usability.field_sale_order__has_attachment
@@ -179,41 +105,17 @@ msgstr "Possède une pièce jointe"
 #. module: sale_usability
 #: model:ir.model.fields,field_description:sale_usability.field_sale_order__has_discount
 msgid "Has Discount"
-msgstr "A une réduction"
+msgstr "A une remise"
 
 #. module: sale_usability
-#: model:ir.model.fields,field_description:sale_usability.field_account_move__id
-#: model:ir.model.fields,field_description:sale_usability.field_product_template__id
-#: model:ir.model.fields,field_description:sale_usability.field_res_company__id
-#: model:ir.model.fields,field_description:sale_usability.field_res_partner__id
 #: model:ir.model.fields,field_description:sale_usability.field_sale_invoice_discount_all_lines__id
-#: model:ir.model.fields,field_description:sale_usability.field_sale_order__id
-#: model:ir.model.fields,field_description:sale_usability.field_sale_order_line__id
 msgid "ID"
-msgstr "ID"
-
-#. module: sale_usability
-#: model:ir.model.fields,help:sale_usability.field_sale_order__pricelist_id
-msgid "If you change the pricelist, only newly added lines will be affected."
 msgstr ""
-"Si vous modifiez la liste de prix; seules les lignes de bon de commande ajoutées après cette modification seront "
-"affectées."
 
 #. module: sale_usability
 #: model:ir.model.fields,help:sale_usability.field_sale_order_line__product_barcode
 msgid "International Article Number used for product identification."
-msgstr "Numéro d'article international (IAN) utilisé pour identifier cet article."
-
-#. module: sale_usability
-#: model:ir.model.fields,field_description:sale_usability.field_sale_invoice_discount_all_lines__move_id
-msgid "Invoice"
-msgstr "Facture"
-
-#. module: sale_usability
-#: code:addons/sale_usability/wizards/sale_invoice_discount_all_lines.py:0
-#, python-format
-msgid "Invoice '%s' is not in draft state."
-msgstr "La facture '%s' n'est pas en brouillon."
+msgstr "Numéro d'article international utilisé pour identifier ce produit."
 
 #. module: sale_usability
 #: model:ir.model.fields,field_description:sale_usability.field_sale_order__partner_invoice_id
@@ -232,13 +134,7 @@ msgid "Journal Entry"
 msgstr "Pièce comptable"
 
 #. module: sale_usability
-#: model:ir.model.fields,field_description:sale_usability.field_account_move____last_update
-#: model:ir.model.fields,field_description:sale_usability.field_product_template____last_update
-#: model:ir.model.fields,field_description:sale_usability.field_res_company____last_update
-#: model:ir.model.fields,field_description:sale_usability.field_res_partner____last_update
 #: model:ir.model.fields,field_description:sale_usability.field_sale_invoice_discount_all_lines____last_update
-#: model:ir.model.fields,field_description:sale_usability.field_sale_order____last_update
-#: model:ir.model.fields,field_description:sale_usability.field_sale_order_line____last_update
 msgid "Last Modified on"
 msgstr "Dernière modification le"
 
@@ -261,13 +157,11 @@ msgstr "Mentions légales figurant sur les devis"
 #: model:ir.model.fields,help:sale_usability.field_product_product__service_type
 #: model:ir.model.fields,help:sale_usability.field_product_template__service_type
 msgid ""
-"Manually set quantities on order: Invoice based on the manually entered quantity, without creating an analytic "
-"account.\n"
+"Manually set quantities on order: Invoice based on the manually entered quantity, without creating an analytic account.\n"
 "Timesheets on contract: Invoice based on the tracked hours on the related timesheet.\n"
 "Create a task and track hours: Create a task on the sales order validation and track the work hours."
 msgstr ""
-"Définition manuelle des quantités sur la commande : facture selon les quantités saisies manuellement, sans création de "
-"compte analytique.\n"
+"Définition manuelle des quantités sur la commande : facture selon les quantités saisies manuellement, sans création de compte analytique.\n"
 " Feuilles de temps sur les contrats : facture selon les heures passées en fonction de la feuille de temps liée.\n"
 " Créer une tâche et suivre les heures : crée une tâche à validation de la commande et effectue un suivi du temps passé."
 
@@ -277,9 +171,9 @@ msgid "Missing Attachment"
 msgstr "Pièce jointe manquante"
 
 #. module: sale_usability
-#: model:ir.model.fields,field_description:sale_usability.field_sale_invoice_discount_all_lines__sale_id
-msgid "Order"
-msgstr "Commande"
+#: model:ir.model,name:sale_usability.model_sale_invoice_discount_all_lines
+msgid "None"
+msgstr "Aucune"
 
 #. module: sale_usability
 #: model:ir.model.fields,field_description:sale_usability.field_sale_order__date_order
@@ -293,8 +187,8 @@ msgid ""
 "Ordered Quantity: Invoice quantities ordered by the customer.\n"
 "Delivered Quantity: Invoice quantities delivered to the customer."
 msgstr ""
-"Quantité commandée : facturez les quantités commandées par le client.\n"
-"Quantité livrée : facturez les quantités livrées au client."
+"Quantité commandée : facture les quantités commandées par le client.\n"
+"Quantité livrée : facture les quantités livrées au client."
 
 #. module: sale_usability
 #: model:ir.model.fields,field_description:sale_usability.field_sale_order__payment_term_id
@@ -302,26 +196,20 @@ msgid "Payment Terms"
 msgstr "Conditions de paiement"
 
 #. module: sale_usability
-#: code:addons/sale_usability/models/sale_order.py:0
-#, python-format
-msgid "Price updated"
-msgstr "Prix mis à jour"
-
-#. module: sale_usability
-#: model:ir.model.fields,field_description:sale_usability.field_sale_order__pricelist_id
-msgid "Pricelist"
-msgstr "Liste de prix"
-
-#. module: sale_usability
 #: model:ir.actions.act_window,name:sale_usability.product_pricelist_item_action
 #: model:ir.ui.menu,name:sale_usability.product_pricelist_item_menu
-msgid "Pricelist Items"
-msgstr "Éléments de la liste de prix"
+msgid "Price Rules"
+msgstr "Règles des listes de prix"
 
 #. module: sale_usability
 #: model_terms:ir.ui.view,arch_db:sale_usability.view_order_form
 msgid "Print"
 msgstr "Imprimer"
+
+#. module: sale_usability
+#: model:ir.model,name:sale_usability.model_product_template
+msgid "Product"
+msgstr "Produit"
 
 #. module: sale_usability
 #: model:ir.model.fields,field_description:sale_usability.field_sale_order_line__product_barcode
@@ -331,17 +219,7 @@ msgstr "Code barre du produit"
 #. module: sale_usability
 #: model:ir.ui.menu,name:sale_usability.product_category_sale_menu
 msgid "Product Categories"
-msgstr "Catégories d'articles"
-
-#. module: sale_usability
-#: model:ir.model,name:sale_usability.model_product_template
-msgid "Product Template"
-msgstr "Modèle d'article"
-
-#. module: sale_usability
-#: model_terms:ir.ui.view,arch_db:sale_usability.view_company_form
-msgid "Quotation Legal Terms"
-msgstr "Mentions légales figurant sur les devis"
+msgstr "Catégories de produit"
 
 #. module: sale_usability
 #: model:ir.model.fields,field_description:sale_usability.field_product_product__expense_policy
@@ -350,36 +228,16 @@ msgid "Re-Invoice Expenses"
 msgstr "Re-facturer les notes de frais"
 
 #. module: sale_usability
-#: model:ir.model.fields,field_description:sale_usability.field_account_bank_statement_line__sale_count
-#: model:ir.model.fields,field_description:sale_usability.field_account_move__sale_count
-#: model:ir.model.fields,field_description:sale_usability.field_account_payment__sale_count
-msgid "Sale Order Count"
-msgstr "Nombre de commandes clients"
-
-#. module: sale_usability
-#: model:ir.model.fields,field_description:sale_usability.field_account_bank_statement_line__sale_ids
-#: model:ir.model.fields,field_description:sale_usability.field_account_move__sale_ids
-#: model:ir.model.fields,field_description:sale_usability.field_account_payment__sale_ids
-#: model_terms:ir.ui.view,arch_db:sale_usability.account_invoice_form
-msgid "Sale Orders"
-msgstr "Bons de commande"
-
-#. module: sale_usability
-#: model_terms:ir.ui.view,arch_db:sale_usability.sale_report_tree
-msgid "Sales Analysis"
-msgstr "Analyse des ventes"
-
-#. module: sale_usability
 #: model:ir.model,name:sale_usability.model_sale_order
 msgid "Sales Order"
-msgstr "Bon de commande client"
+msgstr "Bon de commande"
 
 #. module: sale_usability
 #: model:ir.model,name:sale_usability.model_sale_order_line
 #: model:ir.model.fields,field_description:sale_usability.field_product_product__sale_line_warn
 #: model:ir.model.fields,field_description:sale_usability.field_product_template__sale_line_warn
 msgid "Sales Order Line"
-msgstr "Ligne de bons de commande"
+msgstr "Ligne de commande"
 
 #. module: sale_usability
 #: model:ir.model.fields,field_description:sale_usability.field_res_partner__sale_warn
@@ -393,16 +251,18 @@ msgstr "Avertissements de vente"
 #: model:ir.model.fields,help:sale_usability.field_res_partner__sale_warn
 #: model:ir.model.fields,help:sale_usability.field_res_users__sale_warn
 msgid ""
-"Selecting the \"Warning\" option will notify user with the message, Selecting \"Blocking Message\" will throw an "
-"exception with the message and block the flow. The Message has to be written in the next field."
+"Selecting the \"Warning\" option will notify user with the message, "
+"Selecting \"Blocking Message\" will throw an exception with the message and "
+"block the flow. The Message has to be written in the next field."
 msgstr ""
-"Sélectionner l'option 'Avertissement' informera l'utilisateur du Message. Sélectionner 'Message Bloquant' lancera une "
-"exception avec le message et bloquera le flux. Le message doit être écrit dans le champ suivant."
+"Sélectionner l'option 'Avertissement' affichera le message à l'utilisateur. "
+"Sélectionner 'Message Bloquant' lancera une exception avec le message et "
+"bloquera le flux. Le message doit être écrit dans le champ suivant."
 
 #. module: sale_usability
 #: model_terms:ir.ui.view,arch_db:sale_usability.view_order_form
 msgid "Send Order Acknowledgement"
-msgstr "Confirmation de commande"
+msgstr "Envoyer une confirmation de commande"
 
 #. module: sale_usability
 #: model_terms:ir.ui.view,arch_db:sale_usability.view_sales_order_filter
@@ -412,16 +272,10 @@ msgstr "État"
 #. module: sale_usability
 #: model:ir.model.fields,field_description:sale_usability.field_sale_order__amount_tax
 msgid "Taxes"
-msgstr "Taxes"
-
-#. module: sale_usability
-#: code:addons/sale_usability/wizards/sale_invoice_discount_all_lines.py:0
-#, python-format
-msgid "There are no lines to apply the discount on."
-msgstr "Il n'y a pas de lignes sur lesquelles appliquer la remise."
+msgstr ""
 
 #. module: sale_usability
 #: model:ir.model.fields,field_description:sale_usability.field_product_product__service_type
 #: model:ir.model.fields,field_description:sale_usability.field_product_template__service_type
 msgid "Track Service"
-msgstr "Opérateur de suivi"
+msgstr "Suivre le service"
