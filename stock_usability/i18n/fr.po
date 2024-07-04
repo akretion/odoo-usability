@@ -1,0 +1,393 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* stock_usability
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-04 16:23+0000\n"
+"PO-Revision-Date: 2024-07-04 16:24+0000\n"
+"Last-Translator: Alexis de Lattre <alexis.delattre@akretion.com>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_usability
+#: model:ir.model.fields,help:stock_usability.field_product_product__detailed_type
+#: model:ir.model.fields,help:stock_usability.field_product_template__detailed_type
+msgid ""
+"A storable product is a product for which you manage stock. The Inventory "
+"app has to be installed.\n"
+"A consumable product is a product for which stock is not managed.\n"
+"A service is a non-material product you provide."
+msgstr ""
+"Un produit stockable est un produit dont on gère le stock. L'application "
+"\"Inventaire\" doit être installée. \n"
+"Un produit consommable est un produit pour lequel le stock n'est pas géré.\n"
+"Un service est un produit immatériel que vous fournissez."
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_move_form
+msgid "Advanced"
+msgstr "Avancé"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_picking_form
+msgid "Are you sure you want to cancel this picking?"
+msgstr "Êtes-vous sûr de vouloir annuler ce bon de préparation ?"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.stock_quant_tree_simple
+msgid "Available"
+msgstr "Disponible"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_procurement_scheduler_log__company_id
+msgid "Company"
+msgstr "Société"
+
+#. module: stock_usability
+#: model:ir.model,name:stock_usability.model_res_partner
+#: model:ir.model.fields,field_description:stock_usability.field_stock_picking__partner_id
+msgid "Contact"
+msgstr "Contact"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_procurement_scheduler_log__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_procurement_scheduler_log__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_product_product__sale_delay
+#: model:ir.model.fields,field_description:stock_usability.field_product_template__sale_delay
+msgid "Customer Lead Time"
+msgstr "Délai de livraison au client"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_picking_internal_search
+msgid "Date Done"
+msgstr "Date du transfert"
+
+#. module: stock_usability
+#: model:ir.model.fields,help:stock_usability.field_product_product__sale_delay
+#: model:ir.model.fields,help:stock_usability.field_product_template__sale_delay
+msgid ""
+"Delivery lead time, in days. It's the number of days, promised to the "
+"customer, between the confirmation of the sales order and the delivery."
+msgstr ""
+"Délai de livraison, en jours. C'est le nombre de jours, promis au client, "
+"entre la confirmation de la commande client et la livraison."
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_procurement_scheduler_log__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: stock_usability
+#: model:ir.model.fields,help:stock_usability.field_product_product__tracking
+#: model:ir.model.fields,help:stock_usability.field_product_template__tracking
+msgid "Ensure the traceability of a storable product in your warehouse."
+msgstr "Assurer la traçabilité d'un produit stockable dans votre entrepôt."
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_location_search
+msgid "Group By"
+msgstr "Grouper par"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_procurement_scheduler_log__id
+msgid "ID"
+msgstr "ID"
+
+#. module: stock_usability
+#: model:ir.model.fields,help:stock_usability.field_stock_move__product_barcode
+#: model:ir.model.fields,help:stock_usability.field_stock_move_line__product_barcode
+#: model:ir.model.fields,help:stock_usability.field_stock_quant__product_barcode
+msgid "International Article Number used for product identification."
+msgstr ""
+"Numéro d'article international utilisé pour l'identification du produit."
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_stock_picking_type__is_dropship
+msgid "Is Dropship"
+msgstr "Est un dropship"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_stock_picking__is_locked
+msgid "Is Locked"
+msgstr "Est verrouillé"
+
+#. module: stock_usability
+#: model:ir.model.fields,help:stock_usability.field_stock_picking__move_type
+msgid "It specifies goods to be deliver partially or all at once"
+msgstr ""
+"Indique si les marchandises doivent être livrées partiellement ou en une "
+"seule fois."
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_procurement_scheduler_log____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_procurement_scheduler_log__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_procurement_scheduler_log__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_location_search
+msgid "Location Type"
+msgstr "Type d'emplacement"
+
+#. module: stock_usability
+#: model:ir.ui.menu,name:stock_usability.stock_location_menu
+msgid "Locations"
+msgstr "Emplacements"
+
+#. module: stock_usability
+#: model:ir.model,name:stock_usability.model_procurement_scheduler_log
+msgid "Logs of the Procurement Scheduler"
+msgstr "Journaux du planificateur des approvisionnements"
+
+#. module: stock_usability
+#: model:ir.model,name:stock_usability.model_stock_warehouse_orderpoint
+msgid "Minimum Inventory Rule"
+msgstr "Règle d'inventaire minimum"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_stock_picking__picking_type_id
+msgid "Operation Type"
+msgstr "Type d'opération"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_picking_internal_search
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_move_form
+msgid "Picking"
+msgstr "Transfert"
+
+#. module: stock_usability
+#. odoo-python
+#: code:addons/stock_usability/models/stock_picking.py:0
+#, python-format
+msgid "Picking <b>unreserved</b>."
+msgstr "Bon de préparation <b>déréservé</b>."
+
+#. module: stock_usability
+#: model:ir.model,name:stock_usability.model_stock_picking_type
+msgid "Picking Type"
+msgstr "Type de transfert"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_procurement_group__picking_ids
+msgid "Pickings"
+msgstr "Transferts"
+
+#. module: stock_usability
+#: model:ir.model,name:stock_usability.model_procurement_group
+msgid "Procurement Group"
+msgstr "Groupe d'approvisionnement"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.procurement_scheduler_log_tree
+msgid "Procurement Scheduler Logs"
+msgstr "Journal du planificateur des approvisionnements"
+
+#. module: stock_usability
+#: model:ir.model,name:stock_usability.model_product_template
+msgid "Product"
+msgstr "Produit"
+
+#. module: stock_usability
+#. odoo-python
+#: code:addons/stock_usability/models/stock_move.py:0
+#: code:addons/stock_usability/models/stock_move_line.py:0
+#, python-format
+msgid ""
+"Product <a href=# data-oe-model=product.product data-oe-id=%d>%s</a> qty %s "
+"%s <b>unreserved</b>"
+msgstr ""
+"Produit <a href=# data-oe-model=product.product data-oe-id=%d>%s</a> "
+"qté %s %s <b>déréservée</b>"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_stock_move__product_barcode
+#: model:ir.model.fields,field_description:stock_usability.field_stock_move_line__product_barcode
+#: model:ir.model.fields,field_description:stock_usability.field_stock_quant__product_barcode
+msgid "Product Barcode"
+msgstr "Code-barres du produit"
+
+#. module: stock_usability
+#: model:ir.actions.act_window,name:stock_usability.stock_move_line_from_lot_action
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_move_form
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_production_lot_form
+msgid "Product Moves"
+msgstr "Mouvements de produits"
+
+#. module: stock_usability
+#: model:ir.model,name:stock_usability.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "Mouvements de produit (Ligne de mouvement de stock)"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_product_product__detailed_type
+#: model:ir.model.fields,field_description:stock_usability.field_product_template__detailed_type
+msgid "Product Type"
+msgstr "Type de produit"
+
+#. module: stock_usability
+#: model:ir.model,name:stock_usability.model_product_product
+msgid "Product Variant"
+msgstr "Variante de produit"
+
+#. module: stock_usability
+#: model:ir.actions.act_window,name:stock_usability.location_open_quants_regular_tree
+#: model:ir.model,name:stock_usability.model_stock_quant
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_location_form
+msgid "Quants"
+msgstr "Quants"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_location_search
+msgid "Removal Strategy"
+msgstr "Stratégie d'enlèvement"
+
+#. module: stock_usability
+#: model:ir.actions.act_window,name:stock_usability.location_open_orderpoint
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_location_form
+msgid "Reordering Rules"
+msgstr "Règles de réapprovisionnement"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.stock_quant_tree_simple
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_stock_quant_tree_inventory_editable
+msgid "Reservations"
+msgstr "Réservations"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.stock_quant_tree_simple
+msgid "Reserved"
+msgstr "Réservé"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_warehouse
+msgid "Routes"
+msgstr "Routes"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.procurement_scheduler_log_tree
+msgid "Scheduler End Time"
+msgstr "Heure de fin du planificateur"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.procurement_scheduler_log_tree
+msgid "Scheduler Executed by"
+msgstr "Planificateur exécuté par"
+
+#. module: stock_usability
+#: model:ir.actions.act_window,name:stock_usability.procurement_scheduler_log_action
+#: model:ir.ui.menu,name:stock_usability.procurement_scheduler_log_menu
+msgid "Scheduler Logs"
+msgstr "Journal du planificateur"
+
+#. module: stock_usability
+#: model:ir.model.fields,help:stock_usability.field_res_partner__picking_warn
+#: model:ir.model.fields,help:stock_usability.field_res_users__picking_warn
+msgid ""
+"Selecting the \"Warning\" option will notify user with the message, "
+"Selecting \"Blocking Message\" will throw an exception with the message and "
+"block the flow. The Message has to be written in the next field."
+msgstr ""
+"Sélectionner l'option 'Avertissement' notifiera l'utilisateur avec le "
+"message. Sélectionner 'Message bloquant' lancera une exception avec le "
+"message et bloquera le flux. Le message doit être encodé dans le champ "
+"suivant."
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_stock_picking__move_type
+msgid "Shipping Policy"
+msgstr "Politique d'expédition"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_procurement_scheduler_log__start_datetime
+msgid "Start Date"
+msgstr "Date de début"
+
+#. module: stock_usability
+#: model:ir.model,name:stock_usability.model_stock_move
+msgid "Stock Move"
+msgstr "Mouvement de stock"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.product_form_view_procurement_button
+#: model_terms:ir.ui.view,arch_db:stock_usability.product_template_form_view_procurement_button
+msgid "Stock Moves"
+msgstr "Mouvements de stock"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_res_partner__picking_warn
+#: model:ir.model.fields,field_description:stock_usability.field_res_users__picking_warn
+msgid "Stock Picking"
+msgstr "Transfert"
+
+#. module: stock_usability
+#: model:ir.model.fields,field_description:stock_usability.field_product_product__tracking
+#: model:ir.model.fields,field_description:stock_usability.field_product_template__tracking
+msgid "Tracking"
+msgstr "Suivi"
+
+#. module: stock_usability
+#: model:ir.model,name:stock_usability.model_stock_picking
+msgid "Transfer"
+msgstr "Transfert"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.stock_picking_pivot
+msgid "Transfers"
+msgstr "Transferts"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.stock_quant_tree_simple
+msgid "Unit"
+msgstr "Unité"
+
+#. module: stock_usability
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_move_line_tree
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_move_tree
+#: model_terms:ir.ui.view,arch_db:stock_usability.view_picking_form
+msgid "Unreserve"
+msgstr "Déréserver"
+
+#. module: stock_usability
+#: model:ir.model.fields,help:stock_usability.field_stock_picking__is_locked
+msgid ""
+"When the picking is not done this allows changing the initial demand. When "
+"the picking is done this allows changing the done quantities."
+msgstr ""
+"Quand le bon de préparation n'est pas à l'état terminé, cela permet de modifier la "
+"demande initiale. Lorsque le transfert est terminé, cela permet de "
+"modifier les quantités traitées."
+
+#. module: stock_usability
+#. odoo-python
+#: code:addons/stock_usability/models/stock_move_line.py:0
+#, python-format
+msgid "You cannot unreserve a move line in done state."
+msgstr "Il n'est pas possible de déréserver un mouvement de stock à l'état terminé."
