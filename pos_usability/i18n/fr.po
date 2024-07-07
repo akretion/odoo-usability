@@ -4,28 +4,26 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-09 16:56+0000\n"
-"PO-Revision-Date: 2022-05-09 18:57+0200\n"
+"POT-Creation-Date: 2024-07-07 14:27+0000\n"
+"PO-Revision-Date: 2024-07-07 14:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 3.0.1\n"
 
 #. module: pos_usability
 #: model:ir.model.fields,field_description:pos_usability.field_pos_category__product_count
 msgid "# Products"
-msgstr ""
+msgstr "Nb de produits"
 
 #. module: pos_usability
 #: model_terms:ir.ui.view,arch_db:pos_usability.product_pos_category_form_view
 msgid "<span class=\"o_stat_text\"> Products</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\"> Produits</span>"
 
 #. module: pos_usability
 #: model_terms:ir.ui.view,arch_db:pos_usability.report_saledetails
@@ -39,84 +37,128 @@ msgid "Available in POS"
 msgstr "Disponible dans le PdV"
 
 #. module: pos_usability
-#: model:ir.model.fields,field_description:pos_usability.field_pos_payment_method__cash_journal_id
-msgid "Cash Journal"
-msgstr "Journal de caisse"
-
-#. module: pos_usability
 #: model:ir.model.fields,help:pos_usability.field_product_product__pos_categ_id
 #: model:ir.model.fields,help:pos_usability.field_product_template__pos_categ_id
 msgid "Category used in the Point of Sale."
-msgstr "Catégorie utilisé dans le point de vente"
+msgstr "Catégorie utilisée sur le Point de Vente."
+
+#. module: pos_usability
+#: model:ir.model.fields,help:pos_usability.field_product_product__to_weight
+#: model:ir.model.fields,help:pos_usability.field_product_template__to_weight
+msgid ""
+"Check if the product should be weighted using the hardware scale "
+"integration."
+msgstr ""
+"Cochez cette case si le produit doit être pesé sur la balance électronique."
 
 #. module: pos_usability
 #: model:ir.model.fields,help:pos_usability.field_product_product__available_in_pos
 #: model:ir.model.fields,help:pos_usability.field_product_template__available_in_pos
 msgid "Check if you want this product to appear in the Point of Sale."
 msgstr ""
-"Cochez si vous souhaitez faire apparaître ce produit dans le Point de Vente"
+"Cochez cette case si vous souhaitez faire apparaître ce produit dans le "
+"Point de Vente."
 
 #. module: pos_usability
-#: model:ir.model.fields,field_description:pos_usability.field_pos_category__display_name
-#: model:ir.model.fields,field_description:pos_usability.field_pos_payment_method__display_name
-#: model:ir.model.fields,field_description:pos_usability.field_product_template__display_name
-msgid "Display Name"
-msgstr "Nom affiché"
+#: model:ir.model.fields,field_description:pos_usability.field_pos_payment_method__receivable_account_id
+msgid "Intermediary Account"
+msgstr "Compte intermédiaire"
 
 #. module: pos_usability
-#: model:ir.model.fields,field_description:pos_usability.field_pos_category__id
-#: model:ir.model.fields,field_description:pos_usability.field_pos_payment_method__id
-#: model:ir.model.fields,field_description:pos_usability.field_product_template__id
-msgid "ID"
+#: model:ir.model.fields,field_description:pos_usability.field_pos_payment_method__journal_id
+msgid "Journal"
+msgstr "Journal"
+
+#. module: pos_usability
+#: model:ir.model.fields,help:pos_usability.field_pos_payment_method__outstanding_account_id
+msgid ""
+"Leave empty to use the default account from the company setting.\n"
+"Account used as outstanding account when creating accounting payment records for bank payments."
 msgstr ""
+"Laisser vide pour utiliser le compte par défaut défini dans les paramètres de la société.\n"
+"Compte utilisé comme compte en suspens lors de la création des lignes comptables pour les paiements."
 
 #. module: pos_usability
-#: model:ir.model.fields,field_description:pos_usability.field_pos_category____last_update
-#: model:ir.model.fields,field_description:pos_usability.field_pos_payment_method____last_update
-#: model:ir.model.fields,field_description:pos_usability.field_product_template____last_update
-msgid "Last Modified on"
-msgstr "Dernière modification le"
+#: model:ir.model.fields,help:pos_usability.field_pos_payment_method__receivable_account_id
+msgid ""
+"Leave empty to use the default account from the company setting.\n"
+"Overrides the company's receivable account (for Point of Sale) used in the journal entries."
+msgstr ""
+"Laisser vide pour utiliser le compte par défaut défini dans les paramètres de la société.\n"
+"Remplace le compte débiteur de la société (pour le point de vente) utilisé dans les pièces comptables."
+
+#. module: pos_usability
+#: model:ir.model.fields,help:pos_usability.field_pos_payment_method__journal_id
+msgid ""
+"Leave empty to use the receivable account of customer.\n"
+"Defines the journal where to book the accumulated payments (or individual payment if Identify Customer is true) after closing the session.\n"
+"For cash journal, we directly write to the default account in the journal via statement lines.\n"
+"For bank journal, we write to the outstanding account specified in this payment method.\n"
+"Only cash and bank journals are allowed."
+msgstr ""
+"Laisser vide pour utiliser le compte débiteur du client.\n"
+"Définit le journal où seront comptabilisés les paiements cumulés (ou les paiements individuels si l'identifiant du client est coché) après avoir fermé la session. \n"
+"Pour le journal de caisse, nous écrivons directement dans le compte par défaut du journal par des lignes de relevé.\n"
+"Pour le journal de banque, nous écrivons dans le compte en suspens défini pour ce mode de paiement.\n"
+"Seuls les journaux de caisse et de banque sont autorisés. "
+
+#. module: pos_usability
+#: model:ir.model.fields,field_description:pos_usability.field_pos_payment_method__outstanding_account_id
+msgid "Outstanding Account"
+msgstr "Compte en suspens"
+
+#. module: pos_usability
+#: model:ir.model.fields,field_description:pos_usability.field_pos_order__payments_char
+msgid "Payment Methods"
+msgstr "Modes de paiement"
 
 #. module: pos_usability
 #: model:ir.model,name:pos_usability.model_pos_category
 #: model:ir.model.fields,field_description:pos_usability.field_product_product__pos_categ_id
 #: model:ir.model.fields,field_description:pos_usability.field_product_template__pos_categ_id
-#: model_terms:ir.ui.view,arch_db:pos_usability.product_template_search_view
 msgid "Point of Sale Category"
 msgstr "Catégorie du point de vente"
 
 #. module: pos_usability
+#: model:ir.model,name:pos_usability.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "Commandes du point de vente"
+
+#. module: pos_usability
 #: model:ir.model,name:pos_usability.model_pos_payment_method
 msgid "Point of Sale Payment Methods"
-msgstr "Modes de paiement au point de vente"
+msgstr "Modes de paiement du point de vente"
+
+#. module: pos_usability
+#: model:ir.model,name:pos_usability.model_pos_session
+msgid "Point of Sale Session"
+msgstr "Session du point de vente"
 
 #. module: pos_usability
 #: model:ir.model,name:pos_usability.model_product_template
-msgid "Product Template"
-msgstr "Modèle d'article"
+msgid "Product"
+msgstr "Produit"
 
 #. module: pos_usability
-#: model_terms:ir.ui.view,arch_db:pos_usability.view_pos_session_form
-msgid "Starting Balance"
-msgstr "Montant à l'ouverture"
+#: model:ir.model.fields,field_description:pos_usability.field_pos_payment_method__sequence
+msgid "Sequence"
+msgstr "Séquence"
 
 #. module: pos_usability
 #: model_terms:ir.ui.view,arch_db:pos_usability.view_pos_session_form
 msgid "Stats"
-msgstr ""
+msgstr "Stats"
 
 #. module: pos_usability
 #: model:ir.model.fields,help:pos_usability.field_pos_category__product_count
 msgid ""
-"The number of products under this point of sale category (does not consider "
-"the children categories)"
+"The number of products under this point of sale category (children "
+"categories included)"
 msgstr ""
+"Le nombre de produits de cette catégorie du point de vente (catégories enfant incluses)"
 
 #. module: pos_usability
-#: model:ir.model.fields,help:pos_usability.field_pos_payment_method__cash_journal_id
-msgid ""
-"The payment method is of type cash. A cash statement will be automatically "
-"generated."
-msgstr ""
-"Cette méthode de paiement est de type cash. Un relevé sera automatiquement "
-"généré. "
+#: model:ir.model.fields,field_description:pos_usability.field_product_product__to_weight
+#: model:ir.model.fields,field_description:pos_usability.field_product_template__to_weight
+msgid "To Weigh With Scale"
+msgstr "À peser sur une balance"

@@ -1,0 +1,129 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mail_usability
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-07 14:35+0000\n"
+"PO-Revision-Date: 2024-07-07 14:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_res_partner__active
+msgid "Active"
+msgstr "Actif"
+
+#. module: mail_usability
+#: model:ir.model.fields,help:mail_usability.field_res_partner__lang
+#: model:ir.model.fields,help:mail_usability.field_res_users__lang
+msgid ""
+"All the emails and documents sent to this contact will be translated in this"
+" language."
+msgstr ""
+"Tous les emails et documents envoyés à ce contact seront traduits dans cette"
+" langue."
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_mail_template__auto_delete
+msgid "Auto Delete"
+msgstr "Suppression automatique"
+
+#. module: mail_usability
+#: model:ir.model.fields,help:mail_usability.field_res_partner__is_company
+#: model:ir.model.fields,help:mail_usability.field_res_users__is_company
+msgid "Check if the contact is a company, otherwise it is a person"
+msgstr ""
+"Cochez si ce contact est une société, sinon il s'agit d'un particulier"
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_res_partner__city
+#: model:ir.model.fields,field_description:mail_usability.field_res_users__city
+msgid "City"
+msgstr "Ville"
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_res_partner__company_id
+msgid "Company"
+msgstr "Société"
+
+#. module: mail_usability
+#: model:ir.model,name:mail_usability.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_res_partner__country_id
+#: model:ir.model.fields,field_description:mail_usability.field_res_users__country_id
+msgid "Country"
+msgstr "Pays"
+
+#. module: mail_usability
+#: model:ir.model,name:mail_usability.model_mail_template
+msgid "Email Templates"
+msgstr "Modèles d'email"
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_res_partner__is_company
+#: model:ir.model.fields,field_description:mail_usability.field_res_users__is_company
+msgid "Is a Company"
+msgstr "Est une entreprise"
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_res_partner__lang
+#: model:ir.model.fields,field_description:mail_usability.field_res_users__lang
+msgid "Language"
+msgstr "Langue"
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_res_partner__name
+#: model:ir.model.fields,field_description:mail_usability.field_res_users__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_res_partner__ref
+#: model:ir.model.fields,field_description:mail_usability.field_res_users__ref
+msgid "Reference"
+msgstr "Référence"
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_res_partner__state_id
+#: model:ir.model.fields,field_description:mail_usability.field_res_users__state_id
+msgid "State"
+msgstr "État"
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_res_partner__street
+#: model:ir.model.fields,field_description:mail_usability.field_res_users__street
+msgid "Street"
+msgstr "Rue"
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_res_partner__street2
+#: model:ir.model.fields,field_description:mail_usability.field_res_users__street2
+msgid "Street2"
+msgstr "Rue 2"
+
+#. module: mail_usability
+#: model:ir.model.fields,help:mail_usability.field_mail_template__auto_delete
+msgid ""
+"This option permanently removes any track of email after it's been sent, "
+"including from the Technical menu in the Settings, in order to preserve "
+"storage space of your Odoo database."
+msgstr ""
+"Cette option supprime définitivement toute trace de l'email après son "
+"envoi, y compris du menu Technique dans les Paramètres, afin de préserver de"
+" l'espace de stockage dans votre base de données Odoo."
+
+#. module: mail_usability
+#: model:ir.model.fields,field_description:mail_usability.field_res_partner__zip
+#: model:ir.model.fields,field_description:mail_usability.field_res_users__zip
+msgid "Zip"
+msgstr "Code postal"
