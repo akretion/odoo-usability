@@ -22,40 +22,9 @@
     </field>
 </record>
 
-<!-- show name and ref in separate columns -->
-<!--  ref is added in tree view by base_usability with optional="hide"
-<record id="view_partner_tree" model="ir.ui.view">
-    <field name="name">Add ref in partner tree view</field>
-    <field name="model">res.partner</field>
-    <field name="inherit_id" ref="base.view_partner_tree"/>
-    <field name="arch" type="xml">
-        <field name="display_name" position="after">
-            <field name="name"/>
-            <field name="ref" optional="hide"/>
-        </field>
-        <field name="display_name" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </field>
-    </field>
-</record>
--->
-
 <!--
-The kanban view displays the field 'display_name', which has the [ref]
-prefix, so no need to add to the view
-<record id="res_partner_kanban_view" model="ir.ui.view">
-    <field name="name">Add ref in partner kanban view</field>
-    <field name="model">res.partner</field>
-    <field name="inherit_id" ref="base.res_partner_kanban_view"/>
-    <field name="arch" type="xml">
-        <field name="display_name" position="after">
-            <field name="ref"/>
-        </field>
-        <li t-if="record.email.raw_value" position="after">
-            <li t-if="record.ref.raw_value">Ref: <field name="ref"/></li>
-        </li>
-    </field>
-</record>
+Tree view: ref is added by base_usability with optional="hide"
+Kanban view: it displays the field 'display_name', which has the [ref] prefix
 -->
 
 </odoo>
