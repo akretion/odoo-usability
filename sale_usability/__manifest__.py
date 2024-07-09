@@ -12,7 +12,7 @@
     'website': 'http://www.akretion.com',
     'depends': [
         'sale',
-#        'account_usability',  # for company view
+        'account_usability_akretion',  # for company view
         'base_view_inheritance_extension',
         ],
     'data': [
@@ -21,7 +21,7 @@
         'views/sale_report.xml',
         'views/product_pricelist_item.xml',
         'views/account_move.xml',
-#         'views/res_company.xml',  TODO uncomment once account_usa is ported
+         'views/res_company.xml',
         "views/res_partner.xml",
         ],
     'installable': True,

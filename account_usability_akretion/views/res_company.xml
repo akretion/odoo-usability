@@ -16,7 +16,7 @@
         <notebook position="inside">
             <page string="Legal Terms" name="legal_terms">
                 <group string="Invoice Legal Terms" name="static_invoice_terms">
-                    <field name="static_invoice_terms" nolabel="1"/>
+                    <field name="static_invoice_terms" nolabel="1" colspan="2"/>
                 </group>
             </page>
         </notebook>

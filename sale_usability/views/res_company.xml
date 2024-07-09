@@ -11,11 +11,11 @@
 <record id="view_company_form" model="ir.ui.view">
     <field name="name">sale_usability.res.company.form</field>
     <field name="model">res.company</field>
-    <field name="inherit_id" ref="account_usability.view_company_form"/>
+    <field name="inherit_id" ref="account_usability_akretion.view_company_form"/>
     <field name="arch" type="xml">
         <group name="static_invoice_terms" position="after">
             <group name="static_sale_terms" string="Quotation Legal Terms">
-                <field name="static_sale_terms" nolabel="1"/>
+                <field name="static_sale_terms" nolabel="1" colspan="2"/>
             </group>
         </group>
     </field>

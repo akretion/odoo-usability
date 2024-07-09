@@ -23,14 +23,14 @@ This modules adds the following functions:
 
 * Add an *Overdue* filter on invoice search view (this feature was previously 
   located in te module *account_invoice_overdue_filter*)
-* Increase the default limit of 80 lines in account move and account move line view.
+* Increase the default limit of 80 lines in journal entries and journal items views.
 * disable reconciliation "guessing"
-* fast search on *Reconcile Ref* for account move line.
+* fast search on *Reconcile Ref* for journal items.
 * add sale dates to invoice report to be compliant with
   https://www.service-public.fr/professionnels-entreprises/vosdroits/F31808
 * Sale date on qweb invoices
 * A wizard to mark several invoices as sent at once (forward from v8)
-* Default date for Account Move Reversal is now D+1 instead of today
+* Default date for reversal journal entry is now D+1 instead of today
 * Track more fields on invoice (see details in account.py)
 * Add boolean fields `has_discount` and `has_attachment` on invoice
 * Add button "Delete line qty = 0" on supplier invoice
@@ -41,8 +41,8 @@ This modules adds the following functions:
 * add direct search of journal using code
 * add copy=False on some fields
 * Add unicity constraint on analytic codes per company
-* Better default values on account move
-* Add link from account move line to invoice
+* Better default values on journal entry
+* Add link from journal items to to invoice
 * Add start_date and end_date on bank statements
 * Add transfer_account_id to invoicing config page
 * Improve domain reconciliation widget

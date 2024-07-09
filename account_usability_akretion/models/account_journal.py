@@ -15,8 +15,7 @@ class AccountJournal(models.Model):
         "the end balance vs the real end balance is disabled. When you enable "
         "this option, you process the statement lines without considering "
         "the start/end balance and you regularly check the accounting balance "
-        "of the bank account vs the amount of your bank account "
-        "(the 2 processes are managed separately)."
+        "of the bank account vs the amount of your bank account."
         )
     # Used to set default user_type_id on account fields via context
 #    account_type_current_assets_id = fields.Many2one(

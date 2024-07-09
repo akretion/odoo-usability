@@ -23,7 +23,7 @@ class AccountMoveReversal(models.TransientModel):
         reversed_move = amo.search([('reversed_entry_id', 'in', moves.ids)], limit=1)
         if reversed_move:
             raise UserError(_(
-                "Move '%s' has already been reversed by move '%s'.") % (
+                "Journal entry '%s' has already been reversed by journal entry '%s'.") % (
                     reversed_move.reversed_entry_id.display_name,
                     reversed_move.display_name))
         return res
