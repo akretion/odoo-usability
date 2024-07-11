@@ -1,0 +1,16 @@
+diff --git a/addons/web/static/src/js/views/form/form_renderer.js b/addons/web/static/src/js/views/form/form_renderer.js
+index e4c1b187169..ccd8110478f 100644
+--- a/addons/web/static/src/js/views/form/form_renderer.js
++++ b/addons/web/static/src/js/views/form/form_renderer.js
+@@ -516,7 +516,10 @@ var FormRenderer = BasicRenderer.extend({
+     * @returns {integer}
+     */
+     _renderButtonBoxNbButtons: function () {
+-        return [2, 2, 2, 4][config.device.size_class] || 7;
++        /* AKRETION HACK 24/04/2024
++         * show 14 buttons before adding 'More' dropdown list (instead of 7 by default
++         */
++        return [2, 2, 2, 4][config.device.size_class] || 14;
+     },
+     /**
+      * Do not render a field widget if it is always invisible.
