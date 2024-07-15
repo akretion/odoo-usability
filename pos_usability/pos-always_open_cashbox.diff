@@ -1,0 +1,15 @@
+diff --git a/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js b/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js
+index 55aa635aa10..3ae56105b44 100644
+--- a/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js
++++ b/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js
+@@ -169,7 +169,9 @@ odoo.define('point_of_sale.PaymentScreen', function (require) {
+             }
+         }
+         async _finalizeValidation() {
+-            if ((this.currentOrder.is_paid_with_cash() || this.currentOrder.get_change()) && this.env.pos.config.iface_cashdrawer) {
++            //if ((this.currentOrder.is_paid_with_cash() || this.currentOrder.get_change()) && this.env.pos.config.iface_cashdrawer) {
++            // Always open cashbox (by default, Odoo only opens cashbox for cash payments)
++            if (this.env.pos.config.iface_cashdrawer) {
+                 this.env.pos.proxy.printer.open_cashbox();
+             }
+ 
