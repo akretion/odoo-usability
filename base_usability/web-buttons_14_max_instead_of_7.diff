@@ -1,0 +1,14 @@
+diff --git a/addons/web/static/src/views/form/button_box/button_box.js b/addons/web/static/src/views/form/button_box/button_box.js
+index 0dd1184ca2b..43139ab6e58 100644
+--- a/addons/web/static/src/views/form/button_box/button_box.js
++++ b/addons/web/static/src/views/form/button_box/button_box.js
+@@ -8,7 +8,8 @@ import { Component } from "@odoo/owl";
+ export class ButtonBox extends Component {
+     setup() {
+         const ui = useService("ui");
+-        this.getMaxButtons = () => [2, 2, 2, 4][ui.size] || 7;
++	/* HACK button box on 2 lines: || 7 => || 14 */
++        this.getMaxButtons = () => [2, 2, 2, 4][ui.size] || 14;
+     }
+ 
+     getButtons() {
