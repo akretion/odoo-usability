@@ -29,12 +29,15 @@ class ProductProduct(models.Model):
     @api.model
     def _get_barcode_type(self, barcode):
         barcode_type = False
+        size2label = {
+            8: 'EAN-8',
+            13: 'EAN-13',
+            14: 'GTIN-14',
+            }
         if barcode:
             size = len(barcode)
-            if size == 13 and is_valid(barcode):
-                barcode_type = 'EAN13'
-            elif size == 8 and is_valid(barcode):
-                barcode_type = 'EAN8'
+            if size in size2label and is_valid(barcode):
+                barcode_type = size2label[size]
         return barcode_type
 
     @api.depends('barcode')
