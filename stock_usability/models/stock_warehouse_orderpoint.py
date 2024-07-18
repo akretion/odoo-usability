@@ -2,7 +2,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models
+from odoo import fields, models
 import logging
 
 logger = logging.getLogger(__name__)
@@ -10,6 +10,10 @@ logger = logging.getLogger(__name__)
 
 class StockWarehouseOrderpoint(models.Model):
     _inherit = 'stock.warehouse.orderpoint'
+
+    # In the 'stock' module, the default value for 'trigger' is 'auto'
+    # but all the Odoo deployments I've seen so far need 'manual' by default
+    trigger = fields.Selection(default='manual')
 
     def _procure_orderpoint_confirm(
             self, use_new_cursor=False, company_id=None, raise_user_error=True):
