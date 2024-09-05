@@ -13,7 +13,9 @@ class ProductTemplate(models.Model):
         ('consu', 'Consumable'),
         ('service', 'Service'),
         ], string='Product Type', default='consu', required=True, tracking=True)
-    type = fields.Selection(compute='_compute_type', store=True, string="Type")
+    type = fields.Selection(
+        compute='_compute_type', store=True, string="Type",  # native string = "Product Type"
+        default=False, required=False)
 
     def _detailed_type_mapping(self):
         return {}
@@ -23,3 +25,16 @@ class ProductTemplate(models.Model):
         type_mapping = self._detailed_type_mapping()
         for record in self:
             record.type = type_mapping.get(record.detailed_type, record.detailed_type)
+
+    # to ensure compat with test and demo data
+    # It's not perfect, we still have a problem when installing the "stock"
+    # module while product_detailed_type_stock is not installed yet: it creates
+    # products with type = 'product' and with the inherit below, it sets detailed_type = 'product'
+    # but this value is only possible once product_detailed_type_stock is installed. Odoo says:
+    # ValueError: Wrong value for product.template.detailed_type: 'product'
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('type') and vals['type'] != vals.get('detailed_type'):
+                vals['detailed_type'] = vals['type']
+        return super().create(vals_list)
