@@ -1,0 +1,69 @@
+diff --git a/addons/point_of_sale/models/pos_session.py b/addons/point_of_sale/models/pos_session.py
+index 828d0bcf0f4..fd4a9e464f5 100644
+--- a/addons/point_of_sale/models/pos_session.py
++++ b/addons/point_of_sale/models/pos_session.py
+@@ -332,14 +332,16 @@ class PosSession(models.Model):
+                 self._create_picking_at_end_of_session()
+             # Users without any accounting rights won't be able to create the journal entry. If this
+             # case, switch to sudo for creation and posting.
+-            try:
+-                with self.env.cr.savepoint():
+-                    self.with_company(self.company_id)._create_account_move()
+-            except AccessError as e:
+-                if sudo:
+-                    self.sudo().with_company(self.company_id)._create_account_move()
+-                else:
+-                    raise e
++            # AKRETION HACK 20/10/2023 disable savepoint() because I get some
++            # crash upon pos session closing
++            #try:
++            #    with self.env.cr.savepoint():
++            #        self.with_company(self.company_id)._create_account_move()
++            #except AccessError as e:
++            #    if sudo:
++            self.sudo().with_company(self.company_id)._create_account_move()
++            #    else:
++            #        raise e
+             if self.move_id.line_ids:
+                 # Set the uninvoiced orders' state to 'done'
+                 self.env['pos.order'].search([('session_id', '=', self.id), ('state', '=', 'paid')]).write({'state': 'done'})
+@@ -506,6 +508,7 @@ class PosSession(models.Model):
+                     sale_key = (
+                         # account
+                         line['income_account_id'],
++                        line['income_analytic_account_id'],
+                         # sign
+                         -1 if line['amount'] < 0 else 1,
+                         # for taxes
+@@ -810,9 +813,14 @@ class PosSession(models.Model):
+             tax['account_id'] = tax_rep.account_id.id
+         date_order = order_line.order_id.date_order
+         taxes = [{'date_order': date_order, **tax} for tax in taxes]
++        # _get_product_analytic_accounts() is a method of the OCA module product_analytic
++        # from https://github.com/OCA/account-analytic
++        income_analytic_account = order_line.product_id.product_tmpl_id.with_company(
++            order_line.company_id)._get_product_analytic_accounts()['income']
+         return {
+             'date_order': order_line.order_id.date_order,
+             'income_account_id': get_income_account(order_line).id,
++            'income_analytic_account_id': income_analytic_account and income_analytic_account.id or False,
+             'amount': order_line.price_subtotal,
+             'taxes': taxes,
+             'base_tags': tuple(tax_data['base_tags']),
+@@ -860,7 +868,7 @@ class PosSession(models.Model):
+         return self._credit_amounts(partial_vals, amount, amount_converted)
+ 
+     def _get_sale_vals(self, key, amount, amount_converted):
+-        account_id, sign, tax_keys, base_tag_ids = key
++        account_id, analytic_account_id, sign, tax_keys, base_tag_ids = key
+         tax_ids = set(tax[0] for tax in tax_keys)
+         applied_taxes = self.env['account.tax'].browse(tax_ids)
+         title = 'Sales' if sign == 1 else 'Refund'
+@@ -870,6 +878,7 @@ class PosSession(models.Model):
+         partial_vals = {
+             'name': name,
+             'account_id': account_id,
++            'analytic_account_id': analytic_account_id,
+             'move_id': self.move_id.id,
+             'tax_ids': [(6, 0, tax_ids)],
+             'tax_tag_ids': [(6, 0, base_tag_ids)],
