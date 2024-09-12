@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2014-2024 Akretion (http://www.akretion.com/)
+  @author Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+<record id="view_partner_form" model="ir.ui.view">
+    <field name="name">add.shortcut.to.product.variants.partner.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+        <div name="button_box" position="inside">
+            <button class="oe_inline oe_stat_button" type="object"
+                name="show_supplied_products"
+                icon="fa-shopping-basket"
+                attrs="{'invisible': [('product_supplied_count', '=', 0)]}">
+                <field string="Products Supplied" name="product_supplied_count"
+                    widget="statinfo"/>
+            </button>
+        </div>
+    </field>
+</record>
+
+</odoo>
