@@ -2,7 +2,7 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import api, fields, models
 import logging
 
 logger = logging.getLogger(__name__)
@@ -10,6 +10,8 @@ logger = logging.getLogger(__name__)
 
 class StockWarehouseOrderpoint(models.Model):
     _inherit = 'stock.warehouse.orderpoint'
+
+    product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
 
     @api.model
     def _procure_orderpoint_confirm(
