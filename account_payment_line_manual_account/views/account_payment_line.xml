@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2024 Akretion France (https://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+
+<odoo>
+
+
+<record id="account_payment_line_form" model="ir.ui.view">
+    <field name="model">account.payment.line</field>
+    <field name="inherit_id" ref="account_payment_order.account_payment_line_form"/>
+    <field name="arch" type="xml">
+        <field name="company_id" position="after">
+            <field name="account_id" attrs="{'invisible': [('move_line_id', '!=', False)], 'required': [('move_line_id', '=', False)]}"/>
+        </field>
+    </field>
+</record>
+
+<record id="account_payment_line_tree" model="ir.ui.view">
+    <field name="model">account.payment.line</field>
+    <field name="inherit_id" ref="account_payment_order.account_payment_line_tree"/>
+    <field name="arch" type="xml">
+        <field name="move_line_id" position="after">
+            <field name="account_id" optional="hide"/>
+        </field>
+    </field>
+</record>
+
+
+</odoo>
