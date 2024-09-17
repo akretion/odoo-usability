@@ -66,6 +66,8 @@ class AccountMove(models.Model):
     amount_residual_invoice_currency_signed = fields.Monetary(
         compute="_compute_amount_invoice_currency_signed", store=True,
         string="Amount Due Invoice Currency Signed")
+    # Field search_account_id is just for search view
+    search_account_id = fields.Many2one(related='line_ids.account_id')
 
     @api.depends('amount_untaxed', 'amount_tax', 'amount_total', 'amount_residual', 'move_type')
     def _compute_amount_invoice_currency_signed(self):
