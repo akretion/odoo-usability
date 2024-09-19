@@ -19,6 +19,10 @@ class MrpProduction(models.Model):
         }, tracking=True)
     # Add field product_categ_id for reporting only
     product_categ_id = fields.Many2one(related='product_id.categ_id', store=True)
+    lot_producing_id = fields.Many2one(tracking=True)
+    location_src_id = fields.Many2one(tracking=True)
+    location_dest_id = fields.Many2one(tracking=True)
+    bom_id = fields.Many2one(tracking=True)
 
     # Method used by the report, inherited in this module
     @api.model
