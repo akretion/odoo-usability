@@ -14,7 +14,8 @@ class ProductTemplate(models.Model):
     # in v10, that field was defined in procurement_suggest, but we will
     # probably not port procurement_suggest because it is native in v14
     seller_id = fields.Many2one(
-        'res.partner', related='seller_ids.name', store=True,
+        'res.partner',
+        compute="_compute_seller_id",
         string='Main Supplier')
 
     # in v14, I noticed that the tracking of the fields of product.template
@@ -32,6 +33,10 @@ class ProductTemplate(models.Model):
     active = fields.Boolean(tracking=100)
     company_id = fields.Many2one(tracking=110)
     barcode_type = fields.Char(compute='_compute_template_barcode_type')
+
+    def _compute_seller_id(self):
+        for record in self:
+            record.seller_id = fields.first(record.seller_ids).name
 
     @api.depends('product_variant_ids.barcode')
     def _compute_template_barcode_type(self):
