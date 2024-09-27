@@ -227,6 +227,9 @@ class AccountMoveUpdate(models.TransientModel):
             inv.message_post(body=_(
                 'Non-legal fields of invoice updated via the Invoice Update '
                 'wizard.'))
+        # Purge existing PDF
+        report = self.env.ref("account.account_invoices")
+        report.retrieve_attachment(inv).unlink()
         return True
 
 
