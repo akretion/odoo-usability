@@ -46,6 +46,8 @@ class AccountMove(models.Model):
         string="Dispute",
         tracking=True,
     )
+    # Field search_account_id is just for search view
+    search_account_id = fields.Many2one(related='line_ids.account_id')
 
     @api.depends("line_ids", "line_ids.blocked")
     def _compute_blocked(self):
