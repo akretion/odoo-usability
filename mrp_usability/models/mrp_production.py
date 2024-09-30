@@ -9,7 +9,10 @@ from odoo import fields, models, Command
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
+    lot_producing_id = fields.Many2one(tracking=True)
+    location_src_id = fields.Many2one(tracking=True)
     location_dest_id = fields.Many2one(tracking=True)
+    bom_id = fields.Many2one(tracking=True)
 
     # Target: allow to modify location_dest_id until the button 'Mark as done' is pushed
     # I didn't find a better implementation... feel free to improve if you find one
