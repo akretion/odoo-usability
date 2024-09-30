@@ -258,33 +258,14 @@ class AccountMove(models.Model):
                 move.suitable_journal_ids = self.env['account.journal'].search(domain)
 
     def button_draft(self):
-        # Get report name before reset to draft because 'attachment' field of report
-        # is False when state != 'posted'
-        report_filenames = self._get_invoice_attachment_name()
-        super().button_draft()
         # Delete attached pdf invoice
-        if report_filenames:
-            for move in self.filtered(lambda x: x.move_type in ('out_invoice', 'out_refund')):
-                attachments = self.env['ir.attachment'].search([
-                    ('name', 'in', report_filenames[move.id]),
-                    ('res_id', '=', move.id),
-                    ('res_model', '=', self._name),
-                    ('type', '=', 'binary'),
-                    ])
-                if attachments:
-                    attachments.unlink()
-
-    def _get_invoice_attachment_name(self):
-        report_filenames = defaultdict(list)
-        for report_name in ('account.report_invoice', 'account.report_invoice_with_payments'):
-            try:
-                report_invoice = self.env['ir.actions.report']._get_report_from_name(report_name)
-            except IndexError:
-                report_invoice = False
-            if report_invoice and report_invoice.attachment:
-                for move in self.filtered(lambda x: x.move_type in ('out_invoice', 'out_refund')):
-                    report_filenames[move.id].append(safe_eval(report_invoice.attachment, {'object': self, 'time': time}))
-        return report_filenames
+        for move in self.filtered(lambda x: x.move_type in ('out_invoice', 'out_refund')):
+            for report_xmlid in ('account.account_invoices', 'account.account_invoices_without_payment'):
+                report = self.env.ref(report_xmlid)
+                attach = report.retrieve_attachment(move)
+                if attach:
+                    attach.unlink()
+        super().button_draft()
 
     def _get_accounting_date(self, invoice_date, has_tax):
         # On vendor bills/refunds, we want date = invoice_date unless
