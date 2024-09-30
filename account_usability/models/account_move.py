@@ -258,45 +258,33 @@ class AccountMove(models.Model):
                 move.suitable_journal_ids = self.env['account.journal'].search(domain)
 
     def button_draft(self):
-        # Get report name before reset to draft because name can be different.
-        report_names = self._get_invoice_attachment_name()
+        # Get report name before reset to draft because 'attachment' field of report
+        # is False when state != 'posted'
+        report_filenames = self._get_invoice_attachment_name()
         super().button_draft()
         # Delete attached pdf invoice
-        if report_names:
+        if report_filenames:
             for move in self.filtered(lambda x: x.move_type in ('out_invoice', 'out_refund')):
-                # The pb is that the filename is dynamic and related to move.state
-                # in v12, the feature was native and they used that kind of code:
-                # with invoice.env.do_in_draft():
-                #    invoice.number, invoice.state = invoice.move_name, 'open'
-                #    attachment = self.env.ref('account.account_invoices').retrieve_attachment(invoice)
-                # But do_in_draft() doesn't exists in v14
-                # If you know how we could do that, please update the code below
-                attachment = self.env['ir.attachment'].search([
-                    ('name', 'in', report_names[move.id]),
+                attachments = self.env['ir.attachment'].search([
+                    ('name', 'in', report_filenames[move.id]),
                     ('res_id', '=', move.id),
                     ('res_model', '=', self._name),
                     ('type', '=', 'binary'),
-                    ], limit=1)
-                if attachment:
-                    attachment.unlink()
+                    ])
+                if attachments:
+                    attachments.unlink()
 
     def _get_invoice_attachment_name(self):
-        report_names = defaultdict(list)
-        try:
-            report_invoice = self.env['ir.actions.report']._get_report_from_name('account.report_invoice')
-        except IndexError:
-            report_invoice = False
-        if report_invoice and report_invoice.attachment:
-            for move in self.filtered(lambda x: x.move_type in ('out_invoice', 'out_refund')):
-                report_names[move.id].append(safe_eval(report_invoice.print_report_name, {'object': self, 'time': time}))
-        try:
-            report_invoice = self.env['ir.actions.report']._get_report_from_name('account.report_invoice_with_payments')
-        except IndexError:
-            report_invoice = False
-        if report_invoice and report_invoice.attachment:
-            for move in self.filtered(lambda x: x.move_type in ('out_invoice', 'out_refund')):
-                report_names[move.id].append(safe_eval(report_invoice.print_report_name, {'object': self, 'time': time}))
-        return report_names
+        report_filenames = defaultdict(list)
+        for report_name in ('account.report_invoice', 'account.report_invoice_with_payments'):
+            try:
+                report_invoice = self.env['ir.actions.report']._get_report_from_name(report_name)
+            except IndexError:
+                report_invoice = False
+            if report_invoice and report_invoice.attachment:
+                for move in self.filtered(lambda x: x.move_type in ('out_invoice', 'out_refund')):
+                    report_filenames[move.id].append(safe_eval(report_invoice.attachment, {'object': self, 'time': time}))
+        return report_filenames
 
     def _get_accounting_date(self, invoice_date, has_tax):
         # On vendor bills/refunds, we want date = invoice_date unless
