@@ -69,6 +69,10 @@ class ResCompany(models.Model):
                 'value': hasattr(self, 'siren') and self.siren or False,
                 'label': _('SIREN:'),
                 },
+            'rcs_siren': {
+                'value': hasattr(self, 'siren') and self.siren and self.company_registry and f"{self.company_registry} {self.siren}",
+                'label': 'RCS',
+                },
             'eori': {
                 'value': self._get_eori(),
                 'label': _('EORI:'),
@@ -102,7 +106,7 @@ class ResCompany(models.Model):
         """This method is designed to be inherited"""
         # I decided not to put email in the default header because only a few very small
         # companies have a generic company email address
-        line_details = [['phone', 'website', 'capital'], ['vat', 'siret', 'eori', 'ape']]
+        line_details = [['phone', 'website', 'rcs_siren', 'capital'], ['vat', 'siret', 'eori', 'ape']]
         return line_details
 
     # for reports
