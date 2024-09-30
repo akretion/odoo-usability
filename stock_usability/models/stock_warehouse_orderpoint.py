@@ -14,6 +14,7 @@ class StockWarehouseOrderpoint(models.Model):
     # In the 'stock' module, the default value for 'trigger' is 'auto'
     # but all the Odoo deployments I've seen so far need 'manual' by default
     trigger = fields.Selection(default='manual')
+    product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
 
     def _procure_orderpoint_confirm(
             self, use_new_cursor=False, company_id=None, raise_user_error=True):
