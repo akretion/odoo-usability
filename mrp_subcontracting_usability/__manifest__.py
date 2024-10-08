@@ -10,9 +10,10 @@
     'summary': 'Usability improvements on mrp_subcontracting',
     'author': 'Akretion',
     'website': 'https://github.com/akretion/odoo-usability',
-    'depends': ['mrp_subcontracting'],
+    'depends': ['mrp_subcontracting', 'stock_usability'],
     'data': [
         'views/mrp_bom.xml',
+        'views/stock_warehouse.xml',
     ],
     'installable': True,
 }
