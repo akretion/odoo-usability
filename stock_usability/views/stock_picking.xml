@@ -56,6 +56,10 @@
         <xpath expr="//sheet/group/group/field[@name='location_dest_id' and @groups='stock.group_stock_multi_locations']" position="attributes">
             <attribute name="attrs">{}</attribute>
         </xpath>
+        <group name="other_infos" position="inside">
+            <!-- the field picking_type_id is shown at the top of the form view when hide_picking_type = False, which depend on a context key. I want to always show it in the last tab -->
+            <field name="picking_type_id" readonly="1"/>
+        </group>
     </field>
 </record>
 
