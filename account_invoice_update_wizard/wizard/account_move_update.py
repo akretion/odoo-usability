@@ -229,7 +229,10 @@ class AccountMoveUpdate(models.TransientModel):
                 'wizard.'))
         # Purge existing PDF
         report = self.env.ref("account.account_invoices")
-        report.retrieve_attachment(inv).unlink()
+        attachment = report.retrieve_attachment(inv)
+        # attachment may be None
+        if attachment:
+            attachment.unlink()
         return True
 
 
