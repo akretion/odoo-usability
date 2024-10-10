@@ -38,6 +38,21 @@ msgstr ""
 "id=%d>%s</a> a été générée."
 
 #. module: account_usability_akretion
+#. odoo-python
+#: code:addons/account_usability_akretion/wizard/account_move_reversal.py:0
+#, python-format
+msgid "%s reversed by %s"
+msgstr "%s extourné par %s"
+
+#. module: account_usability_akretion
+#: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_move_reversal
+msgid ""
+"You are about to reverse entries that have already been reversed or partially reversed (refund). Make sure it is intented.\n"
+"                Already reversed entries are the following :"
+msgstr "Vous êtes sur le point d'extourner une pièce comptable déjà extournée, ou partiellement extournée (avoir). Vérifiez que c'est bien ce que vous souhaitez faire.\n"
+"                Les pièces comptables déjà extournées sont les suivantes :"
+
+#. module: account_usability_akretion
 #: model:ir.model,name:account_usability_akretion.model_account_account
 msgid "Account"
 msgstr "Compte"
@@ -365,13 +380,6 @@ msgstr "Divers"
 #: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_invoice_filter
 msgid "Missing Attachment"
 msgstr "Pièce jointe manquante"
-
-#. module: account_usability_akretion
-#. odoo-python
-#: code:addons/account_usability_akretion/wizard/account_move_reversal.py:0
-#, python-format
-msgid "Journal entry '%s' has already been reversed by journal entry '%s'."
-msgstr "La pièce comptable '%s' a déjà été extournée par la pièce comptable '%s'."
 
 #. module: account_usability_akretion
 #: model:ir.model,name:account_usability_akretion.model_account_partial_reconcile
