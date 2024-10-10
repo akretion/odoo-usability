@@ -36,6 +36,7 @@
         'wizard/account_invoice_mark_sent_view.xml',
         'wizard/account_group_generate_view.xml',
         'wizard/account_payment_register_views.xml',
+        'wizard/account_move_reversal.xml',
         'security/ir.model.access.csv',
         'report/invoice_report.xml',
         ],
