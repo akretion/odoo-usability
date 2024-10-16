@@ -11,5 +11,8 @@ class AccountPaymentOrder(models.Model):
     def _prepare_move_line_partner_account(self, bank_line):
         vals = super()._prepare_move_line_partner_account(bank_line)
         if not bank_line.payment_line_ids[0].move_line_id:
-            vals['account_id'] = bank_line.payment_line_ids[0].account_id.id
+            vals.update({
+                'account_id': bank_line.payment_line_ids[0].account_id.id,
+                'analytic_account_id': bank_line.payment_line_ids[0].analytic_account_id.id or False,
+                })
         return vals

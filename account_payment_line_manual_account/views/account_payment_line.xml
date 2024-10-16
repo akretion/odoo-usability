@@ -15,6 +15,7 @@
     <field name="arch" type="xml">
         <field name="company_id" position="after">
             <field name="account_id" attrs="{'invisible': [('move_line_id', '!=', False)], 'required': [('move_line_id', '=', False)]}"/>
+            <field name="analytic_account_id" attrs="{'invisible': [('move_line_id', '!=', False)]}" groups="analytic.group_analytic_accounting"/>
         </field>
     </field>
 </record>
@@ -25,6 +26,7 @@
     <field name="arch" type="xml">
         <field name="move_line_id" position="after">
             <field name="account_id" optional="hide"/>
+            <field name="analytic_account_id" optional="hide" groups="analytic.group_analytic_accounting"/>
         </field>
     </field>
 </record>

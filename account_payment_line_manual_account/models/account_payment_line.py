@@ -12,6 +12,10 @@ class AccountPaymentLine(models.Model):
         'account.account',
         compute="_compute_account_id", store=True, readonly=False, check_company=True,
         domain="[('company_id', '=', company_id), ('deprecated', '=', False)]")
+    analytic_account_id = fields.Many2one(
+        'account.analytic.account', string='Analytic Account',
+        domain="[('company_id', 'in', [False, company_id])]",
+        check_company=True)
 
     @api.depends('move_line_id', 'partner_id')
     def _compute_account_id(self):
@@ -29,5 +33,6 @@ class AccountPaymentLine(models.Model):
     def payment_line_hashcode(self):
         hashcode = super().payment_line_hashcode()
         account_str = str(self.account_id.id or False)
-        hashcode = '-'.join([hashcode, account_str])
+        analytic_account_str = str(self.analytic_account_id.id or False)
+        hashcode = '-'.join([hashcode, account_str, analytic_account_str])
         return hashcode
