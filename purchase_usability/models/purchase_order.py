@@ -2,9 +2,8 @@
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
-from odoo.tools.misc import format_datetime, format_amount
-from odoo.tools import float_compare
+from odoo import api, fields, models
+from odoo.tools.misc import format_amount
 
 
 class PurchaseOrder(models.Model):
@@ -107,6 +106,41 @@ class PurchaseOrderLine(models.Model):
         if no_product_code_param and no_product_code_param == 'True':
             product_lang = product_lang.with_context(display_default_code=False)
         return super()._get_product_purchase_description(product_lang)
+
+    @api.model
+    def _prepare_purchase_order_line(self, product, product_qty, product_uom, company_id, supplier, po):
+        # _prepare_purchase_order_line() doesn't use _get_product_purchase_description()
+        # because this method is @api.model and _get_product_purchase_description() has self._ensure_one()
+        # I tried to inject display_default_code in the context via super(xxx, self.with_context()),
+        # but it doesn't work. That's why I rewrite vals['name']
+        # The native proto uses "product_id", but it's in fact a product record set,
+        # that's why I use 'product' in the proto here
+        vals = super()._prepare_purchase_order_line(
+            product, product_qty, product_uom, company_id, supplier, po)
+        # START copy-paste from original code (I just modified product_id => product
+        partner = supplier.partner_id
+        uom_po_qty = product_uom._compute_quantity(product_qty, product.uom_po_id, rounding_method='HALF-UP')
+        today = fields.Date.today()
+        seller = product.with_company(company_id)._select_seller(
+            partner_id=partner,
+            quantity=uom_po_qty,
+            date=po.date_order and max(po.date_order.date(), today) or today,
+            uom_id=product.uom_po_id)
+        # END copy-paste from original code
+        product_lang = product.with_context(
+            lang=partner.lang,
+            partner_id=partner.id,
+            seller_id=seller.id
+            )
+        no_product_code_param = self.env['ir.config_parameter'].sudo().get_param(
+            'usability.line_name_no_product_code')
+        if no_product_code_param and no_product_code_param == 'True':
+            product_lang = product_lang.with_context(display_default_code=False)
+        name = product_lang.display_name
+        if product_lang.description_purchase:
+            name += '\n' + product_lang.description_purchase
+        vals['name'] = name
+        return vals
 
 # TODO see how we could restore this feature
 #    @api.onchange('product_qty', 'product_uom')
