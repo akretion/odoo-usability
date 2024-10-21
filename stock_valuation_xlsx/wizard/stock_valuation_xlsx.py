@@ -36,14 +36,14 @@ class StockValuationXlsx(models.TransientModel):
         "be taken in the valuation.")
     categ_ids = fields.Many2many(
         'product.category', string='Product Category Filter',
-        help="Leave this field empty to have a stock valuation for all your products.",
+        help="Leave this field empty to have a stock valuation for all products.",
         )
     stock_date_type = fields.Selection([
         ('present', 'Present'),
         ('past', 'Past'),
-        ], string='Present or Past', default='present', required=True)
+        ], string='Temporality', default='present', required=True)
     past_date = fields.Datetime(
-        string='Past Date', default=fields.Datetime.now)
+        string='Valuation Date', default=fields.Datetime.now)
     categ_subtotal = fields.Boolean(
         string='Subtotals per Categories', default=True,
         help="Show a subtotal per product category.")
@@ -79,19 +79,7 @@ class StockValuationXlsx(models.TransientModel):
         if (
                 self.stock_date_type == 'past' and
                 self.past_date > fields.Datetime.now()):
-            raise UserError(_("The 'Past Date' must be in the past !"))
-        cost_method_real_count = self.env['ir.property'].sudo().search([
-            ('company_id', '=', self.company_id.id),
-            ('name', '=', 'property_cost_method'),
-            ('value_text', '=', 'real'),
-            ('type', '=', 'selection'),
-            ], count=True)
-        if cost_method_real_count:
-            raise UserError(_(
-                "There are %d properties that have "
-                "'Costing Method' = 'Real Price'. This costing "
-                "method is not supported by this module.")
-                % cost_method_real_count)
+            raise UserError(_("The 'Valuation Date' must be in the past!"))
 
     def _prepare_product_domain(self):
         self.ensure_one()
@@ -353,7 +341,7 @@ class StockValuationXlsx(models.TransientModel):
             depreciation_rules = self._prepare_expiry_depreciation_rules(company_id, past_date)
             if not depreciation_rules:
                 raise UserError(_(
-                    "The are not stock depreciation rule for company '%s'.")
+                    "There are no stock depreciation rules for company '%s'.")
                     % company.display_name)
         in_stock_product_ids = list(in_stock_products.keys())
         product_id2data = self.compute_product_data(

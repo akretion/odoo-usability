@@ -22,7 +22,7 @@
                 <field name="categ_ids" widget="many2many_tags"/>
                 <field name="warehouse_id"/>
                 <field name="location_id"/>
-                <field name="stock_date_type" />
+                <field name="stock_date_type" widget="radio"/>
                 <field name="past_date" attrs="{'invisible': [('stock_date_type', '!=', 'past')], 'required': [('stock_date_type', '=', 'past')]}"/>
                 <field name="standard_price_date" attrs="{'invisible': [('stock_date_type', '=', 'present')]}" widget="radio"/>
                 <field name="categ_subtotal" />

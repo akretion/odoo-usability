@@ -1,0 +1,554 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* stock_valuation_xlsx
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-21 16:20+0000\n"
+"PO-Revision-Date: 2024-10-21 16:20+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__apply_depreciation
+msgid "Apply Depreciation Rules"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Categ Sub-total"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model_terms:ir.ui.view,arch_db:stock_valuation_xlsx.stock_valuation_xlsx_form
+#: model_terms:ir.ui.view,arch_db:stock_valuation_xlsx.stock_variation_xlsx_form
+msgid "Close"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_expiry_depreciation_rule__company_id
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__company_id
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__company_id
+msgid "Company"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "Cost Price"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__standard_price_date
+msgid "Cost Price Date"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__standard_price_end_date_type
+msgid "Cost Price for End Date"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__standard_price_start_date_type
+msgid "Cost Price for Start Date"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_expiry_depreciation_rule__create_uid
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__create_uid
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_expiry_depreciation_rule__create_date
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__create_date
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields.selection,name:stock_valuation_xlsx.selection__stock_valuation_xlsx__standard_price_date__present
+#: model:ir.model.fields.selection,name:stock_valuation_xlsx.selection__stock_variation_xlsx__standard_price_end_date_type__present
+#: model:ir.model.fields.selection,name:stock_valuation_xlsx.selection__stock_variation_xlsx__standard_price_start_date_type__present
+msgid "Current"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_expiry_depreciation_rule__start_limit_days
+msgid "Days Before/After Expiry"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "Depreciation"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_expiry_depreciation_rule__ratio
+msgid "Depreciation Ratio (%)"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__split_by_lot
+msgid "Display Lots"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_expiry_depreciation_rule__display_name
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__display_name
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__split_by_location
+msgid "Display Stock Locations"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model_terms:ir.ui.view,arch_db:stock_valuation_xlsx.stock_variation_xlsx_form
+msgid "End"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "End Cost Price"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__end_date
+#: model:ir.model.fields.selection,name:stock_valuation_xlsx.selection__stock_variation_xlsx__standard_price_end_date_type__end
+msgid "End Date"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__end_date_type
+msgid "End Date Temporality"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "End Date is missing."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "End Qty"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "End Value"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,help:stock_valuation_xlsx.field_stock_expiry_depreciation_rule__start_limit_days
+msgid ""
+"Enter negative value for days before expiry. Enter positive values for days "
+"after expiry. This value is the START of the time interval when going from "
+"future to past."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "Expiry Date"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__export_filename
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__export_filename
+msgid "Export Filename"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model_terms:ir.ui.view,arch_db:stock_valuation_xlsx.stock_valuation_xlsx_form
+#: model_terms:ir.ui.view,arch_db:stock_valuation_xlsx.stock_variation_xlsx_form
+msgid "Generate"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model,name:stock_valuation_xlsx.model_stock_valuation_xlsx
+msgid "Generate XLSX report for stock valuation"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model,name:stock_valuation_xlsx.model_stock_variation_xlsx
+msgid "Generate XLSX report for stock valuation variation between 2 dates"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__has_expiry_date
+msgid "Has Expiry Date"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_expiry_depreciation_rule__id
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__id
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__id
+msgid "ID"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "In Qty"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.actions.act_window,name:stock_valuation_xlsx.stock_valuation_xlsx_action
+#: model:ir.ui.menu,name:stock_valuation_xlsx.stock_valuation_xlsx_menu
+msgid "Inventory Valuation XLSX"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.actions.act_window,name:stock_valuation_xlsx.stock_variation_xlsx_action
+#: model:ir.ui.menu,name:stock_valuation_xlsx.stock_variation_xlsx_menu
+msgid "Inventory Variation XLSX"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_expiry_depreciation_rule__name
+msgid "Label"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_expiry_depreciation_rule____last_update
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx____last_update
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_expiry_depreciation_rule__write_uid
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__write_uid
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_expiry_depreciation_rule__write_date
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__write_date
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,help:stock_valuation_xlsx.field_stock_valuation_xlsx__categ_ids
+#: model:ir.model.fields,help:stock_valuation_xlsx.field_stock_variation_xlsx__categ_ids
+msgid "Leave this field empty to have a stock valuation for all products."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "Location Name"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "Lot"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Out Qty"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields.selection,name:stock_valuation_xlsx.selection__stock_valuation_xlsx__stock_date_type__past
+#: model:ir.model.fields.selection,name:stock_valuation_xlsx.selection__stock_variation_xlsx__end_date_type__past
+msgid "Past"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields.selection,name:stock_valuation_xlsx.selection__stock_valuation_xlsx__standard_price_date__past
+msgid "Past Date"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields.selection,name:stock_valuation_xlsx.selection__stock_valuation_xlsx__stock_date_type__present
+#: model:ir.model.fields.selection,name:stock_valuation_xlsx.selection__stock_variation_xlsx__end_date_type__present
+msgid "Present"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Product Barcode"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Product Category"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__categ_ids
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__categ_ids
+msgid "Product Category Filter"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Product Code"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Product Name"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "Qty"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__location_id
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__location_id
+msgid "Root Stock Location"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,help:stock_valuation_xlsx.field_stock_valuation_xlsx__categ_subtotal
+#: model:ir.model.fields,help:stock_valuation_xlsx.field_stock_variation_xlsx__categ_subtotal
+msgid "Show a subtotal per product category."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model_terms:ir.ui.view,arch_db:stock_valuation_xlsx.stock_variation_xlsx_form
+msgid "Start"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Start Cost Price"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__start_date
+#: model:ir.model.fields.selection,name:stock_valuation_xlsx.selection__stock_variation_xlsx__standard_price_start_date_type__start
+msgid "Start Date"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Start Qty"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Start Value"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.actions.act_window,name:stock_valuation_xlsx.stock_expiry_depreciation_rule_action
+#: model:ir.ui.menu,name:stock_valuation_xlsx.stock_expiry_depreciation_rule_menu
+msgid "Stock Depreciation Rules"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model,name:stock_valuation_xlsx.model_stock_expiry_depreciation_rule
+msgid "Stock Expiry Depreciation Rule"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "Stock Valuation XLSX"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Stock Variation XLSX"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "Sub-total"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__categ_subtotal
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__categ_subtotal
+msgid "Subtotals per Categories"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "TOTAL:"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "TOTALS:"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__stock_date_type
+msgid "Temporality"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "The 'Valuation Date' must be in the past!"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,help:stock_valuation_xlsx.field_stock_valuation_xlsx__location_id
+#: model:ir.model.fields,help:stock_valuation_xlsx.field_stock_variation_xlsx__location_id
+msgid ""
+"The childen locations of the selected locations will be taken in the "
+"valuation."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.constraint,message:stock_valuation_xlsx.constraint_stock_expiry_depreciation_rule_ratio_max
+msgid "The depreciation ratio cannot be above 100%."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.constraint,message:stock_valuation_xlsx.constraint_stock_expiry_depreciation_rule_ratio_positive
+msgid "The depreciation ratio must be positive."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "The end date must be in the past."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model_terms:ir.ui.view,arch_db:stock_valuation_xlsx.stock_valuation_xlsx_form
+#: model_terms:ir.ui.view,arch_db:stock_valuation_xlsx.stock_variation_xlsx_form
+msgid ""
+"The generated XLSX report has the valuation of stockable products located on"
+" the selected stock locations (and their childrens)."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "The start date must be before the end date."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "The start date must be in the past."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "There are no products to analyse."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "There are no stock depreciation rules for company '%s'."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.constraint,message:stock_valuation_xlsx.constraint_stock_expiry_depreciation_rule_start_limit_days_unique
+msgid "This depreciation rule already exists in this company."
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "UoM"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__past_date
+msgid "Valuation Date"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Variation"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__warehouse_id
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__warehouse_id
+msgid "Warehouse"
+msgstr ""
+
+#. module: stock_valuation_xlsx
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__export_file
+#: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__export_file
+msgid "XLSX Report"
+msgstr ""

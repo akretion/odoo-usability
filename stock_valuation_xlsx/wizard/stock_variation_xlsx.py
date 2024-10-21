@@ -34,7 +34,7 @@ class StockVariationXlsx(models.TransientModel):
         "be taken in the valuation.")
     categ_ids = fields.Many2many(
         'product.category', string='Product Category Filter',
-        help="Leave this fields empty to have a stock valuation for all your products.")
+        help="Leave this field empty to have a stock valuation for all products.")
     start_date = fields.Datetime(
         string='Start Date', required=True)
     standard_price_start_date_type = fields.Selection([
@@ -45,7 +45,7 @@ class StockVariationXlsx(models.TransientModel):
     end_date_type = fields.Selection([
         ('present', 'Present'),
         ('past', 'Past'),
-        ], string='End Date Type', default='present', required=True)
+        ], string='End Date Temporality', default='present', required=True)
     end_date = fields.Datetime(
         string='End Date', default=fields.Datetime.now)
     standard_price_end_date_type = fields.Selection([
@@ -78,18 +78,6 @@ class StockVariationXlsx(models.TransientModel):
         else:
             if self.start_date >= present:
                 raise UserError(_("The start date must be in the past."))
-        cost_method_real_count = self.env['ir.property'].sudo().search([
-            ('company_id', '=', self.company_id.id),
-            ('name', '=', 'property_cost_method'),
-            ('value_text', '=', 'real'),
-            ('type', '=', 'selection'),
-            ], count=True)
-        if cost_method_real_count:
-            raise UserError(_(
-                "There are %d properties that have "
-                "'Costing Method' = 'Real Price'. This costing "
-                "method is not supported by this module.")
-                % cost_method_real_count)
 
     def _prepare_product_domain(self):
         self.ensure_one()
