@@ -12,12 +12,13 @@
     <field name="name">stock.variation.xlsx.form</field>
     <field name="model">stock.variation.xlsx</field>
     <field name="arch"  type="xml">
-        <form string="Stock variation XLSX">
+        <form>
             <div name="help">
                 <p>The generated XLSX report has the valuation of stockable products located on the selected stock locations (and their childrens).</p>
             </div>
             <group name="setup">
                 <field name="company_id" groups="base.group_multi_company"/>
+                <field name="company_id" invisible="1"/>
                 <field name="categ_ids" widget="many2many_tags"/>
                 <field name="warehouse_id"/>
                 <field name="location_id"/>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2021 Akretion France (http://www.akretion.com/)
+  Copyright 2021-2024 Akretion France (http://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
 <odoo>
-<data>
 
 <record id="stock_expiry_depreciation_rule_tree" model="ir.ui.view">
     <field name="model">stock.expiry.depreciation.rule</field>
@@ -31,5 +30,4 @@
         parent="account.account_management_menu"
         sequence="100"/>
 
-</data>
 </odoo>

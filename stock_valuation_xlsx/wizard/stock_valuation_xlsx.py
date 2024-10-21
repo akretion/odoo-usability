@@ -1,4 +1,4 @@
-# Copyright 2020 Akretion France (http://www.akretion.com/)
+# Copyright 2020-2024 Akretion France (http://www.akretion.com/)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
@@ -29,33 +29,26 @@ class StockValuationXlsx(models.TransientModel):
         'stock.warehouse', string='Warehouse', check_company=True,
         domain="[('company_id', '=', company_id)]")
     location_id = fields.Many2one(
-        'stock.location', string='Root Stock Location', required=True,
-        domain="[('usage', 'in', ('view', 'internal')), ('company_id', '=', company_id)]",
-        default=lambda self: self._default_location(), check_company=True,
+        'stock.location', string='Root Stock Location', required=True, check_company=True,
+        compute='_compute_location_id', readonly=False, precompute=True, store=True,
+        domain="[('usage', 'in', ('view', 'internal')), ('company_id', 'in', [False, company_id])]",
         help="The childen locations of the selected locations will "
         "be taken in the valuation.")
     categ_ids = fields.Many2many(
         'product.category', string='Product Category Filter',
         help="Leave this field empty to have a stock valuation for all your products.",
         )
-    source = fields.Selection([
-        ('inventory', 'Physical Inventory'),
-        ('stock', 'Stock Levels'),
-        ], string='Source data', default='stock', required=True)
-    inventory_id = fields.Many2one(
-        'stock.inventory', string='Inventory', check_company=True,
-        domain="[('state', '=', 'done'), ('company_id', '=', company_id)]")
     stock_date_type = fields.Selection([
         ('present', 'Present'),
         ('past', 'Past'),
-        ], string='Present or Past', default='present')
+        ], string='Present or Past', default='present', required=True)
     past_date = fields.Datetime(
         string='Past Date', default=fields.Datetime.now)
     categ_subtotal = fields.Boolean(
         string='Subtotals per Categories', default=True,
         help="Show a subtotal per product category.")
     standard_price_date = fields.Selection([
-        ('past', 'Past Date or Inventory Date'),
+        ('past', 'Past Date'),
         ('present', 'Current'),
         ], default='past', string='Cost Price Date')
     has_expiry_date = fields.Boolean(
@@ -67,38 +60,28 @@ class StockValuationXlsx(models.TransientModel):
 
     @api.model
     def _default_has_expiry_date(self):
-        splo = self.env['stock.production.lot']
         has_expiry_date = False
-        if hasattr(splo, 'expiry_date'):
+        if hasattr(self.env['stock.lot'], 'expiry_date'):
             has_expiry_date = True
         return has_expiry_date
 
-    @api.model
-    def _default_location(self):
-        wh = self.env.ref('stock.warehouse0')
-        return wh.lot_stock_id
+    @api.depends('warehouse_id', 'company_id')
+    def _compute_location_id(self):
+        for wiz in self:
+            wh = wiz.warehouse_id
+            if not wh:
+                wh = self.env["stock.warehouse"].search([('company_id', '=', wiz.company_id.id)], limit=1)
+            if wh:
+                wiz.location_id = wh.view_location_id.id
 
-    @api.onchange('warehouse_id')
-    def warehouse_id_change(self):
-        if self.warehouse_id:
-            self.location_id = self.warehouse_id.view_location_id.id
-
-    def _check_config(self, company_id):
+    def _check_config(self):
         self.ensure_one()
         if (
-                self.source == 'stock' and
                 self.stock_date_type == 'past' and
                 self.past_date > fields.Datetime.now()):
             raise UserError(_("The 'Past Date' must be in the past !"))
-        if self.source == 'inventory':
-            if not self.inventory_id:
-                raise UserError(_("You must select an inventory."))
-            elif self.inventory_id.state != 'done':
-                raise UserError(_(
-                    "The selected inventory (%s) is not in done state.")
-                    % self.inventory_id.display_name)
         cost_method_real_count = self.env['ir.property'].sudo().search([
-            ('company_id', '=', company_id),
+            ('company_id', '=', self.company_id.id),
             ('name', '=', 'property_cost_method'),
             ('value_text', '=', 'real'),
             ('type', '=', 'selection'),
@@ -159,7 +142,7 @@ class StockValuationXlsx(models.TransientModel):
                 if not std_price_date:  # present
                     product_id2data[p['id']][std_price_field_name] = p['standard_price']
                 else:
-                    layer_rg = svlo.read_group(
+                    layer_rg = svlo._read_group(
                         [
                             ('product_id', '=', p['id']),
                             ('company_id', '=', company_id),
@@ -201,13 +184,13 @@ class StockValuationXlsx(models.TransientModel):
 
     @api.model
     def prodlot_id2data(self, product_ids, has_expiry_date, depreciation_rules):
-        splo = self.env['stock.production.lot']
+        slo = self.env['stock.lot']
         lot_id2data = {}
         lot_fields = ['name']
         if has_expiry_date:
             lot_fields.append('expiry_date')
 
-        lots = splo.search_read(
+        lots = slo.search_read(
             [('product_id', 'in', product_ids)], lot_fields)
         for lot in lots:
             lot_id2data[lot['id']] = lot
@@ -229,30 +212,6 @@ class StockValuationXlsx(models.TransientModel):
         for loc in locs:
             loc_id2name[loc['id']] = loc['display_name']
         return loc_id2name
-
-    def compute_data_from_inventory(self, product_ids, prec_qty):
-        self.ensure_one()
-        logger.debug('Start compute_data_from_inventory')
-        # Can he modify UoM ?
-        inv_lines = self.env['stock.inventory.line'].search_read([
-            ('inventory_id', '=', self.inventory_id.id),
-            ('location_id', 'child_of', self.location_id.id),
-            ('product_id', 'in', product_ids),
-            ('product_qty', '>', 0),
-            ], ['product_id', 'location_id', 'prod_lot_id', 'product_qty'])
-        res = []
-        in_stock_products = {}
-        for l in inv_lines:
-            if not float_is_zero(l['product_qty'], precision_digits=prec_qty):
-                res.append({
-                    'product_id': l['product_id'][0],
-                    'lot_id': l['prod_lot_id'] and l['prod_lot_id'][0] or False,
-                    'qty': l['product_qty'],
-                    'location_id': l['location_id'][0],
-                    })
-                in_stock_products[l['product_id'][0]] = True
-        logger.debug('End compute_data_from_inventory')
-        return res, in_stock_products
 
     def compute_data_from_present_stock(self, company_id, product_ids, prec_qty):
         self.ensure_one()
@@ -361,40 +320,34 @@ class StockValuationXlsx(models.TransientModel):
         company = self.company_id
         company_id = company.id
         prec_cur_rounding = company.currency_id.rounding
-        self._check_config(company_id)
+        self._check_config()
 
-        apply_depreciation = self.apply_depreciation
         if (
-                (self.source == 'stock' and self.stock_date_type == 'past') or
+                self.stock_date_type == 'past' or
                 not self.split_by_lot or
                 not self.has_expiry_date):
             apply_depreciation = False
+        else:
+            apply_depreciation = self.apply_depreciation
         product_ids = self.get_product_ids()
         if not product_ids:
             raise UserError(_("There are no products to analyse."))
-        split_by_lot = self.split_by_lot
-        split_by_location = self.split_by_location
-        if self.source == 'stock':
-            if self.stock_date_type == 'present':
-                past_date = False
-                data, in_stock_products = self.compute_data_from_present_stock(
-                    company_id, product_ids, prec_qty)
-            elif self.stock_date_type == 'past':
-                split_by_lot = False
-                split_by_location = False
-                past_date = self.past_date
-                data, in_stock_products = self.compute_data_from_past_stock(
-                    product_ids, prec_qty, past_date)
-        elif self.source == 'inventory':
-            past_date = self.inventory_id.date
-            data, in_stock_products = self.compute_data_from_inventory(product_ids, prec_qty)
-        if self.source == 'stock' and self.stock_date_type == 'present':
+        if self.stock_date_type == 'present':
+            split_by_lot = self.split_by_lot
+            split_by_location = self.split_by_location
+            past_date = False
             standard_price_past_date = False
-        else:  # field standard_price_date is shown on screen
-            if self.standard_price_date == 'present':
-                standard_price_past_date = False
-            else:
-                standard_price_past_date = past_date
+            data, in_stock_products = self.compute_data_from_present_stock(
+                company_id, product_ids, prec_qty)
+        elif self.stock_date_type == 'past':
+            split_by_lot = False
+            split_by_location = False
+            past_date = self.past_date
+            standard_price_past_date = past_date
+            data, in_stock_products = self.compute_data_from_past_stock(
+                product_ids, prec_qty, past_date)
+        else:
+            raise
         depreciation_rules = []
         if apply_depreciation:
             depreciation_rules = self._prepare_expiry_depreciation_rules(company_id, past_date)
