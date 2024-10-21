@@ -553,7 +553,7 @@ class StockValuationXlsx(models.TransientModel):
     def _prepare_cols(self):
         cols = {
             'default_code': {'width': 18, 'style': 'regular', 'sequence': 10, 'title': _('Product Code')},
-            'barcode': {'width': 18, 'style': 'regular', 'sequence': 10, 'title': _('Product Barcode')},
+            'barcode': {'width': 18, 'style': 'regular', 'sequence': 15, 'title': _('Product Barcode')},
             'product_name': {'width': 40, 'style': 'regular', 'sequence': 20, 'title': _('Product Name')},
             'loc_name': {'width': 25, 'style': 'regular_small', 'sequence': 30, 'title': _('Location Name')},
             'lot_name': {'width': 18, 'style': 'regular', 'sequence': 40, 'title': _('Lot')},

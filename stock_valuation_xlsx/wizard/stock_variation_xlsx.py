@@ -342,6 +342,8 @@ class StockVariationXlsx(models.TransientModel):
                 sheet.write_formula(i, cols['end_subtotal']['pos'], end_subtotal_formula, styles[cols['end_subtotal']['style']], l['end_subtotal'])
                 for col_name, col in cols.items():
                     if not col.get('formula'):
+                        if not l[col_name]:
+                            l[col_name] = ''  # to avoid display of 31/12/1899 (dates) or '0' (char)
                         if col.get('type') == 'date' and l[col_name]:
                             l[col_name] = fields.Date.from_string(l[col_name])
                         sheet.write(i, col['pos'], l[col_name], styles[col['style']])
@@ -388,6 +390,7 @@ class StockVariationXlsx(models.TransientModel):
     def _prepare_cols(self):
         cols = {
             'default_code': {'width': 18, 'style': 'regular', 'sequence': 10, 'title': _('Product Code')},
+            'barcode': {'width': 18, 'style': 'regular', 'sequence': 15, 'title': _('Product Barcode')},
             'product_name': {'width': 40, 'style': 'regular', 'sequence': 20, 'title': _('Product Name')},
             'uom_name': {'width': 5, 'style': 'regular_small', 'sequence': 30, 'title': _('UoM')},
             'start_qty': {'width': 8, 'style': 'regular', 'sequence': 40, 'title': _('Start Qty')},
