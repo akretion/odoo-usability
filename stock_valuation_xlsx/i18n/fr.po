@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-21 16:21+0000\n"
-"PO-Revision-Date: 2024-10-21 16:21+0000\n"
+"POT-Creation-Date: 2024-10-22 07:43+0000\n"
+"PO-Revision-Date: 2024-10-22 07:44+0000\n"
 "Last-Translator: Alexis de Lattre <alexis.delattre@akretion.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -55,6 +55,27 @@ msgid "Cost Price Date"
 msgstr "Date du coût"
 
 #. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "Cost Price Date: %s"
+msgstr "Date du coût : %s"
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Cost Price End Date: %s"
+msgstr "Date du coût final : %s"
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Cost Price Start Date: %s"
+msgstr "Date du coût de départ : %s"
+
+#. module: stock_valuation_xlsx
 #: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__standard_price_end_date_type
 msgid "Cost Price for End Date"
 msgstr "Coût pour la date de fin"
@@ -62,7 +83,7 @@ msgstr "Coût pour la date de fin"
 #. module: stock_valuation_xlsx
 #: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__standard_price_start_date_type
 msgid "Cost Price for Start Date"
-msgstr "Coût pour la date de début"
+msgstr "Coût pour la date de départ"
 
 #. module: stock_valuation_xlsx
 #: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_expiry_depreciation_rule__create_uid
@@ -129,7 +150,7 @@ msgstr "Fin"
 #: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
 #, python-format
 msgid "End Cost Price"
-msgstr "Coût date de fin"
+msgstr "Coût final"
 
 #. module: stock_valuation_xlsx
 #: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__end_date
@@ -153,8 +174,15 @@ msgstr "La date de fin est manquante."
 #. odoo-python
 #: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
 #, python-format
+msgid "End Date: %s"
+msgstr "Date de fin : %s"
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
 msgid "End Qty"
-msgstr "Qté fin"
+msgstr "Qté finale"
 
 #. module: stock_valuation_xlsx
 #. odoo-python
@@ -206,6 +234,14 @@ msgstr ""
 "entre 2 dates"
 
 #. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Generated from Odoo on %s by %s"
+msgstr "Généré à partir d'Odoo le %s par %s"
+
+#. module: stock_valuation_xlsx
 #: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_valuation_xlsx__has_expiry_date
 msgid "Has Expiry Date"
 msgstr "A une date de péremption"
@@ -223,6 +259,13 @@ msgstr "ID"
 #, python-format
 msgid "In Qty"
 msgstr "Qté entrée"
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
+msgid "Inventory Date: %s"
+msgstr "Date de l'inventaire : %s"
 
 #. module: stock_valuation_xlsx
 #: model:ir.actions.act_window,name:stock_valuation_xlsx.stock_valuation_xlsx_action
@@ -321,6 +364,14 @@ msgstr "Code-barres du produit"
 #: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
 #: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
 #, python-format
+msgid "Product Categories: %s"
+msgstr "Catégories de produits : %s"
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
 msgid "Product Category"
 msgstr "Catégorie du produit"
 
@@ -375,13 +426,20 @@ msgstr "Début"
 #: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
 #, python-format
 msgid "Start Cost Price"
-msgstr "Coût date de début"
+msgstr "Coût de départ"
 
 #. module: stock_valuation_xlsx
 #: model:ir.model.fields,field_description:stock_valuation_xlsx.field_stock_variation_xlsx__start_date
 #: model:ir.model.fields.selection,name:stock_valuation_xlsx.selection__stock_variation_xlsx__standard_price_start_date_type__start
 msgid "Start Date"
-msgstr "Date de début"
+msgstr "Date de départ"
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Start Date: %s"
+msgstr "Date de départ : %s"
 
 #. module: stock_valuation_xlsx
 #. odoo-python
@@ -412,6 +470,20 @@ msgstr "Règle de dépréciation du stock pour la péremption"
 #. odoo-python
 #: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
 #, python-format
+msgid "Stock Valuation"
+msgstr "Valorisation du stock"
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Stock Valuation Variation"
+msgstr "Variation de la valorisation du stock"
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#, python-format
 msgid "Stock Valuation XLSX"
 msgstr "Valorisation du stock XLSX"
 
@@ -421,6 +493,14 @@ msgstr "Valorisation du stock XLSX"
 #, python-format
 msgid "Stock Variation XLSX"
 msgstr "Variation du stock XLSX"
+
+#. module: stock_valuation_xlsx
+#. odoo-python
+#: code:addons/stock_valuation_xlsx/wizard/stock_valuation_xlsx.py:0
+#: code:addons/stock_valuation_xlsx/wizard/stock_variation_xlsx.py:0
+#, python-format
+msgid "Stock location (children included): %s"
+msgstr "Emplacement de stock (enfants inclus) : %s"
 
 #. module: stock_valuation_xlsx
 #. odoo-python

@@ -6,6 +6,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from dateutil.relativedelta import relativedelta
 from odoo.tools import float_is_zero, float_round
+from odoo.tools.misc import format_datetime
 from io import BytesIO
 from datetime import datetime
 import xlsxwriter
@@ -385,12 +386,9 @@ class StockValuationXlsx(models.TransientModel):
             j += 1
 
         # HEADER
-        now_dt = fields.Datetime.context_timestamp(self, datetime.now())
-        now_str = fields.Datetime.to_string(now_dt)
+        now_str = format_datetime(self.env, datetime.now())
         if past_date:
-            stock_time_utc_dt = past_date
-            stock_time_dt = fields.Datetime.context_timestamp(self, stock_time_utc_dt)
-            stock_time_str = fields.Datetime.to_string(stock_time_dt)
+            stock_time_str = format_datetime(self.env, past_date)
         else:
             stock_time_str = now_str
         if standard_price_past_date:
@@ -398,22 +396,23 @@ class StockValuationXlsx(models.TransientModel):
         else:
             standard_price_date_str = now_str
         i = 0
-        sheet.write(i, 0, 'Odoo - Stock Valuation', styles['doc_title'])
-        sheet.set_row(0, 26)
+        sheet.write(i, 0, _('Stock Valuation'), styles['doc_title'])
+        sheet.set_row(i, 26)
         i += 1
-        sheet.write(i, 0, 'Inventory Date: %s' % stock_time_str, styles['doc_subtitle'])
+        sheet.write(i, 0, _('Inventory Date: %s') % stock_time_str, styles['doc_subtitle'])
         i += 1
-        sheet.write(i, 0, 'Cost Price Date: %s' % standard_price_date_str, styles['doc_subtitle'])
+        sheet.write(i, 0, _('Cost Price Date: %s') % standard_price_date_str, styles['doc_subtitle'])
         i += 1
-        sheet.write(i, 0, 'Stock location (children included): %s' % self.location_id.complete_name, styles['doc_subtitle'])
+        sheet.write(i, 0, _('Stock location (children included): %s') % self.location_id.complete_name, styles['doc_subtitle'])
         if self.categ_ids:
             i += 1
-            sheet.write(i, 0, 'Product Categories: %s' % ', '.join([categ.display_name for categ in self.categ_ids]), styles['doc_subtitle'])
+            sheet.write(i, 0, _('Product Categories: %s') % ', '.join([categ.display_name for categ in self.categ_ids]), styles['doc_subtitle'])
         i += 1
-        sheet.write(i, 0, 'Generated on %s by %s' % (now_str, self.env.user.name), styles['regular_small'])
+        sheet.write(i, 0, _('Generated from Odoo on %s by %s') % (now_str, self.env.user.name), styles['regular_small'])
 
         # TITLE of COLS
         i += 2
+        sheet.set_row(i, 26)
         for col in cols.values():
             sheet.write(i, col['pos'], col['title'], styles['col_title'])
 

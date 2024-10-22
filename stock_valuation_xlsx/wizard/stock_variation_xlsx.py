@@ -5,6 +5,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from odoo.tools import float_is_zero, float_round
+from odoo.tools.misc import format_datetime
 from io import BytesIO
 import base64
 from datetime import datetime
@@ -239,15 +240,10 @@ class StockVariationXlsx(models.TransientModel):
             j += 1
 
         # HEADER
-        now_dt = fields.Datetime.context_timestamp(self, datetime.now())
-        now_str = fields.Datetime.to_string(now_dt)
-        start_time_utc_dt = self.start_date
-        start_time_dt = fields.Datetime.context_timestamp(self, start_time_utc_dt)
-        start_time_str = fields.Datetime.to_string(start_time_dt)
+        now_str = format_datetime(self.env, datetime.now())
+        start_time_str = format_datetime(self.env, self.start_date)
         if self.end_date_type == 'past':
-            end_time_utc_dt = self.end_date
-            end_time_dt = fields.Datetime.context_timestamp(self, end_time_utc_dt)
-            end_time_str = fields.Datetime.to_string(end_time_dt)
+            end_time_str = format_datetime(self.env, self.end_date)
         else:
             end_time_str = now_str
         if standard_price_start_date:
@@ -259,26 +255,27 @@ class StockVariationXlsx(models.TransientModel):
         else:
             standard_price_end_date_str = now_str
         i = 0
-        sheet.write(i, 0, 'Odoo - Stock Valuation Variation', styles['doc_title'])
-        sheet.set_row(0, 26)
+        sheet.write(i, 0, _('Stock Valuation Variation'), styles['doc_title'])
+        sheet.set_row(i, 26)
         i += 1
-        sheet.write(i, 0, 'Start Date: %s' % start_time_str, styles['doc_subtitle'])
+        sheet.write(i, 0, _('Start Date: %s') % start_time_str, styles['doc_subtitle'])
         i += 1
-        sheet.write(i, 0, 'Cost Price Start Date: %s' % standard_price_start_date_str, styles['doc_subtitle'])
+        sheet.write(i, 0, _('Cost Price Start Date: %s') % standard_price_start_date_str, styles['doc_subtitle'])
         i += 1
-        sheet.write(i, 0, 'End Date: %s' % end_time_str, styles['doc_subtitle'])
+        sheet.write(i, 0, _('End Date: %s') % end_time_str, styles['doc_subtitle'])
         i += 1
-        sheet.write(i, 0, 'Cost Price End Date: %s' % standard_price_end_date_str, styles['doc_subtitle'])
+        sheet.write(i, 0, _('Cost Price End Date: %s') % standard_price_end_date_str, styles['doc_subtitle'])
         i += 1
-        sheet.write(i, 0, 'Stock location (children included): %s' % self.location_id.complete_name, styles['doc_subtitle'])
+        sheet.write(i, 0, _('Stock location (children included): %s') % self.location_id.complete_name, styles['doc_subtitle'])
         if self.categ_ids:
             i += 1
-            sheet.write(i, 0, 'Product Categories: %s' % ', '.join([categ.display_name for categ in self.categ_ids]), styles['doc_subtitle'])
+            sheet.write(i, 0, _('Product Categories: %s') % ', '.join([categ.display_name for categ in self.categ_ids]), styles['doc_subtitle'])
         i += 1
-        sheet.write(i, 0, 'Generated on %s by %s' % (now_str, self.env.user.name), styles['regular_small'])
+        sheet.write(i, 0, _('Generated from Odoo on %s by %s') % (now_str, self.env.user.name), styles['regular_small'])
 
         # TITLE of COLS
         i += 2
+        sheet.set_row(i, 26)
         for col in cols.values():
             sheet.write(i, col['pos'], col['title'], styles['col_title'])
 
