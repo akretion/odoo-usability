@@ -14,23 +14,6 @@ class BankReconciliationXlsx(models.AbstractModel):
     _description = "Bank Reconciliation XLSX Report"
     _inherit = "report.report_xlsx.abstract"
 
-    def _domain_add_move_state(self, jdi, domain):
-        if jdi['wizard'].move_state == 'posted':
-            domain.append(('parent_state', '=', 'posted'))
-        elif jdi['wizard'].move_state == 'draft_posted':
-            domain.append(('parent_state', 'in', ('draft', 'posted')))
-
-    def _get_account_balance(self, jdi):
-        domain = [
-            ('account_id', '=', jdi['bank_account'].id),
-            ('date', '<=', jdi['wizard'].date),
-            ('company_id', '=', jdi['company'].id),
-            ]
-        self._domain_add_move_state(jdi, domain)
-        res_rg = self.env['account.move.line'].read_group(domain, ['amount_currency:sum'], [])
-        account_bal = res_rg and res_rg[0].get('amount_currency', 0.0) or 0.0
-        return account_bal
-
     def _prepare_payment_move_lines(self, jdi, account, unreconciled_only=True):
         domain = [
             ("company_id", "=", jdi['company'].id),
@@ -38,6 +21,10 @@ class BankReconciliationXlsx(models.AbstractModel):
             ("journal_id", "=", jdi['journal'].id),
             ("date", "<=", jdi['wizard'].date),
             ]
+        if jdi['wizard'].move_state == 'posted':
+            domain.append(('parent_state', '=', 'posted'))
+        elif jdi['wizard'].move_state == 'draft_posted':
+            domain.append(('parent_state', 'in', ('draft', 'posted')))
         if unreconciled_only:
             limit_datetime_naive = datetime.combine(jdi['wizard'].date, datetime.max.time())
             tz = pytz.timezone(self.env.user.tz)
@@ -47,7 +34,6 @@ class BankReconciliationXlsx(models.AbstractModel):
             domain += [
                 '|', ('full_reconcile_id', '=', False),
                 ('full_reconcile_id.create_date', '>', limit_datetime)]
-        self._domain_add_move_state(jdi, domain)
         mlines = self.env["account.move.line"].search(domain)
         res = []
         for mline in mlines:
@@ -198,31 +184,42 @@ class BankReconciliationXlsx(models.AbstractModel):
             sheet.write(row, 1, move_state_label[wizard.move_state], style['wizard_value'])
 
             # Setup check
-            if journal.currency_id and journal.currency_id != company.currency_id and journal.currency_id != bank_account.currency_id:
-                raise UserError(_(
-                    "On bank journal %(journal)s which is configured with currency "
-                    "%(journal_currency)s, the account %(account)s must be configured "
-                    "with the same currency (current account currency: %(account_currency)s).",
-                    journal=journal.display_name,
-                    journal_currency=journal.currency_id.name,
-                    account=bank_account.display_name,
-                    account_currency=bank_account.currency_id.name or _('None')))
-            bad_line_count = self.env['account.move.line'].search_count([('company_id', '=', company.id), ('account_id', '=', bank_account.id), ('currency_id', '!=', jdi['currency'].id)])
-            if bad_line_count:
-                raise UserError(_(
-                    "The are %(count)s journal items in account %(account)s "
-                    "that have a currency other than %(currency)s or where "
-                    "currency is not set.",
-                    count=bad_line_count,
-                    account=bank_account.display_name,
-                    currency=jdi['currency'].name))
+            if journal.currency_id and journal.currency_id != company.currency_id:
+                if journal.currency_id != bank_account.currency_id:
+                    raise UserError(_(
+                        "On bank journal %(journal)s which is configured with currency "
+                        "%(journal_currency)s, the account %(account)s must be configured "
+                        "with the same currency (current account currency: %(account_currency)s).",
+                        journal=journal.display_name,
+                        journal_currency=journal.currency_id.name,
+                        account=bank_account.display_name,
+                        account_currency=bank_account.currency_id.name or _('None')))
+                bad_line_count = self.env['account.move.line'].search_count([
+                    ('company_id', '=', company.id),
+                    ('account_id', '=', bank_account.id),
+                    ('currency_id', '!=', jdi['currency'].id),
+                    ])
+                if bad_line_count:
+                    raise UserError(_(
+                        "The are %(count)s journal items in account %(account)s "
+                        "that have a currency other than %(currency)s or where "
+                        "currency is not set.",
+                        count=bad_line_count,
+                        account=bank_account.display_name,
+                        currency=jdi['currency'].name))
 
             # 1) Show balance of bank account
             row += 3
             for col in range(1):
                 sheet.write(row, col, "", style['title'])
             sheet.write(row, 1, _("Balance %s:") % bank_account.code + ' ', style['title_right'])
-            account_bal = self._get_account_balance(jdi)
+            if wizard.move_state == 'posted':
+                domain = [('parent_state', '=', 'posted')]
+            else:
+                # by default, the native method _get_journal_bank_account_balance()
+                # has ('parent_state', '!=', 'cancel')
+                domain = None
+            account_bal, nb_lines = journal._get_journal_bank_account_balance(domain=domain)
 
             sheet.write(row, 2, account_bal, style[f"{jdi['currency']}_bg"])
             jdi['total'] += account_bal
