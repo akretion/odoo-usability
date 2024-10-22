@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-13 10:31+0000\n"
-"PO-Revision-Date: 2023-01-13 10:31+0000\n"
+"POT-Creation-Date: 2024-10-22 10:40+0000\n"
+"PO-Revision-Date: 2024-10-22 10:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgstr "Rapport de rapprochement bancaire"
 #. module: account_bank_reconciliation_summary_xlsx
 #: model:ir.model,name:account_bank_reconciliation_summary_xlsx.model_bank_reconciliation_report_wizard
 msgid "Bank Reconciliation Report Wizard"
-msgstr "Assistant rapport de rapprochement bancaire"
+msgstr "Assistant de rapport de rapprochement bancaire"
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: model:ir.actions.report,name:account_bank_reconciliation_summary_xlsx.bank_reconciliation_xlsx
@@ -96,6 +96,12 @@ msgstr "Créé le"
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
+#, python-format
+msgid "Currency"
+msgstr "Devise"
+
+#. module: account_bank_reconciliation_summary_xlsx
+#: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
 #: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
 #: model:ir.model.fields,field_description:account_bank_reconciliation_summary_xlsx.field_bank_reconciliation_report_wizard__date
 #, python-format
@@ -106,7 +112,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_bank_reconciliation_summary_xlsx.field_bank_reconciliation_report_wizard__display_name
 #: model:ir.model.fields,field_description:account_bank_reconciliation_summary_xlsx.field_report_bank_reconciliation_xlsx__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nom affiché"
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: model:ir.model.fields.selection,name:account_bank_reconciliation_summary_xlsx.selection__bank_reconciliation_report_wizard__move_state__draft_posted
@@ -123,13 +129,13 @@ msgstr "Écritures"
 #. module: account_bank_reconciliation_summary_xlsx
 #: model_terms:ir.ui.view,arch_db:account_bank_reconciliation_summary_xlsx.bank_reconciliation_report_wizard_form
 msgid "Export XLSX"
-msgstr ""
+msgstr "Exporter en XLSX"
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
 #, python-format
-msgid "Generated on %s"
-msgstr "Généré le %s"
+msgid "Generated from Odoo on %s by %s"
+msgstr "Généré par Odoo le %s par %s"
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: model:ir.model.fields,field_description:account_bank_reconciliation_summary_xlsx.field_bank_reconciliation_report_wizard__id
@@ -146,6 +152,12 @@ msgstr ""
 #. module: account_bank_reconciliation_summary_xlsx
 #: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
 #, python-format
+msgid "Journal Entry"
+msgstr "Pièce"
+
+#. module: account_bank_reconciliation_summary_xlsx
+#: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
+#, python-format
 msgid "Label"
 msgstr "Libellé"
 
@@ -153,23 +165,17 @@ msgstr "Libellé"
 #: model:ir.model.fields,field_description:account_bank_reconciliation_summary_xlsx.field_bank_reconciliation_report_wizard____last_update
 #: model:ir.model.fields,field_description:account_bank_reconciliation_summary_xlsx.field_report_bank_reconciliation_xlsx____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Dernière modification le"
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: model:ir.model.fields,field_description:account_bank_reconciliation_summary_xlsx.field_bank_reconciliation_report_wizard__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Dernière mise à jour par"
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: model:ir.model.fields,field_description:account_bank_reconciliation_summary_xlsx.field_bank_reconciliation_report_wizard__write_date
 msgid "Last Updated on"
-msgstr ""
-
-#. module: account_bank_reconciliation_summary_xlsx
-#: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
-#, python-format
-msgid "Move Number"
-msgstr "Numéro de pièce"
+msgstr "Dernière mise à jour le"
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
@@ -179,9 +185,22 @@ msgstr "Aucun journal de banque sélectionné."
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
+#: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
 #, python-format
 msgid "None"
 msgstr "Aucun"
+
+#. module: account_bank_reconciliation_summary_xlsx
+#: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
+#, python-format
+msgid ""
+"On bank journal %(journal)s which is configured with currency "
+"%(journal_currency)s, the account %(account)s must be configured with the "
+"same currency (current account currency: %(account_currency)s)."
+msgstr ""
+"Sur le journal de banque %(journal)s qui est configuré avec la devise "
+"%(journal_currency)s, le compte %(account)s doit être configuré avec la même"
+" devise (devise actuelle du compte : %(account_currency)s)."
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
@@ -211,3 +230,13 @@ msgstr "Sous-total :"
 #, python-format
 msgid "TOTAL:"
 msgstr "TOTAL :"
+
+#. module: account_bank_reconciliation_summary_xlsx
+#: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
+#, python-format
+msgid ""
+"The are %(count)s journal items in account %(account)s that have a currency "
+"other than %(currency)s or where currency is not set."
+msgstr ""
+"Il y a %(count)s écritures comptables dans le compte %(account)s qui ont une"
+" devise autre que %(currency)s ou dont la devise n'est pas définie."
