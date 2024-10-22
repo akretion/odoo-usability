@@ -20,10 +20,10 @@ This module has been written by Alexis de Lattre from Akretion
 <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['mass_mailing', 'link_tracker_usability'],
     'data': [
-#        'views/link_tracker.xml',
+        'views/link_tracker.xml',
         ],
-    'installable': False,
+    'installable': True,
 }
