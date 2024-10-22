@@ -196,6 +196,7 @@ class BankReconciliationXlsx(models.AbstractModel):
                         account_currency=bank_account.currency_id.name or _('None')))
                 bad_line_count = self.env['account.move.line'].search_count([
                     ('company_id', '=', company.id),
+                    ('journal_id', '=', journal.id),
                     ('account_id', '=', bank_account.id),
                     ('currency_id', '!=', jdi['currency'].id),
                     ])
