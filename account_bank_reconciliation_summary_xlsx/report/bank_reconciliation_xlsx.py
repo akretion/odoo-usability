@@ -65,6 +65,10 @@ class BankReconciliationXlsx(models.AbstractModel):
         return res
 
     def _write_move_lines_block(self, jdi, row, account, add2total=True):
+        # Returns row
+        # For suspense lines, it may not add any cells if there are no suspense lines
+        # => in this case, it doesn't increment row
+        # If it adds cells, it returns row + 2 to add 2 empty rows at the end
         sheet = jdi['sheet']
         style = jdi['style']
         style_suffix = not add2total and '_warn' or ''
@@ -78,7 +82,7 @@ class BankReconciliationXlsx(models.AbstractModel):
             if add2total:
                 sheet.write(row, 2, _("None"), style['none'])
             else:
-                return
+                return row
         else:
             row += 1
             col_labels = [
@@ -112,13 +116,12 @@ class BankReconciliationXlsx(models.AbstractModel):
                 sheet.write(row, col, "", style[f"title{style_suffix}"])
             sheet.write(row, 1, _("Sub-total:") + ' ', style[f"title_right{style_suffix}"])
 
-            formula = '=SUM(%s%d:%s%d)' % (
-                jdi['total_col'], start_line, jdi['total_col'], end_line)
+            formula = f"=SUM({jdi['total_col']}{start_line}:{jdi['total_col']}{end_line})"
             sheet.write_formula(row, 2, formula, style[f"{jdi['currency']}_bg{style_suffix}"], subtotal)
             if add2total:
                 jdi['total'] += subtotal
-                jdi['total_formula'] += '+%s%d' % (jdi['total_col'], row + 1)
-        return row
+                jdi['total_formula'] += f"+{jdi['total_col']}{row + 1}"
+        return row + 2
 
     def generate_xlsx_report(self, workbook, data, wizard):
         lang = self.env.user.lang
@@ -224,28 +227,64 @@ class BankReconciliationXlsx(models.AbstractModel):
 
             sheet.write(row, 2, account_bal, style[f"{jdi['currency']}_bg"])
             jdi['total'] += account_bal
-            jdi['total_formula'] += '%s%d' % (jdi['total_col'], row + 1)
+            jdi['total_formula'] += f"{jdi['total_col']}{row + 1}"
 
             row += 2
             # 2) Show payment lines IN (debit)
             debit_account = journal.payment_debit_account_id
             row = self._write_move_lines_block(jdi, row, debit_account)
-            row += 2
             # 3) Show payment lines OUT (credit)
             credit_account = journal.payment_credit_account_id
             row = self._write_move_lines_block(jdi, row, credit_account)
-            row += 2
 
             for col in range(1):
                 sheet.write(row, col, "", style['title'])
             sheet.write(row, 1, _("TOTAL:") + ' ', style['title_right'])
             sheet.write_formula(
                 row, 2, jdi['total_formula'], style[f"{jdi['currency']}_bg"], jdi['total'])
-            row += 3
+            total_row = row
+            row += 2
 
             # 4) Show suspense account lines
             row = self._write_move_lines_block(
                 jdi, row, journal.suspense_account_id, add2total=False)
+
+            # Static cells
+            for col in range(1):
+                sheet.write(row, col, "", style['title'])
+            sheet.write(row, 1, _("Bank Balance:") + ' ', style['title_right'])
+            sheet.write(row, 2, 0, style[f"{jdi['currency']}_bg_manual"])
+            bank_bal_row = row
+            row += 2
+            for col in range(1):
+                sheet.write(row, col, "", style['title'])
+            sheet.write(row, 1, _("Difference:") + ' ', style['title_right'])
+            sheet.write_formula(
+                row, 2, f"={jdi['total_col']}{total_row + 1}-{jdi['total_col']}{bank_bal_row + 1}",
+                style[f"{jdi['currency']}_bg"], jdi['total'])
+            row += 2
+            for col in range(1):
+                sheet.write(row, col, "", style['title'])
+            sheet.write(row, 1, _("Justification:") + ' ', style['title_right'])
+            justif_lines = 6
+            sheet.write_formula(
+                row, 2, f"=SUM({jdi['total_col']}{row+3}:{jdi['total_col']}{row+3+justif_lines-1})",
+                style[f"{jdi['currency']}_bg"], 0)
+            row += 1
+            col_labels = [
+                _("Date"),
+                _("Description"),
+                _("Amount"),
+            ]
+            col = 0
+            for col_label in col_labels:
+                sheet.write(row, col, col_label, style['col_header'])
+                col += 1
+            for x in range(justif_lines):
+                row += 1
+                sheet.write(row, 0, "", style['regular_date'])
+                sheet.write(row, 1, "", style['regular'])
+                sheet.write(row, 2, "", style[jdi['currency']])
 
     def _get_style(self, workbook, company):
         style = {}
@@ -253,8 +292,9 @@ class BankReconciliationXlsx(models.AbstractModel):
         light_grey = "#eeeeee"
         light_blue = "#e0edff"
         subtotal_orange = "#ffcc00"
-        title_warn = "#ff9999"
         subtotal_warn = "#ffff99"
+        amount_manual = "#ffeeab"
+        title_warn = "#ff9999"
         lang_code = self.env.user.lang
         lang = False
         if lang_code:
@@ -307,12 +347,12 @@ class BankReconciliationXlsx(models.AbstractModel):
             dict(title_style, align="left", bg_color=title_warn))
         style['title_right_warn'] = workbook.add_format(
             dict(title_style, align="right", bg_color=title_warn))
-        style['regular'] = workbook.add_format({"font_size": font_size})
+        style['regular'] = workbook.add_format({"font_size": font_size, "border": 1})
         if "%" in xls_date_format:
             # fallback
             xls_date_format = "yyyy-mm-dd"
         style['regular_date'] = workbook.add_format(
-            {"num_format": xls_date_format, "font_size": font_size, "align": "left"}
+            {"num_format": xls_date_format, "font_size": font_size, "align": "left", "border": 1}
         )
         for currency in self.env['res.currency'].search([]):
             symbol = currency.symbol or currency.name
@@ -325,9 +365,11 @@ class BankReconciliationXlsx(models.AbstractModel):
             # and thousand separator by those of the language under which
             # Excel runs
             currency_style = {"num_format": cur_format, "font_size": font_size}
-            style[currency] = workbook.add_format(currency_style)
+            style[currency] = workbook.add_format(dict(currency_style, border=1))
             style[f'{currency}_bg'] = workbook.add_format(
                 dict(currency_style, bg_color=subtotal_orange))
             style[f'{currency}_bg_warn'] = workbook.add_format(
                 dict(currency_style, bg_color=subtotal_warn))
+            style[f'{currency}_bg_manual'] = workbook.add_format(
+                dict(currency_style, bg_color=amount_manual))
         return style

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-22 10:40+0000\n"
-"PO-Revision-Date: 2024-10-22 10:40+0000\n"
+"POT-Creation-Date: 2024-10-23 10:04+0000\n"
+"PO-Revision-Date: 2024-10-23 10:04+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_bank_reconciliation_summary_xlsx
+#: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
 #: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
 #, python-format
 msgid "Amount"
@@ -26,6 +27,12 @@ msgstr "Montant"
 #, python-format
 msgid "Balance %s:"
 msgstr "Solde %s :"
+
+#. module: account_bank_reconciliation_summary_xlsx
+#: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
+#, python-format
+msgid "Bank Balance:"
+msgstr "Solde bancaire :"
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: model:ir.model.fields,field_description:account_bank_reconciliation_summary_xlsx.field_bank_reconciliation_report_wizard__journal_ids
@@ -103,10 +110,23 @@ msgstr "Devise"
 #. module: account_bank_reconciliation_summary_xlsx
 #: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
 #: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
+#: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
 #: model:ir.model.fields,field_description:account_bank_reconciliation_summary_xlsx.field_bank_reconciliation_report_wizard__date
 #, python-format
 msgid "Date"
-msgstr ""
+msgstr "Date"
+
+#. module: account_bank_reconciliation_summary_xlsx
+#: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
+#, python-format
+msgid "Description"
+msgstr "Description"
+
+#. module: account_bank_reconciliation_summary_xlsx
+#: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
+#, python-format
+msgid "Difference:"
+msgstr "Écart :"
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: model:ir.model.fields,field_description:account_bank_reconciliation_summary_xlsx.field_bank_reconciliation_report_wizard__display_name
@@ -154,6 +174,12 @@ msgstr ""
 #, python-format
 msgid "Journal Entry"
 msgstr "Pièce"
+
+#. module: account_bank_reconciliation_summary_xlsx
+#: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
+#, python-format
+msgid "Justification:"
+msgstr "Justification :"
 
 #. module: account_bank_reconciliation_summary_xlsx
 #: code:addons/account_bank_reconciliation_summary_xlsx/report/bank_reconciliation_xlsx.py:0
