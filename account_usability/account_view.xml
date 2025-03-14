@@ -312,6 +312,12 @@ module -->
     <field name="inherit_id" ref="account.partner_view_button_journal_item_count"/>
     <field name="arch" type="xml">
         <button name="%(account.action_account_moves_all_tree)d" position="after">
+            <button name="show_receivable_account" type="object"
+                attrs="{'invisible': [('customer', '=', False)]}"
+                icon="fa-list" class="oe_stat_button">
+                <field string="Journal Items" name="journal_item_count"
+                    widget="statinfo"/>
+            </button>            
             <button name="show_payable_account" type="object"
                 attrs="{'invisible': [('supplier', '=', False)]}"
                 icon="fa-list" class="oe_stat_button">
@@ -321,9 +327,6 @@ module -->
         </button>
         <button name="%(account.action_account_moves_all_tree)d" position="attributes">
             <attribute name="invisible">True</attribute>
-        </button>
-        <button name="%(account.action_account_moves_all_tree)d" position="after">
-            <button type="object" class="oe_stat_button" name="show_receivable_account" icon="fa-list" attrs="{'invisible': [('customer', '=', False)]}"/>
         </button>
         <field name="journal_item_count" position="attributes">
             <attribute name="string">Receivable Account</attribute>
