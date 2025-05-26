@@ -9,4 +9,4 @@ def update_partner_display_name(cr, registry):
     env = api.Environment(cr, SUPERUSER_ID, {})
     partners = env['res.partner'].with_context(active_test=False).search(
         [('ref', '!=', False)])
-    partners.write({'invalidate_display_name': True})
+    partners._compute_display_name()
