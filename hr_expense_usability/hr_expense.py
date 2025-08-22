@@ -270,6 +270,9 @@ class HrExpense(models.Model):
             'amount': self.untaxed_amount_company_currency,
             'name': self.employee_id.name + ': ' +
                     self.name.split('\n')[0][:64],
+            'tax_ids': self.tax_ids and [
+                (6, 0, [self.tax_ids[0].id])] or [(6, 0, [])],
+            'tax_line_id': False,
             'product_id': self.product_id.id,
             'product_uom_id': self.product_uom_id.id,
             'quantity': self.quantity,
@@ -294,6 +297,8 @@ class HrExpense(models.Model):
                 'type': 'tax',
                 'partner_id': partner.id,
                 'account_id': tax_account_id,
+                'tax_line_id': tax.id,
+                'tax_ids': [(6, 0, [])],
                 'analytic_account_id': analytic_account_id,
                 'amount': self.tax_amount_company_currency,
                 'name': self.name.split('\n')[0][:64],
@@ -415,10 +420,12 @@ class HrExpenseSheet(models.Model):
             key = [
                 mline['type'],
                 mline['account_id'],
+                mline['tax_line_id'],
+                mline['tax_ids'],
                 mline['analytic_account_id'],
                 False]
         else:
-            key = [False, False, False, i]
+            key = [False, False, False, False, False, i]
         return key
 
     @api.model
@@ -433,6 +440,8 @@ class HrExpenseSheet(models.Model):
         else:
             return False
         return {
+            'tax_line_id': gmlines['tax_line_id'],
+            'tax_ids': gmlines['tax_ids'],
             'partner_id': gmlines['partner_id'],
             'account_id': gmlines['account_id'],
             'analytic_account_id': gmlines['analytic_account_id'],
