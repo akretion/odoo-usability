@@ -496,7 +496,7 @@ class HrExpenseSheet(models.Model):
                     "for approved expense reports. The expense report %s "
                     "is in state '%s'.") % (sheet.number, sheet.state))
             if float_is_zero(
-                    sheet.total_amount,
+                    sheet.total_amount_company_currency,
                     precision_rounding=sheet.company_id.currency_id.rounding):
                 raise UserError(_(
                     "The expense report %s has a total amount of 0.")
