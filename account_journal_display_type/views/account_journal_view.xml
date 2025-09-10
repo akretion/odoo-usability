@@ -70,5 +70,25 @@
 
             </field>
         </record>
+
+        <record id="view_account_journal_tree" model="ir.ui.view">
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_tree" />
+            <field name="arch" type="xml">
+                <field name="type" position="replace">
+                    <field name="display_type" string="Type"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_account_journal_search" model="ir.ui.view">
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_search"/>
+            <field name="arch"  type="xml">
+                <filter name="type_groupby" position="replace">
+                        <filter name="type_groupby" string="Type" context="{'group_by': 'display_type'}"/>
+                </filter>
+            </field>
+        </record>
     </data>
 </odoo>

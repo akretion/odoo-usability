@@ -11,7 +11,15 @@
     "author": "Akretion, " "Odoo Community Association (OCA)",
     "maintainers": ["matthieu_saison"],
     "license": "AGPL-3",
-    "depends": ["account", "account_statement_completion_label_simple"],
-    "data": ["views/account_journal_view.xml"],
+    "depends": [
+        "account", 
+        "account_statement_completion_label_simple", 
+        "account_usability", 
+        "account_check_deposit"
+    ],
+    "data": [
+        "views/account_journal_view.xml",
+        "views/account_check_deposit_view.xml"
+    ],
     "post_init_hook": "post_init_hook",
 }
