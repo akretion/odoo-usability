@@ -11,9 +11,9 @@ class AccountMove(models.Model):
 
     # sale_ids is kind of the symetric field of invoice_ids on sale.order
     sale_ids = fields.Many2many(
-        'sale.order', string='Sale Orders', compute="_compute_sale_ids")
+        'sale.order', string='Sale Orders', compute="_compute_sale_ids", store=True)
     sale_count = fields.Integer(
-        string='Sale Order Count', compute='_compute_sale_ids')
+        string='Sale Order Count', compute="_compute_sale_ids", store=True)
 
     @api.depends('invoice_line_ids.sale_line_ids')
     def _compute_sale_ids(self):
