@@ -21,10 +21,12 @@ class AccountMoveReversal(models.TransientModel):
         moves = amo.browse(self._context['active_ids'])
         if len(moves) == 1 and moves.move_type not in ('out_invoice', 'in_invoice'):
             res['date'] = moves.date + relativedelta(days=1)
-        reversed_move = amo.search([('reversed_entry_id', 'in', moves.ids)], limit=1)
-        if reversed_move:
-            raise UserError(_(
-                "Move '%s' has already been reversed by move '%s'.") % (
-                    reversed_move.reversed_entry_id.display_name,
-                    reversed_move.display_name))
+        entry_moves = moves.filtered(lambda m: m.move_type == "entry")
+        if entry_moves:
+            reversed_move = amo.search([('reversed_entry_id', 'in', entry_moves.ids)], limit=1)
+            if reversed_move:
+                raise UserError(_(
+                    "Move '%s' has already been reversed by move '%s'.") % (
+                        reversed_move.reversed_entry_id.display_name,
+                        reversed_move.display_name))
         return res
