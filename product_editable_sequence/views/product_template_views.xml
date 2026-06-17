@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<record id="product_template_view_tree" model="ir.ui.view">
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_tree_view" />
+    <field name="arch" type="xml">
+        <field name="sequence" position="attributes">
+            <attribute name="widget"/>
+            <attribute name="readonly"/>
+        </field>
+    </field>
+</record>
+
+</odoo>
+
