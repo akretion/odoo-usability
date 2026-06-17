@@ -27,6 +27,14 @@ msgstr ""
 "assistant est conçu pour créer des groupes de comptes à partir de zéro."
 
 #. module: account_usability
+#. odoo-python
+#: code:addons/account_usability/wizard/account_move_reversal.py:0
+#, python-format
+msgid "%s reversed by %s"
+msgstr "%s extourné par %s"
+
+
+#. module: account_usability
 #: model:ir.model,name:account_usability.model_account_account
 msgid "Account"
 msgstr "Compte"
@@ -726,6 +734,14 @@ msgstr "Voir la pièce comptable"
 #: model_terms:ir.ui.view,arch_db:account_usability.view_move_line_tree
 msgid "View Journal Entry Form"
 msgstr "Voir la pièce comptable en vue formulaire"
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.view_account_move_reversal
+msgid ""
+"You are about to reverse entries that have already been reversed or partially reversed (refund). Make sure it is intented.\n"
+"                Already reversed entries are the following :"
+msgstr "Vous êtes sur le point d'extourner une pièce comptable déjà extournée, ou partiellement extournée (avoir). Vérifiez que c'est bien ce que vous souhaitez faire.\n"
+"                Les pièces comptables déjà extournées sont les suivantes :"
 
 #. module: account_usability
 #: model:ir.model.fields,help:account_usability.field_account_bank_statement__hide_bank_statement_balance
