@@ -13,7 +13,7 @@
     <field name="inherit_id" ref="account.view_move_line_form"/>
     <field name="arch" type="xml">
         <notebook position="inside">
-            <page name="commission" string="Commission" attrs="{'invisible': [('display_type', '!=', 'product')]}">
+            <page name="commission" string="Commission" invisible="display_type != 'product'">
                 <group name="commission_grp">
                     <field name="commission_base"/>
                     <label for="commission_rate"/>

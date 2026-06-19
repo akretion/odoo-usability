@@ -3,8 +3,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models, _
-from dateutil.relativedelta import relativedelta
+from datetime import datetime, timedelta
 from odoo.exceptions import UserError
+from odoo.tools.misc import format_date
 import logging
 logger = logging.getLogger(__name__)
 
@@ -13,47 +14,44 @@ class CommissionCompute(models.TransientModel):
     _name = 'commission.compute'
     _description = 'Compute Commissions'
 
-    company_id = fields.Many2one('res.company', required=True, default=lambda self: self.env.company)
-    date_range_type_id = fields.Many2one(related='company_id.commission_date_range_type_id')
-    date_range_id = fields.Many2one(
-        'date.range', required=True, string='Period',
-        compute='_compute_date_range_id', store=True, precompute=True, readonly=False,
-        domain="[('type_id', '=', date_range_type_id)]")
-    date_start = fields.Date(related='date_range_id.date_start')
-    date_end = fields.Date(related='date_range_id.date_end')
+    company_id = fields.Many2one('res.company', required=True)
+    date_start = fields.Date(string="Period Start Date", required=True)
 
-    @api.depends('company_id')
-    def _compute_date_range_id(self):
-        for wiz in self:
-            date_range_id = False
-            company = wiz.company_id
-            if company and company.commission_date_range_type_id:
-                type_id = company.commission_date_range_type_id.id
-                last_commission_result = self.env['commission.result'].search([
-                    ('company_id', '=', company.id),
-                    ], order='date_end desc', limit=1)
-                limit_date = last_commission_result and last_commission_result.date_end or (fields.Date.context_today(self) + relativedelta(months=-2, day=31))
-                date_range = self.env['date.range'].search([
-                    ('company_id', 'in', (company.id, False)),
-                    ('type_id', '=', type_id),
-                    ('date_start', '>', limit_date)
-                    ], order='date_start', limit=1)
-                date_range_id = date_range and date_range.id or False
-            wiz.date_range_id = date_range_id
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        company = self.env.company
+        last_commission_result = self.env['commission.result'].search([
+            ('company_id', '=', company.id),
+            ], order='date_start desc', limit=1)
+        if last_commission_result:
+            last_start_date = last_commission_result.date_start
+            commissions_last_start_date = self.env['commission.result'].search([
+                ('date_start', '=', last_start_date),
+                ('company_id', '=', company.id),
+                ], order="date_end asc", limit=1)
+            min_end_date = commissions_last_start_date.date_end
+            date_start = min_end_date + timedelta(1)
+        else:
+            today = fields.Date.context_today(self)
+            date_start = datetime(today.year, today.month, 1)
+        res.update({
+            'company_id': company.id,
+            'date_start': date_start,
+            })
+        return res
 
     def run(self):
         self.ensure_one()
+        if not self.date_start:
+            raise UserError(_("Missing Period Start Date."))
         creso = self.env['commission.result']
-        date_range = self.date_range_id
-        existing_commissions = creso.search([
-            ('date_range_id', '=', date_range.id),
+        existing_commissions = creso.search_read([
+            ('date_start', '=', self.date_start),
             ('company_id', '=', self.company_id.id),
-            ])
-        if existing_commissions:
-            raise UserError(_(
-                'Commissions already exist for %(period)s in company %(company)s.',
-                period=date_range.display_name, company=self.company_id.display_name))
-        com_result_ids = self._core_compute()
+            ], ['assignment_id'])
+        exclude_assignment_ids = [x['assignment_id'][0] for x in existing_commissions if x['assignment_id']]
+        com_result_ids = self._core_compute(exclude_assignment_ids)
         if not com_result_ids:
             raise UserError(_('No commissions generated.'))
         action = self.env['ir.actions.actions']._for_xml_id(
@@ -64,12 +62,32 @@ class CommissionCompute(models.TransientModel):
             })
         return action
 
-    def _core_compute(self):
+    def _core_compute(self, exclude_assignment_ids):
         rules = self.env['commission.rule'].load_all_rules()
         com_result_ids = []
-        assignments = self.env['commission.profile.assignment'].search([('company_id', '=', self.company_id.id)])
+        assignments = self.env['commission.profile.assignment'].search(
+            [('company_id', '=', self.company_id.id), ('id', 'not in', exclude_assignment_ids)])
+        date_range_type2date_range = {}
         for assignment in assignments:
-            com_result = assignment._generate_commission_result(self.date_range_id, rules)
+            profile = assignment.profile_id
+            date_range_type = profile.date_range_type_id
+            if not date_range_type:
+                raise UserError(_("Missing commission periodicity on commission profile '%s'.") % profile.display_name)
+            if date_range_type not in date_range_type2date_range:
+                domain = [
+                    ('date_start', '=', self.date_start),
+                    ('type_id', '=', date_range_type.id),
+                    ]
+                date_range = self.env['date.range'].search(
+                    domain + [('company_id', '=', self.company_id.id)], limit=1)
+                if not date_range:
+                    date_range = self.env['date.range'].search(
+                        domain + [('company_id', '=', False)], limit=1)
+                if not date_range:
+                    logger.info('There is no date range with type %s starting on %s. Skipping commission generation for assignment ID %s', date_range_type.name, self.date_start, assignment.id)
+                    continue
+                date_range_type2date_range[date_range_type] = date_range
+            com_result = assignment._generate_commission_result(date_range_type2date_range[date_range_type], rules)
             if com_result:
                 com_result_ids.append(com_result.id)
             else:

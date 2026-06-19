@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-07 14:47+0000\n"
-"PO-Revision-Date: 2024-07-07 14:47+0000\n"
+"POT-Creation-Date: 2026-03-05 10:44+0000\n"
+"PO-Revision-Date: 2026-03-05 10:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,50 +17,28 @@ msgstr ""
 
 #. module: account_usability_akretion
 #. odoo-python
-#: code:addons/account_usability_akretion/wizard/account_group_generate.py:0
-#, python-format
+#: code:addons/account_usability_akretion/wizards/account_group_generate.py:0
 msgid ""
 "%d account groups already exists in company '%s'. This wizard is designed to"
 " generate account groups from scratch."
 msgstr ""
-"%d groupes de comptes existent déjà dans la société '%s'. Cet assistant "
-"est conçu pour créer des groupes de comptes à partir de zéro."
+"%d groupes de comptes existent déjà dans la société '%s'. Cet assistant est "
+"conçu pour créer des groupes de comptes à partir de zéro."
 
 #. module: account_usability_akretion
-#. odoo-python
-#: code:addons/account_usability_akretion/models/account_move.py:0
-#, python-format
-msgid ""
-"A reverse journal entry <a href=# data-oe-model=account.move data-oe-"
-"id=%d>%s</a> has been generated."
-msgstr ""
-"Une extourne <a href=# data-oe-model=account.move data-oe-"
-"id=%d>%s</a> a été générée."
+#: model_terms:ir.ui.view,arch_db:account_usability_akretion.account_journal_dashboard_kanban_view
+msgid "<span>Balance in GL</span>"
+msgstr "<span>Solde comptable</span>"
 
 #. module: account_usability_akretion
-#. odoo-python
-#: code:addons/account_usability_akretion/wizard/account_move_reversal.py:0
-#, python-format
-msgid "%s reversed by %s"
-msgstr "%s extourné par %s"
-
-#. module: account_usability_akretion
-#: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_move_reversal
-msgid ""
-"You are about to reverse entries that have already been reversed or partially reversed (refund). Make sure it is intented.\n"
-"                Already reversed entries are the following :"
-msgstr "Vous êtes sur le point d'extourner une pièce comptable déjà extournée, ou partiellement extournée (avoir). Vérifiez que c'est bien ce que vous souhaitez faire.\n"
-"                Les pièces comptables déjà extournées sont les suivantes :"
-
-#. module: account_usability_akretion
-#: model:ir.model,name:account_usability_akretion.model_account_account
+#: model:ir.model.fields,field_description:account_usability_akretion.field_account_bank_statement_line__search_account_id
+#: model:ir.model.fields,field_description:account_usability_akretion.field_account_move__search_account_id
 msgid "Account"
 msgstr "Compte"
 
 #. module: account_usability_akretion
 #. odoo-python
-#: code:addons/account_usability_akretion/wizard/account_group_generate.py:0
-#, python-format
+#: code:addons/account_usability_akretion/wizards/account_group_generate.py:0
 msgid "Account Groups"
 msgstr "Groupes de comptes"
 
@@ -70,9 +48,9 @@ msgid "Account Move Reversal"
 msgstr "Extourne de l'écriture comptable"
 
 #. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_move_line__account_reconcile
-msgid "Allow Reconciliation"
-msgstr "Autoriser le lettrage"
+#: model:ir.model.fields,field_description:account_usability_akretion.field_account_move_reversal__already_reversed_warning
+msgid "Already Reversed Warning"
+msgstr "Avertissement déjà extourné"
 
 #. module: account_usability_akretion
 #: model:ir.model.constraint,message:account_usability_akretion.constraint_account_analytic_account_code_company_unique
@@ -97,7 +75,11 @@ msgid "Are you sure you want to cancel this journal entry?"
 msgstr "Êtes-vous sûr de vouloir annuler cette pièce comptable ?"
 
 #. module: account_usability_akretion
-#: model:ir.model,name:account_usability_akretion.model_res_partner_bank
+#: model:ir.model.fields,field_description:account_usability_akretion.field_account_journal__dashboard_default_account_balance
+msgid "Balance in GL"
+msgstr "Solde comptable"
+
+#. module: account_usability_akretion
 #: model:ir.ui.menu,name:account_usability_akretion.res_partner_bank_account_config_menu
 msgid "Bank Accounts"
 msgstr "Comptes bancaires"
@@ -108,19 +90,9 @@ msgid "Banks"
 msgstr "Banques"
 
 #. module: account_usability_akretion
-#: model_terms:ir.ui.view,arch_db:account_usability_akretion.account_group_generate_form
 #: model_terms:ir.ui.view,arch_db:account_usability_akretion.account_invoice_mark_sent_form
 msgid "Cancel"
 msgstr "Annuler"
-
-#. module: account_usability_akretion
-#: model:ir.model.fields,help:account_usability_akretion.field_account_move_line__account_reconcile
-msgid ""
-"Check this box if this account allows invoices & payments matching of "
-"journal items."
-msgstr ""
-"Cochez cette case si ce compte permet de faire du lettrage entre "
-"factures et paiements."
 
 #. module: account_usability_akretion
 #: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_search
@@ -138,38 +110,19 @@ msgid "Companies"
 msgstr "Sociétés"
 
 #. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_group_generate__company_id
-msgid "Company"
-msgstr "Société"
-
-#. module: account_usability_akretion
 #: model:ir.model,name:account_usability_akretion.model_res_partner
 msgid "Contact"
 msgstr ""
 
 #. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_group_generate__create_uid
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_invoice_mark_sent__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
 #. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_group_generate__create_date
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_invoice_mark_sent__create_date
 msgid "Created on"
 msgstr "Créé le"
-
-#. module: account_usability_akretion
-#: model:ir.model.fields,help:account_usability_akretion.field_account_move_line__matched_credit_ids
-msgid "Credit journal items that are matched with this journal item."
-msgstr ""
-"Écritures comptables au crédit qui sont lettrées avec cette écriture comptable."
-
-#. module: account_usability_akretion
-#: model:ir.model.fields,help:account_usability_akretion.field_account_move_line__matched_debit_ids
-msgid "Debit journal items that are matched with this journal item."
-msgstr ""
-"Écritures comptables au débit qui sont lettrées avec cette écriture comptable."
 
 #. module: account_usability_akretion
 #: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_move_line_filter
@@ -177,30 +130,19 @@ msgid "Debit or Credit"
 msgstr "Débit ou crédit"
 
 #. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_group_generate__display_name
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_invoice_mark_sent__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
 #. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_bank_statement_line__blocked
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_move__blocked
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_payment__blocked
-#: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_invoice_filter
-msgid "Dispute"
-msgstr "Litige"
-
-#. module: account_usability_akretion
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_bank_statement_line__invoice_date_due
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_move__invoice_date_due
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_payment__invoice_date_due
 msgid "Due Date"
 msgstr "Date d'échéance"
 
 #. module: account_usability_akretion
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_bank_statement_line__fiscal_position_id
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_move__fiscal_position_id
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_payment__fiscal_position_id
 #: model:ir.model.fields,field_description:account_usability_akretion.field_res_partner__property_account_position_id
 #: model:ir.model.fields,field_description:account_usability_akretion.field_res_users__property_account_position_id
 msgid "Fiscal Position"
@@ -209,42 +151,19 @@ msgstr "Position fiscale"
 #. module: account_usability_akretion
 #: model:ir.model.fields,help:account_usability_akretion.field_account_bank_statement_line__fiscal_position_id
 #: model:ir.model.fields,help:account_usability_akretion.field_account_move__fiscal_position_id
-#: model:ir.model.fields,help:account_usability_akretion.field_account_payment__fiscal_position_id
 msgid ""
 "Fiscal positions are used to adapt taxes and accounts for particular "
 "customers or sales orders/invoices. The default value comes from the "
 "customer."
 msgstr ""
 "Les positions fiscales sont utilisées pour adapter les taxes et les comptes "
-"à des clients spécifiques ou à des bons de commande/factures. La valeur par"
-" défaut provient de la fiche client."
-
-#. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_move_line__full_reconcile_id
-msgid "Full Reconcile"
-msgstr "Lettrage total"
+"à des clients spécifiques ou à des bons de commande/factures. La valeur par "
+"défaut provient de la fiche client."
 
 #. module: account_usability_akretion
 #: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_move_line_filter
 msgid "Fully Reconciled"
 msgstr "Lettré totalement"
-
-#. module: account_usability_akretion
-#: model_terms:ir.ui.view,arch_db:account_usability_akretion.account_group_generate_form
-msgid "Generate"
-msgstr "Générer"
-
-#. module: account_usability_akretion
-#: model:ir.actions.act_window,name:account_usability_akretion.account_group_generate_action
-#: model:ir.model,name:account_usability_akretion.model_account_group_generate
-#: model:ir.ui.menu,name:account_usability_akretion.account_group_generate_menu
-msgid "Generate Account Groups"
-msgstr "Générer les groupes de comptes"
-
-#. module: account_usability_akretion
-#: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_search
-msgid "Group"
-msgstr "Groupe"
 
 #. module: account_usability_akretion
 #: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_journal_search
@@ -254,14 +173,12 @@ msgstr "Regrouper par"
 #. module: account_usability_akretion
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_bank_statement_line__has_attachment
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_move__has_attachment
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_payment__has_attachment
 msgid "Has Attachment"
 msgstr "Possède une pièce jointe"
 
 #. module: account_usability_akretion
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_bank_statement_line__has_discount
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_move__has_discount
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_payment__has_discount
 msgid "Has Discount"
 msgstr "A une remise"
 
@@ -271,7 +188,6 @@ msgid "Hide and Disable Bank Statement Balance"
 msgstr "Masquer et désactiver le solde du relevé de compte"
 
 #. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_group_generate__id
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_invoice_mark_sent__id
 msgid "ID"
 msgstr ""
@@ -284,8 +200,7 @@ msgstr ""
 #. module: account_usability_akretion
 #: model:ir.model.fields,help:account_usability_akretion.field_account_move_line__product_barcode
 msgid "International Article Number used for product identification."
-msgstr ""
-"Numéro d'article international utilisé pour identifier cet article."
+msgstr "Numéro d'article international utilisé pour identifier cet article."
 
 #. module: account_usability_akretion
 #: model:ir.model.fields,field_description:account_usability_akretion.field_res_partner__invoice_warn
@@ -301,13 +216,12 @@ msgstr "Mentions légales sur les factures"
 #. module: account_usability_akretion
 #: model:ir.model,name:account_usability_akretion.model_account_invoice_report
 msgid "Invoices Statistics"
-msgstr "Statistiques de facturation"
+msgstr "Statistiques des factures"
 
 #. module: account_usability_akretion
 #: model:ir.model,name:account_usability_akretion.model_account_journal
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_bank_statement_line__journal_id
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_move__journal_id
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_payment__journal_id
 msgid "Journal"
 msgstr ""
 
@@ -327,19 +241,11 @@ msgid "Label, Reference, Account or Partner"
 msgstr "Libellé, Référence, Compte ou Partenaire"
 
 #. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_group_generate____last_update
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_invoice_mark_sent____last_update
-msgid "Last Modified on"
-msgstr "Dernière modification le"
-
-#. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_group_generate__write_uid
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_invoice_mark_sent__write_uid
 msgid "Last Updated by"
 msgstr "Mis à jour par"
 
 #. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_group_generate__write_date
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_invoice_mark_sent__write_date
 msgid "Last Updated on"
 msgstr "Mis à jour le"
@@ -355,11 +261,6 @@ msgid "Legal Terms on Invoice"
 msgstr "Mentions légales sur les factures"
 
 #. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_group_generate__level
-msgid "Level"
-msgstr "Niveau"
-
-#. module: account_usability_akretion
 #: model:ir.actions.act_window,name:account_usability_akretion.account_invoice_mark_sent_action
 #: model_terms:ir.ui.view,arch_db:account_usability_akretion.account_invoice_mark_sent_form
 msgid "Mark as Sent"
@@ -367,7 +268,6 @@ msgstr "Marquer comme envoyé"
 
 #. module: account_usability_akretion
 #: model:ir.model,name:account_usability_akretion.model_account_invoice_mark_sent
-#: model_terms:ir.ui.view,arch_db:account_usability_akretion.account_invoice_mark_sent_form
 msgid "Mark invoices as sent"
 msgstr "Marquer les factures comme envoyées"
 
@@ -387,17 +287,8 @@ msgid "Partial Reconcile"
 msgstr "Lettrage partiel"
 
 #. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_move_line__matched_credit_ids
-msgid "Partial Reconcile Credit"
-msgstr "Crédit de lettrage partiel"
-
-#. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_move_line__matched_debit_ids
-msgid "Partial Reconcile Debit"
-msgstr "Débit de lettrage partiel"
-
-#. module: account_usability_akretion
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_invoice_report__industry_id
+#: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_invoice_report_search
 msgid "Partner Industry"
 msgstr "Secteur d’activité du partenaire"
 
@@ -409,21 +300,8 @@ msgstr "État de paiement"
 #. module: account_usability_akretion
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_bank_statement_line__invoice_payment_term_id
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_move__invoice_payment_term_id
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_payment__invoice_payment_term_id
 msgid "Payment Terms"
 msgstr "Conditions de paiement"
-
-#. module: account_usability_akretion
-#. odoo-python
-#: code:addons/account_usability_akretion/models/account_move.py:0
-#, python-format
-msgid "Please post the following entries before reconciliation :"
-msgstr "Veuillez comptabiliser les pièces suivantes avant le lettrage :"
-
-#. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_group_generate__name_prefix
-msgid "Prefix"
-msgstr "Préfixe"
 
 #. module: account_usability_akretion
 #: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_move_form
@@ -441,16 +319,8 @@ msgid "Product Barcode"
 msgstr "Code barre du produit"
 
 #. module: account_usability_akretion
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_bank_statement_line__ref
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_move__ref
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_payment__ref
-msgid "Reference"
-msgstr "Référence"
-
-#. module: account_usability_akretion
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_bank_statement_line__sale_dates
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_move__sale_dates
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_payment__sale_dates
 msgid "Sale Dates"
 msgstr "Dates de vente"
 
@@ -468,34 +338,26 @@ msgstr ""
 "suivant."
 
 #. module: account_usability_akretion
-#: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_invoice_filter
-msgid "Sent"
-msgstr "Envoyé"
-
-#. module: account_usability_akretion
 #. odoo-python
 #: code:addons/account_usability_akretion/models/product.py:0
-#, python-format
 msgid "Tax excl."
 msgstr "HT"
 
 #. module: account_usability_akretion
 #. odoo-python
 #: code:addons/account_usability_akretion/models/product.py:0
-#, python-format
 msgid "Tax incl."
 msgstr "TTC"
 
 #. module: account_usability_akretion
 #. odoo-python
-#: code:addons/account_usability_akretion/wizard/account_group_generate.py:0
-#, python-format
+#: code:addons/account_usability_akretion/wizards/account_group_generate.py:0
 msgid ""
 "The code of account '%s' is %d caracters. It cannot be inferior to level "
 "(%d)."
 msgstr ""
-"Le code du compte '%s' fait %d caractères. Il ne peut pas être "
-"inférieur au niveau (%d)."
+"Le code du compte '%s' fait %d caractères. Il ne peut pas être inférieur au "
+"niveau (%d)."
 
 #. module: account_usability_akretion
 #: model:ir.model.fields,help:account_usability_akretion.field_res_partner__property_account_position_id
@@ -507,15 +369,9 @@ msgstr ""
 
 #. module: account_usability_akretion
 #. odoo-python
-#: code:addons/account_usability_akretion/wizard/account_group_generate.py:0
-#, python-format
+#: code:addons/account_usability_akretion/wizards/account_group_generate.py:0
 msgid "The level must be >= 1."
 msgstr "Le niveau doit être >= 1."
-
-#. module: account_usability_akretion
-#: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_move_form
-msgid "This"
-msgstr "Ce"
 
 #. module: account_usability_akretion
 #: model:ir.model.constraint,message:account_usability_akretion.constraint_account_incoterms_code_unique
@@ -525,33 +381,12 @@ msgstr "Ce code incoterm existe déjà."
 #. module: account_usability_akretion
 #: model:ir.model.fields,help:account_usability_akretion.field_account_bank_statement_line__sale_dates
 #: model:ir.model.fields,help:account_usability_akretion.field_account_move__sale_dates
-#: model:ir.model.fields,help:account_usability_akretion.field_account_payment__sale_dates
 msgid ""
 "This information appear on invoice qweb report (you may use it for your own "
 "report)"
 msgstr ""
 "Cette information apparait sur le rapport qweb de la facture (vous pouvez "
 "les utiliser pour votre propre rapport)"
-
-#. module: account_usability_akretion
-#. odoo-python
-#: code:addons/account_usability_akretion/models/account_move.py:0
-#, python-format
-msgid ""
-"This journal entry has been generated as the reverse of <a href=# data-oe-"
-"model=account.move data-oe-id=%d>%s</a>."
-msgstr ""
-"Cette pièce comptable a été générée comme extourne de <a href=# data-oe-"
-"model=account.move data-oe-id=%d>%s</a>."
-
-#. module: account_usability_akretion
-#: model_terms:ir.ui.view,arch_db:account_usability_akretion.account_group_generate_form
-msgid ""
-"This wizard is designed to auto-generate account groups from the chart of "
-"account."
-msgstr ""
-"Cet assistant est conçu pour générer automatiquement les groupes de comptes "
-"à partir du plan comptable."
 
 #. module: account_usability_akretion
 #: model_terms:ir.ui.view,arch_db:account_usability_akretion.account_invoice_mark_sent_form
@@ -561,14 +396,8 @@ msgstr ""
 "sélectionnées et comptabilisées."
 
 #. module: account_usability_akretion
-#: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_invoice_filter
-msgid "To Send"
-msgstr "À envoyer"
-
-#. module: account_usability_akretion
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_bank_statement_line__amount_total
 #: model:ir.model.fields,field_description:account_usability_akretion.field_account_move__amount_total
-#: model:ir.model.fields,field_description:account_usability_akretion.field_account_payment__amount_total
 msgid "Total"
 msgstr ""
 
@@ -598,13 +427,13 @@ msgid ""
 "account."
 msgstr ""
 "Lorsque cette option est activée, le solde de début et de fin ne s'affiche "
-"pas sur la vue du formulaire du relevé de compte, et la vérification du solde"
-" final vs le solde final réel est désactivée. Lorsque vous activez cette "
-"option, vous traitez les lignes de relevé de compte sans tenir compte du solde de "
-"début/fin et vous vérifiez régulièrement le solde du compte "
+"pas sur la vue du formulaire du relevé de compte, et la vérification du "
+"solde final vs le solde final réel est désactivée. Lorsque vous activez "
+"cette option, vous traitez les lignes de relevé de compte sans tenir compte "
+"du solde de début/fin et vous vérifiez régulièrement le solde du compte "
 "bancaire vs le montant sur votre compte en banque."
 
 #. module: account_usability_akretion
-#: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_move_form
-msgid "is marked as <b>disputed</b>."
-msgstr "est marquée <b>en litige</b>."
+#: model_terms:ir.ui.view,arch_db:account_usability_akretion.view_account_move_reversal
+msgid "You are about to reverse entries that have already been reversed:"
+msgstr "Vous êtes sur le point d'extourner des pièces comptables qui ont déjà été extournées :"

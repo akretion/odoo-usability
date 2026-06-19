@@ -27,6 +27,9 @@ class CommissionProfile(models.Model):
         ('paid', 'Paid'),
         ('in_payment', 'In Payment and Paid'),
         ], default='paid', string='Trigger', required=True)
+    date_range_type_id = fields.Many2one(
+        'date.range.type', string='Commission Periodicity', ondelete='restrict',
+        domain="[('company_id', 'in', (False, company_id))]")
 
 
 class CommissionProfileAssignment(models.Model):
@@ -100,6 +103,7 @@ class CommissionProfileAssignment(models.Model):
             'profile_id': self.profile_id.id,
             'date_range_id': date_range.id,
             'assign_type': self.assign_type,
+            'assignment_id': self.id,
             'company_id': self.company_id.id,
             }
         return vals

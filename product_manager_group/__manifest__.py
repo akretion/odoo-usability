@@ -4,7 +4,7 @@
 
 {
     'name': 'Product Manager Group',
-    'version': '16.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Hidden',
     'license': 'AGPL-3',
     'summary': 'Add a group Product Manager',
@@ -17,11 +17,11 @@ This module adds a group Product Manager. This group used to exist in older vers
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['product'],
     'data': [
         'security/product_security.xml',
         'security/ir.model.access.csv',
         ],
-    'installable': False,
+    'installable': True,
 }

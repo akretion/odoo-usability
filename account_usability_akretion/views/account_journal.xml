@@ -27,9 +27,26 @@
     <field name="arch"  type="xml">
         <field name="kanban_dashboard" position="after">
             <field name="hide_bank_statement_balance"/>
+            <field name="bank_default_account_balance_str"/>
         </field>
+        <xpath expr="//div[@id='dashboard_bank_cash_balance']/.." position="attributes">
+            <attribute name="t-if">dashboard.nb_lines_bank_account_balance > 0 and !record.hide_bank_statement_balance.raw_value</attribute>
+        </xpath>
+        <xpath expr="//div[@id='dashboard_bank_cash_balance']/.." position="after">
+            <div id="bank_cash_balance_gl" class="row" t-if="record.hide_bank_statement_balance.raw_value">
+                <div id="bank_cash_balance_gl_label" class="col overflow-hidden text-start">
+                    <span>Balance in GL</span>
+                </div>
+                <div id="bank_cash_balance_gl_value" class="col-auto text-end">
+                    <span dir="ltr"><t t-out="record.bank_default_account_balance_str.raw_value"/></span>
+                </div>
+            </div>
+        </xpath>
         <xpath expr="//div[@name='latest_statement']/.." position="attributes">
             <attribute name="t-if">dashboard.has_at_least_one_statement and dashboard.account_balance != dashboard.last_balance and !record.hide_bank_statement_balance.raw_value</attribute>
+        </xpath>
+        <xpath expr="//div[@id='dashboard_bank_cash_misc_total']/.." position="attributes">
+            <attribute name="t-if">dashboard.nb_misc_operations > 0 and !record.hide_bank_statement_balance.raw_value</attribute>
         </xpath>
         <!--
         <t t-esc="dashboard.outstanding_pay_account_balance" position="replace">
@@ -37,7 +54,6 @@
         </t> -->
     </field>
 </record>
--->
 
 <record id="view_account_journal_search" model="ir.ui.view">
     <field name="name">usability.account.journal.search</field>

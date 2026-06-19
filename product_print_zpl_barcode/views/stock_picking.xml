@@ -11,8 +11,8 @@
     <field name="model">stock.picking</field>
     <field name="inherit_id" ref="stock.view_picking_form"/>
     <field name="arch" type="xml">
-        <button name="action_toggle_is_locked" position="after">
-            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcodes" attrs="{'invisible': [('show_print_zpl_barcode', '=', False)]}"/>
+        <button name="action_cancel" position="before">
+            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcodes" invisible="not show_print_zpl_barcode"/>
             <field name="show_print_zpl_barcode" invisible="1"/>
         </button>
     </field>

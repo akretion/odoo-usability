@@ -97,11 +97,10 @@ class ResCompany(models.Model):
 
     def _get_eori(self):
         eori = False
-        if self.partner_id.country_id.code == 'FR' and hasattr(self, 'siret') and self.siret:
-            # Currently migrating from EORI-SIRET to EORI-SIREN :
-            # https://www.pwcavocats.com/fr/ealertes/ealertes-france/2023/avril/reforme-numero-eori-siren-siret.html
-            # But, for the moment, we continue to use EORI-SIRET
-            eori = f'FR{self.siret}'
+        if self.partner_id.country_id.code == 'FR' and hasattr(self, 'siren') and self.siren:
+            # On january 1st 2026, we migrated from EORI-SIRET to EORI-SIREN :
+            # https://www.douane.gouv.fr/vers-un-eori-siren-unique-et-un-portail-europeen-pour-les-autorisations-douanieres
+            eori = f'FR{self.siren}'
         return eori
 
     def _report_company_legal_name(self):

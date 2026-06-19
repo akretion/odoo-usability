@@ -9,31 +9,39 @@
     <record id="account_invoice_update_form" model="ir.ui.view">
         <field name="model">account.move.update</field>
         <field name="arch" type="xml">
-            <form string="Update Invoice Wizard">
+            <form>
                 <group name="main">
                     <field name="invoice_id" invisible="1"/>
                     <field name="move_type" invisible="1"/>
                     <field name="company_id" invisible="1"/>
                     <field name="partner_id" invisible="1"/>
-                    <field string="Bill Reference" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}" name="ref"/>
-                    <field string="Customer Reference" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}" name="ref"/>
-                    <field name="invoice_origin"/>
-                    <field name="invoice_payment_term_id" widget="selection"/>
-                    <field name="partner_bank_id"/>
-                    <field name="user_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                    <field string="Bill Reference" invisible="move_type not in ('in_invoice', 'in_refund')" name="ref"/>
+                    <field string="Customer Reference" invisible="move_type not in ('out_invoice', 'out_refund')" name="ref"/>
+                    <field string="Ref" invisible="move_type != 'entry'" name="ref"/>
+                    <field name="invoice_origin" invisible="move_type == 'entry'"/>
+                    <!-- update of payment term is broken -->
+                    <!-- <field name="invoice_payment_term_id" widget="selection"/>-->
+                    <field name="partner_bank_id" invisible="move_type == 'entry'" domain="[('partner_id', '=', bank_partner_id)]"/>
+                    <field name="invoice_user_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" invisible="move_type not in ('out_invoice', 'out_refund')"/>
                 </group>
                 <group name="lines">
-                    <field name="line_ids" nolabel="1">
-                        <tree editable="bottom" create="false" delete="false" edit="true">
-                            <field name="invoice_line_id" invisible="1"/>
-                            <field name="display_type" invisible="1"/>
-                            <field name="currency_id" invisible="1"/>
+                    <field name="line_ids" nolabel="1" widget="section_and_note_one2many">
+                        <list editable="bottom" create="false" delete="false" edit="true">
+                            <field name="invoice_line_id" column_invisible="1"/>
+                            <field name="display_type" column_invisible="1"/>
+                            <field name="currency_id" column_invisible="1"/>
                             <field name="name"/>
-                            <field name="quantity" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-                            <field name="price_subtotal" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-                            <field name="analytic_account_id" attrs="{'invisible': [('display_type', '!=', False)]}" groups="analytic.group_analytic_accounting"/>
-                            <field name="analytic_tag_ids" attrs="{'invisible': [('display_type', '!=', False)]}" groups="analytic.group_analytic_tags" widget="many2many_tags"/>
-                    </tree>
+                            <field name="quantity" invisible="display_type != 'product'" column_invisible="parent.move_type == 'entry'"/>
+                            <field name="product_uom_id" string="UoM" groups="uom.group_uom" optional="show"/>
+                            <field name="price_subtotal" invisible="display_type != 'product'" column_invisible="parent.move_type == 'entry'"/>
+                            <field
+                                name="analytic_distribution"
+                                widget="analytic_distribution"
+                                groups="analytic.group_analytic_accounting"
+                                invisible="display_type != 'product'"
+                                business_domain_compute="parent.move_type in ['out_invoice', 'out_refund', 'out_receipt'] and 'invoice' or parent.move_type in ['in_invoice', 'in_refund', 'in_receipt'] and 'bill' or 'general'"
+                            />
+                        </list>
                     </field>
                 </group>
                 <footer>

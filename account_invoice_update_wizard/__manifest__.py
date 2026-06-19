@@ -4,7 +4,7 @@
 
 {
     'name': 'Account Invoice Update Wizard',
-    'version': '14.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'summary': 'Wizard to update non-legal fields of an open/paid invoice',
@@ -18,5 +18,5 @@
         'wizard/account_move_update_view.xml',
         'views/account_move.xml',
     ],
-    'installable': False,
+    'installable': True,
 }

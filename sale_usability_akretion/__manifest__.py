@@ -16,6 +16,7 @@
         'base_view_inheritance_extension',
         ],
     'data': [
+        'security/ir.model.access.csv',
         'views/sale_order.xml',
         'views/sale_report.xml',
         'views/product_pricelist_item.xml',

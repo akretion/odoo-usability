@@ -6,7 +6,7 @@
 
 {
     'name': 'Base Partner One2many Phone',
-    'version': '16.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Phone',
     'license': 'AGPL-3',
     'summary': 'One2many link between partners and phone numbers/emails',
@@ -20,13 +20,13 @@ It has been developped by brother Bernard from Barroux Abbey and Alexis de Lattr
     """,
     'author': 'Akretion',
     'website': 'https://github.com/akretion/odoo-usability',
-    'depends': ['contacts', 'base_usability', 'phone_validation'],
+    'depends': ['contacts', 'base_usability_akretion', 'phone_validation'],
     'excludes': ['sms'],  # because sms introduces big changes in partner form view
     'data': [
         'views/res_partner_phone.xml',
         'views/res_partner.xml',
         'security/ir.model.access.csv',
         ],
-    'installable': False,
+    'installable': True,
     'post_init_hook': 'migrate_to_partner_phone',
 }

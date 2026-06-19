@@ -11,7 +11,7 @@
         <field name="model">hr.payroll.structure.type</field>
         <field name="arch" type="xml">
             <form>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
                 <group name="main">
                     <field name="name"/>
                     <field name="default_resource_calendar_id"/>
@@ -25,11 +25,11 @@
     <record id="hr_payroll_structure_type_tree" model="ir.ui.view">
         <field name="model">hr.payroll.structure.type</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="default_resource_calendar_id" optional="show"/>
                 <field name="country_id"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -50,7 +50,7 @@
     <record id="hr_payroll_structure_type_action" model="ir.actions.act_window">
         <field name="name">Salary Structure Types</field>
         <field name="res_model">hr.payroll.structure.type</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem

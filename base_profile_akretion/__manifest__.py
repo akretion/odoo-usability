@@ -30,14 +30,13 @@
         'web_no_bubble',  # OCA/web
         'web_dialog_size',  # OCA/web
         'web_chatter_position',  # OCA/web
+        'web_refresher',  # OCA/web
          ### MISC
         'base_usability_akretion',  # akretion/odoo-usability
         'mail_usability_akretion',  # akretion/odoo-usability
         'eradicate_quick_create',  # akretion/odoo-usability
         'base_company_extension',  # akretion/odoo-usability
-        # password_security will be enabled when the move to ir.config_parameter
-        # will be backported
-        #'password_security',  # OCA/server-auth
+        'password_security',  # OCA/server-auth
         ],
     'installable': True,
 }

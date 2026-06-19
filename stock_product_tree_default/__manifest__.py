@@ -3,17 +3,17 @@
 
 
 {
-    'name': 'Stock Product Tree Default',
+    'name': 'Stock Product List Default',
     'version': '18.0.1.0.0',
     'category': 'Product',
     'license': 'AGPL-3',
-    'summary': 'Tree view by default instead of kanban for Products',
+    'summary': 'List view by default instead of kanban for Products',
     'description': """
-        Replace default kanban view by tree view for product menu in stock
+        Replace default kanban view by list view for product menu in stock
         main menu
     """,
     'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['stock'],
     'data': [
         'views/product_template.xml'

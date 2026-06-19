@@ -12,6 +12,7 @@
     'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['purchase'],
     'data': [
+        'security/ir.model.access.csv',
         'views/purchase_order.xml',
         'views/purchase_report.xml',
         'views/account_move.xml',

@@ -27,6 +27,7 @@ Akretion:
     "website": "https://github.com/akretion/odoo-usability",
     "depends": ["point_of_sale"],
     "data": [
+        "security/ir.model.access.csv",
         # "report/pos.xml",  # TODO mig if needed
         "views/report_pos_order.xml",
         "views/pos_category.xml",

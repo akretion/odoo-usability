@@ -16,12 +16,13 @@
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
                 <group name="main">
                     <group name="main-left">
                         <field name="name"/>
                         <field name="active" invisible="1"/>
                         <field name="trigger_type" widget="radio"/>
+                        <field name="date_range_type_id"/>
                     </group>
                     <group name="main-right">
                         <field name="company_id" invisible="1"/>
@@ -31,12 +32,12 @@
                 <notebook>
                     <page name="assignments" string="Assignments">
                         <field name="assign_ids">
-                            <tree editable="bottom">
+                            <list editable="bottom">
                                 <field name="assign_type"/>
-                                <field name="user_id" attrs="{'required': [('assign_type', '=', 'user')], 'readonly': [('assign_type', '!=', 'user')]}"/>
+                                <field name="user_id" required="assign_type == 'user'" readonly="assign_type != 'user'"/>
                                 <field name="company_id" groups="base.group_multi_company"/>
-                                <field name="company_id" invisible="1"/>
-                            </tree>
+                                <field name="company_id" column_invisible="1"/>
+                            </list>
                         </field>
                     </page>
                     <page name="rules" string="Rules">
@@ -48,23 +49,43 @@
     </field>
 </record>
 
-<record id="commission_profile_tree" model="ir.ui.view">
-    <field name="name">commission.profile.tree</field>
+<record id="commission_profile_list" model="ir.ui.view">
+    <field name="name">commission.profile.list</field>
     <field name="model">commission.profile</field>
     <field name="arch" type="xml">
-        <tree>
+        <list>
             <field name="sequence" widget="handle"/>
             <field name="name" decoration-bf="1"/>
-            <field name="trigger_type" optional="show"/>
+            <field name="trigger_type" optional="show" widget="badge" decoration-info="trigger_type == 'invoice'" decoration-success="trigger_type == 'paid'" decoration-warning="trigger_type == 'in_payment'"/>
+            <field name="date_range_type_id" optional="show"/>
             <field name="company_id" groups="base.group_multi_company"/>
-        </tree>
+        </list>
+    </field>
+</record>
+
+<record id="commission_profile_search" model="ir.ui.view">
+    <field name="model">commission.profile</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="name"/>
+            <filter string="Invoiced" name="invoice" domain="[('trigger_type', '=', 'invoice')]"/>
+            <filter string="Paid" name="paid" domain="[('trigger_type', '=', 'paid')]"/>
+            <filter string="In Payment and Paid" name="in_payment" domain="[('trigger_type', '=', 'in_payment')]"/>
+            <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            <separator/>
+            <group name="groupby">
+                <filter name="date_range_type_groupby" string="Commission Periodicity" context="{'group_by': 'date_range_type_id'}"/>
+            </group>
+        </search>
     </field>
 </record>
 
 <record id="commission_profile_action" model="ir.actions.act_window">
     <field name="name">Commission Profiles</field>
+    <field name="path">commission-profile</field>
     <field name="res_model">commission.profile</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">list,form</field>
 </record>
 
 <menuitem id="commission_profile_menu" action="commission_profile_action" parent="commission_config_root" sequence="18"/>

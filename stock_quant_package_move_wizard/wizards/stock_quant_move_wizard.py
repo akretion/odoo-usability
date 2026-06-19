@@ -2,7 +2,8 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import api, fields, models, Command
+from odoo.tools import float_is_zero
 
 
 class StockQuantMoveWizard(models.TransientModel):
@@ -45,7 +46,7 @@ class StockQuantMoveWizard(models.TransientModel):
         for quant in quants.filtered(
             lambda q: not q.package_id and q.company_id.id == company_id
         ):
-            lines.append((0, 0, {"quant_id": quant.id, "quantity": quant.quantity}))
+            lines.append(Command.create({"quant_id": quant.id, "quantity": quant.quantity}))
         picking_type = self.env["stock.picking.type"].search(
             [("code", "=", "internal"), ("company_id", "=", company_id)], limit=1
         )
@@ -60,9 +61,25 @@ class StockQuantMoveWizard(models.TransientModel):
 
     def run(self):
         self.ensure_one()
-        res = self.line_ids.quant_id.move_full_quant_to(
-            self.location_dest_id, self.picking_type_id, origin=self.origin)
-        picking_id = res['picking_id']
+        picking_id = False
+        if self.picking_type_id:
+            picking_vals = self.env["stock.quant"]._prepare_move_to_stock_picking(
+                self.location_dest_id, self.picking_type_id, origin=self.origin
+            )
+            picking_id = self.env["stock.picking"].create(picking_vals).id
+        smo = self.env["stock.move"]
+        prec = self.env['decimal.precision'].precision_get("Product Unit of Measure")
+        for line in self.line_ids:
+            quant = line.quant_id
+            assert not quant.package_id
+            if float_is_zero(line.quantity, precision_digits=prec):
+                continue
+            vals = quant._prepare_move_to_stock_move(
+                line.quantity, self.location_dest_id, picking_id, origin=self.origin
+            )
+            new_move = smo.create(vals)
+            new_move._action_done()
+            assert new_move.state == "done"
         action = {}
         if picking_id and self._context.get("run_show_picking"):
             action = self.env["ir.actions.actions"]._for_xml_id(
@@ -71,7 +88,7 @@ class StockQuantMoveWizard(models.TransientModel):
             action.update(
                 {
                     "res_id": picking_id,
-                    "view_mode": "form,tree,pivot",
+                    "view_mode": "form,list,pivot",
                     "views": False,
                     "view_id": False,
                 }

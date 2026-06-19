@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2025 Akretion France (https://www.akretion.com/)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  The licence is in the file __manifest__.py
+-->
+
+<odoo>
+
+<record id="commission_result_xlsx_report" model="ir.actions.report">
+    <field name="name">Détails Excel</field>
+    <field name="model">commission.result</field>
+    <field name="report_type">xlsx</field>
+    <field name="report_name">commission_simple.report_xlsx</field>
+    <field name="report_file">commission_simple.report_xlsx</field>
+    <field name="print_report_name">'commission-%s-%s' % (object.date_range_id.name.replace(' ', '_'), object.partner_id.name.replace(' ', '_'))</field>
+    <field name="binding_model_id" ref="model_commission_result" />
+</record>
+
+</odoo>

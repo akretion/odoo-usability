@@ -3,12 +3,11 @@
 <odoo>
 
 <record id="point_of_sale.product_template_action_pos_product" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,kanban,activity</field>
+    <field name="view_mode">list,kanban,form,activity</field>
 </record>
 
-<record id="point_of_sale.product_product_action" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,kanban,activity</field>
-</record>
-
+<!-- no need to inherit point_of_sale.product_product_action
+        because, even if kanban is on the first position of view_mode
+it has view_id=product.product_product_tree_view -->
 
 </odoo>

@@ -11,7 +11,6 @@ class SaleOrder(models.Model):
     route_id = fields.Many2one(
         'stock.route', string='Route',
         ondelete='restrict', readonly=True, tracking=True,
-        states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
         check_company=True,
         domain="['|', ('company_id', '=', company_id), ('company_id', '=', False), ('sale_selectable', '=', True)]")
 
@@ -22,7 +21,7 @@ class SaleOrder(models.Model):
             vals = {'route_id': order.route_id.id or False}
             order.order_line.filtered(
                 lambda l:
-                l.product_id and l.product_id.type in ('product', 'consu')).write(vals)
+                l.product_id and l.product_id.type == 'consu').write(vals)
         return super()._action_confirm()
 
 
@@ -35,7 +34,7 @@ class SaleOrderLine(models.Model):
     @api.depends('display_type', 'product_id')
     def _compute_route_id(self):
         for line in self:
-            if not line.display_type and line.product_id and line.product_id.type in ('product', 'consu'):
+            if not line.display_type and line.product_id and line.product_id.type == 'consu':
                 line.route_id = line.order_id.route_id or False
             else:
                 line.route_id = False

@@ -19,7 +19,7 @@ class ResPartnerPhone(models.Model):
     _description = 'Multiple emails and phones for partners'
 
     partner_id = fields.Many2one(
-        'res.partner', string='Related Partner', index=True, ondelete='cascade')
+        'res.partner', string='Related Partner', index=True, ondelete='cascade', required=True)
     type = fields.Selection([
         ('1_email_primary', 'Primary E-mail'),
         ('2_email_secondary', 'Secondary E-mail'),
@@ -72,18 +72,18 @@ class ResPartnerPhone(models.Model):
                     raise ValidationError(_(
                         "E-mail field must be empty when type is Primary/Secondary Phone, Primary/Secondary Mobile or Primary/Secondary Fax."))
 
-    def name_get(self):
-        res = []
+    @api.depends('partner_id', 'phone', 'email', 'type')
+    @api.depends_context('callerid')
+    def _compute_display_name(self):
         for pphone in self:
-            if pphone.partner_id:
-                if self._context.get('callerid'):
-                    name = pphone.partner_id.display_name
-                else:
-                    name = u'%s (%s)' % (pphone.phone, pphone.partner_id.name)
+            if self._context.get('callerid'):
+                name = pphone.partner_id.display_name
             else:
-                name = pphone.phone
-            res.append((pphone.id, name))
-        return res
+                if pphone.type in ('1_email_primary', '2_email_secondary'):
+                    name = f"{pphone.email} ({pphone.partner_id.name})"
+                else:
+                    name = f"{pphone.phone} ({pphone.partner_id.name})"
+            pphone.display_name = name
 
     def init(self):
         self._cr.execute('''

@@ -3,20 +3,20 @@
 
 
 {
-    'name': 'Sale Product Tree Default',
-    'version': '16.0.1.0.0',
+    'name': 'Sale Product List Default',
+    'version': '18.0.1.0.0',
     'category': 'Product',
     'license': 'AGPL-3',
-    'summary': 'Tree view by default instead of kanban for Products',
+    'summary': 'List view by default instead of kanban for Products',
     'description': """
-        Replace default kanban view by tree view for product menu in sale
+        Replace default kanban view by list view for product menu in sale
         main menu
     """,
     'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['sale'],
     'data': [
         'views/product_template.xml'
     ],
-    'installable': False,
+    'installable': True,
 }

@@ -8,14 +8,14 @@
 <odoo>
 
 
-<menuitem id="dynamic_list_root_menu" name="Dynamic Lists" parent="base.menu_custom" sequence="100"/>
+<menuitem id="dynamic_list_root_menu" name="Dynamic Lists" parent="base.next_id_9" sequence="100"/>
 
 <record id="dynamic_list_form" model="ir.ui.view">
     <field name="model">dynamic.list</field>
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
                 <group name="main">
                     <field name="name"/>
                     <field name="domain" invisible="not context.get('dynamic_list_main_view')"/>
@@ -26,14 +26,14 @@
     </field>
 </record>
 
-<record id="dynamic_list_tree" model="ir.ui.view">
+<record id="dynamic_list_list" model="ir.ui.view">
     <field name="model">dynamic.list</field>
     <field name="arch" type="xml">
-        <tree>
+        <list>
             <field name="sequence" widget="handle"/>
             <field name="name"/>
             <field name="domain" invisible="not context.get('dynamic_list_main_view')"/>
-        </tree>
+        </list>
     </field>
 </record>
 
@@ -54,7 +54,7 @@
 <record id="dynamic_list_action" model="ir.actions.act_window">
     <field name="name">Simple List</field>
     <field name="res_model">dynamic.list</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">list,form</field>
     <field name="context">{'dynamic_list_main_view': True, 'search_default_domain_groupby': True}</field>
 </record>
 
@@ -65,7 +65,7 @@
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
                 <group name="main">
                     <field name="name"/>
                     <field name="domain" invisible="not context.get('dynamic_list_translate_main_view')"/>
@@ -76,14 +76,14 @@
     </field>
 </record>
 
-<record id="dynamic_list_translate_tree" model="ir.ui.view">
+<record id="dynamic_list_translate_list" model="ir.ui.view">
     <field name="model">dynamic.list.translate</field>
     <field name="arch" type="xml">
-        <tree>
+        <list>
             <field name="sequence" widget="handle"/>
             <field name="name"/>
             <field name="domain" invisible="not context.get('dynamic_list_translate_main_view')"/>
-        </tree>
+        </list>
     </field>
 </record>
 
@@ -104,7 +104,7 @@
 <record id="dynamic_list_translate_action" model="ir.actions.act_window">
     <field name="name">Translatable Simple List</field>
     <field name="res_model">dynamic.list.translate</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">list,form</field>
     <field name="context">{'dynamic_list_translate_main_view': True, 'search_default_domain_groupby': True}</field>
 </record>
 
@@ -115,7 +115,7 @@
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
                 <group name="main">
                     <field name="code"/>
                     <field name="name"/>
@@ -127,15 +127,15 @@
     </field>
 </record>
 
-<record id="dynamic_list_code_tree" model="ir.ui.view">
+<record id="dynamic_list_code_list" model="ir.ui.view">
     <field name="model">dynamic.list.code</field>
     <field name="arch" type="xml">
-        <tree>
+        <list>
             <field name="sequence" widget="handle"/>
             <field name="code"/>
             <field name="name"/>
             <field name="domain" invisible="not context.get('dynamic_list_code_main_view')"/>
-        </tree>
+        </list>
     </field>
 </record>
 
@@ -157,7 +157,7 @@
 <record id="dynamic_list_code_action" model="ir.actions.act_window">
     <field name="name">Code List</field>
     <field name="res_model">dynamic.list.code</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">list,form</field>
     <field name="context">{'dynamic_list_code_main_view': True, 'search_default_domain_groupby': True}</field>
 </record>
 
@@ -168,7 +168,7 @@
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
                 <group name="main">
                     <field name="code"/>
                     <field name="name"/>
@@ -180,15 +180,15 @@
     </field>
 </record>
 
-<record id="dynamic_list_code_translate_tree" model="ir.ui.view">
+<record id="dynamic_list_code_translate_list" model="ir.ui.view">
     <field name="model">dynamic.list.code.translate</field>
     <field name="arch" type="xml">
-        <tree>
+        <list>
             <field name="sequence" widget="handle"/>
             <field name="code"/>
             <field name="name"/>
             <field name="domain" invisible="not context.get('dynamic_list_code_translate_main_view')"/>
-        </tree>
+        </list>
     </field>
 </record>
 
@@ -210,7 +210,7 @@
 <record id="dynamic_list_code_translate_action" model="ir.actions.act_window">
     <field name="name">Translatable Code List</field>
     <field name="res_model">dynamic.list.code.translate</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">list,form</field>
     <field name="context">{'dynamic_list_code_translate_main_view': True, 'search_default_domain_groupby': True}</field>
 </record>
 

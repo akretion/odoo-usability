@@ -12,7 +12,7 @@
     <field name="inherit_id" ref="commission_simple.commission_result_form"/>
     <field name="arch" type="xml">
         <group name="main-right" position="inside">
-                <field name="purchase_id" attrs="{'invisible': [('assign_type', '!=', 'agent')]}"/>
+                <field name="purchase_id" invisible="assign_type != 'agent'"/>
         </group>
     </field>
 </record>

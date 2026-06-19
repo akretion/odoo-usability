@@ -2,7 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, models
+from odoo import _, models, Command
 from odoo.exceptions import UserError
 from odoo.tools import float_compare
 from odoo.tools.misc import formatLang
@@ -76,15 +76,14 @@ class StockQuant(models.Model):
             "product_uom_qty": qty,
             "product_uom": uom_id,
             "origin": origin,
+            "picked": True,
             "move_line_ids": [
-                (
-                    0,
-                    0,
+                Command.create(
                     {
                         "picking_id": picking_id,
                         "product_id": product_id,
                         "product_uom_id": uom_id,
-                        "qty_done": qty,
+                        "quantity": qty,
                         "location_id": location_id,
                         "location_dest_id": location_dest_id,
                         "lot_id": self.lot_id.id or False,

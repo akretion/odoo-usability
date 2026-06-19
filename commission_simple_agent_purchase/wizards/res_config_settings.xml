@@ -11,13 +11,17 @@
 <record id="res_config_settings_view_form" model="ir.ui.view">
     <field name="name">commission.res.config.settings.form</field>
     <field name="model">res.config.settings</field>
-    <field name="inherit_id" ref="commission_simple.res_config_settings_view_form" />
+    <field name="inherit_id" ref="account.res_config_settings_view_form" />
     <field name="arch" type="xml">
-        <xpath expr="//div[@id='commission_simple-settings']/div[hasclass('o_setting_right_pane')]" position="inside">
-            <div class="row" id="commission_product_id">
-                <label for="commission_product_id" class="col-md-5" />
-                <field name="commission_product_id" context="{'default_detailed_type': 'service', 'default_purchase_ok': True, 'default_sale_ok': False, 'default_available_in_pos': False, 'default_purchase_method': 'purchase'}"/>
-            </div>
+        <xpath expr="//block[@id='analytic']" position="after">
+            <block title="Commissions" id="commission_simple">
+                <setting id="commission_product" title="Commission Product">
+                    <field name="commission_product_id" context="{'default_type': 'service', 'default_purchase_ok': True, 'default_sale_ok': False, 'default_available_in_pos': False, 'default_purchase_method': 'purchase'}"/>
+                </setting>
+                <setting id="commission_po_config" title="Purchase Order">
+                    <field name="commission_po_config" />
+                </setting>
+            </block>
         </xpath>
     </field>
 </record>

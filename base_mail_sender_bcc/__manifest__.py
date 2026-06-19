@@ -4,7 +4,7 @@
 
 {
     'name': 'Mail Sender Bcc',
-    'version': '16.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Mail',
     'license': 'AGPL-3',
     'summary': "Always send a copy of the mail to the sender",
@@ -17,5 +17,5 @@ With this module, when Odoo sends an outgoing email, it adds the sender as Bcc (
     'author': 'Akretion',
     'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['base'],
-    'installable': False,
+    'installable': True,
 }

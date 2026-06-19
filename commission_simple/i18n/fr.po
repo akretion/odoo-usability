@@ -6,14 +6,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-29 23:38+0000\n"
-"PO-Revision-Date: 2024-11-29 23:38+0000\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2025-09-02 11:22+0000\n"
+"PO-Revision-Date: 2025-09-02 11:23+0000\n"
+"Last-Translator: Alexis de Lattre <alexis.delattre@akretion.com>\n"
 "Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: commission_simple
+#: model:ir.actions.report,print_report_name:commission_simple.commission_result_xlsx_report
+msgid ""
+"'commission-%s-%s' % (object.date_range_id.name.replace(' ', '_'), object."
+"partner_id.name.replace(' ', '_'))"
+msgstr ""
+"'commission-%s-%s' % (object.date_range_id.name.replace(' ', '_'), object."
+"partner_id.name.replace(' ', '_'))"
 
 #. module: commission_simple
 #: model:ir.model.constraint,message:commission_simple.constraint_commission_result_salesman_period_company_unique
@@ -32,6 +42,13 @@ msgid "A salesman must be selected when the assignment type is 'Salesman'."
 msgstr ""
 "Un vendeur doit être sélectionné lorsque le type d'affectation est "
 "\"Vendeur\"."
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/models/commission_rule.py:0
+#, python-format
+msgid "AND"
+msgstr "ET"
 
 #. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_result__message_needaction
@@ -108,13 +125,24 @@ msgid "Cancel"
 msgstr "Annuler"
 
 #. module: commission_simple
+#: model_terms:ir.ui.view,arch_db:commission_simple.view_move_line_form
+msgid "Commission"
+msgstr "Commission"
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
 #: model:ir.model.fields,field_description:commission_simple.field_account_move_line__commission_amount
+#, python-format
 msgid "Commission Amount"
 msgstr "Montant de la commission"
 
 #. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
 #: model:ir.model.fields,field_description:commission_simple.field_account_move_line__commission_base
 #: model:ir.model.fields,field_description:commission_simple.field_commission_rule__base
+#, python-format
 msgid "Commission Base"
 msgstr "Base de la commission"
 
@@ -122,14 +150,14 @@ msgstr "Base de la commission"
 #: model:ir.model.fields,field_description:commission_simple.field_commission_result__line_ids
 #: model_terms:ir.ui.view,arch_db:commission_simple.commission_result_form
 msgid "Commission Lines"
-msgstr "Lignes commission"
+msgstr "Lignes de commission"
 
 #. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_compute__date_range_type_id
 #: model:ir.model.fields,field_description:commission_simple.field_res_company__commission_date_range_type_id
 #: model:ir.model.fields,field_description:commission_simple.field_res_config_settings__commission_date_range_type_id
 msgid "Commission Periodicity"
-msgstr "Périodicité de commission"
+msgstr "Périodicité des commissions"
 
 #. module: commission_simple
 #: model:ir.model,name:commission_simple.model_commission_profile
@@ -140,7 +168,7 @@ msgstr "Profil de commission"
 #. module: commission_simple
 #: model:ir.model,name:commission_simple.model_commission_profile_assignment
 msgid "Commission Profile Assignment"
-msgstr "Affectation du profil de commission"
+msgstr "Affectation des profils de commission"
 
 #. module: commission_simple
 #: model:ir.actions.act_window,name:commission_simple.commission_profile_action
@@ -149,8 +177,11 @@ msgid "Commission Profiles"
 msgstr "Profils de commission"
 
 #. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
 #: model:ir.model.fields,field_description:commission_simple.field_account_move_line__commission_rate
 #: model:ir.model.fields,field_description:commission_simple.field_commission_rule__rate
+#, python-format
 msgid "Commission Rate"
 msgstr "Taux de commission"
 
@@ -159,6 +190,11 @@ msgstr "Taux de commission"
 #: model:ir.model.fields,field_description:commission_simple.field_account_move_line__commission_result_id
 msgid "Commission Result"
 msgstr "État des commissions"
+
+#. module: commission_simple
+#: model:ir.model,name:commission_simple.model_report_commission_simple_report_xlsx
+msgid "Commission Result XLSX"
+msgstr "État des commission XLSX"
 
 #. module: commission_simple
 #: model:ir.model,name:commission_simple.model_commission_rule
@@ -184,7 +220,7 @@ msgstr "Total des commissions"
 #: model:ir.ui.menu,name:commission_simple.commission_root
 #: model_terms:ir.ui.view,arch_db:commission_simple.res_config_settings_view_form
 msgid "Commissions"
-msgstr ""
+msgstr "Commissions"
 
 #. module: commission_simple
 #. odoo-python
@@ -193,6 +229,13 @@ msgstr ""
 msgid "Commissions already exist for %(period)s in company %(company)s."
 msgstr ""
 "Des commissions existent déjà pour %(period)s dans la société %(company)s."
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
+#, python-format
+msgid "Commissions of %(partner)s for period %(period)s"
+msgstr "Commissions de %(partner)s pour la période %(period)s"
 
 #. module: commission_simple
 #: model:ir.model,name:commission_simple.model_res_company
@@ -255,9 +298,35 @@ msgid "Created on"
 msgstr "Créé le"
 
 #. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
+#, python-format
+msgid "Currency"
+msgstr "Devise"
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
+#, python-format
+msgid "Customer"
+msgstr "Client"
+
+#. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_rule__partner_ids
 msgid "Customers"
 msgstr "Clients"
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/models/commission_rule.py:0
+#, python-format
+msgid "Customers:"
+msgstr "Clients :"
+
+#. module: commission_simple
+#: model_terms:ir.ui.view,arch_db:commission_simple.commission_result_form
+msgid "Disc.%"
+msgstr "Rem.%"
 
 #. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_compute__display_name
@@ -272,7 +341,7 @@ msgstr "Nom affiché"
 #: model:ir.model.fields.selection,name:commission_simple.selection__commission_result__state__done
 #: model_terms:ir.ui.view,arch_db:commission_simple.commission_result_search
 msgid "Done"
-msgstr "Validé"
+msgstr "Terminé"
 
 #. module: commission_simple
 #: model:ir.model.fields.selection,name:commission_simple.selection__commission_result__state__draft
@@ -281,7 +350,15 @@ msgid "Draft"
 msgstr "Brouillon"
 
 #. module: commission_simple
+#: model:ir.actions.report,name:commission_simple.commission_result_xlsx_report
+msgid "Détails Excel"
+msgstr "Détails Excel"
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
 #: model:ir.model.fields,field_description:commission_simple.field_commission_rule__date_end
+#, python-format
 msgid "End Date"
 msgstr "Date de fin"
 
@@ -290,6 +367,11 @@ msgstr "Date de fin"
 #: model:ir.model.fields,field_description:commission_simple.field_commission_result__date_end
 msgid "End date"
 msgstr "Date de fin"
+
+#. module: commission_simple
+#: model_terms:ir.ui.view,arch_db:commission_simple.commission_result_form
+msgid "Excel Export"
+msgstr "Export Excel"
 
 #. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_result__message_follower_ids
@@ -307,9 +389,19 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Îcone font-awesome, par exemple fa-task"
 
 #. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
+#, python-format
+msgid "Generated from Odoo on %s by %s"
+msgstr "Généré à partir d'Odoo le %s par %s"
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/models/commission_rule.py:0
 #: model:ir.model.fields.selection,name:commission_simple.selection__commission_rule__applied_on__4_global
+#, python-format
 msgid "Global"
-msgstr ""
+msgstr "Global"
 
 #. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_result__has_message
@@ -323,7 +415,7 @@ msgstr "A un message"
 #: model:ir.model.fields,field_description:commission_simple.field_commission_result__id
 #: model:ir.model.fields,field_description:commission_simple.field_commission_rule__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_result__activity_exception_icon
@@ -349,6 +441,20 @@ msgstr "Si activé, des messages ont une erreur d'envoi."
 #: model:ir.model.fields.selection,name:commission_simple.selection__commission_profile__trigger_type__in_payment
 msgid "In Payment and Paid"
 msgstr "En paiement et payé"
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
+#, python-format
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
+#, python-format
+msgid "Invoice Date"
+msgstr "Date de facture"
 
 #. module: commission_simple
 #: model:ir.model.fields.selection,name:commission_simple.selection__commission_profile__trigger_type__invoice
@@ -411,7 +517,12 @@ msgstr "Marge"
 #. module: commission_simple
 #: model_terms:ir.ui.view,arch_db:commission_simple.commission_rule_form
 msgid "Match"
-msgstr ""
+msgstr "Correspondance"
+
+#. module: commission_simple
+#: model:ir.model.fields,field_description:commission_simple.field_commission_rule__apply_description
+msgid "Match Criteria"
+msgstr "Critères de correspondance"
 
 #. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_account_move_line__commission_rule_id
@@ -426,7 +537,7 @@ msgstr "Erreur d'envoi du message"
 #. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_result__message_ids
 msgid "Messages"
-msgstr ""
+msgstr "Messages"
 
 #. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_result__my_activity_date_deadline
@@ -498,6 +609,18 @@ msgid "Period"
 msgstr "Période"
 
 #. module: commission_simple
+#: model_terms:ir.ui.view,arch_db:commission_simple.commission_result_form
+msgid "Price"
+msgstr "Prix"
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
+#, python-format
+msgid "Product"
+msgstr "Produit"
+
+#. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_rule__product_categ_ids
 #: model:ir.model.fields.selection,name:commission_simple.selection__commission_rule__applied_on__3_product_category
 msgid "Product Categories"
@@ -507,6 +630,13 @@ msgstr "Catégories de produits"
 #: model:ir.model.fields.selection,name:commission_simple.selection__commission_rule__applied_on__1_customer_product_category
 msgid "Product Categories and Customers"
 msgstr "Catégories de produits et clients"
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/models/commission_rule.py:0
+#, python-format
+msgid "Product Categories:"
+msgstr "Catégories de produits :"
 
 #. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_account_move_line__product_categ_id
@@ -525,11 +655,25 @@ msgid "Products and Customers"
 msgstr "Produits et clients"
 
 #. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/models/commission_rule.py:0
+#, python-format
+msgid "Products:"
+msgstr "Produits :"
+
+#. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_profile_assignment__profile_id
 #: model:ir.model.fields,field_description:commission_simple.field_commission_rule__profile_id
 #: model_terms:ir.ui.view,arch_db:commission_simple.commission_rule_search
 msgid "Profile"
 msgstr "Profil"
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
+#, python-format
+msgid "Quantity"
+msgstr "Quantité"
 
 #. module: commission_simple
 #: model_terms:ir.ui.view,arch_db:commission_simple.commission_result_form
@@ -572,7 +716,10 @@ msgid "Sequence"
 msgstr "Séquence"
 
 #. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
 #: model:ir.model.fields,field_description:commission_simple.field_commission_rule__date_start
+#, python-format
 msgid "Start Date"
 msgstr "Date de début"
 
@@ -606,6 +753,13 @@ msgid "This salesman already has an assignment in this company."
 msgstr "Ce vendeur a déjà une assignation dans cette société."
 
 #. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
+#, python-format
+msgid "Total Amount"
+msgstr "Montant total"
+
+#. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_profile__trigger_type
 msgid "Trigger"
 msgstr "Déclencheur"
@@ -613,12 +767,19 @@ msgstr "Déclencheur"
 #. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_profile_assignment__assign_type
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #. module: commission_simple
 #: model:ir.model.fields,help:commission_simple.field_commission_result__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Type de l'activité-alerte sur l'enregistrement."
+
+#. module: commission_simple
+#. odoo-python
+#: code:addons/commission_simple/reports/commission_result_xlsx.py:0
+#, python-format
+msgid "Unit"
+msgstr "Unité"
 
 #. module: commission_simple
 #: model:ir.model.fields,field_description:commission_simple.field_commission_result__website_message_ids
@@ -636,5 +797,5 @@ msgstr "Historique des échanges sur le site Web"
 #, python-format
 msgid "You cannot delete commission result %s because it is in done state."
 msgstr ""
-"Vous ne pouvez pas supprimer l'état de commission %s parce qu'il est à "
-"l'état \"validé\"."
+"Vous ne pouvez pas supprimer l'état de commission %s parce qu'il est "
+"à l'état \"terminé\"."

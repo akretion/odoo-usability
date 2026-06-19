@@ -16,4 +16,15 @@
         </xpath>
     </field>
 </record>
+
+<record id="res_partner_view_tree" model="ir.ui.view">
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="account.res_partner_view_tree"/>
+    <field name="arch" type="xml">
+	 <field name="invoice_edi_format" position="after">
+		 <field name="property_account_position_id" optional="hide"/>
+	 </field>
+    </field>
+</record>
+
 </odoo>

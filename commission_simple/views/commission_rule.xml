@@ -19,9 +19,9 @@
                     <field name="company_id" invisible="1"/>
                 </group>
                 <group name="match" string="Match">
-                    <field name="partner_ids" attrs="{'invisible': [('applied_on', 'not in', ('0_customer_product', '1_customer_product_category'))], 'required': [('applied_on', 'in', ('0_customer_product', '1_customer_product_category'))]}"/>
-                    <field name="product_categ_ids" attrs="{'invisible': [('applied_on', 'not in', ('1_customer_product_category', '3_product_category'))], 'required': [('applied_on', 'in', ('1_customer_product_category', '3_product_category'))]}"/>
-                    <field name="product_ids" attrs="{'invisible': [('applied_on', 'not in', ('0_customer_product', '2_product'))], 'required': [('applied_on', 'in', ('0_customer_product', '2_product'))]}"/>
+                    <field name="partner_ids" invisible="applied_on not in ('0_customer_product', '1_customer_product_category')" required="applied_on in ('0_customer_product', '1_customer_product_category')"/>
+                    <field name="product_categ_ids" invisible="applied_on not in ('1_customer_product_category', '3_product_category')" required="applied_on in ('1_customer_product_category', '3_product_category')"/>
+                    <field name="product_ids" invisible="applied_on not in ('0_customer_product', '2_product')" required="applied_on in ('0_customer_product', '2_product')"/>
                     <field name="date_start"/>
                     <field name="date_end"/>
                 </group>
@@ -37,18 +37,19 @@
     </field>
 </record>
 
-<record id="commission_rule_tree" model="ir.ui.view">
-    <field name="name">commission.rule.tree</field>
+<record id="commission_rule_list" model="ir.ui.view">
+    <field name="name">commission.rule.list</field>
     <field name="model">commission.rule</field>
     <field name="arch" type="xml">
-        <tree>
+        <list>
             <field name="profile_id" invisible="not context.get('commission_rule_main_view')"/>
-            <field name="applied_on"/>
-            <field name="date_start"/>
-            <field name="date_end"/>
+            <field name="applied_on" widget="badge" decoration-danger="applied_on == '0_customer_product'" decoration-warning="applied_on == '1_customer_product_category'" decoration-info="applied_on == '2_product'" decoration-success="applied_on == '3_product_category'"/>
+            <field name="apply_description"/>
+            <field name="date_start" optional="show"/>
+            <field name="date_end" optional="show"/>
             <field name="rate" string="Rate (%)"/>
-            <field name="base"/>
-        </tree>
+            <field name="base" widget="badge" decoration-success="base == 'invoiced'" decoration-warning="base == 'margin'"/>
+        </list>
     </field>
 </record>
 
@@ -68,8 +69,9 @@
 
 <record id="commission_rule_action" model="ir.actions.act_window">
     <field name="name">Commission Rules</field>
+    <field name="path">commission-rule</field>
     <field name="res_model">commission.rule</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">list,form</field>
     <field name="context">{'commission_rule_main_view': True}</field>
 </record>
 

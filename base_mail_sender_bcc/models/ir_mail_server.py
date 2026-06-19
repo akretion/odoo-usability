@@ -2,7 +2,7 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models
+from odoo import models, tools
 
 
 class IrMailServer(models.Model):
@@ -25,3 +25,13 @@ class IrMailServer(models.Model):
             message_id=message_id, references=references, object_id=object_id,
             subtype=subtype, headers=headers,
             body_alternative=body_alternative, subtype_alternative=subtype_alternative)
+
+    def _prepare_email_message(self, message, smtp_session):
+        validated_to = self.env.context.get('send_validated_to') or []
+        if message['Bcc']:
+            email_bcc_normalized = tools.email_normalize_all(message['Bcc'])
+            for email in email_bcc_normalized:
+                if email not in validated_to:
+                    validated_to.append(email)
+        return super(IrMailServer, self.with_context(send_validated_to=validated_to))._prepare_email_message(
+            message, smtp_session)

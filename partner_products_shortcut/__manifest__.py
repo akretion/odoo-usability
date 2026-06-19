@@ -4,7 +4,7 @@
 
 {
     'name': 'Partner Product Shortcut',
-    'version': '16.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Contact Management',
     'license': 'AGPL-3',
     'summary': 'Adds a shortcut on partner form to the products supplied by this partner',
@@ -22,6 +22,6 @@ This module has been written by Alexis de Lattre from Akretion
     'author': 'Akretion',
     'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['product'],
-    'data': ['res_partner_view.xml'],
-    'installable': False,
+    'data': ['views/res_partner.xml'],
+    'installable': True,
 }

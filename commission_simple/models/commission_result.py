@@ -17,6 +17,8 @@ class CommissionResult(models.Model):
         readonly=True, tracking=True)
     profile_id = fields.Many2one(
         'commission.profile', string='Commission Profile', readonly=True, tracking=True)
+    assignment_id = fields.Many2one(
+        'commission.profile.assignment', string="Commission Profile Assignment", readonly=True)
     assign_type = fields.Selection('_assign_type_selection', readonly=True, tracking=True)
     company_id = fields.Many2one(
         'res.company', string='Company', ondelete='cascade',
@@ -32,7 +34,10 @@ class CommissionResult(models.Model):
         states={'done': [('readonly', True)]})
     amount_total = fields.Monetary(
         string='Commission Total', currency_field='company_currency_id',
-        compute='_compute_amount_total', store=True, tracking=True)
+        compute='_compute_totals', store=True, tracking=True)
+    base_total = fields.Monetary(
+        string="Commission Base Total", currency_field='company_currency_id',
+        compute='_compute_totals', store=True, tracking=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('done', 'Done'),
@@ -44,12 +49,13 @@ class CommissionResult(models.Model):
     def _assign_type_selection(self):
         return self.env['commission.profile.assignment']._assign_type_selection()
 
-    @api.depends('line_ids.commission_amount')
-    def _compute_amount_total(self):
-        rg_res = self.env['account.move.line'].read_group([('commission_result_id', 'in', self.ids)], ['commission_result_id', 'commission_amount:sum'], ['commission_result_id'])
-        mapped_data = dict([(x['commission_result_id'][0], x['commission_amount']) for x in rg_res])
+    @api.depends('line_ids.commission_amount', 'line_ids.commission_base')
+    def _compute_totals(self):
+        rg_res = self.env['account.move.line'].read_group([('commission_result_id', 'in', self.ids)], ['commission_result_id', 'commission_amount:sum', 'commission_base:sum'], ['commission_result_id'])
+        mapped_data = dict([(x['commission_result_id'][0], {'amount': x['commission_amount'], 'base': x['commission_base']}) for x in rg_res])
         for rec in self:
-            rec.amount_total = mapped_data.get(rec.id, 0)
+            rec.amount_total = mapped_data.get(rec.id, {}).get('amount')
+            rec.base_total = mapped_data.get(rec.id, {}).get('base')
 
     def unlink(self):
         for result in self:
@@ -59,7 +65,7 @@ class CommissionResult(models.Model):
         return super().unlink()
 
     def draft2done(self):
-        self.write({'state': 'done'})
+        self.filtered(lambda x: x.state == 'draft').write({'state': 'done'})
 
     def backtodraft(self):
         self.write({'state': 'draft'})
@@ -75,3 +81,7 @@ class CommissionResult(models.Model):
         'salesman_period_company_unique',
         'unique(company_id, partner_id, date_range_id)',
         'A commission result already exists for this salesman/agent for the same period.')]
+
+    def _prepare_xlsx_lines(self):
+        self.ensure_one()
+        return self.line_ids.sorted(key=lambda x: x.move_id.invoice_date)

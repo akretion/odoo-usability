@@ -11,16 +11,16 @@
 
 <!-- Partner phones -->
 <record id="res_partner_phone_tree" model="ir.ui.view">
-    <field name="name">res.partner.phone.tree</field>
+    <field name="name">res.partner.phone.list</field>
     <field name="model">res.partner.phone</field>
     <field name="arch"  type="xml">
-        <tree editable="bottom">
-            <field name="partner_id" invisible="not context.get('partner_phone_main_view')"/>
+        <list editable="bottom">
+            <field name="partner_id" column_invisible="not context.get('partner_phone_main_view')"/>
             <field name="type"/>
-            <field name="phone" widget="phone" options="{'enable_sms': false}" attrs="{'required': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'readonly': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
-            <field name="email" widget="email" attrs="{'readonly': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'required': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
+            <field name="phone" widget="phone" options="{'enable_sms': false}" required="type not in ('1_email_primary', '2_email_secondary')" readonly="type in ('1_email_primary', '2_email_secondary')"/>
+            <field name="email" widget="email" readonly="type not in ('1_email_primary', '2_email_secondary')" required="type in ('1_email_primary', '2_email_secondary')"/>
             <field name="note"/>
-        </tree>
+        </list>
     </field>
 </record>
 
@@ -32,8 +32,8 @@
             <group name="main">
                 <field name="partner_id" invisible="not context.get('partner_phone_main_view')"/>
                 <field name="type"/>
-                <field name="phone" widget="phone" options="{'enable_sms': false}" attrs="{'required': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'invisible': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
-                <field name="email" widget="email" attrs="{'invisible': [('type', 'not in', ('1_email_primary', '2_email_secondary'))], 'required': [('type', 'in', ('1_email_primary', '2_email_secondary'))]}"/>
+                <field name="phone" widget="phone" options="{'enable_sms': false}" required="type not in ('1_email_primary', '2_email_secondary')" invisible="type in ('1_email_primary', '2_email_secondary')"/>
+                <field name="email" widget="email" invisible="type not in ('1_email_primary', '2_email_secondary')" required="type in ('1_email_primary', '2_email_secondary')"/>
                 <field name="note"/>
             </group>
         </form>
@@ -57,7 +57,7 @@
 <record id="res_partner_phone_action" model="ir.actions.act_window">
     <field name="name">Phones/E-mails</field>
     <field name="res_model">res.partner.phone</field>
-    <field name="view_mode">tree</field>
+    <field name="view_mode">list</field>
     <field name="context">{'partner_phone_main_view': True}</field>
 </record>
 

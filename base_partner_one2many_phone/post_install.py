@@ -7,12 +7,12 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def create_partner_phone(cr, phone_field, phone_type):
-    cr.execute(
+def create_partner_phone(env, phone_field, phone_type):
+    env.cr.execute(
         'SELECT id, ' + phone_field + ' FROM res_partner WHERE ' +
         phone_field + ' IS NOT null AND ' + phone_field + "!= ''")
     to_create = []
-    for partner in cr.fetchall():
+    for partner in env.cr.fetchall():
         to_create.append({
             'partner_id': partner[0],
             'type': phone_type,
@@ -21,11 +21,11 @@ def create_partner_phone(cr, phone_field, phone_type):
     return to_create
 
 
-def create_partner_email(cr):
-    cr.execute(
+def create_partner_email(env):
+    env.cr.execute(
         "SELECT id, email FROM res_partner WHERE email IS NOT null AND email != ''")
     to_create = []
-    for partner in cr.fetchall():
+    for partner in env.cr.fetchall():
         to_create.append({
             'partner_id': partner[0],
             'type': '1_email_primary',
@@ -34,14 +34,13 @@ def create_partner_email(cr):
     return to_create
 
 
-def migrate_to_partner_phone(cr, registry):
+def migrate_to_partner_phone(env):
     logger.info('start data migration for one2many_phone')
-    env = api.Environment(cr, SUPERUSER_ID, {})
     rppo = env['res.partner.phone']
     to_create = []
-    to_create += create_partner_phone(cr, 'phone', '3_phone_primary')
-    to_create += create_partner_phone(cr, 'mobile', '5_mobile_primary')
-    to_create += create_partner_email(cr)
+    to_create += create_partner_phone(env, 'phone', '3_phone_primary')
+    to_create += create_partner_phone(env, 'mobile', '5_mobile_primary')
+    to_create += create_partner_email(env)
     # I need to create all at the end for invalidation purposes
     rppo.create(to_create)
     logger.info('end data migration for one2many_phone')

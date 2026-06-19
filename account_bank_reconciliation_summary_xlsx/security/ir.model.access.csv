@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bank_reconciliation_report_wizard_user,Full access on bank.reconciliation.report.wizard,model_bank_reconciliation_report_wizard,account.group_account_user,1,1,1,1
+access_bank_reconciliation_report_wizard_readonly,Full access on bank.reconciliation.report.wizard,model_bank_reconciliation_report_wizard,account.group_account_readonly,1,1,1,1

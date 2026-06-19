@@ -6,8 +6,8 @@
 -->
 <odoo>
 
-    <!-- Maybe it's not a good idea to put a button on tree view of quants
-    from product form view, because all the direct-access buttons on this tree
+    <!-- Maybe it's not a good idea to put a button on list view of quants
+    from product form view, because all the direct-access buttons on this list
     view are for inventory, so it may be hard for users to understand that
     this button has nothing to do with inventory
     <record id="view_stock_quant_tree_inventory_editable" model="ir.ui.view">

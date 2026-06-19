@@ -4,7 +4,7 @@
 
 {
     'name': 'Product Manager Group Stock',
-    'version': '16.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Hidden',
     'license': 'AGPL-3',
     'summary': 'Extend the group Product Manager to Stock',
@@ -17,11 +17,11 @@ Extends the group *Product Manager* to Stock Management.
 This module has been written by Alexis de Lattre from Akretion <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['product_manager_group', 'stock'],
     'data': [
         'security/ir.model.access.csv',
         ],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
 }

@@ -3,13 +3,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import fields, models, api
+from odoo import fields, models, api, _
 
 
 class CommissionRule(models.Model):
     _name = 'commission.rule'
     _description = 'Commission Rule'
-    _order = 'profile_id, applied_on'
+    _order = 'profile_id, applied_on, rate desc'
 
     partner_ids = fields.Many2many(
         'res.partner', string='Customers', domain=[('parent_id', '=', False)])
@@ -34,6 +34,31 @@ class CommissionRule(models.Model):
         ('4_global', 'Global')],
         string='Apply On', default='4_global', required=True)
     active = fields.Boolean(string='Active', default=True)
+    apply_description = fields.Html(compute='_compute_apply_description', string="Match Criteria")
+
+    _sql_constraints = [(
+        'rate_positive',
+        'CHECK(rate >= 0)',
+        'Rate must be positive !')]
+
+    def _compute_apply_description(self):
+        customer_label = "<strong>" + _("Customers:") + "</strong>"
+        product_label = "<strong>" + _("Products:") + "</strong>"
+        product_categ_label = "<strong>" + _("Product Categories:") + "</strong>"
+        and_label = "<strong>" + _('AND') + "</strong>"
+        for rule in self:
+            desc = False
+            if rule.applied_on == '0_customer_product':
+                desc = f"{customer_label} {', '.join([part.ref or part.name for part in rule.partner_ids])} {and_label} {product_label} {', '.join([pp.default_code or pp.name for pp in rule.product_ids])}"
+            elif rule.applied_on == '1_customer_product_category':
+                desc = f"{customer_label} {', '.join([part.ref or part.name for part in rule.partner_ids])} {and_label} {product_categ_label} {', '.join([categ.display_name for categ in rule.product_categ_ids])}"
+            elif rule.applied_on == '2_product':
+                desc = f"{product_label} {', '.join([pp.default_code or pp.name for pp in rule.product_ids])}"
+            elif rule.applied_on == '3_product_category':
+                desc = f"{product_categ_label} {', '.join([categ.display_name for categ in rule.product_categ_ids])}"
+            elif rule.applied_on == '4_global':
+                desc = _('Global')
+            rule.apply_description = desc
 
     @api.model
     def load_all_rules(self):
@@ -45,8 +70,3 @@ class CommissionRule(models.Model):
             else:
                 res[rule['profile_id'][0]].append(rule)
         return res
-
-    _sql_constraints = [(
-        'rate_positive',
-        'CHECK(rate >= 0)',
-        'Rate must be positive !')]

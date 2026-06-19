@@ -4,7 +4,7 @@
 
 {
     'name': 'Commission Simple',
-    'version': '16.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Sales',
     'license': 'AGPL-3',
     'summary': 'Compute commissions for salesman',
@@ -30,19 +30,18 @@ This module has been written by Alexis de Lattre from Akretion
     'depends': [
         'account',
         'date_range',
-        # this uses some related fields on account.move.line
-#        'account_usability_akretion',
+        'report_xlsx',
         ],
     'data': [
         'security/ir.model.access.csv',
         'security/rule.xml',
+        'reports/report.xml',
         'data/decimal_precision.xml',
         'views/commission_profile.xml',
         'views/commission_rule.xml',
         'views/commission_result.xml',
         'views/account_move_line.xml',
-        'views/res_config_settings.xml',
         'wizards/commission_compute_view.xml',
         ],
-    'installable': False,
+    'installable': True,
 }

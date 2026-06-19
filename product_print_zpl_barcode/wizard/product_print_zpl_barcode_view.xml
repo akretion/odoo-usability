@@ -16,18 +16,19 @@
                 <field name="state" invisible="1"/>
                 <field name="company_id" groups="base.group_multi_company"/>
                 <field name="company_id" invisible="1"/>
-                <field name="pricelist_id" attrs="{'readonly': [('state', '=', 'step2')]}"/>
-                <field name="label_size" attrs="{'readonly': [('state', '=', 'step2')]}"/>
-                <field name="nomenclature_id" attrs="{'readonly': [('state', '=', 'step2')]}"/>
+                <field name="pricelist_id" readonly="state == 'step2'"/>
+                <field name="label_size" readonly="state == 'step2'"/>
+                <field name="label_type" readonly="state == 'step2'"/>
+                <field name="nomenclature_id" readonly="state == 'step2'"/>
             </group>
-            <group name="step2" states="step2">
+            <group name="step2" invisible="state != 'step2'">
                 <field name="zpl_file" filename="zpl_filename" />
                 <field name="zpl_filename" invisible="1"/>
-                <field name="zpl_printer_ip" attrs="{'required': [('state', '=', 'step2')]}"/>
+                <field name="zpl_printer_ip" required="state == 'step2'"/>
             </group>
             <group name="lines">
-                <field name="line_ids" colspan="2" nolabel="1">
-                    <tree editable="bottom">
+                <field name="line_ids" colspan="2" nolabel="1" readonly="state == 'step2'">
+                    <list editable="bottom">
                         <field name="currency_id" invisible="1"/>
                         <field name="product_id" optional="hide" force_save="1"/>
                         <field name="product_name"/>
@@ -35,18 +36,18 @@
                         <field name="rule_id" optional="show"/>
                         <field name="barcode_type" optional="hide"/>
                         <field name="barcode" force_save="1"/>
-                        <field name="price" attrs="{'invisible': [('barcode_type', 'not in', ('price', 'weight'))]}"/>
-                        <field name="quantity" attrs="{'invisible': [('barcode_type', '=', 'product')]}" optional="show"/>
-                        <field name="uom_id" attrs="{'invisible': [('barcode_type', '=', 'product')]}" optional="show"/>
+                        <field name="price" invisible="barcode_type not in ('price', 'weight')"/>
+                        <field name="quantity" invisible="barcode_type == 'product'" optional="show"/>
+                        <field name="uom_id" invisible="barcode_type == 'product'" optional="show"/>
                         <field name="copies" />
-                    </tree>
+                    </list>
                 </field>
             </group>
             <footer>
-                <button name="generate" type="object" string="Generate Labels" class="btn-primary" states="step1"/>
-                <button special="cancel" string="Cancel" class="btn-default" states="step1"/>
-                <button name="print_zpl" type="object" string="Print" class="btn-primary" states="step2"/>
-                <button special="cancel" string="Close" class="btn-default" states="step2"/>
+                <button name="generate" type="object" string="Generate Labels" class="btn-primary" invisible="state != 'step1'"/>
+                <button special="cancel" string="Cancel" class="btn-default" invisible="state != 'step1'"/>
+                <button name="print_zpl" type="object" string="Print" class="btn-primary" invisible="state != 'step2'"/>
+                <button special="cancel" string="Close" class="btn-default" invisible="state != 'step2'"/>
             </footer>
         </form>
     </field>

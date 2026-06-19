@@ -4,7 +4,7 @@
 
 {
     'name': 'Mass Mailing Campaigns Usability',
-    'version': '14.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Marketing',
     'license': 'AGPL-3',
     'summary': 'Improve usability of mass mailing campaigns',
@@ -20,10 +20,10 @@ This module has been written by Alexis de Lattre from Akretion
 <alexis.delattre@akretion.com>.
     """,
     'author': 'Akretion',
-    'website': 'http://www.akretion.com',
-    'depends': ['mass_mailing', 'link_tracker_usability'],
+    'website': 'https://github.com/akretion/odoo-usability',
+    'depends': ['mass_mailing', 'link_tracker_usability_akretion'],
     'data': [
-#        'views/link_tracker.xml',
+        'views/link_tracker.xml',
         ],
-    'installable': False,
+    'installable': True,
 }

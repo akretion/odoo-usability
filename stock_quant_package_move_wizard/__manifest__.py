@@ -4,7 +4,7 @@
     "name": "Quant & Package moving wizard",
     "summary": "Select a quant Move quants to another location in a few clicks",
     "category": "Inventory/Inventory",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "depends": ["stock"],
     "author": "AvanzOSC, "
@@ -25,5 +25,5 @@
         "views/stock_quant.xml",
         # "views/stock_quant_package.xml",
     ],
-    "installable": False,
+    "installable": True,
 }

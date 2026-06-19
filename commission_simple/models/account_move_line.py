@@ -11,11 +11,11 @@ class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
     commission_result_id = fields.Many2one(
-        'commission.result', string='Commission Result', check_company=True)
+        'commission.result', string='Commission Result', check_company=True, index=True, copy=False)
     commission_rule_id = fields.Many2one(
-        'commission.rule', 'Matched Commission Rule', ondelete='restrict', check_company=True)
-    commission_base = fields.Monetary('Commission Base', currency_field='company_currency_id')
-    commission_rate = fields.Float('Commission Rate', digits='Commission Rate')
+        'commission.rule', 'Matched Commission Rule', ondelete='restrict', check_company=True, copy=False)
+    commission_base = fields.Monetary('Commission Base', currency_field='company_currency_id', copy=False)
+    commission_rate = fields.Float('Commission Rate', digits='Commission Rate', copy=False)
     commission_amount = fields.Monetary(
         string='Commission Amount', currency_field='company_currency_id',
         readonly=True, compute='_compute_commission_amount', store=True)
@@ -88,3 +88,18 @@ class AccountMoveLine(models.Model):
         if float_is_zero(lvals['commission_rate'], precision_digits=rate_prec) or self.company_currency_id.is_zero(lvals['commission_base']):
             return False
         return lvals
+
+    def _prepare_commission_xlsx(self):
+        self.ensure_one()
+        vals = {
+            "inv.name": self.move_id.name,
+            "inv.date": self.move_id.invoice_date,
+            "inv.partner": self.move_id.commercial_partner_id.display_name,
+            "product": self.product_id and self.product_id.display_name or self.name,
+            "qty": self.quantity,
+            "uom": self.product_uom_id.name,
+            "commission_base": self.commission_base,
+            "commission_rate": self.commission_rate / 100,
+            "commission_amount": self.commission_amount,
+        }
+        return vals

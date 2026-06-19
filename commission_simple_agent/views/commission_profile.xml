@@ -11,8 +11,8 @@
     <field name="model">commission.profile</field>
     <field name="inherit_id" ref="commission_simple.commission_profile_form"/>
     <field name="arch" type="xml">
-        <xpath expr="//field[@name='assign_ids']/tree/field[@name='user_id']" position="after">
-            <field name="agent_id" attrs="{'required': [('assign_type', '=', 'agent')], 'readonly': [('assign_type', '!=', 'agent')]}"/>
+        <xpath expr="//field[@name='assign_ids']/list/field[@name='user_id']" position="after">
+            <field name="agent_id" required="assign_type == 'agent'" readonly="assign_type != 'agent'" context="{'default_agent': True}"/>
         </xpath>
     </field>
 </record>

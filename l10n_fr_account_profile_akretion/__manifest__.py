@@ -21,29 +21,34 @@
         'account_lock_date_update',  # OCA/account-financial-tools
         'account_move_csv_import',  # akretion/account-move-import
         'account_move_line_reconcile_manual',  # OCA/account-reconcile
+        'account_dashboard_banner',  # OCA/account-financial-tools
         ### INVOICING
-        'account_invoice_fiscal_position_update',  # OCA/account-invoicing
         'account_fiscal_position_vat_check',  # OCA/account-financial-tools
         'account_invoice_facturx',  # OCA/edi
         ### FINANCIAL REPORTS
         'account_financial_report',  # OCA/account-financial-reporting
         'account_balance_ebp_csv_export',  # OCA/l10n-france
         # 'l10n_fr_mis_reports',  # OCA/l10n-france
-        # 'l10n_fr_fec_oca',  # OCA/l10n-france
+        'l10n_fr_fec_oca',  # OCA/l10n-france
         ### BANK STATEMENTS
         'account_statement_completion_label_simple',  # akretion/bank-statement-reconcile-simple
         #'account_statement_completion_label_simple_sale',  # akretion/bank-statement-reconcile-simple
         'account_statement_import_file_reconcile_oca',  # OCA/bank-statement-import
         'account_statement_import_ofx',  # OCA/bank-statement-import
         'account_statement_import_fr_cfonb',  # OCA/l10n-france
+        # 'account_statement_import_api_qonto',  # akretion/bank-statement-import-api
+        # 'account_statement_import_api_bridge',  # akretion/bank-statement-import-api
         'account_reconcile_oca',  # OCA/account-reconcile
+        'account_reconcile_oca_add_default_filters',  # OCA/account-reconcile
+        'account_reconcile_oca_usability_akretion',  # akretion/odoo-usability
         ### CURRENCY RATES
         'currency_rate_update',  # OCA/currency
         'currency_old_rate_notify',  # OCA/currency
         ### INVOICE IMPORT
-        #'account_invoice_import_simple_pdf',  # OCA/edi
-        #'account_invoice_import_facturx',  # OCA/edi
-        #'l10n_fr_account_invoice_import_facturx',  # OCA/l10n-france
+        'l10n_fr_business_document_import',  # OCA/l10n-france
+        'account_invoice_import_simple_pdf',  # OCA/edi
+        'account_invoice_import_ubl',  # OCA/edi
+        'l10n_fr_account_invoice_import_facturx',  # OCA/l10n-france
         ### OVERDUE
         'account_invoice_overdue_warn',  # OCA/credit-control
         #'account_invoice_overdue_warn_sale',  # OCA/credit-control
@@ -51,9 +56,10 @@
         ### FRENCH DECLARATIONS
         'l10n_fr_account_vat_return_teledec',  # OCA/l10n-france
         'l10n_fr_account_vat_return_einvoice_generate',  # OCA/l10n-france
-        # Warning: intrastat_product depends on sale_stock and purchase_stock !
-        'l10n_fr_intrastat_product',  # OCA/l10n-france
-        'product_net_weight',  # OCA/product-attribute
+        # 'intrastat_product' depends on 'sale_stock' and 'purchase_stock', so I don't add
+        # as a depend on this module
+        # 'l10n_fr_intrastat_product',  # OCA/l10n-france
+        # 'product_net_weight',  # OCA/product-attribute
         'l10n_fr_intrastat_service',  # OCA/l10n-france
         'l10n_fr_das2',  # OCA/l10n-france
         # ANALYTIC
@@ -66,6 +72,7 @@
         #'account_payment_base_oca_sale',  # OCA/bank-payment-alternative
         #'account_payment_sepa_credit_transfer',  # OCA/bank-payment-alternative
         #'account_payment_sepa_direct_debit',  # OCA/bank-payment-alternative
+        #'account_payment_batch_oca_reconcile',  # OCA/bank-payment-alternative
         #'account_payment_fr_lcr',  # OCA/l10n-france
         #'l10n_fr_account_payment_intl_credit_transfer',  # OCA/l10n-france
         ### PY3O

@@ -26,7 +26,7 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
     'author': 'Akretion',
     'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['product'],
-    "external_dependencies": {"python": ["stdnum"]},
+    "external_dependencies": {"python": ["python-stdnum"]},
     'data': [
         'views/product_supplierinfo.xml',
         'views/product_pricelist.xml',

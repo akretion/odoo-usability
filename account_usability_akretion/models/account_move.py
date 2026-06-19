@@ -86,7 +86,7 @@ class AccountMove(models.Model):
     def _search_has_attachment(self, operator, value):
         att_inv_ids = {}
         if operator == '=':
-            search_res = self.env['ir.attachment'].search_read([
+            search_res = self.env['ir.attachment'].with_context(skip_res_field_check=True).search_read([
                 ('res_model', '=', 'account.move'),
                 ('type', '=', 'binary'),
                 ('res_id', '!=', False)], ['res_id'])

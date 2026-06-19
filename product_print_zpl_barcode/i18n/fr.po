@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-15 13:39+0000\n"
-"PO-Revision-Date: 2023-07-15 13:39+0000\n"
+"POT-Creation-Date: 2026-04-24 08:46+0000\n"
+"PO-Revision-Date: 2026-04-24 08:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__copies
 msgid "# Labels"
 msgstr "Nb étiquettes"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields.selection,name:product_print_zpl_barcode.selection__product_print_zpl_barcode__label_size__30x15
+msgid "30x15 mm"
+msgstr ""
 
 #. module: product_print_zpl_barcode
 #: model:ir.model.fields.selection,name:product_print_zpl_barcode.selection__product_print_zpl_barcode__label_size__38x25
@@ -46,9 +51,21 @@ msgid "Barcode Type"
 msgstr "Type de code-barres"
 
 #. module: product_print_zpl_barcode
+#: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.res_config_settings_view_form
+msgid "Barcode printing"
+msgstr "Impression de code-barres"
+
+#. module: product_print_zpl_barcode
 #: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_print_zpl_barcode_form
 msgid "Cancel"
 msgstr "Annuler"
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid "Cannot connect to ZPL printer on %(ip)s. Error: %(error)s"
+msgstr "Impossible de se connecter à l'imprimante ZPL sur %(ip)s. Erreur : %(error)s"
 
 #. module: product_print_zpl_barcode
 #: model_terms:ir.ui.view,arch_db:product_print_zpl_barcode.product_print_zpl_barcode_form
@@ -59,6 +76,11 @@ msgstr "Fermer"
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__company_id
 msgid "Company"
 msgstr "Société"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model,name:product_print_zpl_barcode.model_res_config_settings
+msgid "Config Settings"
+msgstr "Configuration"
 
 #. module: product_print_zpl_barcode
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__create_uid
@@ -84,6 +106,11 @@ msgstr ""
 "Unité de mesure par défaut utilisée pour toutes les opérations de stock."
 
 #. module: product_print_zpl_barcode
+#: model:ir.model.fields.selection,name:product_print_zpl_barcode.selection__product_print_zpl_barcode__label_type__direct_thermal
+msgid "Direct Thermal (thermal paper)"
+msgstr "Thermique direct (papier thermique)"
+
+#. module: product_print_zpl_barcode
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__display_name
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__display_name
 msgid "Display Name"
@@ -98,6 +125,13 @@ msgid ""
 msgstr ""
 "Activez cette option sur les articles pour lesquels vous devez imprimer un "
 "code-barres dès leur réception en stock."
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid "For Weight barcodes, the only supported label size is 38x25 mm."
+msgstr "Pour les code-barres poid, la seule taille d'étiquette supportée est 38x25 mm"
 
 #. module: product_print_zpl_barcode
 #: model:ir.actions.act_window,name:product_print_zpl_barcode.product_print_zpl_barcode_action
@@ -126,6 +160,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__label_size
 msgid "Label Size"
 msgstr "Taille de l'étiquette"
+
+#. module: product_print_zpl_barcode
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__label_type
+msgid "Label Type"
+msgstr "Type d'étiquette"
 
 #. module: product_print_zpl_barcode
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode____last_update
@@ -252,7 +291,7 @@ msgstr "Imprimer les code-barres"
 #: model:ir.model,name:product_print_zpl_barcode.model_product_template
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__product_id
 msgid "Product"
-msgstr "Article"
+msgstr "Produit"
 
 #. module: product_print_zpl_barcode
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__product_name
@@ -262,7 +301,7 @@ msgstr "Étiquette de l'article"
 #. module: product_print_zpl_barcode
 #: model:ir.model,name:product_print_zpl_barcode.model_product_product
 msgid "Product Variant"
-msgstr "Variante d'article"
+msgstr "Variante de produit"
 
 #. module: product_print_zpl_barcode
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode_line__quantity
@@ -362,6 +401,18 @@ msgid "There are no pricelist in company '%s'."
 msgstr "Il n'y a pas de liste de prix dans la société '%s'."
 
 #. module: product_print_zpl_barcode
+#: model:ir.model.fields.selection,name:product_print_zpl_barcode.selection__product_print_zpl_barcode__label_type__thermal_transfer
+msgid "Thermal Transfer (ink ribbon required)"
+msgstr "Transfert thermique (ruban d'encre requis)"
+
+#. module: product_print_zpl_barcode
+#. odoo-python
+#: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
+#, python-format
+msgid "This label size is not supported."
+msgstr "Cette taille d'étiquette n'est pas supportée."
+
+#. module: product_print_zpl_barcode
 #: model:ir.model,name:product_print_zpl_barcode.model_stock_picking
 msgid "Transfer"
 msgstr "Transfert"
@@ -393,8 +444,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/product_print_zpl_barcode/wizard/product_print_zpl_barcode.py:0
 #, python-format
-msgid "You must select a ZPL Printer."
-msgstr "Vous devez sélectionner une imprimante ZPL."
+msgid "You must configure the IP address of the ZPL Printer."
+msgstr "Vous devez configurer l'IP de l'imprimante ZPL."
 
 #. module: product_print_zpl_barcode
 #: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__zpl_file
@@ -407,6 +458,7 @@ msgid "ZPL Filename"
 msgstr "Nom du fichier ZPL"
 
 #. module: product_print_zpl_barcode
-#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__zpl_printer_id
-msgid "ZPL Printer"
-msgstr "Imprimante ZPL"
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_product_print_zpl_barcode__zpl_printer_ip
+#: model:ir.model.fields,field_description:product_print_zpl_barcode.field_res_config_settings__zpl_printer_ip
+msgid "ZPL Printer IP Address"
+msgstr "Adresse IP de l'imprimante ZPL"

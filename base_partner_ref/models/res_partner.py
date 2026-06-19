@@ -10,7 +10,6 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     ref = fields.Char(copy=False)  # To avoid blocking duplicate
-    invalidate_display_name = fields.Boolean()
 
     _sql_constraints = [(
         'ref_unique',
@@ -19,12 +18,12 @@ class ResPartner(models.Model):
         )]
 
     # add 'ref' in depends
-    @api.depends('ref', 'invalidate_display_name')
+    @api.depends('ref')
     def _compute_display_name(self):
         super()._compute_display_name()
 
     def _get_complete_name(self):
-        self.ensure_one() 
+        self.ensure_one()
         displayed_types = self._complete_name_displayed_types
         type_description = dict(self._fields['type']._description_selection(self.env))
         name = self.name or ''

@@ -4,17 +4,17 @@
 
 {
     'name': 'HR Contract Usability',
-    'version': '14.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Human Resources/Contracts',
     'license': 'AGPL-3',
     'summary': 'Usability improvements on HR Contract module',
     'author': 'Akretion',
-    'website': 'http://www.akretion.com',
+    'website': 'https://github.com/akretion/odoo-usability',
     'depends': [
         'hr_contract',
         ],
     'data': [
         'views/hr_payroll_structure_type.xml',
         ],
-    'installable': False,
+    'installable': True,
 }

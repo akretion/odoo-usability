@@ -4,7 +4,6 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-import ipaddress
 
 
 class ResConfigSettings(models.TransientModel):
@@ -12,13 +11,4 @@ class ResConfigSettings(models.TransientModel):
 
     zpl_printer_ip = fields.Char(
         config_parameter="product_print_zpl_barcode.printer_ip",
-        string="ZPL Printer IP Address")
-
-    @api.constrains('zpl_printer_ip')
-    def _check_zpl_printer_ip(self):
-        for wiz in self:
-            if wiz.zpl_printer_ip:
-                try:
-                    ipaddress.ip_address(wiz.zpl_printer_ip)
-                except Exception as e:
-                    raise ValidationError(str(e))
+        string="ZPL Printer IP or DNS")

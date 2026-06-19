@@ -26,8 +26,8 @@
     <field name="inherit_id" ref="product.product_template_only_form_view"/>
     <field name="arch" type="xml">
         <button name="action_open_label_layout" position="after">
-            <button name="generate_barcode_from_product_template" type="object" string="Generate Barcode" attrs="{'invisible': ['|', ('product_variant_count', '>', 1), ('barcode', '!=', False)]}"/>
-            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcode" attrs="{'invisible': ['|', ('product_variant_count', '>', 1), ('barcode', '=', False)]}"/>
+            <button name="generate_barcode_from_product_template" type="object" string="Generate Barcode" invisible="product_variant_count > 1 or barcode"/>
+            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcode" invisible="product_variant_count > 1 or not barcode"/>
         </button>
     </field>
 </record>
@@ -48,8 +48,8 @@
     <field name="inherit_id" ref="product.product_normal_form_view" />
     <field name="arch" type="xml">
         <button name="action_open_label_layout" position="after">
-            <button name="generate_barcode_from_product_product" type="object" string="Generate Barcode" attrs="{'invisible': [('barcode', '!=', False)]}"/>
-            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcode" attrs="{'invisible': [('barcode', '=', False)]}"/>
+            <button name="generate_barcode_from_product_product" type="object" string="Generate Barcode" invisible="barcode"/>
+            <button name="%(product_print_zpl_barcode.product_print_zpl_barcode_action)d" type="action" string="Print Barcode" invisible="not barcode"/>
         </button>
     </field>
 </record>

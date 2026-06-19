@@ -10,3 +10,4 @@ class ResConfigSettings(models.TransientModel):
 
     commission_product_id = fields.Many2one(
         related='company_id.commission_product_id', readonly=False)
+    commission_po_config = fields.Selection(related="company_id.commission_po_config", readonly=False)

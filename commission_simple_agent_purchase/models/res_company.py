@@ -12,3 +12,7 @@ class ResCompany(models.Model):
     commission_product_id = fields.Many2one(
         'product.product', string='Commission Product', ondelete='restrict', check_company=True,
         domain=[('type', '=', 'service')])
+    commission_po_config = fields.Selection([
+        ('single_line', 'Single Line'),
+        ('details', 'One line per commission line'),
+        ], default='details', string="Purchase Order Configuration")

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+mrp.access_uom_category_mrp_manager,Read access on uom.category (inherited in usability module to remove full access),uom.model_uom_category,mrp.group_mrp_manager,1,0,0,0
+mrp.access_uom_uom_mrp_manager,Read access on uom.uom (inherited in usability module to remove full access),uom.model_uom_uom,mrp.group_mrp_manager,1,0,0,0

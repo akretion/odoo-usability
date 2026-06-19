@@ -5,6 +5,7 @@
 from odoo import fields, models, _
 from odoo.exceptions import UserError
 from odoo.tools.misc import format_amount, formatLang
+from markupsafe import Markup
 
 
 class CommissionResult(models.Model):
@@ -14,33 +15,41 @@ class CommissionResult(models.Model):
 
     def draft2done(self):
         for result in self:
-            if result.assign_type == 'agent':
+            if result.state == "draft" and result.assign_type == 'agent':
                 if not result.purchase_id:
                     vals = result._prepare_purchase_order()
                     po = self.env['purchase.order'].create(vals)
+                    po.message_post(body=Markup(_("Generated from commission <a href=# data-oe-model=commission.result data-oe-id=%d>%s</a>.") % (result.id, result.display_name)))
                     result.write({'purchase_id': po.id})
                 else:
                     po = self.purchase_id
                     if po.state in ('draft', 'sent', 'cancel'):
                         po.order_line.unlink()
+                        po.message_post(body=Markup(_("Purchase order lines re-generated from commission <a href=# data-oe-model=commission.result data-oe-id=%d>%s</a>.") % (result.id, result.display_name)))
                     else:
                         raise UserError(_("Purchase Order %s has already been confirmed. You should cancel it first.") % po.display_name)
                     if po.state == 'cancel':
                         po.button_draft()
                 assert not po.order_line
                 # create lines
-                if not result.company_id.commission_product_id:
-                    raise UserError(_("Commission product is not set on company %s.") % result.company_id.display_name)
                 line_vals = []
-                for move_line in result.line_ids:
-                    line_vals.append(result._prepare_purchase_order_line(move_line, po))
+                if not result.company_id.commission_po_config:
+                    raise UserError(_(
+                        "Purchase order configuration for commission is not set on "
+                        "the accounting configuration page of company '%s'.")
+                        % result.company_id.display_name)
+                if result.company_id.commission_po_config == 'single_line':
+                    line_vals.append(result._prepare_purchase_order_line_single_line(po))
+                else:
+                    for move_line in result.line_ids:
+                        line_vals.append(result._prepare_purchase_order_line(move_line, po))
                 po_lines = self.env['purchase.order.line'].create(line_vals)
                 po_lines._compute_tax_id()
         return super().draft2done()
 
     def _prepare_purchase_order(self):
         self.ensure_one()
-        fp = self.env['account.fiscal.position']._get_fiscal_position(self.partner_id)
+        fp = self.env['account.fiscal.position'].with_company(self.company_id.id)._get_fiscal_position(self.partner_id)
         vals = {
             'partner_id': self.partner_id.id,
             'origin': _('Commission %s') % self.date_range_id.display_name,
@@ -57,7 +66,13 @@ class CommissionResult(models.Model):
         company_currency = move_line.company_id.currency_id
         lang = self.partner_id.lang or self.env.lang
         env = self.with_context(lang=lang).env
-        product = self.company_id.commission_product_id
+        product = self.profile_id.commission_product_id or self.company_id.commission_product_id
+        if not product:
+            raise UserError(_(
+                "Commission product is not set on profile '%(profile)s' "
+                "nor on company '%(company)s'.",
+                profile=self.profile_id.display_name,
+                company=self.company_id.display_name))
         vals = {
             'order_id': order.id,
             'product_id': product.id,
@@ -65,6 +80,24 @@ class CommissionResult(models.Model):
             'product_qty': 1,
             'product_uom': product.uom_id.id,
             'price_unit': move_line.commission_amount,
+            }
+        return vals
+
+    def _prepare_purchase_order_line_single_line(self, order):
+        product = self.profile_id.commission_product_id or self.company_id.commission_product_id
+        if not product:
+            raise UserError(_(
+                "Commission product is not set on profile '%(profile)s' "
+                "nor on company '%(company)s'.",
+                profile=self.profile_id.display_name,
+                company=self.company_id.display_name))
+        vals = {
+            'order_id': order.id,
+            'product_id': product.id,
+            'name': _("Commissions for period %(period)s", period=self.date_range_id.name),
+            'product_qty': 1,
+            'product_uom': product.uom_id.id,
+            'price_unit': self.amount_total,
             }
         return vals
 
