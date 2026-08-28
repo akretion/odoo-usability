@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<!-- Tasks -->
+        <record id="task_1" model="project.task">
+            <field name="project_id" ref="project.project_project_1"/>
+            <field name="name">Task 1</field>
+        </record>
+        <record id="task_2" model="project.task">
+            <field name="project_id" ref="project.project_project_1"/>
+            <field name="name">Task 2</field>
+            <field name="create_date" eval="datetime(2023, 12, 1)"/>
+        </record>
+
+        <!-- Timesheets -->
+	    <record id="timesheet_11" model="account.analytic.line">
+	        <field name="name">Timesheet 1.1</field>
+	        <field name="employee_id" ref="hr.employee_qdp"/>
+	        <field name="date" eval="datetime(2024, 3, 2)"/>
+	        <field name="task_id" ref="task_1"/>
+	        <field name="unit_amount">1.00</field>
+	    </record>	        
+	    <record id="timesheet_21" model="account.analytic.line">
+	        <field name="name">Timesheet 2.1</field>
+	        <field name="employee_id" ref="hr.employee_qdp"/>
+	        <field name="date" eval="datetime(2024, 2, 1)"/>
+	        <field name="task_id" ref="task_2"/>
+	    </record>
+	    <record id="timesheet_22" model="account.analytic.line">
+	        <field name="name">Timesheet 2.2</field>
+	        <field name="employee_id" ref="hr.employee_qdp"/>
+	        <field name="date" eval="datetime(2024, 3, 1)"/>
+	        <field name="task_id" ref="task_2"/>
+	        <field name="unit_amount">10.00</field>
+	    </record>
+	    <record id="timesheet_23" model="account.analytic.line">
+	        <field name="name">Timesheet 2.3</field>
+	        <field name="employee_id" ref="hr.employee_qdp"/>
+	        <field name="date" eval="datetime(2024, 3, 2)"/>
+	        <field name="task_id" ref="task_2"/>
+	        <field name="unit_amount">2.00</field>
+	    </record>    
+
+	    <!-- Historic stage changes on Task 2 -->   	    
+        <record id="task_2_mail_message_1" model="mail.message">
+            <field name="model">project.task</field>
+            <field name="res_id" ref="task_2"/>
+            <field name="message_type">notification</field>
+            <field name="date" eval="datetime(2024, 1, 1)"/>
+            <field name="subtype_id" ref="project.mt_task_stage"/>
+            <field name="author_id" ref="base.partner_admin"/>            
+        </record>
+        <record id="task_2_mail_message_1_track" model="mail.tracking.value">
+            <field name="field" model="ir.model.fields" eval="obj().search([('model', '=', 'project.task'), ('name', '=', 'stage_id')])"/>
+            <field name="field_desc">Stage</field>
+            <field name="old_value_char">New</field>
+            <field name="new_value_char">In Progress</field>
+            <field name="field_type">many2one</field>
+            <field name="old_value_integer">1</field>
+            <field name="new_value_integer">2</field>
+            <field name="mail_message_id" ref="task_2_mail_message_1"/>
+        </record>
+
+        <record id="task_2_mail_message_2" model="mail.message">
+            <field name="model">project.task</field>
+            <field name="res_id" ref="task_2"/>
+            <field name="message_type">notification</field>
+            <field name="date" eval="datetime(2024, 4, 1)"/>
+            <field name="subtype_id" ref="project.mt_task_stage"/>
+            <field name="author_id" ref="base.partner_admin"/>               
+        </record>
+        <record id="task_2_mail_message_2_track" model="mail.tracking.value">
+            <field name="field" model="ir.model.fields" eval="obj().search([('model', '=', 'project.task'), ('name', '=', 'stage_id')])"/>
+            <field name="field_desc">Stage</field>
+            <field name="old_value_char">In Progress</field>
+            <field name="new_value_char">Done</field>
+            <field name="field_type">many2one</field>
+            <field name="old_value_integer">2</field>
+            <field name="new_value_integer">3</field>
+            <field name="mail_message_id" ref="task_2_mail_message_2"/>
+        </record>
+
+        <record id="task_2_mail_message_3" model="mail.message">
+            <field name="model">project.task</field>
+            <field name="res_id" ref="task_2"/>
+            <field name="message_type">notification</field>
+            <field name="date" eval="datetime(2024, 5, 1)"/>
+            <field name="subtype_id" ref="project.mt_task_stage"/>
+            <field name="author_id" ref="base.partner_admin"/>               
+        </record>
+        <record id="task_2_mail_message_3_track" model="mail.tracking.value">
+            <field name="field" model="ir.model.fields" eval="obj().search([('model', '=', 'project.task'), ('name', '=', 'stage_id')])"/>
+            <field name="field_desc">Stage</field>
+            <field name="old_value_char">Done</field>
+            <field name="new_value_char">Canceled</field>
+            <field name="field_type">many2one</field>
+            <field name="old_value_integer">3</field>
+            <field name="new_value_integer">4</field>
+            <field name="mail_message_id" ref="task_2_mail_message_3"/>
+        </record>        
+
+
+	</data>
+</odoo>
