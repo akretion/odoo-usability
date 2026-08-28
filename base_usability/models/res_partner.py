@@ -75,8 +75,12 @@ class ResPartner(models.Model):
             title = False
             title_short = False
         else:
-            company = self.parent_id and self.parent_id.is_company and\
-                self.parent_id.name or False
+            company = (
+                self.commercial_partner_id
+                and self.commercial_partner_id.is_company
+                and self.commercial_partner_id.name
+                or False
+            )
             name = self.name_title
             name_no_title = self.name
             title = self.title.name
