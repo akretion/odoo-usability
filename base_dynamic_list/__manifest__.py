@@ -12,7 +12,12 @@
 Base Dynamic List
 =================
 
-Very often during an Odoo implementation, we need to add selection fields on a native objet, and we don't want to have a hard-coded selection list (fields.Selection), but a selection list that can be changed by users (Many2one field). For that, the developper needs to add a new object (with just a 'name' and 'sequence' field) with a form/tree view. The goal of this module is to speed-up this process by defining a dynamic list object that already has all the required views.
+Very often during an Odoo implementation, we need to add selection fields on a native objet,
+and we don't want to have a hard-coded selection list (fields.Selection),
+but a selection list that can be changed by users (Many2one field).
+For that, the developper needs to add a new object (with just a 'name' and 'sequence' field)
+with a form/list view. The goal of this module is to speed-up this process
+by defining a dynamic list object that already has all the required views.
 
 This module provides several ready-to-go objects:
 
@@ -36,12 +41,13 @@ risk_type_id = fields.Many2one(
     ondelete='restrict', domain=[('domain', '=', 'risk_type')])
 
 
-3) Optionally, you can add a dedicated action and a menu entry (otherwize, you can use the generic menu entry under *Settings > Technical > Dynamic Lists*:
+3) Optionally, you can add a dedicated action and a menu entry
+(otherwize, you can use the generic menu entry under *Settings > Technical > Dynamic Lists*:
 
 <record id="dynamic_list_risk_type_action" model="ir.actions.act_window">
     <field name="name">Risk Type</field>
     <field name="res_model">dynamic.list</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">list,form</field>
     <field name="domain">[('domain', '=', 'risk_type')]</field>
     <field name="context">{'default_domain': 'risk_type'}</field>
 </record>
@@ -49,7 +55,8 @@ risk_type_id = fields.Many2one(
 <menuitem id="dynamic_list_risk_type_menu" action="dynamic_list_risk_type_action"
 parent="parent_menu_xmlid"/>
 
-Limitation: when you want to have different access rights on these lists depending on the source object, you should prefer to use dedicated objects.
+Limitation: when you want to have different access rights on these lists depending 
+on the source object, you should prefer to use dedicated objects.
 """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',

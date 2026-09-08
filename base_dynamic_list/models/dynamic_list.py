@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+from odoo.osv import expression
 
 
 class DynamicList(models.Model):
@@ -43,6 +44,7 @@ class DynamicListCode(models.Model):
     _name = 'dynamic.list.code'
     _description = 'Dynamic list with code'
     _order = 'sequence, id'
+    _rec_names_search = ['code', 'name']
 
     code = fields.Char(required=True)
     name = fields.Char(translate=True, required=True)
@@ -57,27 +59,16 @@ class DynamicListCode(models.Model):
         )]
 
     @api.depends('code', 'name')
-    def name_get(self):
-        res = []
+    def _compute_display_name(self):
         for rec in self:
-            res.append((rec.id, '[%s] %s' % (rec.code, rec.name)))
-        return res
-
-    def _name_search(self, name='', args=None, operator='ilike', limit=100, name_get_uid=None):
-        if args is None:
-            args = []
-        ids = []
-        if name and operator == 'ilike':
-            ids = list(self._search([('code', '=', name)] + args, limit=limit))
-            if ids:
-                return ids
-        return super()._name_search(name=name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid)
+            rec.display_name = '[%s] %s' % (rec.code, rec.name)
 
 
 class DynamicListCodeTranslate(models.Model):
     _name = 'dynamic.list.code.translate'
     _description = 'Translatable dynamic list with code'
     _order = 'sequence, id'
+    _rec_names_search = ['code', 'name']
 
     code = fields.Char(required=True)
     name = fields.Char(translate=True, required=True)
@@ -92,18 +83,6 @@ class DynamicListCodeTranslate(models.Model):
         )]
 
     @api.depends('code', 'name')
-    def name_get(self):
-        res = []
+    def _compute_display_name(self):
         for rec in self:
-            res.append((rec.id, '[%s] %s' % (rec.code, rec.name)))
-        return res
-
-    def _name_search(self, name='', args=None, operator='ilike', limit=100, name_get_uid=None):
-        if args is None:
-            args = []
-        ids = []
-        if name and operator == 'ilike':
-            ids = list(self._search([('code', '=', name)] + args, limit=limit))
-            if ids:
-                return ids
-        return super()._name_search(name=name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid)
+            rec.display_name = '[%s] %s' % (rec.code, rec.name)
