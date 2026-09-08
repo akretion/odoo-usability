@@ -26,16 +26,25 @@ class IrMailServer(models.Model):
                 smtp_debug=smtp_debug, mail_server_id=mail_server_id)
         # _prepare_email_message() will remove the Bcc field in message
         # that's why we need to save it and re-inject it in message
+        # The From field can also be altered, therefore in order for
+        # _prepare_email_message to be idempotent (it will be called again 
+        # in super().send_email(..) ) we save it and put it back if needed.
         email_bcc = message['Bcc']
+        email_from_orig = message['From']
         smtp_from, smtp_to_list, message = self._prepare_email_message(
             message, smtp_session)
         message['Bcc'] = email_bcc
         # End copy from native method
         logger.info(
             "Sending email from '%s' to '%s' Cc '%s' Bcc '%s' "
-            "with subject '%s'. smtp_to_list=%s",
-            smtp_from, message.get('To'), message.get('Cc'),
-            message.get('Bcc'), message.get('Subject'), smtp_to_list)
+            "with subject '%s'. smtp_from=%s smtp_to_list=%s",
+            message.get('From'), message.get('To'), message.get('Cc'),
+            message.get('Bcc'), message.get('Subject'), smtp_from, smtp_to_list)
+        
+        if  message['From'] != email_from_orig:
+            del message['From']
+            message['From'] = email_from_orig
+
         return super().send_email(
             message, mail_server_id=mail_server_id,
             smtp_server=smtp_server, smtp_port=smtp_port,
