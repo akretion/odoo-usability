@@ -47,7 +47,7 @@ class DynamicListCode(models.Model):
     _rec_names_search = ['code', 'name']
 
     code = fields.Char(required=True)
-    name = fields.Char(translate=True, required=True)
+    name = fields.Char(required=True)
     sequence = fields.Integer(default=10)
     active = fields.Boolean(default=True)
     domain = fields.Selection([], string='Domain', required=True, index=True)
