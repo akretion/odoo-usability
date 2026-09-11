@@ -90,7 +90,10 @@
         <field name="res_model">stock.valuation.xlsx.export</field>
         <field name="view_mode">list,form</field>
     </record>
-    <menuitem id="stock_valuation_xlsx_export_menu" name="Scheduled Stock XLSX Exports"
-              parent="stock.menu_stock_config_settings" action="stock_valuation_xlsx_export_action"
+    <menuitem id="stock_valuation_xlsx_config_menu" name="Stock Valuation"
+              parent="stock.menu_stock_config_settings"
               groups="stock.group_stock_manager" sequence="100"/>
+    <menuitem id="stock_valuation_xlsx_export_menu" name="Scheduled Stock XLSX Exports"
+              parent="stock_valuation_xlsx_config_menu" action="stock_valuation_xlsx_export_action"
+              groups="stock.group_stock_manager" sequence="10"/>
 </odoo>

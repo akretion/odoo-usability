@@ -9,8 +9,9 @@ Configuration
 -------------
 
 Inventory managers can create configurations under **Inventory > Configuration
-> Scheduled Stock XLSX Exports**. Choose the report type, company, root location
-(including children), product categories, dates and report options.
+> Stock Valuation > Scheduled Stock XLSX Exports**. Choose the report type,
+company, root location (including children), product categories, dates and
+report options.
 
 * **Rolling Dates** recalculates each date at execution time using an offset in
   24-hour days. A variation defaults to the previous 30 days through the present.
