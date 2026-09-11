@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_valuation_xlsx_export_list" model="ir.ui.view">
+        <field name="name">stock.valuation.xlsx.export.list</field>
+        <field name="model">stock.valuation.xlsx.export</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="report_type"/>
+                <field name="warehouse_id"/>
+                <field name="location_id"/>
+                <field name="date_mode"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+    <record id="stock_valuation_xlsx_export_form" model="ir.ui.view">
+        <field name="name">stock.valuation.xlsx.export.form</field>
+        <field name="model">stock.valuation.xlsx.export</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_generate" type="object" string="Generate Now"
+                            class="oe_highlight" groups="stock.group_stock_manager"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="report_type"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="warehouse_id"/>
+                            <field name="location_id"/>
+                        </group>
+                        <group>
+                            <field name="categ_ids" widget="many2many_tags"/>
+                            <field name="categ_subtotal"/>
+                            <field name="date_mode"/>
+                        </group>
+                    </group>
+                    <group string="Valuation" invisible="report_type != 'valuation'">
+                        <group>
+                            <field name="stock_date_type"/>
+                            <field name="past_date" invisible="stock_date_type != 'past' or date_mode != 'fixed'"
+                                   required="report_type == 'valuation' and stock_date_type == 'past' and date_mode == 'fixed'"/>
+                            <field name="valuation_days_ago" invisible="stock_date_type != 'past' or date_mode != 'relative'"/>
+                            <field name="standard_price_date"/>
+                        </group>
+                        <group invisible="stock_date_type != 'present'">
+                            <field name="split_by_location"/>
+                            <field name="split_by_lot"/>
+                            <field name="apply_depreciation" invisible="not split_by_lot"/>
+                        </group>
+                    </group>
+                    <group string="Variation" invisible="report_type != 'variation'">
+                        <group string="Start">
+                            <field name="start_date" invisible="date_mode != 'fixed'"
+                                   required="report_type == 'variation' and date_mode == 'fixed'"/>
+                            <field name="start_days_ago" invisible="date_mode != 'relative'"/>
+                            <field name="standard_price_start_date_type"/>
+                        </group>
+                        <group string="End">
+                            <field name="end_date_type"/>
+                            <field name="end_date" invisible="date_mode != 'fixed' or end_date_type != 'past'"
+                                   required="report_type == 'variation' and date_mode == 'fixed' and end_date_type == 'past'"/>
+                            <field name="end_days_ago" invisible="date_mode != 'relative' or end_date_type != 'past'"/>
+                            <field name="standard_price_end_date_type"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="stock_valuation_xlsx_export_search" model="ir.ui.view">
+        <field name="name">stock.valuation.xlsx.export.search</field>
+        <field name="model">stock.valuation.xlsx.export</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="report_type"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+    <record id="stock_valuation_xlsx_export_action" model="ir.actions.act_window">
+        <field name="name">Scheduled Stock XLSX Exports</field>
+        <field name="res_model">stock.valuation.xlsx.export</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="stock_valuation_xlsx_export_menu" name="Scheduled Stock XLSX Exports"
+              parent="stock.menu_stock_config_settings" action="stock_valuation_xlsx_export_action"
+              groups="stock.group_stock_manager" sequence="100"/>
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_xlsx_export_user,Stock XLSX export configuration reader,model_stock_valuation_xlsx_export,stock.group_stock_user,1,0,0,0
+access_stock_xlsx_export_manager,Stock XLSX export configuration manager,model_stock_valuation_xlsx_export,stock.group_stock_manager,1,1,1,1
+access_stock_xlsx_history_user,Stock XLSX history reader,model_stock_valuation_xlsx_history,stock.group_stock_user,1,0,0,0
+access_stock_xlsx_history_manager,Stock XLSX history manager,model_stock_valuation_xlsx_history,stock.group_stock_manager,1,1,1,1

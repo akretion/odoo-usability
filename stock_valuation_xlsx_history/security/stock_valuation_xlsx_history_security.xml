@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_xlsx_export_company_rule" model="ir.rule">
+        <field name="name">Stock XLSX export configurations by company</field>
+        <field name="model_id" ref="model_stock_valuation_xlsx_export"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="stock_xlsx_history_company_rule" model="ir.rule">
+        <field name="name">Stock XLSX history by company</field>
+        <field name="model_id" ref="model_stock_valuation_xlsx_history"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

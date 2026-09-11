@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="ir_cron_stock_valuation_xlsx" model="ir.cron">
+        <field name="name">Stock XLSX: Export Valuations</field>
+        <field name="model_id" ref="model_stock_valuation_xlsx_export"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_generate_valuation()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="ir_cron_stock_variation_xlsx" model="ir.cron">
+        <field name="name">Stock XLSX: Export Variations</field>
+        <field name="model_id" ref="model_stock_valuation_xlsx_export"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_generate_variation()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>
