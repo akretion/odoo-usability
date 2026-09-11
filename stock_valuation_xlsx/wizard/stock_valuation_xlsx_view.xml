@@ -8,46 +8,59 @@
 <odoo>
 
 
-<record id="stock_valuation_xlsx_form" model="ir.ui.view">
-    <field name="name">stock.valuation.xlsx.form</field>
-    <field name="model">stock.valuation.xlsx</field>
-    <field name="arch"  type="xml">
-        <form>
-            <div name="help">
-                <p>The generated XLSX report has the valuation of stockable products located on the selected stock locations (and their childrens).</p>
-            </div>
-            <group name="setup">
-                <field name="company_id" groups="base.group_multi_company"/>
-                <field name="company_id" invisible="1"/>
-                <field name="categ_ids" widget="many2many_tags"/>
-                <field name="warehouse_id"/>
-                <field name="location_id"/>
-                <field name="stock_date_type" widget="radio"/>
-                <field name="past_date" attrs="{'invisible': [('stock_date_type', '!=', 'past')], 'required': [('stock_date_type', '=', 'past')]}"/>
-                <field name="standard_price_date" attrs="{'invisible': [('stock_date_type', '=', 'present')]}" widget="radio"/>
-                <field name="categ_subtotal" />
-                <field name="has_expiry_date" invisible="1"/>
-                <field name="split_by_location" attrs="{'invisible': [('stock_date_type', '=', 'past')]}"/>
-                <field name="split_by_lot" attrs="{'invisible': [('stock_date_type', '=', 'past')]}" groups="stock.group_production_lot"/>
-                <field name="apply_depreciation" groups="stock.group_production_lot" attrs="{'invisible': ['|', '|', ('split_by_lot', '=', False), ('has_expiry_date', '=', False), ('stock_date_type', '=', 'past')]}"/>
-            </group>
-            <footer>
-                <button name="generate" type="object" class="btn-primary" string="Generate"/>
-                <button special="cancel" string="Close" class="btn-default"/>
-            </footer>
-        </form>
-    </field>
-</record>
+    <record id="stock_valuation_xlsx_form" model="ir.ui.view">
+        <field name="name">stock.valuation.xlsx.form</field>
+        <field name="model">stock.valuation.xlsx</field>
+        <field name="arch" type="xml">
+            <form>
+                <div name="help">
+                    <p>The generated XLSX report has the valuation of stockable products located on
+                        the selected stock locations (and their childrens).</p>
+                </div>
+                <group name="setup">
+                    <field name="company_id" groups="base.group_multi_company" />
+                    <field name="company_id" invisible="1" />
+                    <field name="categ_ids" widget="many2many_tags" />
+                    <field name="warehouse_id" />
+                    <field name="location_id" />
+                    <field name="stock_date_type" widget="radio" />
+                    <field name="past_date"
+                        invisible="stock_date_type != 'past'"
+                        required="stock_date_type == 'past'"
+                    />
+                    <field name="standard_price_date"
+                        invisible="stock_date_type != 'present'"
+                    />
+                    <field name="categ_subtotal" />
+                    <field name="has_expiry_date" invisible="1" />
+                    <field name="split_by_location"
+                        invisible="stock_date_type != 'past'" />
+                    <field name="split_by_lot"
+                        invisible="stock_date_type != 'past'"
+                        groups="stock.group_production_lot" />
+                    <field name="apply_depreciation" groups="stock.group_production_lot"
+                        invisible="not split_by_lot or not has_expiry_date or stock_date_type == 'past'"
+                    />
+                </group>
+                <footer>
+                    <button name="generate" type="object" class="btn-primary" string="Generate" />
+                    <button special="cancel" string="Close" class="btn-default" />
+                </footer>
+            </form>
+        </field>
+    </record>
 
-<record id="stock_valuation_xlsx_action" model="ir.actions.act_window">
-    <field name="name">Inventory Valuation</field>
-    <field name="res_model">stock.valuation.xlsx</field>
-    <field name="view_mode">form</field>
-    <field name="target">new</field>
-</record>
+    <record id="stock_valuation_xlsx_action" model="ir.actions.act_window">
+        <field name="name">Inventory Valuation</field>
+        <field name="res_model">stock.valuation.xlsx</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
 
-<!-- in v14, I don't replace the native menu any more, because the native menu shows valuation layers,
+    <!-- in v14, I don't replace the native menu any more, because the native menu shows valuation
+    layers,
 which can be useful -->
-<menuitem id="stock_valuation_xlsx_menu" action="stock_valuation_xlsx_action" sequence="115" parent="stock.menu_warehouse_report"/>
+    <menuitem id="stock_valuation_xlsx_menu" action="stock_valuation_xlsx_action" sequence="115"
+        parent="stock.menu_warehouse_report" />
 
 </odoo>
