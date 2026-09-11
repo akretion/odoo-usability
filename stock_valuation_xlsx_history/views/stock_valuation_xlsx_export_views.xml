@@ -38,7 +38,7 @@
                         <group>
                             <field name="categ_ids" widget="many2many_tags"/>
                             <field name="categ_subtotal"/>
-                            <field name="date_mode"/>
+                            <field name="date_mode" invisible="report_type == 'valuation' and stock_date_type != 'past'"/>
                         </group>
                     </group>
                     <group string="Valuation" invisible="report_type != 'valuation'">
