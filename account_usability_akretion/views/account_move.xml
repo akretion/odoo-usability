@@ -56,6 +56,9 @@
         <button name="button_cancel" invisible="not id or state != 'draft' or move_type == 'entry'" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this invoice?</attribute>
         </button>
+        <group name="accounting_info_group" position="inside">
+            <field name="reversed_entry_id" readonly="1" invisible="not reversed_entry_id"/>
+        </group>
     </field>
 </record>
 
