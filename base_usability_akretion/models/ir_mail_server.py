@@ -17,29 +17,25 @@ class IrMailServer(models.Model):
             smtp_user=None, smtp_password=None, smtp_encryption=None,
             smtp_ssl_certificate=None, smtp_ssl_private_key=None,
             smtp_debug=False, smtp_session=None):
-        # Start copy from native method
-        if not smtp_session:
-            smtp_session = self.connect(
-                smtp_server, smtp_port, smtp_user, smtp_password, smtp_encryption,
-                smtp_from=message['From'], ssl_certificate=smtp_ssl_certificate,
-                ssl_private_key=smtp_ssl_private_key,
-                smtp_debug=smtp_debug, mail_server_id=mail_server_id)
-        # _prepare_email_message() will remove the Bcc field in message
-        # that's why we need to save it and re-inject it in message
+        # _prepare_email_message() removes the Bcc header from the message
+        # (recipients are still delivered via the SMTP envelope): keep it
+        # to log it.
         email_bcc = message['Bcc']
-        smtp_from, smtp_to_list, message = self._prepare_email_message(
-            message, smtp_session)
-        message['Bcc'] = email_bcc
-        # End copy from native method
-        logger.info(
-            "Sending email from '%s' to '%s' Cc '%s' Bcc '%s' "
-            "with subject '%s'. smtp_to_list=%s",
-            smtp_from, message.get('To'), message.get('Cc'),
-            message.get('Bcc'), message.get('Subject'), smtp_to_list)
-        return super().send_email(
+        # Let the native method do the whole connect/prepare/send. Preparing
+        # the message here and passing it + the session to super() triggers a
+        # SECOND _prepare_email_message() in the native method, which drops
+        # the author display name added by the From encapsulation logic
+        # (encapsulate_email) introduced in Odoo 18.
+        res = super().send_email(
             message, mail_server_id=mail_server_id,
             smtp_server=smtp_server, smtp_port=smtp_port,
             smtp_user=smtp_user, smtp_password=smtp_password,
             smtp_encryption=smtp_encryption, smtp_ssl_certificate=smtp_ssl_certificate,
             smtp_ssl_private_key=smtp_ssl_private_key, smtp_debug=smtp_debug,
             smtp_session=smtp_session)
+        logger.info(
+            "Sending email from '%s' to '%s' Cc '%s' Bcc '%s' "
+            "with subject '%s'.",
+            message.get('From'), message.get('To'), message.get('Cc'),
+            email_bcc, message.get('Subject'))
+        return res
