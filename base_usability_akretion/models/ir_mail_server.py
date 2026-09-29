@@ -18,9 +18,10 @@ class IrMailServer(models.Model):
             smtp_ssl_certificate=None, smtp_ssl_private_key=None,
             smtp_debug=False, smtp_session=None):
         # _prepare_email_message() removes the Bcc header from the message
-        # (recipients are still delivered via the SMTP envelope): keep it
-        # to log it.
-        email_bcc = message['Bcc']
+        # (recipients are still delivered via the SMTP envelope) and can change
+        # the From header: keep them to log them.
+        email_from = message["From"]
+        email_bcc = message["Bcc"]
         # Let the native method do the whole connect/prepare/send. Preparing
         # the message here and passing it + the session to super() triggers a
         # SECOND _prepare_email_message() in the native method, which drops
@@ -33,9 +34,17 @@ class IrMailServer(models.Model):
             smtp_encryption=smtp_encryption, smtp_ssl_certificate=smtp_ssl_certificate,
             smtp_ssl_private_key=smtp_ssl_private_key, smtp_debug=smtp_debug,
             smtp_session=smtp_session)
+
+        message_from = message["From"] or '?'
+        if email_from and message_from != email_from:
+            message_from += f" (via {email_from})"
+
         logger.info(
-            "Sending email from '%s' to '%s' Cc '%s' Bcc '%s' "
-            "with subject '%s'.",
-            message.get('From'), message.get('To'), message.get('Cc'),
-            email_bcc, message.get('Subject'))
+            "Sending email from '%s' to '%s' Cc '%s' Bcc '%s' with subject '%s'.",
+            message_from,
+            message["To"],
+            message["Cc"],
+            email_bcc,
+            message["Subject"],
+        )
         return res
