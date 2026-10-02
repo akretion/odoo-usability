@@ -8,49 +8,53 @@
 <odoo>
 
 
-<record id="stock_variation_xlsx_form" model="ir.ui.view">
-    <field name="name">stock.variation.xlsx.form</field>
-    <field name="model">stock.variation.xlsx</field>
-    <field name="arch"  type="xml">
-        <form>
-            <div name="help">
-                <p>The generated XLSX report has the valuation of stockable products located on the selected stock locations (and their childrens).</p>
-            </div>
-            <group name="setup">
-                <field name="company_id" groups="base.group_multi_company"/>
-                <field name="company_id" invisible="1"/>
-                <field name="categ_ids" widget="many2many_tags"/>
-                <field name="warehouse_id"/>
-                <field name="location_id"/>
-                <field name="categ_subtotal" />
-            </group>
-            <group name="start_end">
-                <group name="start" string="Start">
-                    <field name="start_date"/>
-                    <field name="standard_price_start_date_type"/>
+    <record id="stock_variation_xlsx_form" model="ir.ui.view">
+        <field name="name">stock.variation.xlsx.form</field>
+        <field name="model">stock.variation.xlsx</field>
+        <field name="arch" type="xml">
+            <form>
+                <div name="help">
+                    <p>The generated XLSX report has the valuation of stockable products located on
+                        the selected stock locations (and their childrens).</p>
+                </div>
+                <group name="setup">
+                    <field name="company_id" groups="base.group_multi_company" />
+                    <field name="company_id" invisible="1" />
+                    <field name="categ_ids" widget="many2many_tags" />
+                    <field name="warehouse_id" />
+                    <field name="location_id" />
+                    <field name="categ_subtotal" />
                 </group>
-                <group name="end" string="End">
-                    <field name="end_date_type"/>
-                    <field name="end_date" attrs="{'invisible': [('end_date_type', '!=', 'past')], 'required': [('end_date_type', '=', 'past')]}"/>
-                    <field name="standard_price_end_date_type"/>
+                <group name="start_end">
+                    <group name="start" string="Start">
+                        <field name="start_date" />
+                        <field name="standard_price_start_date_type" />
+                    </group>
+                    <group name="end" string="End">
+                        <field name="end_date_type" />
+                        <field name="end_date"
+                            invisible="end_date_type != 'past'" required="end_date_type == 'past'"
+                        />
+                        <field name="standard_price_end_date_type" />
+                    </group>
                 </group>
-            </group>
-            <footer>
-                <button name="generate" type="object" class="btn-primary" string="Generate"/>
-                <button special="cancel" string="Close" class="btn-default"/>
-            </footer>
-        </form>
-    </field>
-</record>
+                <footer>
+                    <button name="generate" type="object" class="btn-primary" string="Generate" />
+                    <button special="cancel" string="Close" class="btn-default" />
+                </footer>
+            </form>
+        </field>
+    </record>
 
-<record id="stock_variation_xlsx_action" model="ir.actions.act_window">
-    <field name="name">Inventory Variation</field>
-    <field name="res_model">stock.variation.xlsx</field>
-    <field name="view_mode">form</field>
-    <field name="target">new</field>
-</record>
+    <record id="stock_variation_xlsx_action" model="ir.actions.act_window">
+        <field name="name">Inventory Variation</field>
+        <field name="res_model">stock.variation.xlsx</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
 
-<!-- Replace native menu, to avoid user confusion -->
-<menuitem id="stock_variation_xlsx_menu" action="stock_variation_xlsx_action" parent="stock.menu_warehouse_report" sequence="119"/>
+    <!-- Replace native menu, to avoid user confusion -->
+    <menuitem id="stock_variation_xlsx_menu" action="stock_variation_xlsx_action"
+        parent="stock.menu_warehouse_report" sequence="119" />
 
 </odoo>
