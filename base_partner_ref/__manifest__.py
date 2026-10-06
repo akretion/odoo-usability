@@ -17,6 +17,9 @@ Base Partner Reference
 * Adds Internal Reference in name_get()
 
 * Adds unicity constraint on Internal Reference
+
+* Internal Reference is not displayed on the documents rendered with QWeb
+  (reports, emails)
     """,
     'author': 'Akretion',
     'website': 'https://github.com/akretion/odoo-usability',
