@@ -10,5 +10,7 @@ class SaleOrderLine(models.Model):
 
     def _prepare_procurement_values(self, group_id=False):
         vals = super()._prepare_procurement_values(group_id=group_id)
-        vals['description_picking'] = self.name
+        vals['description_picking'] = self.name.replace(
+            self._get_sale_order_line_multiline_description_sale() + "\n", ""
+        )
         return vals
