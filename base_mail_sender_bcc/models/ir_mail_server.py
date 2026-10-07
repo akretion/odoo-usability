@@ -27,7 +27,7 @@ class IrMailServer(models.Model):
             should_bcc = bool(user_from) and user_from._is_internal()
 
         if should_bcc:
-            if email_bcc is None:
+            if not email_bcc:
                 email_bcc = [email_from]
             elif isinstance(email_bcc, list) and email_from not in email_bcc:
                 email_bcc.append(email_from)
