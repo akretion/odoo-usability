@@ -50,8 +50,10 @@
         ### INVOICE IMPORT
         'l10n_fr_business_document_import',  # OCA/l10n-france
         'account_invoice_import_simple_pdf',  # OCA/edi
-        'account_invoice_import_ubl',  # OCA/edi
-        'l10n_fr_account_invoice_import_facturx',  # OCA/l10n-france
+        # 'account_invoice_import_ubl',  # OCA/edi
+        # not used with account_invoice_import branch akretion/18.0-account_invoice_import-revolution
+        # 'l10n_fr_account_invoice_import_facturx',  # OCA/l10n-france
+        # not used with account_invoice_import branch akretion/18.0-account_invoice_import-revolution
         ### OVERDUE
         'account_invoice_overdue_warn',  # OCA/credit-control
         #'account_invoice_overdue_warn_sale',  # OCA/credit-control
