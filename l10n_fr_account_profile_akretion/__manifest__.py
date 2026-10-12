@@ -48,7 +48,8 @@
         'currency_rate_update',  # OCA/currency
         'currency_old_rate_notify',  # OCA/currency
         ### INVOICE IMPORT
-        'l10n_fr_business_document_import',  # OCA/l10n-france
+        # 'l10n_fr_business_document_import',  # OCA/l10n-france
+        # not used with account_invoice_import branch akretion/18.0-account_invoice_import-revolution
         'account_invoice_import_simple_pdf',  # OCA/edi
         # 'account_invoice_import_ubl',  # OCA/edi
         # not used with account_invoice_import branch akretion/18.0-account_invoice_import-revolution
