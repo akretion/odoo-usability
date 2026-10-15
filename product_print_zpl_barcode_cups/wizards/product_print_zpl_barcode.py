@@ -21,6 +21,6 @@ class ProductPrintZplBarcode(models.TransientModel):
     def print_zpl(self):
         if self.zpl_printer_id:
             self.zpl_printer_id.print_document(
-                self.zpl_filename, base64.decodebytes(self.zpl_file), format='raw')
+                None, base64.decodebytes(self.zpl_file), format='raw')
         else:
             return super().print_zpl()
