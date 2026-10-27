@@ -13,6 +13,7 @@
     'depends': [
         'account',
         'base_usability',  # needed only to access base_usability.group_nobody
+        'account_bank_journal_balance',
         ],
     'data': [
         'views/account_account.xml',
