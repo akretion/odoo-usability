@@ -23,6 +23,11 @@ class ResPartner(models.Model):
     def _compute_display_name(self):
         super()._compute_display_name()
 
+    @api.depends('ref')
+    # This field is stored => no @api.depends_context('no_partner_ref')
+    def _compute_complete_name(self):
+        super()._compute_complete_name()
+
     def _get_complete_name(self):
         self.ensure_one()
         displayed_types = self._complete_name_displayed_types
