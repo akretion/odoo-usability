@@ -6,16 +6,19 @@
 -->
 
 <odoo>
-
-
-<menuitem id="dynamic_list_root_menu" name="Dynamic Lists" parent="base.next_id_9" sequence="100"/>
+    <menuitem
+        id="dynamic_list_root_menu"
+        name="Dynamic Lists"
+        parent="base.next_id_9"
+        sequence="100"
+    />
 
 <record id="dynamic_list_form" model="ir.ui.view">
     <field name="model">dynamic.list</field>
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                 <group name="main">
                     <field name="name"/>
                     <field name="domain" invisible="not context.get('dynamic_list_main_view')"/>
@@ -44,7 +47,7 @@
             <field name="name"/>
             <separator/>
             <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
-            <group string="Group By" name="groupby">
+            <group name="groupby">
                 <filter name="domain_groupby" string="Domain" context="{'group_by': 'domain'}"/>
             </group>
         </search>
@@ -65,7 +68,7 @@
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                 <group name="main">
                     <field name="name"/>
                     <field name="domain" invisible="not context.get('dynamic_list_translate_main_view')"/>
@@ -94,7 +97,7 @@
             <field name="name"/>
             <separator/>
             <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
-            <group string="Group By" name="groupby">
+            <group name="groupby">
                 <filter name="domain_groupby" string="Domain" context="{'group_by': 'domain'}"/>
             </group>
         </search>
@@ -115,7 +118,7 @@
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                 <group name="main">
                     <field name="code"/>
                     <field name="name"/>
@@ -147,7 +150,7 @@
             <separator/>
             <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
             <field name="code"/>
-            <group string="Group By" name="groupby">
+            <group name="groupby">
                 <filter name="domain_groupby" string="Domain" context="{'group_by': 'domain'}"/>
             </group>
         </search>
@@ -168,7 +171,7 @@
     <field name="arch" type="xml">
         <form>
             <sheet>
-                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                 <group name="main">
                     <field name="code"/>
                     <field name="name"/>
@@ -200,7 +203,7 @@
             <field name="code"/>
             <separator/>
             <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
-            <group string="Group By" name="groupby">
+            <group name="groupby">
                 <filter name="domain_groupby" string="Domain" context="{'group_by': 'domain'}"/>
             </group>
         </search>

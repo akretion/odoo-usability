@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_dynamic_list_read,dynamic.list read,dynamic.list,base.group_user,r,
+access_dynamic_list_full,dynamic.list system,dynamic.list,base.group_system,crud,
+access_dynamic_list_translate_read,dynamic.list.translate read,dynamic.list.translate,base.group_user,r,
+access_dynamic_list_translate_full,dynamic.list.translate system,dynamic.list.translate,base.group_system,crud,
+access_dynamic_list_code_read,dynamic.list.code read,dynamic.list.code,base.group_user,r,
+access_dynamic_list_code_full,dynamic.list.code system,dynamic.list.code,base.group_system,crud,
+access_dynamic_list_code_translate_read,dynamic.list.code.translate read,dynamic.list.code.translate,base.group_user,r,
+access_dynamic_list_code_translate_full,dynamic.list.code.translate system,dynamic.list.code.translate,base.group_system,crud,

@@ -4,7 +4,7 @@
 
 {
     'name': 'Base Dynamic List',
-    'version': '18.0.1.0.0',
+    'version': '20.0.1.0.0',
     'category': 'Tools',
     'license': 'AGPL-3',
     'summary': 'Dynamic lists',
@@ -12,11 +12,12 @@
 Base Dynamic List
 =================
 
-Very often during an Odoo implementation, we need to add selection fields on a native objet,
-and we don't want to have a hard-coded selection list (fields.Selection),
+Very often during an Odoo implementation, we need to add selection fields on a
+native object, and we don't want to have a hard-coded selection list (fields.Selection),
 but a selection list that can be changed by users (Many2one field).
-For that, the developper needs to add a new object (with just a 'name' and 'sequence' field)
-with a form/list view. The goal of this module is to speed-up this process
+For that, the developer needs to add a new object (with just a 'name'
+and 'sequence' field) with a form/list view.
+The goal of this module is to speed-up this process
 by defining a dynamic list object that already has all the required views.
 
 This module provides several ready-to-go objects:
@@ -32,38 +33,43 @@ To use it, you need to do 2 or 3 things :
 
 1) Add an entry in the domain field and the object you selected:
 
-domain = fields.Selection(selection_add=[('risk_type', "Risk Type")], ondelete={"risk_type": "cascade"})
+.. code:: python
+
+    domain = fields.Selection(selection_add=[('risk_type', "Risk Type")], ondelete={"risk_type": "cascade"})
 
 2) Add the many2one field on your object:
 
-risk_type_id = fields.Many2one(
-    'dynamic.list', string="Risk Type",
-    ondelete='restrict', domain=[('domain', '=', 'risk_type')])
+.. code:: python
 
+    risk_type_id = fields.Many2one(
+        'dynamic.list', string="Risk Type",
+        ondelete='restrict', domain=[('domain', '=', 'risk_type')])
 
 3) Optionally, you can add a dedicated action and a menu entry
-(otherwize, you can use the generic menu entry under *Settings > Technical > Dynamic Lists*:
+(otherwise, you can use the generic menu entry under *Settings > Technical > Dynamic Lists*):
 
-<record id="dynamic_list_risk_type_action" model="ir.actions.act_window">
-    <field name="name">Risk Type</field>
-    <field name="res_model">dynamic.list</field>
-    <field name="view_mode">list,form</field>
-    <field name="domain">[('domain', '=', 'risk_type')]</field>
-    <field name="context">{'default_domain': 'risk_type'}</field>
-</record>
+.. code:: xml
 
-<menuitem id="dynamic_list_risk_type_menu" action="dynamic_list_risk_type_action"
-parent="parent_menu_xmlid"/>
+    <record id="dynamic_list_risk_type_action" model="ir.actions.act_window">
+        <field name="name">Risk Type</field>
+        <field name="res_model">dynamic.list</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('domain', '=', 'risk_type')]</field>
+        <field name="context">{'default_domain': 'risk_type'}</field>
+    </record>
 
-Limitation: when you want to have different access rights on these lists depending 
+    <menuitem id="dynamic_list_risk_type_menu" action="dynamic_list_risk_type_action"
+    parent="parent_menu_xmlid"/>
+
+Limitation: when you want to have different access rights on these lists depending
 on the source object, you should prefer to use dedicated objects.
 """,
     'author': 'Akretion',
     'website': 'http://www.akretion.com',
     'depends': ['base'],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/dynamic_list.xml',
         ],
-    'installable': False,
+    'installable': True,
 }
