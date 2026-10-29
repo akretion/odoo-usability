@@ -65,5 +65,5 @@ on the source object, you should prefer to use dedicated objects.
         'security/ir.model.access.csv',
         'views/dynamic_list.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

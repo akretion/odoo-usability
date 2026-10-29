@@ -21,5 +21,5 @@ This module has been written by Alexis de Lattre <alexis.delattre@akretion.com> 
     'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['base'],
     'data': ['views/res_partner.xml'],
-    'installable': True,
+    'installable': False,
 }

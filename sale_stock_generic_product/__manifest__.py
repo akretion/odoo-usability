@@ -14,5 +14,5 @@
     'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['sale_stock'],
     'data': ['views/stock_move_line.xml'],
-    'installable': True,
+    'installable': False,
 }

@@ -23,5 +23,5 @@ This module has been written by Alexis de Lattre from Akretion
     'data': [
         'views/link_tracker_click.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

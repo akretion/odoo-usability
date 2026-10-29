@@ -21,5 +21,5 @@ This module has been written by Alexis de Lattre from Akretion
     'data': [
         'views/crm_lead.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

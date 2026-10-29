@@ -18,5 +18,5 @@
         'views/commission_profile.xml',
         'views/commission_result.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

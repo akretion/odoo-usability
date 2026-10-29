@@ -17,5 +17,5 @@
             "account_reconcile_oca_usability_akretion/static/src/js/reconcile_controller_patch.esm.js",
         ],
     },
-    'installable': True,
+    'installable': False,
 }

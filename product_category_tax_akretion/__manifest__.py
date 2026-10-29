@@ -12,5 +12,5 @@
     'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['account'],
     'data': ['views/product.xml'],
-    'installable': True,
+    'installable': False,
 }

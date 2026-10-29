@@ -18,5 +18,5 @@
         'wizard/account_move_update_view.xml',
         'views/account_move.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

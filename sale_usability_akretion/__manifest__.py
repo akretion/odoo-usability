@@ -23,5 +23,5 @@
         'views/account_move.xml',
         'views/res_company.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

@@ -46,5 +46,5 @@ This module has been written by Alexis de Lattre from Akretion
         'views/stock_picking.xml',
         'data/barcode_sequence.xml',
     ],
-    'installable': True,
+    'installable': False,
 }

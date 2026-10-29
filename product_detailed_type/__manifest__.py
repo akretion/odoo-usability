@@ -15,5 +15,5 @@
         'views/product.xml',
         ],
     'post_init_hook': 'set_product_detailed_type',
-    'installable': True,
+    'installable': False,
 }

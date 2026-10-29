@@ -28,5 +28,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'views/stock_move.xml',
         'views/stock_picking.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

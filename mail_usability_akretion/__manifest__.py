@@ -23,5 +23,5 @@ Small usability improvements on mails:
     'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['mail'],
     'data': [],
-    'installable': True,
+    'installable': False,
 }

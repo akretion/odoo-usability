@@ -104,5 +104,5 @@
         #'l10n_fr_fec',
         'account_edi_ubl_cii',
         ],
-    'installable': True,
+    'installable': False,
 }

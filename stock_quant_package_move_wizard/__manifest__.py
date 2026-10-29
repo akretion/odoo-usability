@@ -25,5 +25,5 @@
         "views/stock_quant.xml",
         # "views/stock_quant_package.xml",
     ],
-    "installable": True,
+    "installable": False,
 }

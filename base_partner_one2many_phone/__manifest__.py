@@ -27,6 +27,6 @@ It has been developped by brother Bernard from Barroux Abbey and Alexis de Lattr
         'views/res_partner.xml',
         'security/ir.model.access.csv',
         ],
-    'installable': True,
+    'installable': False,
     'post_init_hook': 'migrate_to_partner_phone',
 }

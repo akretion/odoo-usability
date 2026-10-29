@@ -40,5 +40,5 @@ This module has been written by Alexis de Lattre from Akretion <alexis.delattre@
         'views/procurement_scheduler_log.xml',
         'security/ir.model.access.csv',
         ],
-    'installable': True,
+    'installable': False,
 }

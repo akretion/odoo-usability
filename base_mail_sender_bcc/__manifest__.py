@@ -17,5 +17,5 @@ With this module, when Odoo sends an outgoing email, it adds the sender as Bcc (
     'author': 'Akretion',
     'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['base'],
-    'installable': True,
+    'installable': False,
 }

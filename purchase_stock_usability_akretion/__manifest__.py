@@ -28,5 +28,5 @@ This module has been written by Alexis de Lattre from Akretion France.
         'views/stock_move.xml',
         'views/stock_move_line.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

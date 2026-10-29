@@ -39,5 +39,5 @@
         'base_company_extension',  # akretion/odoo-usability
         'password_security',  # OCA/server-auth
         ],
-    'installable': True,
+    'installable': False,
 }

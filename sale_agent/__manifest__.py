@@ -19,5 +19,5 @@
         "views/account_invoice_report.xml",
         ],
     'demo': ['demo/demo.xml'],
-    'installable': True,
+    'installable': False,
 }

@@ -12,5 +12,5 @@
     "website": "https://github.com/akretion/odoo-usability",
     "depends": ["point_of_sale"],
     "data": ["views/pos_payment_method.xml"],
-    "installable": True,
+    "installable": False,
 }

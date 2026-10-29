@@ -16,5 +16,5 @@
     'data': [
         'views/hr_payroll_structure_type.xml',
         ],
-    'installable': True,
+    'installable': False,
 }

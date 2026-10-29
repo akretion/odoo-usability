@@ -18,5 +18,5 @@
         'views/stock_move.xml',
     #    'report/mrp_report.xml'  # TODO
     ],
-    'installable': True,
+    'installable': False,
 }

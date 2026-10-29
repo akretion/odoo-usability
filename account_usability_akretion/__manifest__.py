@@ -37,6 +37,6 @@
         "views/res_partner.xml",
     ],
 #    'qweb': ['static/src/xml/account_payment.xml'],
-    'installable': True,
+    'installable': False,
 #    "post_init_hook": "post_init_hook",
 }
