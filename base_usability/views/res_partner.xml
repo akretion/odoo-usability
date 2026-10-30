@@ -23,6 +23,9 @@
         <field name="industry_id" position="attributes">
             <attribute name="attrs">{'invisible': [('parent_id', '!=', False)]}</attribute>
         </field>
+        <page name="contact_addresses" position="attributes">
+            <attribute name="attrs">{'invisible': [('parent_id', '!=', False)]}</attribute>
+        </page>
     </field>
 </record>
 
