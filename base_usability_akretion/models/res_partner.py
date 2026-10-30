@@ -2,7 +2,8 @@
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 
 class ResPartner(models.Model):
@@ -30,6 +31,26 @@ class ResPartner(models.Model):
                 title = partner_lg.title.shortcut or partner_lg.title.name
                 name_title = ' '.join([title, name_title])
             partner.name_title = name_title
+
+    @api.constrains('parent_id', 'is_company')
+    def _check_parent_child_partner(self):
+        for partner in self:
+            if partner.parent_id and partner.parent_id.parent_id:
+                raise ValidationError(self.env._(
+                    "Partner '%(partner)s' has a parent partner '%(parent_partner)s' "
+                    "which itself has a parent partner '%(parent_parent_partner)s'. "
+                    "This is not allowed.",
+                    partner=partner.name,
+                    parent_partner=partner.parent_id.name,
+                    parent_parent_partner=partner.parent_id.parent_id.name))
+            if partner.parent_id and partner.is_company:
+                raise ValidationError(self.env._(
+                    "Partner '%(partner)s' has a parent partner '%(parent_partner)s', "
+                    "so it must be configured as an Individual (configuration as "
+                    "Company is only for parent partners).",
+                    partner=partner.name,
+                    parent_partner=partner.parent_id.name,
+                    ))
 
     def _display_address(self, without_company=False):
         '''Remove empty lines'''
@@ -80,55 +101,55 @@ class ResPartner(models.Model):
                 'value': self.phone,
                 # http://www.fileformat.info/info/unicode/char/1f4de/index.htm
                 'icon': '\U0001F4DE',
-                'label': _('Tel:'),
+                'label': self.env._('Tel:'),
                 },
             'mobile': {
                 'value': self.mobile,
                 # http://www.fileformat.info/info/unicode/char/1f4f1/index.htm
                 'icon': '\U0001F4F1',
-                'label': _('Mobile:'),
+                'label': self.env._('Mobile:'),
                 },
             'email': {
                 'value': self.email,
                 # http://www.fileformat.info/info/unicode/char/2709/index.htm
                 'icon': '\u2709',
-                'label': _('E-mail:'),
+                'label': self.env._('E-mail:'),
                 },
             'website': {
                 'value': self.website,
                 # http://www.fileformat.info/info/unicode/char/1f310/index.htm
                 'icon': '\U0001f310',
-                'label': _('Website:'),
+                'label': self.env._('Website:'),
                 },
             'address': {
                 'value': self._display_address(without_company=True),
                 },
             'vat': {
                 'value': self.commercial_partner_id.vat,
-                'label': _('VAT Number:'),
+                'label': self.env._('VAT Number:'),
                 },
             'commercial_ref': {
                 'value': self.commercial_partner_id.ref,
-                'label': _('Customer Number:'),
+                'label': self.env._('Customer Number:'),
                 },
             'ref': {
                 'value': self.ref,
-                'label': _('Customer Number:'),
+                'label': self.env._('Customer Number:'),
                 },
             # Same with 'supplier_' prefix, to change the label
             'supplier_commercial_ref': {
                 'value': self.commercial_partner_id.ref,
-                'label': _('Supplier Number:'),
+                'label': self.env._('Supplier Number:'),
                 },
             'supplier_ref': {
                 'value': self.ref,
-                'label': _('Supplier Number:'),
+                'label': self.env._('Supplier Number:'),
                 },
             }
         if hasattr(self, 'siren'):
             options['siren'] = {
                 'value': self.siren,
-                'label': _("SIREN:"),
+                'label': self.env._("SIREN:"),
                 }
         if hasattr(self, 'siret'):
             if hasattr(self, 'siren'):  # l10n_fr_siret is installed
@@ -137,7 +158,7 @@ class ResPartner(models.Model):
                 siret = self.siret
             options['siret'] = {
                 'value': siret,
-                'label': _("SIRET:"),
+                'label': self.env._("SIRET:"),
                 }
         res = []
         for detail in details:

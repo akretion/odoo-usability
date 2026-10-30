@@ -23,6 +23,9 @@
         <div name="warning_company" position="attributes">
             <attribute name="class">alert alert-warning</attribute>
         </div>
+        <page name="contact_addresses" position="attributes">
+            <attribute name="invisible">parent_id</attribute>
+        </page>
     </field>
 </record>
 
