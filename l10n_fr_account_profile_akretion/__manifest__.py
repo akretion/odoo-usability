@@ -24,10 +24,10 @@
         'account_dashboard_banner',  # OCA/account-financial-tools
         ### INVOICING
         'account_fiscal_position_vat_check',  # OCA/account-financial-tools
-        # 'l10n_fr_account_invoice_facturx',  # OCA/edi (replaced by l10n_fr_account_invoice_en16931)
-        # 'l10n_fr_einvoicing_import',  # akretion/fr-einvoicing
+        'l10n_fr_einvoicing_import',  # akretion/fr-einvoicing
+        'l10n_fr_account_invoice_import',  # OCA/l10n-france
+        'l10n_fr_einvoicing_dashboard_banner',  # akretion/fr-einvoicing
         # 'l10n_fr_einvoicing_sale',  # akretion/fr-einvoicing
-        # 'l10n_fr_einvoicing_dashboard_banner',  # akretion/fr-einvoicing
         ### FINANCIAL REPORTS
         'account_financial_report',  # OCA/account-financial-reporting
         'account_balance_ebp_csv_export',  # OCA/l10n-france
@@ -67,6 +67,7 @@
         # 'product_net_weight',  # OCA/product-attribute
         'l10n_fr_intrastat_service',  # OCA/l10n-france
         'l10n_fr_das2',  # OCA/l10n-france
+        # 'l10n_fr_ereporting',  # akretion/fr-einvoicing
         # ANALYTIC
         #'account_analytic_distribution_manual',  # OCA/account-analytic
         ### INVOICE IMPORT
