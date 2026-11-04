@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+<template id="report_mrp_production_components" inherit_id="mrp.report_mrp_production_components">
+    <xpath expr="//thead//th[1]" position="before">
+        <t t-set="has_serial_number" t-value="False"/>
+        <t t-set="has_serial_number" t-value="o.move_raw_ids.move_line_ids.mapped('lot_id')" groups="stock.group_lot_on_delivery_slip"/>
+        <th t-if="has_serial_number">Lot/Serial</th>
+    </xpath>
+
+    <xpath expr="//tbody//td[1]" position="before">
+        <td t-if="has_serial_number"><span t-out="', '.join(raw_line.move_line_ids.lot_id.mapped('name'))"/></td>
+    </xpath>
+</template>
+
 <template id="report_mrporder" inherit_id="mrp.report_mrporder">
-
-    <xpath expr="//table[1]//thead//th[1]" position="before">
-        <th t-if="has_serial_number">Lot</th>
-    </xpath>
-
-    <xpath expr="//table[1]//tbody//td[1]" position="before">
-        <td t-if="has_serial_number"><span t-field="ml.lot_id"/></td>
-    </xpath>
-
     <xpath expr="//div[hasclass('oe_structure')][2]" position="after">
         <t t-set="has_product_unavailable"
-           t-value="any(o.move_raw_ids.filtered(lambda x: x.product_uom_qty &gt; x.reserved_availability))"/>
-        <h4 if="has_product_unavailable">
-            These products were unavailable (or partially) while edition of this Manufacturing Order.
-            Here is missing quantities.
+           t-value="any(o.move_raw_ids.filtered(lambda x: x.product_uom_qty > x.quantity))"/>
+        <h4 t-if="has_product_unavailable">
+            Some products were unavailable (even partially) at the edition of this Manufacturing Order.
+            Here are the missing quantities.
         </h4>
         <table class="table table-sm" t-if="o.move_raw_ids and has_product_unavailable">
             <thead>
                 <tr>
                     <th>Product</th>
-                    <th>Sold Out Quantity</th>
+                    <th>Missing Quantity</th>
                 </tr>
             </thead>
             <tbody>
                 <t t-set="moves" 
-                   t-value="o.move_raw_ids.filtered(lambda x: x.product_uom_qty &gt; x.reserved_availability)"/>
+                   t-value="o.move_raw_ids.filtered(lambda x: x.product_uom_qty > x.quantity)"/>
                 <t t-foreach="moves" t-as="m">
                     <tr>
                         <td>
@@ -42,7 +45,6 @@
             </tbody>
         </table>
     </xpath>
-
 </template>
 
 </odoo>

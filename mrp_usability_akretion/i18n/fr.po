@@ -1,143 +1,193 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* mrp_usability
+# 	* mrp_usability_akretion
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-04 16:16+0000\n"
-"PO-Revision-Date: 2024-07-04 16:16+0000\n"
+"POT-Creation-Date: 2026-11-04 15:12+0000\n"
+"PO-Revision-Date: 2026-11-04 16:13+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.4.2\n"
 
-#. module: mrp_usability
-#: model_terms:ir.ui.view,arch_db:mrp_usability.mrp_production_form_view
-msgid "Are you sure you want to cancel this manufacturing order?"
-msgstr "Êtes-vous sur de vouloir annuler cet ordre de fabrication ?"
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,help:mrp_usability_akretion.field_mrp_bom__produce_delay
+msgid ""
+"Average lead time in days to manufacture this product. In the case of multi-level BOM, the manufacturing lead times of the "
+"components will be added. In case the product is subcontracted, this can be used to determine the date at which components should "
+"be sent to the subcontractor."
+msgstr ""
+"Délai moyen en jours pour fabriquer ce produit. Dans le cas d'une nomenclature à plusieurs niveaux, les délais de fabrication des "
+"composants seront ajoutés. Dans le cas où le produit est sous-traité, cela peut être utilisé pour déterminer la date à laquelle les "
+"composants doivent être envoyés au sous-traitant."
 
-#. module: mrp_usability
-#: model:ir.model,name:mrp_usability.model_mrp_bom
+#. module: mrp_usability_akretion
+#: model:ir.model,name:mrp_usability_akretion.model_mrp_bom
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_production__bom_id
 msgid "Bill of Material"
 msgstr "Nomenclature"
 
-#. module: mrp_usability
-#: model:ir.model.fields,field_description:mrp_usability.field_mrp_bom__type
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,help:mrp_usability_akretion.field_mrp_production__bom_id
+msgid "Bills of Materials, also called recipes, are used to autocomplete components and work order instructions."
+msgstr ""
+"Les nomenclatures, également appelées recettes, sont utilisées pour automatiquement compléter les composants et les instructions "
+"des bons de travail."
+
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_bom__type
 msgid "BoM Type"
 msgstr "Type de nomenclature"
 
-#. module: mrp_usability
-#: model:ir.model.fields,help:mrp_usability.field_mrp_bom__consumption
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_production__location_src_id
+msgid "Components Location"
+msgstr "Emplacement des composants"
+
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,help:mrp_usability_akretion.field_mrp_bom__consumption
 msgid ""
 "Defines if you can consume more or less components than the quantity defined on the BoM:\n"
 "  * Allowed: allowed for all manufacturing users.\n"
-"  * Allowed with warning: allowed for all manufacturing users with summary of consumption differences when closing the manufacturing order.\n"
-"  Note that in the case of component Manual Consumption, where consumption is registered manually exclusively, consumption warnings will still be issued when appropriate also.\n"
+"  * Allowed with warning: allowed for all manufacturing users with summary of consumption differences when closing the "
+"manufacturing order.\n"
+"  Note that in the case of component Highlight Consumption, where consumption is registered manually exclusively, consumption "
+"warnings will still be issued when appropriate also.\n"
 "  * Blocked: only a manager can close a manufacturing order when the BoM consumption is not respected."
 msgstr ""
 "Définit si vous pouvez consommer plus ou moins de composants que la quantité définie sur la nomenclature :\n"
 "* Autorisé : autorisé pour tous les utilisateurs de Fabrication.\n"
-"* Autorisé avec avertissement : autorisé pour tous les utilisateurs de fabrication avec récapitulatif des écarts de consommation lors de la clôture de l'ordre de fabrication.\n"
-"Notez que dans le cas du composant Consommation manuelle, où la consommation est enregistrée manuellement exclusivement, des avertissements de consommation seront également émis le cas échéant.\n"
+"* Autorisé avec avertissement : autorisé pour tous les utilisateurs de fabrication avec récapitulatif des écarts de consommation "
+"lors de la clôture de l'ordre de fabrication.\n"
+"Notez que dans le cas du composant Consommation mise en évidence, où la consommation est enregistrée manuellement exclusivement, "
+"des avertissements de consommation seront également émis le cas échéant.\n"
 "* Bloqué : seul un responsable peut clôturer un ordre de fabrication lorsque la consommation de la nomenclature n'est pas respectée."
 
-#. module: mrp_usability
-#: model:ir.model.fields,field_description:mrp_usability.field_mrp_production__location_dest_id
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_production__location_dest_id
 msgid "Finished Products Location"
-msgstr "Emplacement du produit fini"
+msgstr "Emplacements des produits finis"
 
-#. module: mrp_usability
-#: model:ir.model.fields,field_description:mrp_usability.field_mrp_bom__consumption
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_bom__consumption
 msgid "Flexible Consumption"
 msgstr "Consommation flexible"
 
-#. module: mrp_usability
-#: model:ir.model.fields,help:mrp_usability.field_mrp_bom__product_id
-msgid ""
-"If a product variant is defined the BOM is available only for this product."
-msgstr ""
-"Si une variante de produit est définie, la nomenclature n'est disponible que"
-" pour ce produit."
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,help:mrp_usability_akretion.field_mrp_bom__product_id
+msgid "If a product variant is defined the BOM is available only for this product."
+msgstr "Si une variante de produit est définie, la nomenclature n'est disponible que pour ce produit."
 
-#. module: mrp_usability
-#: model:ir.model.fields,help:mrp_usability.field_mrp_production__location_dest_id
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,help:mrp_usability_akretion.field_mrp_production__location_src_id
+msgid "Location where the system will look for components."
+msgstr "Emplacement des composants"
+
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,help:mrp_usability_akretion.field_mrp_production__location_dest_id
 msgid "Location where the system will stock the finished products."
 msgstr "Emplacement où le système stockera les produits finis."
 
-#. module: mrp_usability
-#: model:ir.model.fields,field_description:mrp_usability.field_mrp_bom__ready_to_produce
+#. module: mrp_usability_akretion
+#: model_terms:ir.ui.view,arch_db:mrp_usability_akretion.report_mrp_production_components
+msgid "Lot/Serial"
+msgstr "Lot/N° série"
+
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_production__lot_producing_id
+msgid "Lot/Serial Number"
+msgstr "Lot/numéro de série"
+
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_bom__produce_delay
+msgid "Manufacturing Lead Time"
+msgstr "Délai de fabrication"
+
+#. module: mrp_usability_akretion
+#: model:ir.model,name:mrp_usability_akretion.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Ordre de fabrication"
+
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_bom__ready_to_produce
 msgid "Manufacturing Readiness"
 msgstr "Statut de préparation de la fabrication"
 
-#. module: mrp_usability
-#: model:ir.model.fields,field_description:mrp_usability.field_mrp_bom__picking_type_id
+#. module: mrp_usability_akretion
+#: model_terms:ir.ui.view,arch_db:mrp_usability_akretion.report_mrporder
+msgid "Missing Quantity"
+msgstr "Quantité manquante"
+
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_bom__picking_type_id
 msgid "Operation Type"
 msgstr "Type d'opération"
 
-#. module: mrp_usability
-#: model:ir.model,name:mrp_usability.model_product_template
-#: model:ir.model.fields,field_description:mrp_usability.field_mrp_bom__product_tmpl_id
+#. module: mrp_usability_akretion
+#: model:ir.model,name:mrp_usability_akretion.model_product_template
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_bom__product_tmpl_id
+#: model_terms:ir.ui.view,arch_db:mrp_usability_akretion.report_mrporder
 msgid "Product"
 msgstr "Produit"
 
-#. module: mrp_usability
-#: model:ir.model,name:mrp_usability.model_product_product
-#: model:ir.model.fields,field_description:mrp_usability.field_mrp_bom__product_id
+#. module: mrp_usability_akretion
+#: model:ir.model,name:mrp_usability_akretion.model_product_product
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_bom__product_id
 msgid "Product Variant"
 msgstr "Variante de produit"
 
-#. module: mrp_usability
-#: model:ir.model,name:mrp_usability.model_mrp_production
-msgid "Production Order"
-msgstr "Ordre de fabrication"
-
-#. module: mrp_usability
-#: model:ir.model.fields,field_description:mrp_usability.field_mrp_bom__product_qty
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_bom__product_qty
 msgid "Quantity"
 msgstr "Quantité"
 
-#. module: mrp_usability
-#: model:ir.model.fields,field_description:mrp_usability.field_mrp_bom__code
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_bom__code
 msgid "Reference"
 msgstr "Référence"
 
-#. module: mrp_usability
-#: model:ir.model.fields,help:mrp_usability.field_mrp_bom__product_qty
+#. module: mrp_usability_akretion
+#: model_terms:ir.ui.view,arch_db:mrp_usability_akretion.report_mrporder
 msgid ""
-"This should be the smallest quantity that this product can be produced in. "
-"If the BOM contains operations, make sure the work center capacity is "
-"accurate."
+"Some products were unavailable (even partially) at the edition of this Manufacturing Order.\n"
+"            Here are the missing quantities."
 msgstr ""
-"Il doit s'agir de la plus petite quantité dans laquelle ce produit peut être"
-" produit. Si la nomenclature contient des opérations, assurez-vous que la "
-"capacité du poste de travail est exacte."
+"Certains produits étaient indisponibles (même partiellement) à l'édition de cet Ordre de Fabrication.\n"
+"            Voici les quantités manquantes."
 
-#. module: mrp_usability
-#: model:ir.model.fields,field_description:mrp_usability.field_mrp_bom__product_uom_id
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,help:mrp_usability_akretion.field_mrp_bom__product_qty
+msgid ""
+"This should be the smallest quantity that this product can be produced in. If the BOM contains operations, make sure the work "
+"center capacity is accurate."
+msgstr ""
+"Il doit s'agir de la plus petite quantité dans laquelle ce produit peut être produit. Si la nomenclature contient des opérations, "
+"assurez-vous que la capacité du poste de travail est exacte."
+
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,field_description:mrp_usability_akretion.field_mrp_bom__product_uom_id
 msgid "Unit of Measure"
 msgstr "Unité de mesure"
 
-#. module: mrp_usability
-#: model:ir.model.fields,help:mrp_usability.field_mrp_bom__product_uom_id
-msgid ""
-"Unit of Measure (Unit of Measure) is the unit of measurement for the "
-"inventory control"
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,help:mrp_usability_akretion.field_mrp_bom__product_uom_id
+msgid "Unit of Measure (Unit of Measure) is the unit of measurement for the inventory control"
 msgstr "L'unité de mesure est l'unité utilisée dans la gestion du stock"
 
-#. module: mrp_usability
-#: model:ir.model.fields,help:mrp_usability.field_mrp_bom__picking_type_id
+#. module: mrp_usability_akretion
+#: model:ir.model.fields,help:mrp_usability_akretion.field_mrp_bom__picking_type_id
 msgid ""
-"When a procurement has a ‘produce’ route with a operation type set, it will "
-"try to create a Manufacturing Order for that product using a BoM of the same"
-" operation type. That allows to define stock rules which trigger different "
-"manufacturing orders with different BoMs."
+"When a procurement has a ‘produce’ route with a operation type set, it will try to create a Manufacturing Order for that product "
+"using a BoM of the same operation type. That allows to define stock rules which trigger different manufacturing orders with "
+"different BoMs."
 msgstr ""
-"Quand un approvisionnement a une route 'fabriquer' avec un type d'opération "
-"défini, le système essayera de créer un ordre de fabrication pour ce produit"
-" en utilisant une nomenclature qui a le même type d'opération. Cela permet "
-"de définir des règles de stock qui génèrent des ordres de fabrication avec "
-"différentes nomenclatures."
+"Quand un approvisionnement a une route 'fabriquer' avec un type d'opération défini, le système essayera de créer un ordre de "
+"fabrication pour ce produit en utilisant une nomenclature qui a le même type d'opération. Cela permet de définir des règles de "
+"stock qui génèrent des ordres de fabrication avec différentes nomenclatures."
