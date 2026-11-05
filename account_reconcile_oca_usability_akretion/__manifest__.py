@@ -10,7 +10,7 @@
     'summary': 'Small usability enhancements in OCA bank reconcile interface',
     'author': 'Akretion',
     'website': 'https://github.com/akretion/odoo-usability',
-    'depends': ['account_reconcile_oca'],
+    'depends': ['account_reconcile_oca', 'account_usability_akretion'],
     'data': [],
     "assets": {
         "web.assets_backend": [
