@@ -27,6 +27,8 @@
     <field name="arch"  type="xml">
         <field name="kanban_dashboard" position="after">
             <field name="hide_bank_statement_balance"/>
+            <field name="inbound_payment_amount_str"/>
+            <field name="outbound_payment_amount_str"/>
         </field>
         <xpath expr="//div[@name='latest_statement']/.." position="attributes">
             <attribute name="t-if">dashboard.has_at_least_one_statement and dashboard.account_balance != dashboard.last_balance and !record.hide_bank_statement_balance.raw_value</attribute>
@@ -34,10 +36,26 @@
         <xpath expr="//div[@id='dashboard_bank_cash_misc_total']/.." position="attributes">
             <attribute name="t-if">dashboard.nb_misc_operations > 0 and !record.hide_bank_statement_balance.raw_value</attribute>
         </xpath>
-        <!--
-        <t t-esc="dashboard.outstanding_pay_account_balance" position="replace">
-            <a name="open_outstanding_payments" type="object" title="Outstanding Payments/Receipts"><t t-esc="dashboard.outstanding_pay_account_balance"/></a>
-        </t> -->
+        <div t-if="dashboard.nb_lines_outstanding_pay_account_balance > 0" position="replace">
+            <div id="dashboard_inbound_payment_accounts" t-if="record.inbound_payment_amount_str.raw_value" class="row">
+                <div id="dashboard_inbound_payment_accounts_label" class="col overflow-hidden text-start">
+                    <a name="dashboard_open_inbound_payment_accounts" type="object">Inbound Payments
+</a>
+                </div>
+                <div id="dashboard_inbound_payment_accounts_value" class="col-auto text-end">
+                    <a name="dashboard_open_inbound_payment_accounts" type="object"><t t-out="record.inbound_payment_amount_str.raw_value"/></a>
+                </div>
+            </div>
+            <div id="dashboard_outbound_payment_accounts" t-if="record.outbound_payment_amount_str.raw_value" class="row">
+                <div id="dashboard_outbound_payment_accounts_label" class="col overflow-hidden text-start">
+                    <a name="dashboard_open_outbound_payment_accounts" type="object">Outbound Payments
+</a>
+                </div>
+                <div id="dashboard_outbound_payment_accounts_value" class="col-auto text-end">
+                    <a name="dashboard_open_outbound_payment_accounts" type="object"><t t-out="record.outbound_payment_amount_str.raw_value"/></a>
+                </div>
+            </div>
+        </div>
     </field>
 </record>
 
