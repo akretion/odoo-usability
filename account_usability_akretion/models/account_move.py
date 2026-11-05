@@ -102,9 +102,11 @@ class AccountMove(models.Model):
         lines = self.env['account.move.line'].search([
             ('display_type', 'in', ('product', 'line_section', 'line_note')),
             ('move_id', 'in', self.ids)])
-        _logger.info(
-            f'Deleting all invoice lines from invoice {self.display_name} ID {self.id}')
-        lines.unlink()
+        if lines:
+            _logger.info(
+                f'Deleting all invoice lines from invoice {self.display_name} ID {self.id}')
+            self.message_post(body=self.env._("All the invoice lines have been deleted."))
+            lines.unlink()
 
     # for report
     def py3o_lines_layout(self):
