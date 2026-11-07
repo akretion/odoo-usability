@@ -2,9 +2,8 @@
 # Copyright 2018-2022 Camptocamp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import Command, models, fields, api
+from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
-import odoo.addons.decimal_precision as dp
 
 
 class AccountMoveUpdate(models.TransientModel):
@@ -21,6 +20,7 @@ class AccountMoveUpdate(models.TransientModel):
     invoice_user_id = fields.Many2one('res.users', string='Salesperson')
     invoice_payment_term_id = fields.Many2one(
         'account.payment.term', string='Payment Term')
+    invoice_date_due = fields.Date(string='Due Date')
     ref = fields.Char(string='Reference')  # field label is customized in the view
     invoice_origin = fields.Char(string='Source Document')
     partner_bank_id = fields.Many2one(
@@ -31,7 +31,7 @@ class AccountMoveUpdate(models.TransientModel):
     @api.model
     def _simple_fields2update(self):
         '''List boolean, date, datetime, char, text fields'''
-        return ['ref', 'invoice_origin']
+        return ['ref', 'invoice_origin', 'invoice_date_due']
 
     @api.model
     def _m2o_fields2update(self):
@@ -49,6 +49,7 @@ class AccountMoveUpdate(models.TransientModel):
                 'invoice_line_id': line.id,
                 'sequence': line.sequence,
                 'name': line.name,
+                'account_id': line.account_id.id,
                 'analytic_distribution': line.analytic_distribution,
             }))
         return res
@@ -62,11 +63,9 @@ class AccountMoveUpdate(models.TransientModel):
         for m2ofield in self._m2o_fields2update():
             if self[m2ofield] != inv[m2ofield]:
                 vals[m2ofield] = self[m2ofield].id or False
-        if 'invoice_payment_term_id' in vals:
-            pterm_list = self.invoice_payment_term_id.compute(
-                value=1, date_ref=inv.date_invoice)[0]
-            if pterm_list:
-                vals['date_due'] = max(line[0] for line in pterm_list)
+        # when the invoice has a payment term, the due date is computed from it
+        if self.invoice_payment_term_id:
+            vals.pop('invoice_date_due', None)
         return vals
 
     @api.model
@@ -75,7 +74,7 @@ class AccountMoveUpdate(models.TransientModel):
 
     @api.model
     def _line_m2o_fields2update(self):
-        return []
+        return ['account_id']
 
     @api.model
     def _line_m2m_fields2update(self):
@@ -95,63 +94,90 @@ class AccountMoveUpdate(models.TransientModel):
                 vals[field] = [Command.set(line[field].ids)]
         return vals
 
-    def _update_payment_term_move(self):
+    def _check_payment_term_update(self):
+        """Refuse to change the payment term of a partially (or fully) paid
+        invoice.
+
+        With a payment term with several lines of the same amount, the
+        reconcile marks would have to be followed to put the new maturity
+        dates on the right lines.
+        """
         self.ensure_one()
         inv = self.invoice_id
-        if (
-                self.invoice_payment_term_id and
-                self.invoice_payment_term_id != inv.invoice_payment_term_id):
-            # I don't update pay term when the invoice is partially (or fully)
-            # paid because if you have a payment term with several lines
-            # of the same amount, you would also have to take into account
-            # the reconcile marks to put the new maturity date on the right
-            # lines
-            if inv.payment_id:
-                raise UserError(self.env._(
-                    "This wizard doesn't support the update of payment "
-                    "terms on an invoice which is partially or fully "
-                    "paid."))
-            prec = self.env['decimal.precision'].precision_get('Account')
-            term_res = self.invoice_payment_term_id.compute(
-                inv.amount_total, inv.date_invoice)[0]
-            new_pterm = {}  # key = int(amount * 100), value = [date1, date2]
-            for entry in term_res:
-                amount = int(entry[1] * 10 * prec)
-                if amount in new_pterm:
-                    new_pterm[amount].append(entry[0])
-                else:
-                    new_pterm[amount] = [entry[0]]
-            mlines = {}  # key = int(amount * 100), value : [line1, line2]
-            for line in inv.move_id.line_ids:
-                if line.account_id == inv.account_id:
-                    amount = int(abs(line.credit - line.debit) * 10 * prec)
-                    if amount in mlines:
-                        mlines[amount].append(line)
-                    else:
-                        mlines[amount] = [line]
-            for iamount, lines in mlines.items():
-                if len(lines) != len(new_pterm.get(iamount, [])):
-                    raise UserError(self.env._(
-                        "The original payment term '%s' doesn't have the "
-                        "same terms (number of terms and/or amount) as the "
-                        "new payment term '%s'. You can only switch to a "
-                        "payment term that has the same number of terms "
-                        "with the same amount.",
-                        inv.invoice_payment_term_id.name,
-                        self.invoice_payment_term_id.name))
-                for line in lines:
-                    line.date_maturity = new_pterm[iamount].pop()
+        if inv.payment_state in ('partial', 'paid', 'in_payment', 'reversed'):
+            raise UserError(self.env._(
+                "This wizard doesn't support the update of payment "
+                "terms on an invoice which is partially or fully "
+                "paid."))
+        return True
+
+    def _get_manual_term_line_names(self):
+        """Labels of the payment term lines which were modified by hand.
+
+        Writing the payment term of the invoice recomputes the label of its
+        lines: the ones which differ from the computed label are restored
+        afterwards.
+        """
+        self.ensure_one()
+        term_lines = self.invoice_id.line_ids.filtered(
+            lambda line: line.display_type == 'payment_term')
+        before = {line.id: line.name for line in term_lines}
+        term_lines._compute_name()
+        return {
+            line.id: before[line.id]
+            for line in term_lines
+            if before[line.id] and before[line.id] != line.name
+        }
+
+    def _update_due_date_move(self):
+        """Report the new due date on the payment term line of the invoice.
+
+        Without a payment term, the invoice has a single payment term line:
+        its maturity date is what the ledger (and the ageing reports) use.
+        """
+        self.ensure_one()
+        inv = self.invoice_id
+        if self.invoice_payment_term_id or not self.invoice_date_due:
+            return False
+        term_lines = inv.line_ids.filtered(
+            lambda x: x.display_type == 'payment_term')
+        if (len(term_lines) != 1
+                or term_lines.date_maturity == self.invoice_date_due):
+            return False
+        term_lines.date_maturity = self.invoice_date_due
+        return True
 
     def run(self):
         self.ensure_one()
         inv = self.invoice_id
         updated = False
-        # re-write date_maturity on move line
-        self._update_payment_term_move()
         ivals = self._prepare_invoice()
+        term_updated = 'invoice_payment_term_id' in ivals
+        manual_names = (
+            self._get_manual_term_line_names() if term_updated else {})
         if ivals:
             updated = True
-            inv.write(ivals)
+            if term_updated:
+                self._check_payment_term_update()
+            # Odoo rebuilds the payment term lines from the new term: allow
+            # the update of the payment term of a posted move (readonly
+            # field) and the deletion of the surplus payment term lines when
+            # the number of terms changes (same receivable/payable, new
+            # split)
+            write_ctx = {}
+            if term_updated:
+                write_ctx = {
+                    'skip_readonly_check': True,
+                    'force_delete': True,
+                }
+            inv.with_context(**write_ctx).write(ivals)
+        if term_updated:
+            # keep the labels which were set by hand
+            for line_id, name in manual_names.items():
+                inv.line_ids.filtered(
+                    lambda x, lid=line_id: x.id == lid).name = name
+        if self._update_due_date_move():
+            updated = True
         for line in self.line_ids:
             ilvals = self._prepare_invoice_line(line)
             if ilvals:
@@ -191,6 +217,7 @@ class AccountMoveLineUpdate(models.TransientModel):
     price_subtotal = fields.Monetary(related="invoice_line_id.price_subtotal")
     currency_id = fields.Many2one(related='invoice_line_id.currency_id')
     name = fields.Text(string='Description', required=True)
+    account_id = fields.Many2one('account.account', string='Account')
     analytic_distribution = fields.Json(string="Analytic")
     analytic_precision = fields.Integer(
         default=lambda self: self.env["decimal.precision"].precision_get(
