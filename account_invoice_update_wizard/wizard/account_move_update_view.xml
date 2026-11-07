@@ -19,8 +19,8 @@
                     <field string="Customer Reference" invisible="move_type not in ('out_invoice', 'out_refund')" name="ref"/>
                     <field string="Ref" invisible="move_type != 'entry'" name="ref"/>
                     <field name="invoice_origin" invisible="move_type == 'entry'"/>
-                    <!-- update of payment term is broken -->
-                    <!-- <field name="invoice_payment_term_id" widget="selection"/>-->
+                    <field name="invoice_payment_term_id" invisible="move_type == 'entry'"/>
+                    <field name="invoice_date_due" invisible="move_type == 'entry' or invoice_payment_term_id"/>
                     <field name="partner_bank_id" invisible="move_type == 'entry'" domain="[('partner_id', '=', bank_partner_id)]"/>
                     <field name="invoice_user_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" invisible="move_type not in ('out_invoice', 'out_refund')"/>
                 </group>
@@ -31,6 +31,13 @@
                             <field name="display_type" column_invisible="1"/>
                             <field name="currency_id" column_invisible="1"/>
                             <field name="name"/>
+                            <field
+                                name="account_id"
+                                groups="account.group_account_readonly"
+                                options="{'no_create': True}"
+                                domain="[('deprecated', '=', False), ('company_ids', 'parent_of', company_id), ('account_type', 'not in', ('asset_receivable', 'liability_payable', 'off_balance'))]"
+                                invisible="display_type != 'product'"
+                            />
                             <field name="quantity" invisible="display_type != 'product'" column_invisible="parent.move_type == 'entry'"/>
                             <field name="product_uom_id" string="UoM" groups="uom.group_uom" optional="show"/>
                             <field name="price_subtotal" invisible="display_type != 'product'" column_invisible="parent.move_type == 'entry'"/>
