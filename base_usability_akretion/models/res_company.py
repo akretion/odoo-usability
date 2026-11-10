@@ -1,8 +1,8 @@
-# Copyright 2015-2024 Akretion France (https://www.akretion.com/)
+# Copyright 2015-2026 Akretion France (https://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models, _
+from odoo import api, models
 from odoo.tools.misc import format_amount
 
 
@@ -35,72 +35,75 @@ class ResCompany(models.Model):
 
     def _prepare_header_options(self):
         self.ensure_one()
+        siren = self.partner_id._get_additional_identifier('FR_SIREN')
+        siret = self.partner_id._get_additional_identifier('FR_SIRET')
         options = {
             'phone': {
                 'value': self.phone,
                 # http://www.fileformat.info/info/unicode/char/1f4de/index.htm
                 'icon': '\U0001F4DE',
-                'label': _('Tel:'),
+                'label': self.env._('Tel:'),
                 },
             'email': {
                 'value': self.email,
                 # http://www.fileformat.info/info/unicode/char/2709/index.htm
                 'icon': '\u2709',
-                'label': _('E-mail:'),
+                'label': self.env._('E-mail:'),
                 },
             'website': {
                 'value': self.website,
                 'icon': '\U0001f310',
-                'label': _('Website:'),
+                'label': self.env._('Website:'),
                 },
             'vat': {
                 'value': self.vat,
-                'label': _('VAT:'),
+                'label': self.env._('VAT:'),
                 },
             'ape': {
                 'value': hasattr(self, 'ape') and self.ape or False,
-                'label': _('APE:'),
+                'label': self.env._('APE:'),
                 },
             'siret': {
-                'value': hasattr(self, 'siret') and self.siret or False,
-                'label': _('SIRET:'),
+                'value': siret,
+                'label': self.env._('SIRET:'),
                 },
             'siren': {
-                'value': hasattr(self, 'siren') and self.siren or False,
-                'label': _('SIREN:'),
+                'value': siren,
+                'label': self.env._('SIREN:'),
                 },
             'rcs_siren': {
-                'value': hasattr(self, 'siren') and self.siren and self.company_registry and f"{self.company_registry} {self.siren}",
+                'value': siren and self.company_registry and f"{self.company_registry} {siren}",
                 'label': 'RCS',
                 },
             'eori': {
                 'value': self._get_eori(),
-                'label': _('EORI:'),
+                'label': self.env._('EORI:'),
                 },
             'capital': {
                 # 'capital_amount' added by base_company_extension
                 'value': hasattr(self, 'capital_amount') and self.capital_amount and format_amount(self.env, self.capital_amount, self.currency_id) or False,
-                'label': _('Capital:'),
+                'label': self.env._('Capital:'),
                 },
             }
         # 'legal_type' added by base_company_extension
         if hasattr(self, 'legal_type') and self.legal_type:
-            options['capital']['label'] = _('%s with a capital of') % self.legal_type
+            options['capital']['label'] = self.env._('%s with a capital of', self.legal_type)
         # 'fax' added by OCA/partner-contact module 'partner_fax'
         if hasattr(self.partner_id, 'fax'):
             options['fax'] = {
                 'value': self.partner_id.fax or False,
                 'icon': '\U0001F5B7',
-                'label': _('Fax:'),
+                'label': self.env._('Fax:'),
                 }
         return options
 
     def _get_eori(self):
         eori = False
-        if self.partner_id.country_id.code == 'FR' and hasattr(self, 'siren') and self.siren:
+        siren = self.partner_id._get_additional_identifier('FR_SIREN')
+        if self.partner_id.country_id.code == 'FR' and siren:
             # On january 1st 2026, we migrated from EORI-SIRET to EORI-SIREN :
             # https://www.douane.gouv.fr/vers-un-eori-siren-unique-et-un-portail-europeen-pour-les-autorisations-douanieres
-            eori = f'FR{self.siren}'
+            eori = f'FR{siren}'
         return eori
 
     def _report_company_legal_name(self):

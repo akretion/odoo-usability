@@ -1,8 +1,9 @@
-# Copyright 2015-2024 Akretion France (https://www.akretion.com/)
+# Copyright 2015-2026 Akretion France (https://www.akretion.com/)
 # @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 
 class ResPartner(models.Model):
@@ -12,31 +13,34 @@ class ResPartner(models.Model):
     # doesn't depend on 'mail', so adding tracking on res.partner fields
     # has been moved to mail_usability
     ref = fields.Char(copy=False)
-    # For reports
-    name_title = fields.Char(
-        compute='_compute_name_title', string='Name with Title')
 
-    @api.depends('name', 'title')
-    def _compute_name_title(self):
+    @api.constrains('parent_id', 'is_company')
+    def _check_parent_child_partner(self):
         for partner in self:
-            name_title = partner.name
-            if partner.title and not partner.is_company:
-                partner_lg = partner
-                # If prefer to read the lang of the partner than the lang
-                # of the context. That way, an English man will be displayed
-                # with his title in English whatever the environment
-                if partner.lang:
-                    partner_lg = partner.with_context(lang=partner.lang)
-                title = partner_lg.title.shortcut or partner_lg.title.name
-                name_title = ' '.join([title, name_title])
-            partner.name_title = name_title
+            if partner.parent_id and partner.parent_id.parent_id:
+                raise ValidationError(self.env._(
+                    "Partner '%(partner)s' has a parent partner '%(parent_partner)s' "
+                    "which itself has a parent partner '%(parent_parent_partner)s'. "
+                    "This is not allowed.",
+                    partner=partner.name,
+                    parent_partner=partner.parent_id.name,
+                    parent_parent_partner=partner.parent_id.parent_id.name))
+            if partner.parent_id and partner.is_company:
+                raise ValidationError(self.env._(
+                    "Partner '%(partner)s' has a parent partner '%(parent_partner)s', "
+                    "so it must be configured as an Individual (configuration as "
+                    "Company is only for parent partners).",
+                    partner=partner.name,
+                    parent_partner=partner.parent_id.name,
+                    ))
 
-    def _display_address(self, without_company=False):
-        '''Remove empty lines'''
-        res = super()._display_address(without_company=without_company)
-        while "\n\n" in res:
-            res = res.replace('\n\n', '\n')
-        return res
+# I hope it's fixed now in v20 => comment
+#    def _display_address(self, without_company=False):
+#        '''Remove empty lines'''
+#        res = super()._display_address(without_company=without_company)
+#        while "\n\n" in res:
+#            res = res.replace('\n\n', '\n')
+#        return res
 
     # for reports
     def _display_full_address(
@@ -60,6 +64,8 @@ class ResPartner(models.Model):
             name_no_title = self.name
             title = self.title.name
             title_short = self.title.shortcut
+        siren = self._get_additional_identifier('FR_SIREN')
+        siret = self._get_additional_identifier('FR_SIRET')
         options = {
             'name': {
                 'value': name,
@@ -80,65 +86,59 @@ class ResPartner(models.Model):
                 'value': self.phone,
                 # http://www.fileformat.info/info/unicode/char/1f4de/index.htm
                 'icon': '\U0001F4DE',
-                'label': _('Tel:'),
+                'label': self.env._('Tel:'),
                 },
             'mobile': {
                 'value': self.mobile,
                 # http://www.fileformat.info/info/unicode/char/1f4f1/index.htm
                 'icon': '\U0001F4F1',
-                'label': _('Mobile:'),
+                'label': self.env._('Mobile:'),
                 },
             'email': {
                 'value': self.email,
                 # http://www.fileformat.info/info/unicode/char/2709/index.htm
                 'icon': '\u2709',
-                'label': _('E-mail:'),
+                'label': self.env._('E-mail:'),
                 },
             'website': {
                 'value': self.website,
                 # http://www.fileformat.info/info/unicode/char/1f310/index.htm
                 'icon': '\U0001f310',
-                'label': _('Website:'),
+                'label': self.env._('Website:'),
                 },
             'address': {
                 'value': self._display_address(without_company=True),
                 },
             'vat': {
                 'value': self.commercial_partner_id.vat,
-                'label': _('VAT Number:'),
+                'label': self.env._('VAT Number:'),
+                },
+            'siren': {
+                'value': siren,
+                'label': self.env._("SIREN:"),
+                },
+            'siret': {
+                'value': siret,
+                'label': self.env._("SIRET:"),
                 },
             'commercial_ref': {
                 'value': self.commercial_partner_id.ref,
-                'label': _('Customer Number:'),
+                'label': self.env._('Customer Number:'),
                 },
             'ref': {
                 'value': self.ref,
-                'label': _('Customer Number:'),
+                'label': self.env._('Customer Number:'),
                 },
             # Same with 'supplier_' prefix, to change the label
             'supplier_commercial_ref': {
                 'value': self.commercial_partner_id.ref,
-                'label': _('Supplier Number:'),
+                'label': self.env._('Supplier Number:'),
                 },
             'supplier_ref': {
                 'value': self.ref,
-                'label': _('Supplier Number:'),
+                'label': self.env._('Supplier Number:'),
                 },
             }
-        if hasattr(self, 'siren'):
-            options['siren'] = {
-                'value': self.siren,
-                'label': _("SIREN:"),
-                }
-        if hasattr(self, 'siret'):
-            if hasattr(self, 'siren'):  # l10n_fr_siret is installed
-                siret = self.siren and self.nic and self.siret or False
-            else:
-                siret = self.siret
-            options['siret'] = {
-                'value': siret,
-                'label': _("SIRET:"),
-                }
         res = []
         for detail in details:
             if options.get(detail) and options[detail]['value']:
