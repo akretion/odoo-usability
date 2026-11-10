@@ -46,10 +46,6 @@
                     This <field name="move_type"/> is marked as <b>disputed</b>.
             </div>
         </div> -->
-        <xpath expr="//field[@name='duplicated_ref_ids']/.." position="attributes">
-            <!-- show duplicate warning not only in draft state, but also in posted state -->
-            <attribute name="invisible">not duplicated_ref_ids</attribute>
-        </xpath>
         <button name="button_cancel" invisible="not id or state != 'draft' or move_type != 'entry'" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this journal entry?</attribute>
         </button>
