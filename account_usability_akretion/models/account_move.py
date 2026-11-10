@@ -95,13 +95,18 @@ class AccountMove(models.Model):
         res = [('id', value and 'in' or 'not in', list(att_inv_ids))]
         return res
 
-    def delete_lines_qty_zero(self):
+    def delete_all_invoice_lines(self):
+        self.ensure_one()
+        assert self.is_purchase_document()
+        assert self.state == 'draft'
         lines = self.env['account.move.line'].search([
-            ('display_type', '=', 'product'),
-            ('move_id', 'in', self.ids),
-            ('quantity', '=', 0)])
-        lines.unlink()
-        return True
+            ('display_type', 'in', ('product', 'line_section', 'line_note')),
+            ('move_id', 'in', self.ids)])
+        if lines:
+            _logger.info(
+                f'Deleting all invoice lines from invoice {self.display_name} ID {self.id}')
+            self.message_post(body=self.env._("All the invoice lines have been deleted."))
+            lines.unlink()
 
     # for report
     def py3o_lines_layout(self):

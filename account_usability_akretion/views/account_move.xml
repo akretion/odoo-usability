@@ -56,6 +56,9 @@
         <group name="accounting_info_group" position="inside">
             <field name="reversed_entry_id" readonly="1" invisible="not reversed_entry_id"/>
         </group>
+        <field name="state" position="before">
+            <button name="delete_all_invoice_lines" type="object" string="Delete all Lines" confirm="Are you sure you want to delete all the lines of this vendor bill?" invisible="move_type not in ('in_invoice', 'in_refund') or state != 'draft'"/>
+        </field>
     </field>
 </record>
 
