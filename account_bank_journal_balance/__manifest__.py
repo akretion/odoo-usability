@@ -4,7 +4,7 @@
 
 {
     'name': 'Account Bank Journal Balance',
-    'version': '18.0.1.0.0',
+    'version': '20.0.1.0.0',
     'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'summary': 'Add balance fields on bank/cash journals',
@@ -12,5 +12,5 @@
     'website': 'https://github.com/akretion/odoo-usability',
     'depends': ['account'],
     'data': ['views/account_journal.xml'],
-    'installable': False,
+    'installable': True,
 }

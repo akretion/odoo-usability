@@ -55,15 +55,14 @@ class ResPartner(models.Model):
             company = self.name
             name = False
             name_no_title = False
-            title = False
-            title_short = False
         else:
             company = self.parent_id and self.parent_id.is_company and\
                 self.parent_id.name or False
-            name = self.name_title
+            if hasattr(self, "name_with_title"):  # OCA module partner_title
+                name = self.name_with_title
+            else:
+                name = self.name
             name_no_title = self.name
-            title = self.title.name
-            title_short = self.title.shortcut
         siren = self._get_additional_identifier('FR_SIREN')
         siret = self._get_additional_identifier('FR_SIRET')
         options = {
@@ -73,12 +72,6 @@ class ResPartner(models.Model):
             'company': {
                 'value': company,
                 },
-            'title': {
-                'value': title,
-                },
-            'title_short': {
-                'value': title_short,
-                },
             'name_no_title': {
                 'value': name_no_title,
                 },
@@ -87,12 +80,6 @@ class ResPartner(models.Model):
                 # http://www.fileformat.info/info/unicode/char/1f4de/index.htm
                 'icon': '\U0001F4DE',
                 'label': self.env._('Tel:'),
-                },
-            'mobile': {
-                'value': self.mobile,
-                # http://www.fileformat.info/info/unicode/char/1f4f1/index.htm
-                'icon': '\U0001F4F1',
-                'label': self.env._('Mobile:'),
                 },
             'email': {
                 'value': self.email,
@@ -107,7 +94,7 @@ class ResPartner(models.Model):
                 'label': self.env._('Website:'),
                 },
             'address': {
-                'value': self._display_address(without_company=True),
+                'value': self._display_address(without_name=True),
                 },
             'vat': {
                 'value': self.commercial_partner_id.vat,
@@ -139,6 +126,13 @@ class ResPartner(models.Model):
                 'label': self.env._('Supplier Number:'),
                 },
             }
+        if hasattr(self, "mobile"):  # OCA module partner_mobile
+            options['mobile'] = {
+                'value': self.mobile,
+                # http://www.fileformat.info/info/unicode/char/1f4f1/index.htm
+                'icon': '\U0001F4F1',
+                'label': self.env._('Mobile:'),
+                }
         res = []
         for detail in details:
             if options.get(detail) and options[detail]['value']:

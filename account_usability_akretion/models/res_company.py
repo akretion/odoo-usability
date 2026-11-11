@@ -8,8 +8,9 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    # There is a native field invoice_terms which is displayed on res.config.settings
-    # when the ir.config_parameter account.use_invoice_terms is True
+    # There is a native HTML field invoice_terms which is displayed on
+    # res.config.settings when the ir.config_parameter account.use_invoice_terms
+    # is True
     # But there are several problems with this native field:
     # - it is copied on the 'narration' field of account.move => we don't want that
     # - the text block is very small on the form view of res.config.settings

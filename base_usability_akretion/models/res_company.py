@@ -125,7 +125,7 @@ class ResCompany(models.Model):
         if line_details is None:
             line_details = self._report_header_line_details()
         res = ''
-        address = self.partner_id._display_address(without_company=True)
+        address = self.partner_id._display_address(without_name=True)
         address = address.replace('\n', ' - ')
 
         line1 = '%s - %s' % (self._report_company_legal_name(), address)

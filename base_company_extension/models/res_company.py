@@ -1,4 +1,4 @@
-# Copyright 2014-2022 Akretion (http://www.akretion.com)
+# Copyright 2014-2026 Akretion (http://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -16,13 +16,12 @@ class ResCompany(models.Model):
     def _report_company_legal_name(self):
         self.ensure_one()
         if self.legal_type and not self.name.endswith(self.legal_type):
-            name = '%s %s' % (self.name, self.legal_type)
+            name = f"{self.name} {self.legal_type}"
         else:
             name = self.name
         return name
 
-    _sql_constraints = [(
-        'capital_amount_positive',
+    _capital_amount_positive = models.Constraint(
         'CHECK (capital_amount >= 0)',
         "The value of the field 'Capital Amount' must be positive."
-        )]
+        )

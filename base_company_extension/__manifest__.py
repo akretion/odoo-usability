@@ -4,7 +4,7 @@
 
 {
     'name': 'Base Company Extension',
-    'version': '18.0.1.0.0',
+    'version': '20.0.1.0.0',
     'category': 'Partner',
     'license': 'AGPL-3',
     'summary': 'Adds capital and title on company',
@@ -13,5 +13,5 @@
     # I depend on base_usability only for _report_company_legal_name()
     'depends': ['base_usability_akretion'],
     'data': ['views/res_company.xml'],
-    'installable': False,
+    'installable': True,
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2015-2024 Akretion France (https://www.akretion.com/)
+  Copyright 2015-2026 Akretion France (https://www.akretion.com/)
   @author: Alexis de Lattre <alexis.delattre@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
@@ -12,14 +12,15 @@
     <field name="model">account.journal</field>
     <field name="inherit_id" ref="account.view_account_journal_form"/>
     <field name="arch" type="xml">
-        <xpath expr="//field[@name='account_control_ids']/.." position="after">
+        <group name="group_email_alias" position="after">
             <group name="usability" string="Misc" invisible="type != 'bank'">
                 <field name="hide_bank_statement_balance" groups="account.group_account_readonly"/>
             </group>
-        </xpath>
+        </group>
     </field>
 </record>
 
+<!-- TODO mig to v20
 <record id="account_journal_dashboard_kanban_view" model="ir.ui.view">
     <field name="name">usability.account.journal.dashboard</field>
     <field name="model">account.journal</field>
@@ -58,6 +59,7 @@
         </div>
     </field>
 </record>
+-->
 
 <record id="view_account_journal_search" model="ir.ui.view">
     <field name="name">usability.account.journal.search</field>
@@ -65,7 +67,7 @@
     <field name="inherit_id" ref="account.view_account_journal_search"/>
     <field name="arch"  type="xml">
         <filter name="inactive" position="after">
-            <group name="groupby" string="Group By">
+            <group name="groupby">
                 <filter name="type_groupby" string="Type" context="{'group_by': 'type'}"/>
             </group>
         </filter>

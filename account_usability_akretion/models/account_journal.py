@@ -1,4 +1,4 @@
-# Copyright 2015-2024 Akretion France (https://www.akretion.com)
+# Copyright 2015-2026 Akretion France (https://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -29,13 +29,7 @@ class AccountJournal(models.Model):
             for journal in self:
                 journal.display_name = journal.code
         else:
-            for journal in self:
-                name = f"[{journal.code}] {journal.name}"
-                if (
-                        journal.currency_id and
-                        journal.currency_id != journal.company_id.currency_id):
-                    name = f"{name} ({journal.currency_id.name})"
-                journal.display_name = name
+            super()._compute_display_name()
 
     def _compute_dashboard_payment_amounts(self):
         for journal in self:

@@ -1,4 +1,4 @@
-# Copyright 2015-2024 Akretion France (https://www.akretion.com)
+# Copyright 2015-2026 Akretion France (https://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -6,9 +6,9 @@ from datetime import timedelta
 import logging
 
 from odoo import api, fields, models, _
-from odoo.osv import expression
 from odoo.tools import float_is_zero
 from odoo.tools.misc import format_date
+from odoo.fields import Domain
 
 _logger = logging.getLogger(__name__)
 
@@ -156,6 +156,20 @@ class AccountMove(models.Model):
 
     # allow to manually create moves not only in general journals,
     # but also in cash journal and check journals (= bank journals not linked to a bank account)
+    # we inherit the native method _get_suitable_journal_ids() without calling super()
+    @api.model
+    def _get_suitable_journal_ids(self, move_type, company=False):
+        """Return the suitable journals for the given move type and company (current company if False)."""
+
+        journal_type = self._get_invoice_filter_type_domain(move_type) or 'general'
+        domain = Domain([*self.env['account.journal']._check_company_domain(company or self.env.company)])
+        journal_type = self._get_invoice_filter_type_domain(move_type)
+        if journal_type:
+            domain &= Domain('type', '=', journal_type)
+        else:
+            domain &= (Domain('type', 'in', ('general', 'cash')) | Domain([('type', '=', 'bank'), ('bank_account_id', '=', False)]))
+        return self.env['account.journal'].search(domain)
+
     @api.depends('company_id', 'invoice_filter_type_domain')
     def _compute_suitable_journal_ids(self):
         for move in self:

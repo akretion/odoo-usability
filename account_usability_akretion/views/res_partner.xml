@@ -1,29 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2014-2024 Akretion (https://www.akretion.com/)
+  Copyright 2014-2026 Akretion (https://www.akretion.com/)
   @author: Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 
 <odoo>
 
-<record id="view_partner_property_form" model="ir.ui.view">
-    <field name="model">res.partner</field>
-    <field name="inherit_id" ref="account.view_partner_property_form"/>
-    <field name="arch" type="xml">
-        <xpath expr="//field[@name='bank_ids']/list/field[@name='acc_number']" position="after">
-            <field name="currency_id" optional="hide"/>
-        </xpath>
-    </field>
-</record>
-
 <record id="res_partner_view_tree" model="ir.ui.view">
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="account.res_partner_view_tree"/>
     <field name="arch" type="xml">
-	 <field name="invoice_edi_format" position="after">
-		 <field name="property_account_position_id" optional="hide"/>
-	 </field>
+        <field name="invoice_edi_format" position="after">
+            <field name="property_account_position_id" optional="hide"/>
+        </field>
     </field>
 </record>
 

@@ -1,4 +1,4 @@
-# Copyright 2015-2024 Akretion France (https://www.akretion.com)
+# Copyright 2015-2026 Akretion France (https://www.akretion.com)
 # @author Alexis de Lattre <alexis.delattre@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -15,7 +15,8 @@ class AccountMoveLine(models.Model):
     # Problem: when you manually create a journal entry, the
     # order of the lines is inverted when you save ! It is quite annoying for
     # the user...
-    _order = "date desc, id asc"
+# Maybe it's not the case in 20
+#    _order = "date desc, id asc"
 
     # for optional display in list view
     product_barcode = fields.Char(related='product_id.barcode', string="Product Barcode")
@@ -53,7 +54,7 @@ class AccountMoveLine(models.Model):
         # column in your customer invoice report
         # The same ir.config_parameter is used in sale_usability,
         # purchase_usability and account_usability
-        no_product_code_param = self.env['ir.config_parameter'].sudo().get_param(
+        no_product_code_param = self.env['ir.config_parameter'].sudo().get_bool(
             'usability.line_name_no_product_code')
         if no_product_code_param and no_product_code_param == 'True':
             self = self.with_context(display_default_code=False)

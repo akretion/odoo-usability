@@ -3,7 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
-from odoo.tools import SQL
 
 
 class AccountInvoiceReport(models.Model):
@@ -11,8 +10,7 @@ class AccountInvoiceReport(models.Model):
 
     industry_id = fields.Many2one('res.partner.industry', string='Partner Industry', readonly=True)
 
-    @api.model
-    def _select(self):
-        return SQL(
-            "%s, COALESCE(partner.industry_id, commercial_partner.industry_id) AS industry_id",
-            super()._select())
+    def _select_list(self, table):
+        res = super()._select_list(table)
+        res.append(table.partner_id.industry_id)
+        return res

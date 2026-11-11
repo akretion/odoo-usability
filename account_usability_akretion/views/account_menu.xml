@@ -9,13 +9,13 @@
 
 <!-- Duplicate the menu "Bank Accounts"
 under "Accounting > Configuration", because most users will try to find it there -->
-<menuitem id="res_bank_account_config_menu" action="base.action_res_bank_form" parent="account.account_banks_menu" sequence="10"/>
-
-<menuitem id="res_partner_bank_account_config_menu" action="base.action_res_partner_bank_account_form" parent="account.account_banks_menu" sequence="20"/>
+<menuitem id="res_partner_bank_account_config_menu" action="base.action_res_partner_bank_account_form" parent="account.account_invoicing_menu" sequence="100"/>
 
 <!-- Rename root menu "Invoicing" to "Accounting" -->
+<!--
 <record id="account.menu_finance" model="ir.ui.menu">
     <field name="name">Accounting</field>
 </record>
+-->
 
 </odoo>
