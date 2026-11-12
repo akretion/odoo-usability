@@ -11,7 +11,7 @@
 <record id="product_product_action_purchased" model="ir.actions.act_window">
     <field name="name">Products</field>
     <field name="res_model">product.product</field>
-    <field name="view_mode">tree,form,kanban</field>
+    <field name="view_mode">list,form,kanban</field>
     <field name="context">{'search_default_filter_to_purchase': 1}</field>
     <field name="search_view_id" eval="False"/> <!-- Force empty -->
     <field name="view_id" eval="False"/> <!-- Force empty -->
@@ -28,7 +28,7 @@ so I redefine a new menu entry -->
 <record id="product_product_action_sell" model="ir.actions.act_window">
     <field name="name">Products</field>
     <field name="res_model">product.product</field>
-    <field name="view_mode">tree,form,kanban</field>
+    <field name="view_mode">list,form,kanban</field>
     <field name="context">{'search_default_filter_to_sell': 1}</field>
     <field name="search_view_id" eval="False"/>
     <field name="view_id" ref="product.product_product_tree_view"/>
@@ -44,7 +44,7 @@ entry and link it to product product -->
 
 <record id="product.product_template_action" model="ir.actions.act_window">
     <field name="name">Product Templates</field>  <!-- native value is "Products" -->
-    <field name="view_mode">tree,form,kanban</field>
+    <field name="view_mode">list,form,kanban</field>
     <field name="view_id" eval="False"/>
     <field name="context">{}</field>
 </record>
@@ -64,7 +64,7 @@ entry and link it to product product -->
 
 
 <record id="product.product_normal_action_sell" model="ir.actions.act_window">
-    <field name="view_mode">tree,form,kanban</field>
+    <field name="view_mode">list,form,kanban</field>
 </record>
 
 
