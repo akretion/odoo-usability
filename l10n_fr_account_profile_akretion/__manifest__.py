@@ -48,8 +48,7 @@
         'currency_old_rate_notify',  # OCA/currency
         ### INVOICE IMPORT
         'account_invoice_import_simple_pdf',  # OCA/edi
-        'account_invoice_import_facturx',  # OCA/edi
-        'l10n_fr_account_invoice_import_facturx',  # OCA/l10n-france
+        # 'l10n_fr_account_invoice_import',  # OCA/l10n-france  # will be enabled soon
         ### OVERDUE
         'account_invoice_overdue_warn',  # OCA/credit-control
         #'account_invoice_overdue_warn_sale',  # OCA/credit-control
