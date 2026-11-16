@@ -12,6 +12,6 @@ class PurchaseOrderLine(models.Model):
             self, picking, price_unit, product_uom_qty, product_uom):
         vals = super()._prepare_stock_move_vals(
             picking, price_unit, product_uom_qty, product_uom)
-        # native : product.description_picking or self.name
+        # native : product.description_pickingin or self.name
         vals['description_picking'] = self.name
         return vals
