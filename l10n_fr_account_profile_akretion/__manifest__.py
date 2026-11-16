@@ -48,13 +48,7 @@
         'currency_rate_update',  # OCA/currency
         'currency_old_rate_notify',  # OCA/currency
         ### INVOICE IMPORT
-        # 'l10n_fr_business_document_import',  # OCA/l10n-france
-        # not used with account_invoice_import branch akretion/18.0-account_invoice_import-revolution
         'account_invoice_import_simple_pdf',  # OCA/edi
-        # 'account_invoice_import_ubl',  # OCA/edi
-        # not used with account_invoice_import branch akretion/18.0-account_invoice_import-revolution
-        # 'l10n_fr_account_invoice_import_facturx',  # OCA/l10n-france
-        # not used with account_invoice_import branch akretion/18.0-account_invoice_import-revolution
         ### OVERDUE
         'account_invoice_overdue_warn',  # OCA/credit-control
         #'account_invoice_overdue_warn_sale',  # OCA/credit-control
@@ -70,9 +64,6 @@
         # 'l10n_fr_ereporting',  # akretion/fr-einvoicing
         # ANALYTIC
         #'account_analytic_distribution_manual',  # OCA/account-analytic
-        ### INVOICE IMPORT
-        #'account_invoice_download_ovh',  # OCA/edi
-        #'account_invoice_download_scaleway',  # OCA/edi
         ### PAYMENT ORDERS and DEBIT ORDERS
         #'partner_bank_acc_type_constraint',  # OCA/partner-contact
         #'account_payment_base_oca_sale',  # OCA/bank-payment-alternative
