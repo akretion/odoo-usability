@@ -27,6 +27,7 @@
         'views/account_analytic_line.xml',
         'views/account_menu.xml',
         'views/account_tax.xml',
+        'views/account_tax_group.xml',
 #        'views/product.xml',  # TODO
         'views/res_company.xml',
 #        'views/account_report.xml',
