@@ -4,7 +4,7 @@
 
 {
     "name": "POS Usability",
-    "version": "16.0.1.0.0",
+    "version": "16.0.1.1.0",
     "category": "Point of sale",
     "license": "AGPL-3",
     "summary": "Misc usability improvement for point of sale",
@@ -28,13 +28,12 @@ Akretion:
     "depends": ["point_of_sale"],
     "data": [
         "security/ir.model.access.csv",
-        "report/pos.xml",
         "views/report_pos_order.xml",
         "views/pos_category.xml",
         "views/pos_session.xml",
         "views/pos_payment_method.xml",
         "views/pos_order.xml",
         "views/product.xml",
-        ],
+    ],
     "installable": True,
 }
