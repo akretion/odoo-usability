@@ -60,9 +60,6 @@
         <button name="button_cancel" attrs="{'invisible' : ['|', '|', ('id', '=', False), ('state', '!=', 'draft'),('move_type', '!=', 'entry')]}" position="attributes">
             <attribute name="confirm">Are you sure you want to cancel this journal entry?</attribute>
         </button>
-        <button name="button_cancel" attrs="{'invisible' : ['|', '|', ('id', '=', False), ('state', '!=', 'draft'),('move_type', '==', 'entry')]}" position="attributes">
-            <attribute name="confirm">Are you sure you want to cancel this invoice?</attribute>
-        </button>
     </field>
 </record>
 
