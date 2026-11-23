@@ -32,8 +32,27 @@ class ResPartner(models.Model):
                 name_title = ' '.join([title, name_title])
             partner.name_title = name_title
 
+    @api.model
+    def _partner_hierarchy_check_enabled(self):
+        """Return False when this instance legitimately uses 3-level partner
+        hierarchies (group -> company -> store/address).
+
+        The v12->v18 data of some instances (e.g. a retail group whose stores
+        are children of the national company, itself a child of the group) is
+        depth-3 by design: the constraint below would refuse every new store or
+        address. Such an instance sets the parameter to 0.
+
+        Default is 1 (enforced), so instances that do not opt out keep the
+        behaviour of 18.0.1.0.0.
+        """
+        value = self.env['ir.config_parameter'].sudo().get_param(
+            'base_usability_akretion.partner_hierarchy_check', '1')
+        return str(value).strip().lower() not in ('0', 'false', 'no', '')
+
     @api.constrains('parent_id', 'is_company')
     def _check_parent_child_partner(self):
+        if not self._partner_hierarchy_check_enabled():
+            return
         for partner in self:
             if partner.parent_id and partner.parent_id.parent_id:
                 raise ValidationError(self.env._(

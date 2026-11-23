@@ -24,7 +24,10 @@
             <attribute name="class">alert alert-warning</attribute>
         </div>
         <page name="contact_addresses" position="attributes">
-            <attribute name="invisible">parent_id</attribute>
+            <!-- A contact may have its own sub-contacts: only hide the tab on a
+                 contact that has none, instead of hiding it on every contact
+                 that has a parent. -->
+            <attribute name="invisible">parent_id and not child_ids</attribute>
         </page>
     </field>
 </record>
