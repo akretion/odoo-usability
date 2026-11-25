@@ -1,0 +1,24 @@
+diff --git a/addons/stock/models/stock_quant.py b/addons/stock/models/stock_quant.py
+index 3d6b2cf60b0..e643984fe56 100644
+--- a/addons/stock/models/stock_quant.py
++++ b/addons/stock/models/stock_quant.py
+@@ -756,8 +756,8 @@ class StockQuant(models.Model):
+ 
+     def _apply_inventory(self):
+         move_vals = []
+-        if not self.user_has_groups('stock.group_stock_manager'):
+-            raise UserError(_('Only a stock manager can validate an inventory adjustment.'))
++        if not self.user_has_groups('stock.group_stock_user'):
++            raise UserError(_('Only a stock user or manager can validate an inventory adjustment.'))
+         for quant in self:
+             # Create and validate a move so that the quant matches its `inventory_quantity`.
+             if float_compare(quant.inventory_diff_quantity, 0, precision_rounding=quant.product_uom_id.rounding) > 0:
+@@ -773,7 +773,7 @@ class StockQuant(models.Model):
+                                                      out=True))
+         moves = self.env['stock.move'].with_context(inventory_mode=False).create(move_vals)
+         moves._action_done()
+-        self.location_id.write({'last_inventory_date': fields.Date.today()})
++        self.location_id.sudo().write({'last_inventory_date': fields.Date.today()})
+         date_by_location = {loc: loc._get_next_inventory_date() for loc in self.mapped('location_id')}
+         for quant in self:
+             quant.inventory_date = date_by_location[quant.location_id]
