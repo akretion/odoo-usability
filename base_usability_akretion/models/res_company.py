@@ -71,10 +71,10 @@ class ResCompany(models.Model):
                 'value': siren,
                 'label': self.env._('SIREN:'),
                 },
-            'rcs_siren': {
-                'value': siren and self.company_registry and f"{self.company_registry} {siren}",
-                'label': 'RCS',
-                },
+            # 'rcs_siren': {
+            #    'value': siren and self.company_registry and f"{self.company_registry} {siren}",
+            #    'label': 'RCS',
+            #    },
             'eori': {
                 'value': self._get_eori(),
                 'label': self.env._('EORI:'),
